@@ -59,6 +59,12 @@ service implementation, TLS endpoint and authentication.
 
 ## TypeScript / Web
 
+The default npm package page and a fresh install without a version follow
+`latest`, which CI advances to the newest published main build. Check that both
+npm publication results passed and use their common version; registry uploads
+are not an atomic operation across packages. Moving `latest` does not rewrite an
+existing application's dependency version or lock file.
+
 Install exact package versions and commit the application's lock:
 
 ```text

@@ -34,10 +34,11 @@ review. CodeQL and the security workflow are separate PR checks; package upload
 is directly gated by the CI `Verify` job. Require successful CI/security checks
 in branch protection before merging.
 
-These GitHub-side settings are already configured for the bootstrap repository,
-including the seven CI/security checks and PR requirement on main (zero required
-review approvals). Both publisher switches remain disabled. Complete the registry
-account steps below, then enable the matching switch before a main merge.
+These GitHub-side settings are configured for this repository, including the
+seven CI/security checks and PR requirement on main (zero required review
+approvals). Initial setup used disabled publisher switches. Normal operation now
+uses `NUGET_PUBLISH_ENABLED=true` and `NPM_PUBLISH_MODE=oidc`; check the current
+repository variables before diagnosing a skipped publication.
 
 ## 2. NuGet: use the existing account and add a Contracts policy
 
@@ -130,6 +131,16 @@ requires updating its registry trust relationships.
 
 Official reference: [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
 
+The [main run publishing 1.0.0-ci.6.1](https://github.com/ArcForges/Contracts/actions/runs/34697244586)
+completed both registry jobs. Its npm log records `NPM_PUBLISH_MODE=oidc`, and
+both npm versions identify GitHub Actions as their trusted publisher with
+provenance. The initial token is no longer needed for these two packages.
+Deleting the GitHub environment secret removes that stored copy; revoke
+`Contracts-initial-publish` in npm Account → Access Tokens to invalidate the
+credential itself. Keep the package trusted-publisher connections and the GitHub
+`npm` environment. This evidence concerns registry publication, not product or
+RN/Hermes acceptance.
+
 ## 5. Understand the result
 
 - **Build candidate / Verify passed:** generation, code, archive contents and
@@ -139,17 +150,34 @@ Official reference: [npm trusted publishing](https://docs.npmjs.com/trusted-publ
 - **Publish job passed:** that registry accepted the candidate, or an identical
   previously accepted version was verified. Registry scanning/indexing can finish
   after upload. Check the registry job for each ecosystem separately.
-- **npm next:** the most recently published prerelease in that package. CI
-  prereleases do not move `latest`. Pin the version from the successful manifest;
-  independent main runs can finish out of order.
+- **npm latest:** the highest published `1.0.0-ci.<run-number>.<run-attempt>`
+  version in that package, compared numerically by run number and then attempt.
+  New main releases explicitly publish with `--tag latest`. npm's default package
+  page and a fresh install without a version use this tag, even though these
+  builds remain prereleases. Consumers still pin the exact verified version.
+- **npm ci / old next:** an older delayed run publishes using `ci` when a newer
+  `latest` already exists; it cannot move the default version backwards. `ci` is
+  only a non-default tag for such uploads, not a newest-version channel. The old
+  `next` tag is retained for existing users but is no longer advanced. Existing
+  consumer manifests and locks do not update themselves when a tag moves.
 - **Candidate artifacts:** the exact bytes used for consumption and publication,
   retained for 30 days with hashes, source commit and descriptors. npm provenance
   is generated during OIDC upload, not by the local pack command.
 
 The source manifests retain the development version. CI substitutes a shared
 release version only in staging/output, so it does not push version-bump commits
-or recursively trigger itself. Each main run is independent and cannot cancel
-another main release; superseded PR runs may be cancelled.
+or recursively trigger itself. Main builds and consumer gates remain independent.
+The npm publication job serializes its registry read and upload with a shared
+concurrency group and `queue: max` (up to GitHub's 100 pending-job limit), without
+canceling an active publication. Because jobs can reach the queue out of source
+order, the numeric version check also prevents an older run or retry from
+replacing a newer `latest`. Superseded PR runs may be cancelled.
+
+On the first main merge containing this change, the new version advances both
+packages' `latest` tags from their old bootstrap version. No manual tag command,
+long-lived token or re-upload of `1.0.0-ci.6.1` is needed. A `latest` value outside
+the supported CI version series fails publication for review; stable-release
+policy must be designed before introducing a different version series.
 
 ## 6. Failure and retry
 
