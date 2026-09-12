@@ -74,8 +74,10 @@ flowchart LR
 
 PRs and diagnostic manual runs validate only. Main pushes allocate
 `1.0.0-ci.<run-number>.<run-attempt>` automatically. There is no manual version
-form or manual publishing command in the normal release flow. npm uses `next`;
-consumers pin the exact verified version. Generated schemas use wire namespace
+form or manual publishing command in the normal release flow. New npm releases
+update `latest`, so the default package page and fresh installs select the newest
+published CI version. These remain prereleases; consumers pin the exact verified
+version. Generated schemas use wire namespace
 `v1`, which is independent of the increasing package build version.
 
 **Registry setup is required once.** An unset/disabled publisher produces a

@@ -176,6 +176,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: npm
+    # Serialize the registry read and publish; keep queued releases instead of
+    # canceling them. Version checks also protect against older failed-job retries.
+    concurrency:
+      group: contracts-npm-publication
+      queue: max
+      cancel-in-progress: false
     permissions:
       contents: read
       id-token: write
@@ -196,7 +202,7 @@ jobs:
           path: artifacts/packages/
       - name: Verify the candidate before OIDC publication
         run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
-      - name: Publish proto, then its dependent API client, without repacking
+      - name: Publish proto, then its dependent API client, advancing npm latest
         env:
           NPM_PUBLISH_MODE: ${{ vars.NPM_PUBLISH_MODE }}
           NPM_BOOTSTRAP_TOKEN: ${{ vars.NPM_PUBLISH_MODE == 'bootstrap' && secrets.NPM_BOOTSTRAP_TOKEN || '' }}

@@ -24,7 +24,8 @@ the product contract catalogue or a production service.
 - PRs validate only. Main pushes automatically assign
   `1.0.0-ci.<run-number>.<run-attempt>`. Registry jobs publish the tested archives
   after all required checks, using OIDC and separately enabled registry settings.
-  npm uses the `next` tag; stable releases are outside this demo bootstrap.
+  npm uses `latest` for the newest published CI version, as updated in the release
+  runbook. Stable releases are outside this demo bootstrap.
   A one-time npm bootstrap mode uses a temporary token to create the two package
   identities in CI, because npm requires existing packages before OIDC setup.
   Switch to OIDC and revoke that token after establishing package trust.

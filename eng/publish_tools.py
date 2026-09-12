@@ -15,7 +15,7 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 import zipfile
 
-from contracts import NPM, run
+from contracts import NPM, run, version
 from packaging_tools import archive_files, verify_artifacts
 
 
@@ -54,6 +54,25 @@ def existing_matches(path: Path, entry: dict, release: str) -> bool:
     return True
 
 
+def npm_publish_tag(package_id: str, release: str) -> str:
+    """Called inside the serialized npm job so an older run cannot rewind latest."""
+    metadata = get(f"https://registry.npmjs.org/-/package/{quote(package_id, safe='')}/dist-tags")
+    latest = json.loads(metadata).get("latest") if metadata is not None else None
+    if latest is None:
+        return "latest"
+    # This bootstrap only publishes 1.0.0-ci.<run>.<attempt>. Do not guess how a
+    # future stable/other release series should be promoted by this workflow.
+    try:
+        current = tuple(int(part) for part in version(latest).split(".")[-2:])
+        incoming = tuple(int(part) for part in version(release).split(".")[-2:])
+    except ValueError as error:
+        raise ValueError(f"Review the npm release policy before replacing latest={latest}: {package_id}") from error
+    if incoming > current:
+        return "latest"
+    print(f"Preserving npm latest={latest}: {package_id} {release} will use the ci tag")
+    return "ci"
+
+
 def publish_verified(directory: Path, registry: str) -> None:
     if (os.environ.get("GITHUB_REPOSITORY") != "ArcForges/Contracts"
             or os.environ.get("GITHUB_REF") != "refs/heads/main"
@@ -73,6 +92,7 @@ def publish_verified(directory: Path, registry: str) -> None:
                 raise ValueError("NuGet OIDC login did not provide its short-lived credential")
             run("dotnet", "nuget", "push", path, "--source", "https://api.nuget.org/v3/index.json")
         else:
+            tag = npm_publish_tag(entry["id"], manifest["version"])
             mode = os.environ.get("NPM_PUBLISH_MODE")
             if mode == "bootstrap":
                 token = os.environ.get("NPM_BOOTSTRAP_TOKEN")
@@ -87,13 +107,15 @@ def publish_verified(directory: Path, registry: str) -> None:
                     config = Path(temporary) / "npmrc"
                     config.write_text("//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}\n", encoding="utf-8")
                     env["NPM_CONFIG_USERCONFIG"] = str(config)
-                    run(NPM, "publish", path, "--access", "public", "--tag", "next", "--ignore-scripts", env=env)
+                    run(NPM, "publish", path, "--access", "public", "--tag", tag, "--ignore-scripts", env=env)
             elif mode == "oidc":
-                run(NPM, "publish", path, "--access", "public", "--tag", "next", "--ignore-scripts")
+                run(NPM, "publish", path, "--access", "public", "--tag", tag, "--ignore-scripts")
             else:
                 raise ValueError("Choose bootstrap or oidc for NPM_PUBLISH_MODE")
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
         with open(summary, "a", encoding="utf-8") as stream:
             stream.write(f"\n{registry}: registry accepted {manifest['version']} (or existing identical archives).\n")
+            if registry == "npm":
+                stream.write("Newer CI versions update npm latest; older runs preserve it using the ci tag.\n")
             stream.write("Registry indexing may follow acceptance. Other registry jobs have separate results.\n")
