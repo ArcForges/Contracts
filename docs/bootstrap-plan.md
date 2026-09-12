@@ -52,3 +52,12 @@ No credentials enter Git. The primary checkout remains at its original commit.
 This is not WP03 completion: production schemas, compatibility against a first
 released product descriptor, validation projections, RN/Hermes, Cloud and business
 acceptance remain in their existing implementation work packages.
+
+## Completion
+
+All five execution stages are complete. The actual three-package candidate,
+Windows/Linux gRPC and gRPC-Web consumers, Native AOT C# consumers and security
+checks passed. See [validation evidence](validation.md) for immutable run links
+and the distinction between CI validation and registry/product operation.
+The remaining user setup is registry account/policy authorisation, documented in
+[the release runbook](releasing.md). No registry publication was performed.

@@ -34,6 +34,11 @@ review. CodeQL and the security workflow are separate PR checks; package upload
 is directly gated by the CI `Verify` job. Require successful CI/security checks
 in branch protection before merging.
 
+These GitHub-side settings are already configured for the bootstrap repository,
+including the seven CI/security checks and PR requirement on main (zero required
+review approvals). Both publisher switches remain disabled. Complete the registry
+account steps below, then enable the matching switch before a main merge.
+
 ## 2. NuGet: use the existing account and add a Contracts policy
 
 Sign in to [nuget.org](https://www.nuget.org/) with the existing verified account.
