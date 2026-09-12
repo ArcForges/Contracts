@@ -1,0 +1,203 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contracts-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CI: "true"
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  PYTHONUTF8: "1"
+
+jobs:
+  candidate:
+    name: Build candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      artifact: ${{ steps.candidate.outputs.artifact }}
+      version: ${{ steps.candidate.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version-file: .python-version
+      - name: Restore locked dependencies
+        run: python eng/contracts.py restore
+      - name: Check formatting and dependencies
+        run: |
+          npm run format:check
+          npm audit --audit-level=high
+          git diff --check
+      - name: Generate, compile, test and pack one candidate
+        id: candidate
+        env:
+          PACKAGE_VERSION: 1.0.0-ci.${{ github.run_number }}.${{ github.run_attempt }}
+          ARTIFACT_NAME: contracts-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          python eng/contracts.py pack --version "$PACKAGE_VERSION"
+          python -m unittest discover -s tests/tooling -v
+          git diff --exit-code
+          echo "version=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "artifact=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+          echo "Candidate: $PACKAGE_VERSION. Registry publication is a separate job." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.candidate.outputs.artifact }}
+          path: artifacts/packages/
+          if-no-files-found: error
+          retention-days: 30
+
+  consumer:
+    name: Consumer (${{ matrix.os }})
+    needs: candidate
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version-file: .python-version
+      - name: Install Linux Native AOT prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang zlib1g-dev
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.candidate.outputs.artifact }}
+          path: artifacts/packages/
+      - name: Consume archives outside the repository using fresh caches
+        run: python eng/contracts.py consume --aot
+      - name: Retain consumer evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: consumer-evidence-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/evidence/
+          if-no-files-found: warn
+          retention-days: 30
+
+  verify:
+    name: Verify
+    if: always()
+    needs: [candidate, consumer]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every package gate to pass
+        env:
+          CANDIDATE_RESULT: ${{ needs.candidate.result }}
+          CONSUMER_RESULT: ${{ needs.consumer.result }}
+          NUGET_ENABLED: ${{ vars.NUGET_PUBLISH_ENABLED }}
+          NPM_MODE: ${{ vars.NPM_PUBLISH_MODE }}
+        run: |
+          test "$CANDIDATE_RESULT" = success
+          test "$CONSUMER_RESULT" = success
+          echo "Generation, compilation, archive validation and both consumer platforms passed." >> "$GITHUB_STEP_SUMMARY"
+          echo "NuGet publishing enabled: ${NUGET_ENABLED:-false}; npm publishing mode: ${NPM_MODE:-disabled}." >> "$GITHUB_STEP_SUMMARY"
+          echo "Registry jobs only run for main pushes. Skipped jobs mean no publication." >> "$GITHUB_STEP_SUMMARY"
+
+  publish-nuget:
+    name: Publish NuGet
+    needs: [candidate, verify]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ArcForges/Contracts' && vars.NUGET_PUBLISH_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: nuget
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version-file: .python-version
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.candidate.outputs.artifact }}
+          path: artifacts/packages/
+      - name: Verify the candidate before requesting publication credentials
+        run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
+      - name: Exchange OIDC identity for a short-lived NuGet credential
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Publish the tested NuGet archive
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: python eng/contracts.py publish nuget
+
+  publish-npm:
+    name: Publish npm
+    needs: [candidate, verify]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ArcForges/Contracts' && contains(fromJSON('["bootstrap", "oidc"]'), vars.NPM_PUBLISH_MODE)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version-file: .python-version
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.candidate.outputs.artifact }}
+          path: artifacts/packages/
+      - name: Verify the candidate before OIDC publication
+        run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
+      - name: Publish proto, then its dependent API client, without repacking
+        env:
+          NPM_PUBLISH_MODE: ${{ vars.NPM_PUBLISH_MODE }}
+          NPM_BOOTSTRAP_TOKEN: ${{ vars.NPM_PUBLISH_MODE == 'bootstrap' && secrets.NPM_BOOTSTRAP_TOKEN || '' }}
+        run: python eng/contracts.py publish npm

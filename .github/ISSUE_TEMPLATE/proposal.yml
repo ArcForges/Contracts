@@ -1,0 +1,15 @@
+name: Contract proposal
+description: Propose a bounded schema or tooling change.
+body:
+  - type: textarea
+    attributes:
+      label: Problem and accepted scope
+      description: Explain the consumer need and link the applicable design or issue.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Compatibility and acceptance
+      description: Describe wire, licensing and package impact, plus how to verify the change.
+    validations:
+      required: true

@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.png binary
+*.jpg binary
+*.ico binary
+*.nupkg binary
+*.tgz binary
+*.binpb binary
+**/Generated/*.cs linguist-generated=true
+**/gen/**/*.ts linguist-generated=true

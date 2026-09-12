@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/eng/">
+    <Project Path="eng/Codegen/Codegen.csproj" />
+  </Folder>
+  <Folder Name="/src/public/">
+    <Project Path="src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/public/">
+    <Project Path="tests/public/HelloHost/HelloHost.csproj" />
+    <Project Path="tests/public/HelloClient/HelloClient.csproj" />
+  </Folder>
+</Solution>
