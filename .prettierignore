@@ -1,0 +1,12 @@
+LICENSE
+LICENSES/
+**/LICENSE
+**/Generated/
+**/gen/
+**/packages.lock.json
+package-lock.json
+artifacts/
+**/bin/
+**/obj/
+**/dist/
+**/node_modules/

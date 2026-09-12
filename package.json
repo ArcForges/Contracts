@@ -1,0 +1,29 @@
+{
+  "name": "arcforges-contracts-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "engines": {
+    "node": ">=24.21.0 <25",
+    "npm": ">=11.19.0 <12"
+  },
+  "packageManager": "npm@11.19.0",
+  "workspaces": [
+    "src/public/ts/proto",
+    "src/public/ts/api-client"
+  ],
+  "scripts": {
+    "generate": "python eng/contracts.py generate",
+    "generate:check": "python eng/contracts.py generate --check",
+    "build": "npm run build --workspace @arcforges/proto && npm run build --workspace @arcforges/api-client",
+    "test": "node --test tests/public/wire.test.mjs",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "verify": "python eng/contracts.py verify-local"
+  },
+  "devDependencies": {
+    "@bufbuild/protoc-gen-es": "2.14.1",
+    "prettier": "3.9.6",
+    "typescript": "6.0.3"
+  }
+}

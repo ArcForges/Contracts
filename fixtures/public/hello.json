@@ -1,0 +1,13 @@
+{
+  "cases": [
+    {
+      "name": "World",
+      "message": "Hello, World!"
+    },
+    {
+      "name": "世界 🌍",
+      "message": "Hello, 世界 🌍!"
+    }
+  ],
+  "emptyNameStatus": "INVALID_ARGUMENT"
+}

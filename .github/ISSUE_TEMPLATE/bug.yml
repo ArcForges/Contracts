@@ -1,0 +1,19 @@
+name: Bug report
+description: Report a contract, generation, packaging or consumer defect.
+body:
+  - type: textarea
+    attributes:
+      label: What failed?
+      description: Include package versions, runtime/OS and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction
+      description: Provide minimal steps or a public example and relevant redacted logs.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Evidence
+      description: Link the workflow run or package when available. Do not include secrets.

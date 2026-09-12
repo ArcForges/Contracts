@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+    <PackageReference Include="Grpc.AspNetCore" />
+    <PackageReference Include="Grpc.AspNetCore.Web" />
+  </ItemGroup>
+</Project>

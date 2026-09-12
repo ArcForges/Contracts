@@ -1,0 +1,43 @@
+{
+  "name": "@arcforges/proto",
+  "version": "1.0.0-ci.0.0",
+  "description": "ArcForges public protobuf messages and service descriptors; initial Hello World example.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcForges/Contracts.git",
+    "directory": "src/public/ts/proto"
+  },
+  "homepage": "https://github.com/ArcForges/Contracts#readme",
+  "bugs": {
+    "url": "https://github.com/ArcForges/Contracts/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "proto",
+    "contracts.binpb",
+    "LICENSE",
+    "NOTICE",
+    "sbom.cdx.json",
+    "source.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "2.14.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

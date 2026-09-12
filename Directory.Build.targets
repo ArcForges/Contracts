@@ -1,0 +1,8 @@
+<Project>
+  <Target Name="CheckContractProjectPolicy" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(ManagePackageVersionsCentrally)' != 'true'"
+           Text="Use Directory.Packages.props for exact dependency versions." />
+    <Error Condition="'$(PackageLicenseExpression)' == ''"
+           Text="Every project must declare its SPDX licence boundary." />
+  </Target>
+</Project>
