@@ -12,9 +12,9 @@ the product contract catalogue or a production service.
   `@arcforges/api-client`. Consumers install packages; no submodules or sibling
   source references. The client package uses gRPC-Web; the C# binding supports
   native gRPC. No RN transport or product business rules are introduced.
-- Preserve the root AGPL-3.0 licence. Explicit public source, generated bindings,
-  public tests and package contents use Apache-2.0, following the accepted Design
-  repository's package/licence boundaries.
+- Use Apache-2.0 for ArcForges-authored repository source, generated bindings,
+  examples, tooling, configuration and documentation, as well as package contents.
+  Dependencies retain their own licences and notices.
 - Pin .NET, Node, protobuf generators and dependencies. Both generators use the
   protoc supplied by the locked Grpc.Tools dependency. Commit dependency locks;
   regenerate, build and verify before packing.

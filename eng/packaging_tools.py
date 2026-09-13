@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: Apache-2.0
 """Build and inspect a small, explicit set of public distribution archives."""
 
 from __future__ import annotations
