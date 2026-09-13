@@ -94,7 +94,8 @@ for NuGet OIDC and the npm initial CI bootstrap followed by OIDC.
 - [Contributing](CONTRIBUTING.md), [security reporting](SECURITY.md) and
   [code of conduct](CODE_OF_CONDUCT.md)
 
-The root AGPL licence covers repository tooling. Explicit public source and
-distribution boundaries are Apache-2.0, as documented in
-[the licence map](docs/architecture.md#licensing). Dependencies retain their own
-licences. No product implementation or reference-repository source is bundled.
+ArcForges-authored content throughout this repository and its published packages
+uses [Apache-2.0](LICENSE), including schemas, generated bindings, client code,
+examples and tooling. See [licensing details](docs/architecture.md#licensing).
+Dependencies retain their own licences. No product implementation or
+reference-repository source is bundled.

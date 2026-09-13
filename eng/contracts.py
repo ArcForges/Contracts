@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: Apache-2.0
 """Portable entry points. Public packages do not import this build tooling."""
 
 from __future__ import annotations

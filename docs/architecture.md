@@ -66,19 +66,17 @@ This does not substitute an application source reference for an artifact test.
 
 ## Licensing
 
-| Boundary                                            | Licence                             |
-| --------------------------------------------------- | ----------------------------------- |
-| Root tooling/configuration and `eng/`               | AGPL-3.0-only, root LICENSE         |
-| `public/` authored schema                           | Apache-2.0, public/LICENSE          |
-| `src/public/` generated code and client entry point | Apache-2.0, src/public/LICENSE      |
-| `tests/public/` reusable example applications/tests | Apache-2.0, tests/public/LICENSE    |
-| `fixtures/public/` reusable wire examples           | Apache-2.0, fixtures/public/LICENSE |
+ArcForges-authored schemas, generated bindings, client code, examples, tooling,
+tests, configuration and documentation use [Apache-2.0](../LICENSE). The root
+LICENSE applies throughout this repository. The LICENSE files in `public/`,
+`src/public/`, `tests/public/` and `fixtures/public/` are copies of that same
+licence retained for source exports and package distribution.
 
-The original root LICENSE remains intact. Generation does not relicense authored
-schemas; generated bindings follow the public source boundary. Package metadata,
-embedded LICENSE/NOTICE and SBOM must agree. The SBOM inventories the resolved
-runtime closure for each deliverable; source metadata identifies the dependency
-locks used to produce it. Build tools are not shipped in public packages.
+Generation preserves the schema's Apache-2.0 declaration. Package metadata,
+embedded LICENSE/NOTICE and SBOM must agree. Dependencies retain their own licences
+and notices. The SBOM inventories the resolved runtime closure for each
+deliverable; source metadata identifies the dependency locks used to produce it.
+Build tools are not shipped in public packages.
 
 ## Compatibility and limits
 

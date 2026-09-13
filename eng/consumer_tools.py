@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: Apache-2.0
 """Consume archives outside the producer checkout, using empty package caches."""
 
 from __future__ import annotations

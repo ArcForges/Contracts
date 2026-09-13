@@ -7,7 +7,7 @@ Describe the behavior, schema/package impact and why this change is needed.
 List the checks actually run and link relevant CI evidence.
 
 - [ ] Generated output and dependency locks are current.
-- [ ] Wire/API compatibility and public licence boundaries were checked.
+- [ ] Wire/API compatibility and licence declarations were checked.
 - [ ] Package or CI changes passed the isolated archive consumer checks.
 - [ ] Documentation reflects any consumer or release setup changes.
 

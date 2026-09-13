@@ -1,7 +1,7 @@
 ArcForges Contracts
 Copyright 2026 ArcForges contributors
 
-The root LICENSE governs repository tooling. Explicit public source boundaries
-are Apache-2.0; see docs/architecture.md and the LICENSE in each public boundary.
+ArcForges-authored source, generated bindings, examples, tooling, configuration
+and documentation are licensed under Apache-2.0; see the root LICENSE.
 Package-specific NOTICE and CycloneDX SBOM files are generated from the resolved
 runtime dependency graph when packing. Dependencies keep their own licences.

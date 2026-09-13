@@ -15,4 +15,4 @@ file. React Native transport/Hermes validation is a separate delivery; using the
 same generated types does not by itself verify a mobile runtime.
 
 Apache-2.0. See [the repository](https://github.com/ArcForges/Contracts) for
-examples, licence boundaries and release setup.
+examples, licensing and release setup.

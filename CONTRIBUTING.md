@@ -12,10 +12,10 @@ Use LF/UTF-8 and the repository formatting rules. Do not hand-edit generated cod
 or publish from a contributor branch. Dependency updates include the affected
 lock files; CI restores them in locked mode.
 
-Contributions under `public/`, `src/public/`, `tests/public/` and
-`fixtures/public/` are Apache-2.0; repository tooling otherwise uses the root
-AGPL-3.0 licence. Add SPDX headers to authored code. Do not copy reference code or
-introduce a licence-incompatible dependency into a public package.
+Contributions to ArcForges-authored source, generated bindings, examples, tooling,
+configuration and documentation use Apache-2.0 under the root LICENSE. Add SPDX
+headers to authored code and preserve third-party licences and notices. Do not
+copy reference code or introduce a licence-incompatible dependency into a package.
 
 Use the proposal template for schema changes and the private reporting route in
 SECURITY.md for vulnerabilities. Discuss changes respectfully and focus review

@@ -5,8 +5,9 @@
   generated C# or TypeScript files directly; use `python eng/contracts.py generate`.
 - Read `docs/architecture.md` and `docs/releasing.md` before changing generation,
   package identities, licensing or CI publication.
-- Public source, generated code and fixtures use Apache-2.0. Keep AGPL tooling
-  outside their distributable dependency graph. Preserve all third-party notices.
+- ArcForges-authored source, generated code, tooling, tests, configuration and
+  documentation use Apache-2.0 under the root LICENSE. Preserve all third-party
+  licences and notices.
 - Consumers use exact NuGet/npm versions. No submodules, sibling source builds or
   cross-repository project references. Local references in producer tests are
   replaced by package references in the isolated artifact tests.
