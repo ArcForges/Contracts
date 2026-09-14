@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: Apache-2.0
+[versions]
+kotlin = "2.3.21"
+dokka = "2.2.0"
+protobuf = "4.36.1"
+grpc = "1.84.0"
+grpc-kotlin = "1.5.0"
+coroutines = "1.11.0"
+gson = "2.14.0"
+
+[libraries]
+protobuf-kotlin-lite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
+grpc-protobuf-lite = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpc" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
+grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpc" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

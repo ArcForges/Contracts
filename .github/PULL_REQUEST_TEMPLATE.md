@@ -12,4 +12,4 @@ List the checks actually run and link relevant CI evidence.
 - [ ] Documentation reflects any consumer or release setup changes.
 
 Mark non-applicable items explicitly. Do not equate CI artifacts with a registry
-publication, or a desktop/Node test with a browser/Hermes test.
+publication, or a desktop/Node/JVM test with a browser/Android device test.

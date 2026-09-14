@@ -10,7 +10,11 @@
 
 Use LF/UTF-8 and the repository formatting rules. Do not hand-edit generated code
 or publish from a contributor branch. Dependency updates include the affected
-lock files; CI restores them in locked mode.
+lock files; CI restores them in locked mode. For Gradle changes, use
+`python eng/contracts.py restore --update-locks`, regenerate and pack, then
+`python eng/contracts.py consume --update-kotlin-locks` to refresh the separate
+consumer locks/checksums. Review both dependency versions and new checksums;
+ordinary CI must never generate or accept missing verification metadata.
 
 Contributions to ArcForges-authored source, generated bindings, examples, tooling,
 configuration and documentation use Apache-2.0 under the root LICENSE. Add SPDX

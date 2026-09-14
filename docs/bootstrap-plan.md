@@ -1,5 +1,8 @@
 # Contracts bootstrap plan
 
+This records the original C#/TS bootstrap. The [Kotlin extension plan](kotlin-artifacts-plan.md)
+and current architecture/consuming documentation supersede its former RN direction.
+
 ## Scope and decisions
 
 Start from `b68633c6ef0a378cf82d0fb6e3d8716fc7ca7c73` in the independent

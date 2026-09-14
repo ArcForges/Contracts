@@ -38,7 +38,7 @@ def wait_for_host(process: subprocess.Popen, ports: list[int]) -> None:
     raise ValueError("The example server did not start within 45 seconds")
 
 
-def consume(directory: Path, aot: bool) -> None:
+def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False) -> None:
     manifest = verify_artifacts(directory)
     release = manifest["version"]
     rid = "win-x64" if os.name == "nt" else "linux-x64"
@@ -123,6 +123,8 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
         run(NPM, "ci", "--ignore-scripts", cwd=ts, env=env)
         run("node", ts / "node_modules/typescript/bin/tsc", "-p", ts / "tsconfig.json", cwd=ts, env=env)
 
+        from kotlin_consumer import prepare as prepare_kotlin
+        kotlin_client, kotlin_env = prepare_kotlin(consumer, directory, manifest, env, evidence_dir, update_kotlin_locks)
         native = consumer / "native-client"
         if aot:
             run("dotnet", "restore", consumer / "HelloClient", "-r", rid,
@@ -146,6 +148,7 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
                 run("dotnet", consumer / "HelloClient/bin/Release/net10.0/HelloClient.dll",
                     f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
                 run("node", ts / "run.mjs", f"http://127.0.0.1:{web_port}", cwd=ts, env=env)
+                run(kotlin_client, grpc_port, cwd=consumer, env=kotlin_env)
                 if aot:
                     run(native / ("HelloClient.exe" if os.name == "nt" else "HelloClient"),
                         f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
@@ -167,8 +170,8 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
         write_json(evidence_dir / "result.json", {
             "version": release, "commit": manifest["commit"], "rid": rid,
             "inputs": manifest["files"], "isolatedCaches": True, "sourceReferences": False,
-            "csharpGrpc": "passed", "typescriptGrpcWeb": "passed",
+            "csharpGrpc": "passed", "typescriptGrpcWeb": "passed", "kotlinGrpc": "passed",
             "nativeAotGrpc": "passed" if aot else "not-run",
-            "browser": "not-run", "reactNativeHermes": "not-run", "registryRestore": "not-run",
+            "browser": "not-run", "androidDevice": "not-run", "registryRestore": "not-run",
         })
     print(f"Independent package consumers passed. Evidence: {evidence_dir}")

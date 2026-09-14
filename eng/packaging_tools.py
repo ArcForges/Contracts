@@ -101,7 +101,9 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
         "dirty": dirty, "version": release, "schema": "arcforges.hello.v1",
         "descriptorSha256": sha256(ARTIFACTS / "contracts.binpb"),
         "dependencyLocks": {"package-lock.json": sha256(ROOT / "package-lock.json"),
-                            "PublicApi/packages.lock.json": sha256(DOTNET_PROJECT.parent / "packages.lock.json")},
+                            "PublicApi/packages.lock.json": sha256(DOTNET_PROJECT.parent / "packages.lock.json"),
+                            **{str(path.relative_to(ROOT)).replace("\\", "/"): sha256(path)
+                               for path in [ROOT / "gradle.lockfile", *sorted((ROOT / "src/public/kotlin").rglob("gradle.lockfile"))]}},
     })
 
 
@@ -147,6 +149,8 @@ def pack(release: str) -> None:
             packed = json.loads(run(NPM, "pack", target, "--ignore-scripts", "--json",
                                     "--pack-destination", output, capture=True))
             entries.append({"name": packed[0]["filename"], "kind": "npm", "id": package["name"]})
+        from maven_tools import pack as pack_maven
+        entries.append(pack_maven(output, release, commit, dirty))
         shutil.copyfile(ARTIFACTS / "contracts.binpb", output / "contracts.binpb")
         entries.append({"name": "contracts.binpb", "kind": "descriptor", "id": "arcforges.hello.v1"})
         for entry in entries:
@@ -180,9 +184,9 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
         raise ValueError("Unknown candidate format")
     if commit and manifest["commit"] != commit:
         raise ValueError("Candidate source commit differs from the expected checkout")
-    expected = {NUGET_ID, *NPM_IDS, "arcforges.hello.v1"}
-    if len(manifest["files"]) != 4 or {entry["id"] for entry in manifest["files"]} != expected:
-        raise ValueError("Candidate must contain exactly one NuGet, two npm packages and a descriptor")
+    expected = {NUGET_ID, *NPM_IDS, "arcforges.hello.v1", "io.github.arcforges"}
+    if len(manifest["files"]) != 5 or {entry["id"] for entry in manifest["files"]} != expected:
+        raise ValueError("Candidate must contain one NuGet, two npm packages, three Maven modules and a descriptor")
     names = {entry["name"] for entry in manifest["files"]}
     if {path.name for path in directory.iterdir()} != names | {"manifest.json"}:
         raise ValueError("Unexpected or missing candidate files")
@@ -197,6 +201,10 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
         if entry["kind"] == "descriptor":
             if name != "contracts.binpb" or not descriptor:
                 raise ValueError("Missing descriptor")
+            continue
+        if entry["kind"] == "maven":
+            from maven_tools import verify_bundle
+            verify_bundle(path, manifest, descriptor)
             continue
         files = archive_files(path)
         for required in ["LICENSE", "NOTICE", "README.md", "sbom.cdx.json", "source.json"]:

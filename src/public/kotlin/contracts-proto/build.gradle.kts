@@ -1,0 +1,7 @@
+// SPDX-License-Identifier: Apache-2.0
+plugins { `java-library`; alias(libs.plugins.kotlin.jvm) }
+dependencies { api(libs.protobuf.kotlin.lite) }
+tasks.processResources {
+    from(rootProject.file("public/proto")) { into("proto") }
+    from(rootProject.file("artifacts/contracts.binpb"))
+}

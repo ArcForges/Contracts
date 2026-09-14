@@ -4,6 +4,9 @@ syntax = "proto3";
 package arcforges.hello.v1;
 
 option csharp_namespace = "ArcForges.Contracts.Hello.V1";
+option java_package = "io.github.arcforges.contracts.hello.v1";
+option java_multiple_files = true;
+option java_outer_classname = "HelloProto";
 
 // Packaging and transport demonstration, not a product API.
 service HelloService {

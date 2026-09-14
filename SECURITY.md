@@ -18,10 +18,12 @@ private contact channel without disclosing the vulnerability itself.
 
 ## Release security
 
-CI has read-only permissions by default. Only main registry jobs request OIDC
-identity, after generation, build and isolated package-consumer checks. They
-publish checked archives rather than rebuilding with publication credentials.
-Long-lived publishing credentials are not part of normal operation.
+CI has read-only permissions by default. Only main NuGet/npm registry jobs request
+OIDC identity, after generation, build and isolated package-consumer checks.
+Maven Central uses its environment's Portal token and in-memory PGP signing key.
+Rotate those credentials, keep the PGP public key available, and restrict the
+environment to main. All publishers use checked archives; the signing-only build
+cannot compile or replace them. Never commit credentials or signing material.
 
 Dependency updates, dependency review, CodeQL and secret scanning complement
 review; passing these checks does not prove the absence of vulnerabilities.

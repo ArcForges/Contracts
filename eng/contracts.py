@@ -72,6 +72,8 @@ def restore(update_locks: bool = False) -> None:
     run(NPM, "install" if update_locks else "ci", "--ignore-scripts")
     run("dotnet", "restore", "ArcForges.Contracts.slnx",
         "--force-evaluate" if update_locks else "--locked-mode")
+    from kotlin_tools import restore as restore_kotlin
+    restore_kotlin(update_locks)
 
 
 def grpc_tools() -> Path:
@@ -123,19 +125,23 @@ def generate(check: bool = False) -> None:
             f"--descriptor_set_out={stage / 'contracts.binpb'}")
         run(*common, f"--plugin=protoc-gen-es={es_plugin}", f"--es_out={stage / 'ts'}",
             "--es_opt=target=ts")
+        from kotlin_tools import generate as generate_kotlin
+        generate_kotlin(protoc, protos, stage, check)
         # Canonical LF and one final newline; never alter authored schema contents.
         for generated in [*(stage / "csharp").rglob("*.cs"), *(stage / "ts").rglob("*.ts")]:
             generated.write_bytes(generated.read_bytes().replace(b"\r\n", b"\n").rstrip(b"\n") + b"\n")
         sync_generated(stage / "csharp", DOTNET_PROJECT.parent / "Generated", check)
         sync_generated(stage / "ts", NPM_PROJECTS[0] / "src/gen", check)
         shutil.copyfile(stage / "contracts.binpb", ARTIFACTS / "contracts.binpb")
-    print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript and descriptor set.")
+    print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript, Java/Kotlin and descriptor set.")
 
 
 def build() -> None:
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
     run(NPM, "run", "build")
     run(NPM, "test")
+    from kotlin_tools import build as build_kotlin
+    build_kotlin()
 
 
 def verify_local() -> None:
@@ -160,8 +166,9 @@ def main() -> None:
     consumer_parser = sub.add_parser("consume")
     consumer_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
     consumer_parser.add_argument("--aot", action="store_true")
+    consumer_parser.add_argument("--update-kotlin-locks", action="store_true")
     publish_parser = sub.add_parser("publish")
-    publish_parser.add_argument("registry", choices=["nuget", "npm"])
+    publish_parser.add_argument("registry", choices=["nuget", "npm", "maven"])
     publish_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
     args = parser.parse_args()
     if args.command == "restore":
@@ -180,7 +187,7 @@ def main() -> None:
             verify_artifacts(args.directory.resolve(), args.commit)
         elif args.command == "consume":
             from consumer_tools import consume
-            consume(args.directory.resolve(), args.aot)
+            consume(args.directory.resolve(), args.aot, args.update_kotlin_locks)
         elif args.command == "publish":
             publish(args.directory.resolve(), args.registry)
 
