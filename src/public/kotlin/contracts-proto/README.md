@@ -4,7 +4,7 @@
 messages, Kotlin message builders, the authored proto and its descriptor set.
 The current schema is the Hello World packaging example, not a product API.
 
-Use Java 17 and Kotlin 2.3.21 or a compatible newer Kotlin compiler. Android
+Use Java 17 and Kotlin 2.4.20 or a compatible newer Kotlin compiler. Android
 applications consume this ordinary JVM JAR; they do not run protoc. This package
 does not target Kotlin/Native or iOS. Runtime dependencies are declared in its
 POM and Gradle module metadata, not bundled into the JAR. Apache-2.0.

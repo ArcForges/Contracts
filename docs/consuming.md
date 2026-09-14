@@ -103,7 +103,7 @@ dependencies {
 `contracts-client` brings the matching `contracts-proto`, coroutine and gRPC
 runtime dependencies transitively. For serialization only, depend directly on
 `contracts-proto`. JARs contain generated code, not copies of those dependencies.
-Use JDK 17, JVM target 17 and Kotlin 2.3.21 or a compatible newer compiler. Android
+Use JDK 17, JVM target 17 and Kotlin 2.4.20 or a compatible newer compiler. Android
 apps configure their normal Java/desugaring toolchain and INTERNET permission.
 
 ```kotlin
