@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 [versions]
-kotlin = "2.3.21"
+kotlin = "2.4.20"
 dokka = "2.2.0"
 protobuf = "4.36.1"
 grpc = "1.84.0"

@@ -83,10 +83,23 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+      # CodeQL 2.27.0 cannot extract Kotlin 2.4.20. Pin the upstream nightly
+      # containing github/codeql#22404 until the recommended stable CLI is >=2.27.1.
+      # https://github.com/github/codeql/issues/22381#issuecomment-5620711447
+      - name: Download and verify the Kotlin-compatible CodeQL bundle
+        env:
+          CODEQL_BUNDLE_URL: https://github.com/dsp-testing/codeql-cli-nightlies/releases/download/codeql-bundle-20260913/codeql-bundle-java-linux64.tar.zst
+          CODEQL_BUNDLE_SHA256: 2f7435b506f062753a55e91e428df33bd0d9dfc8fed196114844f611334255de
+        run: |
+          bundle="$RUNNER_TEMP/codeql-bundle-java-linux64.tar.zst"
+          curl --fail --silent --show-error --location --retry 3 \
+            "$CODEQL_BUNDLE_URL" --output "$bundle"
+          printf '%s  %s\n' "$CODEQL_BUNDLE_SHA256" "$bundle" | sha256sum --check --strict
       - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
         with:
           languages: java-kotlin
           build-mode: manual
+          tools: ${{ runner.temp }}/codeql-bundle-java-linux64.tar.zst
       - name: Compile Java and Kotlin with CodeQL extraction
         run: ./gradlew --no-daemon --console=plain --no-build-cache clean assemble
       - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4

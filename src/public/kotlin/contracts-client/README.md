@@ -11,5 +11,5 @@ creation, TLS, authentication, deadlines, coroutine lifecycle and shutdown.
 No global channel, insecure production endpoint or authentication policy is
 installed by the generated library. This is native gRPC over HTTP/2.
 
-Use Java 17 and Kotlin 2.3.21 or a compatible newer compiler. See
+Use Java 17 and Kotlin 2.4.20 or a compatible newer compiler. See
 [installation and a complete call example](https://github.com/ArcForges/Contracts/blob/main/docs/consuming.md).
