@@ -16,9 +16,12 @@ lock files; CI restores them in locked mode. For Gradle changes, use
 consumer locks/checksums. Review both dependency versions and new checksums;
 ordinary CI must never generate or accept missing verification metadata.
 
-A Dependabot Gradle PR can update the version catalog without refreshing the
-producer or isolated consumer locks and checksums. Complete the same update
+A Dependabot Gradle PR can update the version catalog or wrapper without
+refreshing the producer or isolated consumer locks and checksums. Wrapper
+upgrades can also change embedded Kotlin dependencies. Complete the same update
 sequence in that PR before merging; rebasing alone does not regenerate them.
+Keep the wrapper JAR, scripts and properties together, verify the upstream JAR
+and distribution checksums, and preserve the `.gitattributes` line-ending rules.
 
 The Java/Kotlin CodeQL job temporarily pins the SHA-256-verified upstream
 `codeql-bundle-20260913` nightly because stable CLI 2.27.0 cannot extract Kotlin

@@ -27,7 +27,7 @@ compiler or source checkout. Kotlin/Native and iOS are outside this delivery.
 
 Install .NET SDK **10.0.400**, Node **24.21.0** (npm **11.19.0**) and Python
 **3.14.7**, JDK **17** and GnuPG (for the ephemeral signing test). Set `JAVA_HOME`
-to JDK 17. The checksum-pinned Gradle **9.3.0** wrapper is included; do not install
+to JDK 17. The checksum-pinned Gradle **9.7.1** wrapper is included; do not install
 a separate Gradle. Kotlin **2.4.20** is pinned in the version catalog. Version files in the root are authoritative. On Windows with fnm,
 select the pinned Node using `fnm use 24.21.0`; `fnm exec --using 24.21.0 --
 python eng/contracts.py restore` is an alternative if the shell is not configured.
