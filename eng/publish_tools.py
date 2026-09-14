@@ -8,6 +8,7 @@ import hashlib
 import io
 import json
 import os
+import re
 from pathlib import Path
 import tempfile
 from urllib.error import HTTPError
@@ -78,9 +79,16 @@ def publish_verified(directory: Path, registry: str) -> None:
             or os.environ.get("GITHUB_REF") != "refs/heads/main"
             or os.environ.get("GITHUB_EVENT_NAME") != "push"):
         raise ValueError("Automated publishing is restricted to ArcForges/Contracts main push runs")
-    manifest = verify_artifacts(directory, os.environ.get("GITHUB_SHA"))
+    expected_commit = os.environ.get("GITHUB_SHA", "")
+    if not re.fullmatch("[0-9a-f]{40}", expected_commit):
+        raise ValueError("Publishing requires the exact GitHub source commit")
+    manifest = verify_artifacts(directory, expected_commit)
     if manifest["dirty"]:
         raise ValueError("Never publish a candidate built from a dirty checkout")
+    if registry == "maven":
+        from central_publish import publish
+        publish(directory, manifest)
+        return
     # Keep manifest order: proto must be accepted before api-client is uploaded.
     entries = [entry for entry in manifest["files"] if entry["kind"] == registry]
     for entry in entries:

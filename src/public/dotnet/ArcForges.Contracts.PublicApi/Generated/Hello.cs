@@ -29,7 +29,9 @@ namespace ArcForges.Contracts.Hello.V1 {
             "YXlIZWxsb1Jlc3BvbnNlEg8KB21lc3NhZ2UYASABKAkyZQoMSGVsbG9TZXJ2",
             "aWNlElUKCFNheUhlbGxvEiMuYXJjZm9yZ2VzLmhlbGxvLnYxLlNheUhlbGxv",
             "UmVxdWVzdBokLmFyY2Zvcmdlcy5oZWxsby52MS5TYXlIZWxsb1Jlc3BvbnNl",
-            "Qh+qAhxBcmNGb3JnZXMuQ29udHJhY3RzLkhlbGxvLlYxYgZwcm90bzM="));
+            "QlUKJmlvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLmhlbGxvLnYxQgpI",
+            "ZWxsb1Byb3RvUAGqAhxBcmNGb3JnZXMuQ29udHJhY3RzLkhlbGxvLlYxYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

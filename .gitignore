@@ -24,3 +24,10 @@ Thumbs.db
 *.pfx
 *.p12
 *.key
+**/.gradle/
+**/.kotlin/
+**/build/
+local.properties
+*.keystore
+*.jks
+*.asc

@@ -7,5 +7,9 @@
 *.nupkg binary
 *.tgz binary
 *.binpb binary
+*.jar binary
+*.zip binary
+**/generated/**/*.java linguist-generated=true
+**/generated/**/*.kt linguist-generated=true
 **/Generated/*.cs linguist-generated=true
 **/gen/**/*.ts linguist-generated=true

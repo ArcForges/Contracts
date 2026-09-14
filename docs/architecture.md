@@ -8,13 +8,15 @@ The demo server returns `Hello, <name>!` and rejects an empty name with
 `INVALID_ARGUMENT`; all other strings, including whitespace and Unicode, are
 preserved. This deliberately small rule belongs to the example, not a product.
 
-`eng/Codegen` restores the pinned Grpc.Tools package. Its protoc generates both
-C# (with the matching gRPC C# plugin) and TypeScript (with protoc-gen-es).
+`eng/Codegen` restores the pinned Grpc.Tools package. Its protoc generates C# (with the matching gRPC C# plugin), TypeScript
+(with protoc-gen-es), and Java/Kotlin lite messages with Java/Kotlin gRPC plugins.
+The Java package options do not change protobuf wire names or existing C#/TS APIs.
 Generated C# lives in `src/public/dotnet/ArcForges.Contracts.PublicApi/Generated`;
-TS lives in `src/public/ts/proto/src/gen`. Generated sources are committed so a PR
+TS lives in `src/public/ts/proto/src/gen`; Java/Kotlin lives in each Maven
+module's `generated` directory under `src/public/kotlin`. Generated sources are committed so a PR
 can review both schema and API changes. CI regenerates into a temporary directory
 and fails if the committed files differ. The binary descriptor is built alongside
-the bindings and distributed in both schema packages.
+the bindings and distributed in the NuGet, npm proto and Maven proto packages.
 
 The .slnx contains the public library, code generation tool restore project and
 two small test applications. The test host is an ordinary ASP.NET Core process
@@ -29,23 +31,29 @@ implementation, UI, persistence or build-time compiler dependency.
 
 `@arcforges/proto` contains messages and service descriptors. Its TypeScript
 compile has only the ES library, so it cannot accidentally require DOM or Node
-types. The runtime dependency is protobuf-es. The same generated public types
-are intended for Web and RN; runtime/polyfill/transport behavior must still be
-verified in each environment.
+types. The runtime dependency is protobuf-es. Web uses these generated types; browser runtime and transport behavior still
+require application integration tests.
 
 `@arcforges/api-client` is a small gRPC-Web transport factory using the generated
 service descriptor. The caller supplies the endpoint/fetch options and owns
-authentication. RN will consume the shared descriptors through its selected
-Hermes transport; that adapter is intentionally outside this bootstrap.
+authentication. Android instead consumes the Kotlin artifacts over native gRPC.
 
-The initial three package identities follow the accepted ArcForges package
+`contracts-proto` contains Java/Kotlin lite messages, `contracts-client` contains
+Java-lite service bindings and coroutine stubs, and `contract-fixtures` contains
+the same JSON wire cases used by C#/TS plus a resource accessor. All use group
+`io.github.arcforges`. The caller owns channel/transport configuration; the client
+does not impose OkHttp on a JVM server or create a global channel.
+
+The six package identities follow the accepted ArcForges package
 registry. Their Hello namespaces are examples, not completed PublicApi business
 contracts. Do not add production rules by treating this demo as their design.
 
 ## Dependency and package discipline
 
 The root npm workspace has one lock. Every .NET project has a committed lock and
-uses central versions. Generator/runtime upgrades update pins and locks together,
+uses central versions. Gradle uses a pinned wrapper/version catalog, strict
+locks for every resolvable configuration and checksum verification for plugins,
+generators and dependencies. Generator/runtime upgrades update pins and locks together,
 regenerate sources and pass both consumer platforms. Generated code is never
 edited manually. No submodules or cross-repository source references are allowed.
 
@@ -58,11 +66,23 @@ metadata, licences and the expected runtime dependency set.
 
 The independent consumer copies only the demo application's source, configuration
 and candidate archives into an OS temporary directory. It replaces the demo's
-producer ProjectReference with a package reference. Fresh NuGet/npm caches and a
+producer ProjectReference with a package reference. Fresh NuGet/npm/Gradle caches and a
 source-mapped local NuGet feed force use of the candidate package. npm installs
 both candidate tarballs. Each consumer first resolves its ephemeral dependency
 lock, then restores in locked mode; these consumer locks are retained as evidence.
-This does not substitute an application source reference for an artifact test.
+The Kotlin consumer restores all three Maven publications from an exclusive
+local repository for `io.github.arcforges`, then runs against the same C# host.
+Its committed third-party locks/checksums are reused; only the exact, independently
+hash-verified first-party candidate is excluded from static locks/checksums. No
+producer classes or Gradle caches are copied into that consumer.
+
+Maven Central requires main/source/documentation JARs, POM metadata and detached
+PGP signatures. Gradle prepares the unsigned repository and API documentation in
+the candidate. After Verify, a separate signing-only Gradle build signs those
+files in memory; it has no source sets or dependencies and cannot rebuild them.
+The Portal upload uses automatic publication and retains an identity-bound
+deployment receipt for recovery. Public JAR/POM/module byte comparison closes
+publication; search indexing is not the gate.
 
 ## Licensing
 
@@ -76,7 +96,11 @@ Generation preserves the schema's Apache-2.0 declaration. Package metadata,
 embedded LICENSE/NOTICE and SBOM must agree. Dependencies retain their own licences
 and notices. The SBOM inventories the resolved runtime closure for each
 deliverable; source metadata identifies the dependency locks used to produce it.
-Build tools are not shipped in public packages.
+Build tools are not shipped in public packages. The gRPC Kotlin dependency
+includes `javax.annotation-api` under its offered CDDL-1.1 option; that dependency
+is referenced rather than copied. Gradle wrapper code retains its upstream
+Apache-2.0 notices. The explicit Maven runtime licence catalog rejects an unknown
+new dependency until its upstream licence is reviewed.
 
 ## Compatibility and limits
 
@@ -88,6 +112,6 @@ increments the package build version, not the protobuf wire namespace.
 This bootstrap checks regeneration, a fixed field-number fixture, actual binary
 RPC success/error behavior and the package dependency/metadata closure. It does
 not implement the future production descriptor compatibility gate, full business
-validation catalogues, RN transport, authentication, browser CORS integration,
+validation catalogues, Android app/device behavior, authentication, browser CORS integration,
 Cloud deployment or production AOT server acceptance. Those remain governed by
 the accepted design and implementation work packages.

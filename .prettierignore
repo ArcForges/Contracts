@@ -10,3 +10,9 @@ artifacts/
 **/obj/
 **/dist/
 **/node_modules/
+**/generated/
+**/build/
+**/.gradle/
+**/.kotlin/
+**/gradle.lockfile
+**/gradle/verification-metadata.xml

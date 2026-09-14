@@ -10,18 +10,20 @@ GitHub organisation membership does not create a corresponding npm organisation.
 
 ## 1. GitHub configuration
 
-In repository Settings, create environments **nuget** and **npm**. In each,
+In repository Settings, create environments **nuget**, **npm** and **maven-central**. In each,
 restrict deployment branches to **main**. Leave required reviewers and wait timers
 off for unattended publication. Actions default permissions should be read-only;
-individual publication jobs request OIDC only after the consumer gate.
+NuGet/npm jobs request OIDC only after the consumer gate. Maven Central uses
+its own environment secrets and requests no OIDC token.
 
 Under Settings → Secrets and variables → Actions → Variables:
 
-| Variable                | Initial setup                                             | Normal operation                       |
-| ----------------------- | --------------------------------------------------------- | -------------------------------------- |
-| `NUGET_USER`            | Your nuget.org username, currently `dekueon`              | Same username; not an API key or email |
-| `NUGET_PUBLISH_ENABLED` | Unset or `false` until the policy below exists            | `true`                                 |
-| `NPM_PUBLISH_MODE`      | Unset/`disabled`, then `bootstrap` for the first creation | `oidc`                                 |
+| Variable                | Initial setup                                                     | Normal operation                       |
+| ----------------------- | ----------------------------------------------------------------- | -------------------------------------- |
+| `NUGET_USER`            | Your nuget.org username, currently `dekueon`                      | Same username; not an API key or email |
+| `NUGET_PUBLISH_ENABLED` | Unset or `false` until the policy below exists                    | `true`                                 |
+| `NPM_PUBLISH_MODE`      | Unset/`disabled`, then `bootstrap` for the first creation         | `oidc`                                 |
+| `MAVEN_PUBLISH_ENABLED` | `false` until Central namespace, token and PGP key are configured | `true`                                 |
 
 No normal NuGet or npm publishing secret is required. npm's **first creation**
 uses the temporary environment secret described below. Repository variables are
@@ -35,7 +37,7 @@ is directly gated by the CI `Verify` job. Require successful CI/security checks
 in branch protection before merging.
 
 These GitHub-side settings are configured for this repository, including the
-seven CI/security checks and PR requirement on main (zero required review
+CI/security checks (including Java/Kotlin CodeQL) and PR requirement on main (zero required review
 approvals). Initial setup used disabled publisher switches. Normal operation now
 uses `NUGET_PUBLISH_ENABLED=true` and `NPM_PUBLISH_MODE=oidc`; check the current
 repository variables before diagnosing a skipped publication.
@@ -139,7 +141,14 @@ Deleting the GitHub environment secret removes that stored copy; revoke
 `Contracts-initial-publish` in npm Account → Access Tokens to invalidate the
 credential itself. Keep the package trusted-publisher connections and the GitHub
 `npm` environment. This evidence concerns registry publication, not product or
-RN/Hermes acceptance.
+Android device acceptance.
+
+## Maven Central setup
+
+Follow [the complete Maven Central account, signing and recovery guide](maven-central.md).
+The group is `io.github.arcforges`, with `contracts-proto`, `contracts-client`
+and `contract-fixtures`. They use the same candidate version as NuGet/npm.
+Maven publication remains disabled until its separate account and secrets are ready.
 
 ## 5. Understand the result
 
@@ -181,7 +190,7 @@ policy must be designed before introducing a different version series.
 
 ## 6. Failure and retry
 
-Registries do not provide an atomic transaction spanning these three packages.
+Registries do not provide an atomic transaction spanning all six packages.
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.
@@ -190,7 +199,8 @@ After correcting credentials or a transient registry failure, **re-run failed
 jobs** on the same main run. They download the original successful candidate and
 retain its version; no rebuild occurs. An already published npm version must
 match tarball integrity. An existing NuGet version must match the original ZIP
-contents, allowing only nuget.org's added repository signature. A mismatch fails
+contents, allowing only nuget.org's added repository signature. Maven compares
+every tested JAR, POM and Gradle module metadata file byte for byte. A mismatch fails
 instead of silently skipping it. A registry indexing delay may require retrying
 after the existing version becomes visible.
 
