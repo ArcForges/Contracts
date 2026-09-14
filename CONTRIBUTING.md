@@ -16,6 +16,10 @@ lock files; CI restores them in locked mode. For Gradle changes, use
 consumer locks/checksums. Review both dependency versions and new checksums;
 ordinary CI must never generate or accept missing verification metadata.
 
+A Dependabot Gradle PR can update the version catalog without refreshing the
+producer or isolated consumer locks and checksums. Complete the same update
+sequence in that PR before merging; rebasing alone does not regenerate them.
+
 Contributions to ArcForges-authored source, generated bindings, examples, tooling,
 configuration and documentation use Apache-2.0 under the root LICENSE. Add SPDX
 headers to authored code and preserve third-party licences and notices. Do not
