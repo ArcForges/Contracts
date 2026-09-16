@@ -9,7 +9,9 @@ The demo server returns `Hello, <name>!` and rejects an empty name with
 preserved. This deliberately small rule belongs to the example, not a product.
 
 `eng/Codegen` restores the pinned Grpc.Tools package. Its protoc generates C# (with the matching gRPC C# plugin), TypeScript
-(with protoc-gen-es), and Java/Kotlin lite messages with Java/Kotlin gRPC plugins.
+(with protoc-gen-es), and Java/Kotlin lite messages with Java/Kotlin gRPC and
+Connect-Kotlin service plugins. Connect-Kotlin 0.9.0's executable generator JAR
+is resolved from Maven Central with the other checksum-verified codegen tools.
 The Java package options do not change protobuf wire names or existing C#/TS APIs.
 Generated C# lives in `src/public/dotnet/ArcForges.Contracts.PublicApi/Generated`;
 TS lives in `src/public/ts/proto/src/gen`; Java/Kotlin lives in each Maven
@@ -36,16 +38,22 @@ require application integration tests.
 
 `@arcforges/api-client` is a small gRPC-Web transport factory using the generated
 service descriptor. The caller supplies the endpoint/fetch options and owns
-authentication. Android instead consumes the Kotlin artifacts over native gRPC.
+authentication. Android consumes the Kotlin artifacts and explicitly selects
+gRPC-Web for the current Worker ingress or native gRPC for an HTTP/2 endpoint.
 
 `contracts-proto` contains Java/Kotlin lite messages, `contracts-client` contains
-Java-lite service bindings and coroutine stubs, and `contract-fixtures` contains
+Java-lite service bindings and coroutine stubs, `contracts-connect-client`
+contains Connect-Kotlin service interfaces and coroutine clients, and `contract-fixtures` contains
 the same JSON wire cases used by C#/TS plus a resource accessor. All use group
 `io.github.arcforges`. The caller owns channel/transport configuration; the client
-does not impose OkHttp on a JVM server or create a global channel.
+does not impose OkHttp on a JVM server or create a global channel. The Connect
+client uses the same proto classes and depends on Connect-Kotlin core. The caller
+adds OkHttp and the Google Java lite serialization strategy and explicitly selects
+`NetworkProtocol.GRPC_WEB` or `GRPC`; the Connect protocol default is not supported
+by the ASP.NET fixture. This extension covers unary Hello only.
 
-The six package identities follow the accepted ArcForges package
-registry. Their Hello namespaces are examples, not completed PublicApi business
+The seven package identities are listed in the repository README. Their Hello
+namespaces are examples, not completed PublicApi business
 contracts. Do not add production rules by treating this demo as their design.
 
 ## Dependency and package discipline
@@ -70,9 +78,11 @@ producer ProjectReference with a package reference. Fresh NuGet/npm/Gradle cache
 source-mapped local NuGet feed force use of the candidate package. npm installs
 both candidate tarballs. Each consumer first resolves its ephemeral dependency
 lock, then restores in locked mode; these consumer locks are retained as evidence.
-The Kotlin consumer restores all three Maven publications from an exclusive
-local repository for `io.github.arcforges`, then runs against the same C# host.
-Its committed third-party locks/checksums are reused; only the exact, independently
+Two independent Kotlin applications restore the four Maven publications from an
+exclusive local repository for `io.github.arcforges`, then run against the same
+C# host. The Connect consumer has no grpc-kotlin client dependency and exercises
+HTTP/1.1 gRPC-Web with an `/api` prefix and native HTTP/2 gRPC. Their committed
+third-party locks/checksums are reused; only the exact, independently
 hash-verified first-party candidate is excluded from static locks/checksums. No
 producer classes or Gradle caches are copied into that consumer.
 

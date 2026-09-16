@@ -88,3 +88,39 @@ GitHub configuration for the Kotlin extension now includes a main-only
 `maven-central` environment, `MAVEN_PUBLISH_ENABLED=false`, and required
 `CodeQL (java-kotlin)`. Existing NuGet/npm OIDC variables and environments were
 preserved. No Maven credentials were created or uploaded.
+
+## Kotlin gRPC-Web extension: local evidence (2026-09-16)
+
+The `codex/contracts-kotlin-grpc-web` worktree adds one generated Connect-Kotlin
+client module for the existing Hello schema. Local Windows x64 validation used
+.NET 10.0.400, JDK 17, Gradle 9.7.1, Kotlin 2.4.20 and Connect-Kotlin 0.9.0:
+
+- Locked producer restore, deterministic regeneration comparison, C#/TS/Kotlin
+  compilation, wire tests and formatting passed. Existing schema and C#/TS/
+  grpc-kotlin generated APIs are unchanged.
+- All seven package identities passed archive, dependency, metadata and hash
+  inspection. The four Maven modules contain 20 unsigned publication files.
+- All 17 release guard tests passed, including wrong proto dependency versions
+  for both Kotlin clients and real detached signatures covering all 20 files.
+  A temporary test key was used; signing preserved the tested payload bytes.
+- Independent applications installed the actual candidate with fresh package
+  caches and no producer project/class references. Both Kotlin projects also
+  restored successfully with their committed third-party locks and checksums.
+- The new Connect consumer, without the grpc-kotlin client dependency, called
+  the C# fixture using binary gRPC-Web over HTTP/1.1 and gRPC over HTTP/2. Tests
+  verified RPC paths, an `/api` prefix, ASCII/Unicode/whitespace responses and
+  the server's `INVALID_ARGUMENT` status/message.
+- Existing C# JIT, TS gRPC-Web, grpc-kotlin and published Windows Native AOT C#
+  **client** calls passed against the same C# fixture.
+
+Local Gradle Wrapper downloading encountered a TLS failure. The successful
+consumer run invoked the already installed, matching Gradle 9.7.1 distribution;
+NuGet/npm/Gradle dependency caches remained newly created and isolated. This was
+an ignored local launcher adjustment, not a repository/CI configuration change.
+CI runs the unchanged checksum-pinned Wrapper download path on Windows/Linux.
+
+The local candidate is `1.0.0-ci.0.0`, marked dirty/development, with evidence in
+ignored `artifacts/evidence/win-x64` and `artifacts/consume-local.log`. No registry
+upload, Android application/device, Cloud deployment, production AOT **server**,
+authentication or streaming RPC behavior is established by these tests. The
+existing main-only publisher will include the new module after an accepted merge.

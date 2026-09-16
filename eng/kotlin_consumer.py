@@ -11,9 +11,13 @@ from maven_tools import zip_contents
 
 
 def prepare(consumer: Path, directory: Path, manifest: dict, env: dict,
-            evidence: Path, update_locks: bool = False) -> tuple[Path, dict]:
-    project = consumer / "kotlin"
-    shutil.copytree(ROOT / "tests/public/KotlinClient", project,
+            evidence: Path, update_locks: bool = False, project_name: str = "KotlinClient") -> tuple[Path, dict]:
+    application = {"KotlinClient": "kotlin-archive-consumer",
+                   "KotlinConnectClient": "kotlin-connect-archive-consumer"}[project_name]
+    evidence_prefix = "kotlin-" if project_name == "KotlinClient" else "kotlin-connect-"
+    source = ROOT / "tests/public" / project_name
+    project = consumer / project_name
+    shutil.copytree(source, project,
                     ignore=shutil.ignore_patterns("build", ".gradle", ".kotlin"))
     for name in ("gradlew", "gradlew.bat", "gradle.properties", "gradle/wrapper/gradle-wrapper.jar",
                  "gradle/wrapper/gradle-wrapper.properties", "gradle/libs.versions.toml"):
@@ -42,10 +46,10 @@ def prepare(consumer: Path, directory: Path, manifest: dict, env: dict,
         gradle("resolveLockedDependencies", "installDist", *args, "--write-locks",
                "--write-verification-metadata", "sha256", cwd=project, env=isolated_env)
         for name in ("gradle.lockfile", "settings-gradle.lockfile", "gradle/verification-metadata.xml"):
-            (ROOT / "tests/public/KotlinClient" / name).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(project / name, ROOT / "tests/public/KotlinClient" / name)
+            (source / name).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(project / name, source / name)
     gradle("resolveLockedDependencies", "installDist", *args, cwd=project, env=isolated_env)
     for name in ("gradle.lockfile", "settings-gradle.lockfile", "gradle/verification-metadata.xml"):
-        shutil.copyfile(project / name, evidence / ("kotlin-" + Path(name).name))
-    executable = project / "build/install/kotlin-archive-consumer/bin" / ("kotlin-archive-consumer.bat" if os.name == "nt" else "kotlin-archive-consumer")
+        shutil.copyfile(project / name, evidence / (evidence_prefix + Path(name).name))
+    executable = project / f"build/install/{application}/bin" / (application + ".bat" if os.name == "nt" else application)
     return executable, isolated_env

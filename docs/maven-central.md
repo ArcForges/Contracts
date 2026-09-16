@@ -1,8 +1,10 @@
 # Maven Central setup and recovery
 
 Kotlin artifacts use the Sonatype Central Portal. The Maven group is
-`io.github.arcforges`; module names are `contracts-proto`, `contracts-client` and
-`contract-fixtures`. New versions require no new package registration.
+`io.github.arcforges`; module names are `contracts-proto`, `contracts-client`,
+`contracts-connect-client` and `contract-fixtures`. The Connect client uses the
+existing namespace and signing setup. New modules or versions in this namespace
+require no new package registration.
 
 ## One-time account and signing setup
 
@@ -32,12 +34,12 @@ Kotlin artifacts use the Sonatype Central Portal. The Maven group is
 5. Set repository variable **MAVEN_PUBLISH_ENABLED=true** after namespace
    verification and the secrets are ready. The environment accepts main only;
    no reviewer or timer is needed for unattended releases.
-6. Merge the accepted PR. CI allocates a version, builds all six packages, tests
+6. Merge the accepted PR. CI allocates a version, builds all seven packages, tests
    them on Windows/Linux, then runs the registry jobs. Maven signing adds detached
    signatures and checksums to tested files. The Portal request selects
    `AUTOMATIC`; no manual publish button, version entry or local Gradle publish is
    part of the normal release flow.
-7. Confirm **Publish Maven Central** reports that all three modules match the
+7. Confirm **Publish Maven Central** reports that all four modules match the
    tested candidate in the public repository. A disabled job skips visibly;
    an enabled job with missing credentials fails. Keep the environment, Portal
    token and signing key for future releases and rotate credentials when needed.

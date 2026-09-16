@@ -125,6 +125,8 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
 
         from kotlin_consumer import prepare as prepare_kotlin
         kotlin_client, kotlin_env = prepare_kotlin(consumer, directory, manifest, env, evidence_dir, update_kotlin_locks)
+        connect_client, connect_env = prepare_kotlin(consumer, directory, manifest, env, evidence_dir,
+                                                     update_kotlin_locks, "KotlinConnectClient")
         native = consumer / "native-client"
         if aot:
             run("dotnet", "restore", consumer / "HelloClient", "-r", rid,
@@ -149,6 +151,7 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
                     f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
                 run("node", ts / "run.mjs", f"http://127.0.0.1:{web_port}", cwd=ts, env=env)
                 run(kotlin_client, grpc_port, cwd=consumer, env=kotlin_env)
+                run(connect_client, web_port, grpc_port, cwd=consumer, env=connect_env)
                 if aot:
                     run(native / ("HelloClient.exe" if os.name == "nt" else "HelloClient"),
                         f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
@@ -171,6 +174,7 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
             "version": release, "commit": manifest["commit"], "rid": rid,
             "inputs": manifest["files"], "isolatedCaches": True, "sourceReferences": False,
             "csharpGrpc": "passed", "typescriptGrpcWeb": "passed", "kotlinGrpc": "passed",
+            "kotlinConnectGrpcWeb": "passed", "kotlinConnectGrpc": "passed",
             "nativeAotGrpc": "passed" if aot else "not-run",
             "browser": "not-run", "androidDevice": "not-run", "registryRestore": "not-run",
         })

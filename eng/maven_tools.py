@@ -32,6 +32,9 @@ def runtime_graph(module: str, release: str):
         "org.checkerframework": "MIT", "com.google.j2objc": "Apache-2.0",
         "org.jspecify": "Apache-2.0",
         "javax.annotation": "CDDL-1.1", "org.codehaus.mojo": "MIT",
+        "com.connectrpc": "Apache-2.0", "io.ktor": "Apache-2.0",
+        "com.squareup.okio": "Apache-2.0", "com.squareup.moshi": "Apache-2.0",
+        "org.slf4j": "MIT",
     }
     components = {}
     root = f"{MAVEN_GROUP}:{module}:{release}"
@@ -96,7 +99,7 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
     release = manifest["version"]
     files = zip_contents(path.read_bytes())
     if set(files) != set(expected_paths(release)):
-        raise ValueError("Maven bundle must contain three complete publications and no extra files")
+        raise ValueError("Maven bundle must contain all complete publications and no extra files")
     for module in MAVEN_MODULES:
         prefix = f"io/github/arcforges/{module}/{release}/{module}-{release}"
         pom = ET.fromstring(files[prefix + ".pom"])
@@ -114,7 +117,7 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
                 raise ValueError("Maven dependencies must use exact versions")
             if dep.startswith(MAVEN_GROUP + ":") and resolved != release:
                 raise ValueError("Maven client must pin this candidate's proto version")
-        if module == "contracts-client" and f"{MAVEN_GROUP}:contracts-proto" not in dependencies:
+        if module in {"contracts-client", "contracts-connect-client"} and f"{MAVEN_GROUP}:contracts-proto" not in dependencies:
             raise ValueError("Maven client lost its proto dependency")
         if any(dep.endswith(":protobuf-java") or dep.endswith(":grpc-protobuf") for dep in dependencies):
             raise ValueError("Android artifacts must use protobuf lite")
@@ -143,11 +146,17 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
             raise ValueError("Maven SBOM identifies another module")
         classes = {"contracts-proto": "io/github/arcforges/contracts/hello/v1/SayHelloRequest.class",
                    "contracts-client": "io/github/arcforges/contracts/hello/v1/HelloServiceGrpcKt$HelloServiceCoroutineStub.class",
+                   "contracts-connect-client": "io/github/arcforges/contracts/hello/v1/HelloServiceClient.class",
                    "contract-fixtures": "io/github/arcforges/contracts/fixtures/ContractFixtures.class"}
         if classes[module] not in jar:
             raise ValueError(f"Maven JAR is missing its public API: {module}")
-        if any(name.startswith(("com/google/", "io/grpc/", "kotlin/", "kotlinx/")) for name in jar):
+        if any(name.startswith(("com/google/", "io/grpc/", "kotlin/", "kotlinx/", "com/connectrpc/", "okhttp3/", "okio/", "io/ktor/")) for name in jar):
             raise ValueError("Runtime dependencies must not be shaded into Maven JARs")
+        if module == "contracts-connect-client":
+            if dependencies.get("com.connectrpc:connect-kotlin") is None or "io/github/arcforges/contracts/hello/v1/HelloServiceClientInterface.class" not in jar:
+                raise ValueError("Connect client is missing its interface or runtime dependency")
+            if "io/github/arcforges/contracts/hello/v1/SayHelloRequest.class" in jar:
+                raise ValueError("Connect client must reuse the proto package's messages")
         if module == "contracts-proto" and (jar.get("contracts.binpb") != descriptor or "proto/arcforges/hello/v1/hello.proto" not in jar):
             raise ValueError("Maven proto or descriptor is missing")
         if module == "contract-fixtures" and not jar.get("arcforges/fixtures/hello.json"):

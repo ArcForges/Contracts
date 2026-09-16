@@ -7,6 +7,10 @@
     {
       "name": "世界 🌍",
       "message": "Hello, 世界 🌍!"
+    },
+    {
+      "name": "  World  ",
+      "message": "Hello,   World  !"
     }
   ],
   "emptyNameStatus": "INVALID_ARGUMENT"

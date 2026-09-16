@@ -21,6 +21,8 @@ dependencies {
         codegen("io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.asProvider().get()}:$platform@exe")
     }
     codegen("io.grpc:protoc-gen-grpc-kotlin:${libs.versions.grpc.kotlin.get()}:jdk8@jar")
+    // Upstream publishes an executable fat JAR; compiler dependencies are not runtime APIs.
+    codegen("com.connectrpc:protoc-gen-connect-kotlin:${libs.versions.connect.get()}@jar")
 }
 
 allprojects {
