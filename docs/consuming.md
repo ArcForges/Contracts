@@ -88,6 +88,70 @@ Generated service descriptors also work with the caller's compatible transport.
 
 ## Kotlin / Android
 
+### gRPC-Web for the Worker ingress
+
+Use `contracts-connect-client` with the exact version from a successful Maven
+publication containing that module. The version shown here is an example, not
+an already published Connect client release. Add `mavenCentral()`:
+
+```kotlin
+dependencies {
+    implementation("io.github.arcforges:contracts-connect-client:1.0.0-ci.12.1")
+    implementation("com.connectrpc:connect-kotlin-okhttp:0.9.0")
+    implementation("com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0")
+}
+```
+
+The package brings the exact matching lite `contracts-proto` and Connect-Kotlin
+core. Commit application dependency locks. No proto copy or generator is needed.
+
+```kotlin
+import com.connectrpc.ProtocolClientConfig
+import com.connectrpc.extensions.GoogleJavaLiteProtobufStrategy
+import com.connectrpc.getOrThrow
+import com.connectrpc.impl.ProtocolClient
+import com.connectrpc.okhttp.ConnectOkHttpClient
+import com.connectrpc.protocols.NetworkProtocol
+import io.github.arcforges.contracts.hello.v1.HelloServiceClient
+import io.github.arcforges.contracts.hello.v1.sayHelloRequest
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.Dispatchers
+import okhttp3.OkHttpClient
+
+// Create these once at application/service scope, not per recomposition.
+val http = OkHttpClient()
+val client = HelloServiceClient(ProtocolClient(
+    httpClient = ConnectOkHttpClient(http),
+    config = ProtocolClientConfig(
+        host = "https://arcforges.com/api",
+        serializationStrategy = GoogleJavaLiteProtobufStrategy(),
+        networkProtocol = NetworkProtocol.GRPC_WEB,
+        ioCoroutineContext = Dispatchers.IO,
+        timeoutOracle = { 10.seconds },
+    ),
+))
+
+// Invoke from an application-owned coroutine. RPC errors throw ConnectException.
+suspend fun hello(): String = client.sayHello(
+    sayHelloRequest { name = "World" },
+).getOrThrow().message
+```
+
+The URL illustrates the Worker route intended for the next Cloud/Mobile
+integration step. This PR tests a loopback C# service, including the `/api` prefix;
+it does not establish that deployment or Android device behavior. Do not use the
+Connect protocol default against ASP.NET gRPC. Keep request compression disabled
+(the default) for the current Hello ingress. The application owns credentials,
+TLS, coroutine cancellation and transport cleanup. Use JDK/JVM target 17 or newer
+and Kotlin 2.4.20 or a compatible compiler; Android also needs INTERNET permission.
+
+For a future native gRPC endpoint, the same generated Connect client can select
+`NetworkProtocol.GRPC` with a working HTTP/2 transport and that endpoint's URL.
+Changing the protocol alone does not enable native gRPC on the current Worker.
+The following grpc-kotlin API is also retained for native endpoints.
+
+### Existing native grpc-kotlin client
+
 Add `mavenCentral()` to the application's dependency repositories. Add the exact
 common release and the Android-compatible transport (the versions below are
 examples for the Contracts release):

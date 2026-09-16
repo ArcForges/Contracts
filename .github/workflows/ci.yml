@@ -252,7 +252,7 @@ jobs:
           path: artifacts/packages/
       - name: Verify the candidate before exposing signing credentials
         run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
-      - name: Sign tested files and publish all three Maven modules automatically
+      - name: Sign tested files and publish all Maven modules automatically
         env:
           GH_TOKEN: ${{ github.token }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}

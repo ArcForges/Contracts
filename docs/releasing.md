@@ -146,9 +146,11 @@ Android device acceptance.
 ## Maven Central setup
 
 Follow [the complete Maven Central account, signing and recovery guide](maven-central.md).
-The group is `io.github.arcforges`, with `contracts-proto`, `contracts-client`
-and `contract-fixtures`. They use the same candidate version as NuGet/npm.
-Maven publication remains disabled until its separate account and secrets are ready.
+The group is `io.github.arcforges`, with `contracts-proto`, `contracts-client`,
+`contracts-connect-client` and `contract-fixtures`. They use the same candidate
+version as NuGet/npm. The additional module uses the existing namespace, main-only
+environment, credentials and publication switch; it needs no new account/token.
+For a new repository installation, leave Maven disabled until that setup is ready.
 
 ## 5. Understand the result
 
@@ -190,7 +192,7 @@ policy must be designed before introducing a different version series.
 
 ## 6. Failure and retry
 
-Registries do not provide an atomic transaction spanning all six packages.
+Registries do not provide an atomic transaction spanning all seven packages.
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.

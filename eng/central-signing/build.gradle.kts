@@ -5,7 +5,8 @@ require(candidate.isDirectory) { "A verified Maven repository directory is requi
 val payload = candidate.walkTopDown().filter {
     it.isFile && (it.extension in setOf("jar", "pom", "module"))
 }.toList()
-require(payload.size == 15) { "Expected three complete unsigned Maven publications" }
+val expectedFileCount = providers.gradleProperty("expectedFileCount").get().toInt()
+require(expectedFileCount > 0 && payload.size == expectedFileCount) { "Expected the complete verified Maven payload" }
 signing {
     useInMemoryPgpKeys(
         providers.environmentVariable("MAVEN_SIGNING_KEY").get(),

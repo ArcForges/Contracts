@@ -186,7 +186,7 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
         raise ValueError("Candidate source commit differs from the expected checkout")
     expected = {NUGET_ID, *NPM_IDS, "arcforges.hello.v1", "io.github.arcforges"}
     if len(manifest["files"]) != 5 or {entry["id"] for entry in manifest["files"]} != expected:
-        raise ValueError("Candidate must contain one NuGet, two npm packages, three Maven modules and a descriptor")
+        raise ValueError("Candidate must contain one NuGet, two npm packages, a complete Maven bundle and a descriptor")
     names = {entry["name"] for entry in manifest["files"]}
     if {path.name for path in directory.iterdir()} != names | {"manifest.json"}:
         raise ValueError("Unexpected or missing candidate files")

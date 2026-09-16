@@ -16,6 +16,9 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 builder.Services.AddGrpc();
 var app = builder.Build();
+// Exercise the same optional API prefix used by a Worker, without changing RPC names.
+app.UsePathBase("/api");
+app.UseRouting();
 app.UseGrpcWeb();
 app.MapGrpcService<HelloEndpoint>().EnableGrpcWeb();
 await app.RunAsync();

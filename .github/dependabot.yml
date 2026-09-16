@@ -33,5 +33,7 @@ updates:
     groups:
       grpc:
         patterns: ["io.grpc:*"]
+      connect-kotlin:
+        patterns: ["com.connectrpc:*"]
       kotlin:
         patterns: ["org.jetbrains.kotlin*", "org.jetbrains.kotlinx:*"]

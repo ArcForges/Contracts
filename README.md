@@ -10,17 +10,19 @@ this repository, run protoc, use Git submodules or depend on sibling source.
 **Current scope:** one Hello World service and a working generation, packaging and
 CI foundation, including Kotlin/JVM for Android. Product APIs and mobile applications are later deliveries.
 
-| Package                                 | Contents                                                                 | Consumer                              |
-| --------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
-| `ArcForges.Contracts.PublicApi`         | Generated C# messages, gRPC client/server bindings, proto and descriptor | .NET 10                               |
-| `@arcforges/proto`                      | ESM JavaScript, TS declarations, messages, service descriptors and proto | Web contract types                    |
-| `@arcforges/api-client`                 | Typed Hello client using gRPC-Web                                        | Browser-compatible fetch environments |
-| `io.github.arcforges:contracts-proto`   | Java/Kotlin lite messages, schema and descriptor                         | Android/JVM                           |
-| `io.github.arcforges:contracts-client`  | Java-lite gRPC bindings and Kotlin coroutine stubs                       | Android/JVM                           |
-| `io.github.arcforges:contract-fixtures` | Shared wire fixtures and Java resource accessor                          | Consumer tests                        |
+| Package                                        | Contents                                                                   | Consumer                              |
+| ---------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------- |
+| `ArcForges.Contracts.PublicApi`                | Generated C# messages, gRPC client/server bindings, proto and descriptor   | .NET 10                               |
+| `@arcforges/proto`                             | ESM JavaScript, TS declarations, messages, service descriptors and proto   | Web contract types                    |
+| `@arcforges/api-client`                        | Typed Hello client using gRPC-Web                                          | Browser-compatible fetch environments |
+| `io.github.arcforges:contracts-proto`          | Java/Kotlin lite messages, schema and descriptor                           | Android/JVM                           |
+| `io.github.arcforges:contracts-client`         | Java-lite gRPC bindings and Kotlin coroutine stubs                         | Android/JVM                           |
+| `io.github.arcforges:contracts-connect-client` | Generated Connect-Kotlin coroutine client; caller selects gRPC-Web or gRPC | Android/JVM                           |
+| `io.github.arcforges:contract-fixtures`        | Shared wire fixtures and Java resource accessor                            | Consumer tests                        |
 
-Android uses the Kotlin/JVM artifacts and native gRPC. Web uses the TypeScript
-artifacts and gRPC-Web. All share the same handwritten proto; consumers need no
+Android uses the Kotlin/JVM artifacts: `contracts-connect-client` supports the
+current Worker gRPC-Web ingress; `contracts-client` retains native grpc-kotlin.
+Web uses the TypeScript artifacts and gRPC-Web. All share the same handwritten proto; consumers need no
 compiler or source checkout. Kotlin/Native and iOS are outside this delivery.
 
 ## Local quick start
@@ -60,7 +62,7 @@ on Windows, or clang and zlib development headers on Linux.
   compared against protoc output instead.
 
 The local candidate version is `1.0.0-ci.0.0`. Pack creates one `.nupkg`, two
-`.tgz` archives, a Maven repository ZIP containing three modules, `contracts.binpb`
+`.tgz` archives, a Maven repository ZIP containing four modules, `contracts.binpb`
 and a hash manifest in `artifacts/packages`.
 Each package carries its licence, dependency NOTICE, CycloneDX SBOM and source
 metadata. Consumer evidence is written to `artifacts/evidence`.
@@ -73,7 +75,7 @@ flowchart LR
   B --> C[Compile and wire tests]
   C --> D[Pack one candidate]
   D --> E[Windows and Linux archive consumers]
-  E --> F[C# gRPC, AOT, TS gRPC-Web and Kotlin gRPC checks]
+  E --> F[C# gRPC, AOT, TS gRPC-Web and Kotlin gRPC-Web/gRPC checks]
   F --> G[Verify gate]
   G --> H[Main: publish same NuGet archive]
   G --> I[Main: publish proto, then API client to npm]
@@ -101,6 +103,7 @@ organisation-wide environments.
 - [Boundaries, generation and package layout](docs/architecture.md)
 - [Bootstrap plan and acceptance](docs/bootstrap-plan.md)
 - [Kotlin implementation plan](docs/kotlin-artifacts-plan.md)
+- [Kotlin gRPC-Web extension plan](docs/kotlin-grpc-web-plan.md)
 - [Validation evidence and limits](docs/validation.md)
 - [Contributing](CONTRIBUTING.md), [security reporting](SECURITY.md) and
   [code of conduct](CODE_OF_CONDUCT.md)

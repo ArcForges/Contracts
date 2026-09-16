@@ -7,6 +7,7 @@ grpc = "1.84.0"
 grpc-kotlin = "1.5.0"
 coroutines = "1.11.0"
 gson = "2.14.0"
+connect = "0.9.0"
 
 [libraries]
 protobuf-kotlin-lite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
@@ -16,6 +17,9 @@ grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-ko
 grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpc" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+connect-core = { module = "com.connectrpc:connect-kotlin", version.ref = "connect" }
+connect-okhttp = { module = "com.connectrpc:connect-kotlin-okhttp", version.ref = "connect" }
+connect-google-javalite = { module = "com.connectrpc:connect-kotlin-google-javalite-ext", version.ref = "connect" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

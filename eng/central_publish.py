@@ -77,7 +77,7 @@ def signed_bundle(files: dict[str, bytes], directory: Path) -> Path:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
     gradle("-p", ROOT / "eng/central-signing", "--offline", "--no-configuration-cache", "signCandidate",
-           f"-PcandidateDirectory={repository}")
+           f"-PcandidateDirectory={repository}", f"-PexpectedFileCount={len(files)}")
     for name, data in files.items():
         path = repository / name
         if path.read_bytes() != data or not path.with_name(path.name + ".asc").is_file():
@@ -97,7 +97,7 @@ def publish(directory: Path, manifest: dict) -> None:
     unsigned = directory / entry["name"]
     files = verify_bundle(unsigned, manifest, (directory / "contracts.binpb").read_bytes())
     if registry_matches(files):
-        print("All three Maven modules already exist with identical tested bytes.")
+        print("All Maven modules already exist with identical tested bytes.")
         return
     identity = {"version": manifest["version"], "commit": manifest["commit"], "candidateSha256": sha256(unsigned)}
     receipt = recover_receipt(identity) or dict(identity, deploymentId=None, phase="not-uploaded")
@@ -161,7 +161,7 @@ def publish(directory: Path, manifest: dict) -> None:
         if matched:
             receipt["phase"] = "public-bytes-verified"
             write_json(evidence, receipt)
-            print("All three Maven Central modules match the tested candidate.")
+            print("All Maven Central modules match the tested candidate.")
             return
         time.sleep(15)
     raise ValueError("Central reports PUBLISHED but public artifacts are still propagating; resume this deployment without re-uploading")

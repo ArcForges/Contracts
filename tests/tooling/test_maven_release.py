@@ -47,19 +47,20 @@ class MavenReleaseGuards(unittest.TestCase):
                 verify_artifacts(candidate)
 
     def test_maven_client_cannot_pin_another_candidate(self):
-        files = dict(self.files)
-        pom = next(name for name in files if "/contracts-client/" in name and name.endswith(".pom"))
-        old = self.manifest["version"].encode()
-        # Keep the POM's own identity, alter only its internal dependency version.
-        before, dependencies = files[pom].split(b"<dependencies>", 1)
-        files[pom] = before + b"<dependencies>" + dependencies.replace(old, b"1.0.0-ci.999999.1")
-        with tempfile.TemporaryDirectory(prefix="contracts-maven-guard-") as temporary:
-            bundle = Path(temporary) / "wrong-client.zip"
-            with zipfile.ZipFile(bundle, "w") as archive:
-                for name, data in files.items():
-                    archive.writestr(name, data)
-            with self.assertRaisesRegex(ValueError, "pin this candidate"):
-                verify_bundle(bundle, self.manifest, (self.directory / "contracts.binpb").read_bytes())
+        for module in ("contracts-client", "contracts-connect-client"):
+            with self.subTest(module=module), tempfile.TemporaryDirectory(prefix="contracts-maven-guard-") as temporary:
+                files = dict(self.files)
+                pom = next(name for name in files if f"/{module}/" in name and name.endswith(".pom"))
+                old = self.manifest["version"].encode()
+                # Keep the POM's own identity, alter only its internal dependency version.
+                before, dependencies = files[pom].split(b"<dependencies>", 1)
+                files[pom] = before + b"<dependencies>" + dependencies.replace(old, b"1.0.0-ci.999999.1")
+                bundle = Path(temporary) / "wrong-client.zip"
+                with zipfile.ZipFile(bundle, "w") as archive:
+                    for name, data in files.items():
+                        archive.writestr(name, data)
+                with self.assertRaisesRegex(ValueError, "pin this candidate"):
+                    verify_bundle(bundle, self.manifest, (self.directory / "contracts.binpb").read_bytes())
 
     def test_public_registry_conflict_is_not_overwritten(self):
         with patch("central_publish.get", return_value=b"different"):
