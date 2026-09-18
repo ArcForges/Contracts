@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "license": "Apache-2.0",
   "design": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "4382eec97e45f8abcc81fdcb28221e907f44ddde",
-    "rule": "P2-015"
+    "commit": "1607374e81955f0a47f319cd6cc8ba1c6e254157",
+    "rule": "P2-016"
   },
   "repositories": [
     "DesktopPlatform",
@@ -150,6 +150,15 @@
       "sha256": "f4a8f47549a96e529af5af9582f07a81dd97af73f006ba3c4436c624210a0976",
       "names": ["ArcVideo", "ArcVideoFoundation"],
       "reason": "Reviewed fixed-commit sourceBaselines in the retained historical traceability seed; no current product or reuse authority."
+    }
+  ],
+  "derivedDeclarations": [
+    {
+      "repository": "DesktopPlatform",
+      "path": "eng/policy/glossary-terms.json",
+      "designCommit": "1607374e81955f0a47f319cd6cc8ba1c6e254157",
+      "sourceSha256": "fa60f160fe6c28685cd904f590f8d74ed1ead03295e4b9e42023f2a8f2b09a88",
+      "declarationSha256": "64113ef84e6d1f081fa6658757a10823eada778291c14bf40d9f0740009dbc98"
     }
   ]
 }

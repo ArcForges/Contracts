@@ -56,8 +56,8 @@ def occurrences(data, names):
 
 def validate_policy(policy):
     fields(policy, 'schemaVersion license design repositories products features webOutputs '
-           'retiredProductIds providers forbiddenNames referenceRepositoryNames provenanceExceptions', 'policy')
-    require(type(policy['schemaVersion']) is int and policy['schemaVersion'] == 1, 'unsupported schema')
+           'retiredProductIds providers forbiddenNames referenceRepositoryNames provenanceExceptions derivedDeclarations', 'policy')
+    require(type(policy['schemaVersion']) is int and policy['schemaVersion'] == 2, 'unsupported schema')
     require(policy['license'] == 'Apache-2.0', 'incorrect policy license')
     fields(policy['design'], 'repository commit rule', 'design')
     require(policy['design']['repository'] == 'ArcForges/ArcForges-Design', 'incorrect Design owner')
@@ -152,6 +152,16 @@ def validate_policy(policy):
         require(isinstance(item['reason'], str) and item['reason'].strip(), 'missing exception reason')
         key = (item['repository'], path)
         require(key not in seen, 'duplicate exception'); seen.add(key)
+    require(isinstance(policy['derivedDeclarations'], list) and len(policy['derivedDeclarations']) <= 1,
+            'invalid derived declarations')
+    for item in policy['derivedDeclarations']:
+        fields(item, 'repository path designCommit sourceSha256 declarationSha256', 'derived declaration')
+        require(item['repository'] == 'DesktopPlatform' and item['path'] == 'eng/policy/glossary-terms.json',
+                'derived declaration must name the assigned glossary export')
+        require(item['designCommit'] == policy['design']['commit'], 'derived declaration must use the reviewed Design pin')
+        for key, size in [('designCommit', 40), ('sourceSha256', 64), ('declarationSha256', 64)]:
+            require(isinstance(item[key], str) and re.fullmatch('[0-9a-f]{' + str(size) + '}', item[key]),
+                    'invalid derived declaration identity')
     sanitized = deepcopy(policy)
     for item in sanitized['forbiddenNames']:
         item['name'] = ''
@@ -161,6 +171,51 @@ def validate_policy(policy):
     require(not list(occurrences(json.dumps(sanitized).encode(), names)),
             'forbidden name outside designated policy fields')
     return policy
+
+
+def declaration_hash(value):
+    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True,
+                                     separators=(',', ':')).encode()).hexdigest()
+
+
+def derived_content(data, registration):
+    """Validate an opaque AGPL declaration by identity/digest; no AGPL source is imported."""
+    value = json.loads(data.decode('utf-8'), object_pairs_hook=no_duplicate_keys)
+    fields(value, 'schemaVersion license source spaces terms forbiddenAliases', 'derived export')
+    require(type(value['schemaVersion']) is int and value['schemaVersion'] == 1
+            and value['license'] == 'AGPL-3.0-only', 'invalid derived export schema/license')
+    fields(value['source'], 'repository commit path sha256', 'derived source')
+    require(value['source'] == {'repository': 'ArcForges/ArcForges-Design',
+            'commit': registration['designCommit'],
+            'path': 'docs/requirements/01-normative-glossary-and-invariants.md',
+            'sha256': registration['sourceSha256']}, 'derived source differs from registration')
+    for key in ('spaces', 'terms', 'forbiddenAliases'):
+        require(isinstance(value[key], list) and value[key], 'incomplete derived export')
+    for item in value['spaces']:
+        fields(item, 'name label rule', 'term space')
+        require(all(isinstance(v, str) and v for v in item.values()), 'invalid term-space values')
+    require({item['name'] for item in value['spaces']} == {'domain', 'wire', 'UI', 'storage', 'commercial'}
+            and len(value['spaces']) == 5, 'incorrect derived term spaces')
+    for item in value['terms']:
+        fields(item, 'section line term names namespace spaces status definition', 'term')
+        strings(item['names'], 'derived term names')
+        strings(item['spaces'], 'derived term spaces', empty=True)
+        require(set(item['spaces']) <= {'domain', 'wire', 'UI', 'storage', 'commercial'}
+                and all(isinstance(item[k], str) and item[k] for k in ('section', 'term', 'namespace', 'definition')),
+                'invalid derived term values')
+        require(item['status'] in {'active', 'retired'} and type(item['line']) is int and item['line'] > 0,
+                'invalid derived term')
+        require(bool(item['spaces']) == (item['status'] == 'active'), 'invalid retired term spaces')
+    for item in value['forbiddenAliases']:
+        fields(item, 'section line term reason instead', 'derived alias')
+        require(item['section'] == '8' and type(item['line']) is int and item['line'] > 0
+                and all(isinstance(item[k], str) and item[k] for k in ('term', 'reason', 'instead')),
+                'invalid derived alias row')
+    require(declaration_hash(value['forbiddenAliases']) == registration['declarationSha256'],
+            'derived forbidden-alias digest differs from registration')
+    value['forbiddenAliases'] = []
+    # Every remaining decoded value/key is still scanned, including escaped JSON strings.
+    return json.dumps(value, ensure_ascii=False).encode('utf-8')
 
 
 def load_policy(path=POLICY_PATH):
@@ -201,7 +256,9 @@ def scan_repository(root, repository, policy, policy_path=POLICY_PATH):
     paths.update(p.decode('utf-8') for p in git(root, 'ls-files', '--others', '--exclude-standard', '-z').split(b'\0') if p)
     require(paths, 'empty source inventory')
     exceptions = {item['path']: item for item in policy['provenanceExceptions'] if item['repository'] == repository}
+    declarations = {item['path']: item for item in policy['derivedDeclarations'] if item['repository'] == repository}
     used = set()
+    declarations_used = []
     names = [item['name'] for item in policy['forbiddenNames']]
     inventory_hash = hashlib.sha256()
     for path in sorted(paths):
@@ -219,6 +276,13 @@ def scan_repository(root, repository, policy, policy_path=POLICY_PATH):
             # Reparse these exact bytes: the policy itself never receives a blanket exemption.
             validate_policy(json.loads(data.decode('utf-8'), object_pairs_hook=no_duplicate_keys))
             continue
+        if path in declarations:
+            try:
+                data = derived_content(data, declarations[path])
+                declarations_used.append(path)
+            except (ValueError, TypeError, KeyError):
+                findings.append({'path': path, 'kind': 'invalid derived policy declaration'})
+                continue
         exception = exceptions.get(path)
         if exception and hashlib.sha256(data).hexdigest() != exception['sha256']:
             findings.append({'path': path, 'kind': 'stale provenance exception'}); exception = None
@@ -238,6 +302,7 @@ def scan_repository(root, repository, policy, policy_path=POLICY_PATH):
             'repository changed during scan; retry against a stable snapshot')
     return {'repository': repository, 'commit': head, 'dirty': bool(state), 'filesScanned': len(paths),
             'inventorySha256': inventory_hash.hexdigest(), 'exceptionsUsed': sorted(used),
+            'declarationsUsed': sorted(declarations_used),
             'status': 'fail' if findings else 'pass', 'findings': findings}
 
 
@@ -254,7 +319,7 @@ def main():
             require(separator and path, 'repository must be OWNER=PATH')
             results.append(scan_repository(Path(path), owner, policy))
         require(len({r['repository'] for r in results}) == len(results), 'duplicate repository target')
-        report = {'substep': 'WP00.00', 'checkedAt': datetime.now(timezone.utc).isoformat(),
+        report = {'substeps': ['WP00.00', 'WP00.01'], 'checkedAt': datetime.now(timezone.utc).isoformat(),
                   'designCommit': policy['design']['commit'], 'policySha256': hashlib.sha256(POLICY_PATH.read_bytes()).hexdigest(),
                   'evidenceClass': 'source-policy-scan', 'repositories': results}
         if args.report:
