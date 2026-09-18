@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "license": "Apache-2.0",
+  "design": {
+    "repository": "ArcForges/ArcForges-Design",
+    "commit": "4382eec97e45f8abcc81fdcb28221e907f44ddde",
+    "rule": "P2-015"
+  },
+  "repositories": [
+    "DesktopPlatform",
+    "Contracts",
+    "ArcNotes",
+    "ArcScope",
+    "ArcSlate",
+    "Cloud",
+    "AI",
+    "Web",
+    "Mobile"
+  ],
+  "products": [
+    {
+      "id": "arcnotes",
+      "displayName": "ArcNotes",
+      "kind": "desktop",
+      "owners": ["ArcNotes"],
+      "namespaces": ["ArcNotes", "ArcForges.ArcNotes"],
+      "applicationIds": ["com.arcforges.arcnotes"],
+      "legacyApplicationIds": [],
+      "fileAssociations": []
+    },
+    {
+      "id": "arcscope",
+      "displayName": "ArcScope",
+      "kind": "desktop",
+      "owners": ["ArcScope"],
+      "namespaces": ["ArcScope", "ArcForges.ArcScope"],
+      "applicationIds": ["com.arcforges.arcscope"],
+      "legacyApplicationIds": [],
+      "fileAssociations": [
+        {
+          "extension": ".arcscope",
+          "windowsProgId": "ArcForges.ArcScope.Project",
+          "appleTypeId": "com.arcforges.arcscope.project",
+          "state": "reserved",
+          "formatOwner": "WP33/WP35",
+          "registrationOwner": "WP53"
+        }
+      ]
+    },
+    {
+      "id": "arcslate",
+      "displayName": "ArcSlate",
+      "kind": "desktop",
+      "owners": ["ArcSlate"],
+      "namespaces": ["ArcSlate", "ArcForges.ArcSlate"],
+      "applicationIds": ["com.arcforges.arcslate"],
+      "legacyApplicationIds": [],
+      "fileAssociations": [
+        {
+          "extension": ".arcslate",
+          "windowsProgId": "ArcForges.ArcSlate.Project",
+          "appleTypeId": "com.arcforges.arcslate.project",
+          "state": "reserved",
+          "formatOwner": "WP36/WP39",
+          "registrationOwner": "WP53"
+        }
+      ]
+    },
+    {
+      "id": "companion",
+      "displayName": "ArcChat",
+      "kind": "companion",
+      "owners": ["Mobile", "Web"],
+      "namespaces": ["com.arcforges.mobile"],
+      "applicationIds": ["com.arcforges.mobile"],
+      "legacyApplicationIds": [
+        {
+          "id": "io.github.arcforges.mobile",
+          "disposition": "development-prerelease-reinstall",
+          "owner": "WP30"
+        }
+      ],
+      "fileAssociations": []
+    }
+  ],
+  "features": [
+    {
+      "id": "assistant",
+      "displayName": "ArcChat",
+      "owner": "DesktopPlatform",
+      "namespaces": ["ArcForges.Assistant"],
+      "fileAssociations": []
+    }
+  ],
+  "webOutputs": ["site", "account", "chat", "operations"],
+  "retiredProductIds": ["arcchat", "arcchat-mobile", "mobile", "web"],
+  "providers": [
+    {
+      "name": "Paddle",
+      "role": "merchant-of-record"
+    },
+    {
+      "name": "Payoneer",
+      "role": "payout-only"
+    }
+  ],
+  "forbiddenNames": [
+    {
+      "name": "ArcCanvas",
+      "disposition": "excluded",
+      "target": null,
+      "note": "No replacement product or canvas/slides capability."
+    },
+    {
+      "name": "ArcMusic",
+      "disposition": "excluded",
+      "target": null,
+      "note": "No replacement product or runtime alias."
+    },
+    {
+      "name": "ArcImage",
+      "disposition": "excluded",
+      "target": null,
+      "note": "No replacement. The observation product is independently defined."
+    },
+    {
+      "name": "ArcVideo",
+      "disposition": "direction-only",
+      "target": "arcslate",
+      "note": "Retained product direction only; no model, identity or migration alias."
+    },
+    {
+      "name": "ArcVideoFoundation",
+      "disposition": "reference-only",
+      "target": null,
+      "note": "An existing reference repository, never a product or runtime dependency."
+    },
+    {
+      "name": "Waffo",
+      "disposition": "provider-replaced",
+      "target": "Paddle",
+      "note": "All provider-specific mechanics retired. Settlement destination is payout-only."
+    }
+  ],
+  "referenceRepositoryNames": ["ArcVideo", "ArcVideoFoundation"],
+  "provenanceExceptions": [
+    {
+      "repository": "DesktopPlatform",
+      "path": "artifacts/evidence/traceability/feature-trace-bridge.json",
+      "sha256": "f4a8f47549a96e529af5af9582f07a81dd97af73f006ba3c4436c624210a0976",
+      "names": ["ArcVideo", "ArcVideoFoundation"],
+      "reason": "Reviewed fixed-commit sourceBaselines in the retained historical traceability seed; no current product or reuse authority."
+    }
+  ]
+}

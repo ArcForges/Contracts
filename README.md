@@ -97,6 +97,25 @@ for NuGet/npm OIDC and Maven Central account/signing configuration. Each registr
 has a separate main-only GitHub environment; these are repository settings, not
 organisation-wide environments.
 
+## Product naming policy
+
+WP00.00 adds the single machine-readable naming authority in
+[eng/policy/product-names.json](eng/policy/product-names.json) and a portable
+Git inventory check. This is policy tooling; published Hello contracts and package
+identities are unchanged. It records three desktop products, the companion wire
+identity and the embedded assistant feature. Native file associations are reserved,
+not implemented handlers.
+
+```text
+python eng/check_naming.py --report artifacts/evidence/naming.json
+python -m unittest discover -s tests/tooling -p test_naming_policy.py -v
+```
+
+Use repeated `--repository OWNER=PATH` arguments to inventory separate checkouts
+without adding a product build dependency. Only exact hash-bound provenance records
+may use reference names; source, generated code, resources and implementation notes
+are all scanned. See [scope and evidence](docs/implementation/wp00-00-naming.md).
+
 ## Examples and project policies
 
 - [Consumer installation and Hello examples](docs/consuming.md)

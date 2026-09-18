@@ -52,6 +52,8 @@ jobs:
       - name: Restore locked dependencies
         # Java 17 is also the published JVM bytecode target.
         run: python eng/contracts.py restore
+      - name: Verify product naming policy and repository inventory
+        run: python eng/check_naming.py --report artifacts/evidence/naming.json
       - name: Check formatting and dependencies
         run: |
           npm run format:check
@@ -69,6 +71,14 @@ jobs:
           echo "version=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
           echo "artifact=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "Candidate: $PACKAGE_VERSION. Registry publication is a separate job." >> "$GITHUB_STEP_SUMMARY"
+      - name: Retain naming inventory evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: naming-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/evidence/naming.json
+          if-no-files-found: error
+          retention-days: 30
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: ${{ steps.candidate.outputs.artifact }}
