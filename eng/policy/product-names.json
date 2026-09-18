@@ -3,7 +3,7 @@
   "license": "Apache-2.0",
   "design": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "6ba885ad38dd71de532c74d7b69f439d01d19a0a",
+    "commit": "3825a24fd7530cb51c3fb30b757e644ebab33459",
     "rule": "P2-016"
   },
   "repositories": [
@@ -156,7 +156,7 @@
     {
       "repository": "DesktopPlatform",
       "path": "eng/policy/glossary-terms.json",
-      "designCommit": "6ba885ad38dd71de532c74d7b69f439d01d19a0a",
+      "designCommit": "3825a24fd7530cb51c3fb30b757e644ebab33459",
       "sourceSha256": "fa60f160fe6c28685cd904f590f8d74ed1ead03295e4b9e42023f2a8f2b09a88",
       "declarationSha256": "64113ef84e6d1f081fa6658757a10823eada778291c14bf40d9f0740009dbc98"
     }
