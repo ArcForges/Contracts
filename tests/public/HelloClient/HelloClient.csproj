@@ -8,4 +8,7 @@
     <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
     <PackageReference Include="Grpc.Net.Client" />
   </ItemGroup>
+  <PropertyGroup>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
 </Project>

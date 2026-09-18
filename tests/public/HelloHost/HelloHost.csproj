@@ -7,4 +7,7 @@
     <PackageReference Include="Grpc.AspNetCore" />
     <PackageReference Include="Grpc.AspNetCore.Web" />
   </ItemGroup>
+  <PropertyGroup>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
 </Project>

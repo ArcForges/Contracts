@@ -5,4 +5,7 @@
   <ItemGroup>
     <PackageReference Include="Grpc.Tools" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
+  <PropertyGroup>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
 </Project>
