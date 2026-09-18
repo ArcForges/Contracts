@@ -112,6 +112,15 @@ is referenced rather than copied. Gradle wrapper code retains its upstream
 Apache-2.0 notices. The explicit Maven runtime licence catalog rejects an unknown
 new dependency until its upstream licence is reviewed.
 
+The closed inventory in `eng/policy/licence-boundary.json` assigns every current
+build scope to Apache-2.0 / Apache. Source checks cover tooling and independent
+consumer/signing builds as well as public libraries. Locked transitive first-party
+packages cannot introduce another owner's AGPL code or an unknown package family.
+MSBuild and Gradle separately check evaluated declarations and local references;
+changing the inventory alone cannot change the repository's permitted boundary.
+These first-party checks complement the existing distributable dependency notices
+and SBOM checks; they do not relicense third-party material.
+
 ## Compatibility and limits
 
 Keep existing v1 field numbers/types and RPC identities stable; reserve removed

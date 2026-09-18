@@ -6,3 +6,7 @@ tasks.processResources {
         into("arcforges/fixtures")
     }
 }
+
+// Project licence metadata is verified independently of the root LICENSE.
+extra["spdxLicense"] = "Apache-2.0"
+extra["licenceBoundary"] = "Apache"

@@ -5,4 +5,24 @@
     <Error Condition="'$(PackageLicenseExpression)' == ''"
            Text="Every project must declare its SPDX licence boundary." />
   </Target>
+  <Target Name="ArcForgesGetLicenceBoundary" Returns="@(_ArcForgesLicenceDeclaration)">
+    <ItemGroup>
+      <_ArcForgesLicenceDeclaration Include="$(MSBuildProjectFullPath)">
+        <SpdxLicense>$(PackageLicenseExpression)</SpdxLicense>
+        <Boundary>$(LicenceBoundary)</Boundary>
+      </_ArcForgesLicenceDeclaration>
+    </ItemGroup>
+  </Target>
+  <Target Name="ArcForgesVerifyLicenceBoundary" BeforeTargets="PrepareForBuild;Pack">
+    <Error Condition="'$(PackageLicenseExpression)' != 'Apache-2.0' Or '$(LicenceBoundary)' != 'Apache'"
+           Text="AFL001: This repository requires Apache-2.0 / Apache project metadata." />
+    <Error Condition="'%(ProjectReference.Identity)' != '' And !$([System.String]::Copy('%(ProjectReference.FullPath)').StartsWith('$(MSBuildThisFileDirectory)'))"
+           Text="AFL002: Project references must remain inside the owning repository." />
+    <MSBuild Projects="@(ProjectReference)" Targets="ArcForgesGetLicenceBoundary"
+             RemoveProperties="LicenceBoundary;PackageLicenseExpression" Condition="'@(ProjectReference)' != ''">
+      <Output TaskParameter="TargetOutputs" ItemName="_ArcForgesReferencedLicence" />
+    </MSBuild>
+    <Error Condition="'$(LicenceBoundary)' == 'Apache' And '%(_ArcForgesReferencedLicence.Identity)' != '' And '%(_ArcForgesReferencedLicence.Boundary)' != 'Apache'"
+           Text="AFL003: Apache projects may reference only Apache first-party projects." />
+  </Target>
 </Project>

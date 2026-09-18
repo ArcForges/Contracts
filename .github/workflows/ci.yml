@@ -71,12 +71,15 @@ jobs:
           echo "version=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
           echo "artifact=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "Candidate: $PACKAGE_VERSION. Registry publication is a separate job." >> "$GITHUB_STEP_SUMMARY"
-      - name: Retain naming inventory evidence
+      - name: Retain naming and licence inventory evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: naming-evidence-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/evidence/naming.json
+          path: |
+            artifacts/evidence/naming.json
+            artifacts/evidence/licence-boundary.json
+            build/reports/licence-boundary.json
           if-no-files-found: error
           retention-days: 30
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

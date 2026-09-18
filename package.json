@@ -25,5 +25,8 @@
     "@bufbuild/protoc-gen-es": "2.15.0",
     "prettier": "3.9.6",
     "typescript": "7.0.2"
+  },
+  "arcforges": {
+    "licenceBoundary": "Apache"
   }
 }

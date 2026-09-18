@@ -124,6 +124,12 @@ scanned. The AGPL exporter and data stay in DesktopPlatform. See
 
 ## Examples and project policies
 
+Every managed, npm and Gradle project declares both SPDX and licence-boundary
+metadata. The Git inventory gate runs before the producer build; MSBuild and
+Gradle reject incompatible effective properties and project references during
+execution. Run `python eng/check_licences.py` and see
+[WP00.02 checks and evidence](docs/implementation/wp00-02-licence-boundary.md).
+
 - [Consumer installation and Hello examples](docs/consuming.md)
 - [Boundaries, generation and package layout](docs/architecture.md)
 - [Bootstrap plan and acceptance](docs/bootstrap-plan.md)

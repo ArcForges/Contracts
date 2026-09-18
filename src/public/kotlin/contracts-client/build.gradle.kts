@@ -7,3 +7,7 @@ dependencies {
     api(libs.grpc.kotlin.stub)
     api(libs.coroutines.core)
 }
+
+// Project licence metadata is verified independently of the root LICENSE.
+extra["spdxLicense"] = "Apache-2.0"
+extra["licenceBoundary"] = "Apache"

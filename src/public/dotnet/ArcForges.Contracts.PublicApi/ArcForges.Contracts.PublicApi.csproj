@@ -21,4 +21,7 @@
     <None Include="$(ContractMetadataDir)/*" Pack="true" PackagePath="/"
           Condition="'$(ContractMetadataDir)' != ''" />
   </ItemGroup>
+  <PropertyGroup>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
 </Project>
