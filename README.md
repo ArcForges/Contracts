@@ -116,6 +116,12 @@ without adding a product build dependency. Only exact hash-bound provenance reco
 may use reference names; source, generated code, resources and implementation notes
 are all scanned. See [scope and evidence](docs/implementation/wp00-00-naming.md).
 
+WP00.01 adds one digest-bound registration for DesktopPlatform's generated glossary
+forbidden-alias declaration. Its closed envelope and immutable Design source identity
+must match before those declaration values are admitted; every other field remains
+scanned. The AGPL exporter and data stay in DesktopPlatform. See
+[derived declaration verification](docs/implementation/wp00-01-derived-policy.md).
+
 ## Examples and project policies
 
 - [Consumer installation and Hello examples](docs/consuming.md)

@@ -11,7 +11,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
-from check_naming import POLICY_PATH, load_policy, scan_repository, validate_policy
+from check_naming import POLICY_PATH, declaration_hash, load_policy, scan_repository, validate_policy
 
 
 class NamingPolicyTests(unittest.TestCase):
@@ -147,7 +147,7 @@ class NamingPolicyTests(unittest.TestCase):
             validate_policy(policy)
 
     def test_duplicate_json_keys_and_incomplete_forbidden_set_fail(self):
-        duplicate = POLICY_PATH.read_text().replace('"schemaVersion": 1,', '"schemaVersion": 1, "schemaVersion": 1,')
+        duplicate = POLICY_PATH.read_text(encoding='utf-8').replace('{', '{"schemaVersion": 0,', 1)
         path = self.write('policy.json', duplicate.encode())
         with self.assertRaises(ValueError):
             load_policy(path)
@@ -204,6 +204,78 @@ class NamingPolicyTests(unittest.TestCase):
         result = subprocess.run(command, capture_output=True)
         self.assertEqual(result.returncode, 1)
         self.assertEqual(json.loads((self.root / 'artifacts/report.json').read_text())['repositories'][0]['status'], 'fail')
+
+
+    def derived_fixture(self):
+        self.git('remote', 'set-url', 'origin', 'https://github.com/ArcForges/DesktopPlatform.git')
+        policy = deepcopy(self.policy)
+        policy['provenanceExceptions'] = []
+        registration = policy['derivedDeclarations'][0]
+        value = {'schemaVersion': 1, 'license': 'AGPL-3.0-only',
+                 'source': {'repository': 'ArcForges/ArcForges-Design', 'commit': registration['designCommit'],
+                            'path': 'docs/requirements/01-normative-glossary-and-invariants.md',
+                            'sha256': registration['sourceSha256']},
+                 'spaces': [{'name': x, 'label': x, 'rule': 'A separate space.'}
+                            for x in ('domain', 'wire', 'UI', 'storage', 'commercial')],
+                 'terms': [{'section': '1', 'line': 20, 'term': 'Current', 'names': ['Current'],
+                            'namespace': 'shared', 'spaces': ['domain'], 'status': 'active', 'definition': 'Current term.'}],
+                 'forbiddenAliases': [{'section': '8', 'line': 100, 'term': self.forbidden,
+                                       'reason': 'Obsolete declaration.', 'instead': 'No runtime alias.'}]}
+        registration['declarationSha256'] = declaration_hash(value['forbiddenAliases'])
+        return validate_policy(policy), value
+
+    def scan_derived(self, policy, value):
+        self.write('eng/policy/glossary-terms.json', json.dumps(value).encode())
+        return scan_repository(self.root, 'DesktopPlatform', policy)
+
+    def test_exact_derived_declaration_is_validated_and_reported(self):
+        policy, value = self.derived_fixture()
+        report = self.scan_derived(policy, value)
+        self.assertEqual(report['status'], 'pass')
+        self.assertEqual(report['declarationsUsed'], ['eng/policy/glossary-terms.json'])
+
+    def test_changed_declaration_or_source_identity_is_rejected(self):
+        for key in ('declaration', 'commit', 'sha256'):
+            policy, value = self.derived_fixture()
+            if key == 'declaration':
+                value['forbiddenAliases'][0]['instead'] = 'Changed declaration.'
+            else:
+                value['source'][key] = '0' * len(value['source'][key])
+            with self.subTest(key=key):
+                self.assertEqual(self.scan_derived(policy, value)['status'], 'fail')
+
+    def test_derived_envelope_and_nested_fields_are_closed(self):
+        for key in ('root', 'space', 'term', 'alias'):
+            policy, value = self.derived_fixture()
+            target = value if key == 'root' else value[{'space': 'spaces', 'term': 'terms', 'alias': 'forbiddenAliases'}[key]][0]
+            target['unexpected'] = 'No arbitrary extension.'
+            with self.subTest(key=key):
+                self.assertEqual(self.scan_derived(policy, value)['status'], 'fail')
+
+    def test_derived_non_declaration_values_are_scanned_after_json_decoding(self):
+        policy, value = self.derived_fixture()
+        value['terms'][0]['definition'] = self.forbidden
+        data = json.dumps(value).replace(self.forbidden, ''.join('\\u' + format(ord(c), '04x') for c in self.forbidden))
+        self.write('eng/policy/glossary-terms.json', data.encode())
+        self.assertEqual(scan_repository(self.root, 'DesktopPlatform', policy)['status'], 'fail')
+
+    def test_copied_declaration_is_not_admitted(self):
+        policy, value = self.derived_fixture()
+        self.write('docs/copied.json', json.dumps(value).encode())
+        self.assertEqual(self.scan_derived(policy, value)['status'], 'fail')
+
+    def test_derived_registration_cannot_change_owner_path_or_shape(self):
+        for key, value in [('repository', 'Contracts'), ('path', 'src/policy.json'),
+                           ('designCommit', '0' * 40), ('declarationSha256', '*')]:
+            policy = deepcopy(self.policy)
+            policy['derivedDeclarations'][0][key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                validate_policy(policy)
+
+    def test_derived_duplicate_json_keys_fail(self):
+        policy, value = self.derived_fixture()
+        self.write('eng/policy/glossary-terms.json', json.dumps(value).replace('{', '{"schemaVersion": 1,', 1).encode())
+        self.assertEqual(scan_repository(self.root, 'DesktopPlatform', policy)['status'], 'fail')
 
 
 if __name__ == '__main__':
