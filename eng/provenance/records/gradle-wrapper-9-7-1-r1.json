@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "id": "gradle-wrapper-9-7-1-r1",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/gradle/gradle",
+  "sourceCommit": "92f0512e7f06d84621afba191f75e265363890cf",
+  "sourcePaths": [
+    "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+    "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+    "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+    "gradle/wrapper/gradle-wrapper.jar"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+        "sha256": "ba1d32db2e35b02769afd0ba1e4a5493361c0ca75f43bf868a7dd4a4b3c85843",
+        "finding": "This generator/template carries its own Apache-2.0 header; preserve the original authors copyright."
+      },
+      {
+        "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+        "sha256": "81a2c1ec4cad61c1991e5a86329f928e406bc0f98bc98852be1b72ba9e81c6c0",
+        "finding": "This generator/template carries its own Apache-2.0 header; preserve the original authors copyright."
+      },
+      {
+        "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+        "sha256": "8e9b1e007acff88abe4b1ba7278533504a897824ac895a441fb938cd1b26b8b8",
+        "finding": "This generator/template carries its own Apache-2.0 header; preserve the original authors copyright."
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+        "finding": "Apache-2.0 legal terms; the wrapper JAR also embeds META-INF/LICENSE and an Apache-2.0 manifest licence identifier."
+      }
+    ],
+    "scope": "Only the Apache-2.0 wrapper scripts and executable JAR are retained. No Gradle distribution dependencies are vendored.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2015 the original author or authors.",
+    "Copyright 2023 the original author or authors (wrapper generator)."
+  ],
+  "targets": [
+    {
+      "path": "gradlew",
+      "sha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "normalization": "lf"
+    },
+    {
+      "path": "gradlew.bat",
+      "sha256": "59328c7a17f673b1a63040bfb380a0c749e5d6df3406f7f18641060314cd9aa1",
+      "normalization": "lf"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "sha256": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+      "normalization": "raw"
+    }
+  ],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "regeneration",
+    "command": "Gradle 9.7.1: wrapper --gradle-version 9.7.1 --distribution-type bin --gradle-distribution-sha256-sum acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a",
+    "expected": "Regeneration from the verified Gradle 9.7.1 distribution reproduces both scripts with LF normalization and the raw JAR exactly; wrapper validation checks the official JAR checksum.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Gradle wrapper 9.7.1 retains its original script headers and embedded JAR licence. Apache-2.0 terms are provided in LICENSE.",
+    "files": [
+      "LICENSE",
+      "gradlew",
+      "gradlew.bat",
+      "gradle/wrapper/gradle-wrapper.jar"
+    ],
+    "distribution": "source",
+    "reason": "Retain the upstream attribution and licence in the source checkout; build tools are not distributed in runtime packages."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/gradle/gradle",
+        "commit": "92f0512e7f06d84621afba191f75e265363890cf",
+        "paths": [
+          "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+          "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+          "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+          "gradle/wrapper/gradle-wrapper.jar"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+            "sha256": "ba1d32db2e35b02769afd0ba1e4a5493361c0ca75f43bf868a7dd4a4b3c85843",
+            "finding": "This generator/template carries its own Apache-2.0 header; preserve the original authors copyright."
+          },
+          {
+            "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+            "sha256": "81a2c1ec4cad61c1991e5a86329f928e406bc0f98bc98852be1b72ba9e81c6c0",
+            "finding": "This generator/template carries its own Apache-2.0 header; preserve the original authors copyright."
+          },
+          {
+            "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+            "sha256": "8e9b1e007acff88abe4b1ba7278533504a897824ac895a441fb938cd1b26b8b8",
+            "finding": "This generator/template carries its own Apache-2.0 header; preserve the original authors copyright."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+            "finding": "Apache-2.0 legal terms; the wrapper JAR also embeds META-INF/LICENSE and an Apache-2.0 manifest licence identifier."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+        "paths": [
+          "gradle/wrapper/gradle-wrapper.properties"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "The owner licence covers its authored wrapper version/checksum configuration; the generated Gradle material retains Apache-2.0."
+          }
+        ]
+      }
+    ],
+    "command": "Gradle 9.7.1: wrapper --gradle-version 9.7.1 --distribution-type bin --gradle-distribution-sha256-sum acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a",
+    "outputSpdx": "Apache-2.0"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "File-level sources and current retained bytes reviewed for WP00.03. This records the current verified baseline; it does not assert a historical record existed before the material was introduced. No incompatible implementation is admitted.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": true
+  },
+  "supersedes": null,
+  "artifactTargets": []
+}

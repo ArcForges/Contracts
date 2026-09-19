@@ -54,6 +54,8 @@ jobs:
         run: python eng/contracts.py restore
       - name: Verify product naming policy and repository inventory
         run: python eng/check_naming.py --report artifacts/evidence/naming.json
+      - name: Verify immutable provenance records and file inventory
+        run: python eng/check_provenance.py --owner Contracts
       - name: Check formatting and dependencies
         run: |
           npm run format:check
@@ -79,6 +81,8 @@ jobs:
           path: |
             artifacts/evidence/naming.json
             artifacts/evidence/licence-boundary.json
+            artifacts/evidence/provenance.json
+            artifacts/evidence/documentation-provenance.json
             build/reports/licence-boundary.json
           if-no-files-found: error
           retention-days: 30

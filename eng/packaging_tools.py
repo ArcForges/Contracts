@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sys
 import tarfile
 import tempfile
 from urllib.parse import quote
@@ -81,6 +82,7 @@ def nuget_graph(release: str) -> tuple[list[dict], list[dict]]:
 
 def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str,
              commit: str, dirty: bool) -> None:
+    from check_provenance import package_notice
     components, edges = graph
     root, *dependencies = components
     directory.mkdir(parents=True, exist_ok=True)
@@ -95,7 +97,7 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
                   for dep in dependencies)
     notice.extend(["", "Third-party dependencies are referenced, not vendored into this package.",
                    "The installed dependency packages supply their original licence and notice files.", ""])
-    directory.joinpath("NOTICE").write_text("\n".join(notice), encoding="utf-8")
+    directory.joinpath("NOTICE").write_text("\n".join(notice) + "\n" + package_notice(), encoding="utf-8")
     write_json(directory / "source.json", {
         "repository": "https://github.com/ArcForges/Contracts", "commit": commit,
         "dirty": dirty, "version": release, "schema": "arcforges.hello.v1",
@@ -109,6 +111,7 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
 
 def pack(release: str) -> None:
     check_tools()
+    run(sys.executable, ROOT / "eng/check_provenance.py", "--owner", "Contracts")
     generate(check=True)
     build()
     commit = source_commit()
@@ -212,6 +215,8 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
                 raise ValueError(f"{name} is missing {required}")
         if b"Apache License" not in files["LICENSE"]:
             raise ValueError(f"Incorrect public licence in {name}")
+        from check_provenance import verify_package_notice
+        verify_package_notice(files["NOTICE"])
         source = json.loads(files["source.json"])
         if source["version"] != release or source["commit"] != manifest["commit"] or source["dirty"] != manifest["dirty"]:
             raise ValueError(f"Source metadata differs in {name}")

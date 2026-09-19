@@ -1,0 +1,745 @@
+ArcForges source provenance notices
+
+Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
+
+canonical-apache-licence-r1
+Source: https://github.com/github/choosealicense.com @ 58267f8f2c5c0099810849cfd7677f52ae0c0eb3
+Material licence: Apache-2.0
+Notice scope: source
+Apache License, Version 2.0, January 2004; preserve the complete terms.
+The complete Apache-2.0 terms remain in LICENSE and the four public export copies.
+
+dokka-array-buffer-byte-length-licence-r1
+Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2023 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-available-typed-arrays-licence-r1
+Source: https://github.com/inspect-js/available-typed-arrays @ d72cd6154ce39482ca83bed2200ff3b56c76e8d8
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2020 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-babel-runtime-licence-r1
+Source: https://github.com/babel/babel @ eebd3a06021c13d335b5b0bd79734df3abbea678
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014-present Sebastian McKenzie and other contributors
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-call-bind-apply-helpers-licence-r1
+Source: https://github.com/ljharb/call-bind-apply-helpers @ 7068296a67b98424d5299606599d2f8117ded880
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-call-bind-licence-r1
+Source: https://github.com/ljharb/call-bind @ 1f1dfc86a9d1b9ed3b39b8fdd922f7d2eb913c15
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2020 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-call-bound-licence-r1
+Source: https://github.com/ljharb/call-bound @ 75d922c1f92a3de1ff9ab94453f45b5f64b50041
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-classnames-licence-r1
+Source: https://github.com/JedWatson/classnames @ 2e3683264bab067d13938b5eb03a96391a089cb4
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2018 Jed Watson
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-clsx-licence-r1
+Source: https://github.com/lukeed/clsx @ 6da37d67472ea9eb177a4ea9a9fa2f3f4a3c445e
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-column-resizer-core-licence-r1
+Source: https://github.com/Runjuu/column-resizer @ 18bbde888df357cb4bb1664b87e967f13ea1f7ec
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2022 Runjuu
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-combokeys-licence-r1
+Source: https://github.com/PolicyStat/combokeys @ ef08807d81a0d4dc2637b63c41ebb7625d5319c8
+Material licence: Apache-2.0
+Notice scope: documentation
+"Licensor" shall mean the copyright owner or entity authorized by
+the copyright owner that is granting the License.
+submitted to Licensor for inclusion in the Work by the copyright owner
+the copyright owner. For the purposes of this definition, "submitted"
+designated in writing by the copyright owner as "Not a Contribution."
+2. Grant of Copyright License. Subject to the terms and conditions of
+copyright license to reproduce, prepare Derivative Works of,
+(c) You must retain, in the Source form of any Derivative Works
+that You distribute, all copyright, patent, trademark, and
+You may add Your own copyright statement to Your modifications and
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-core-js-licence-r1
+Source: https://github.com/zloirock/core-js @ ce8281cbca924f1f3cf16cb5f7098b2d9e428af2
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014-2025 Denis Pushkarev
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-css-loader-licence-r1
+Source: https://github.com/webpack-contrib/css-loader @ 95cf5c58078e0af50f352347a76d9b81749df78e
+Material licence: MIT
+Notice scope: documentation
+Copyright JS Foundation and other contributors
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-deep-equal-licence-r1
+Source: https://github.com/inspect-js/node-deep-equal @ 48d3bb5b7fe3e65fd564b737c69a9411eb40bc65
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2012, 2013, 2014 James Halliday <mail@substack.net>, 2009 Thomas Robinson <280north.com>
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-define-data-property-licence-r1
+Source: https://github.com/ljharb/define-data-property @ e313da59d1f65e1549ac59539a7a8ac17632df60
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2023 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-define-properties-licence-r1
+Source: https://github.com/ljharb/define-properties @ d7a4db30214eb06d3997dc3e662c11dfe95b25bd
+Material licence: MIT
+Notice scope: documentation
+Copyright (C) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-documentation-resources-r1
+Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
+Material licence: Apache-2.0 AND MIT
+Notice scope: documentation
+Copyright 2014-2024 JetBrains s.r.o. and Dokka contributors.
+The 81 actual included npm components, original copyright holders and full licences are enumerated in the immutable profile and retained documentation notices.
+Dokka 2.2.0 API documentation includes its Apache-2.0 frontend and the reviewed Apache/MIT dependency closure. Every documentation companion retains all 81 dependency licence texts and the Dokka licence/NOTICE. The ten embedded OFL fonts and their four font-face declarations are excluded; system font fallbacks remain. No JDK Javadoc GPL resource is used. Public API documentation, navigation and offline search remain available. An Apache-2.0 ArcForges CSS correction makes content links readable in the dark theme.
+
+dokka-dom-helpers-licence-r1
+Source: https://github.com/react-bootstrap/dom-helpers @ 06310089836557a0affb1eeed65d175aadcb22db
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jason Quense
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-dunder-proto-licence-r1
+Source: https://github.com/es-shims/dunder-proto @ c6f4b69ab80c495777870f6a5f6a22db16ecaecb
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 ECMAScript Shims
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-es-define-property-licence-r1
+Source: https://github.com/ljharb/es-define-property @ 50ef129225ae17336a774f0eefc4e6bc88c79b8e
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-es-errors-licence-r1
+Source: https://github.com/ljharb/es-errors @ 5599cf0ebe75cc3685445f83ca80207a357fdb12
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-es-get-iterator-licence-r1
+Source: https://github.com/ljharb/es-get-iterator @ ed0e55512a2cadbbd845f1fa8e06d51fca606423
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-es-object-atoms-licence-r1
+Source: https://github.com/ljharb/es-object-atoms @ fe8db15106acf15abec2e76818d1aa4713293109
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-for-each-licence-r1
+Source: https://github.com/Raynos/for-each @ 45229651ed893773058ba9ccc42af8999014409f
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2012 Raynos.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-function-bind-licence-r1
+Source: https://github.com/Raynos/function-bind @ 40197beb5f4cf89dd005f0b268256c1e4716ea81
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2013 Raynos.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-functions-have-names-licence-r1
+Source: https://github.com/inspect-js/functions-have-names @ 3ac881daaf2066bff7c422fd606271f4976efa8f
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-get-intrinsic-licence-r1
+Source: https://github.com/ljharb/get-intrinsic @ 9d747e0540e5e03421e7411b7946c23f4b010fd5
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2020 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-get-proto-licence-r1
+Source: https://github.com/ljharb/get-proto @ 1b92a72e80c026d391589a807272c50469d37c43
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2025 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-gopd-licence-r1
+Source: https://github.com/ljharb/gopd @ 7f867f97d7c895a982a3b631287fd2c36d39c2ff
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2022 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-has-bigints-licence-r1
+Source: https://github.com/ljharb/has-bigints @ 04a90ef8412dbf7499868ee60d680c683c88e4aa
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-has-property-descriptors-licence-r1
+Source: https://github.com/inspect-js/has-property-descriptors @ 69037fc06a4ec7a5a14e66ea029f2769e243c454
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2022 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-has-symbols-licence-r1
+Source: https://github.com/inspect-js/has-symbols @ 270f0a67b5f4cb12715e0a84e672aaee64d1b4f1
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2016 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-has-tostringtag-licence-r1
+Source: https://github.com/inspect-js/has-tostringtag @ 690da6a3afbddcf018aa162c42869dcf4f8375f1
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2021 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-hasown-licence-r1
+Source: https://github.com/inspect-js/hasOwn @ d00d35005baf16a33d691a13f8ad627f35040742
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Jordan Harband and contributors
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-internal-slot-licence-r1
+Source: https://github.com/ljharb/internal-slot @ 7e8e584fb6b3389ff6305fcbbb213622d75cf0d9
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-arguments-licence-r1
+Source: https://github.com/inspect-js/is-arguments @ d81247609b56fa56571d9d74ffc97ed4a3780364
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014 Jordan Harband
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-array-buffer-licence-r1
+Source: https://github.com/inspect-js/is-array-buffer @ 415b6eb1aae305496f376f008e4cf77da0a4d778
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Chen Gengyuan, Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-bigint-licence-r1
+Source: https://github.com/inspect-js/is-bigint @ a9153e8408499e6531db1db8ccaea27c7e64fdb1
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2018 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-boolean-object-licence-r1
+Source: https://github.com/inspect-js/is-boolean-object @ a17a5a3b37ef995e94161dc77568359446392cfb
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-callable-licence-r1
+Source: https://github.com/inspect-js/is-callable @ f23584dd25c26473e702e80a5e8e7e79e2a89aee
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-date-object-licence-r1
+Source: https://github.com/inspect-js/is-date-object @ a22f8d7d60cbddb809da08e4b47ed510b40a2dd9
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-map-licence-r1
+Source: https://github.com/inspect-js/is-map @ f120adc23ed8b1bb6b605de6b7e371d7a41d1a0b
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-number-object-licence-r1
+Source: https://github.com/inspect-js/is-number-object @ faf886f4703b8d38c1aef8a6117b9c6977eed1e5
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-regex-licence-r1
+Source: https://github.com/inspect-js/is-regex @ 7c5a8cf9456d3cfe5e905bc620acb0e1bad61812
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014 Jordan Harband
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-set-licence-r1
+Source: https://github.com/inspect-js/is-set @ 18c4595689e70093194d2064f80469e36c6b068b
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-shared-array-buffer-licence-r1
+Source: https://github.com/inspect-js/is-shared-array-buffer @ ded256fbfa78fdc7954959671930e71417f4fa7c
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2021 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-string-licence-r1
+Source: https://github.com/inspect-js/is-string @ fbbcdaed74d18b6b6899b0a6e6310f5ce31d70c7
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-symbol-licence-r1
+Source: https://github.com/inspect-js/is-symbol @ db70b773b88a5b43995bea9540d0398773170ed8
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-weakmap-licence-r1
+Source: https://github.com/inspect-js/is-weakmap @ 7ccef90eb7e20417c70a0fb80ac6fa9dbf7c0dd1
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-is-weakset-licence-r1
+Source: https://github.com/inspect-js/is-weakset @ 3cf98e3fd0236a8457861db81cc7c5b8d1f4106d
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-isarray-licence-r1
+Source: https://github.com/juliangruber/isarray @ 63ea4ca0a0d6b0574d6a470ebd26880c3026db4a
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-jetbrains-icons-licence-r1
+Source: https://github.com/JetBrains/icons @ ee1a49cf3e89d3563fce91eebd41db9f71b1f4b1
+Material licence: Apache-2.0
+Notice scope: documentation
+Copyright 2010-2017 JetBrains s.r.o.
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-jetbrains-ring-ui-licence-r1
+Source: https://github.com/JetBrains/ring-ui @ ab8314371d0291adbfa984ad8095b2e64d475d42
+Material licence: Apache-2.0
+Notice scope: documentation
+"Licensor" shall mean the copyright owner or entity authorized by
+the copyright owner that is granting the License.
+submitted to Licensor for inclusion in the Work by the copyright owner
+the copyright owner. For the purposes of this definition, "submitted"
+designated in writing by the copyright owner as "Not a Contribution."
+2. Grant of Copyright License. Subject to the terms and conditions of
+copyright license to reproduce, prepare Derivative Works of,
+(c) You must retain, in the Source form of any Derivative Works
+that You distribute, all copyright, patent, trademark, and
+You may add Your own copyright statement to Your modifications and
+Copyright 2000-2016 JetBrains s.r.o.
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-math-intrinsics-licence-r1
+Source: https://github.com/es-shims/math-intrinsics @ 84ffc824e044a91da1b847bde30c0286519eabf1
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 ECMAScript Shims
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-memoize-one-licence-r1
+Source: https://github.com/alexreardon/memoize-one @ d5acc5343970ee4b615d4d1d5da85c2436752a79
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Alexander Reardon
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-object-assign-licence-r1
+Source: https://github.com/sindresorhus/object-assign @ a89774b252c91612203876984bbd6addbe3b5a0e
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-object-dot-assign-licence-r1
+Source: https://github.com/ljharb/object.assign @ 0aa92bc8f1d87c9cae87881cf2e9245093f39bda
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-object-inspect-licence-r1
+Source: https://github.com/inspect-js/object-inspect @ 21bdaa07377a2d605ba78c774f4aa0381daf0425
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2013 James Halliday
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-object-is-licence-r1
+Source: https://github.com/es-shims/object-is @ a4d045ace233763a3715d90c3d3af5052a290dc4
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014 Jordan Harband
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-object-keys-licence-r1
+Source: https://github.com/ljharb/object-keys @ ba2c1989270c7de969aa8498fc3b7c8e677806f3
+Material licence: MIT
+Notice scope: documentation
+Copyright (C) 2013 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-own-licence-r1
+Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
+Material licence: Apache-2.0
+Notice scope: documentation
+Copyright 2014-2024 JetBrains s.r.o. and Dokka contributors.
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-possible-typed-array-names-licence-r1
+Source: https://github.com/ljharb/possible-typed-array-names @ 2f74e2d3a02309b48fa6d6d48f8fd3359681707f
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-prismjs-licence-r1
+Source: https://github.com/PrismJS/prism @ 59e5a3471377057de1f401ba38337aca27b80e03
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2012 Lea Verou
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-prop-types-licence-r1
+Source: https://github.com/facebook/prop-types @ 70330a4430ba74467b41b8b4aa8c97a4814327a9
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2013-present, Facebook, Inc.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-react-dom-licence-r1
+Source: https://github.com/facebook/react @ 12adaffef7105e2714f82651ea51936c563fe15c
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Facebook, Inc. and its affiliates.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-react-licence-r1
+Source: https://github.com/facebook/react @ 12adaffef7105e2714f82651ea51936c563fe15c
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Facebook, Inc. and its affiliates.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-react-lifecycles-compat-licence-r1
+Source: https://github.com/reactjs/react-lifecycles-compat @ f457b78edcf85e44285ce8a840d133917de160da
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2013-present, Facebook, Inc.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-react-virtualized-licence-r1
+Source: https://github.com/bvaughn/react-virtualized @ c737715486f724586aee8870ebea1e9efb7b0bfe
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Brian Vaughn
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-regexp-prototype-flags-licence-r1
+Source: https://github.com/es-shims/RegExp.prototype.flags @ 36fcf221a351d8451d02bcdf91e63cf3ee83b1db
+Material licence: MIT
+Notice scope: documentation
+Copyright (C) 2014 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-safe-regex-test-licence-r1
+Source: https://github.com/ljharb/safe-regex-test @ ea4173e88d68d8e9a95717fa5548a3ea524c2dc9
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2022 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-scheduler-licence-r1
+Source: https://github.com/facebook/react @ 12adaffef7105e2714f82651ea51936c563fe15c
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Facebook, Inc. and its affiliates.
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-set-function-length-licence-r1
+Source: https://github.com/ljharb/set-function-length @ 85f4b57ec0560b9fd3ad75eb7b13c05c6af9f42d
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Jordan Harband and contributors
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-set-function-name-licence-r1
+Source: https://github.com/ljharb/set-function-name @ 2ff8b304c8795e8d76ce992622eb046ff88d1c48
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) Jordan Harband and contributors
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-side-channel-licence-r1
+Source: https://github.com/ljharb/side-channel @ d65a5e20fdd9a87c62b0c334e601275e1860c803
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-side-channel-list-licence-r1
+Source: https://github.com/ljharb/side-channel-list @ d4879491c2533a30961ba464c2613f7d7c7cf936
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-side-channel-map-licence-r1
+Source: https://github.com/ljharb/side-channel-map @ c14f8ee78a05007b6604d88c6219fe4303e693a3
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2024 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-side-channel-weakmap-licence-r1
+Source: https://github.com/ljharb/side-channel-weakmap @ ca1790715cf6f3cb35a4acd4fd0731790f9814b3
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-sniffr-licence-r1
+Source: https://github.com/amoilanen/sniffr @ 4e056fea0045d9134679113bae7eec81afa87aec
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014 - 2018 Anton Moilanen
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-stop-iteration-iterator-licence-r1
+Source: https://github.com/ljharb/stop-iteration-iterator @ 8bd657987cf89d59ac9909a01a1a24b17e6171be
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2023 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-style-loader-licence-r1
+Source: https://github.com/webpack-contrib/style-loader @ bfdc1fcc073d35dd5f195bb067790b7d0bfca181
+Material licence: MIT
+Notice scope: documentation
+Copyright JS Foundation and other contributors
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-util-deprecate-licence-r1
+Source: https://github.com/TooTallNate/util-deprecate @ 475fb6857cd23fafff20c1be846c1350abf8e6d4
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2014 Nathan Rajlich <nathan@tootallnate.net>
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-which-boxed-primitive-licence-r1
+Source: https://github.com/inspect-js/which-boxed-primitive @ 3cb1edfed48c1a749cb497fa05b8b3971f798613
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-which-collection-licence-r1
+Source: https://github.com/inspect-js/which-collection @ c0320b4bd454be60d24a3e7bdd76b28df7484399
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2019 Inspect JS
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+dokka-which-typed-array-licence-r1
+Source: https://github.com/inspect-js/which-typed-array @ 45ddc94559dc520794397d5724e76cac402a09e5
+Material licence: MIT
+Notice scope: documentation
+Copyright (c) 2015 Jordan Harband
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
+
+gradle-wrapper-9-7-1-r1
+Source: https://github.com/gradle/gradle @ 92f0512e7f06d84621afba191f75e265363890cf
+Material licence: Apache-2.0
+Notice scope: source
+Copyright 2015 the original author or authors.
+Copyright 2023 the original author or authors (wrapper generator).
+Gradle wrapper 9.7.1 retains its original script headers and embedded JAR licence. Apache-2.0 terms are provided in LICENSE.
+
+hello-bindings-r1
+Source: https://github.com/ArcForges/Contracts @ 76a3e0d39e61c7868b497ae7e059e29ac69f44de
+Material licence: Apache-2.0
+Notice scope: packages
+Copyright 2026 ArcForges contributors.
+Copyright 2008 Google Inc. All rights reserved.
+Copyright 2015, 2019, 2020 gRPC authors.
+Copyright 2021-2026 Buf Technologies, Inc.
+Copyright 2022-2026 The Connect Authors.
+Hello bindings are generated from the Apache-2.0 ArcForges proto using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0, grpc-java 1.84.0, grpc-kotlin 1.5.0 and Connect-Kotlin 0.9.0. Grpc.Tools provenance binds protobuf submodule 35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03. Generator implementations are build tools and are not bundled in the client packages. Preserve these attributions, Apache-2.0 terms and the protobuf BSD terms below.
+
+protobuf-generator-licence-r1
+Source: https://github.com/protocolbuffers/protobuf @ 35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03
+Material licence: BSD-3-Clause
+Notice scope: packages
+Copyright 2008 Google Inc. All rights reserved.
+Copyright 2008 Google Inc.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+    * Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the
+distribution.
+    * Neither the name of Google Inc. nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Code generated by the Protocol Buffer compiler is owned by the owner
+of the input file used when generating it.  This code is not
+standalone and requires a support library to be linked with it.  This
+support library is itself covered by the above license.

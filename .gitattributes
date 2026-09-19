@@ -1,4 +1,7 @@
 * text=auto eol=lf
+
+# Preserve reviewed upstream licence bytes, including original final blank lines.
+third-party/dokka/*.txt whitespace=-blank-at-eof
 *.bat text eol=crlf
 *.cmd text eol=crlf
 *.png binary

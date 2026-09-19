@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "canonical-apache-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/github/choosealicense.com",
+  "sourceCommit": "58267f8f2c5c0099810849cfd7677f52ae0c0eb3",
+  "sourcePaths": [
+    "_licenses/apache-2.0.txt"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "_licenses/apache-2.0.txt",
+        "sha256": "609e2cb599f84aaa41d8ef29d8fdb04d164fab22e8d9292ca34a599d0f56a338",
+        "finding": "The canonical Apache 2.0 licence body follows the YAML front matter. This record covers the legal text only, not the site implementation."
+      }
+    ],
+    "scope": "Canonical Apache licence document; no generator, code or site content is imported.",
+    "copyingPermission": "The Apache Software Foundation permits reproduction of its unmodified Apache licence text for licensing software; retain all terms. This does not import or license any implementation from the template repository."
+  },
+  "attribution": [
+    "Apache License, Version 2.0, January 2004; preserve the complete terms."
+  ],
+  "targets": [
+    {
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "normalization": "lf"
+    },
+    {
+      "path": "fixtures/public/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "normalization": "lf"
+    },
+    {
+      "path": "public/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "normalization": "lf"
+    },
+    {
+      "path": "tests/public/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "normalization": "lf"
+    }
+  ],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Remove the template YAML front matter, normalize CRLF to LF and compare the body, allowing the existing single leading newline.",
+    "expected": "All five retained licence files equal the immutable canonical Apache licence body after the stated whitespace-only normalization.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "The complete Apache-2.0 terms remain in LICENSE and the four public export copies.",
+    "files": [
+      "LICENSE",
+      "fixtures/public/LICENSE",
+      "public/LICENSE",
+      "src/public/LICENSE",
+      "tests/public/LICENSE"
+    ],
+    "distribution": "source",
+    "reason": "Retain the upstream attribution and licence in the source checkout; build tools are not distributed in runtime packages."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "File-level sources and current retained bytes reviewed for WP00.03. This records the current verified baseline; it does not assert a historical record existed before the material was introduced. No incompatible implementation is admitted.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": true
+  },
+  "supersedes": null,
+  "artifactTargets": []
+}

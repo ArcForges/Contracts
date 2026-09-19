@@ -50,6 +50,24 @@ class ReleaseGuards(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "source commit"):
             verify_artifacts(ARTIFACTS / "packages", "0" * 40)
 
+    def test_rehashed_nuget_cannot_drop_generator_attribution(self):
+        with tempfile.TemporaryDirectory(prefix="contracts-notice-guard-") as directory:
+            candidate = Path(directory) / "candidate"
+            shutil.copytree(ARTIFACTS / "packages", candidate)
+            package = next(candidate.glob("*.nupkg"))
+            with zipfile.ZipFile(package) as original:
+                entries = {name: original.read(name) for name in original.namelist()}
+            entries["NOTICE"] = b"ArcForges Contracts\nRuntime dependency inventory only.\n"
+            with zipfile.ZipFile(package, "w") as altered:
+                for name, contents in entries.items():
+                    altered.writestr(name, contents)
+            manifest = json.loads((candidate / "manifest.json").read_text())
+            entry = next(item for item in manifest["files"] if item["kind"] == "nuget")
+            entry.update(sha256=sha256(package), size=package.stat().st_size)
+            write_json(candidate / "manifest.json", manifest)
+            with self.assertRaisesRegex(ValueError, "Package lost recorded source/generator notices"):
+                verify_artifacts(candidate)
+
     def test_pr_manual_and_fork_events_cannot_publish(self):
         for event, repo, ref in [
             ("pull_request", "ArcForges/Contracts", "refs/heads/main"),

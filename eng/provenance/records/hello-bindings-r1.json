@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "id": "hello-bindings-r1",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+  "sourcePaths": [
+    "public/proto/arcforges/hello/v1/hello.proto"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "public/proto/arcforges/hello/v1/hello.proto",
+        "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
+        "finding": "Authored proto carries SPDX-License-Identifier: Apache-2.0. The schema is the public wire authority."
+      }
+    ],
+    "scope": "ArcForges-authored Hello schema and output use Apache-2.0. Protobuf compiler BSD-3-Clause and Apache-2.0 plugin obligations are explicitly retained; no copyleft generator/input is used.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors.",
+    "Copyright 2008 Google Inc. All rights reserved.",
+    "Copyright 2015, 2019, 2020 gRPC authors.",
+    "Copyright 2021-2026 Buf Technologies, Inc.",
+    "Copyright 2022-2026 The Connect Authors."
+  ],
+  "targets": [
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Hello.cs",
+      "sha256": "ed94f07ed0b686a5144eadd01b27bc658647a9cb86faba348c6a6c8d653e48ee",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/HelloGrpc.cs",
+      "sha256": "672f75aae224a5d4fd78cbaf69390d8b00878929bb3cbcbb27e5a2e876513a55",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-client/generated/java/io/github/arcforges/contracts/hello/v1/HelloServiceGrpc.java",
+      "sha256": "5c5ff63be5962bab2d3108d1f0f707286d22ec76471fd4aab3ec309bab061365",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoGrpcKt.kt",
+      "sha256": "34525455062022b1600da6f9977319ce051647f5142cd8ad8a8ff56b177b1ccb",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClient.kt",
+      "sha256": "efd6777f0c9717f5a434ad4bc26895b99461c032d339b681ac1875915f01b0e4",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClientInterface.kt",
+      "sha256": "3b61e2b737c84c17b71aa7eb0bda6846b75f92b1d0dbfdd5e17e8cee8635049b",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/HelloProto.java",
+      "sha256": "49d1bddffe65e53d584620b5aecfbac320bbb989c2bb679736e2fd49539050c4",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloRequest.java",
+      "sha256": "d3ae661dcbc8673e5098319e0c7d43ba8ed4bad198f7e7ec45b7bef82b0faaba",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloRequestOrBuilder.java",
+      "sha256": "c166148a395453d2284903b9216ec600d63bc606e0e843b25699beed6faeabd0",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloResponse.java",
+      "sha256": "8b614d3b726653a4a36a238d0f17814623a3a151a834722ddf68d09013d9c3a1",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloResponseOrBuilder.java",
+      "sha256": "05b8a1aef1f5f15b1be0051546a36be427d500525fbda64e3d7cfaf1ec97172c",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoKt.proto.kt",
+      "sha256": "e136567ee4b31e2c7b65dc999681686dfcf99ce7abc543203dae0a748607f11e",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/SayHelloRequestKt.kt",
+      "sha256": "6ac00b6ff8bc568f004c93f22370f9c1af653d935fc3c59e93126a7c81e698dc",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/SayHelloResponseKt.kt",
+      "sha256": "ebe2a936356ec3d194da216a91aca1f9a8f9f85c5245612bd669a830d28e7af9",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts",
+      "sha256": "5470a1e989ca03c7ed38681473a2ca1140cb1e6fdb998e8e8201e54b0fba4cdb",
+      "normalization": "lf"
+    }
+  ],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "regeneration",
+    "command": "python eng/contracts.py generate --check",
+    "expected": "The pinned generators reproduce all 15 committed output files byte for byte with canonical LF newlines, from the exact Apache-2.0 authored input.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Hello bindings are generated from the Apache-2.0 ArcForges proto using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0, grpc-java 1.84.0, grpc-kotlin 1.5.0 and Connect-Kotlin 0.9.0. Grpc.Tools provenance binds protobuf submodule 35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03. Generator implementations are build tools and are not bundled in the client packages. Preserve these attributions, Apache-2.0 terms and the protobuf BSD terms below.",
+    "files": [
+      "LICENSE",
+      "third-party/protobuf-generator-LICENSE.txt",
+      "eng/provenance/NOTICE.txt"
+    ],
+    "distribution": "packages",
+    "reason": "The generated bindings are distributed. Every package NOTICE retains the applicable generator attribution and protobuf licence text; runtime dependency notices remain separate."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/protocolbuffers/protobuf",
+        "commit": "35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03",
+        "paths": [
+          "src/google/protobuf/compiler/csharp/csharp_generator.cc",
+          "src/google/protobuf/compiler/java/generator.cc",
+          "src/google/protobuf/compiler/kotlin/generator.cc"
+        ],
+        "spdx": "BSD-3-Clause",
+        "evidence": [
+          {
+            "path": "src/google/protobuf/compiler/csharp/csharp_generator.cc",
+            "sha256": "8b1977fc091ca196408fd0b88332fe4457e8bde2b1fc9b92327ca0accbb618b6",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "src/google/protobuf/compiler/java/generator.cc",
+            "sha256": "62d1d34fa2003b460eeb793e5c87f7c9ba3a9ab43a06ba6032c0daacbcc15d7d",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "src/google/protobuf/compiler/kotlin/generator.cc",
+            "sha256": "a73a77ee148d87601686875fa7545e27dfedf2162845bc6b04a5b73a63e1fd57",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+            "finding": "Full governing BSD-3-Clause terms for these explicitly licensed generator files."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/grpc/grpc",
+        "commit": "3252a89f10d8e92997862167ca7d095ecda85973",
+        "paths": [
+          "src/compiler/csharp_generator.cc"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "src/compiler/csharp_generator.cc",
+            "sha256": "e530568c3ee5c889fefbed7430fcb96817a3866eebeeaafc2d30cd8326a6acf4",
+            "finding": "The generator file header explicitly declares Apache-2.0; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "58c86a3f2b5cca0ebdf9ed3e7f4e6dc38e3b38796d8c3dc92064c62a4e39d0dd",
+            "finding": "Full governing Apache-2.0 terms for these explicitly licensed generator files."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/grpc/grpc-java",
+        "commit": "b3838c0ce83152138aff3979c832225280d7a8d6",
+        "paths": [
+          "compiler/src/java_plugin/cpp/java_generator.cpp"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "compiler/src/java_plugin/cpp/java_generator.cpp",
+            "sha256": "feaea8f695892a1b22874ac529216b48b780303024f834c98af42e74e6e7934e",
+            "finding": "The generator file header explicitly declares Apache-2.0; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "Full governing Apache-2.0 terms for these explicitly licensed generator files."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/grpc/grpc-kotlin",
+        "commit": "4f87f81795102d31f6611bf6fb0c702e1f0c6a0b",
+        "paths": [
+          "compiler/src/main/java/io/grpc/kotlin/generator/GeneratorRunner.kt",
+          "compiler/src/main/java/io/grpc/kotlin/generator/ServiceCodeGenerator.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "compiler/src/main/java/io/grpc/kotlin/generator/GeneratorRunner.kt",
+            "sha256": "a0151fd83f40e71fd4dff03a58f2e8b00b4f12c46bf4ea585e1c90507610f321",
+            "finding": "The generator file header explicitly declares Apache-2.0; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "compiler/src/main/java/io/grpc/kotlin/generator/ServiceCodeGenerator.kt",
+            "sha256": "37ed0d59dae9437c9de7ad0e8a21710f09540995fc12d1f411eb10eafe859bfa",
+            "finding": "The generator file header explicitly declares Apache-2.0; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+            "finding": "Full governing Apache-2.0 terms for these explicitly licensed generator files."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/bufbuild/protobuf-es",
+        "commit": "f72f5295c853b7be8c0828f350e4f2803c8afdde",
+        "paths": [
+          "packages/protoc-gen-es/src/protoc-gen-es-plugin.ts"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "packages/protoc-gen-es/src/protoc-gen-es-plugin.ts",
+            "sha256": "25d3dd51af9def8c18cf5636726d72805c9e653ccfc4c43717ae21bdcfed19ae",
+            "finding": "The generator file header explicitly declares Apache-2.0; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "c04b4216f1cd4c5a4f7fb2f2a1b0ae70d847e9e0cac7c9dee9bf8cc03177c449",
+            "finding": "Full governing Apache-2.0 terms for these explicitly licensed generator files."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/connectrpc/connect-kotlin",
+        "commit": "98f32633c462f6b17673a2a6504def7d3222da1c",
+        "paths": [
+          "protoc-gen-connect-kotlin/src/main/kotlin/com/connectrpc/protocgen/connect/Generator.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "protoc-gen-connect-kotlin/src/main/kotlin/com/connectrpc/protocgen/connect/Generator.kt",
+            "sha256": "5ed68f3229db6e9a39b7d4a3aa2076d4e5c391949547f42c063f78ba34b6572b",
+            "finding": "The generator file header explicitly declares Apache-2.0; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "d8e16f7c884f3678b5cba0e5612e55903752945dc2006fcef2167356ecda8ceb",
+            "finding": "Full governing Apache-2.0 terms for these explicitly licensed generator files."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+        "paths": [
+          "eng/contracts.py",
+          "eng/kotlin_tools.py"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "eng/contracts.py",
+            "sha256": "216e3bdaa4633d90a4bd34a19d5c63b8a0fd0017070ba79de1c1940ad469f045",
+            "finding": "Owning orchestration source explicitly declares SPDX Apache-2.0."
+          },
+          {
+            "path": "eng/kotlin_tools.py",
+            "sha256": "3c8f1d08f65f035ceb6d8fd65b44ed1c4c8696b3ed7230a21c40d78c73f87de1",
+            "finding": "Owning Kotlin generation source explicitly declares SPDX Apache-2.0."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+        "paths": [
+          "public/proto/arcforges/hello/v1/hello.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/hello/v1/hello.proto",
+            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
+            "finding": "Input file explicitly declares Apache-2.0."
+          }
+        ]
+      }
+    ],
+    "command": "python eng/contracts.py generate --check",
+    "outputSpdx": "Apache-2.0"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "File-level sources and current retained bytes reviewed for WP00.03. This records the current verified baseline; it does not assert a historical record existed before the material was introduced. No incompatible implementation is admitted.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": true
+  },
+  "supersedes": null,
+  "artifactTargets": []
+}

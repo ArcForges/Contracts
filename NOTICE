@@ -5,3 +5,11 @@ ArcForges-authored source, generated bindings, examples, tooling, configuration
 and documentation are licensed under Apache-2.0; see the root LICENSE.
 Package-specific NOTICE and CycloneDX SBOM files are generated from the resolved
 runtime dependency graph when packing. Dependencies keep their own licences.
+
+Reviewed source, wrapper and generator provenance is recorded under
+eng/provenance/records/. The checked, generated source attribution summary is
+eng/provenance/NOTICE.txt. Generated client packages retain their applicable
+generator notices and full protobuf BSD terms in each package NOTICE, including
+Maven source and documentation companions. Generator executables are not bundled.
+Documentation archives contain the separately audited Dokka frontend resources
+and retain their full Apache/MIT licences and attributions in each archive NOTICE.
