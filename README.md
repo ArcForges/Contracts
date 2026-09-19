@@ -122,6 +122,11 @@ must match before those declaration values are admitted; every other field remai
 scanned. The AGPL exporter and data stay in DesktopPlatform. See
 [derived declaration verification](docs/implementation/wp00-01-derived-policy.md).
 
+WP00.03 records current wrappers, generated bindings and retained legal text in
+`eng/provenance/`. Run `python eng/check_provenance.py --owner Contracts` before
+packing or proposing reuse. The [provenance process](docs/implementation/wp00-03-provenance.md)
+defines review responsibility, immutable records, inventory and notice checks.
+
 ## Examples and project policies
 
 Every managed, npm and Gradle project declares both SPDX and licence-boundary

@@ -16,3 +16,6 @@ artifacts/
 **/.kotlin/
 **/gradle.lockfile
 **/gradle/verification-metadata.xml
+eng/provenance/records/
+eng/provenance/artifact-profiles/
+third-party/

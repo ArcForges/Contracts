@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "dokka-safe-regex-test-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/ljharb/safe-regex-test",
+  "sourceCommit": "ea4173e88d68d8e9a95717fa5548a3ea524c2dc9",
+  "sourcePaths": [
+    "LICENSE"
+  ],
+  "licence": {
+    "spdx": "MIT",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE",
+        "sha256": "d90bf0a089da4cf43d644ed240a0b3825dcdb705e64e38371d56995a4cc9e4c5",
+        "finding": "The file at the fixed source commit matches the licence in the integrity-verified npm package, including original attribution; CRLF/LF is the only normalized difference."
+      }
+    ],
+    "scope": "Exact upstream legal document. Implementation admission is separately established by dokka-documentation-resources-r1.",
+    "copyingPermission": "The governing permissive licence permits reproduction and requires retaining its copyright/permission text; this record admits the legal text only."
+  },
+  "attribution": [
+    "Copyright (c) 2022 Jordan Harband",
+    "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+  ],
+  "targets": [
+    {
+      "path": "third-party/dokka/safe-regex-test-LICENSE.txt",
+      "sha256": "d90bf0a089da4cf43d644ed240a0b3825dcdb705e64e38371d56995a4cc9e4c5",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_provenance.py --owner Contracts",
+    "expected": "The retained full legal document matches the exact source and verified npm archive member after LF normalization.",
+    "artifacts": [
+      {
+        "url": "https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz",
+        "sha256": "e92ad20e8549ef06adab664f8a6e9c0a349e38f34c9548ebb526f24f7d8cf12e",
+        "members": [
+          "package/LICENSE"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.",
+    "files": [
+      "third-party/dokka/safe-regex-test-LICENSE.txt"
+    ],
+    "distribution": "documentation",
+    "reason": "The documentation distributes these upstream resources. Runtime client archives do not contain the Dokka frontend."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Exact current upstream files, emitted code paths, dependency archive integrity and subordinate licences reviewed under Design 1d2a2aa800bc93b26d12337e669bdcf3fd85150f, D-004, D-013 and PR-04/05. No licence exception is introduced.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

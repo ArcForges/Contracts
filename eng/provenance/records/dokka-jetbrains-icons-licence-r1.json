@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "id": "dokka-jetbrains-icons-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/JetBrains/icons",
+  "sourceCommit": "ee1a49cf3e89d3563fce91eebd41db9f71b1f4b1",
+  "sourcePaths": [
+    "LICENSE.txt"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "32af8a0ffa5f9106ecf2901ad99a1346d46a3b07f7f9ebb9cca29f6f3bc97e42",
+        "finding": "The file at the fixed source commit matches the licence in the integrity-verified npm package, including original attribution; CRLF/LF is the only normalized difference."
+      }
+    ],
+    "scope": "Exact upstream legal document. Implementation admission is separately established by dokka-documentation-resources-r1.",
+    "copyingPermission": "The governing permissive licence permits reproduction and requires retaining its copyright/permission text; this record admits the legal text only."
+  },
+  "attribution": [
+    "Copyright 2010-2017 JetBrains s.r.o."
+  ],
+  "targets": [
+    {
+      "path": "third-party/dokka/jetbrains-icons-LICENSE.txt",
+      "sha256": "32af8a0ffa5f9106ecf2901ad99a1346d46a3b07f7f9ebb9cca29f6f3bc97e42",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_provenance.py --owner Contracts",
+    "expected": "The retained full legal document matches the exact source and verified npm archive member after LF normalization.",
+    "artifacts": [
+      {
+        "url": "https://registry.npmjs.org/@jetbrains/icons/-/icons-3.24.0.tgz",
+        "sha256": "c44448daac253f613b818482344cdcc4929fc372b175fd68bbd8ee596611b2ce",
+        "members": [
+          "package/LICENSE.txt"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.",
+    "files": [
+      "third-party/dokka/jetbrains-icons-LICENSE.txt"
+    ],
+    "distribution": "documentation",
+    "reason": "The documentation distributes these upstream resources. Runtime client archives do not contain the Dokka frontend."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Exact current upstream files, emitted code paths, dependency archive integrity and subordinate licences reviewed under Design 1d2a2aa800bc93b26d12337e669bdcf3fd85150f, D-004, D-013 and PR-04/05. No licence exception is introduced.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

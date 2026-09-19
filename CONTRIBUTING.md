@@ -39,6 +39,15 @@ configuration and documentation use Apache-2.0 under the root LICENSE. Add SPDX
 headers to authored code and preserve third-party licences and notices. Do not
 copy reference code or introduce a licence-incompatible dependency into a package.
 
+Before reusing source, tests, assets, wrappers or generated material, complete the
+[ten-field provenance process](docs/implementation/wp00-03-provenance.md). The
+Licensing and Provenance Owner reviews the exact files and disposition. Preserve
+used records; source/target changes require a superseding record. Register a
+licence/origin conflict and block that material until its formal resolution.
+Run `python eng/check_provenance.py --owner Contracts` and the tooling tests.
+Contributions use DCO with inbound-equals-outbound Apache-2.0; sign off commits.
+No CLA, dual licensing or special distribution exception is introduced.
+
 Use the proposal template for schema changes and the private reporting route in
 SECURITY.md for vulnerabilities. Discuss changes respectfully and focus review
 on reproducible behavior, compatibility and maintainability.

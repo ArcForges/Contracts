@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "id": "dokka-jetbrains-ring-ui-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/JetBrains/ring-ui",
+  "sourceCommit": "ab8314371d0291adbfa984ad8095b2e64d475d42",
+  "sourcePaths": [
+    "LICENSE.txt"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "8c1e966c7855fb54027bcaf6ebe7a43abe4785791e8cf9148c363761d493d097",
+        "finding": "The file at the fixed source commit matches the licence in the integrity-verified npm package, including original attribution; CRLF/LF is the only normalized difference."
+      }
+    ],
+    "scope": "Exact upstream legal document. Implementation admission is separately established by dokka-documentation-resources-r1.",
+    "copyingPermission": "The governing permissive licence permits reproduction and requires retaining its copyright/permission text; this record admits the legal text only."
+  },
+  "attribution": [
+    "\"Licensor\" shall mean the copyright owner or entity authorized by",
+    "the copyright owner that is granting the License.",
+    "submitted to Licensor for inclusion in the Work by the copyright owner",
+    "the copyright owner. For the purposes of this definition, \"submitted\"",
+    "designated in writing by the copyright owner as \"Not a Contribution.\"",
+    "2. Grant of Copyright License. Subject to the terms and conditions of",
+    "copyright license to reproduce, prepare Derivative Works of,",
+    "(c) You must retain, in the Source form of any Derivative Works",
+    "that You distribute, all copyright, patent, trademark, and",
+    "You may add Your own copyright statement to Your modifications and",
+    "Copyright 2000-2016 JetBrains s.r.o."
+  ],
+  "targets": [
+    {
+      "path": "third-party/dokka/jetbrains-ring-ui-LICENSE.txt",
+      "sha256": "8c1e966c7855fb54027bcaf6ebe7a43abe4785791e8cf9148c363761d493d097",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_provenance.py --owner Contracts",
+    "expected": "The retained full legal document matches the exact source and verified npm archive member after LF normalization.",
+    "artifacts": [
+      {
+        "url": "https://registry.npmjs.org/@jetbrains/ring-ui/-/ring-ui-5.1.28.tgz",
+        "sha256": "23814cf72ad95439f27841d9fead55cd473020f57397f40f46d189fefc0043f3",
+        "members": [
+          "package/LICENSE.txt"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.",
+    "files": [
+      "third-party/dokka/jetbrains-ring-ui-LICENSE.txt"
+    ],
+    "distribution": "documentation",
+    "reason": "The documentation distributes these upstream resources. Runtime client archives do not contain the Dokka frontend."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Exact current upstream files, emitted code paths, dependency archive integrity and subordinate licences reviewed under Design 1d2a2aa800bc93b26d12337e669bdcf3fd85150f, D-004, D-013 and PR-04/05. No licence exception is introduced.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

@@ -5,7 +5,6 @@ import org.gradle.api.artifacts.component.ProjectComponentIdentifier
 import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.dokka.gradle.DokkaExtension
-import org.jetbrains.dokka.gradle.tasks.DokkaGeneratePublicationTask
 
 plugins {
     base
@@ -46,27 +45,26 @@ tasks.register<Sync>("resolveCodegenTools") {
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "org.jetbrains.dokka")
     if (name != "contract-fixtures") {
         apply(plugin = "org.jetbrains.kotlin.jvm")
-        apply(plugin = "org.jetbrains.dokka")
         extensions.configure<KotlinJvmProjectExtension> {
             jvmToolchain(17)
             sourceSets.named("main") { kotlin.srcDir("generated/kotlin") }
         }
-        extensions.configure<DokkaExtension> {
-            dokkaSourceSets.configureEach {
-                jdkVersion.set(17)
-                // Offline documentation: no mutable external package-list downloads.
-                enableJdkDocumentationLink.set(false)
-                enableKotlinStdLibDocumentationLink.set(false)
-                enableAndroidDocumentationLink.set(false)
-            }
+    }
+    extensions.configure<DokkaExtension> {
+        dokkaSourceSets.configureEach {
+            jdkVersion.set(17)
+            // Offline documentation: no mutable external package-list downloads.
+            enableJdkDocumentationLink.set(false)
+            enableKotlinStdLibDocumentationLink.set(false)
+            enableAndroidDocumentationLink.set(false)
         }
     }
     extensions.configure<JavaPluginExtension> {
         toolchain.languageVersion.set(JavaLanguageVersion.of(17))
         withSourcesJar()
-        if (project.name == "contract-fixtures") withJavadocJar()
     }
     extensions.configure<SourceSetContainer> {
         named("main") {
@@ -75,21 +73,25 @@ subprojects {
         }
     }
     tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8"; options.release.set(17) }
-    tasks.withType<Javadoc>().configureEach { options.encoding = "UTF-8" }
     tasks.withType<Jar>().configureEach {
         from(rootProject.file("LICENSE")) { into("META-INF") }
     }
-    val documentation = if (name != "contract-fixtures") {
-        tasks.register<Jar>("javadocJar") {
-            archiveClassifier.set("javadoc")
-            from(tasks.named<DokkaGeneratePublicationTask>("dokkaGeneratePublicationHtml").flatMap { it.outputDirectory })
+    // Only reviewed resources enter the companion archive. The owning Python
+    // packager stages this directory after checking raw pinned Dokka output.
+    val documentation = tasks.register<Jar>("javadocJar") {
+        archiveClassifier.set("javadoc")
+        from(rootProject.layout.projectDirectory.dir("artifacts/documentation/${project.name}"))
+        doFirst {
+            require(rootProject.file("artifacts/documentation/${project.name}/NOTICE").isFile) {
+                "Run python eng/contracts.py pack to prepare reviewed documentation resources"
+            }
         }
-    } else tasks.named<Jar>("javadocJar")
+    }
     extensions.configure<PublishingExtension> {
         publications {
             create<MavenPublication>("maven") {
                 from(components["java"])
-                if (project.name != "contract-fixtures") artifact(documentation)
+                artifact(documentation)
                 pom {
                     name.set("ArcForges ${project.name}")
                     description.set("Public Hello World protobuf contracts: ${project.name}. Android/JVM, Apache-2.0.")

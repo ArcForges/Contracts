@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "dokka-object-keys-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/ljharb/object-keys",
+  "sourceCommit": "ba2c1989270c7de969aa8498fc3b7c8e677806f3",
+  "sourcePaths": [
+    "LICENSE"
+  ],
+  "licence": {
+    "spdx": "MIT",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE",
+        "sha256": "5640e5cbe2e9f57f6ccfdd8dbfbeadb875495bdbcb69d2666ce3177ccd0942e4",
+        "finding": "The file at the fixed source commit matches the licence in the integrity-verified npm package, including original attribution; CRLF/LF is the only normalized difference."
+      }
+    ],
+    "scope": "Exact upstream legal document. Implementation admission is separately established by dokka-documentation-resources-r1.",
+    "copyingPermission": "The governing permissive licence permits reproduction and requires retaining its copyright/permission text; this record admits the legal text only."
+  },
+  "attribution": [
+    "Copyright (C) 2013 Jordan Harband",
+    "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+  ],
+  "targets": [
+    {
+      "path": "third-party/dokka/object-keys-LICENSE.txt",
+      "sha256": "5640e5cbe2e9f57f6ccfdd8dbfbeadb875495bdbcb69d2666ce3177ccd0942e4",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_provenance.py --owner Contracts",
+    "expected": "The retained full legal document matches the exact source and verified npm archive member after LF normalization.",
+    "artifacts": [
+      {
+        "url": "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz",
+        "sha256": "9678d9055619767c8a134033709e88a6e0a19600f3d3f2cda40acdfd75e7f212",
+        "members": [
+          "package/LICENSE"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.",
+    "files": [
+      "third-party/dokka/object-keys-LICENSE.txt"
+    ],
+    "distribution": "documentation",
+    "reason": "The documentation distributes these upstream resources. Runtime client archives do not contain the Dokka frontend."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Exact current upstream files, emitted code paths, dependency archive integrity and subordinate licences reviewed under Design 1d2a2aa800bc93b26d12337e669bdcf3fd85150f, D-004, D-013 and PR-04/05. No licence exception is introduced.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

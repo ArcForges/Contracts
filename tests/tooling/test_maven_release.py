@@ -2,6 +2,7 @@
 """Exercise Maven failure boundaries and real detached signing without accounts."""
 
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -60,6 +61,33 @@ class MavenReleaseGuards(unittest.TestCase):
                     for name, data in files.items():
                         archive.writestr(name, data)
                 with self.assertRaisesRegex(ValueError, "pin this candidate"):
+                    verify_bundle(bundle, self.manifest, (self.directory / "contracts.binpb").read_bytes())
+
+    def test_maven_source_and_documentation_archives_retain_generator_notices(self):
+        for suffix in ("-sources.jar", "-javadoc.jar"):
+            with self.subTest(suffix=suffix), tempfile.TemporaryDirectory(prefix="contracts-maven-notice-") as temporary:
+                files = dict(self.files)
+                target = next(name for name in files if "/contracts-proto/" in name and name.endswith(suffix))
+                entries = zip_contents(files[target])
+                del entries["NOTICE"]
+                modified = io.BytesIO()
+                with zipfile.ZipFile(modified, "w") as jar:
+                    for name, data in entries.items():
+                        jar.writestr(name, data)
+                files[target] = modified.getvalue()
+                # Refresh the Gradle companion hash so the semantic notice guard is exercised.
+                module_path = next(name for name in files if "/contracts-proto/" in name and name.endswith(".module"))
+                metadata = json.loads(files[module_path])
+                for variant in metadata["variants"]:
+                    for item in variant.get("files", []):
+                        if item["url"] == Path(target).name:
+                            item["sha512"] = hashlib.sha512(files[target]).hexdigest()
+                files[module_path] = json.dumps(metadata).encode()
+                bundle = Path(temporary) / "missing-notice.zip"
+                with zipfile.ZipFile(bundle, "w") as archive:
+                    for name, data in files.items():
+                        archive.writestr(name, data)
+                with self.assertRaisesRegex(ValueError, "Package lost recorded source/generator notices"):
                     verify_bundle(bundle, self.manifest, (self.directory / "contracts.binpb").read_bytes())
 
     def test_public_registry_conflict_is_not_overwritten(self):

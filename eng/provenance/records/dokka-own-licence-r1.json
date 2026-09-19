@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "id": "dokka-own-licence-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/Kotlin/dokka",
+  "sourceCommit": "656ca46fbbd676d872b0bd383042fc12ae7adcdd",
+  "sourcePaths": [
+    "LICENSE.txt",
+    "NOTICE.txt"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "e230dcbf6df796df008e9a7fc916153458c6895814fcb761648ef289cf309673",
+        "finding": "Exact governing Apache-2.0 legal file and JetBrains attribution. Frontend subordinate MIT resources are separately audited."
+      },
+      {
+        "path": "NOTICE.txt",
+        "sha256": "c37577ee5a40d4f73e69e54e08220871263012983707d077dc7c48e480dc20f6",
+        "finding": "Exact governing Apache-2.0 legal file and JetBrains attribution. Frontend subordinate MIT resources are separately audited."
+      }
+    ],
+    "scope": "Exact upstream legal document. Implementation admission is separately established by dokka-documentation-resources-r1.",
+    "copyingPermission": "The governing permissive licence permits reproduction and requires retaining its copyright/permission text; this record admits the legal text only."
+  },
+  "attribution": [
+    "Copyright 2014-2024 JetBrains s.r.o. and Dokka contributors."
+  ],
+  "targets": [
+    {
+      "path": "third-party/dokka/dokka-LICENSE.txt",
+      "sha256": "e230dcbf6df796df008e9a7fc916153458c6895814fcb761648ef289cf309673",
+      "normalization": "lf"
+    },
+    {
+      "path": "third-party/dokka/dokka-NOTICE.txt",
+      "sha256": "c37577ee5a40d4f73e69e54e08220871263012983707d077dc7c48e480dc20f6",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_provenance.py --owner Contracts",
+    "expected": "Full Dokka licence and NOTICE bytes match the immutable source commit after LF normalization.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.",
+    "files": [
+      "third-party/dokka/dokka-LICENSE.txt",
+      "third-party/dokka/dokka-NOTICE.txt"
+    ],
+    "distribution": "documentation",
+    "reason": "The documentation distributes these upstream resources. Runtime client archives do not contain the Dokka frontend."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Exact current upstream files, emitted code paths, dependency archive integrity and subordinate licences reviewed under Design 1d2a2aa800bc93b26d12337e669bdcf3fd85150f, D-004, D-013 and PR-04/05. No licence exception is introduced.",
+    "baselineCommit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

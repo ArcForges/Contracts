@@ -66,6 +66,9 @@ def pack(output: Path, release: str, commit: str, dirty: bool) -> dict:
         target = ARTIFACTS / f"maven-metadata/{module}"
         metadata(target, runtime_graph(module, release), release, commit, dirty)
         shutil.copyfile(ROOT / f"src/public/kotlin/{module}/README.md", target / "README.md")
+    from documentation_tools import prepare
+    gradle("dokkaGeneratePublicationHtml", f"-PreleaseVersion={release}")
+    prepare(release)
     gradle("publishAllPublicationsToCandidateRepository", f"-PreleaseVersion={release}", f"-PsourceCommit={commit}")
     bundle = output / f"arcforges-maven-{release}.zip"
     repository = ARTIFACTS / "maven-repository"
@@ -96,10 +99,12 @@ def zip_contents(data: bytes) -> dict[str, bytes]:
 
 
 def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, bytes]:
+    from check_provenance import verify_package_notice
     release = manifest["version"]
     files = zip_contents(path.read_bytes())
     if set(files) != set(expected_paths(release)):
         raise ValueError("Maven bundle must contain all complete publications and no extra files")
+    documentation_receipts = []
     for module in MAVEN_MODULES:
         prefix = f"io/github/arcforges/{module}/{release}/{module}-{release}"
         pom = ET.fromstring(files[prefix + ".pom"])
@@ -136,6 +141,7 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
                 raise ValueError(f"Maven JAR is missing {required}")
         if b"Apache License" not in jar["META-INF/LICENSE"]:
             raise ValueError("Maven JAR licence is incorrect")
+        verify_package_notice(jar["NOTICE"])
         source = json.loads(jar["source.json"])
         if any(source[field] != manifest[field] for field in ("version", "commit", "dirty")):
             raise ValueError("Maven source metadata differs from candidate")
@@ -163,6 +169,16 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
             raise ValueError("Maven fixture resource is missing")
         sources = zip_contents(files[prefix + "-sources.jar"])
         docs = zip_contents(files[prefix + "-javadoc.jar"])
+        for companion in (sources, docs):
+            if b"Apache License" not in companion.get("META-INF/LICENSE", b""):
+                raise ValueError("Maven companion licence is missing")
+            verify_package_notice(companion.get("NOTICE", b""))
         if not any(name.endswith((".java", ".kt")) for name in sources) or not any(name.endswith("index.html") for name in docs):
             raise ValueError("Maven sources or API documentation are missing")
+        from documentation_tools import verify as verify_documentation
+        documentation_receipts.append(verify_documentation(docs, module, manifest, files[prefix + "-javadoc.jar"]))
+    from contracts import write_json
+    write_json(ARTIFACTS / "evidence/documentation-provenance.json", {
+        "result": "passed", "sourceCommit": manifest["commit"], "version": release,
+        "bundleSha256": hashlib.sha256(path.read_bytes()).hexdigest(), "archives": documentation_receipts})
     return files
