@@ -86,6 +86,17 @@ extra fonts, changed API content and missing full notices fail. The source-bound
 and archive hashes, every member hash, matched record IDs and notice hashes.
 CI retains this evidence. Prior published versions are not modified.
 
+These HTML resources belong only to the developer API reference archives for
+`contracts-proto`, `contracts-client`, `contracts-connect-client` and
+`contract-fixtures`. Each module publishes a separate Maven `javadoc` companion;
+its documentation pages and browser resources stay out of the runtime JAR.
+The 12 Chromium, Firefox and WebKit scenarios inspect those four developer
+reference archives: navigation, search, theme contrast and resource loading.
+They provide no evidence about the Cloudflare-hosted Web product, Avalonia
+desktop applications or the native Kotlin/Compose Android application. Desktop
+and mobile UI follow their native implementation boundaries; this documentation
+producer supplies no embedded browser, HTML UI or JavaScript UI to them.
+
 Run these checks after updating reviewed records and the file inventory:
 
 ```text
