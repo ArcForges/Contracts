@@ -15,7 +15,7 @@ console.log(reply.message);
 The endpoint must serve gRPC-Web. Browser cross-origin access also requires
 server CORS configuration. The demo host binds to loopback for tests.
 
-React Native uses the same proto types and a separately validated Hermes
-transport; this browser client does not claim RN support.
+Android uses the separately published Kotlin artifacts with binary gRPC-Web.
+This package is the TypeScript Web client; it does not provide a mobile runtime.
 
 Apache-2.0. [Source and full setup](https://github.com/ArcForges/Contracts).
