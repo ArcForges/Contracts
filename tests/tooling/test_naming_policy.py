@@ -53,8 +53,10 @@ class NamingPolicyTests(unittest.TestCase):
 
     def test_current_identity_set_and_no_unnecessary_exceptions(self):
         self.assertEqual({p['id'] for p in self.policy['products']}, {'arcnotes', 'arcscope', 'arcslate', 'companion'})
-        self.assertEqual(len(self.policy['provenanceExceptions']), 1)
-        self.assertEqual(self.policy['provenanceExceptions'][0]['repository'], 'DesktopPlatform')
+        self.assertEqual({(e['repository'], e['path']) for e in self.policy['provenanceExceptions']},
+                         {('DesktopPlatform', 'artifacts/evidence/traceability/feature-trace-bridge.json'),
+                          ('DesktopPlatform', 'eng/provenance/reference-inputs.json')})
+        self.assertEqual(len(self.policy['provenanceExceptions']), 2)
         self.assertEqual(self.scan()['status'], 'pass')
         self.assertFalse(self.scan()['dirty'])
 
