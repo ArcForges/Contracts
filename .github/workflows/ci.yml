@@ -56,6 +56,8 @@ jobs:
         run: python eng/check_naming.py --report artifacts/evidence/naming.json
       - name: Verify immutable provenance records and file inventory
         run: python eng/check_provenance.py --owner Contracts
+      - name: Reject invalid compiled contract access graphs
+        run: node --test tests/tooling/contract_access.test.mjs
       - name: Check formatting and dependencies
         run: |
           npm run format:check
@@ -83,6 +85,7 @@ jobs:
             artifacts/evidence/licence-boundary.json
             artifacts/evidence/provenance.json
             artifacts/evidence/documentation-provenance.json
+            artifacts/evidence/contract-access.json
             build/reports/licence-boundary.json
           if-no-files-found: error
           retention-days: 30
