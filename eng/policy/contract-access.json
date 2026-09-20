@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "licence": "Apache-2.0",
+  "reviewedOn": "2026-09-20",
+  "design": {
+    "commit": "94b3ec43389d8ec6f8cd3ad277daf0eac5e9259e",
+    "path": "docs/assurance/wp01-01-contract-access-policy.md",
+    "sha256": "80a93508b987e5ae4cb107a72e1cb6cc5bebfb126a287b56099dd94fb0c15884"
+  },
+  "sourceCommit": "d716045854e2e401a1a536ba2ee5c62ad1c4e8ab",
+  "schemas": [
+    {
+      "path": "public/proto/arcforges/hello/v1/hello.proto",
+      "access": "public",
+      "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9"
+    }
+  ],
+  "types": [
+    {
+      "name": "arcforges.hello.v1.SayHelloRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/hello/v1/hello.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.hello.v1.SayHelloResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/hello/v1/hello.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.hello.v1.HelloService",
+      "kind": "service",
+      "file": "public/proto/arcforges/hello/v1/hello.proto",
+      "access": "public"
+    }
+  ],
+  "packages": [
+    {
+      "id": "ArcForges.Contracts.PublicApi",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.PublicApi",
+      "access": "public"
+    },
+    {
+      "id": "@arcforges/proto",
+      "sourceRoot": "src/public/ts/proto",
+      "access": "public"
+    },
+    {
+      "id": "@arcforges/api-client",
+      "sourceRoot": "src/public/ts/api-client",
+      "access": "public"
+    },
+    {
+      "id": "io.github.arcforges:contracts-proto",
+      "sourceRoot": "src/public/kotlin/contracts-proto",
+      "access": "public"
+    },
+    {
+      "id": "io.github.arcforges:contracts-client",
+      "sourceRoot": "src/public/kotlin/contracts-client",
+      "access": "public"
+    },
+    {
+      "id": "io.github.arcforges:contracts-connect-client",
+      "sourceRoot": "src/public/kotlin/contracts-connect-client",
+      "access": "public"
+    },
+    {
+      "id": "io.github.arcforges:contract-fixtures",
+      "sourceRoot": "src/public/kotlin/contract-fixtures",
+      "access": "public"
+    }
+  ],
+  "distribution": [
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Hello.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["HelloReflection", "SayHelloRequest", "SayHelloResponse"],
+      "sha256": "ed94f07ed0b686a5144eadd01b27bc658647a9cb86faba348c6a6c8d653e48ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/HelloGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["HelloService", "__Helper_MessageCache", "HelloServiceBase", "HelloServiceClient"],
+      "sha256": "672f75aae224a5d4fd78cbaf69390d8b00878929bb3cbcbb27e5a2e876513a55",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contract-fixtures/src/main/java/io/github/arcforges/contracts/fixtures/ContractFixtures.java",
+      "package": "io.github.arcforges:contract-fixtures",
+      "access": "public",
+      "types": ["ContractFixtures"],
+      "sha256": "615c4bd05e715f4106262391844b7e7324f63ba55fd200b4e1d4815349d3232f",
+      "kind": "authored"
+    },
+    {
+      "path": "src/public/kotlin/contracts-client/generated/java/io/github/arcforges/contracts/hello/v1/HelloServiceGrpc.java",
+      "package": "io.github.arcforges:contracts-client",
+      "access": "public",
+      "types": [
+        "HelloServiceGrpc",
+        "AsyncService",
+        "HelloServiceImplBase",
+        "HelloServiceStub",
+        "HelloServiceBlockingV2Stub",
+        "HelloServiceBlockingStub",
+        "HelloServiceFutureStub",
+        "MethodHandlers"
+      ],
+      "sha256": "5c5ff63be5962bab2d3108d1f0f707286d22ec76471fd4aab3ec309bab061365",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoGrpcKt.kt",
+      "package": "io.github.arcforges:contracts-client",
+      "access": "public",
+      "types": ["HelloServiceGrpcKt", "HelloServiceCoroutineStub", "HelloServiceCoroutineImplBase"],
+      "sha256": "34525455062022b1600da6f9977319ce051647f5142cd8ad8a8ff56b177b1ccb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["HelloServiceClient"],
+      "sha256": "efd6777f0c9717f5a434ad4bc26895b99461c032d339b681ac1875915f01b0e4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["HelloServiceClientInterface"],
+      "sha256": "3b61e2b737c84c17b71aa7eb0bda6846b75f92b1d0dbfdd5e17e8cee8635049b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/HelloProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["HelloProto"],
+      "sha256": "49d1bddffe65e53d584620b5aecfbac320bbb989c2bb679736e2fd49539050c4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SayHelloRequest", "Builder"],
+      "sha256": "d3ae661dcbc8673e5098319e0c7d43ba8ed4bad198f7e7ec45b7bef82b0faaba",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SayHelloRequestOrBuilder"],
+      "sha256": "c166148a395453d2284903b9216ec600d63bc606e0e843b25699beed6faeabd0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SayHelloResponse", "Builder"],
+      "sha256": "8b614d3b726653a4a36a238d0f17814623a3a151a834722ddf68d09013d9c3a1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SayHelloResponseOrBuilder"],
+      "sha256": "05b8a1aef1f5f15b1be0051546a36be427d500525fbda64e3d7cfaf1ec97172c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "e136567ee4b31e2c7b65dc999681686dfcf99ce7abc543203dae0a748607f11e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/SayHelloRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SayHelloRequestKt", "Dsl"],
+      "sha256": "6ac00b6ff8bc568f004c93f22370f9c1af653d935fc3c59e93126a7c81e698dc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/SayHelloResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SayHelloResponseKt", "Dsl"],
+      "sha256": "ebe2a936356ec3d194da216a91aca1f9a8f9f85c5245612bd669a830d28e7af9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/index.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [],
+      "sha256": "9b77f2bc4411a21c9d7a12c66b61ffd359a9a17efb4bebe7bd6d46dde7717b1b",
+      "kind": "authored"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": ["SayHelloRequest", "SayHelloResponse"],
+      "sha256": "5470a1e989ca03c7ed38681473a2ca1140cb1e6fdb998e8e8201e54b0fba4cdb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/index.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [],
+      "sha256": "0f1cf054dac82a85aa344b8f45fcd3c609aa49af99e6f62f2e0f21e4b1adb744",
+      "kind": "authored"
+    }
+  ],
+  "buildInputs": [
+    {
+      "path": "Directory.Build.props",
+      "sha256": "03c1b656e2c4813341af5eeee8013f296b9e11edc4c64a2501387c9a6573b6bb"
+    },
+    {
+      "path": "Directory.Build.targets",
+      "sha256": "64eee4fee7291c9afb9049413a95a19acc174354e506dd1965237061d12bf4b1"
+    },
+    {
+      "path": "Directory.Packages.props",
+      "sha256": "da77af081aa25740bc3a66e950df7efd6a894674f186d355818f5cc7c4857e0c"
+    },
+    {
+      "path": "NuGet.config",
+      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
+    },
+    {
+      "path": "build.gradle.kts",
+      "sha256": "a0a9388bb5a34515185a0ad7401e6b6a0dba254f892a25d295a92c0766ae1aed"
+    },
+    {
+      "path": "gradle.properties",
+      "sha256": "215783b81a2a5430dce46ac52c678152d2a857cc40cd82e4590ea609b74b1b2e"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "sha256": "75913647f51c39122d54d1e6f311115145aa975033b567a7ae86455b1cd5dac8"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+    },
+    {
+      "path": "package.json",
+      "sha256": "fbd3bc8d9f5c69cc8b119314086187964d671cdf634b91edc8d1eef5f3d768c6"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "sha256": "1f5b60ba4526dc5c0df1bbad3733f3d54c8986b7bb182d4de6af226d80ed6e10"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj",
+      "sha256": "8729e258c7d3de2ff083a3a19fc2d7bce73c2ffc036983c1d9d793d0d0555b37"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json",
+      "sha256": "6081ad4fb578234a0fb55b07cc28f635269fc9441be05a1d7c484bc423c25706"
+    },
+    {
+      "path": "src/public/kotlin/contract-fixtures/build.gradle.kts",
+      "sha256": "04a795a0a53289dfd045258203676340c38ffd07c2a2af5defeba6eba538f6c6"
+    },
+    {
+      "path": "src/public/kotlin/contract-fixtures/gradle.lockfile",
+      "sha256": "14dc5803d23ab183aa24b2849ee51541e52e4d26fbada80e19082d15e0b1c654"
+    },
+    {
+      "path": "src/public/kotlin/contracts-client/build.gradle.kts",
+      "sha256": "aad5df34d4aa67656c72931d8450a6e36468c4d6576ec01c196fa92a44db4c96"
+    },
+    {
+      "path": "src/public/kotlin/contracts-client/gradle.lockfile",
+      "sha256": "8f73565fdf42782b54bc63075e9daa435f7301dcee0654657f47235975e640ce"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/build.gradle.kts",
+      "sha256": "c874f55eca9149f4849c727c8fbb7282015b520c50b55cf91e5ad67283b4c5c0"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/gradle.lockfile",
+      "sha256": "560f3bf8fa2d38cc4b9a87717342c7a3e003ed1243f405519f5b73e6de0acfb9"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/build.gradle.kts",
+      "sha256": "a7716ed1821d35154e862d5c6851f5c6d2abf5201a34f8f63b4d4c94f071c1b7"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/gradle.lockfile",
+      "sha256": "766ba7a9c4101ae5149d0200ddc2bfc45d54aa1e3187717171a1dfab28a1ec4b"
+    },
+    {
+      "path": "src/public/ts/api-client/package.json",
+      "sha256": "393e78887e6e7bb297ecbda6831f76882cf3a1daa15c279ea29877ee1b50653f"
+    },
+    {
+      "path": "src/public/ts/api-client/tsconfig.json",
+      "sha256": "9981abe59645c0367cb651ecd782c0dd830517d8a0bcd421cf14d5d68c6dc946"
+    },
+    {
+      "path": "src/public/ts/proto/package.json",
+      "sha256": "98367a7015180269a235989d7b30567c51595af931b24dc6e5e1916f7e326a84"
+    },
+    {
+      "path": "src/public/ts/proto/tsconfig.json",
+      "sha256": "f13de7d9494783c4077aa3ddcf1242d26301f8b0ecce32ec263c58aeb4a81262"
+    }
+  ]
+}

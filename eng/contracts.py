@@ -138,6 +138,7 @@ def generate(check: bool = False) -> None:
 
 def build() -> None:
     run(sys.executable, ROOT / "eng/check_licences.py")
+    run("node", ROOT / "eng/check_contract_access.mjs")
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
     run(NPM, "run", "build")
     run(NPM, "test")

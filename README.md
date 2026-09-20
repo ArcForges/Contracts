@@ -149,3 +149,7 @@ uses [Apache-2.0](LICENSE), including schemas, generated bindings, client code,
 examples and tooling. See [licensing details](docs/architecture.md#licensing).
 Dependencies retain their own licences. No product implementation or
 reference-repository source is bundled.
+
+[WP01.01 contract access assignment](docs/implementation/wp01-01-contract-access.md)
+records every current contract/distribution type and rejects public-to-internal dependencies
+using compiled proto descriptors before candidate packing.
