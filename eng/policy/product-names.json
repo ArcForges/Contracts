@@ -150,6 +150,13 @@
       "sha256": "f4a8f47549a96e529af5af9582f07a81dd97af73f006ba3c4436c624210a0976",
       "names": ["ArcVideo", "ArcVideoFoundation"],
       "reason": "Reviewed fixed-commit sourceBaselines in the retained historical traceability seed; no current product or reuse authority."
+    },
+    {
+      "repository": "DesktopPlatform",
+      "path": "eng/provenance/reference-inputs.json",
+      "sha256": "4d06afa72af2deeff860288b96644a63b3b1ce814ab2bf8cb7992cd3b005edd5",
+      "names": ["ArcVideo", "ArcVideoFoundation"],
+      "reason": "Reviewed WP00.04 fixed-commit reference identity and packaged-observation metadata under Design f5ef5d56dba6e7ecbe49a4ff47163bc548b94c8c; names identify existing sources only, never products or reuse permission."
     }
   ],
   "derivedDeclarations": [
