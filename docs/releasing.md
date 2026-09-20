@@ -1,7 +1,7 @@
 # Registry setup and automatic releases
 
 The workflow is `.github/workflows/ci.yml`. Main pushes automatically build,
-validate and publish a version `1.0.0-ci.<run-number>.<run-attempt>`. PR,
+validate and publish NuGet/npm `1.0.0-ci.<run-number>.<run-attempt>` and Maven `1.0.0-SNAPSHOT`. Canonical `vX.Y.Z` tags on main ancestry publish `X.Y.Z` across all three registries. PR,
 merge-group and manual diagnostic events validate only. Setting a variable by
 itself does not trigger a run; finish setup before the next main merge.
 
@@ -11,7 +11,7 @@ GitHub organisation membership does not create a corresponding npm organisation.
 ## 1. GitHub configuration
 
 In repository Settings, create environments **nuget**, **npm** and **maven-central**. In each,
-restrict deployment branches to **main**. Leave required reviewers and wait timers
+restrict deployment to branch **main** and tags **v***. Leave required reviewers and wait timers
 off for unattended publication. Actions default permissions should be read-only;
 NuGet/npm jobs request OIDC only after the consumer gate. Maven Central uses
 its own environment secrets and requests no OIDC token.
@@ -147,16 +147,14 @@ Android device acceptance.
 
 Follow [the complete Maven Central account, signing and recovery guide](maven-central.md).
 The group is `io.github.arcforges`, with `contracts-proto`, `contracts-client`,
-`contracts-connect-client` and `contract-fixtures`. They use the same candidate
-version as NuGet/npm. The additional module uses the existing namespace, main-only
-environment, credentials and publication switch; it needs no new account/token.
+`contracts-connect-client` and `contract-fixtures`. Formal releases share the NuGet/npm version; development Maven snapshots retain the CI build identity in JAR metadata. Enable SNAPSHOTs for the existing namespace; keep its credentials and publication switch.
 For a new repository installation, leave Maven disabled until that setup is ready.
 
 ## 5. Understand the result
 
 - **Build candidate / Verify passed:** generation, code, archive contents and
   independent consumers passed. This alone is not registry publication.
-- **Publish job skipped:** its registry is disabled, or this event was not a main
+- **Publish job skipped:** its registry is disabled, or this event was not a main or formal-tag
   push. Check the variables and workflow event.
 - **Publish job passed:** that registry accepted the candidate, or an identical
   previously accepted version was verified. Registry scanning/indexing can finish
@@ -184,11 +182,10 @@ canceling an active publication. Because jobs can reach the queue out of source
 order, the numeric version check also prevents an older run or retry from
 replacing a newer `latest`. Superseded PR runs may be cancelled.
 
-On the first main merge containing this change, the new version advances both
-packages' `latest` tags from their old bootstrap version. No manual tag command,
-long-lived token or re-upload of `1.0.0-ci.6.1` is needed. A `latest` value outside
-the supported CI version series fails publication for review; stable-release
-policy must be designed before introducing a different version series.
+After the first stable release, main builds use npm `ci` and cannot replace stable
+`latest`. A newer stable version advances `latest`; an older stable release uses
+`release`. Before the first stable version, the existing numeric CI latest policy
+above continues. These mutable tags do not alter consumer locks.
 
 ## 6. Failure and retry
 
@@ -206,12 +203,9 @@ every tested JAR, POM and Gradle module metadata file byte for byte. A mismatch 
 instead of silently skipping it. A registry indexing delay may require retrying
 after the existing version becomes visible.
 
-Re-running all jobs creates a new candidate with an increased attempt suffix,
-which is a new version. Missing/expired artifacts also require a new validated
+Re-running all jobs on a main run creates a new candidate with an increased CI attempt suffix. Formal tags keep their immutable version, so retry failed publication jobs using the retained original candidate. Missing/expired artifacts also require a new validated
 run; do not reconstruct an old version from another source revision.
 
 To stop future uploads, disable the relevant variable. To recover consumers,
 pin their last verified version and merge a fix that publishes a new immutable
-version. Existing packages are never overwritten, automatically unlisted or
-deleted. Stable release promotion and production compatibility baselines are
-outside this Hello World bootstrap.
+version. Immutable releases are never overwritten, automatically unlisted or deleted. Maven development snapshots are the explicit mutable exception. Formal tag publication does not establish product readiness or production compatibility.

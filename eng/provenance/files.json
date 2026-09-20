@@ -65,6 +65,7 @@
     "eng/policy/reuse-policy.json",
     "eng/provenance/NOTICE.txt",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
     "eng/provenance/conflicts/javadoc-script-boundary-r1.json",
     "eng/provenance/files.json",
     "eng/provenance/records/canonical-apache-licence-r1.json",
@@ -84,6 +85,7 @@
     "eng/provenance/records/dokka-define-data-property-licence-r1.json",
     "eng/provenance/records/dokka-define-properties-licence-r1.json",
     "eng/provenance/records/dokka-documentation-resources-r1.json",
+    "eng/provenance/records/dokka-documentation-resources-r2.json",
     "eng/provenance/records/dokka-dom-helpers-licence-r1.json",
     "eng/provenance/records/dokka-dunder-proto-licence-r1.json",
     "eng/provenance/records/dokka-es-define-property-licence-r1.json",
@@ -156,6 +158,8 @@
     "eng/provenance/records/protobuf-generator-licence-r1.json",
     "eng/provenance/template.json",
     "eng/publish_tools.py",
+    "eng/release_channels.py",
+    "eng/snapshot_publish.py",
     "fixtures/public/hello.json",
     "global.json",
     "gradle.lockfile",
@@ -219,6 +223,7 @@
     "tests/tooling/test_naming_policy.py",
     "tests/tooling/test_npm_release_tags.py",
     "tests/tooling/test_provenance.py",
+    "tests/tooling/test_publication_channels.py",
     "tests/tooling/test_release_guards.py"
   ],
   "reused": {
@@ -330,5 +335,5 @@
     "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts": "hello-bindings-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r1"]
+  "artifacts": ["dokka-documentation-resources-r2"]
 }

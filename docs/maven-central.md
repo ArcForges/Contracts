@@ -1,82 +1,44 @@
-# Maven Central setup and recovery
+# Maven development snapshots and formal releases
 
-Kotlin artifacts use the Sonatype Central Portal. The Maven group is
-`io.github.arcforges`; module names are `contracts-proto`, `contracts-client`,
-`contracts-connect-client` and `contract-fixtures`. The Connect client uses the
-existing namespace and signing setup. New modules or versions in this namespace
-require no new package registration.
+The group remains `io.github.arcforges`, with `contracts-proto`, `contracts-client`, `contracts-connect-client` and `contract-fixtures`.
 
-## One-time account and signing setup
+Main builds publish `1.0.0-SNAPSHOT` to `https://central.sonatype.com/repository/maven-snapshots/`. Canonical `vX.Y.Z` tags publish immutable `X.Y.Z` releases to Maven Central. The tag commit must be reachable from main and passes the same candidate/consumer gates. No production tag is created by a validation test.
 
-1. Register/sign in at [Central Portal](https://central.sonatype.com/) and verify
-   the account email. Claim `io.github.arcforges`. Follow the Portal's current
-   GitHub ownership-verification instructions for the `ArcForges` organisation;
-   owning a different personal namespace is insufficient. Complete this before
-   enabling publication. See [namespace verification](https://central.sonatype.org/register/namespace/).
-2. On the [user-token page](https://central.sonatype.com/usertoken), generate a
-   publishing user token. Its generated username and password/token are the API
-   credential pair, not the website login password.
-3. Create or select a dedicated PGP signing key and retain a secure backup in
-   your normal key manager. Publish its public key to a supported key server:
-   Central must retrieve it before validating signatures. Export the ASCII-armored
-   private signing key directly to the protected secret input; do not put it in
-   source, repository variables or chat. Follow [Central's PGP guide](https://central.sonatype.org/publish/requirements/gpg/).
-4. In GitHub repository Settings → Environments → **maven-central**, add these
-   **environment secrets**:
+## Account setup
 
-   | Secret                   | Value                                                                |
-   | ------------------------ | -------------------------------------------------------------------- |
-   | `MAVEN_CENTRAL_USERNAME` | Username generated with the Portal user token                        |
-   | `MAVEN_CENTRAL_TOKEN`    | Password/token generated with the same user token                    |
-   | `MAVEN_SIGNING_KEY`      | Complete ASCII-armored private signing key, including boundary lines |
-   | `MAVEN_SIGNING_PASSWORD` | Passphrase for that signing key                                      |
+Verify ownership of `io.github.arcforges` in the [Central Portal](https://central.sonatype.com/). In [namespace settings](https://central.sonatype.com/publishing/namespaces), enable SNAPSHOTs for this namespace. Sonatype currently removes old snapshots after approximately 90 days; these are development artifacts, not long-term deployment inputs. See [official snapshot documentation](https://central.sonatype.org/publish/publish-portal-snapshots/).
 
-5. Set repository variable **MAVEN_PUBLISH_ENABLED=true** after namespace
-   verification and the secrets are ready. The environment accepts main only;
-   no reviewer or timer is needed for unattended releases.
-6. Merge the accepted PR. CI allocates a version, builds all seven packages, tests
-   them on Windows/Linux, then runs the registry jobs. Maven signing adds detached
-   signatures and checksums to tested files. The Portal request selects
-   `AUTOMATIC`; no manual publish button, version entry or local Gradle publish is
-   part of the normal release flow.
-7. Confirm **Publish Maven Central** reports that all four modules match the
-   tested candidate in the public repository. A disabled job skips visibly;
-   an enabled job with missing credentials fails. Keep the environment, Portal
-   token and signing key for future releases and rotate credentials when needed.
+Generate the Portal publishing user-token pair. Store `MAVEN_CENTRAL_USERNAME` and `MAVEN_CENTRAL_TOKEN` as secrets in GitHub environment `maven-central`. Formal releases additionally use `MAVEN_SIGNING_KEY` and `MAVEN_SIGNING_PASSWORD`; publish the public signing key as required by [Central](https://central.sonatype.org/publish/requirements/gpg/). Snapshot jobs receive no signing key. Keep secrets out of repository files and logs.
 
-This Portal integration uses a stored token and signing key; deleting them stops
-future Maven releases. Existing NuGet/npm OIDC configuration is independent.
-The initial GitHub setup leaves Maven disabled and contains no dummy secrets.
-Account ownership and private credential values must come from a maintainer.
+Restrict the environment to branch `main` and tags `v*`, without required reviewers or timers. The workflow rejects noncanonical tags and unmerged tag commits. Enable repository variable `MAVEN_PUBLISH_ENABLED=true` after setup. A skipped job means no publication; a missing credential or disabled namespace fails visibly.
 
-See [Portal tokens](https://central.sonatype.org/publish/generate-portal-token/),
-[publication requirements](https://central.sonatype.org/publish/requirements/) and
-[Publisher API](https://central.sonatype.org/publish/publish-portal-api/).
+## Development consumption
 
-## Failed-job recovery
+Existing immutable consumer pins are unchanged. Development users explicitly opt in:
 
-The `maven-deployment-<run-id>-<attempt>` artifact contains a non-secret receipt
-tied to the candidate version, source commit and unsigned bundle hash. A failed
-job retry downloads matching receipts from the same workflow run and resumes
-the accepted deployment ID. It does not rebuild or repeat the upload. Validation
-failure, an unexpected manual-publication state, a mismatching public version
-or an unknown state fails visibly. Retain the receipt for investigation.
+```kotlin
+repositories {
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        content { includeGroup("io.github.arcforges") }
+    }
+    mavenCentral()
+}
+dependencies {
+    implementation("io.github.arcforges:contracts-connect-client:1.0.0-SNAPSHOT")
+}
+```
 
-A timeout after sending an upload but before receiving its ID is ambiguous.
-The retry refuses another upload. Inspect Central, set **environment variable**
-`MAVEN_CENTRAL_DEPLOYMENT_ID` to the confirmed deployment ID and re-run the failed
-job. Remove that variable afterwards; it is not a normal release setting. If
-Central confirms there was no accepted upload, use a new validated main run and
-version. Do not delete or overwrite an existing release to make a retry succeed.
+Gradle may [cache changing modules](https://docs.gradle.org/current/userguide/dependency_caching.html); use `--refresh-dependencies` when explicitly requesting a fresh snapshot. A snapshot coordinate can resolve differently later. The JAR's `source.json` carries the immutable cross-language CI build version, Git SHA and descriptor hash. Candidate manifests additionally record `mavenVersion`; publication receipts record all resolved timestamped URLs and hashes. Formal releases share one version across NuGet/npm/Maven.
 
-`PUBLISHED` can precede CDN visibility. After Central completes, the job allows
-15 minutes for public files to appear. A later retry compares existing bytes
-again. Partial visibility causes a retryable failure, never an overwrite of the
-visible subset. A completely matching public release succeeds without another
-upload. Search-page indexing is not the acceptance gate.
+## Tested-byte publication and recovery
 
-Candidates are retained for 30 days and receipts for 90 days. An expired
-candidate requires a new version even if its receipt remains. Use **Re-run failed
-jobs** to retain an existing candidate; **Re-run all jobs** builds a new version.
-Each registry has separate results, so a green Verify or NuGet/npm publication
-does not establish Maven publication.
+Packing uses an isolated Maven-local directory below repository `artifacts`, never the developer's global Maven repository. Both consumer platforms restore the candidate before publication. A separate source-free Gradle build transports the exact tested JAR, sources, documentation, POM and module files. Gradle generates snapshot timestamps and repository checksums. The publisher verifies all 20 remote files byte for byte. A newer snapshot cannot be replaced by a delayed older CI run; a same-build byte conflict fails.
+
+Each publication step has a ten-minute timeout. `maven-deployment-<run-id>-<attempt>` retains a non-secret receipt even after failure. Re-run failed jobs with the original candidate; do not re-run all jobs merely to retry publication. Matching snapshot bytes succeed without another upload. Missing snapshot files can be republished from the same candidate and are verified together before success.
+
+Formal releases retain the Central Portal `AUTOMATIC` upload and detached-signature path. Retries recover the accepted deployment ID from the same run's receipt. An ambiguous upload without an ID is not uploaded again: inspect Central and set environment variable `MAVEN_CENTRAL_DEPLOYMENT_ID` only to the confirmed deployment ID, then remove the override after recovery. Publication and public-byte propagation share the bounded attempt; a later retry resumes the same deployment. Search indexing is not an acceptance gate.
+
+Candidates are retained for 30 days and receipts for 90 days. If an immutable release candidate expires, do not reconstruct or overwrite that version; allocate a new release version through review. CI/npm/NuGet success does not establish Maven availability. Namespace enablement is proven only by a real successful snapshot publication.
+
+Post-merge verification can run `python eng/contracts.py consume --aot --snapshot-registry` against the downloaded matching candidate. It verifies remote bytes before and after actual Kotlin/Connect restoration and RPC execution, using fresh caches.

@@ -61,32 +61,41 @@ def npm_publish_tag(package_id: str, release: str) -> str:
     latest = json.loads(metadata).get("latest") if metadata is not None else None
     if latest is None:
         return "latest"
-    # This bootstrap only publishes 1.0.0-ci.<run>.<attempt>. Do not guess how a
-    # future stable/other release series should be promoted by this workflow.
-    try:
-        current = tuple(int(part) for part in version(latest).split(".")[-2:])
-        incoming = tuple(int(part) for part in version(release).split(".")[-2:])
-    except ValueError as error:
-        raise ValueError(f"Review the npm release policy before replacing latest={latest}: {package_id}") from error
-    if incoming > current:
+    from release_channels import stable
+    version(release)
+    version(latest)
+    if stable(latest):
+        if not stable(release):
+            return "ci"
+        return "latest" if tuple(map(int, release.split("."))) > tuple(map(int, latest.split("."))) else "release"
+    if stable(release):
         return "latest"
-    print(f"Preserving npm latest={latest}: {package_id} {release} will use the ci tag")
-    return "ci"
+    current = tuple(map(int, latest.split(".")[-2:]))
+    incoming = tuple(map(int, release.split(".")[-2:]))
+    return "latest" if incoming > current else "ci"
 
 
 def publish_verified(directory: Path, registry: str) -> None:
     if (os.environ.get("GITHUB_REPOSITORY") != "ArcForges/Contracts"
-            or os.environ.get("GITHUB_REF") != "refs/heads/main"
+            or not (os.environ.get("GITHUB_REF") == "refs/heads/main"
+                    or os.environ.get("GITHUB_REF", "").startswith("refs/tags/v"))
             or os.environ.get("GITHUB_EVENT_NAME") != "push"):
-        raise ValueError("Automated publishing is restricted to ArcForges/Contracts main push runs")
+        raise ValueError("Automated publishing is restricted to ArcForges/Contracts main or release-tag push runs")
     expected_commit = os.environ.get("GITHUB_SHA", "")
     if not re.fullmatch("[0-9a-f]{40}", expected_commit):
         raise ValueError("Publishing requires the exact GitHub source commit")
     manifest = verify_artifacts(directory, expected_commit)
+    from release_channels import authorize, maven_version
+    authorize(manifest["version"])
     if manifest["dirty"]:
         raise ValueError("Never publish a candidate built from a dirty checkout")
     if registry == "maven":
-        from central_publish import publish
+        if manifest.get("mavenVersion") != maven_version(manifest["version"]):
+            raise ValueError("Publication requires a channel-aware Maven candidate")
+        if manifest["mavenVersion"].endswith("-SNAPSHOT"):
+            from snapshot_publish import publish
+        else:
+            from central_publish import publish
         publish(directory, manifest)
         return
     # Keep manifest order: proto must be accepted before api-client is uploaded.
@@ -125,5 +134,5 @@ def publish_verified(directory: Path, registry: str) -> None:
         with open(summary, "a", encoding="utf-8") as stream:
             stream.write(f"\n{registry}: registry accepted {manifest['version']} (or existing identical archives).\n")
             if registry == "npm":
-                stream.write("Newer CI versions update npm latest; older runs preserve it using the ci tag.\n")
+                stream.write("Stable releases own npm latest after the first stable publication; development builds then use ci.\n")
             stream.write("Registry indexing may follow acceptance. Other registry jobs have separate results.\n")

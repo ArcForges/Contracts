@@ -52,7 +52,7 @@ class MavenReleaseGuards(unittest.TestCase):
             with self.subTest(module=module), tempfile.TemporaryDirectory(prefix="contracts-maven-guard-") as temporary:
                 files = dict(self.files)
                 pom = next(name for name in files if f"/{module}/" in name and name.endswith(".pom"))
-                old = self.manifest["version"].encode()
+                old = self.manifest.get("mavenVersion", self.manifest["version"]).encode()
                 # Keep the POM's own identity, alter only its internal dependency version.
                 before, dependencies = files[pom].split(b"<dependencies>", 1)
                 files[pom] = before + b"<dependencies>" + dependencies.replace(old, b"1.0.0-ci.999999.1")

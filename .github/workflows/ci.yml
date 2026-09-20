@@ -4,6 +4,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
   merge_group:
   workflow_dispatch:
@@ -63,10 +64,13 @@ jobs:
           npm run format:check
           npm audit --audit-level=high
           git diff --check
+      - name: Select and validate publication identity
+        id: identity
+        run: python eng/release_channels.py
       - name: Generate, compile, test and pack one candidate
         id: candidate
         env:
-          PACKAGE_VERSION: 1.0.0-ci.${{ github.run_number }}.${{ github.run_attempt }}
+          PACKAGE_VERSION: ${{ steps.identity.outputs.version }}
           ARTIFACT_NAME: contracts-candidate-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           python eng/contracts.py pack --version "$PACKAGE_VERSION"
@@ -108,6 +112,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
@@ -164,12 +169,12 @@ jobs:
           echo "Generation, compilation, archive validation and both consumer platforms passed." >> "$GITHUB_STEP_SUMMARY"
           echo "NuGet publishing enabled: ${NUGET_ENABLED:-false}; npm publishing mode: ${NPM_MODE:-disabled}." >> "$GITHUB_STEP_SUMMARY"
           echo "Maven Central publishing enabled: ${MAVEN_ENABLED:-false}. Kotlin uses tested Maven JARs." >> "$GITHUB_STEP_SUMMARY"
-          echo "Registry jobs only run for main pushes. Skipped jobs mean no publication." >> "$GITHUB_STEP_SUMMARY"
+          echo "Registry jobs only run for main or canonical release-tag pushes. Skipped jobs mean no publication." >> "$GITHUB_STEP_SUMMARY"
 
   publish-nuget:
     name: Publish NuGet
     needs: [candidate, verify]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ArcForges/Contracts' && vars.NUGET_PUBLISH_ENABLED == 'true'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts' && vars.NUGET_PUBLISH_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: nuget
@@ -179,6 +184,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
@@ -205,7 +211,7 @@ jobs:
   publish-npm:
     name: Publish npm
     needs: [candidate, verify]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ArcForges/Contracts' && contains(fromJSON('["bootstrap", "oidc"]'), vars.NPM_PUBLISH_MODE)
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts' && contains(fromJSON('["bootstrap", "oidc"]'), vars.NPM_PUBLISH_MODE)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: npm
@@ -221,6 +227,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -242,11 +249,11 @@ jobs:
         run: python eng/contracts.py publish npm
 
   publish-maven:
-    name: Publish Maven Central
+    name: Publish Maven channel
     needs: [candidate, verify]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ArcForges/Contracts' && vars.MAVEN_PUBLISH_ENABLED == 'true'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')) && github.repository == 'ArcForges/Contracts' && vars.MAVEN_PUBLISH_ENABLED == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 15
     environment: maven-central
     concurrency:
       group: contracts-maven-publication
@@ -258,6 +265,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -272,13 +280,14 @@ jobs:
           path: artifacts/packages/
       - name: Verify the candidate before exposing signing credentials
         run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
-      - name: Sign tested files and publish all Maven modules automatically
+      - name: Publish tested Maven files to the selected channel
+        timeout-minutes: 10
         env:
           GH_TOKEN: ${{ github.token }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
-          MAVEN_SIGNING_KEY: ${{ secrets.MAVEN_SIGNING_KEY }}
-          MAVEN_SIGNING_PASSWORD: ${{ secrets.MAVEN_SIGNING_PASSWORD }}
+          MAVEN_SIGNING_KEY: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.MAVEN_SIGNING_KEY || '' }}
+          MAVEN_SIGNING_PASSWORD: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.MAVEN_SIGNING_PASSWORD || '' }}
           MAVEN_CENTRAL_DEPLOYMENT_ID: ${{ vars.MAVEN_CENTRAL_DEPLOYMENT_ID }}
         run: python eng/contracts.py publish maven
       - name: Retain deployment receipt for failed-job recovery

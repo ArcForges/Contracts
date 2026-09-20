@@ -13,7 +13,7 @@ from check_provenance import (INVENTORY, STORE, digest, document, fields, packag
                               path as check_path, read, require, verify_package_notice)
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json"
+PROFILE = "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json"
 MODULES = ("contracts-proto", "contracts-client", "contracts-connect-client", "contract-fixtures")
 THEME_FIX = (b"\n/* SPDX-License-Identifier: Apache-2.0; ArcForges documentation contrast correction. */\n"
              b".theme-dark .main-content a:not([data-name]) { color: var(--default-font-color); }\n")
@@ -153,7 +153,7 @@ def verify(docs: dict[str, bytes], module: str, manifest: dict, archive: bytes, 
     for name, entry in policy["fixed"].items():
         require(sha(docs[name]) == entry["distributedSha256"], "Changed packaged documentation resource: " + name)
     for name, expected_hash in pages.items():
-        require(sha(normalized_page(docs[name], manifest["version"])) == expected_hash,
+        require(sha(normalized_page(docs[name], manifest.get("mavenVersion", manifest["version"]))) == expected_hash,
                 "Packaged API documentation differs from oracle: " + name)
     for name, markers in policy["modules"][module]["publicApi"].items():
         for marker in markers:

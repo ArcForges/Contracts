@@ -1,0 +1,775 @@
+{
+  "schemaVersion": 1,
+  "id": "dokka-documentation-resources-r2",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/Kotlin/dokka",
+  "sourceCommit": "656ca46fbbd676d872b0bd383042fc12ae7adcdd",
+  "sourcePaths": [
+    "dokka-subprojects/plugin-base-frontend/package-lock.json",
+    "dokka-subprojects/plugin-base-frontend/webpack.config.js",
+    "dokka-subprojects/plugin-base-frontend/webpack.config-ui-kit.js",
+    "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/prism.js",
+    "dokka-subprojects/plugin-base/src/main/resources/dokka/ui-kit/ui-kit.min.css"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0 AND MIT",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "e230dcbf6df796df008e9a7fc916153458c6895814fcb761648ef289cf309673",
+        "finding": "Apache-2.0 applies to the Dokka generator and its own resources; subordinate npm/Prism licences remain MIT or Apache-2.0 and are recorded in the resource closure."
+      },
+      {
+        "path": "dokka-subprojects/plugin-base-frontend/package-lock.json",
+        "sha256": "c5c15cc3e5bff0fca11ac13818852fa2151e3faad18f292c56d7a4bbcc4b2c77",
+        "finding": "Pinned npm package archives/integrities; actual emitted webpack modules, rather than all build dependencies, determine the admitted resource closure."
+      },
+      {
+        "path": "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/prism.js",
+        "sha256": "73995d49b765f3938d508a956eba6f74fead5133b78c2a351f6da226c8b93290",
+        "finding": "Prism 1.29.0 carries its MIT source attribution; the exact npm licence and source commit are recorded separately."
+      }
+    ],
+    "scope": "Only the reviewed Apache/MIT Dokka documentation resources and their actual emitted dependency closure; embedded OFL fonts and their @font-face declarations are excluded.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2014-2024 JetBrains s.r.o. and Dokka contributors.",
+    "The 81 actual included npm components, original copyright holders and full licences are enumerated in the immutable profile and retained documentation notices."
+  ],
+  "targets": [],
+  "artifactTargets": [
+    {
+      "project": "contracts-proto",
+      "package": "io.github.arcforges:contracts-proto",
+      "kind": "maven-javadoc",
+      "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
+      "sha256": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e"
+    },
+    {
+      "project": "contracts-client",
+      "package": "io.github.arcforges:contracts-client",
+      "kind": "maven-javadoc",
+      "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
+      "sha256": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e"
+    },
+    {
+      "project": "contracts-connect-client",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "kind": "maven-javadoc",
+      "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
+      "sha256": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e"
+    },
+    {
+      "project": "contract-fixtures",
+      "package": "io.github.arcforges:contract-fixtures",
+      "kind": "maven-javadoc",
+      "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
+      "sha256": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e"
+    }
+  ],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "regeneration",
+    "command": "python eng/contracts.py pack; python -m unittest discover -s tests/tooling -v",
+    "expected": "Pinned Dokka outputs match the reviewed complete member set. Fixed resources match upstream/reproduced bytes; all generated API pages match golden content after replacing only the displayed candidate version. All four JARs preserve full Apache/MIT attribution. No GPL resources or embedded fonts enter the archives.",
+    "artifacts": [
+      {
+        "url": "https://codeload.github.com/Kotlin/dokka/tar.gz/656ca46fbbd676d872b0bd383042fc12ae7adcdd",
+        "sha256": "f59b6f0fc0614852d6191d5bcadb159c7e6b7cb03fbd24b8f1447470c29d0967",
+        "members": [
+          "dokka-subprojects/plugin-base-frontend/package-lock.json",
+          "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/prism.js"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/@jetbrains/ring-ui/-/ring-ui-5.1.28.tgz",
+        "sha256": "23814cf72ad95439f27841d9fead55cd473020f57397f40f46d189fefc0043f3",
+        "members": [
+          "package/LICENSE.txt"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/react-virtualized/-/react-virtualized-9.22.6.tgz",
+        "sha256": "df8fc81465d6fd6331d61f427d53d652af60818336a48a3de6f8c19519fe322c",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/memoize-one/-/memoize-one-6.0.0.tgz",
+        "sha256": "7e6d483e2b10e027b1592f8c47d95972039f8b205e2906ae58026620591b1fdb",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/@babel/runtime/-/runtime-7.27.1.tgz",
+        "sha256": "0c9b43dd8f47cde21f20048b59ffb829d3f83929bd3b0e67d1538f7135b2b6ab",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz",
+        "sha256": "46b9e4c79edcfff507f3155b6c2cdc22e17331fb4ebb0994f62f38eccef8a279",
+        "members": [
+          "package/license"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/dom-helpers/-/dom-helpers-5.2.1.tgz",
+        "sha256": "8391d72aaa505137d4db8701c3331197cf0cb0e7346d0fab0750a7d55443c89a",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz",
+        "sha256": "4e063ff3ccfa89ef3ee748e2a6c107b8ad48c96c7add226522464580623c9ae5",
+        "members": [
+          "package/LICENSE.md"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/react/-/react-17.0.2.tgz",
+        "sha256": "e2901c777fd5a469bef952d1fc7bcafead65a7b66ef4dbb295d2a7116a6dc66d",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz",
+        "sha256": "bec64d076c2425e76fbe01235b53fac5a7e58a8487a126b1cb831087e7d6ba98",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz",
+        "sha256": "782d726a263ba7b26cced612af97b80035516df4b0cd788524e7b2cebc4e29ed",
+        "members": [
+          "package/license"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/scheduler/-/scheduler-0.20.2.tgz",
+        "sha256": "efdafb0fbd335e41bb209cd8c3256a28d576e6062ca101cb4ba1167c8fc014c6",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/core-js/-/core-js-3.42.0.tgz",
+        "sha256": "ba4cb35e7c13da82dc2ebfb1e9e57463dc941ab950dbc9a854dd1f7775464db0",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz",
+        "sha256": "1c739eb05d8a462c286a4e9dd02f2ce5485c6fa3529244e9ff9b13a3671aa557",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz",
+        "sha256": "6c9e10fc21a14499b74bfe1e8e8dd7a6152da02fb575c3ffd3cd71f67390ebf1",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+        "sha256": "79a1de983c1b393180c47456d6b73caab278a00ea6e37d5c6675f2dcdec2a3e5",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/style-loader/-/style-loader-3.3.4.tgz",
+        "sha256": "7681d6e7c5832272f3eeaed6a77cd241f6add2e48bc63308c84c4ceff43033dc",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/@jetbrains/icons/-/icons-3.24.0.tgz",
+        "sha256": "c44448daac253f613b818482344cdcc4929fc372b175fd68bbd8ee596611b2ce",
+        "members": [
+          "package/LICENSE.txt"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/deep-equal/-/deep-equal-2.2.3.tgz",
+        "sha256": "02887309deedb2dd564a72712687f3736b27d02b11f9d45fecfdca479c6c96cf",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/css-loader/-/css-loader-6.11.0.tgz",
+        "sha256": "04d7406af8f76ddb0b11bf3a674573f8513379c87a70ac8e09b91ea2b39b130f",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/object.assign/-/object.assign-4.1.7.tgz",
+        "sha256": "08e4dcd218f7ac619100ac3d3bb76b54c66257cabf0b2409dbfbb6dff01bfcf3",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz",
+        "sha256": "9678d9055619767c8a134033709e88a6e0a19600f3d3f2cda40acdfd75e7f212",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+        "sha256": "662e27e54e00fe46fbb08f9f4aacb054e3695dbe72cc14b436613fbcfb780544",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/call-bind/-/call-bind-1.0.8.tgz",
+        "sha256": "30e2bdf3ce00c012527ae4161df4145cbf4c797e9fa30e43fc7324b2e07b0523",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/regexp.prototype.flags/-/regexp.prototype.flags-1.5.4.tgz",
+        "sha256": "e3336e954c29414c532721aa3f6e1e7f15c26a67a63dd77072d273f8431a0c9f",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/es-get-iterator/-/es-get-iterator-1.1.3.tgz",
+        "sha256": "e861ec4a8e989f45d17947da3ce9cf42fce7c6f397b0acc937e0c3b3ef1f0115",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-arguments/-/is-arguments-1.2.0.tgz",
+        "sha256": "476c29799ec4f51b694d576fc70a27631c8ffe00e4269b7608027e12c7b0e51c",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/side-channel/-/side-channel-1.1.0.tgz",
+        "sha256": "8493e77b990b242efebd824d0912df161bf640fc75071d5bc844ce0d7706a485",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/isarray/-/isarray-2.0.5.tgz",
+        "sha256": "72bae463b81a604b4a118c00012c76ee9b8d155b9da62d1f362876c9f8b5f793",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/object-is/-/object-is-1.1.6.tgz",
+        "sha256": "ed20196adebc0396b4fa793a13730858771ff7ea4b6cce14e30442f1b75eea2c",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-array-buffer/-/is-array-buffer-3.0.5.tgz",
+        "sha256": "e199725bf272b3088568b3309e918ce623e616f005b43e23b132182b58d791ef",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-date-object/-/is-date-object-1.1.0.tgz",
+        "sha256": "7f5706a6c60e16ac23bba98ce6f30b05128dfbe07b2bcfd8235a9995fe030256",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-regex/-/is-regex-1.2.1.tgz",
+        "sha256": "a73e499153621af82d1f0f1ba77f21a01f95612b09d50d57253fc9e123a98b0d",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-shared-array-buffer/-/is-shared-array-buffer-1.0.4.tgz",
+        "sha256": "25a1adc92d64dcd3a153f336b452e7ea8e200aa9e9e8ce8cb8d05674f8b6878d",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/which-boxed-primitive/-/which-boxed-primitive-1.1.1.tgz",
+        "sha256": "ce9a5c3b02e59b8d016a2ee39d26d088720142e62870731cf988af18e2696751",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/which-collection/-/which-collection-1.0.2.tgz",
+        "sha256": "79a4a124b0c8ce71bb1bf1572c1c4ade2af6c21a08db59109b545f7570724554",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/which-typed-array/-/which-typed-array-1.1.19.tgz",
+        "sha256": "aaccea91985a6e1731f84192d4682f474aea76f64a210982576e488732b0ad3f",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/array-buffer-byte-length/-/array-buffer-byte-length-1.0.2.tgz",
+        "sha256": "57852a03833607fcc71ed3ccf0d1f1f638e09a6aacb16fa1f038945d27adf44e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/combokeys/-/combokeys-3.0.1.tgz",
+        "sha256": "daab21513981d6c5ebdaa9c8721ce406f9f5bab9192a059bbb792d47647c02e7",
+        "members": [
+          "package/LICENSE.txt"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/define-properties/-/define-properties-1.2.1.tgz",
+        "sha256": "5de7e3804fadee9d773cd494b695e6efedfee8837e751fd9b9b77c3e9c6b40f4",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+        "sha256": "5986b8b13121340a8b0d5c7d8f0f961aa80ef3a74515ca9cb7a78d86ed0385f7",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+        "sha256": "d14dd1c35b4bd3b8aca3219fd3627eb7f3eb49cf6b4c8a7ca58b91fd7a190993",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+        "sha256": "d536d0de4dd285dc1468fbb7f39334a47ee0eec9c27f9b626a6e71466c9fda82",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz",
+        "sha256": "3e18e4d757818aee7bf1921686c6c3e7f9676d17c5c6fec560567c6beee579ce",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+        "sha256": "b8c2c35575493dc086df88cfc468a9e2651b6617336480ab3f00fcf853f443a7",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+        "sha256": "4460c7532f28b8df2ddc9a1ec17816d43c24d4b9591dc6c5936b82f7f86ae7c5",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
+        "sha256": "eb2cc52afb1f1fd82c5fc2a58c2380f0f16fdcdb5631538f3c66887435d70681",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+        "sha256": "704402651b02a1454f17d445fc7dd716efc282d059407126d58ef30a47e807aa",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
+        "sha256": "073e9ff9dbabedf5c128020a677381e9f92c90188d118830b30a7656a7c37d2c",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
+        "sha256": "50cdc4d2cd11ae04b6ee29f328d09022244962e5dfab303c8fc223ff8dfa807d",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/call-bound/-/call-bound-1.0.4.tgz",
+        "sha256": "32086f492fedf1b9b34811f2ee50ca2cca53da5c783f7cd5f939d3f1e86bbd32",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+        "sha256": "dc1c74e3f1179a6271f84747d72c89f258aa46ad3e6464fae0e41737a7f0ef7b",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/stop-iteration-iterator/-/stop-iteration-iterator-1.1.0.tgz",
+        "sha256": "c30017f9d125d9d2fec5915a600184e727491ed7c278a7cea6f5342c47f32ac8",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz",
+        "sha256": "8324967a3afd8a45b0401e3554aebc1843f493bec46a89a7ce8cf072e62e90bf",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/side-channel-list/-/side-channel-list-1.0.0.tgz",
+        "sha256": "58074eb0c2ebc8aca9945cdbe405dbed0b43106ae5265879b7049424b27d1ccd",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/side-channel-map/-/side-channel-map-1.0.1.tgz",
+        "sha256": "3b256b6421300bcc962d891b1588fd4b64e84e339b9c29f78c61b72f2a7116d6",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/side-channel-weakmap/-/side-channel-weakmap-1.0.2.tgz",
+        "sha256": "3b2a54f0c5e7ad898c8f0ffda2a6805fb2cc5d68f53addf0b4a9ec0db9d0d06e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-string/-/is-string-1.1.1.tgz",
+        "sha256": "3e36bf072a5561d2440fe7cea5bc79754c3c8110650e94c960842f08d328023e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-map/-/is-map-2.0.3.tgz",
+        "sha256": "9b981d8ca28db4343aa5b285d20342a175ef34ae25840a302c1e39d3fcb6e98f",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-set/-/is-set-2.0.3.tgz",
+        "sha256": "3ee20ceea3b279a42646c98df116e4534bc1bb4a5e6b9a395092e7029e9221d7",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-number-object/-/is-number-object-1.1.1.tgz",
+        "sha256": "5801fb3fd5d48e12fbf5cd76226ac18033c76a0fb35cb97026a9e5053ecadc4e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-boolean-object/-/is-boolean-object-1.2.2.tgz",
+        "sha256": "8e0e688c1073d55353616f99ba5a09796e16cc4b0f08840066cea8a79cff612e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-symbol/-/is-symbol-1.1.1.tgz",
+        "sha256": "0f008bf151bb061999f6bf3324b37d5859695865b34773cc34e6f7669999c8a5",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-bigint/-/is-bigint-1.1.0.tgz",
+        "sha256": "3380f7a296bcd1d9da6db3087f77a2553061e5d93a1ebe3758db3fe03072691e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-weakmap/-/is-weakmap-2.0.2.tgz",
+        "sha256": "f18a4e9f7f9f15c07aae52b9d0e98ed3c0f0d937a970ae29417ee313eb55a997",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-weakset/-/is-weakset-2.0.4.tgz",
+        "sha256": "eccb40f9397738297c0d0af831f668f860f91ec2ac7107783382fde91ac5e745",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/for-each/-/for-each-0.3.5.tgz",
+        "sha256": "4bd2cfc8e674c93cf7abb3bd3d6fd8e388fa10324bec011223a8fa4f287185d1",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.7.tgz",
+        "sha256": "8b140e0fa3fede3d81d1dffcc400c9755d7388e8a4add228487f5e20c9cf7863",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/sniffr/-/sniffr-1.3.2.tgz",
+        "sha256": "bd78c274ac6e1c9ebb8f9322e7386944f731654e4e49f27e83e665e1d5c94e65",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.4.tgz",
+        "sha256": "16304ad73df1364ca8623c28a8969de01cd7189b4f9b05668fadb598f110e4d2",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.2.tgz",
+        "sha256": "0219bbd8f32e268eeb6efff55a2c6ff2d502098f49c583ff023b2d9d5a8bfa87",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/set-function-length/-/set-function-length-1.2.2.tgz",
+        "sha256": "a339df70dfa3507a3fe2137464915212d69a9585d201c253b90f0c13fd952b4a",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+        "sha256": "ed1342228c82c10df9921c59d684df516a0cd6ed25b61e5f9d6330895326cfdb",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/set-function-name/-/set-function-name-2.0.2.tgz",
+        "sha256": "9240e77a97e0532e6eeee5a46df853cf4aa858e2c98c22dd1ffdac8177033ef3",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/internal-slot/-/internal-slot-1.1.0.tgz",
+        "sha256": "1849bc0bc00b8049bfccd7d42c3a1f86221a966d4cab35c029319d65b38a388c",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz",
+        "sha256": "e92ad20e8549ef06adab664f8a6e9c0a349e38f34c9548ebb526f24f7d8cf12e",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/has-bigints/-/has-bigints-1.1.0.tgz",
+        "sha256": "4312b2ec05bff4cf50d8086bd79e429a9e2a81c660dd732e6dcda0cbd0b9d49b",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/is-callable/-/is-callable-1.2.7.tgz",
+        "sha256": "1b5c6e4e8ab142a6857fca2fb79d880ba64f2c4ad87907b583934d04b503c3a1",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/possible-typed-array-names/-/possible-typed-array-names-1.1.0.tgz",
+        "sha256": "c29791211b8e2f181c049247214843292380e4134c140c5105376b7c6ae3e3c7",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/functions-have-names/-/functions-have-names-1.2.3.tgz",
+        "sha256": "3be0c99c006f7c53093e3f6a56a1128f1a72fec3b041ec585a4175b809fab1dc",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/@column-resizer/core/-/core-1.4.0.tgz",
+        "sha256": "aa5e1bf975237b3b93c35a2538b677a0edb035955cb337f75a987ace1fc80c4b",
+        "members": [
+          "package/LICENSE"
+        ]
+      },
+      {
+        "url": "https://registry.npmjs.org/prismjs/-/prismjs-1.29.0.tgz",
+        "sha256": "e3b4e4286835f6f01a2cfaf8d0545542dd3da9dcc904fd134d4aface3aef499c",
+        "members": [
+          "package/LICENSE"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Dokka 2.2.0 API documentation includes its Apache-2.0 frontend and the reviewed Apache/MIT dependency closure. Every documentation companion retains all 81 dependency licence texts and the Dokka licence/NOTICE. The ten embedded OFL fonts and their four font-face declarations are excluded; system font fallbacks remain. No JDK Javadoc GPL resource is used. Public API documentation, navigation and offline search remain available. An Apache-2.0 ArcForges CSS correction makes content links readable in the dark theme.",
+    "files": [
+      "third-party/dokka/dokka-LICENSE.txt",
+      "third-party/dokka/dokka-NOTICE.txt",
+      "eng/provenance/NOTICE.txt"
+    ],
+    "distribution": "documentation",
+    "reason": "The documentation distributes these upstream resources. Runtime client archives do not contain the Dokka frontend."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/Kotlin/dokka",
+        "commit": "656ca46fbbd676d872b0bd383042fc12ae7adcdd",
+        "paths": [
+          "dokka-subprojects/core/src/main/kotlin/org/jetbrains/dokka/DokkaGenerator.kt",
+          "dokka-subprojects/plugin-base/src/main/kotlin/org/jetbrains/dokka/base/renderers/DefaultRenderer.kt",
+          "dokka-subprojects/plugin-base/src/main/kotlin/org/jetbrains/dokka/base/renderers/html/HtmlRenderer.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "e230dcbf6df796df008e9a7fc916153458c6895814fcb761648ef289cf309673",
+            "finding": "Apache-2.0 applies to the Dokka generator and its own resources; subordinate npm/Prism licences remain MIT or Apache-2.0 and are recorded in the resource closure."
+          },
+          {
+            "path": "dokka-subprojects/core/src/main/kotlin/org/jetbrains/dokka/DokkaGenerator.kt",
+            "sha256": "a11f1b5384f770226f0e6cbd4a9211472eb0f17c24e969270dcd5456813e09e4",
+            "finding": "Pinned generator/renderer source header explicitly states the Apache 2.0 licence; its own implementation is build tooling. Subordinate output resources are separately inventoried and licensed."
+          },
+          {
+            "path": "dokka-subprojects/plugin-base/src/main/kotlin/org/jetbrains/dokka/base/renderers/DefaultRenderer.kt",
+            "sha256": "c1f61a47d4dcd23ea32df0b190d8eae61b42b0afd65220db61cede0eb0178d93",
+            "finding": "Pinned generator/renderer source header explicitly states the Apache 2.0 licence; its own implementation is build tooling. Subordinate output resources are separately inventoried and licensed."
+          },
+          {
+            "path": "dokka-subprojects/plugin-base/src/main/kotlin/org/jetbrains/dokka/base/renderers/html/HtmlRenderer.kt",
+            "sha256": "fdf3eac50e5875150bab8296e154950194f07a5ee17bf0942df1e84e8d3344b0",
+            "finding": "Pinned generator/renderer source header explicitly states the Apache 2.0 licence; its own implementation is build tooling. Subordinate output resources are separately inventoried and licensed."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/Kotlin/dokka",
+        "commit": "656ca46fbbd676d872b0bd383042fc12ae7adcdd",
+        "paths": [
+          "dokka-subprojects/plugin-base-frontend/package-lock.json",
+          "dokka-subprojects/plugin-base-frontend/webpack.config.js",
+          "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/prism.js"
+        ],
+        "spdx": "Apache-2.0 AND MIT",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "e230dcbf6df796df008e9a7fc916153458c6895814fcb761648ef289cf309673",
+            "finding": "Apache-2.0 applies to the Dokka generator and its own resources; subordinate npm/Prism licences remain MIT or Apache-2.0 and are recorded in the resource closure."
+          },
+          {
+            "path": "dokka-subprojects/plugin-base-frontend/package-lock.json",
+            "sha256": "c5c15cc3e5bff0fca11ac13818852fa2151e3faad18f292c56d7a4bbcc4b2c77",
+            "finding": "Pinned npm package archives/integrities; actual emitted webpack modules, rather than all build dependencies, determine the admitted resource closure."
+          },
+          {
+            "path": "dokka-subprojects/plugin-base/src/main/resources/dokka/scripts/prism.js",
+            "sha256": "73995d49b765f3938d508a956eba6f74fead5133b78c2a351f6da226c8b93290",
+            "finding": "Prism 1.29.0 carries its MIT source attribution; the exact npm licence and source commit are recorded separately."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "76a3e0d39e61c7868b497ae7e059e29ac69f44de",
+        "paths": [
+          "src/public/kotlin/contract-fixtures/src/main/java/io/github/arcforges/contracts/fixtures/ContractFixtures.java",
+          "src/public/kotlin/contracts-client/generated/java/io/github/arcforges/contracts/hello/v1/HelloServiceGrpc.java",
+          "src/public/kotlin/contracts-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoGrpcKt.kt",
+          "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClient.kt",
+          "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClientInterface.kt",
+          "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/HelloProto.java",
+          "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloRequest.java",
+          "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloRequestOrBuilder.java",
+          "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloResponse.java",
+          "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/hello/v1/SayHelloResponseOrBuilder.java",
+          "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoKt.proto.kt",
+          "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/SayHelloRequestKt.kt",
+          "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/hello/v1/SayHelloResponseKt.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "All unchanged owned API source inputs are Apache-2.0; exact current input hashes and producer configuration hashes are bound in the immutable artifact profile."
+          }
+        ]
+      }
+    ],
+    "command": "Pinned Gradle Dokka publication, followed by eng/documentation_tools.py admission and closed member/golden-content verification. Candidate-specific archive/member hashes are retained in artifacts/evidence/documentation-provenance.json.",
+    "outputSpdx": "Apache-2.0 AND MIT"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-20",
+    "decision": "approved",
+    "rationale": "Publication channel change under Design 816199b: only the root Gradle version admission and runtime inventory input changed. The Dokka generator, upstream closure, golden API pages, resource hashes, transformation and licensing remain unchanged; both candidate channels must pass the existing exact output verification.",
+    "baselineCommit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+    "reconciliation": false
+  },
+  "supersedes": "dokka-documentation-resources-r1"
+}

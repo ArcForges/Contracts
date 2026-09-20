@@ -33,10 +33,9 @@ class NpmReleaseTags(unittest.TestCase):
                 with patch("publish_tools.get", return_value=b'{"latest":"1.0.0-ci.10.2"}'):
                     self.assertEqual(npm_publish_tag("@arcforges/proto", incoming), "ci")
 
-    def test_unrecognized_latest_requires_policy_review(self):
+    def test_stable_latest_is_preserved_for_development(self):
         with patch("publish_tools.get", return_value=b'{"latest":"1.0.0"}'):
-            with self.assertRaisesRegex(ValueError, "Review the npm release policy"):
-                npm_publish_tag("@arcforges/proto", "1.0.0-ci.10.1")
+            self.assertEqual(npm_publish_tag("@arcforges/proto", "1.0.0-ci.10.1"), "ci")
 
     def test_oidc_publishes_both_archives_to_latest_without_bootstrap_token(self):
         env = {"GITHUB_REPOSITORY": "ArcForges/Contracts", "GITHUB_REF": "refs/heads/main",

@@ -93,6 +93,7 @@ def signed_bundle(files: dict[str, bytes], directory: Path) -> Path:
 
 
 def publish(directory: Path, manifest: dict) -> None:
+    deadline = time.monotonic() + 540
     entry = next(item for item in manifest["files"] if item["kind"] == "maven")
     unsigned = directory / entry["name"]
     files = verify_bundle(unsigned, manifest, (directory / "contracts.binpb").read_bytes())
@@ -132,7 +133,6 @@ def publish(directory: Path, manifest: dict) -> None:
             write_json(evidence, receipt)
     deployment_id = str(uuid.UUID(receipt["deploymentId"]))
     print(f"Maven Central deployment: {deployment_id}", flush=True)
-    deadline = time.monotonic() + 1800
     while time.monotonic() < deadline:
         status = json.loads(request("/status?" + urlencode({"id": deployment_id}), credential))
         state = status["deploymentState"]
@@ -150,7 +150,6 @@ def publish(directory: Path, manifest: dict) -> None:
         raise ValueError("Central deployment is still processing; re-run failed jobs to resume its retained receipt")
     # A completed upload and search indexing are different states. Compare every
     # tested JAR/POM/module against the public repository before claiming success.
-    deadline = time.monotonic() + 900
     while time.monotonic() < deadline:
         try:
             matched = registry_matches(files)

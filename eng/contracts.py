@@ -52,8 +52,9 @@ def source_commit() -> str:
 
 
 def version(value: str) -> str:
-    if not re.fullmatch(r"1\.0\.0-ci\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)", value):
-        raise ValueError("Expected 1.0.0-ci.<run-number>.<run-attempt> (no leading zeroes)")
+    from release_channels import CI, stable
+    if not stable(value) and not re.fullmatch(CI, value):
+        raise ValueError("Expected X.Y.Z or 1.0.0-ci.<run-number>.<run-attempt> (no leading zeroes)")
     return value
 
 
@@ -168,6 +169,7 @@ def main() -> None:
     consumer_parser = sub.add_parser("consume")
     consumer_parser.add_argument("--directory", type=Path, default=ARTIFACTS / "packages")
     consumer_parser.add_argument("--aot", action="store_true")
+    consumer_parser.add_argument("--snapshot-registry", action="store_true", help="Verify and consume the live Sonatype snapshot")
     consumer_parser.add_argument("--update-kotlin-locks", action="store_true")
     publish_parser = sub.add_parser("publish")
     publish_parser.add_argument("registry", choices=["nuget", "npm", "maven"])
@@ -189,7 +191,7 @@ def main() -> None:
             verify_artifacts(args.directory.resolve(), args.commit)
         elif args.command == "consume":
             from consumer_tools import consume
-            consume(args.directory.resolve(), args.aot, args.update_kotlin_locks)
+            consume(args.directory.resolve(), args.aot, args.update_kotlin_locks, args.snapshot_registry)
         elif args.command == "publish":
             publish(args.directory.resolve(), args.registry)
 

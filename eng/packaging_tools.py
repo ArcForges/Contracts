@@ -15,6 +15,7 @@ from urllib.parse import quote
 import xml.etree.ElementTree as ET
 import zipfile
 
+from release_channels import maven_version
 from contracts import (ARTIFACTS, DOTNET_PROJECT, NPM, NPM_IDS, NPM_PROJECTS, NUGET_ID,
                        ROOT, build, check_tools, generate, read_json, run, sha256,
                        source_commit, version, write_json)
@@ -159,7 +160,8 @@ def pack(release: str) -> None:
         for entry in entries:
             entry.update(sha256=sha256(output / entry["name"]), size=(output / entry["name"]).stat().st_size)
         write_json(output / "manifest.json", {"format": "arcforges.contracts.candidate.v1",
-                   "version": release, "commit": commit, "dirty": dirty, "files": entries})
+                   "version": release, "mavenVersion": maven_version(release),
+                   "commit": commit, "dirty": dirty, "files": entries})
     verify_artifacts(output, commit)
     print(f"Candidate archives are ready in {output}. Publication has not occurred.")
 
@@ -185,6 +187,9 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
     release = version(manifest["version"])
     if manifest["format"] != "arcforges.contracts.candidate.v1":
         raise ValueError("Unknown candidate format")
+    if "mavenVersion" in manifest:
+        if manifest["mavenVersion"] != maven_version(release):
+            raise ValueError("Maven coordinate differs from the build channel")
     if commit and manifest["commit"] != commit:
         raise ValueError("Candidate source commit differs from the expected checkout")
     expected = {NUGET_ID, *NPM_IDS, "arcforges.hello.v1", "io.github.arcforges"}
