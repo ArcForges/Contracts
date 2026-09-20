@@ -27,8 +27,10 @@ never packaged as a product/server deliverable.
 
 ## Public consumers
 
-C# uses `ArcForges.Contracts.PublicApi` and selects its normal gRPC channel in
-the consuming application. The package has no native binaries, service
+Public business clients use binary gRPC-Web under the [current runtime authority](https://github.com/ArcForges/ArcForges-Design/blob/e2dd78058ce2d4bd1a8434a34d049bbc1158eacb/docs/architecture/30-runtime-and-source-ownership-policy.md).
+C# uses `ArcForges.Contracts.PublicApi` with a gRPC-Web channel in the consuming
+application. The retained Hello fixture also tests native gRPC for compatibility;
+that fixture does not select the public business transport. The package has no native binaries, service
 implementation, UI, persistence or build-time compiler dependency.
 
 `@arcforges/proto` contains messages and service descriptors. Its TypeScript
@@ -39,7 +41,8 @@ require application integration tests.
 `@arcforges/api-client` is a small gRPC-Web transport factory using the generated
 service descriptor. The caller supplies the endpoint/fetch options and owns
 authentication. Android consumes the Kotlin artifacts and explicitly selects
-gRPC-Web for the current Worker ingress or native gRPC for an HTTP/2 endpoint.
+binary gRPC-Web for public business ingress. Native gRPC remains an explicitly
+labelled Hello compatibility fixture, not an alternative product configuration.
 
 `contracts-proto` contains Java/Kotlin lite messages, `contracts-client` contains
 Java-lite service bindings and coroutine stubs, `contracts-connect-client`
@@ -49,7 +52,8 @@ the same JSON wire cases used by C#/TS plus a resource accessor. All use group
 does not impose OkHttp on a JVM server or create a global channel. The Connect
 client uses the same proto classes and depends on Connect-Kotlin core. The caller
 adds OkHttp and the Google Java lite serialization strategy and explicitly selects
-`NetworkProtocol.GRPC_WEB` or `GRPC`; the Connect protocol default is not supported
+`NetworkProtocol.GRPC_WEB` for the public product. The Hello fixtures also test
+`GRPC`; the Connect protocol default is not supported
 by the ASP.NET fixture. This extension covers unary Hello only.
 
 The seven package identities are listed in the repository README. Their Hello

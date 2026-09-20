@@ -2,6 +2,8 @@
 
 This records the original C#/TS bootstrap. The [Kotlin extension plan](kotlin-artifacts-plan.md)
 and current architecture/consuming documentation supersede its former RN direction.
+This is revision-bound historical evidence, reviewed on 2026-09-20 against the
+[current runtime authority](https://github.com/ArcForges/ArcForges-Design/blob/e2dd78058ce2d4bd1a8434a34d049bbc1158eacb/docs/architecture/30-runtime-and-source-ownership-policy.md); its original results are not current product requirements.
 
 ## Scope and decisions
 
