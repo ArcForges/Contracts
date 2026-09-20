@@ -79,14 +79,13 @@ flowchart LR
   F --> G[Verify gate]
   G --> H[Main: publish same NuGet archive]
   G --> I[Main: publish proto, then API client to npm]
-  G --> J[Main: sign tested Maven files and publish to Central]
+  G --> J[Main: publish tested Maven SNAPSHOT files]
+  G --> K[Formal tag: sign and publish Maven Central release]
 ```
 
 PRs and diagnostic manual runs validate only. Main pushes allocate
 `1.0.0-ci.<run-number>.<run-attempt>` automatically. There is no manual version
-form or manual publishing command in the normal release flow. New npm releases
-update `latest`, so the default package page and fresh installs select the newest
-published CI version. These remain prereleases; consumers pin the exact verified
+form or manual publishing command in the normal release flow. Before the first stable tag, newer npm CI releases update `latest`. Afterwards, development builds use `ci` and stable releases own `latest`. These remain prereleases; consumers pin the exact verified
 version. Generated schemas use wire namespace
 `v1`, which is independent of the increasing package build version.
 
@@ -94,7 +93,7 @@ version. Generated schemas use wire namespace
 visible skipped registry job. A green `Verify` means the candidate passed, not
 that it was uploaded. Follow [the complete account-to-release setup](docs/releasing.md)
 for NuGet/npm OIDC and Maven Central account/signing configuration. Each registry
-has a separate main-only GitHub environment; these are repository settings, not
+has a separate GitHub environment restricted to main and release tags; these are repository settings, not
 organisation-wide environments.
 
 ## Product naming policy
@@ -153,3 +152,7 @@ reference-repository source is bundled.
 [WP01.01 contract access assignment](docs/implementation/wp01-01-contract-access.md)
 records every current contract/distribution type and rejects public-to-internal dependencies
 using compiled proto descriptors before candidate packing.
+
+## Publication channels
+
+Main Maven builds publish `1.0.0-SNAPSHOT`; NuGet/npm retain their CI build versions. Canonical `vX.Y.Z` tags on main ancestry publish formal `X.Y.Z` packages after the same tests. Existing consumer pins remain immutable. See [snapshot setup, identity and ten-minute recovery](docs/maven-central.md).

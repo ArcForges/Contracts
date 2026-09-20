@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-plugins { signing }
+plugins { signing; `maven-publish` }
+val snapshot = providers.gradleProperty("snapshotVersion").orNull
 val candidate = file(providers.gradleProperty("candidateDirectory").get()).canonicalFile
 require(candidate.isDirectory) { "A verified Maven repository directory is required" }
 val payload = candidate.walkTopDown().filter {
@@ -7,7 +8,7 @@ val payload = candidate.walkTopDown().filter {
 }.toList()
 val expectedFileCount = providers.gradleProperty("expectedFileCount").get().toInt()
 require(expectedFileCount > 0 && payload.size == expectedFileCount) { "Expected the complete verified Maven payload" }
-signing {
+if (snapshot == null) signing {
     useInMemoryPgpKeys(
         providers.environmentVariable("MAVEN_SIGNING_KEY").get(),
         providers.environmentVariable("MAVEN_SIGNING_PASSWORD").getOrElse("")
@@ -17,6 +18,51 @@ tasks.register<Sign>("signCandidate") {
     // This build has no source sets, repositories or package-generation tasks.
     // Only detached signatures are added; the tested bytes remain untouched.
     sign(*payload.toTypedArray())
+}
+
+// Publish only prebuilt archives. Gradle owns timestamp/checksum/metadata transport.
+if (snapshot != null) {
+    require(snapshot == "1.0.0-SNAPSHOT")
+    val repositoryUrl = providers.gradleProperty("snapshotRepository").getOrElse(
+        "https://central.sonatype.com/repository/maven-snapshots/")
+    val target = java.net.URI(repositoryUrl)
+    require(repositoryUrl == "https://central.sonatype.com/repository/maven-snapshots/" ||
+        target.scheme == "file") { "Only Sonatype or a local test repository is allowed" }
+    publishing {
+        publications {
+            for (module in listOf("contracts-proto", "contracts-client", "contracts-connect-client", "contract-fixtures")) {
+                create<MavenPublication>(module) {
+                    groupId = "io.github.arcforges"
+                    artifactId = module
+                    version = snapshot
+                    val prefix = "io/github/arcforges/$module/$snapshot/$module-$snapshot"
+                    artifact(candidate.resolve("$prefix.jar"))
+                    artifact(candidate.resolve("$prefix-sources.jar")) { classifier = "sources" }
+                    artifact(candidate.resolve("$prefix-javadoc.jar")) { classifier = "javadoc" }
+                    artifact(candidate.resolve("$prefix.module")) { extension = "module" }
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "Snapshots"
+                url = target
+                if (target.scheme != "file") credentials {
+                    username = providers.environmentVariable("MAVEN_CENTRAL_USERNAME").get()
+                    password = providers.environmentVariable("MAVEN_CENTRAL_TOKEN").get()
+                }
+            }
+        }
+    }
+    tasks.withType<org.gradle.api.publish.maven.tasks.GenerateMavenPom>().configureEach {
+        val generatedPom = destination
+        doLast {
+            val module = name.removePrefix("generatePomFileFor").removeSuffix("Publication")
+                .replaceFirstChar { it.lowercase() }
+            candidate.resolve("io/github/arcforges/$module/$snapshot/$module-$snapshot.pom")
+                .copyTo(generatedPom, overwrite = true)
+        }
+    }
 }
 
 // Project licence metadata is verified independently of the root LICENSE.

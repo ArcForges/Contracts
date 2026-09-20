@@ -136,7 +136,7 @@ Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-dokka-documentation-resources-r1
+dokka-documentation-resources-r2
 Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
 Material licence: Apache-2.0 AND MIT
 Notice scope: documentation

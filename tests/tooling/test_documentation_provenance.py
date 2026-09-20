@@ -66,7 +66,7 @@ class DocumentationArchiveTests(unittest.TestCase):
         cls.files = zip_contents((directory / bundle["name"]).read_bytes())
 
     def fixture(self, module):
-        name = f"io/github/arcforges/{module}/{self.manifest['version']}/{module}-{self.manifest['version']}-javadoc.jar"
+        name = f"io/github/arcforges/{module}/{self.manifest.get('mavenVersion', self.manifest['version'])}/{module}-{self.manifest.get('mavenVersion', self.manifest['version'])}-javadoc.jar"
         return self.files[name], zip_contents(self.files[name])
 
     def test_every_actual_archive_has_closed_members_full_notices_and_public_api(self):

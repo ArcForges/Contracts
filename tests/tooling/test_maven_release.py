@@ -52,7 +52,7 @@ class MavenReleaseGuards(unittest.TestCase):
             with self.subTest(module=module), tempfile.TemporaryDirectory(prefix="contracts-maven-guard-") as temporary:
                 files = dict(self.files)
                 pom = next(name for name in files if f"/{module}/" in name and name.endswith(".pom"))
-                old = self.manifest["version"].encode()
+                old = self.manifest.get("mavenVersion", self.manifest["version"]).encode()
                 # Keep the POM's own identity, alter only its internal dependency version.
                 before, dependencies = files[pom].split(b"<dependencies>", 1)
                 files[pom] = before + b"<dependencies>" + dependencies.replace(old, b"1.0.0-ci.999999.1")
@@ -116,6 +116,24 @@ class MavenReleaseGuards(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "uncertain outcome"):
                 publish(self.directory, self.manifest)
             network.assert_not_called()
+
+    def test_accepted_deployment_shares_one_bounded_polling_budget(self):
+        deployment = "69143abb-d8f5-40d3-b9fe-bc030561be28"
+        with tempfile.TemporaryDirectory(prefix="central-budget-") as temporary, \
+             patch("central_publish.ARTIFACTS", Path(temporary)), \
+             patch("central_publish.registry_matches", return_value=False), \
+             patch("central_publish.recover_receipt", return_value={"phase": "PUBLISHING", "deploymentId": deployment}), \
+             patch("central_publish.request", return_value=b'{"deploymentState":"PUBLISHED"}') as network, \
+             patch("central_publish.time.monotonic", side_effect=[0, 1, 539, 541]), \
+             patch("central_publish.time.sleep"), \
+             patch.dict(os.environ, {"MAVEN_CENTRAL_USERNAME": "test-user", "MAVEN_CENTRAL_TOKEN": "test-only", "MAVEN_CENTRAL_DEPLOYMENT_ID": ""}):
+            with self.assertRaisesRegex(ValueError, "still propagating"):
+                publish(self.directory, self.manifest)
+            self.assertEqual(network.call_count, 1)
+            self.assertIn("/status?", network.call_args.args[0])
+            receipt = json.loads((Path(temporary) / "publication/deployment.json").read_text())
+            self.assertEqual(receipt["deploymentId"], deployment)
+            self.assertEqual(receipt["phase"], "PUBLISHED")
 
     def test_real_signatures_cover_unchanged_candidate_files(self):
         # This throwaway test key is created locally and never printed, committed,

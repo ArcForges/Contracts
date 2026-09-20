@@ -90,13 +90,15 @@ third-party locks/checksums are reused; only the exact, independently
 hash-verified first-party candidate is excluded from static locks/checksums. No
 producer classes or Gradle caches are copied into that consumer.
 
-Maven Central requires main/source/documentation JARs, POM metadata and detached
+Formal Maven Central releases require main/source/documentation JARs, POM metadata and detached
 PGP signatures. Gradle prepares the unsigned repository and API documentation in
-the candidate. After Verify, a separate signing-only Gradle build signs those
+the candidate. After Verify, a separate source-free Gradle build signs those
 files in memory; it has no source sets or dependencies and cannot rebuild them.
 The Portal upload uses automatic publication and retains an identity-bound
 deployment receipt for recovery. Public JAR/POM/module byte comparison closes
 publication; search indexing is not the gate.
+
+Main builds instead use the Sonatype SNAPSHOT repository and no signing key. The same source-free Gradle project transports tested files and creates timestamped metadata. Isolated Kotlin consumers restore from a real timestamped test repository. The manifest separates `version` (cross-language CI identity) from `mavenVersion`; the JAR retains the CI identity and Git SHA. Canonical formal tags share their version across ecosystems. See [publication channels and recovery](maven-central.md).
 
 ## Licensing
 

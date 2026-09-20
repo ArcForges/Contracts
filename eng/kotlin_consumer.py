@@ -11,7 +11,7 @@ from maven_tools import zip_contents
 
 
 def prepare(consumer: Path, directory: Path, manifest: dict, env: dict,
-            evidence: Path, update_locks: bool = False, project_name: str = "KotlinClient") -> tuple[Path, dict]:
+            evidence: Path, update_locks: bool = False, project_name: str = "KotlinClient", repository: str | None = None) -> tuple[Path, dict]:
     application = {"KotlinClient": "kotlin-archive-consumer",
                    "KotlinConnectClient": "kotlin-connect-archive-consumer"}[project_name]
     evidence_prefix = "kotlin-" if project_name == "KotlinClient" else "kotlin-connect-"
@@ -26,12 +26,22 @@ def prepare(consumer: Path, directory: Path, manifest: dict, env: dict,
     (project / "gradlew").chmod(0o755)
     feed = consumer / "maven-feed"
     bundle = next(entry for entry in manifest["files"] if entry["kind"] == "maven")
-    for name, contents in zip_contents((directory / bundle["name"]).read_bytes()).items():
-        path = feed / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(contents)
+    files = zip_contents((directory / bundle["name"]).read_bytes())
+    if repository is not None:
+        from snapshot_publish import PUBLIC
+        if repository != PUBLIC:
+            raise ValueError("Live snapshot consumers require the canonical Sonatype repository")
+    elif manifest.get("mavenVersion", "").endswith("-SNAPSHOT"):
+        if not feed.exists():
+            from snapshot_publish import transport
+            transport(files, manifest["mavenVersion"], feed.as_uri())
+    else:
+        for name, contents in files.items():
+            path = feed / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(contents)
     isolated_env = dict(env, GRADLE_USER_HOME=str(consumer / "gradle-cache"))
-    args = [f"-PreleaseVersion={manifest['version']}", f"-PcandidateRepository={feed.as_uri()}"]
+    args = [f"-PreleaseVersion={manifest.get('mavenVersion', manifest['version'])}", f"-PcandidateRepository={repository or feed.as_uri()}"]
     if update_locks:
         verification = project / "gradle/verification-metadata.xml"
         verification.parent.mkdir(parents=True, exist_ok=True)

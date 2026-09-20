@@ -13,7 +13,7 @@ plugins {
 }
 
 val release = providers.gradleProperty("releaseVersion").getOrElse("1.0.0-ci.0.0")
-require(Regex("1\\.0\\.0-ci\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)").matches(release))
+require(Regex("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-ci\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)|-SNAPSHOT)?").matches(release))
 val codegen by configurations.creating { isCanBeConsumed = false }
 dependencies {
     for (platform in listOf("windows-x86_64", "linux-x86_64", "osx-x86_64")) {
@@ -110,6 +110,7 @@ subprojects {
         repositories { maven { name = "Candidate"; url = rootProject.layout.projectDirectory.dir("artifacts/maven-repository").asFile.toURI() } }
     }
     tasks.register("runtimeInventory") {
+        inputs.property("releaseVersion", release)
         val output = rootProject.layout.projectDirectory.file("artifacts/maven-graphs/${project.name}.json")
         outputs.file(output)
         doLast {

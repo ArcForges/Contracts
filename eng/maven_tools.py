@@ -59,17 +59,21 @@ def clean_output(path: Path) -> None:
 
 def pack(output: Path, release: str, commit: str, dirty: bool) -> dict:
     from packaging_tools import metadata
+    from release_channels import maven_version
+    build_version = release
+    release = maven_version(release)
     gradle("runtimeInventory", f"-PreleaseVersion={release}")
     clean_output(ARTIFACTS / "maven-metadata")
     clean_output(ARTIFACTS / "maven-repository")
     for module in MAVEN_MODULES:
         target = ARTIFACTS / f"maven-metadata/{module}"
-        metadata(target, runtime_graph(module, release), release, commit, dirty)
+        metadata(target, runtime_graph(module, release), build_version, commit, dirty)
         shutil.copyfile(ROOT / f"src/public/kotlin/{module}/README.md", target / "README.md")
     from documentation_tools import prepare
     gradle("dokkaGeneratePublicationHtml", f"-PreleaseVersion={release}")
     prepare(release)
-    gradle("publishAllPublicationsToCandidateRepository", f"-PreleaseVersion={release}", f"-PsourceCommit={commit}")
+    gradle("publishToMavenLocal", f"-Dmaven.repo.local={ARTIFACTS / 'maven-repository'}",
+           f"-PreleaseVersion={release}", f"-PsourceCommit={commit}")
     bundle = output / f"arcforges-maven-{release}.zip"
     repository = ARTIFACTS / "maven-repository"
     with zipfile.ZipFile(bundle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
@@ -100,7 +104,7 @@ def zip_contents(data: bytes) -> dict[str, bytes]:
 
 def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, bytes]:
     from check_provenance import verify_package_notice
-    release = manifest["version"]
+    release = manifest.get("mavenVersion", manifest["version"])
     files = zip_contents(path.read_bytes())
     if set(files) != set(expected_paths(release)):
         raise ValueError("Maven bundle must contain all complete publications and no extra files")
@@ -118,8 +122,10 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
         dependencies = {dep.findtext("{*}groupId") + ":" + dep.findtext("{*}artifactId"): dep.findtext("{*}version")
                         for dep in pom.findall("{*}dependencies/{*}dependency")}
         for dep, resolved in dependencies.items():
-            if not resolved or any(marker in resolved for marker in ("+", "[", "]", "(", ")", "SNAPSHOT")):
+            if not resolved or any(marker in resolved for marker in ("+", "[", "]", "(", ")")):
                 raise ValueError("Maven dependencies must use exact versions")
+            if "SNAPSHOT" in resolved and not dep.startswith(MAVEN_GROUP + ":"):
+                raise ValueError("Third-party dependencies cannot use SNAPSHOT")
             if dep.startswith(MAVEN_GROUP + ":") and resolved != release:
                 raise ValueError("Maven client must pin this candidate's proto version")
         if module in {"contracts-client", "contracts-connect-client"} and f"{MAVEN_GROUP}:contracts-proto" not in dependencies:
@@ -176,7 +182,7 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
         if not any(name.endswith((".java", ".kt")) for name in sources) or not any(name.endswith("index.html") for name in docs):
             raise ValueError("Maven sources or API documentation are missing")
         from documentation_tools import verify as verify_documentation
-        documentation_receipts.append(verify_documentation(docs, module, manifest, files[prefix + "-javadoc.jar"]))
+        documentation_receipts.append(verify_documentation(docs, module, dict(manifest, version=release), files[prefix + "-javadoc.jar"]))
     from contracts import write_json
     write_json(ARTIFACTS / "evidence/documentation-provenance.json", {
         "result": "passed", "sourceCommit": manifest["commit"], "version": release,
