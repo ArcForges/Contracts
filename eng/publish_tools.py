@@ -26,6 +26,7 @@ def get(url: str) -> bytes | None:
             return response.read()
     except HTTPError as error:
         if error.code == 404:
+            error.close()
             return None
         raise
 
