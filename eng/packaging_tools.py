@@ -108,6 +108,15 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
                             **{str(path.relative_to(ROOT)).replace("\\", "/"): sha256(path)
                                for path in [ROOT / "gradle.lockfile", *sorted((ROOT / "src/public/kotlin").rglob("gradle.lockfile"))]}},
     })
+    from build_identity import build as build_identity, report
+    identity = build_identity()
+    if identity["sourceCommit"] != commit or identity["dirty"] != dirty:
+        raise ValueError("Source changed while packaging")
+    write_json(directory / "build-identity.json", report(root, dependencies,
+               (ARTIFACTS / "contracts.binpb").read_bytes(), identity))
+    if root["purl"].startswith("pkg:maven/"):
+        write_json(directory / "META-INF/arcforges" / root["name"].split("/")[-1] / "build-identity.json",
+                   read_json(directory / "build-identity.json"))
 
 
 def pack(release: str) -> None:
@@ -142,6 +151,8 @@ def pack(release: str) -> None:
             shutil.copyfile(ROOT / "src/public/LICENSE", target / "LICENSE")
             metadata(target, npm_graph(project, release), release, commit, dirty)
             package["version"] = release
+            package["files"].append("build-identity.json")
+            package["exports"]["./build-identity"] = "./build-identity.json"
             package.pop("scripts", None)
             for dependency in NPM_IDS:
                 if dependency in package["dependencies"]:
@@ -159,7 +170,8 @@ def pack(release: str) -> None:
         entries.append({"name": "contracts.binpb", "kind": "descriptor", "id": "arcforges.hello.v1"})
         for entry in entries:
             entry.update(sha256=sha256(output / entry["name"]), size=(output / entry["name"]).stat().st_size)
-        write_json(output / "manifest.json", {"format": "arcforges.contracts.candidate.v1",
+        from build_identity import build as build_identity
+        write_json(output / "manifest.json", {"format": "arcforges.contracts.candidate.v1", "build": build_identity(),
                    "version": release, "mavenVersion": maven_version(release),
                    "commit": commit, "dirty": dirty, "files": entries})
     verify_artifacts(output, commit)
@@ -192,6 +204,10 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
             raise ValueError("Maven coordinate differs from the build channel")
     if commit and manifest["commit"] != commit:
         raise ValueError("Candidate source commit differs from the expected checkout")
+    from build_identity import validate_source, verify_report
+    validate_source(manifest["build"])
+    if manifest["build"]["sourceCommit"] != manifest["commit"] or manifest["build"]["dirty"] != manifest["dirty"]:
+        raise ValueError("Candidate build identity differs from source metadata")
     expected = {NUGET_ID, *NPM_IDS, "arcforges.hello.v1", "io.github.arcforges"}
     if len(manifest["files"]) != 5 or {entry["id"] for entry in manifest["files"]} != expected:
         raise ValueError("Candidate must contain one NuGet, two npm packages, a complete Maven bundle and a descriptor")
@@ -215,7 +231,7 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
             verify_bundle(path, manifest, descriptor)
             continue
         files = archive_files(path)
-        for required in ["LICENSE", "NOTICE", "README.md", "sbom.cdx.json", "source.json"]:
+        for required in ["LICENSE", "NOTICE", "README.md", "sbom.cdx.json", "source.json", "build-identity.json"]:
             if not files.get(required):
                 raise ValueError(f"{name} is missing {required}")
         if b"Apache License" not in files["LICENSE"]:
@@ -228,6 +244,7 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
         if source["descriptorSha256"] != hashlib.sha256(descriptor).hexdigest():
             raise ValueError(f"Schema hash differs in {name}")
         sbom = json.loads(files["sbom.cdx.json"])
+        verify_report(files["build-identity.json"], sbom, descriptor, manifest)
         if sbom["metadata"]["component"]["name"] != entry["id"]:
             raise ValueError("SBOM identifies another package")
         if entry["kind"] == "nuget":
@@ -243,6 +260,8 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
                 raise ValueError(f"Unexpected runtime dependency closure: {dependencies}")
         elif entry["kind"] == "npm":
             package = json.loads(files["package.json"])
+            if package.get("exports", {}).get("./build-identity") != "./build-identity.json":
+                raise ValueError("npm runtime build identity export missing")
             if package["name"] != entry["id"] or package["version"] != release or package["license"] != "Apache-2.0":
                 raise ValueError("Unexpected npm identity or licence")
             if "scripts" in package or "dist/index.js" not in files or "dist/index.d.ts" not in files:

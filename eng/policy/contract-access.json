@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-09-20",
+  "reviewedOn": "2026-09-21",
   "design": {
     "commit": "94b3ec43389d8ec6f8cd3ad277daf0eac5e9259e",
     "path": "docs/assurance/wp01-01-contract-access-policy.md",
@@ -234,7 +234,7 @@
     },
     {
       "path": "Directory.Build.targets",
-      "sha256": "64eee4fee7291c9afb9049413a95a19acc174354e506dd1965237061d12bf4b1"
+      "sha256": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965"
     },
     {
       "path": "Directory.Packages.props",

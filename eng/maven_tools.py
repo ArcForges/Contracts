@@ -154,6 +154,11 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
         if source["descriptorSha256"] != hashlib.sha256(descriptor).hexdigest():
             raise ValueError("Maven schema identity differs")
         sbom = json.loads(jar["sbom.cdx.json"])
+        from build_identity import verify_report
+        resource = f"META-INF/arcforges/{module}/build-identity.json"
+        if not jar.get(resource) or jar.get("build-identity.json") != jar[resource]:
+            raise ValueError("Maven module-specific build identity resource missing")
+        verify_report(jar[resource], sbom, descriptor, manifest)
         if sbom["metadata"]["component"]["name"] != f"{MAVEN_GROUP}/{module}":
             raise ValueError("Maven SBOM identifies another module")
         classes = {"contracts-proto": "io/github/arcforges/contracts/hello/v1/SayHelloRequest.class",

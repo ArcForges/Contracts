@@ -141,6 +141,12 @@ def build() -> None:
     run(sys.executable, ROOT / "eng/check_licences.py")
     run("node", ROOT / "eng/check_contract_access.mjs")
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
+    from build_identity import build as identity
+    write_json(ARTIFACTS / "expected-build.json", identity())
+    projects = [ROOT / name for name in run("git", "ls-files", "*.csproj", capture=True).splitlines()]
+    assemblies = [project.parent / "bin/Release/net10.0" / (project.stem + ".dll") for project in projects]
+    run("dotnet", ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll",
+        "--inspect-build", ARTIFACTS / "expected-build.json", *assemblies)
     run(NPM, "run", "build")
     run(NPM, "test")
     from kotlin_tools import build as build_kotlin

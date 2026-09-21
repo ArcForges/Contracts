@@ -24,6 +24,14 @@ import okhttp3.OkHttpClient
 import okhttp3.Protocol
 
 fun main(args: Array<String>) = runBlocking {
+    val expectedIdentity = JsonParser.parseString(java.io.File(checkNotNull(System.getenv("ARCFORGES_EXPECTED_BUILD"))).readText()).asJsonObject
+    for (module in listOf("contracts-proto", "contracts-connect-client", "contract-fixtures")) {
+        val resource = checkNotNull(ContractFixtures::class.java.classLoader.getResourceAsStream("META-INF/arcforges/$module/build-identity.json"))
+        val identity = resource.bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }
+        check(identity["build"] == expectedIdentity) { "Published JVM build identity mismatch: $module" }
+        check(identity.getAsJsonObject("axes").getAsJsonObject("ContractSet").getAsJsonArray("values")[0].asJsonObject["version"].asString == "1")
+    }
+    println("Published JVM module build identities verified.")
     check(args.size == 2) { "Expected gRPC-Web and native gRPC fixture ports" }
     val fixture = ContractFixtures.openHello().bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }
     for ((protocol, port) in listOf(NetworkProtocol.GRPC_WEB to args[0], NetworkProtocol.GRPC to args[1])) {

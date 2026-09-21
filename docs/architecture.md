@@ -129,6 +129,10 @@ and SBOM checks; they do not relicense third-party material.
 
 ## Compatibility and limits
 
+The [WP02.04 support identity profile](implementation/wp02-04-build-identity.md)
+separates contract, dependency and artifact versions and defines package-only
+runtime retrieval of compiled build identity in C#, TypeScript and Kotlin.
+
 Keep existing v1 field numbers/types and RPC identities stable; reserve removed
 field numbers/names and introduce a reviewed versioned API for incompatible
 behavior. All current releases are prerelease candidates. A normal main merge

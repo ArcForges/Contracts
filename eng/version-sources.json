@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "owner": "Contracts",
+  "axes": {
+    "AppVersion": {
+      "kind": "release",
+      "absence": "not-applicable",
+      "reason": "Contracts distributes libraries, not an installed product."
+    },
+    "ContractSet": {
+      "kind": "contracts",
+      "sources": ["public/proto/arcforges/hello/v1/hello.proto"]
+    },
+    "CapabilityVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "Hello declares no production capabilities.",
+      "producer": "WP09 and product capability owners"
+    },
+    "NativeFormatVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "No portable product format exists here.",
+      "producer": "WP18/28, WP34 and WP38"
+    },
+    "StorageSchemaVersion": {
+      "kind": "migrations",
+      "absence": "not-produced",
+      "reason": "Contracts owns no implemented migration set.",
+      "producer": "WP07/21 and product storage owners"
+    },
+    "NativeAbiVersion": {
+      "kind": "native-abi",
+      "absence": "not-applicable",
+      "reason": "These packages contain no first-party native C boundary."
+    },
+    "PolicySchemaVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "Hello is not a product policy schema.",
+      "producer": "WP03 and WP44"
+    },
+    "ExtensionProtocolVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "Hello is not an extension protocol.",
+      "producer": "WP03 and WP41"
+    },
+    "PackageVersion": { "kind": "packages" }
+  }
+}
