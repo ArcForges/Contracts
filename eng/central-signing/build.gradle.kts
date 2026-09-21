@@ -26,8 +26,10 @@ if (snapshot != null) {
     val repositoryUrl = providers.gradleProperty("snapshotRepository").getOrElse(
         "https://central.sonatype.com/repository/maven-snapshots/")
     val target = java.net.URI(repositoryUrl)
+    val loopback = target.scheme == "http" && target.host == "127.0.0.1" &&
+        target.userInfo == null && target.port > 0
     require(repositoryUrl == "https://central.sonatype.com/repository/maven-snapshots/" ||
-        target.scheme == "file") { "Only Sonatype or a local test repository is allowed" }
+        target.scheme == "file" || loopback) { "Only Sonatype or a local test repository is allowed" }
     publishing {
         publications {
             for (module in listOf("contracts-proto", "contracts-client", "contracts-connect-client", "contract-fixtures")) {
@@ -47,7 +49,8 @@ if (snapshot != null) {
             maven {
                 name = "Snapshots"
                 url = target
-                if (target.scheme != "file") credentials {
+                isAllowInsecureProtocol = loopback
+                if (target.scheme == "https") credentials {
                     username = providers.environmentVariable("MAVEN_CENTRAL_USERNAME").get()
                     password = providers.environmentVariable("MAVEN_CENTRAL_TOKEN").get()
                 }

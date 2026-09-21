@@ -2,6 +2,9 @@
 """Publication boundary negatives and real Gradle snapshot repository transport."""
 
 import json
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from threading import Thread
 import os
 from pathlib import Path
 import subprocess
@@ -9,7 +12,6 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
-from urllib.parse import unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
 from contracts import ARTIFACTS, version
@@ -68,15 +70,39 @@ class PublicationChannels(unittest.TestCase):
         files = verify_bundle(directory / entry["name"], manifest, (directory / "contracts.binpb").read_bytes())
         with tempfile.TemporaryDirectory(prefix="snapshot-repository-") as temporary:
             repository = Path(temporary)
-            uri = repository.as_uri() + "/"
-            transport(files, manifest["mavenVersion"], uri)
+            requests = []
+            class RepositoryHandler(SimpleHTTPRequestHandler):
+                def log_message(self, *_args):
+                    pass
 
-            def read(url):
-                from urllib.request import url2pathname
-                path = Path(url2pathname(unquote(urlparse(url).path)))
-                return path.read_bytes() if path.is_file() else None
+                def do_GET(self):
+                    requests.append(("GET", self.path))
+                    super().do_GET()
 
-            with patch("snapshot_publish.get", side_effect=read):
+                def do_PUT(self):
+                    requests.append(("PUT", self.path))
+                    target = Path(self.translate_path(self.path)).resolve()
+                    if not target.is_relative_to(repository.resolve()):
+                        self.send_error(403)
+                        return
+                    size = int(self.headers["Content-Length"])
+                    if not 0 <= size <= 20_000_000:
+                        self.send_error(413)
+                        return
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(self.rfile.read(size))
+                    self.send_response(201)
+                    self.send_header("Content-Length", "0")
+                    self.end_headers()
+
+            server = ThreadingHTTPServer(("127.0.0.1", 0), partial(RepositoryHandler, directory=str(repository)))
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            uri = f"http://127.0.0.1:{server.server_port}/"
+            try:
+                transport(files, manifest["mavenVersion"], uri)
+                self.assertTrue(any(method == "GET" and path.endswith("maven-metadata.xml") for method, path in requests))
+                self.assertTrue(any(method == "PUT" and path.endswith(".jar") for method, path in requests))
                 complete, records = inspect(files, manifest, uri)
                 self.assertTrue(complete)
                 self.assertEqual(len(records), 20)
@@ -94,6 +120,10 @@ class PublicationChannels(unittest.TestCase):
                 target = repository / records[0]["remote"]
                 target.unlink()
                 self.assertFalse(inspect(files, manifest, uri)[0])
+            finally:
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=5)
 
 
 if __name__ == "__main__":

@@ -84,7 +84,7 @@ def transport(files: dict[str, bytes], version: str, repository: str = PUBLIC) -
             path = stage / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(data)
-        gradle("-p", ROOT / "eng/central-signing", "--offline", "--no-configuration-cache",
+        gradle("-p", ROOT / "eng/central-signing", "--no-configuration-cache",
                "publishAllPublicationsToSnapshotsRepository", f"-PcandidateDirectory={stage}",
                f"-PexpectedFileCount={len(files)}", f"-PsnapshotVersion={version}",
                f"-PsnapshotRepository={repository}")
