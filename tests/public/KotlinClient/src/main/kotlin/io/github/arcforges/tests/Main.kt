@@ -14,6 +14,14 @@ import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>) = runBlocking {
+    val expectedIdentity = JsonParser.parseString(java.io.File(checkNotNull(System.getenv("ARCFORGES_EXPECTED_BUILD"))).readText()).asJsonObject
+    for (module in listOf("contracts-proto", "contracts-client", "contract-fixtures")) {
+        val resource = checkNotNull(ContractFixtures::class.java.classLoader.getResourceAsStream("META-INF/arcforges/$module/build-identity.json"))
+        val identity = resource.bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }
+        check(identity["build"] == expectedIdentity) { "Published JVM build identity mismatch: $module" }
+        check(identity.getAsJsonObject("axes").getAsJsonObject("ContractSet").getAsJsonArray("values")[0].asJsonObject["version"].asString == "1")
+    }
+    println("Published JVM module build identities verified.")
     val fixture = ContractFixtures.openHello().bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }
     check(sayHelloRequest { name = "World" }.toByteArray().contentEquals(byteArrayOf(10, 5, 87, 111, 114, 108, 100)))
     val unknown = byteArrayOf(10, 1, 65, 120, 7)

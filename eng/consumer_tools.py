@@ -85,7 +85,12 @@ def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False, snaps
   </packageSourceMapping>
 </configuration>
 ''', encoding="utf-8")
-        env = dict(os.environ, NUGET_PACKAGES=str(consumer / "nuget-cache"),
+        # These temporary applications are local consumers of the CI producer.
+        # Their own compilation must not impersonate its GitHub checkout.
+        local_environment = {key: value for key, value in os.environ.items() if not key.startswith("GITHUB_") and key != "CI"}
+        write_json(consumer / "expected-build.json", manifest["build"])
+        env = dict(local_environment, ARCFORGES_EXPECTED_BUILD=str(consumer / "expected-build.json"),
+                   NUGET_PACKAGES=str(consumer / "nuget-cache"),
                    npm_config_cache=str(consumer / "npm-cache"))
         for project_name in ["HelloHost", "HelloClient"]:
             target = consumer / project_name
@@ -128,6 +133,15 @@ def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False, snaps
         })
         ts.joinpath("run.mjs").write_text('''import { readFileSync } from "node:fs";
 import { verify } from "./dist/consumer.js";
+import protoIdentity from "@arcforges/proto/build-identity" with { type: "json" };
+import clientIdentity from "@arcforges/api-client/build-identity" with { type: "json" };
+import { deepStrictEqual } from "node:assert";
+const expectedBuild = JSON.parse(readFileSync(process.env.ARCFORGES_EXPECTED_BUILD));
+for (const identity of [protoIdentity, clientIdentity]) {
+  deepStrictEqual(identity.build, expectedBuild);
+  deepStrictEqual(identity.axes.ContractSet.values.map(value => value.subject + ".v" + value.version), ["arcforges.hello.v1"]);
+}
+console.log("Both published npm runtime build identities verified.");
 const fixture = JSON.parse(readFileSync(new URL("../hello.json", import.meta.url)));
 await verify(process.argv[2], fixture.cases);
 console.log("TypeScript archive consumer: real gRPC-Web success/error checks passed.");
@@ -187,6 +201,9 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
             verify_snapshot()
         write_json(evidence_dir / "result.json", {
             "version": release, "commit": manifest["commit"], "rid": rid,
+            "build": manifest["build"], "runtimeBuildIdentity": {
+                "csharp": "passed", "npm": "passed", "jvmAllFourModules": "passed",
+                "nativeAot": "passed" if aot else "not-run"},
             "inputs": manifest["files"], "isolatedCaches": True, "sourceReferences": False,
             "csharpGrpc": "passed", "typescriptGrpcWeb": "passed", "kotlinGrpc": "passed",
             "kotlinConnectGrpcWeb": "passed", "kotlinConnectGrpc": "passed",

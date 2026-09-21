@@ -1,4 +1,43 @@
 <Project>
+  <!-- Apache-2.0: stamp every owner-authored assembly, including build tools. -->
+  <Target Name="ContractsBuildIdentity" BeforeTargets="GetAssemblyAttributes">
+    <PropertyGroup>
+      <_ContractsSource>local</_ContractsSource>
+      <_ContractsEpoch>0</_ContractsEpoch>
+      <_ContractsKind>local</_ContractsKind>
+      <_ContractsBuild>local</_ContractsBuild>
+      <_ContractsRun>local</_ContractsRun>
+      <_ContractsTimeFormat Condition="'$(OS)' == 'Windows_NT'">%%ct</_ContractsTimeFormat>
+      <_ContractsTimeFormat Condition="'$(OS)' != 'Windows_NT'">%ct</_ContractsTimeFormat>
+    </PropertyGroup>
+    <Exec Command="git rev-parse HEAD" WorkingDirectory="$(MSBuildThisFileDirectory)"
+          ConsoleToMSBuild="true" StandardOutputImportance="Low" Condition="Exists('$(MSBuildThisFileDirectory).git')">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_ContractsSource" />
+    </Exec>
+    <Exec Command="git show -s --format=$(_ContractsTimeFormat) HEAD" WorkingDirectory="$(MSBuildThisFileDirectory)"
+          ConsoleToMSBuild="true" StandardOutputImportance="Low" Condition="Exists('$(MSBuildThisFileDirectory).git')">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_ContractsEpoch" />
+    </Exec>
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+      <_ContractsKind>ci</_ContractsKind>
+      <_ContractsBuild>$(GITHUB_RUN_ID).$(GITHUB_RUN_ATTEMPT)</_ContractsBuild>
+      <_ContractsRun>https://github.com/ArcForges/Contracts/actions/runs/$(GITHUB_RUN_ID)</_ContractsRun>
+    </PropertyGroup>
+    <Error Condition="'$(GITHUB_ACTIONS)' == 'true' And ('$(_ContractsSource)' != '$(GITHUB_SHA)' Or '$(GITHUB_REPOSITORY)' != 'ArcForges/Contracts' Or '$(GITHUB_SERVER_URL)' != 'https://github.com' Or !$([System.Text.RegularExpressions.Regex]::IsMatch('$(GITHUB_RUN_ID)', '^[1-9][0-9]*$')) Or !$([System.Text.RegularExpressions.Regex]::IsMatch('$(GITHUB_RUN_ATTEMPT)', '^[1-9][0-9]*$')))"
+           Text="AFB001: Incomplete or mismatched Contracts CI assembly identity." />
+    <Error Condition="'$(CI)' == 'true' And '$(GITHUB_ACTIONS)' != 'true'"
+           Text="AFB001: CI assemblies require a complete pipeline identity." />
+    <PropertyGroup Condition="'$(_ContractsSource)' != 'local'">
+      <SourceRevisionId>$(_ContractsSource)</SourceRevisionId>
+    </PropertyGroup>
+    <ItemGroup>
+      <AssemblyMetadata Include="ArcForges.SourceCommit" Value="$(_ContractsSource)" />
+      <AssemblyMetadata Include="ArcForges.SourceDateEpoch" Value="$(_ContractsEpoch)" />
+      <AssemblyMetadata Include="ArcForges.BuildKind" Value="$(_ContractsKind)" />
+      <AssemblyMetadata Include="ArcForges.BuildId" Value="$(_ContractsBuild)" />
+      <AssemblyMetadata Include="ArcForges.PipelineRun" Value="$(_ContractsRun)" />
+    </ItemGroup>
+  </Target>
   <Target Name="CheckContractProjectPolicy" BeforeTargets="PrepareForBuild">
     <Error Condition="'$(ManagePackageVersionsCentrally)' != 'true'"
            Text="Use Directory.Packages.props for exact dependency versions." />
