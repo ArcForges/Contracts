@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 plugins { application; alias(libs.plugins.kotlin.jvm) }
-kotlin { jvmToolchain(17) }
+kotlin { jvmToolchain(17); compilerOptions { allWarningsAsErrors.set(true) } }
 application { mainClass.set("io.github.arcforges.tests.MainKt") }
 val release = providers.gradleProperty("releaseVersion").get()
 dependencies {

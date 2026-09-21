@@ -13,6 +13,7 @@ indent_size = 4
 
 [*.cs]
 csharp_style_namespace_declarations = file_scoped:warning
+dotnet_diagnostic.IDE0161.severity = error
 
 [**/Generated/*.cs]
 generated_code = true
