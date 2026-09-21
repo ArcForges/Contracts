@@ -13,7 +13,7 @@ from check_provenance import (INVENTORY, STORE, digest, document, fields, packag
                               path as check_path, read, require, verify_package_notice)
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json"
+PROFILE = "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json"
 MODULES = ("contracts-proto", "contracts-client", "contracts-connect-client", "contract-fixtures")
 THEME_FIX = (b"\n/* SPDX-License-Identifier: Apache-2.0; ArcForges documentation contrast correction. */\n"
              b".theme-dark .main-content a:not([data-name]) { color: var(--default-font-color); }\n")

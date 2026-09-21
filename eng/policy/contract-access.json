@@ -230,7 +230,7 @@
   "buildInputs": [
     {
       "path": "Directory.Build.props",
-      "sha256": "03c1b656e2c4813341af5eeee8013f296b9e11edc4c64a2501387c9a6573b6bb"
+      "sha256": "443ed70fc6faca54f904a3b9bfdc5ea3153377184ad39cdd65284a44ec075648"
     },
     {
       "path": "Directory.Build.targets",
@@ -246,11 +246,11 @@
     },
     {
       "path": "build.gradle.kts",
-      "sha256": "dec9b1f3947bc721d4478e0a982c4480432ab3410743154affdd85e0c779baf3"
+      "sha256": "c15ca4bb04443af790e3f2e2e063ebfaf5415ea43fdda477c6d31c536db948d4"
     },
     {
       "path": "gradle.properties",
-      "sha256": "215783b81a2a5430dce46ac52c678152d2a857cc40cd82e4590ea609b74b1b2e"
+      "sha256": "4ed453e5e776317aad97e656248d35b051216652b05cc29fe5ecc88a3dfc2cab"
     },
     {
       "path": "gradle/libs.versions.toml",

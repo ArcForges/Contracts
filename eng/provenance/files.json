@@ -67,6 +67,7 @@
     "eng/provenance/NOTICE.txt",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
     "eng/provenance/conflicts/javadoc-script-boundary-r1.json",
     "eng/provenance/files.json",
     "eng/provenance/records/canonical-apache-licence-r1.json",
@@ -87,6 +88,7 @@
     "eng/provenance/records/dokka-define-properties-licence-r1.json",
     "eng/provenance/records/dokka-documentation-resources-r1.json",
     "eng/provenance/records/dokka-documentation-resources-r2.json",
+    "eng/provenance/records/dokka-documentation-resources-r3.json",
     "eng/provenance/records/dokka-dom-helpers-licence-r1.json",
     "eng/provenance/records/dokka-dunder-proto-licence-r1.json",
     "eng/provenance/records/dokka-es-define-property-licence-r1.json",
@@ -336,5 +338,5 @@
     "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts": "hello-bindings-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r2"]
+  "artifacts": ["dokka-documentation-resources-r3"]
 }

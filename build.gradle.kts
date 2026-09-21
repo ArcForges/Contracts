@@ -14,7 +14,7 @@ plugins {
 
 val release = providers.gradleProperty("releaseVersion").getOrElse("1.0.0-ci.0.0")
 require(Regex("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-ci\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)|-SNAPSHOT)?").matches(release))
-val codegen by configurations.creating { isCanBeConsumed = false }
+val codegen = configurations.create("codegen") { isCanBeConsumed = false }
 dependencies {
     for (platform in listOf("windows-x86_64", "linux-x86_64", "osx-x86_64")) {
         codegen("io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.asProvider().get()}:$platform@exe")
@@ -50,6 +50,7 @@ subprojects {
         apply(plugin = "org.jetbrains.kotlin.jvm")
         extensions.configure<KotlinJvmProjectExtension> {
             jvmToolchain(17)
+            compilerOptions { allWarningsAsErrors.set(true) }
             sourceSets.named("main") { kotlin.srcDir("generated/kotlin") }
         }
     }
@@ -72,7 +73,11 @@ subprojects {
             resources.srcDir(rootProject.layout.projectDirectory.dir("artifacts/maven-metadata/${project.name}"))
         }
     }
-    tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8"; options.release.set(17) }
+    tasks.withType<JavaCompile>().configureEach {
+        options.encoding = "UTF-8"
+        options.release.set(17)
+        options.compilerArgs.add("-Werror")
+    }
     tasks.withType<Jar>().configureEach {
         from(rootProject.file("LICENSE")) { into("META-INF") }
     }
