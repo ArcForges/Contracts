@@ -231,6 +231,7 @@
     "tests/tooling/test_npm_release_tags.py",
     "tests/tooling/test_provenance.py",
     "tests/tooling/test_publication_channels.py",
+    "tests/tooling/test_publication_completion.py",
     "tests/tooling/test_release_guards.py"
   ],
   "reused": {

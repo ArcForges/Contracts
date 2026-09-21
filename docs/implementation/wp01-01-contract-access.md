@@ -1,5 +1,8 @@
 # Current contract access assignment
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 The [WP01.01 Design profile](https://github.com/ArcForges/ArcForges-Design/blob/94b3ec43389d8ec6f8cd3ad277daf0eac5e9259e/docs/assurance/wp01-01-contract-access-policy.md) governs `eng/policy/contract-access.json`.
 
 The current assignment is public Apache-2.0 for both Hello messages and the Hello service. All 34 declared source types in 18 distribution files belong to their seven public packages. This includes generated nested clients/builders/reflection helpers and the authored `ContractFixtures` accessor. The TypeScript factory and exports have no extra declared types; the empty generated Kotlin file is inventoried too. Private language visibility of a generator helper does not turn it into a private wire protocol. No current type needs public/internal reclassification, and no retired C# DTO scaffold is recreated.

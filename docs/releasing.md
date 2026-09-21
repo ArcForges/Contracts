@@ -13,7 +13,7 @@ GitHub organisation membership does not create a corresponding npm organisation.
 In repository Settings, create environments **nuget**, **npm** and **maven-central**. In each,
 restrict deployment to branch **main** and tags **v***. Leave required reviewers and wait timers
 off for unattended publication. Actions default permissions should be read-only;
-NuGet/npm jobs request OIDC only after the consumer gate. Maven Central uses
+NuGet/npm jobs request OIDC only after the build/offline candidate gate. Maven Central uses
 its own environment secrets and requests no OIDC token.
 
 Under Settings → Secrets and variables → Actions → Variables:
@@ -94,7 +94,7 @@ temporary granular token:
 5. Set the repository variable **NPM_PUBLISH_MODE=bootstrap**.
 6. Merge the bootstrap PR, or the next accepted PR if the scaffold is already on
    main. CI creates both `@arcforges/proto` and `@arcforges/api-client` after the
-   Windows/Linux consumer gate. The proto package is uploaded first.
+   build/offline candidate gate. The proto package is uploaded first.
 
 There is no manual `npm publish` command or version input in this sequence.
 Bootstrap mode deliberately uses the temporary token instead of OIDC, because
@@ -153,11 +153,11 @@ For a new repository installation, leave Maven disabled until that setup is read
 ## 5. Understand the result
 
 - **Build candidate / Verify passed:** generation, code, archive contents and
-  independent consumers passed. This alone is not registry publication.
+  targeted offline checks passed; runtime consumers were not run. This alone is not registry publication.
 - **Publish job skipped:** its registry is disabled, or this event was not a main or formal-tag
   push. Check the variables and workflow event.
-- **Publish job passed:** that registry accepted the candidate, or an identical
-  previously accepted version was verified. Registry scanning/indexing can finish
+- **Publish job passed:** the provider accepted the candidate or an identity-bound recovery completed.
+  A SNAPSHOT receipt with phase `superseded` explicitly means no upload because a newer main commit owns the channel. Registry scanning/indexing can finish
   after upload. Check the registry job for each ecosystem separately.
 - **npm latest:** the highest published `1.0.0-ci.<run-number>.<run-attempt>`
   version in that package, compared numerically by run number and then attempt.
@@ -169,13 +169,13 @@ For a new repository installation, leave Maven disabled until that setup is read
   only a non-default tag for such uploads, not a newest-version channel. The old
   `next` tag is retained for existing users but is no longer advanced. Existing
   consumer manifests and locks do not update themselves when a tag moves.
-- **Candidate artifacts:** the exact bytes used for consumption and publication,
+- **Candidate artifacts:** the exact bytes retained for publication,
   retained for 30 days with hashes, source commit and descriptors. npm provenance
   is generated during OIDC upload, not by the local pack command.
 
 The source manifests retain the development version. CI substitutes a shared
 release version only in staging/output, so it does not push version-bump commits
-or recursively trigger itself. Main builds and consumer gates remain independent.
+or recursively trigger itself. Main builds retain their own source/version allocation; hosted consumer gates are removed.
 The npm publication job serializes its registry read and upload with a shared
 concurrency group and `queue: max` (up to GitHub's 100 pending-job limit), without
 canceling an active publication. Because jobs can reach the queue out of source
@@ -194,14 +194,13 @@ Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.
 
-After correcting credentials or a transient registry failure, **re-run failed
-jobs** on the same main run. They download the original successful candidate and
-retain its version; no rebuild occurs. An already published npm version must
-match tarball integrity. An existing NuGet version must match the original ZIP
-contents, allowing only nuget.org's added repository signature. Maven compares
-every tested JAR, POM and Gradle module metadata file byte for byte. A mismatch fails
-instead of silently skipping it. A registry indexing delay may require retrying
-after the existing version becomes visible.
+Inspect the exact failure before retrying a publication job. Stop on network failure; do not
+change proxies or retry blindly. A diagnosed retry uses the original retained candidate/version,
+without rebuilding. Existing npm versions are compared through registry integrity metadata.
+An existing NuGet version fails for investigation of its publication receipt; it is not downloaded
+or silently skipped. Maven formal recovery resumes the retained deployment ID and checks provider
+status/coordinates. SNAPSHOT upload checks the latest main identity and completes at transport
+success. No registry uses a routine public archive download/byte-comparison cycle.
 
 Re-running all jobs on a main run creates a new candidate with an increased CI attempt suffix. Formal tags keep their immutable version, so retry failed publication jobs using the retained original candidate. Missing/expired artifacts also require a new validated
 run; do not reconstruct an old version from another source revision.

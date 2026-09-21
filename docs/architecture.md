@@ -66,7 +66,7 @@ The root npm workspace has one lock. Every .NET project has a committed lock and
 uses central versions. Gradle uses a pinned wrapper/version catalog, strict
 locks for every resolvable configuration and checksum verification for plugins,
 generators and dependencies. Generator/runtime upgrades update pins and locks together,
-regenerate sources and pass both consumer platforms. Generated code is never
+regenerate sources and pass the retained build/offline checks; relevant runtime diagnostics remain local opt-in. Generated code is never
 edited manually. No submodules or cross-repository source references are allowed.
 
 Packing builds one immutable candidate set. npm first-party dependency versions
@@ -76,7 +76,7 @@ NuGet contains generated .NET assemblies and runtime dependency references, not
 Grpc.Tools or an embedded compiler. Hash verification checks identity, contents,
 metadata, licences and the expected runtime dependency set.
 
-The independent consumer copies only the demo application's source, configuration
+The explicit local-only independent consumer copies only the demo application's source, configuration
 and candidate archives into an OS temporary directory. It replaces the demo's
 producer ProjectReference with a package reference. Fresh NuGet/npm/Gradle caches and a
 source-mapped local NuGet feed force use of the candidate package. npm installs
@@ -95,10 +95,10 @@ PGP signatures. Gradle prepares the unsigned repository and API documentation in
 the candidate. After Verify, a separate source-free Gradle build signs those
 files in memory; it has no source sets or dependencies and cannot rebuild them.
 The Portal upload uses automatic publication and retains an identity-bound
-deployment receipt for recovery. Public JAR/POM/module byte comparison closes
-publication; search indexing is not the gate.
+deployment receipt for recovery. Portal `PUBLISHED`, matching deployment ID/name and expected
+package coordinates complete publication; public byte downloads and search indexing are not gates.
 
-Main builds instead use the Sonatype SNAPSHOT repository and no signing key. The same source-free Gradle project transports tested files and creates timestamped metadata. Isolated Kotlin consumers restore from a real timestamped test repository. The manifest separates `version` (cross-language CI identity) from `mavenVersion`; the JAR retains the CI identity and Git SHA. Canonical formal tags share their version across ecosystems. See [publication channels and recovery](maven-central.md).
+Main builds instead use the Sonatype SNAPSHOT repository and no signing key. The same source-free Gradle project transports tested files and creates timestamped metadata. The serialized publisher checks GitHub main-ref metadata and skips an older queued commit, then stops after successful upload. Isolated Kotlin transport diagnostics are local opt-in only. The manifest separates `version` (cross-language CI identity) from `mavenVersion`; the JAR retains the CI identity and Git SHA. Canonical formal tags share their version across ecosystems. See [publication channels and recovery](maven-central.md).
 
 ## Licensing
 

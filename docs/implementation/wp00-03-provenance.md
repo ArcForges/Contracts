@@ -1,5 +1,8 @@
 # Reuse and provenance (WP00.03)
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 The accepted [Design profile](https://github.com/ArcForges/ArcForges-Design/blob/1d2a2aa800bc93b26d12337e669bdcf3fd85150f/docs/assurance/reference-coverage-and-provenance.md#31-current-repository-implementation-profile)
 governs this process. Contracts remains Apache-2.0. Source provenance and the
 existing dependency closure checks are separate requirements.

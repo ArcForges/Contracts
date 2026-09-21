@@ -1,5 +1,8 @@
 # WP00.01: derived policy declaration verification
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 Design [P2-016](https://github.com/ArcForges/ArcForges-Design/blob/1607374e81955f0a47f319cd6cc8ba1c6e254157/docs/decisions/phase-2-specification-decisions.md#rule-p2-016)
 assigns the AGPL glossary/invariant exporter to DesktopPlatform. Contracts remains
 the Apache naming-policy owner. No Design program, AGPL exporter or AGPL data is

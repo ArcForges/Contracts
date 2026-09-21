@@ -205,7 +205,8 @@ iOS and React Native are not supplied by these JVM artifacts.
 Commit application Gradle dependency locks and verification metadata. Use exact
 versions, not `+`/`latest.release`/SNAPSHOT. No Maven publishing credential is
 needed to download public packages. Maven search pages can lag publication; the
-release is usable when CI's Maven job verifies the files in the public repository.
+publisher completes when the provider reports the expected upload/deployment status.
+CI does not download public files to prove propagation; ordinary dependency restore remains the consumer's operation.
 
 ## Updating a dependency
 

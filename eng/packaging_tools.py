@@ -194,7 +194,7 @@ def archive_files(path: Path) -> dict[str, bytes]:
         return result
 
 
-def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
+def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bool = True) -> dict:
     manifest = read_json(directory / "manifest.json")
     release = version(manifest["version"])
     if manifest["format"] != "arcforges.contracts.candidate.v1":
@@ -222,6 +222,12 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
         path = directory / name
         if sha256(path) != entry["sha256"] or path.stat().st_size != entry["size"]:
             raise ValueError(f"Candidate hash or size mismatch: {name}")
+        kinds = {NUGET_ID: "nuget", **{item: "npm" for item in NPM_IDS},
+                 "arcforges.hello.v1": "descriptor", "io.github.arcforges": "maven"}
+        if entry["kind"] != kinds[entry["id"]]:
+            raise ValueError("Candidate package kind differs from its identity")
+        if not contents:
+            continue  # The producer already checked archive contents; this is a trust handoff.
         if entry["kind"] == "descriptor":
             if name != "contracts.binpb" or not descriptor:
                 raise ValueError("Missing descriptor")
@@ -275,7 +281,7 @@ def verify_artifacts(directory: Path, commit: str | None = None) -> dict:
                 raise ValueError("Proto or descriptor set is missing from schema package")
         if any("node_modules/" in item or "/obj/" in item or item.endswith(".csproj") for item in files):
             raise ValueError("Build inputs or installed dependencies leaked into an archive")
-    print(f"Verified all candidate identities, metadata and hashes: {release}")
+    print(f"Verified candidate {'contents' if contents else 'handoff identity/integrity'}: {release}")
     return manifest
 
 

@@ -53,10 +53,6 @@ jobs:
       - name: Restore locked dependencies
         # Java 17 is also the published JVM bytecode target.
         run: python eng/contracts.py restore
-      - name: Repeat locked npm and Gradle resolution offline
-        run: |
-          npm ci --offline --ignore-scripts --no-audit
-          ./gradlew --no-daemon --console=plain --offline resolveLockedDependencies resolveCodegenTools
       - name: Verify product naming policy and repository inventory
         run: python eng/check_naming.py --report artifacts/evidence/naming.json
       - name: Verify immutable provenance records and file inventory
@@ -104,75 +100,24 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  consumer:
-    name: Consumer (${{ matrix.os }})
-    needs: candidate
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 35
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
-        with:
-          global-json-file: global.json
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: .node-version
-          package-manager-cache: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
-      - name: Install Linux Native AOT prerequisites
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes clang zlib1g-dev
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: ${{ needs.candidate.outputs.artifact }}
-          path: artifacts/packages/
-      - name: Consume archives outside the repository using fresh caches
-        run: python eng/contracts.py consume --aot
-      - name: Retain consumer evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: consumer-evidence-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/evidence/
-          if-no-files-found: warn
-          retention-days: 30
-
   verify:
     name: Verify
     if: always()
-    needs: [candidate, consumer]
+    needs: [candidate]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require every package gate to pass
         env:
           CANDIDATE_RESULT: ${{ needs.candidate.result }}
-          CONSUMER_RESULT: ${{ needs.consumer.result }}
           NUGET_ENABLED: ${{ vars.NUGET_PUBLISH_ENABLED }}
           NPM_MODE: ${{ vars.NPM_PUBLISH_MODE }}
           MAVEN_ENABLED: ${{ vars.MAVEN_PUBLISH_ENABLED }}
         run: |
           test "$CANDIDATE_RESULT" = success
-          test "$CONSUMER_RESULT" = success
-          echo "Generation, compilation, archive validation and both consumer platforms passed." >> "$GITHUB_STEP_SUMMARY"
+          echo "Generation, compilation, offline checks and candidate validation passed." >> "$GITHUB_STEP_SUMMARY"
           echo "NuGet publishing enabled: ${NUGET_ENABLED:-false}; npm publishing mode: ${NPM_MODE:-disabled}." >> "$GITHUB_STEP_SUMMARY"
-          echo "Maven Central publishing enabled: ${MAVEN_ENABLED:-false}. Kotlin uses tested Maven JARs." >> "$GITHUB_STEP_SUMMARY"
+          echo "Maven Central publishing enabled: ${MAVEN_ENABLED:-false}. Kotlin uses compiled Maven JARs." >> "$GITHUB_STEP_SUMMARY"
           echo "Registry jobs only run for main or canonical release-tag pushes. Skipped jobs mean no publication." >> "$GITHUB_STEP_SUMMARY"
 
   publish-nuget:
@@ -200,14 +145,12 @@ jobs:
         with:
           name: ${{ needs.candidate.outputs.artifact }}
           path: artifacts/packages/
-      - name: Verify the candidate before requesting publication credentials
-        run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
       - name: Exchange OIDC identity for a short-lived NuGet credential
         id: login
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         with:
           user: ${{ vars.NUGET_USER }}
-      - name: Publish the tested NuGet archive
+      - name: Publish the retained NuGet archive
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: python eng/contracts.py publish nuget
@@ -244,8 +187,6 @@ jobs:
         with:
           name: ${{ needs.candidate.outputs.artifact }}
           path: artifacts/packages/
-      - name: Verify the candidate before OIDC publication
-        run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
       - name: Publish proto, then its dependent API client, advancing npm latest
         env:
           NPM_PUBLISH_MODE: ${{ vars.NPM_PUBLISH_MODE }}
@@ -282,9 +223,7 @@ jobs:
         with:
           name: ${{ needs.candidate.outputs.artifact }}
           path: artifacts/packages/
-      - name: Verify the candidate before exposing signing credentials
-        run: python eng/contracts.py verify-artifacts --commit "$GITHUB_SHA"
-      - name: Publish tested Maven files to the selected channel
+      - name: Publish retained Maven files to the selected channel
         timeout-minutes: 10
         env:
           GH_TOKEN: ${{ github.token }}

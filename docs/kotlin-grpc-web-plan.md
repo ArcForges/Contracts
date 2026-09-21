@@ -1,5 +1,8 @@
 # Kotlin Hello over gRPC-Web
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 ## Scope and findings
 
 The current Android/JVM client contains grpc-kotlin stubs for native HTTP/2 gRPC.

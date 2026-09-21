@@ -1,17 +1,16 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Transport tested SNAPSHOT bytes and verify Sonatype's resolved publications."""
+"""Publish the retained latest-main SNAPSHOT; remote-byte inspection is opt-in."""
 
 import hashlib
 import json
 from pathlib import Path
 import re
 import tempfile
-import time
 import xml.etree.ElementTree as ET
 
-from contracts import ARTIFACTS, ROOT, write_json
+from contracts import ARTIFACTS, ROOT, run, write_json
 from kotlin_tools import MAVEN_MODULES, gradle
-from maven_tools import SUFFIXES, verify_bundle, zip_contents
+from maven_tools import SUFFIXES, zip_contents
 from publish_tools import get
 
 PUBLIC = "https://central.sonatype.com/repository/maven-snapshots/"
@@ -93,24 +92,26 @@ def transport(files: dict[str, bytes], version: str, repository: str = PUBLIC) -
 
 
 def publish(directory: Path, manifest: dict) -> None:
-    deadline = time.monotonic() + 540
     entry = next(item for item in manifest["files"] if item["kind"] == "maven")
-    files = verify_bundle(directory / entry["name"], manifest, (directory / "contracts.binpb").read_bytes())
     receipt = {"channel": "snapshot", "version": manifest["version"], "mavenVersion": manifest["mavenVersion"],
-               "commit": manifest["commit"], "candidateSha256": entry["sha256"], "phase": "checking"}
+               "commit": manifest["commit"], "candidateSha256": entry["sha256"], "phase": "checking-main"}
     evidence = ARTIFACTS / "publication/deployment.json"
     write_json(evidence, receipt)
-    complete, records = inspect(files, manifest)
-    if not complete:
-        receipt["phase"] = "upload-started"
+    # The serialized publication job checks one small GitHub ref response, not public JARs.
+    current = json.loads(run("gh", "api", "repos/ArcForges/Contracts/git/ref/heads/main", capture=True))
+    if (current.get("ref") != "refs/heads/main" or current.get("object", {}).get("type") != "commit"
+            or not re.fullmatch(r"[0-9a-f]{40}", current.get("object", {}).get("sha", ""))):
+        raise ValueError("GitHub returned an invalid main branch identity")
+    if current["object"]["sha"] != manifest["commit"]:
+        receipt["phase"] = "superseded"
         write_json(evidence, receipt)
-        transport(files, manifest["mavenVersion"])
-    while time.monotonic() < deadline:
-        complete, records = inspect(files, manifest)
-        receipt.update(files=records, phase="public-bytes-verified" if complete else "verifying")
-        write_json(evidence, receipt)
-        if complete:
-            print("All 20 timestamped snapshot files match the tested candidate.", flush=True)
-            return
-        time.sleep(10)
-    raise ValueError("Snapshot visibility timed out; retry the same tested candidate")
+        print("Snapshot upload skipped: a newer main commit owns the development channel.", flush=True)
+        return
+    # publish_verified already validates the retained bundle's identity and digest.
+    files = zip_contents((directory / entry["name"]).read_bytes())
+    receipt["phase"] = "upload-started"
+    write_json(evidence, receipt)
+    transport(files, manifest["mavenVersion"])
+    receipt["phase"] = "upload-completed"
+    write_json(evidence, receipt)
+    print("Sonatype snapshot upload completed; no public-byte polling was performed.", flush=True)

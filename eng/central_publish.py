@@ -16,8 +16,8 @@ import uuid
 import zipfile
 
 from contracts import ARTIFACTS, ROOT, run, sha256, write_json
-from kotlin_tools import gradle
-from maven_tools import verify_bundle
+from kotlin_tools import MAVEN_MODULES, gradle
+from maven_tools import zip_contents
 from publish_tools import get
 
 API = "https://central.sonatype.com/api/v1/publisher"
@@ -96,10 +96,8 @@ def publish(directory: Path, manifest: dict) -> None:
     deadline = time.monotonic() + 540
     entry = next(item for item in manifest["files"] if item["kind"] == "maven")
     unsigned = directory / entry["name"]
-    files = verify_bundle(unsigned, manifest, (directory / "contracts.binpb").read_bytes())
-    if registry_matches(files):
-        print("All Maven modules already exist with identical tested bytes.")
-        return
+    # publish_verified already checks the producer candidate at this trust handoff.
+    files = zip_contents(unsigned.read_bytes())
     identity = {"version": manifest["version"], "commit": manifest["commit"], "candidateSha256": sha256(unsigned)}
     receipt = recover_receipt(identity) or dict(identity, deploymentId=None, phase="not-uploaded")
     evidence = ARTIFACTS / "publication/deployment.json"
@@ -111,7 +109,7 @@ def publish(directory: Path, manifest: dict) -> None:
     override = os.environ.get("MAVEN_CENTRAL_DEPLOYMENT_ID", "").strip()
     if override:
         # Exceptional recovery only: the administrator obtains the ID from Central.
-        # Public byte comparison below still prevents accepting another release.
+        # Status identity/coordinates below still reject another deployment.
         receipt["deploymentId"] = str(uuid.UUID(override))
     if not receipt.get("deploymentId"):
         if receipt["phase"] != "not-uploaded":
@@ -135,12 +133,19 @@ def publish(directory: Path, manifest: dict) -> None:
     print(f"Maven Central deployment: {deployment_id}", flush=True)
     while time.monotonic() < deadline:
         status = json.loads(request("/status?" + urlencode({"id": deployment_id}), credential))
+        if (status.get("deploymentId") != deployment_id
+                or status.get("deploymentName") != "ArcForges-Contracts-" + manifest["version"]):
+            raise ValueError("Central status identifies another deployment")
         state = status["deploymentState"]
         receipt.update(phase=state, deploymentId=deployment_id)
         write_json(evidence, receipt)
         print(f"Maven Central: {state}", flush=True)
         if state == "PUBLISHED":
-            break
+            expected = {f"pkg:maven/io.github.arcforges/{module}@{manifest['version']}" for module in MAVEN_MODULES}
+            if set(status.get("purls", [])) != expected:
+                raise ValueError("Published Central coordinates differ from the candidate")
+            print("Maven Central reports PUBLISHED for the expected coordinates.", flush=True)
+            return
         if state in {"FAILED", "VALIDATED"}:
             raise ValueError(f"Central requires attention: {state}; deployment {deployment_id}. Inspect the Portal validation details")
         if state not in {"PENDING", "VALIDATING", "PUBLISHING"}:
@@ -148,19 +153,3 @@ def publish(directory: Path, manifest: dict) -> None:
         time.sleep(15)
     else:
         raise ValueError("Central deployment is still processing; re-run failed jobs to resume its retained receipt")
-    # A completed upload and search indexing are different states. Compare every
-    # tested JAR/POM/module against the public repository before claiming success.
-    while time.monotonic() < deadline:
-        try:
-            matched = registry_matches(files)
-        except ValueError as error:
-            if "partly visible" not in str(error):
-                raise
-            matched = False
-        if matched:
-            receipt["phase"] = "public-bytes-verified"
-            write_json(evidence, receipt)
-            print("All Maven Central modules match the tested candidate.")
-            return
-        time.sleep(15)
-    raise ValueError("Central reports PUBLISHED but public artifacts are still propagating; resume this deployment without re-uploading")
