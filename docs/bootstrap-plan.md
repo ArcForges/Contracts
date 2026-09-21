@@ -1,5 +1,8 @@
 # Contracts bootstrap plan
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 This records the original C#/TS bootstrap. The [Kotlin extension plan](kotlin-artifacts-plan.md)
 and current architecture/consuming documentation supersede its former RN direction.
 This is revision-bound historical evidence, reviewed on 2026-09-20 against the

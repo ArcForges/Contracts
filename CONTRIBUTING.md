@@ -1,11 +1,12 @@
 # Contributing
 
 1. Create a branch or independent Git worktree from main.
-2. Install the pinned toolchains and follow the README quick start.
+2. Reuse the existing toolchains and follow the relevant README commands.
 3. Edit authored schemas and regenerate bindings. Keep changes bounded and retain
    field numbers, names and service identities unless an approved breaking
    contract change requires a new version.
-4. Run local verification. For packaging changes, pack and run isolated consumers.
+4. Run relevant offline checks once. Runtime consumers are explicit local opt-in only when affected;
+   do not install tools or require hosted consumers. Follow [AGENTS.md](AGENTS.md).
 5. Submit a PR with behavior/compatibility impact and actual validation evidence.
 
 Use LF/UTF-8 and the repository formatting rules. Do not hand-edit generated code

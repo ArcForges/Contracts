@@ -39,6 +39,8 @@ def wait_for_host(process: subprocess.Popen, ports: list[int]) -> None:
 
 
 def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False, snapshot_registry: bool = False) -> None:
+    if os.environ.get("GITHUB_ACTIONS") or os.environ.get("CI", "").lower() == "true":
+        raise ValueError("Package consumers are explicit local diagnostics only; CI execution is prohibited")
     manifest = verify_artifacts(directory)
     repository = None
     def verify_snapshot():

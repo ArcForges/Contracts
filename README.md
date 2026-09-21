@@ -28,7 +28,7 @@ compiler or source checkout. Kotlin/Native and iOS are outside this delivery.
 ## Local quick start
 
 Install .NET SDK **10.0.400**, Node **24.21.0** (npm **11.19.0**) and Python
-**3.14.7**, JDK **17** and GnuPG (for the ephemeral signing test). Set `JAVA_HOME`
+**3.14.7** and JDK **17**. Reuse the installed tools; GnuPG is optional for an explicitly requested local signing diagnostic. Set `JAVA_HOME`
 to JDK 17. The checksum-pinned Gradle **9.7.1** wrapper is included; do not install
 a separate Gradle. Kotlin **2.4.20** is pinned in the version catalog. Version files in the root are authoritative. On Windows with fnm,
 select the pinned Node using `fnm use 24.21.0`; `fnm exec --using 24.21.0 --
@@ -41,7 +41,6 @@ python eng/contracts.py restore
 python eng/contracts.py generate --check
 python eng/contracts.py pack
 python -m unittest discover -s tests/tooling -v
-python eng/contracts.py consume --aot
 ```
 
 The producer currently runs on x64 Windows/Linux; the same generated packages
@@ -65,7 +64,10 @@ The local candidate version is `1.0.0-ci.0.0`. Pack creates one `.nupkg`, two
 `.tgz` archives, a Maven repository ZIP containing four modules, `contracts.binpb`
 and a hash manifest in `artifacts/packages`.
 Each package carries its licence, dependency NOTICE, CycloneDX SBOM and source
-metadata. Consumer evidence is written to `artifacts/evidence`.
+metadata. Runtime consumers are explicit local opt-in (`python eng/contracts.py consume --aot`)
+only for affected behavior and reject CI execution. They are not publication prerequisites.
+Real transport/signing fixtures additionally require `ARCFORGES_LOCAL_INTEGRATION=1` outside CI;
+do not install tools or repeat passing checks just to expand validation.
 
 ## CI and automatic publication
 
@@ -74,12 +76,10 @@ flowchart LR
   A[Locked restore] --> B[Regenerate and compare]
   B --> C[Compile and wire tests]
   C --> D[Pack one candidate]
-  D --> E[Windows and Linux archive consumers]
-  E --> F[C# gRPC, AOT, TS gRPC-Web and Kotlin gRPC-Web/gRPC checks]
-  F --> G[Verify gate]
+  D --> G[Offline candidate checks / Verify gate]
   G --> H[Main: publish same NuGet archive]
   G --> I[Main: publish proto, then API client to npm]
-  G --> J[Main: publish tested Maven SNAPSHOT files]
+  G --> J[Latest main: upload Maven SNAPSHOT files]
   G --> K[Formal tag: sign and publish Maven Central release]
 ```
 
@@ -95,6 +95,10 @@ that it was uploaded. Follow [the complete account-to-release setup](docs/releas
 for NuGet/npm OIDC and Maven Central account/signing configuration. Each registry
 has a separate GitHub environment restricted to main and release tags; these are repository settings, not
 organisation-wide environments.
+
+No macOS or runtime-consumer CI is permitted. Publication completes at successful registry
+operations/status; no public artifact download, hash audit or runtime cycle follows merge.
+See [AGENTS.md](AGENTS.md) for the reduced validation policy.
 
 ## Product naming policy
 

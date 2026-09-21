@@ -1,5 +1,8 @@
 # Kotlin artifacts implementation plan
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 ## Baseline and boundary
 
 The work starts at `4f6564a0fa15a18e92668efb995c25a88a9edf19` in the isolated

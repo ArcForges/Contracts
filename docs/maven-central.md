@@ -2,7 +2,7 @@
 
 The group remains `io.github.arcforges`, with `contracts-proto`, `contracts-client`, `contracts-connect-client` and `contract-fixtures`.
 
-Main builds publish `1.0.0-SNAPSHOT` to `https://central.sonatype.com/repository/maven-snapshots/`. Canonical `vX.Y.Z` tags publish immutable `X.Y.Z` releases to Maven Central. The tag commit must be reachable from main and passes the same candidate/consumer gates. No production tag is created by a validation test.
+Main builds publish `1.0.0-SNAPSHOT` to `https://central.sonatype.com/repository/maven-snapshots/`. Canonical `vX.Y.Z` tags publish immutable `X.Y.Z` releases to Maven Central. The tag commit must be reachable from main and passes the same build/offline candidate gates. No production tag is created by a validation test.
 
 ## Account setup
 
@@ -29,16 +29,34 @@ dependencies {
 }
 ```
 
-Gradle may [cache changing modules](https://docs.gradle.org/current/userguide/dependency_caching.html); use `--refresh-dependencies` when explicitly requesting a fresh snapshot. A snapshot coordinate can resolve differently later. The JAR's `source.json` carries the immutable cross-language CI build version, Git SHA and descriptor hash. Candidate manifests additionally record `mavenVersion`; publication receipts record all resolved timestamped URLs and hashes. Formal releases share one version across NuGet/npm/Maven.
+Gradle may [cache changing modules](https://docs.gradle.org/current/userguide/dependency_caching.html); use `--refresh-dependencies` when explicitly requesting a fresh snapshot. A snapshot coordinate can resolve differently later. The JAR's `source.json` carries the immutable cross-language CI build version, Git SHA and descriptor hash. Candidate manifests additionally record `mavenVersion`; publication receipts record candidate identity and upload/deployment status. Formal releases share one version across NuGet/npm/Maven.
 
-## Tested-byte publication and recovery
+## Candidate publication and recovery
 
-Packing uses an isolated Maven-local directory below repository `artifacts`, never the developer's global Maven repository. Both consumer platforms restore the candidate before publication. A separate source-free Gradle build transports the exact tested JAR, sources, documentation, POM and module files. Gradle generates snapshot timestamps and repository checksums. The publisher verifies all 20 remote files byte for byte. A newer snapshot cannot be replaced by a delayed older CI run; a same-build byte conflict fails.
+Packing uses an isolated Maven-local directory below repository `artifacts`, never the developer's
+global Maven repository. The producer validates archive contents once. A separate source-free
+Gradle build transports the retained JAR, sources, documentation, POM and module files, without
+rebuilding. Gradle generates snapshot timestamps and required repository checksums.
 
-Each publication step has a ten-minute timeout. `maven-deployment-<run-id>-<attempt>` retains a non-secret receipt even after failure. Re-run failed jobs with the original candidate; do not re-run all jobs merely to retry publication. Matching snapshot bytes succeed without another upload. Missing snapshot files can be republished from the same candidate and are verified together before success.
+The serialized SNAPSHOT job reads [GitHub main-ref metadata](https://docs.github.com/en/rest/git/refs#get-a-reference).
+If its candidate commit is no longer main, it records `superseded` and performs no upload.
+Otherwise a successful transport records `upload-completed`; there is no public JAR download or
+byte polling. This latest-main policy prevents an older queued/retried commit from rewinding the channel.
+A diagnosed retry may re-upload the same mutable snapshot candidate; never retry merely to verify it.
 
-Formal releases retain the Central Portal `AUTOMATIC` upload and detached-signature path. Retries recover the accepted deployment ID from the same run's receipt. An ambiguous upload without an ID is not uploaded again: inspect Central and set environment variable `MAVEN_CENTRAL_DEPLOYMENT_ID` only to the confirmed deployment ID, then remove the override after recovery. Publication and public-byte propagation share the bounded attempt; a later retry resumes the same deployment. Search indexing is not an acceptance gate.
+Each publication step has a ten-minute timeout. `maven-deployment-<run-id>-<attempt>` retains a
+non-secret receipt even after failure. Inspect the failure before retrying the same candidate.
+Do not re-run all jobs or allocate a replacement version merely to check publication.
 
-Candidates are retained for 30 days and receipts for 90 days. If an immutable release candidate expires, do not reconstruct or overwrite that version; allocate a new release version through review. CI/npm/NuGet success does not establish Maven availability. Namespace enablement is proven only by a real successful snapshot publication.
+Formal releases retain the Central Portal `AUTOMATIC` upload and required detached signatures.
+Retries recover the accepted deployment ID from the same run's receipt. An ambiguous upload without
+an ID is not uploaded again: inspect Central and set `MAVEN_CENTRAL_DEPLOYMENT_ID` only to the
+confirmed ID, then remove the override. The [Portal status response](https://central.sonatype.org/publish/publish-portal-api/)
+must identify the expected deployment ID/name and all four package coordinates at `PUBLISHED`.
+That provider result completes publication; public propagation and search indexing are not polled.
 
-Post-merge verification can run `python eng/contracts.py consume --aot --snapshot-registry` against the downloaded matching candidate. It verifies remote bytes before and after actual Kotlin/Connect restoration and RPC execution, using fresh caches.
+Candidates remain retained for 30 days and receipts for 90 days. An expired immutable candidate
+must not be reconstructed or overwritten. NuGet/npm success does not establish Maven publication.
+Post-merge work confirms commit and required job/provider status only. The consumer and snapshot
+inspection helpers remain explicit local diagnostics for a concrete defect or user request; they
+are never CI or routine post-merge gates. See [AGENTS.md](../AGENTS.md).

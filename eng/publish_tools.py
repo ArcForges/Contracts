@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import base64
 import hashlib
-import io
 import json
 import os
 import re
@@ -14,10 +13,9 @@ import tempfile
 from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
-import zipfile
 
 from contracts import NPM, run, version
-from packaging_tools import archive_files, verify_artifacts
+from packaging_tools import verify_artifacts
 
 
 def get(url: str) -> bytes | None:
@@ -43,15 +41,10 @@ def existing_matches(path: Path, entry: dict, release: str) -> bool:
             raise ValueError(f"Existing npm version has different bytes: {entry['id']}@{release}")
     else:
         package_id = entry["id"].lower()
-        archive = get(f"https://api.nuget.org/v3-flatcontainer/{package_id}/{release}/{package_id}.{release}.nupkg")
-        if archive is None:
+        metadata = get(f"https://api.nuget.org/v3-flatcontainer/{package_id}/index.json")
+        if metadata is None or release not in json.loads(metadata)["versions"]:
             return False
-        # nuget.org adds a repository signature, so compare all original ZIP entries.
-        with zipfile.ZipFile(io.BytesIO(archive)) as remote:
-            contents = {name: remote.read(name) for name in remote.namelist()
-                        if not name.endswith("/") and name != ".signature.p7s"}
-        if contents != archive_files(path):
-            raise ValueError(f"Existing NuGet version has different contents: {entry['id']} {release}")
+        raise ValueError(f"NuGet version already exists: {entry['id']} {release}; inspect its publication receipt before recovery")
     print(f"Already published with matching contents: {entry['id']} {release}")
     return True
 
@@ -85,7 +78,7 @@ def publish_verified(directory: Path, registry: str) -> None:
     expected_commit = os.environ.get("GITHUB_SHA", "")
     if not re.fullmatch("[0-9a-f]{40}", expected_commit):
         raise ValueError("Publishing requires the exact GitHub source commit")
-    manifest = verify_artifacts(directory, expected_commit)
+    manifest = verify_artifacts(directory, expected_commit, contents=False)
     from release_channels import authorize, maven_version
     authorize(manifest["version"])
     if manifest["dirty"]:

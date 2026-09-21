@@ -1,5 +1,8 @@
 # WP00.00 product and naming freeze
 
+> Historical plan/evidence. Current execution follows [AGENTS.md](../../AGENTS.md) and Design P2-017;
+> hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
+
 The authoritative design is [P2-015 and the naming policy](https://github.com/ArcForges/ArcForges-Design/blob/4382eec97e45f8abcc81fdcb28221e907f44ddde/docs/architecture/28-product-naming-policy.md), merged in [Design PR13](https://github.com/ArcForges/ArcForges-Design/pull/13) and refined by [Design PR14](https://github.com/ArcForges/ArcForges-Design/pull/14).
 
 The bounded plan maps the current product/feature identities, historical dispositions,

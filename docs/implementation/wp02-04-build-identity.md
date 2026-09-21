@@ -38,9 +38,9 @@ Runtime access uses assembly attributes in C#, the exported
 modules in Node, and module-specific JAR resources
 `META-INF/arcforges/<artifactId>/build-identity.json` in Java/Kotlin. Unique JAR
 paths prevent class-loader ambiguity when several Contracts modules are loaded.
-The isolated consumers compare actual installed metadata with the retained
+Optional local isolated consumers compare installed metadata with the retained
 candidate's build identity before exercising real Hello success/error transport.
-C# additionally runs as Native AOT. JVM probes are not Android device evidence.
+The local C# diagnostic can additionally run as Native AOT. These are not CI gates; JVM probes are not Android device evidence.
 
 Negative tests mutate all nine source kinds independently, reject unknown,
 missing, duplicate and aliased axes, reject malformed build identity, and alter
@@ -53,3 +53,7 @@ The reviewed package-graph inventory updates only the
 The new target adds assembly support metadata; it introduces no project or
 package references. Existing contract-access, licence, generation and
 immutable Dokka resource profiles remain enforced.
+
+Current execution follows P2-017 and [AGENTS.md](../../AGENTS.md): no hosted runtime consumers,
+macOS CI or post-publication download/hash cycle. Candidate contents are checked during production;
+publishers check source/run identity and retained archive integrity without rescanning their members.
