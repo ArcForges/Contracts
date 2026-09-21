@@ -48,11 +48,15 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "17"
+          java-version-file: .java-version
       - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
       - name: Restore locked dependencies
         # Java 17 is also the published JVM bytecode target.
         run: python eng/contracts.py restore
+      - name: Repeat locked npm and Gradle resolution offline
+        run: |
+          npm ci --offline --ignore-scripts --no-audit
+          ./gradlew --no-daemon --console=plain --offline resolveLockedDependencies resolveCodegenTools
       - name: Verify product naming policy and repository inventory
         run: python eng/check_naming.py --report artifacts/evidence/naming.json
       - name: Verify immutable provenance records and file inventory
@@ -127,7 +131,7 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "17"
+          java-version-file: .java-version
       - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
       - name: Install Linux Native AOT prerequisites
         if: runner.os == 'Linux'
@@ -270,7 +274,7 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "17"
+          java-version-file: .java-version
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version

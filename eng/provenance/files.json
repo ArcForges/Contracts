@@ -13,6 +13,7 @@
     ".github/workflows/ci.yml",
     ".github/workflows/security.yml",
     ".gitignore",
+    ".java-version",
     ".node-version",
     ".npmrc",
     ".prettierignore",

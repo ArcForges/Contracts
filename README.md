@@ -156,3 +156,7 @@ using compiled proto descriptors before candidate packing.
 ## Publication channels
 
 Main Maven builds publish `1.0.0-SNAPSHOT`; NuGet/npm retain their CI build versions. Canonical `vX.Y.Z` tags on main ancestry publish formal `X.Y.Z` packages after the same tests. Existing consumer pins remain immutable. See [snapshot setup, identity and ten-minute recovery](docs/maven-central.md).
+
+## Reproducible Java selection
+
+CI selects the reviewed Temurin patch from `.java-version`, rather than a moving major-version selector. Keep the existing JVM bytecode target and strict Gradle locks/checksum verification. Local checks record the actual installed JDK; only the matching pinned hosted producer run establishes the candidate toolchain identity. Dependency resolution can be repeated with `--offline` after fetching the complete locked cache. An unavailable cache entry fails instead of silently downloading during that repeat.
