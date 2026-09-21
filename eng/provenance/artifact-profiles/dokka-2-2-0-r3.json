@@ -8,7 +8,7 @@
     "reproduction": "npm ci --ignore-scripts from upstream package-lock.json; Node 24.21.0 webpack production search and UI builds. The after-exit showcase copy hook is disabled only for Windows audit execution. Search JS/CSS match exactly; UI output matches after removing only trailing sourceMappingURL comments."
   },
   "inputs": {
-    "build.gradle.kts": "c15ca4bb04443af790e3f2e2e063ebfaf5415ea43fdda477c6d31c536db948d4",
+    "build.gradle.kts": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64",
     "gradle.properties": "4ed453e5e776317aad97e656248d35b051216652b05cc29fe5ecc88a3dfc2cab",
     "gradle/libs.versions.toml": "75913647f51c39122d54d1e6f311115145aa975033b567a7ae86455b1cd5dac8",
     "settings.gradle.kts": "1f5b60ba4526dc5c0df1bbad3733f3d54c8986b7bb182d4de6af226d80ed6e10",

@@ -83,11 +83,12 @@ subprojects {
     }
     // Only reviewed resources enter the companion archive. The owning Python
     // packager stages this directory after checking raw pinned Dokka output.
+    val documentationDirectory = rootProject.layout.projectDirectory.dir("artifacts/documentation/${project.name}")
     val documentation = tasks.register<Jar>("javadocJar") {
         archiveClassifier.set("javadoc")
-        from(rootProject.layout.projectDirectory.dir("artifacts/documentation/${project.name}"))
+        from(documentationDirectory)
         doFirst {
-            require(rootProject.file("artifacts/documentation/${project.name}/NOTICE").isFile) {
+            require(documentationDirectory.file("NOTICE").asFile.isFile) {
                 "Run python eng/contracts.py pack to prepare reviewed documentation resources"
             }
         }

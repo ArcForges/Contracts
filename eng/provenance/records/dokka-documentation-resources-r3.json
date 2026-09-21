@@ -45,28 +45,28 @@
       "package": "io.github.arcforges:contracts-proto",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
-      "sha256": "59f17d46f542e6b4687cff1ddc3f5c5899f2cf28f559b7b95583c24f0cbea110"
+      "sha256": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521"
     },
     {
       "project": "contracts-client",
       "package": "io.github.arcforges:contracts-client",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
-      "sha256": "59f17d46f542e6b4687cff1ddc3f5c5899f2cf28f559b7b95583c24f0cbea110"
+      "sha256": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521"
     },
     {
       "project": "contracts-connect-client",
       "package": "io.github.arcforges:contracts-connect-client",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
-      "sha256": "59f17d46f542e6b4687cff1ddc3f5c5899f2cf28f559b7b95583c24f0cbea110"
+      "sha256": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521"
     },
     {
       "project": "contract-fixtures",
       "package": "io.github.arcforges:contract-fixtures",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
-      "sha256": "59f17d46f542e6b4687cff1ddc3f5c5899f2cf28f559b7b95583c24f0cbea110"
+      "sha256": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521"
     }
   ],
   "disposition": "Improve",
@@ -767,7 +767,7 @@
     "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
     "reviewedOn": "2026-09-21",
     "decision": "approved",
-    "rationale": "WP02.01 under Design d862738 enables Kotlin/Java/Gradle warning failure and replaces an owned deprecated configuration declaration. Only the reviewed root Gradle recipe/property hashes change. Pinned Dokka, generated sources, upstream closure, golden API pages, resources, legal texts and transformation remain identical to r2. Expectations were preserved before constructing the replacement candidate; existing exact output verification remains required.",
+    "rationale": "WP02.01 under Design d862738 enables Kotlin/Java/Gradle warning failure and replaces owned deprecated configuration and task-time project access. Only the reviewed root Gradle recipe/property hashes change. Pinned Dokka, generated sources, upstream closure, golden API pages, resources, legal texts and transformation remain identical to r2. Expectations were preserved before constructing the replacement candidate; existing exact output verification remains required.",
     "baselineCommit": "e8353720af5d61c462c3b550e46620dddb445ae9",
     "reconciliation": false
   },
