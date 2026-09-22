@@ -9,6 +9,7 @@
     "Directory.Build.props": "443ed70fc6faca54f904a3b9bfdc5ea3153377184ad39cdd65284a44ec075648",
     "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
     "Directory.Packages.props": "da77af081aa25740bc3a66e950df7efd6a894674f186d355818f5cc7c4857e0c",
+    "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "build.gradle.kts": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
@@ -2861,6 +2862,7 @@
       "Directory.Build.props": "443ed70fc6faca54f904a3b9bfdc5ea3153377184ad39cdd65284a44ec075648",
       "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
       "Directory.Packages.props": "da77af081aa25740bc3a66e950df7efd6a894674f186d355818f5cc7c4857e0c",
+      "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "build.gradle.kts": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
@@ -3004,7 +3006,20 @@
       "security-sbom": "Existing dependency review/npm audit/CodeQL and candidate SBOM gates retained; offline policy does not assert live vulnerability absence.",
       "runtime-performance-migration": "Not triggered for policy-only changes. Future behavior changes require relevant local evidence or explicit unmet coverage using available tools.",
       "framework-runtime-posture": "No framework major change. Future upgrades must assess Native AOT/trim and Android Kotlin/JVM/ART/R8 and transport consumer implications; later consumer acceptance remains WP03/WP06."
-    }
+    },
+    "frameworkVersions": {
+      "dotnetSdk": "10.0.400",
+      "node": "24.21.0",
+      "kotlin": "2.4.20",
+      "dokka": "2.2.0",
+      "protobuf": "4.36.1",
+      "grpc": "1.84.0",
+      "grpc-kotlin": "1.5.0",
+      "coroutines": "1.11.0",
+      "gson": "2.14.0",
+      "connect": "0.9.0"
+    },
+    "previousReceipt": null
   },
   "reviewReceipt": "eng/policy/dependency-reviews/wp02-05-r1.json"
 }

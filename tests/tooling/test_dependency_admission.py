@@ -7,7 +7,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
-from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coordinates, pinned, validate
+from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coordinates, major_upgrade, pinned, stable_dependency, validate
 
 
 class DependencyAdmission(unittest.TestCase):
@@ -60,6 +60,15 @@ class DependencyAdmission(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Wrong publisher'):
                 validate(policy, self.graph)
 
+    def test_major_framework_change_requires_runtime_review(self):
+        before = {'frameworkVersions': {'kotlin': '2.4.20'}}
+        after = {'frameworkVersions': {'kotlin': '3.0.0'}}
+        with self.assertRaisesRegex(ValueError, 'framework major'):
+            major_upgrade(before, after)
+        after['frameworkMajorReview'] = {'changed': ['kotlin'], 'owner': 'Architecture owner',
+            'nativeAotTrim': 'fixture', 'androidKotlinArtR8': 'fixture', 'transport': 'fixture', 'localCoverage': 'not run: fixture'}
+        major_upgrade(before, after)
+
     def test_upgrade_review_required(self):
         for field in ['inputHashes', 'checks']:
             policy = copy.deepcopy(self.policy)
@@ -74,6 +83,13 @@ class DependencyAdmission(unittest.TestCase):
         self.graph[key] = entry['integrity']
         with self.assertRaisesRegex(ValueError, 'Stable closure'):
             validate(self.policy, self.graph, stable=True)
+
+    def test_nonstandard_preview_is_not_stable(self):
+        for key in ['nuget:test@1.0.0-dev.1', 'npm:test@1.0.0-eap', 'maven:example:library:1.0.0-dev']:
+            with self.subTest(key=key):
+                self.assertFalse(stable_dependency(key))
+        for version in ['1.0.0-jre', '1.0.0-android', '1.0.0.GA', '1.0.0.Final']:
+            self.assertTrue(stable_dependency('maven:example:library:' + version))
 
     def test_public_internal_guard_required(self):
         self.policy['publicInternalGate'] = ''

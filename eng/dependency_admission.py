@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import tomllib
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +27,15 @@ def pinned(version):
                   and 'SNAPSHOT' not in version, 'Floating or mutable selector: ' + str(version))
 
 
+def stable_dependency(key):
+    if key == 'maven:com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava':
+        return True  # Released empty compatibility artifact, not a preview selector.
+    if key.startswith('maven:'):
+        return re.fullmatch(r'\d+(?:\.\d+)*(?:(?:-|\.)(?:jre|android|GA|Final|RELEASE))?',
+                            key.rsplit(':', 1)[1], re.I) is not None
+    return '-' not in key.rsplit('@', 1)[1]
+
+
 def tracked(root):
     return sorted(set(subprocess.check_output(['git', '-C', str(root), 'ls-files', '--cached',
                                              '--others', '--exclude-standard'], text=True).splitlines()))
@@ -34,7 +44,7 @@ def tracked(root):
 def input_paths(root):
     return [p for p in tracked(root) if p.endswith(('.csproj', '.props', '.targets', '.gradle.kts',
                 '.lockfile', 'packages.lock.json', 'package.json', 'package-lock.json', 'verification-metadata.xml'))
-            or p in {'global.json', 'NuGet.Config', '.npmrc', '.node-version', '.java-version', '.python-version',
+            or p in {'global.json', 'NuGet.config', '.npmrc', '.node-version', '.java-version', '.python-version',
                      'gradle/libs.versions.toml', 'gradle/verification-metadata.xml',
                      'gradle/wrapper/gradle-wrapper.properties', 'eng/toolchain.json', 'eng/policy/contract-access.json'}
             or p.startswith(('eng/provenance/records/', 'eng/provenance/artifact-profiles/'))]
@@ -95,8 +105,7 @@ def validate(policy, actual, stable=False):
         reject_unless(entry['evidence'] and all(re.fullmatch('[0-9a-f]{64}', e['sha256']) and e['source']
                                               for e in entry['evidence']), 'Missing exact source evidence')
         if stable:
-            reject_unless(not re.search(r'(?:[.-](?:alpha|beta|preview|rc|ci|snapshot))(?:[.-]|\d|$)', key, re.I),
-                          'Stable closure contains prerelease: ' + key)
+            reject_unless(stable_dependency(key), 'Stable closure contains prerelease: ' + key)
     review = policy['review']
     reject_unless(review['owner'] and review['reviewer'] and review['maintenanceAssessment'], 'Missing review')
     reject_unless(re.fullmatch('[0-9a-f]{40}', review['baselineCommit']), 'Floating source tag')
@@ -121,6 +130,22 @@ def immutable_coordinates(policy, receipts):
                 accepted[identity] = digest
 
 
+def frameworks(root):
+    return {'dotnetSdk': json.loads((root / 'global.json').read_text())['sdk']['version'],
+            'node': (root / '.node-version').read_text().strip(),
+            **tomllib.loads((root / 'gradle/libs.versions.toml').read_text())['versions']}
+
+
+def major_upgrade(before, after):
+    changed = {key for key, version in after['frameworkVersions'].items()
+               if key in before['frameworkVersions'] and version.split('.')[0] != before['frameworkVersions'][key].split('.')[0]}
+    if changed:
+        review = after.get('frameworkMajorReview', {})
+        reject_unless(set(review.get('changed', [])) == changed and review.get('owner')
+                      and all(review.get(key) for key in ['nativeAotTrim', 'androidKotlinArtR8', 'transport', 'localCoverage']),
+                      'Missing framework major runtime-posture review')
+
+
 def review_history(root, policy):
     from check_provenance import baseline, git
     compared = baseline(root, os.environ.get('GITHUB_SHA') if os.environ.get('GITHUB_REF', '').startswith('refs/tags/') else None)
@@ -132,7 +157,18 @@ def review_history(root, policy):
     reject_unless(policy['reviewReceipt'] in paths, 'Missing immutable review receipt')
     reject_unless(json.loads((root / policy['reviewReceipt']).read_text()) == {'review': policy['review'], 'closure': policy['closure']},
                   'Current policy does not match review receipt')
-    immutable_coordinates(policy, [json.loads((root / p).read_text()) for p in paths])
+    receipts, visited, cursor = [], set(), policy['reviewReceipt']
+    while cursor is not None:
+        reject_unless(cursor in paths and cursor not in visited, 'Invalid predecessor review chain')
+        visited.add(cursor)
+        receipt = json.loads((root / cursor).read_text())
+        receipts.insert(0, receipt)
+        cursor = receipt['review']['previousReceipt']
+    reject_unless(visited == set(paths), 'Dropped retained review from chain')
+    reject_unless(policy['review']['frameworkVersions'] == frameworks(root), 'Framework selections differ from review')
+    for previous, current in zip(receipts, receipts[1:]):
+        major_upgrade(previous['review'], current['review'])
+    immutable_coordinates(policy, receipts)
 
 
 def audit(root=ROOT, stable=False):
@@ -141,7 +177,7 @@ def audit(root=ROOT, stable=False):
     actual = inventory(root)
     validate(policy, actual, stable)
     review_history(root, policy)
-    reject_unless([e.get('value') for e in ET.parse(root / 'NuGet.Config').findall('./packageSources/add')]
+    reject_unless([e.get('value') for e in ET.parse(root / 'NuGet.config').findall('./packageSources/add')]
                   == [policy['publisher']['nuget']['feed']], 'Untrusted NuGet feed')
     # Source manifests may use * only for an exact owner-local producer workspace;
     # packing already substitutes the immutable first-party candidate identity.
