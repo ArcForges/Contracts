@@ -14802,7 +14802,8 @@
         ],
         "contracts-proto/io.github.arcforges.contracts.foundation.v1/-id/index.html": [
           "Id",
-          "anchor-label=\"getValue\""
+          "anchor-label=\"getValue\"",
+          "anchor-label=\"hasValue\""
         ],
         "contracts-proto/io.github.arcforges.contracts.foundation.v1/-instant/index.html": [
           "Instant",

@@ -1,9 +1,9 @@
 # WP03.01 foundation contracts: implementation and evidence
 
-Status: implementation and targeted local validation completed. Final source and
-provenance review, applicable PR CI, merge and normal publication remain pending.
-The local results below do not establish a released WP03.01 candidate or acceptance
-of later product behavior.
+Status: pre-merge implementation record. Source, targeted local validation and
+independent provenance review are complete. Applicable PR CI, merge and normal
+publication remain required acceptance gates. This record does not establish a
+released WP03.01 candidate or acceptance of later product behavior.
 
 Authority: the [WP03.01 implementation profile](https://github.com/ArcForges/ArcForges-Design/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md),
 registry04, annex10 and P2-017. The accepted upstream Contracts source is
@@ -71,7 +71,7 @@ lifecycle examples do not execute save/export/import transactions or live AI.
 
 | Evidence                                                     | Current observation                                                                                                                                                                                                                                                                                                                   |
 | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Authored/generated diff review and provenance/import closure | Independent implementation review findings were fixed. Final source, generated diff and provenance acceptance remain pending.                                                                                                                                                                                                         |
+| Authored/generated diff review and provenance/import closure | Complete independent source/generated review findings were fixed. Current generated-source/provenance inventory passed and binds source snapshot `f9dc23fea7ae1dae3805404bb800583aea4e13e0`.                                                                                                                                          |
 | Generation and selected descriptor inventory                 | Deterministic C#/TS/Java/Kotlin regeneration passed (`artifacts/generate-check.log`). All 8 targeted inventory negative tests passed.                                                                                                                                                                                                 |
 | C#/TS positive/negative cases and independent binary oracles | Both offline runners passed all 476 cases, covering 148 records, all 82 selected oneof branches, 16 owner-body branches, 45 error categories and 10 binary oracles. Logs: `artifacts/foundation-csharp.log` and `artifacts/foundation-typescript.log`.                                                                                |
 | Bidirectional C#/TS exchange                                 | All 314 positive cases passed C# to TypeScript and TypeScript to C# validation. Exchange identity uses current fixture bytes and rejects missing or duplicate case IDs. Return verification: `artifacts/foundation-exchange.log`.                                                                                                     |
@@ -79,7 +79,7 @@ lifecycle examples do not execute save/export/import transactions or live AI.
 | Managed and TypeScript compilation                           | C# solution Release build passed with 0 warnings and 0 errors; TypeScript workspace build passed. Logs: `artifacts/dotnet-build.log` and `artifacts/ts-build.log`. Local C# execution used existing SDK `10.0.401` through a local adapter; committed `global.json` and CI retain `10.0.400`. This is not CI-equivalent SDK evidence. |
 | Kotlin compilation and assembly                              | Cached JDK 17 `assemble`/`check` passed for the retained modules (`artifacts/kotlin-build.log`). Test tasks reported `NO-SOURCE`; no Kotlin runtime or third-language semantic conformance result is claimed.                                                                                                                         |
 | Source-access offline regressions                            | All 14 tests passed (`artifacts/access-tests.log`). The compiled access audit passed for 174 total contract types, 526 distribution files and 22 packages. The Apache source boundary passed for 30 projects; naming checks found no exceptions or findings.                                                                          |
-| Dokka documentation and provenance successor                 | The expanded generated schema changes the documentation input closure. Successor profile `dokka-2-2-0-r5` and record `dokka-documentation-resources-r5` are required; their completed artifact admission and independent review remain pending.                                                                                       |
+| Dokka documentation and provenance successor                 | One cached offline Dokka generation passed. The reviewed r5 profile/record binds 481 source/configuration inputs and 14,017 generated API members, retaining all 42 fixed resources, 10 excluded fonts and 81 third-party components. Producer archive validation remains required CI.                                                |
 | Applicable latest-head PR CI/security                        | Pending. Existing configured checks remain required.                                                                                                                                                                                                                                                                                  |
 | Expected source merge and complete normal publication        | Pending; no WP03.01 candidate coordinate or successful upload is claimed.                                                                                                                                                                                                                                                             |
 | Clean primary fast-forward                                   | Pending after accepted merge.                                                                                                                                                                                                                                                                                                         |
@@ -93,8 +93,9 @@ both language suites exercise exact rational conversion and unknown-read helpers
 The documentation provenance record freezes generated-source inputs and admitted
 API output. Expanded WP03.01 schemas therefore require the r5 successor even
 though Dokka and its admitted third-party resources are unchanged. Prior used
-profiles and records remain immutable; r5 is not accepted until its current input
-closure, generated documentation and provenance review are complete.
+profiles and records remain immutable. The current input closure and raw
+generated documentation were admitted and independently reviewed; the normal
+candidate producer still validates packaged documentation before publication.
 
 The coordinated offline exchange executes the full C# suite once with
 `--foundation-exchange`, the TypeScript suite once with `--exchange`, then the C#

@@ -45,21 +45,21 @@
       "package": "io.github.arcforges:contracts-proto",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json",
-      "sha256": "0c9cbc62d295568293f8f71ca46cd06b55f2a4e1ac44b11a9f8eaed02517d55d"
+      "sha256": "1c6c005f814fe804298ccb00a32ffb69cad9c6bcabb0c8697cb1ddb2d4146dae"
     },
     {
       "project": "contracts-connect-client",
       "package": "io.github.arcforges:contracts-connect-client",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json",
-      "sha256": "0c9cbc62d295568293f8f71ca46cd06b55f2a4e1ac44b11a9f8eaed02517d55d"
+      "sha256": "1c6c005f814fe804298ccb00a32ffb69cad9c6bcabb0c8697cb1ddb2d4146dae"
     },
     {
       "project": "contract-fixtures",
       "package": "io.github.arcforges:contract-fixtures",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json",
-      "sha256": "0c9cbc62d295568293f8f71ca46cd06b55f2a4e1ac44b11a9f8eaed02517d55d"
+      "sha256": "1c6c005f814fe804298ccb00a32ffb69cad9c6bcabb0c8697cb1ddb2d4146dae"
     }
   ],
   "disposition": "Improve",
@@ -726,7 +726,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "30ddcad2bcb3634e089abb5e29d6c9ce05d38386",
+        "commit": "f9dc23fea7ae1dae3805404bb800583aea4e13e0",
         "paths": [
           "build.gradle.kts",
           "gradle.properties",
@@ -3634,7 +3634,7 @@
     "reviewedOn": "2026-09-22",
     "decision": "approved",
     "rationale": "WP03.01 reviewed one local cached offline Dokka generation for the complete selected Foundation/PublicApi closure and retained Hello, Events, Connect and fixture modules. The 14017 exact generated API members and complete input hashes replace the prior oracle. All 148 selected record pages and their declared field getters are present. Fixed/excluded resources, upstream source identities, component licences and notice obligations are preserved verbatim from r4; no remote archives were fetched.",
-    "baselineCommit": "30ddcad2bcb3634e089abb5e29d6c9ce05d38386",
+    "baselineCommit": "f9dc23fea7ae1dae3805404bb800583aea4e13e0",
     "reconciliation": false
   },
   "supersedes": "dokka-documentation-resources-r4"

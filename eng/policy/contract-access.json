@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-01-foundation-contract-profile.md",
     "sha256": "cdf1ee5cca36de32720ce55845c142fd2aef5ef53df581ad77c8c857e082e1ce"
   },
-  "sourceCommit": "30ddcad2bcb3634e089abb5e29d6c9ce05d38386",
+  "sourceCommit": "f9dc23fea7ae1dae3805404bb800583aea4e13e0",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",

@@ -9,8 +9,8 @@ Notice scope: source
 Apache License, Version 2.0, January 2004; preserve the complete terms.
 The complete Apache-2.0 terms remain in LICENSE and the four public export copies.
 
-contract-bindings-r2
-Source: https://github.com/ArcForges/Contracts @ 3edb8888b0648c32c5594b567e0157b158e9c915
+contract-bindings-r3
+Source: https://github.com/ArcForges/Contracts @ f9dc23fea7ae1dae3805404bb800583aea4e13e0
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -18,7 +18,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation is retired in WP03.00.
+Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
@@ -147,7 +147,7 @@ Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-dokka-documentation-resources-r4
+dokka-documentation-resources-r5
 Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
 Material licence: Apache-2.0 AND MIT
 Notice scope: documentation
