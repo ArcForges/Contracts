@@ -2,8 +2,11 @@
 """Admission rejection tests use committed inputs and synthetic mutations only."""
 import copy
 import json
+import hashlib
 from pathlib import Path
 import sys
+import re
+import tomllib
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
@@ -95,6 +98,25 @@ class DependencyAdmission(unittest.TestCase):
         self.policy['publicInternalGate'] = ''
         with self.assertRaisesRegex(ValueError, 'Public/internal'):
             validate(self.policy, self.graph)
+
+    def test_secret_scan_exceptions_are_exact_public_source_rows(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        self.assertEqual(config['extend'], {'useDefault': True})
+        self.assertEqual(len(config['allowlists']), 1)
+        allow = config['allowlists'][0]
+        self.assertEqual(allow['targetRules'], ['generic-api-key'])
+        self.assertEqual(allow['condition'], 'AND')
+        self.assertEqual(allow['regexTarget'], 'line')
+        self.assertEqual(len(allow['paths']), 1)
+        self.assertIsNone(re.fullmatch(allow['paths'][0], 'src/secret.json'))
+        self.assertEqual(len(allow['regexes']), 4)
+        sources = ['eng/policy/contract-access.json', 'eng/provenance/records/dokka-combokeys-licence-r1.json',
+                   'eng/provenance/records/dokka-object-keys-licence-r1.json',
+                   'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
+        for source, pattern in zip(sources, allow['regexes']):
+            digest = hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+            self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
+            self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
 
 
 if __name__ == '__main__':

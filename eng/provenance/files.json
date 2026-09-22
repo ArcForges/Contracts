@@ -13,6 +13,7 @@
     ".github/workflows/ci.yml",
     ".github/workflows/security.yml",
     ".gitignore",
+    ".gitleaks.toml",
     ".java-version",
     ".node-version",
     ".npmrc",
@@ -348,7 +349,5 @@
     "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts": "hello-bindings-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r3"
-  ]
+  "artifacts": ["dokka-documentation-resources-r3"]
 }

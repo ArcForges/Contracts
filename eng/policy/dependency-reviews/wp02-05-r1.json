@@ -391,12 +391,8 @@
     },
     "maven:com.google.code.findbugs:jsr305:3.0.2": {
       "integrity": {
-        "jsr305-3.0.2.jar": [
-          "766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7"
-        ],
-        "jsr305-3.0.2.pom": [
-          "19889dbdf1b254b2601a5ee645b8147a974644882297684c798afe5d63d78dfe"
-        ]
+        "jsr305-3.0.2.jar": ["766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7"],
+        "jsr305-3.0.2.pom": ["19889dbdf1b254b2601a5ee645b8147a974644882297684c798afe5d63d78dfe"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -409,12 +405,8 @@
     },
     "maven:com.google.code.gson:gson:2.14.0": {
       "integrity": {
-        "gson-2.14.0.jar": [
-          "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
-        ],
-        "gson-2.14.0.pom": [
-          "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
-        ]
+        "gson-2.14.0.jar": ["2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"],
+        "gson-2.14.0.pom": ["1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -488,9 +480,7 @@
         "guava-33.6.0-android.module": [
           "6db7aace48a97f350a5e2a2450082d048bde05ec13fb2df25f83b28fe0a4b581"
         ],
-        "guava-33.6.0-jre.jar": [
-          "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
-        ]
+        "guava-33.6.0-jre.jar": ["dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -609,12 +599,8 @@
     },
     "maven:com.squareup.moshi:moshi:1.15.2": {
       "integrity": {
-        "moshi-1.15.2.jar": [
-          "767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"
-        ],
-        "moshi-1.15.2.module": [
-          "d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"
-        ]
+        "moshi-1.15.2.jar": ["767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"],
+        "moshi-1.15.2.module": ["d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -645,9 +631,7 @@
     },
     "maven:com.squareup.okhttp3:okhttp:5.4.0": {
       "integrity": {
-        "okhttp-5.4.0.module": [
-          "63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"
-        ]
+        "okhttp-5.4.0.module": ["63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -660,9 +644,7 @@
     },
     "maven:com.squareup.okio:okio-jvm:3.17.0": {
       "integrity": {
-        "okio-jvm-3.17.0.jar": [
-          "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"
-        ],
+        "okio-jvm-3.17.0.jar": ["3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"],
         "okio-jvm-3.17.0.module": [
           "d4617d0df71f202e7299471848e625f4f36d7fa64d46c3503f70acf4821a45de"
         ]
@@ -678,9 +660,7 @@
     },
     "maven:com.squareup.okio:okio-jvm:3.4.0": {
       "integrity": {
-        "okio-jvm-3.4.0.jar": [
-          "0139ec7a506dbbd54cad62291b019cb850534be097c8c66c1000d5fbe8edef3e"
-        ],
+        "okio-jvm-3.4.0.jar": ["0139ec7a506dbbd54cad62291b019cb850534be097c8c66c1000d5fbe8edef3e"],
         "okio-jvm-3.4.0.module": [
           "6fec13cf3361600364bfcc68004af7c760ceaf1fc1bbcc958742ae4d61db1512"
         ]
@@ -696,9 +676,7 @@
     },
     "maven:com.squareup.okio:okio:3.17.0": {
       "integrity": {
-        "okio-3.17.0.module": [
-          "3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"
-        ]
+        "okio-3.17.0.module": ["3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -711,9 +689,7 @@
     },
     "maven:com.squareup.okio:okio:3.4.0": {
       "integrity": {
-        "okio-3.4.0.module": [
-          "69173608417a2113e6fa6afeb7b4540b20df70cfda3fa16c73aaa4fa702ffad3"
-        ]
+        "okio-3.4.0.module": ["69173608417a2113e6fa6afeb7b4540b20df70cfda3fa16c73aaa4fa702ffad3"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -748,12 +724,8 @@
     },
     "maven:io.grpc:grpc-api:1.84.0": {
       "integrity": {
-        "grpc-api-1.84.0.jar": [
-          "a2a57594571a4392751609bf4c63cf838ba7dcdbc8e5fd07983c313cb1565ac8"
-        ],
-        "grpc-api-1.84.0.pom": [
-          "70fb831b6849bc8596a7c5245b01a2479b78d8dbe15fd3e76d845fbef444857e"
-        ]
+        "grpc-api-1.84.0.jar": ["a2a57594571a4392751609bf4c63cf838ba7dcdbc8e5fd07983c313cb1565ac8"],
+        "grpc-api-1.84.0.pom": ["70fb831b6849bc8596a7c5245b01a2479b78d8dbe15fd3e76d845fbef444857e"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -787,9 +759,7 @@
         "grpc-core-1.84.0.jar": [
           "750c08018e22014cb5e6b6ac64fd4d0b2302b7db9cb2b83a1e0914d0561ed71c"
         ],
-        "grpc-core-1.84.0.pom": [
-          "20058d792c9f3720a8e1b280e29a0e6f4df8fe93e169551ffc220be9920e08fa"
-        ]
+        "grpc-core-1.84.0.pom": ["20058d792c9f3720a8e1b280e29a0e6f4df8fe93e169551ffc220be9920e08fa"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -859,9 +829,7 @@
         "grpc-stub-1.84.0.jar": [
           "5d7c9eac0386fbf6f1c9dc90171034939093c9f72196bd9242acf819c5f10a4a"
         ],
-        "grpc-stub-1.84.0.pom": [
-          "b7c5d6724a11ef32fe08e032deae400b60ae12643c765d39dff74d4cc16c8423"
-        ]
+        "grpc-stub-1.84.0.pom": ["b7c5d6724a11ef32fe08e032deae400b60ae12643c765d39dff74d4cc16c8423"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -877,9 +845,7 @@
         "grpc-util-1.84.0.jar": [
           "b64b8eedb714ec8c22ddc57361c7f2c0718cd51fa9d44a8cff68b30c117a6c23"
         ],
-        "grpc-util-1.84.0.pom": [
-          "a218de8bb7f13050ce7aa39258f8ed16f8b8f2a6218e34a439b5e4bfbc6faee2"
-        ]
+        "grpc-util-1.84.0.pom": ["a218de8bb7f13050ce7aa39258f8ed16f8b8f2a6218e34a439b5e4bfbc6faee2"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -985,9 +951,7 @@
     },
     "maven:io.ktor:ktor-io:3.5.0": {
       "integrity": {
-        "ktor-io-3.5.0.module": [
-          "cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"
-        ]
+        "ktor-io-3.5.0.module": ["cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1095,12 +1059,8 @@
     },
     "maven:org.codehaus.woodstox:stax2-api:4.2.1": {
       "integrity": {
-        "stax2-api-4.2.1.jar": [
-          "678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"
-        ],
-        "stax2-api-4.2.1.pom": [
-          "79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"
-        ]
+        "stax2-api-4.2.1.jar": ["678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"],
+        "stax2-api-4.2.1.pom": ["79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"]
       },
       "licence": "BSD-2-Clause",
       "evidence": [
@@ -1246,9 +1206,7 @@
         "abi-tools-2.3.21.jar": [
           "6761656205c3514050f68fde7c32b2beb47246786247dacfb279db432a70562b"
         ],
-        "abi-tools-2.3.21.pom": [
-          "e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"
-        ]
+        "abi-tools-2.3.21.pom": ["e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -2242,9 +2200,7 @@
         "annotations-13.0.jar": [
           "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478"
         ],
-        "annotations-13.0.pom": [
-          "965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"
-        ]
+        "annotations-13.0.pom": ["965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -2308,12 +2264,8 @@
     },
     "maven:org.jsoup:jsoup:1.16.1": {
       "integrity": {
-        "jsoup-1.16.1.jar": [
-          "1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"
-        ],
-        "jsoup-1.16.1.pom": [
-          "6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"
-        ]
+        "jsoup-1.16.1.jar": ["1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"],
+        "jsoup-1.16.1.pom": ["6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"]
       },
       "licence": "MIT",
       "evidence": [
@@ -2326,9 +2278,7 @@
     },
     "maven:org.jspecify:jspecify:1.0.0": {
       "integrity": {
-        "jspecify-1.0.0.jar": [
-          "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
-        ],
+        "jspecify-1.0.0.jar": ["1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"],
         "jspecify-1.0.0.module": [
           "d307ca77a54e18ac1ef1aaed4e5bbe014bd2f49f29e1d2f813e47c278283195b"
         ]
@@ -2347,9 +2297,7 @@
         "slf4j-api-2.0.18.jar": [
           "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
         ],
-        "slf4j-api-2.0.18.pom": [
-          "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"
-        ]
+        "slf4j-api-2.0.18.pom": ["6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"]
       },
       "licence": "MIT",
       "evidence": [
