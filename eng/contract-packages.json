@@ -168,7 +168,7 @@
       "proto": [],
       "dependencies": ["@arcforges/proto"],
       "descriptor": "contracts.binpb",
-      "jsonSchemas": ["public/http/v1/schema.json"]
+      "jsonSchemas": ["public/http/v1/schema.json", "public/http/v1/inventory.schema.json"]
     },
     {
       "id": "@arcforges/contract-fixtures",
