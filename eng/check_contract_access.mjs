@@ -230,7 +230,7 @@ export function declaredTypes(text) {
   const code = text.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, "");
   return [
     ...code.matchAll(
-      /(?:^|\n)\s*(?:(?:public|private|internal|protected|static|final|sealed|partial|abstract|export|readonly|data|value|open)\s+)*(?:class|interface|struct|enum|record|object|type)\s+([A-Za-z_]\w*)/g,
+      /(?:^|\n)\s*(?:(?:public|private|internal|protected|static|final|sealed|partial|abstract|export|readonly|data|value|open)\s+)*(?:class|interface|struct|enum|record(?:\s+(?:class|struct))?|object|type)\s+([A-Za-z_]\w*)/g,
     ),
   ].map((m) => m[1]);
 }

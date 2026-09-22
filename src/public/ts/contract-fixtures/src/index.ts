@@ -871,5 +871,9126 @@ export const publicFixtures = {
         }
       }
     ]
+  },
+  "wp03-01.json": {
+    "schemaVersion": "wp03-01-fixtures.v1",
+    "license": "Apache-2.0",
+    "authority": "Design registry04, annex10, content-origin.v1, notes.scalar.v1 and scope.measurement.v1 at 5e202ff10f3c218d9e159029579ca535c641169b",
+    "oracle": "Independently authored examples and rejection expectations. References are fixture composition only; no production schema or validator generates expected outcomes.",
+    "samples": {
+      "$Id2": {
+        "value": "ABEiM0RVZneImaq7zN3vAA=="
+      },
+      "$MediaEnd": {
+        "ticks": "705600000",
+        "rate": {
+          "numerator": "705600000",
+          "denominator": "1"
+        }
+      },
+      "$ScopeEnd": {
+        "ticks": "4",
+        "rate": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "$InstantEnd": {
+        "unixSeconds": "60",
+        "nanos": 0
+      },
+      "Id": {
+        "value": "ABEiM0RVZneImaq7zN3u/w=="
+      },
+      "Revision": {
+        "value": "9007199254740993"
+      },
+      "LocalNotesVersion": {
+        "ackedRev": {
+          "value": "0"
+        },
+        "headLocalSeq": "18446744073709551615"
+      },
+      "NativeContentRev": {
+        "value": "18446744073709551615"
+      },
+      "Instant": {
+        "unixSeconds": "0",
+        "nanos": 100
+      },
+      "Decimal": {
+        "value": "0.000000001"
+      },
+      "Rational": {
+        "numerator": "1",
+        "denominator": "3"
+      },
+      "MediaTime": {
+        "ticks": "0",
+        "rate": {
+          "numerator": "705600000",
+          "denominator": "1"
+        }
+      },
+      "MediaRange": {
+        "start": {
+          "$ref": "MediaTime"
+        },
+        "duration": {
+          "$ref": "$MediaEnd"
+        }
+      },
+      "ByteRange": {
+        "offset": "9007199254740993",
+        "length": "17"
+      },
+      "TimeRangeUtc": {
+        "from": {
+          "$ref": "Instant"
+        },
+        "until": {
+          "$ref": "$InstantEnd"
+        }
+      },
+      "AggregateRef": {
+        "kind": "notes.document",
+        "id": {
+          "$ref": "Id"
+        }
+      },
+      "VersionedRef": {
+        "root": {
+          "$ref": "AggregateRef"
+        },
+        "revision": {
+          "$ref": "Revision"
+        },
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      },
+      "Receipt": {
+        "commandId": {
+          "$ref": "Id"
+        },
+        "resultRevision": {
+          "$ref": "Revision"
+        },
+        "effect": 2
+      },
+      "PageRequest": {
+        "cursor": "opaque-returned-cursor",
+        "limit": 100
+      },
+      "PageState": {
+        "nextCursor": "opaque-returned-cursor",
+        "hasMore": true
+      },
+      "ApplicationScope": {
+        "productId": "arcnotes",
+        "installationId": {
+          "$ref": "Id"
+        }
+      },
+      "RequestMeta": {
+        "commandId": {
+          "$ref": "Id"
+        },
+        "expectedRev": {
+          "$ref": "Revision"
+        },
+        "correlationId": {
+          "$ref": "$Id2"
+        },
+        "workspaceId": {
+          "$ref": "Id"
+        },
+        "recoveryGeneration": "9007199254740993",
+        "applicationScope": {
+          "$ref": "ApplicationScope"
+        }
+      },
+      "ResponseMeta": {
+        "resultRev": {
+          "$ref": "Revision"
+        },
+        "entitlementVersion": "9223372036854775807",
+        "warnings": [
+          "page.limit_clamped"
+        ],
+        "correlationId": {
+          "$ref": "Id"
+        },
+        "recoveryGeneration": "18446744073709551615"
+      },
+      "ArcError": {
+        "code": "validation.invalid_request",
+        "category": 1,
+        "messageKey": "validation.invalid_request",
+        "retry": {
+          "mode": 1
+        },
+        "effect": 1,
+        "correlationId": {
+          "$ref": "Id"
+        },
+        "details": {
+          "$ref": "ErrorDetails"
+        }
+      },
+      "RetryAdvice": {
+        "mode": 1
+      },
+      "ErrorDetails": {
+        "revision": {
+          "$ref": "RevisionConflict"
+        }
+      },
+      "RevisionConflict": {
+        "expected": {
+          "value": "1"
+        },
+        "actual": {
+          "value": "2"
+        },
+        "conflictId": {
+          "$ref": "Id"
+        }
+      },
+      "LimitFailure": {
+        "limitName": "storage.bytes",
+        "maximum": {
+          "value": "100"
+        },
+        "available": {
+          "value": "0"
+        },
+        "recoveryAt": {
+          "$ref": "$InstantEnd"
+        }
+      },
+      "VersionFailure": {
+        "minReadable": "1",
+        "minWritable": "1",
+        "received": "0"
+      },
+      "StateFailure": {
+        "state": "waiting",
+        "reason": "dependency.unavailable",
+        "resource": {
+          "$ref": "AggregateRef"
+        },
+        "local": {
+          "$ref": "LocalNotesVersion"
+        }
+      },
+      "ContentOrigin": {
+        "profile": "arcforges.content-origin.v1",
+        "originId": {
+          "$ref": "Id"
+        },
+        "contentUnitId": {
+          "$ref": "$Id2"
+        },
+        "kinds": [
+          "aiGenerated",
+          "nonAi"
+        ],
+        "payloadSha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "producerKind": "deterministic",
+        "createdAt": {
+          "$ref": "Instant"
+        },
+        "parentOriginIds": [
+          {
+            "$ref": "$Id2"
+          }
+        ],
+        "omittedParentCount": 0
+      },
+      "ResourceRef": {
+        "realmId": {
+          "$ref": "Id"
+        },
+        "workspaceId": {
+          "$ref": "$Id2"
+        },
+        "ownerAppId": "arcnotes",
+        "resourceKind": "attachment",
+        "resourceId": {
+          "$ref": "Id"
+        },
+        "displayHint": "Fixture attachment",
+        "availability": 1
+      },
+      "BlobRef": {
+        "blobId": {
+          "$ref": "Id"
+        },
+        "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "sizeBytes": "9007199254740993"
+      },
+      "ResourceVersionRef": {
+        "resource": {
+          "$ref": "ResourceRef"
+        },
+        "cloud": {
+          "$ref": "Revision"
+        },
+        "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "blob": {
+          "$ref": "BlobRef"
+        }
+      },
+      "ActorChain": {
+        "initiator": {
+          "$ref": "Id"
+        },
+        "owner": {
+          "$ref": "$Id2"
+        },
+        "actorKind": "user"
+      },
+      "ArtifactRef": {
+        "artifactId": {
+          "$ref": "Id"
+        },
+        "kind": "export",
+        "owner": {
+          "$ref": "AggregateRef"
+        },
+        "resource": {
+          "$ref": "ResourceRef"
+        },
+        "origin": {
+          "$ref": "ContentOrigin"
+        },
+        "actor": {
+          "$ref": "ActorChain"
+        },
+        "createdAt": {
+          "$ref": "Instant"
+        },
+        "availability": "available",
+        "provenance": [
+          {
+            "$ref": "VersionedRef"
+          }
+        ]
+      },
+      "ContextRef": {
+        "source": {
+          "$ref": "AggregateRef"
+        },
+        "revision": {
+          "$ref": "Revision"
+        },
+        "resource": {
+          "$ref": "ResourceRef"
+        },
+        "selector": {
+          "whole": true
+        },
+        "lifetime": 1
+      },
+      "ContextSelector": {
+        "whole": true
+      },
+      "NotesTextPosition": {
+        "blockId": {
+          "$ref": "Id"
+        },
+        "inlineId": {
+          "$ref": "$Id2"
+        },
+        "offsetUtf16": 0,
+        "affinity": "before"
+      },
+      "NotesSelection": {
+        "documentId": {
+          "$ref": "Id"
+        },
+        "anchor": {
+          "$ref": "NotesTextPosition"
+        },
+        "focus": {
+          "$ref": "NotesTextPosition"
+        },
+        "cloudRevision": {
+          "$ref": "Revision"
+        }
+      },
+      "ScopeSelection": {
+        "sessionId": {
+          "$ref": "Id"
+        },
+        "captureId": {
+          "$ref": "$Id2"
+        },
+        "channels": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "range": {
+          "$ref": "MediaRange"
+        },
+        "revision": {
+          "$ref": "NativeContentRev"
+        }
+      },
+      "SlateSelection": {
+        "projectId": {
+          "$ref": "Id"
+        },
+        "sequenceId": {
+          "$ref": "$Id2"
+        },
+        "range": {
+          "$ref": "MediaRange"
+        },
+        "items": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "revision": {
+          "$ref": "NativeContentRev"
+        }
+      },
+      "EphemeralSelection": {
+        "instanceId": {
+          "$ref": "Id"
+        },
+        "generation": "9007199254740993",
+        "selectionId": {
+          "$ref": "$Id2"
+        },
+        "expiresAt": {
+          "$ref": "$InstantEnd"
+        }
+      },
+      "SourceConsentRef": {
+        "consentId": {
+          "$ref": "Id"
+        },
+        "scopeHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "expiresAt": {
+          "$ref": "$InstantEnd"
+        }
+      },
+      "StructuredValue": {
+        "integer": "-9223372036854775808"
+      },
+      "ValueList": {
+        "items": [
+          {
+            "text": "A\u4e2d\ud83d\ude00"
+          },
+          {
+            "boolean": false
+          }
+        ]
+      },
+      "ValueRecord": {
+        "entries": [
+          {
+            "name": "a",
+            "value": {
+              "boolean": false
+            }
+          },
+          {
+            "name": "z",
+            "value": {
+              "integer": "9007199254740993"
+            }
+          }
+        ]
+      },
+      "ValueEntry": {
+        "name": "title",
+        "value": {
+          "text": "A\u4e2d\ud83d\ude00"
+        }
+      },
+      "CapabilityArguments": {
+        "schemaId": "notes.document.read.v1",
+        "value": {
+          "$ref": "StructuredValue"
+        }
+      },
+      "CapabilityResult": {
+        "schemaId": "notes.document.read.v1",
+        "value": {
+          "$ref": "StructuredValue"
+        }
+      },
+      "ToolProposal": {
+        "proposalId": {
+          "$ref": "Id"
+        },
+        "capability": "notes.readDocument",
+        "arguments": {
+          "$ref": "CapabilityArguments"
+        },
+        "sourceAttemptId": {
+          "$ref": "$Id2"
+        }
+      },
+      "ToolResult": {
+        "invocationId": {
+          "$ref": "Id"
+        },
+        "effect": 1,
+        "success": {
+          "$ref": "CapabilityResult"
+        },
+        "artifacts": []
+      },
+      "MessagePart": {
+        "text": "A\u4e2d\ud83d\ude00",
+        "origin": {
+          "$ref": "ContentOrigin"
+        }
+      },
+      "MessageDraft": {
+        "parts": [
+          {
+            "$ref": "MessagePart"
+          }
+        ],
+        "context": []
+      },
+      "MessageView": {
+        "messageId": {
+          "$ref": "Id"
+        },
+        "conversationId": {
+          "$ref": "Id"
+        },
+        "branchId": {
+          "$ref": "$Id2"
+        },
+        "role": "user",
+        "parts": [
+          {
+            "$ref": "MessagePart"
+          }
+        ],
+        "state": "complete",
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "ConversationView": {
+        "conversationId": {
+          "$ref": "Id"
+        },
+        "branchId": {
+          "$ref": "$Id2"
+        },
+        "title": "Conversation",
+        "revision": {
+          "$ref": "Revision"
+        },
+        "pinned": false,
+        "archived": false,
+        "temporary": false,
+        "applicationScope": {
+          "$ref": "ApplicationScope"
+        },
+        "historyMode": 2
+      },
+      "ConversationBody": {
+        "conversation": {
+          "$ref": "ConversationView"
+        },
+        "messages": [
+          {
+            "$ref": "MessageView"
+          }
+        ]
+      },
+      "AgentProfile": {
+        "profileId": {
+          "$ref": "Id"
+        },
+        "name": "Profile",
+        "modelId": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "instructions": "Fixture user preference",
+        "skillIds": [],
+        "revision": {
+          "$ref": "Revision"
+        },
+        "context": [],
+        "capabilities": [
+          "notes.readDocument"
+        ]
+      },
+      "ControlProgress": {
+        "commandId": {
+          "$ref": "Id"
+        },
+        "kind": 1,
+        "state": 1,
+        "requestedAt": {
+          "$ref": "Instant"
+        }
+      },
+      "TaskSnapshot": {
+        "taskId": {
+          "$ref": "Id"
+        },
+        "state": 1,
+        "revision": {
+          "$ref": "Revision"
+        },
+        "hasUnknownEffect": false,
+        "completedSteps": 0,
+        "totalSteps": 1,
+        "missingOutputs": [],
+        "reasonFacet": 1
+      },
+      "TurnInput": {
+        "message": {
+          "$ref": "MessageDraft"
+        },
+        "context": [],
+        "instructions": "Summarize selected text"
+      },
+      "TriggerSpec": {
+        "manual": true
+      },
+      "ScheduleSpec": {
+        "kind": "cron",
+        "expression": "0 9 * * *",
+        "zone": "UTC",
+        "startsAt": {
+          "$ref": "Instant"
+        },
+        "dstGap": "skip",
+        "dstOverlap": "earlier"
+      },
+      "EventTrigger": {
+        "kind": "notes.document.changed",
+        "source": {
+          "$ref": "AggregateRef"
+        }
+      },
+      "AutomationSpec": {
+        "name": "Daily summary",
+        "trigger": {
+          "$ref": "TriggerSpec"
+        },
+        "input": {
+          "$ref": "TurnInput"
+        },
+        "profileId": {
+          "$ref": "Id"
+        },
+        "perRunBudget": "1",
+        "periodBudget": "10",
+        "budgetPeriod": {
+          "$ref": "TimeRangeUtc"
+        },
+        "concurrency": "SkipIfRunning",
+        "misfire": "RunOnceWhenAvailable",
+        "catchUpCount": 0,
+        "catchUpWindowSeconds": 0,
+        "grants": []
+      },
+      "AutomationView": {
+        "automationId": {
+          "$ref": "Id"
+        },
+        "definition": {
+          "$ref": "AutomationSpec"
+        },
+        "enabled": true,
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "RichText": {
+        "text": "A\u4e2d\ud83d\ude00",
+        "spans": [
+          {
+            "from": 0,
+            "until": 4,
+            "marks": [
+              "bold"
+            ]
+          }
+        ],
+        "atoms": [],
+        "runs": [
+          {
+            "runId": {
+              "$ref": "Id"
+            },
+            "from": 0,
+            "until": 4
+          }
+        ]
+      },
+      "TextSpan": {
+        "from": 0,
+        "until": 4,
+        "marks": [
+          "bold"
+        ]
+      },
+      "TextRunSegment": {
+        "runId": {
+          "$ref": "Id"
+        },
+        "from": 0,
+        "until": 4
+      },
+      "InlineAtom": {
+        "offset": 0,
+        "math": {
+          "tex": "x^2",
+          "display": false
+        },
+        "inlineId": {
+          "$ref": "Id"
+        }
+      },
+      "MathContent": {
+        "tex": "x^2",
+        "display": true
+      },
+      "CodeBlock": {
+        "text": "const x = 1;",
+        "language": "javascript",
+        "wrap": false
+      },
+      "TableCell": {
+        "cellId": {
+          "$ref": "Id"
+        },
+        "content": {
+          "$ref": "RichText"
+        }
+      },
+      "TableRow": {
+        "rowId": {
+          "$ref": "Id"
+        },
+        "cells": [
+          {
+            "$ref": "TableCell"
+          }
+        ]
+      },
+      "TableBlock": {
+        "rows": [
+          {
+            "$ref": "TableRow"
+          }
+        ]
+      },
+      "ImageLayout": {
+        "widthRatio": 1,
+        "alignment": "center"
+      },
+      "LinkSpec": {
+        "kind": "internal",
+        "targetId": {
+          "$ref": "$Id2"
+        },
+        "label": "Referenced document"
+      },
+      "BlockBody": {
+        "text": {
+          "$ref": "RichText"
+        }
+      },
+      "BlockProperties": {
+        "headingLevel": 2
+      },
+      "Block": {
+        "blockId": {
+          "$ref": "Id"
+        },
+        "orderKey": "a",
+        "kind": "heading",
+        "body": {
+          "$ref": "BlockBody"
+        },
+        "origin": {
+          "$ref": "ContentOrigin"
+        },
+        "properties": {
+          "$ref": "BlockProperties"
+        }
+      },
+      "ScalarValue": {
+        "number": {
+          "$ref": "Decimal"
+        }
+      },
+      "IdList": {
+        "items": [
+          {
+            "$ref": "Id"
+          },
+          {
+            "$ref": "$Id2"
+          }
+        ]
+      },
+      "PropertyValue": {
+        "propertyId": {
+          "$ref": "Id"
+        },
+        "value": {
+          "$ref": "ScalarValue"
+        }
+      },
+      "ScalarPredicate": {
+        "propertyId": {
+          "$ref": "Id"
+        },
+        "operator": "eq",
+        "operands": [
+          {
+            "$ref": "ScalarValue"
+          }
+        ]
+      },
+      "NotesFilter": {
+        "predicate": {
+          "$ref": "ScalarPredicate"
+        }
+      },
+      "FilterGroup": {
+        "operator": "not",
+        "children": [
+          {
+            "$ref": "NotesFilter"
+          }
+        ]
+      },
+      "NotesSort": {
+        "propertyId": {
+          "$ref": "Id"
+        },
+        "descending": true
+      },
+      "PropertyDefinitionVersion": {
+        "propertyId": {
+          "$ref": "Id"
+        },
+        "semanticRevision": {
+          "$ref": "Revision"
+        }
+      },
+      "NotesSelectors": {
+        "documentId": {
+          "$ref": "Id"
+        },
+        "tagIds": [],
+        "text": "A\u4e2d\ud83d\ude00",
+        "blockKinds": [
+          "heading"
+        ],
+        "hasAttachment": false,
+        "modified": {
+          "$ref": "TimeRangeUtc"
+        }
+      },
+      "NotesQuery": {
+        "profile": "notes.scalar.v1",
+        "notebookId": {
+          "$ref": "Id"
+        },
+        "filter": {
+          "$ref": "NotesFilter"
+        },
+        "sorts": [
+          {
+            "$ref": "NotesSort"
+          }
+        ],
+        "projection": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "page": {
+          "limit": 100
+        },
+        "definitionVersions": [
+          {
+            "$ref": "PropertyDefinitionVersion"
+          }
+        ],
+        "selectors": {
+          "$ref": "NotesSelectors"
+        }
+      },
+      "NotesDocument": {
+        "documentId": {
+          "$ref": "Id"
+        },
+        "notebookId": {
+          "$ref": "$Id2"
+        },
+        "title": "Fixture document",
+        "blocks": [
+          {
+            "$ref": "Block"
+          }
+        ],
+        "properties": [
+          {
+            "$ref": "PropertyValue"
+          }
+        ],
+        "tags": [],
+        "links": [
+          {
+            "$ref": "LinkSpec"
+          }
+        ],
+        "origin": {
+          "$ref": "ContentOrigin"
+        }
+      },
+      "NotebookView": {
+        "notebookId": {
+          "$ref": "$Id2"
+        },
+        "name": "Notebook",
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "FolderView": {
+        "folderId": {
+          "$ref": "Id"
+        },
+        "notebookId": {
+          "$ref": "$Id2"
+        },
+        "name": "Folder",
+        "orderKey": "a",
+        "notebookRev": {
+          "$ref": "Revision"
+        }
+      },
+      "NotebookBody": {
+        "notebook": {
+          "$ref": "NotebookView"
+        },
+        "folders": [
+          {
+            "$ref": "FolderView"
+          }
+        ],
+        "documentOrder": [
+          {
+            "$ref": "Id"
+          }
+        ]
+      },
+      "SelectOption": {
+        "optionId": {
+          "$ref": "Id"
+        },
+        "label": "Option",
+        "order": 0
+      },
+      "PropertyDefinition": {
+        "propertyId": {
+          "$ref": "Id"
+        },
+        "notebookId": {
+          "$ref": "$Id2"
+        },
+        "name": "Value",
+        "type": "number",
+        "profile": "notes.scalar.v1",
+        "semanticRevision": {
+          "$ref": "Revision"
+        },
+        "revision": {
+          "$ref": "Revision"
+        },
+        "options": [],
+        "numberScale": 9
+      },
+      "SavedViewRecord": {
+        "viewId": {
+          "$ref": "Id"
+        },
+        "notebookId": {
+          "$ref": "Id"
+        },
+        "name": "View",
+        "layout": "table",
+        "query": {
+          "$ref": "NotesQuery"
+        },
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "TagRecord": {
+        "tagId": {
+          "$ref": "Id"
+        },
+        "notebookId": {
+          "$ref": "$Id2"
+        },
+        "name": "Tag",
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "SkillRecord": {
+        "skillId": {
+          "$ref": "Id"
+        },
+        "name": "Skill",
+        "instructions": "Read the selected document",
+        "resources": [],
+        "capabilities": [
+          "notes.readDocument"
+        ],
+        "revision": {
+          "$ref": "Revision"
+        },
+        "enabled": true
+      },
+      "ChatProjectRecord": {
+        "projectId": {
+          "$ref": "Id"
+        },
+        "name": "Project",
+        "conversationIds": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "context": [],
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "MetadataScalar": {
+        "integer": "9007199254740993"
+      },
+      "MetadataEntry": {
+        "name": "sampleCount",
+        "value": {
+          "$ref": "MetadataScalar"
+        }
+      },
+      "PreferenceRecord": {
+        "preferenceId": {
+          "$ref": "Id"
+        },
+        "ownerAppId": "arcnotes",
+        "values": [],
+        "revision": {
+          "$ref": "Revision"
+        }
+      },
+      "MemoryRecord": {
+        "memoryId": {
+          "$ref": "Id"
+        },
+        "text": "User-approved preference",
+        "sources": [
+          {
+            "$ref": "ContextRef"
+          }
+        ],
+        "revision": {
+          "$ref": "Revision"
+        },
+        "enabled": true,
+        "origin": {
+          "$ref": "ContentOrigin"
+        }
+      },
+      "ScopeTime": {
+        "ticks": "0",
+        "rate": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "MeasurementWindow": {
+        "start": {
+          "$ref": "ScopeTime"
+        },
+        "end": {
+          "$ref": "$ScopeEnd"
+        }
+      },
+      "Calibration": {
+        "scale": 1,
+        "offset": 0,
+        "unit": "V"
+      },
+      "ChannelDefinition": {
+        "channelId": {
+          "$ref": "Id"
+        },
+        "name": "Voltage",
+        "unit": "V",
+        "sampleType": "numeric",
+        "rate": {
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "calibration": {
+          "$ref": "Calibration"
+        }
+      },
+      "FrameField": {
+        "channelId": {
+          "$ref": "Id"
+        },
+        "offset": 0,
+        "jsonPath": [],
+        "scalarType": "f64",
+        "required": true
+      },
+      "ChecksumSpec": {
+        "algorithm": "crc16CcittFalse",
+        "input": {
+          "offset": "0",
+          "length": "8"
+        },
+        "offset": 8,
+        "byteOrder": "little"
+      },
+      "FrameConfiguration": {
+        "kind": "fixedBinary",
+        "start": "",
+        "end": "",
+        "header": false,
+        "frameBytes": 10,
+        "byteOrder": "little",
+        "fields": [
+          {
+            "$ref": "FrameField"
+          }
+        ],
+        "checksum": {
+          "$ref": "ChecksumSpec"
+        }
+      },
+      "TriggerConfiguration": {
+        "kind": "manual",
+        "hysteresis": 0,
+        "holdoff": {
+          "$ref": "ScopeTime"
+        },
+        "pre": {
+          "$ref": "ScopeTime"
+        },
+        "post": {
+          "$ref": "$ScopeEnd"
+        },
+        "repeated": false,
+        "maxOccurrences": 1
+      },
+      "ScopeConfiguration": {
+        "configurationId": {
+          "$ref": "$Id2"
+        },
+        "channels": [
+          {
+            "$ref": "ChannelDefinition"
+          }
+        ],
+        "parserProfile": "scope.acquisition.v1",
+        "revision": {
+          "$ref": "NativeContentRev"
+        },
+        "framing": {
+          "$ref": "FrameConfiguration"
+        },
+        "trigger": {
+          "$ref": "TriggerConfiguration"
+        }
+      },
+      "MeasurementSource": {
+        "capture": {
+          "$ref": "ResourceVersionRef"
+        },
+        "channelId": {
+          "$ref": "Id"
+        },
+        "committedPrefix": "4",
+        "configuration": {
+          "$ref": "ResourceVersionRef"
+        }
+      },
+      "AlignmentSpec": {
+        "kind": "absoluteTime"
+      },
+      "CursorSpec": {
+        "channelId": {
+          "$ref": "Id"
+        },
+        "segmentId": {
+          "$ref": "$Id2"
+        },
+        "time": {
+          "$ref": "ScopeTime"
+        }
+      },
+      "SelectedSample": {
+        "captureId": {
+          "$ref": "Id"
+        },
+        "channelId": {
+          "$ref": "Id"
+        },
+        "segmentId": {
+          "$ref": "$Id2"
+        },
+        "sampleIndex": "9007199254740993",
+        "time": {
+          "$ref": "ScopeTime"
+        },
+        "value": 2
+      },
+      "CursorResult": {
+        "a": {
+          "$ref": "SelectedSample"
+        },
+        "b": {
+          "$ref": "SelectedSample"
+        },
+        "deltaTime": {
+          "$ref": "ScopeTime"
+        },
+        "deltaValue": 0
+      },
+      "MeasurementThreshold": {
+        "family": "frequency",
+        "name": "fraction50",
+        "value": 0.5,
+        "unit": "1",
+        "channelId": {
+          "$ref": "Id"
+        }
+      },
+      "MeasurementValue": {
+        "name": "mean",
+        "value": 1,
+        "unit": "V"
+      },
+      "FamilyResult": {
+        "family": "mean",
+        "status": "ok",
+        "values": [
+          {
+            "$ref": "MeasurementValue"
+          }
+        ],
+        "validCount": "2",
+        "invalidCount": "0",
+        "channelId": {
+          "$ref": "Id"
+        }
+      },
+      "MeasurementRequest": {
+        "profile": "scope.measurement.v1",
+        "source": {
+          "$ref": "MeasurementSource"
+        },
+        "sourceRevision": {
+          "$ref": "NativeContentRev"
+        },
+        "channels": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "window": {
+          "$ref": "MeasurementWindow"
+        },
+        "families": [
+          "mean"
+        ],
+        "thresholds": [],
+        "configuration": {
+          "$ref": "ScopeConfiguration"
+        },
+        "alignment": {
+          "$ref": "AlignmentSpec"
+        },
+        "cursors": [],
+        "referenceLevels": []
+      },
+      "MeasurementResult": {
+        "profile": "scope.measurement.v1",
+        "inputHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "families": [
+          {
+            "$ref": "FamilyResult"
+          }
+        ],
+        "warnings": [],
+        "configuration": {
+          "$ref": "ScopeConfiguration"
+        },
+        "finiteCount": "2",
+        "excludedCount": "0",
+        "runCount": "1",
+        "requestedDuration": {
+          "$ref": "$ScopeEnd"
+        },
+        "coveredDuration": {
+          "ticks": "1",
+          "rate": {
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        "timingUncertainty": {
+          "$ref": "ScopeTime"
+        },
+        "source": {
+          "$ref": "MeasurementSource"
+        },
+        "resolvedThresholds": []
+      },
+      "SampleRange": {
+        "from": "9007199254740993",
+        "count": "17"
+      },
+      "CaptureMetadata": {
+        "captureId": {
+          "$ref": "Id"
+        },
+        "sampleCount": "9007199254740993",
+        "channels": [
+          {
+            "$ref": "ChannelDefinition"
+          }
+        ],
+        "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      },
+      "ScopeAnnotation": {
+        "annotationId": {
+          "$ref": "Id"
+        },
+        "range": {
+          "$ref": "SampleRange"
+        },
+        "text": "Review this interval",
+        "origin": {
+          "$ref": "ContentOrigin"
+        }
+      },
+      "ScopeFinding": {
+        "findingId": {
+          "$ref": "Id"
+        },
+        "result": {
+          "$ref": "ResourceVersionRef"
+        },
+        "text": "Observed voltage",
+        "severity": "info",
+        "status": "open",
+        "evidence": [
+          {
+            "$ref": "ContextRef"
+          }
+        ],
+        "actor": {
+          "$ref": "ActorChain"
+        }
+      },
+      "ScopeMetadata": {
+        "sessionId": {
+          "$ref": "Id"
+        },
+        "name": "Session",
+        "captures": [
+          {
+            "$ref": "CaptureMetadata"
+          }
+        ],
+        "annotations": [
+          {
+            "$ref": "ScopeAnnotation"
+          }
+        ],
+        "findings": [
+          {
+            "$ref": "ScopeFinding"
+          }
+        ],
+        "projectId": {
+          "$ref": "$Id2"
+        },
+        "configuration": {
+          "$ref": "ScopeConfiguration"
+        },
+        "analyses": [],
+        "reports": [],
+        "tags": [],
+        "metadata": [
+          {
+            "$ref": "MetadataEntry"
+          }
+        ]
+      },
+      "ColourConfiguration": {
+        "workingSpace": "Rec709",
+        "displaySpace": "sRGB",
+        "inputAssignments": []
+      },
+      "MediaColourAssignment": {
+        "mediaId": {
+          "$ref": "Id"
+        },
+        "inputSpace": "Rec709"
+      },
+      "SequenceView": {
+        "sequenceId": {
+          "$ref": "Id"
+        },
+        "projectId": {
+          "$ref": "$Id2"
+        },
+        "name": "Sequence",
+        "revision": {
+          "$ref": "NativeContentRev"
+        },
+        "duration": {
+          "$ref": "$MediaEnd"
+        },
+        "videoRate": {
+          "numerator": "30",
+          "denominator": "1"
+        },
+        "sampleRate": 48000,
+        "width": 1920,
+        "height": 1080,
+        "channelLayout": "stereo",
+        "colour": {
+          "$ref": "ColourConfiguration"
+        }
+      },
+      "MediaStream": {
+        "index": 0,
+        "kind": "video",
+        "codec": "h264",
+        "rate": {
+          "numerator": "30",
+          "denominator": "1"
+        }
+      },
+      "MediaView": {
+        "mediaId": {
+          "$ref": "Id"
+        },
+        "source": {
+          "$ref": "ResourceRef"
+        },
+        "availability": 1,
+        "duration": {
+          "$ref": "$MediaEnd"
+        },
+        "streams": [
+          {
+            "$ref": "MediaStream"
+          }
+        ]
+      },
+      "MediaBin": {
+        "binId": {
+          "$ref": "Id"
+        },
+        "name": "Bin",
+        "mediaIds": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "sequenceIds": [
+          {
+            "$ref": "Id"
+          }
+        ],
+        "order": 0
+      },
+      "ProcessingGraph": {
+        "nodes": [],
+        "edges": [],
+        "profile": "slate.graph.v1"
+      },
+      "ProcessingEdge": {
+        "sourceNodeId": {
+          "$ref": "Id"
+        },
+        "sourcePort": "video",
+        "targetNodeId": {
+          "$ref": "$Id2"
+        },
+        "targetPort": "video"
+      },
+      "EffectParameter": {
+        "name": "opacity",
+        "decimal": {
+          "value": "1"
+        }
+      },
+      "EffectSpec": {
+        "kind": "opacity",
+        "parameters": [
+          {
+            "$ref": "EffectParameter"
+          }
+        ],
+        "instanceId": {
+          "$ref": "Id"
+        },
+        "definitionVersion": "1",
+        "scope": "clipLocal",
+        "enabled": true
+      },
+      "Keyframe": {
+        "time": {
+          "$ref": "MediaTime"
+        },
+        "value": {
+          "value": "1"
+        },
+        "interpolation": "linear",
+        "scope": "clipLocal"
+      },
+      "KeyframeList": {
+        "items": [
+          {
+            "$ref": "Keyframe"
+          }
+        ]
+      },
+      "RetimePoint": {
+        "timelineOffset": {
+          "$ref": "MediaTime"
+        },
+        "sourceOffset": {
+          "$ref": "MediaTime"
+        }
+      },
+      "RetimeCurve": {
+        "points": [
+          {
+            "$ref": "RetimePoint"
+          },
+          {
+            "timelineOffset": {
+              "$ref": "$MediaEnd"
+            },
+            "sourceOffset": {
+              "$ref": "$MediaEnd"
+            }
+          }
+        ],
+        "profile": "slate.retime.v1"
+      },
+      "TimedText": {
+        "text": "Title",
+        "fontFamily": "NotoSans",
+        "size": {
+          "value": "24"
+        },
+        "colour": "white",
+        "alignment": "center"
+      },
+      "GeneratedSource": {
+        "kind": "title",
+        "parameters": [],
+        "text": {
+          "$ref": "TimedText"
+        }
+      },
+      "TimelineClip": {
+        "clipId": {
+          "$ref": "Id"
+        },
+        "timeline": {
+          "$ref": "MediaRange"
+        },
+        "playbackRate": {
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "effects": [],
+        "kind": "gap",
+        "enabled": true,
+        "graph": {
+          "$ref": "ProcessingGraph"
+        },
+        "name": "Gap"
+      },
+      "TransitionSpec": {
+        "transitionId": {
+          "$ref": "Id"
+        },
+        "leftClipId": {
+          "$ref": "Id"
+        },
+        "rightClipId": {
+          "$ref": "$Id2"
+        },
+        "kind": "dissolve",
+        "inOffset": {
+          "$ref": "MediaTime"
+        },
+        "outOffset": {
+          "$ref": "MediaTime"
+        }
+      },
+      "TimelineTrack": {
+        "trackId": {
+          "$ref": "Id"
+        },
+        "kind": "video",
+        "order": 0,
+        "clips": [
+          {
+            "$ref": "TimelineClip"
+          }
+        ],
+        "transitions": [],
+        "enabled": true,
+        "name": "Video",
+        "locked": false,
+        "graph": {
+          "$ref": "ProcessingGraph"
+        }
+      },
+      "MarkerView": {
+        "markerId": {
+          "$ref": "Id"
+        },
+        "sequenceId": {
+          "$ref": "Id"
+        },
+        "range": {
+          "$ref": "MediaRange"
+        },
+        "label": "Marker",
+        "anchor": "sequence"
+      },
+      "TimelineView": {
+        "sequence": {
+          "$ref": "SequenceView"
+        },
+        "tracks": [
+          {
+            "$ref": "TimelineTrack"
+          }
+        ],
+        "markers": [
+          {
+            "$ref": "MarkerView"
+          }
+        ],
+        "graph": {
+          "$ref": "ProcessingGraph"
+        }
+      },
+      "RenderPreset": {
+        "container": "mp4",
+        "videoCodec": "h264",
+        "audioCodec": "aac",
+        "width": 1920,
+        "height": 1080,
+        "rate": {
+          "numerator": "30",
+          "denominator": "1"
+        },
+        "colourSpace": "Rec709",
+        "sampleRate": 48000,
+        "channelLayout": "stereo",
+        "profile": "slate.render.v1",
+        "subtitleMode": "none"
+      },
+      "SlateMetadata": {
+        "projectId": {
+          "$ref": "$Id2"
+        },
+        "name": "Project",
+        "sequences": [
+          {
+            "$ref": "SequenceView"
+          }
+        ],
+        "media": [
+          {
+            "$ref": "MediaView"
+          }
+        ],
+        "timelines": [
+          {
+            "$ref": "TimelineView"
+          }
+        ],
+        "bins": [
+          {
+            "$ref": "MediaBin"
+          }
+        ],
+        "presets": [
+          {
+            "$ref": "RenderPreset"
+          }
+        ],
+        "transcripts": [],
+        "smallAssets": [],
+        "contentRev": {
+          "$ref": "NativeContentRev"
+        },
+        "profile": "slate.project.v1"
+      },
+      "AggregateBody": {
+        "notes": {
+          "$ref": "NotesDocument"
+        }
+      }
+    },
+    "aggregateVariants": {
+      "notes": "NotesDocument",
+      "chat": "ConversationBody",
+      "scopeMetadata": "ScopeMetadata",
+      "slateMetadata": "SlateMetadata",
+      "notebook": "NotebookBody",
+      "propertyDefinition": "PropertyDefinition",
+      "savedView": "SavedViewRecord",
+      "tag": "TagRecord",
+      "agentProfile": "AgentProfile",
+      "skill": "SkillRecord",
+      "chatProject": "ChatProjectRecord",
+      "preferences": "PreferenceRecord",
+      "task": "TaskSnapshot",
+      "automation": "AutomationView",
+      "memory": "MemoryRecord",
+      "externalBody": "ResourceVersionRef"
+    },
+    "cases": [
+      {
+        "id": "ActorChain-complete",
+        "target": "ActorChain",
+        "valid": true,
+        "sample": "ActorChain"
+      },
+      {
+        "id": "AgentProfile-complete",
+        "target": "AgentProfile",
+        "valid": true,
+        "sample": "AgentProfile"
+      },
+      {
+        "id": "AggregateBody-complete",
+        "target": "AggregateBody",
+        "valid": true,
+        "sample": "AggregateBody"
+      },
+      {
+        "id": "AggregateRef-complete",
+        "target": "AggregateRef",
+        "valid": true,
+        "sample": "AggregateRef"
+      },
+      {
+        "id": "AlignmentSpec-complete",
+        "target": "AlignmentSpec",
+        "valid": true,
+        "sample": "AlignmentSpec"
+      },
+      {
+        "id": "ApplicationScope-complete",
+        "target": "ApplicationScope",
+        "valid": true,
+        "sample": "ApplicationScope"
+      },
+      {
+        "id": "ArcError-complete",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError"
+      },
+      {
+        "id": "ArtifactRef-complete",
+        "target": "ArtifactRef",
+        "valid": true,
+        "sample": "ArtifactRef"
+      },
+      {
+        "id": "AutomationSpec-complete",
+        "target": "AutomationSpec",
+        "valid": true,
+        "sample": "AutomationSpec"
+      },
+      {
+        "id": "AutomationView-complete",
+        "target": "AutomationView",
+        "valid": true,
+        "sample": "AutomationView"
+      },
+      {
+        "id": "BlobRef-complete",
+        "target": "BlobRef",
+        "valid": true,
+        "sample": "BlobRef"
+      },
+      {
+        "id": "Block-complete",
+        "target": "Block",
+        "valid": true,
+        "sample": "Block"
+      },
+      {
+        "id": "BlockBody-complete",
+        "target": "BlockBody",
+        "valid": true,
+        "sample": "BlockBody"
+      },
+      {
+        "id": "BlockProperties-complete",
+        "target": "BlockProperties",
+        "valid": true,
+        "sample": "BlockProperties"
+      },
+      {
+        "id": "ByteRange-complete",
+        "target": "ByteRange",
+        "valid": true,
+        "sample": "ByteRange"
+      },
+      {
+        "id": "Calibration-complete",
+        "target": "Calibration",
+        "valid": true,
+        "sample": "Calibration"
+      },
+      {
+        "id": "CapabilityArguments-complete",
+        "target": "CapabilityArguments",
+        "valid": true,
+        "sample": "CapabilityArguments"
+      },
+      {
+        "id": "CapabilityResult-complete",
+        "target": "CapabilityResult",
+        "valid": true,
+        "sample": "CapabilityResult"
+      },
+      {
+        "id": "CaptureMetadata-complete",
+        "target": "CaptureMetadata",
+        "valid": true,
+        "sample": "CaptureMetadata"
+      },
+      {
+        "id": "ChannelDefinition-complete",
+        "target": "ChannelDefinition",
+        "valid": true,
+        "sample": "ChannelDefinition"
+      },
+      {
+        "id": "ChatProjectRecord-complete",
+        "target": "ChatProjectRecord",
+        "valid": true,
+        "sample": "ChatProjectRecord"
+      },
+      {
+        "id": "ChecksumSpec-complete",
+        "target": "ChecksumSpec",
+        "valid": true,
+        "sample": "ChecksumSpec"
+      },
+      {
+        "id": "CodeBlock-complete",
+        "target": "CodeBlock",
+        "valid": true,
+        "sample": "CodeBlock"
+      },
+      {
+        "id": "ColourConfiguration-complete",
+        "target": "ColourConfiguration",
+        "valid": true,
+        "sample": "ColourConfiguration"
+      },
+      {
+        "id": "ContentOrigin-complete",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin"
+      },
+      {
+        "id": "ContextRef-complete",
+        "target": "ContextRef",
+        "valid": true,
+        "sample": "ContextRef"
+      },
+      {
+        "id": "ContextSelector-complete",
+        "target": "ContextSelector",
+        "valid": true,
+        "sample": "ContextSelector"
+      },
+      {
+        "id": "ControlProgress-complete",
+        "target": "ControlProgress",
+        "valid": true,
+        "sample": "ControlProgress"
+      },
+      {
+        "id": "ConversationBody-complete",
+        "target": "ConversationBody",
+        "valid": true,
+        "sample": "ConversationBody"
+      },
+      {
+        "id": "ConversationView-complete",
+        "target": "ConversationView",
+        "valid": true,
+        "sample": "ConversationView"
+      },
+      {
+        "id": "CursorResult-complete",
+        "target": "CursorResult",
+        "valid": true,
+        "sample": "CursorResult"
+      },
+      {
+        "id": "CursorSpec-complete",
+        "target": "CursorSpec",
+        "valid": true,
+        "sample": "CursorSpec"
+      },
+      {
+        "id": "Decimal-complete",
+        "target": "Decimal",
+        "valid": true,
+        "sample": "Decimal"
+      },
+      {
+        "id": "EffectParameter-complete",
+        "target": "EffectParameter",
+        "valid": true,
+        "sample": "EffectParameter"
+      },
+      {
+        "id": "EffectSpec-complete",
+        "target": "EffectSpec",
+        "valid": true,
+        "sample": "EffectSpec"
+      },
+      {
+        "id": "EphemeralSelection-complete",
+        "target": "EphemeralSelection",
+        "valid": true,
+        "sample": "EphemeralSelection"
+      },
+      {
+        "id": "ErrorDetails-complete",
+        "target": "ErrorDetails",
+        "valid": true,
+        "sample": "ErrorDetails"
+      },
+      {
+        "id": "EventTrigger-complete",
+        "target": "EventTrigger",
+        "valid": true,
+        "sample": "EventTrigger"
+      },
+      {
+        "id": "FamilyResult-complete",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult"
+      },
+      {
+        "id": "FilterGroup-complete",
+        "target": "FilterGroup",
+        "valid": true,
+        "sample": "FilterGroup"
+      },
+      {
+        "id": "FolderView-complete",
+        "target": "FolderView",
+        "valid": true,
+        "sample": "FolderView"
+      },
+      {
+        "id": "FrameConfiguration-complete",
+        "target": "FrameConfiguration",
+        "valid": true,
+        "sample": "FrameConfiguration"
+      },
+      {
+        "id": "FrameField-complete",
+        "target": "FrameField",
+        "valid": true,
+        "sample": "FrameField"
+      },
+      {
+        "id": "GeneratedSource-complete",
+        "target": "GeneratedSource",
+        "valid": true,
+        "sample": "GeneratedSource"
+      },
+      {
+        "id": "Id-complete",
+        "target": "Id",
+        "valid": true,
+        "sample": "Id"
+      },
+      {
+        "id": "IdList-complete",
+        "target": "IdList",
+        "valid": true,
+        "sample": "IdList"
+      },
+      {
+        "id": "ImageLayout-complete",
+        "target": "ImageLayout",
+        "valid": true,
+        "sample": "ImageLayout"
+      },
+      {
+        "id": "InlineAtom-complete",
+        "target": "InlineAtom",
+        "valid": true,
+        "sample": "InlineAtom"
+      },
+      {
+        "id": "Instant-complete",
+        "target": "Instant",
+        "valid": true,
+        "sample": "Instant"
+      },
+      {
+        "id": "Keyframe-complete",
+        "target": "Keyframe",
+        "valid": true,
+        "sample": "Keyframe"
+      },
+      {
+        "id": "KeyframeList-complete",
+        "target": "KeyframeList",
+        "valid": true,
+        "sample": "KeyframeList"
+      },
+      {
+        "id": "LimitFailure-complete",
+        "target": "LimitFailure",
+        "valid": true,
+        "sample": "LimitFailure"
+      },
+      {
+        "id": "LinkSpec-complete",
+        "target": "LinkSpec",
+        "valid": true,
+        "sample": "LinkSpec"
+      },
+      {
+        "id": "LocalNotesVersion-complete",
+        "target": "LocalNotesVersion",
+        "valid": true,
+        "sample": "LocalNotesVersion"
+      },
+      {
+        "id": "MarkerView-complete",
+        "target": "MarkerView",
+        "valid": true,
+        "sample": "MarkerView"
+      },
+      {
+        "id": "MathContent-complete",
+        "target": "MathContent",
+        "valid": true,
+        "sample": "MathContent"
+      },
+      {
+        "id": "MeasurementRequest-complete",
+        "target": "MeasurementRequest",
+        "valid": true,
+        "sample": "MeasurementRequest"
+      },
+      {
+        "id": "MeasurementResult-complete",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult"
+      },
+      {
+        "id": "MeasurementSource-complete",
+        "target": "MeasurementSource",
+        "valid": true,
+        "sample": "MeasurementSource"
+      },
+      {
+        "id": "MeasurementThreshold-complete",
+        "target": "MeasurementThreshold",
+        "valid": true,
+        "sample": "MeasurementThreshold"
+      },
+      {
+        "id": "MeasurementValue-complete",
+        "target": "MeasurementValue",
+        "valid": true,
+        "sample": "MeasurementValue"
+      },
+      {
+        "id": "MeasurementWindow-complete",
+        "target": "MeasurementWindow",
+        "valid": true,
+        "sample": "MeasurementWindow"
+      },
+      {
+        "id": "MediaBin-complete",
+        "target": "MediaBin",
+        "valid": true,
+        "sample": "MediaBin"
+      },
+      {
+        "id": "MediaColourAssignment-complete",
+        "target": "MediaColourAssignment",
+        "valid": true,
+        "sample": "MediaColourAssignment"
+      },
+      {
+        "id": "MediaRange-complete",
+        "target": "MediaRange",
+        "valid": true,
+        "sample": "MediaRange"
+      },
+      {
+        "id": "MediaStream-complete",
+        "target": "MediaStream",
+        "valid": true,
+        "sample": "MediaStream"
+      },
+      {
+        "id": "MediaTime-complete",
+        "target": "MediaTime",
+        "valid": true,
+        "sample": "MediaTime"
+      },
+      {
+        "id": "MediaView-complete",
+        "target": "MediaView",
+        "valid": true,
+        "sample": "MediaView"
+      },
+      {
+        "id": "MemoryRecord-complete",
+        "target": "MemoryRecord",
+        "valid": true,
+        "sample": "MemoryRecord"
+      },
+      {
+        "id": "MessageDraft-complete",
+        "target": "MessageDraft",
+        "valid": true,
+        "sample": "MessageDraft"
+      },
+      {
+        "id": "MessagePart-complete",
+        "target": "MessagePart",
+        "valid": true,
+        "sample": "MessagePart"
+      },
+      {
+        "id": "MessageView-complete",
+        "target": "MessageView",
+        "valid": true,
+        "sample": "MessageView"
+      },
+      {
+        "id": "MetadataEntry-complete",
+        "target": "MetadataEntry",
+        "valid": true,
+        "sample": "MetadataEntry"
+      },
+      {
+        "id": "MetadataScalar-complete",
+        "target": "MetadataScalar",
+        "valid": true,
+        "sample": "MetadataScalar"
+      },
+      {
+        "id": "NativeContentRev-complete",
+        "target": "NativeContentRev",
+        "valid": true,
+        "sample": "NativeContentRev"
+      },
+      {
+        "id": "NotebookBody-complete",
+        "target": "NotebookBody",
+        "valid": true,
+        "sample": "NotebookBody"
+      },
+      {
+        "id": "NotebookView-complete",
+        "target": "NotebookView",
+        "valid": true,
+        "sample": "NotebookView"
+      },
+      {
+        "id": "NotesDocument-complete",
+        "target": "NotesDocument",
+        "valid": true,
+        "sample": "NotesDocument"
+      },
+      {
+        "id": "NotesFilter-complete",
+        "target": "NotesFilter",
+        "valid": true,
+        "sample": "NotesFilter"
+      },
+      {
+        "id": "NotesQuery-complete",
+        "target": "NotesQuery",
+        "valid": true,
+        "sample": "NotesQuery"
+      },
+      {
+        "id": "NotesSelection-complete",
+        "target": "NotesSelection",
+        "valid": true,
+        "sample": "NotesSelection"
+      },
+      {
+        "id": "NotesSelectors-complete",
+        "target": "NotesSelectors",
+        "valid": true,
+        "sample": "NotesSelectors"
+      },
+      {
+        "id": "NotesSort-complete",
+        "target": "NotesSort",
+        "valid": true,
+        "sample": "NotesSort"
+      },
+      {
+        "id": "NotesTextPosition-complete",
+        "target": "NotesTextPosition",
+        "valid": true,
+        "sample": "NotesTextPosition"
+      },
+      {
+        "id": "PageRequest-complete",
+        "target": "PageRequest",
+        "valid": true,
+        "sample": "PageRequest"
+      },
+      {
+        "id": "PageState-complete",
+        "target": "PageState",
+        "valid": true,
+        "sample": "PageState"
+      },
+      {
+        "id": "PreferenceRecord-complete",
+        "target": "PreferenceRecord",
+        "valid": true,
+        "sample": "PreferenceRecord"
+      },
+      {
+        "id": "ProcessingEdge-complete",
+        "target": "ProcessingEdge",
+        "valid": true,
+        "sample": "ProcessingEdge"
+      },
+      {
+        "id": "ProcessingGraph-complete",
+        "target": "ProcessingGraph",
+        "valid": true,
+        "sample": "ProcessingGraph"
+      },
+      {
+        "id": "PropertyDefinition-complete",
+        "target": "PropertyDefinition",
+        "valid": true,
+        "sample": "PropertyDefinition"
+      },
+      {
+        "id": "PropertyDefinitionVersion-complete",
+        "target": "PropertyDefinitionVersion",
+        "valid": true,
+        "sample": "PropertyDefinitionVersion"
+      },
+      {
+        "id": "PropertyValue-complete",
+        "target": "PropertyValue",
+        "valid": true,
+        "sample": "PropertyValue"
+      },
+      {
+        "id": "Rational-complete",
+        "target": "Rational",
+        "valid": true,
+        "sample": "Rational"
+      },
+      {
+        "id": "Receipt-complete",
+        "target": "Receipt",
+        "valid": true,
+        "sample": "Receipt"
+      },
+      {
+        "id": "RenderPreset-complete",
+        "target": "RenderPreset",
+        "valid": true,
+        "sample": "RenderPreset"
+      },
+      {
+        "id": "RequestMeta-complete",
+        "target": "RequestMeta",
+        "valid": true,
+        "sample": "RequestMeta"
+      },
+      {
+        "id": "ResourceRef-complete",
+        "target": "ResourceRef",
+        "valid": true,
+        "sample": "ResourceRef"
+      },
+      {
+        "id": "ResourceVersionRef-complete",
+        "target": "ResourceVersionRef",
+        "valid": true,
+        "sample": "ResourceVersionRef"
+      },
+      {
+        "id": "ResponseMeta-complete",
+        "target": "ResponseMeta",
+        "valid": true,
+        "sample": "ResponseMeta"
+      },
+      {
+        "id": "RetimeCurve-complete",
+        "target": "RetimeCurve",
+        "valid": true,
+        "sample": "RetimeCurve"
+      },
+      {
+        "id": "RetimePoint-complete",
+        "target": "RetimePoint",
+        "valid": true,
+        "sample": "RetimePoint"
+      },
+      {
+        "id": "RetryAdvice-complete",
+        "target": "RetryAdvice",
+        "valid": true,
+        "sample": "RetryAdvice"
+      },
+      {
+        "id": "Revision-complete",
+        "target": "Revision",
+        "valid": true,
+        "sample": "Revision"
+      },
+      {
+        "id": "RevisionConflict-complete",
+        "target": "RevisionConflict",
+        "valid": true,
+        "sample": "RevisionConflict"
+      },
+      {
+        "id": "RichText-complete",
+        "target": "RichText",
+        "valid": true,
+        "sample": "RichText"
+      },
+      {
+        "id": "SampleRange-complete",
+        "target": "SampleRange",
+        "valid": true,
+        "sample": "SampleRange"
+      },
+      {
+        "id": "SavedViewRecord-complete",
+        "target": "SavedViewRecord",
+        "valid": true,
+        "sample": "SavedViewRecord"
+      },
+      {
+        "id": "ScalarPredicate-complete",
+        "target": "ScalarPredicate",
+        "valid": true,
+        "sample": "ScalarPredicate"
+      },
+      {
+        "id": "ScalarValue-complete",
+        "target": "ScalarValue",
+        "valid": true,
+        "sample": "ScalarValue"
+      },
+      {
+        "id": "ScheduleSpec-complete",
+        "target": "ScheduleSpec",
+        "valid": true,
+        "sample": "ScheduleSpec"
+      },
+      {
+        "id": "ScopeAnnotation-complete",
+        "target": "ScopeAnnotation",
+        "valid": true,
+        "sample": "ScopeAnnotation"
+      },
+      {
+        "id": "ScopeConfiguration-complete",
+        "target": "ScopeConfiguration",
+        "valid": true,
+        "sample": "ScopeConfiguration"
+      },
+      {
+        "id": "ScopeFinding-complete",
+        "target": "ScopeFinding",
+        "valid": true,
+        "sample": "ScopeFinding"
+      },
+      {
+        "id": "ScopeMetadata-complete",
+        "target": "ScopeMetadata",
+        "valid": true,
+        "sample": "ScopeMetadata"
+      },
+      {
+        "id": "ScopeSelection-complete",
+        "target": "ScopeSelection",
+        "valid": true,
+        "sample": "ScopeSelection"
+      },
+      {
+        "id": "ScopeTime-complete",
+        "target": "ScopeTime",
+        "valid": true,
+        "sample": "ScopeTime"
+      },
+      {
+        "id": "SelectOption-complete",
+        "target": "SelectOption",
+        "valid": true,
+        "sample": "SelectOption"
+      },
+      {
+        "id": "SelectedSample-complete",
+        "target": "SelectedSample",
+        "valid": true,
+        "sample": "SelectedSample"
+      },
+      {
+        "id": "SequenceView-complete",
+        "target": "SequenceView",
+        "valid": true,
+        "sample": "SequenceView"
+      },
+      {
+        "id": "SkillRecord-complete",
+        "target": "SkillRecord",
+        "valid": true,
+        "sample": "SkillRecord"
+      },
+      {
+        "id": "SlateMetadata-complete",
+        "target": "SlateMetadata",
+        "valid": true,
+        "sample": "SlateMetadata"
+      },
+      {
+        "id": "SlateSelection-complete",
+        "target": "SlateSelection",
+        "valid": true,
+        "sample": "SlateSelection"
+      },
+      {
+        "id": "SourceConsentRef-complete",
+        "target": "SourceConsentRef",
+        "valid": true,
+        "sample": "SourceConsentRef"
+      },
+      {
+        "id": "StateFailure-complete",
+        "target": "StateFailure",
+        "valid": true,
+        "sample": "StateFailure"
+      },
+      {
+        "id": "StructuredValue-complete",
+        "target": "StructuredValue",
+        "valid": true,
+        "sample": "StructuredValue"
+      },
+      {
+        "id": "TableBlock-complete",
+        "target": "TableBlock",
+        "valid": true,
+        "sample": "TableBlock"
+      },
+      {
+        "id": "TableCell-complete",
+        "target": "TableCell",
+        "valid": true,
+        "sample": "TableCell"
+      },
+      {
+        "id": "TableRow-complete",
+        "target": "TableRow",
+        "valid": true,
+        "sample": "TableRow"
+      },
+      {
+        "id": "TagRecord-complete",
+        "target": "TagRecord",
+        "valid": true,
+        "sample": "TagRecord"
+      },
+      {
+        "id": "TaskSnapshot-complete",
+        "target": "TaskSnapshot",
+        "valid": true,
+        "sample": "TaskSnapshot"
+      },
+      {
+        "id": "TextRunSegment-complete",
+        "target": "TextRunSegment",
+        "valid": true,
+        "sample": "TextRunSegment"
+      },
+      {
+        "id": "TextSpan-complete",
+        "target": "TextSpan",
+        "valid": true,
+        "sample": "TextSpan"
+      },
+      {
+        "id": "TimeRangeUtc-complete",
+        "target": "TimeRangeUtc",
+        "valid": true,
+        "sample": "TimeRangeUtc"
+      },
+      {
+        "id": "TimedText-complete",
+        "target": "TimedText",
+        "valid": true,
+        "sample": "TimedText"
+      },
+      {
+        "id": "TimelineClip-complete",
+        "target": "TimelineClip",
+        "valid": true,
+        "sample": "TimelineClip"
+      },
+      {
+        "id": "TimelineTrack-complete",
+        "target": "TimelineTrack",
+        "valid": true,
+        "sample": "TimelineTrack"
+      },
+      {
+        "id": "TimelineView-complete",
+        "target": "TimelineView",
+        "valid": true,
+        "sample": "TimelineView"
+      },
+      {
+        "id": "ToolProposal-complete",
+        "target": "ToolProposal",
+        "valid": true,
+        "sample": "ToolProposal"
+      },
+      {
+        "id": "ToolResult-complete",
+        "target": "ToolResult",
+        "valid": true,
+        "sample": "ToolResult"
+      },
+      {
+        "id": "TransitionSpec-complete",
+        "target": "TransitionSpec",
+        "valid": true,
+        "sample": "TransitionSpec"
+      },
+      {
+        "id": "TriggerConfiguration-complete",
+        "target": "TriggerConfiguration",
+        "valid": true,
+        "sample": "TriggerConfiguration"
+      },
+      {
+        "id": "TriggerSpec-complete",
+        "target": "TriggerSpec",
+        "valid": true,
+        "sample": "TriggerSpec"
+      },
+      {
+        "id": "TurnInput-complete",
+        "target": "TurnInput",
+        "valid": true,
+        "sample": "TurnInput"
+      },
+      {
+        "id": "ValueEntry-complete",
+        "target": "ValueEntry",
+        "valid": true,
+        "sample": "ValueEntry"
+      },
+      {
+        "id": "ValueList-complete",
+        "target": "ValueList",
+        "valid": true,
+        "sample": "ValueList"
+      },
+      {
+        "id": "ValueRecord-complete",
+        "target": "ValueRecord",
+        "valid": true,
+        "sample": "ValueRecord"
+      },
+      {
+        "id": "VersionFailure-complete",
+        "target": "VersionFailure",
+        "valid": true,
+        "sample": "VersionFailure"
+      },
+      {
+        "id": "VersionedRef-complete",
+        "target": "VersionedRef",
+        "valid": true,
+        "sample": "VersionedRef"
+      },
+      {
+        "id": "aggregate-notes",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "notes": {
+            "$ref": "NotesDocument"
+          }
+        }
+      },
+      {
+        "id": "aggregate-chat",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "chat": {
+            "$ref": "ConversationBody"
+          }
+        }
+      },
+      {
+        "id": "aggregate-scopeMetadata",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "scopeMetadata": {
+            "$ref": "ScopeMetadata"
+          }
+        }
+      },
+      {
+        "id": "aggregate-slateMetadata",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "slateMetadata": {
+            "$ref": "SlateMetadata"
+          }
+        }
+      },
+      {
+        "id": "aggregate-notebook",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "notebook": {
+            "$ref": "NotebookBody"
+          }
+        }
+      },
+      {
+        "id": "aggregate-propertyDefinition",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "propertyDefinition": {
+            "$ref": "PropertyDefinition"
+          }
+        }
+      },
+      {
+        "id": "aggregate-savedView",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "savedView": {
+            "$ref": "SavedViewRecord"
+          }
+        }
+      },
+      {
+        "id": "aggregate-tag",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "tag": {
+            "$ref": "TagRecord"
+          }
+        }
+      },
+      {
+        "id": "aggregate-agentProfile",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "agentProfile": {
+            "$ref": "AgentProfile"
+          }
+        }
+      },
+      {
+        "id": "aggregate-skill",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "skill": {
+            "$ref": "SkillRecord"
+          }
+        }
+      },
+      {
+        "id": "aggregate-chatProject",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "chatProject": {
+            "$ref": "ChatProjectRecord"
+          }
+        }
+      },
+      {
+        "id": "aggregate-preferences",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "preferences": {
+            "$ref": "PreferenceRecord"
+          }
+        }
+      },
+      {
+        "id": "aggregate-task",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "task": {
+            "$ref": "TaskSnapshot"
+          }
+        }
+      },
+      {
+        "id": "aggregate-automation",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "automation": {
+            "$ref": "AutomationView"
+          }
+        }
+      },
+      {
+        "id": "aggregate-memory",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "memory": {
+            "$ref": "MemoryRecord"
+          }
+        }
+      },
+      {
+        "id": "aggregate-externalBody",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "externalBody": {
+            "$ref": "ResourceVersionRef"
+          }
+        }
+      },
+      {
+        "id": "typed-error-revision",
+        "target": "ErrorDetails",
+        "valid": true,
+        "value": {
+          "revision": {
+            "$ref": "RevisionConflict"
+          }
+        }
+      },
+      {
+        "id": "typed-error-limit",
+        "target": "ErrorDetails",
+        "valid": true,
+        "value": {
+          "limit": {
+            "$ref": "LimitFailure"
+          }
+        }
+      },
+      {
+        "id": "typed-error-upgrade",
+        "target": "ErrorDetails",
+        "valid": true,
+        "value": {
+          "upgrade": {
+            "$ref": "VersionFailure"
+          }
+        }
+      },
+      {
+        "id": "typed-error-state",
+        "target": "ErrorDetails",
+        "valid": true,
+        "value": {
+          "state": {
+            "$ref": "StateFailure"
+          }
+        }
+      },
+      {
+        "id": "catalogue-validation.invalid_request",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.invalid_request",
+          "messageKey": "validation.invalid_request",
+          "category": 1,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-validation.invalid_request",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.invalid_request",
+          "messageKey": "validation.invalid_request",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-validation.ast_bounds_exceeded",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.ast_bounds_exceeded",
+          "messageKey": "validation.ast_bounds_exceeded",
+          "category": 1,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-validation.ast_bounds_exceeded",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.ast_bounds_exceeded",
+          "messageKey": "validation.ast_bounds_exceeded",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-validation.unsupported_version",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.unsupported_version",
+          "messageKey": "validation.unsupported_version",
+          "category": 1,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-validation.unsupported_version",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.unsupported_version",
+          "messageKey": "validation.unsupported_version",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-validation.invalid_offset",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.invalid_offset",
+          "messageKey": "validation.invalid_offset",
+          "category": 1,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-validation.invalid_offset",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "validation.invalid_offset",
+          "messageKey": "validation.invalid_offset",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-media.time_not_representable",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "media.time_not_representable",
+          "messageKey": "media.time_not_representable",
+          "category": 1,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-media.time_not_representable",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "media.time_not_representable",
+          "messageKey": "media.time_not_representable",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-auth.unauthenticated",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.unauthenticated",
+          "messageKey": "auth.unauthenticated",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-auth.unauthenticated",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.unauthenticated",
+          "messageKey": "auth.unauthenticated",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-auth.session_expired",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.session_expired",
+          "messageKey": "auth.session_expired",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-auth.session_expired",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.session_expired",
+          "messageKey": "auth.session_expired",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-auth.step_up_required",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.step_up_required",
+          "messageKey": "auth.step_up_required",
+          "category": 2,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-auth.step_up_required",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.step_up_required",
+          "messageKey": "auth.step_up_required",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-auth.local_presence_required",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.local_presence_required",
+          "messageKey": "auth.local_presence_required",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-auth.local_presence_required",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "auth.local_presence_required",
+          "messageKey": "auth.local_presence_required",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-perm.capability_denied",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.capability_denied",
+          "messageKey": "perm.capability_denied",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-perm.capability_denied",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.capability_denied",
+          "messageKey": "perm.capability_denied",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-perm.resource_denied",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.resource_denied",
+          "messageKey": "perm.resource_denied",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-perm.resource_denied",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.resource_denied",
+          "messageKey": "perm.resource_denied",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-perm.egress_denied",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.egress_denied",
+          "messageKey": "perm.egress_denied",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-perm.egress_denied",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.egress_denied",
+          "messageKey": "perm.egress_denied",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-perm.approval_required",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.approval_required",
+          "messageKey": "perm.approval_required",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-perm.approval_required",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.approval_required",
+          "messageKey": "perm.approval_required",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-perm.approval_expired",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.approval_expired",
+          "messageKey": "perm.approval_expired",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-perm.approval_expired",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.approval_expired",
+          "messageKey": "perm.approval_expired",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-perm.lease_expired",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.lease_expired",
+          "messageKey": "perm.lease_expired",
+          "category": 3,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-perm.lease_expired",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "perm.lease_expired",
+          "messageKey": "perm.lease_expired",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.no_service_term",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.no_service_term",
+          "messageKey": "entitlement.no_service_term",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.no_service_term",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.no_service_term",
+          "messageKey": "entitlement.no_service_term",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.not_entitled",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.not_entitled",
+          "messageKey": "entitlement.not_entitled",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.not_entitled",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.not_entitled",
+          "messageKey": "entitlement.not_entitled",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.quota_exceeded",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.quota_exceeded",
+          "messageKey": "entitlement.quota_exceeded",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.quota_exceeded",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.quota_exceeded",
+          "messageKey": "entitlement.quota_exceeded",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.capacity_exhausted",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.capacity_exhausted",
+          "messageKey": "entitlement.capacity_exhausted",
+          "category": 4,
+          "effect": 1,
+          "retry": {
+            "mode": 3,
+            "retryAt": {
+              "$ref": "$InstantEnd"
+            }
+          }
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.capacity_exhausted",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.capacity_exhausted",
+          "messageKey": "entitlement.capacity_exhausted",
+          "category": 5,
+          "effect": 1,
+          "retry": {
+            "mode": 3,
+            "retryAt": {
+              "$ref": "$InstantEnd"
+            }
+          }
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.extra_credits_required",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.extra_credits_required",
+          "messageKey": "entitlement.extra_credits_required",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.extra_credits_required",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.extra_credits_required",
+          "messageKey": "entitlement.extra_credits_required",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.credits_exhausted",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.credits_exhausted",
+          "messageKey": "entitlement.credits_exhausted",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.credits_exhausted",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.credits_exhausted",
+          "messageKey": "entitlement.credits_exhausted",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-entitlement.request_too_large",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.request_too_large",
+          "messageKey": "entitlement.request_too_large",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-entitlement.request_too_large",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "entitlement.request_too_large",
+          "messageKey": "entitlement.request_too_large",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-commerce.supplier_budget_exhausted",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "commerce.supplier_budget_exhausted",
+          "messageKey": "commerce.supplier_budget_exhausted",
+          "category": 4,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-commerce.supplier_budget_exhausted",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "commerce.supplier_budget_exhausted",
+          "messageKey": "commerce.supplier_budget_exhausted",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-conflict.revision_mismatch",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "conflict.revision_mismatch",
+          "messageKey": "conflict.revision_mismatch",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-conflict.revision_mismatch",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "conflict.revision_mismatch",
+          "messageKey": "conflict.revision_mismatch",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-conflict.local_changes_pending",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "conflict.local_changes_pending",
+          "messageKey": "conflict.local_changes_pending",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-conflict.local_changes_pending",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "conflict.local_changes_pending",
+          "messageKey": "conflict.local_changes_pending",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-conflict.duplicate_identifier",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "conflict.duplicate_identifier",
+          "messageKey": "conflict.duplicate_identifier",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-conflict.duplicate_identifier",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "conflict.duplicate_identifier",
+          "messageKey": "conflict.duplicate_identifier",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-command.reused_identifier",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "command.reused_identifier",
+          "messageKey": "command.reused_identifier",
+          "category": 5,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-command.reused_identifier",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "command.reused_identifier",
+          "messageKey": "command.reused_identifier",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-identity.last_credential",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "identity.last_credential",
+          "messageKey": "identity.last_credential",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-identity.last_credential",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "identity.last_credential",
+          "messageKey": "identity.last_credential",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-state.not_found",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.not_found",
+          "messageKey": "state.not_found",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-state.not_found",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.not_found",
+          "messageKey": "state.not_found",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-state.invalid_transition",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.invalid_transition",
+          "messageKey": "state.invalid_transition",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-state.invalid_transition",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.invalid_transition",
+          "messageKey": "state.invalid_transition",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-state.gone",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.gone",
+          "messageKey": "state.gone",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-state.gone",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.gone",
+          "messageKey": "state.gone",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-sync.cursor_expired",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "sync.cursor_expired",
+          "messageKey": "sync.cursor_expired",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-sync.cursor_expired",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "sync.cursor_expired",
+          "messageKey": "sync.cursor_expired",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-sync.bootstrap_expired",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "sync.bootstrap_expired",
+          "messageKey": "sync.bootstrap_expired",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-sync.bootstrap_expired",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "sync.bootstrap_expired",
+          "messageKey": "sync.bootstrap_expired",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-state.stale_fence",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.stale_fence",
+          "messageKey": "state.stale_fence",
+          "category": 6,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-state.stale_fence",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "state.stale_fence",
+          "messageKey": "state.stale_fence",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-resource.unavailable",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.unavailable",
+          "messageKey": "resource.unavailable",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-resource.unavailable",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.unavailable",
+          "messageKey": "resource.unavailable",
+          "category": 8,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-resource.integrity_failed",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.integrity_failed",
+          "messageKey": "resource.integrity_failed",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-resource.integrity_failed",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.integrity_failed",
+          "messageKey": "resource.integrity_failed",
+          "category": 8,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-capacity.rate_limited",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "capacity.rate_limited",
+          "messageKey": "capacity.rate_limited",
+          "category": 7,
+          "effect": 1,
+          "retry": {
+            "mode": 3,
+            "retryAt": {
+              "$ref": "Instant"
+            }
+          }
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-capacity.rate_limited",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "capacity.rate_limited",
+          "messageKey": "capacity.rate_limited",
+          "category": 8,
+          "effect": 1,
+          "retry": {
+            "mode": 3,
+            "retryAt": {
+              "$ref": "Instant"
+            }
+          }
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-capacity.busy",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "capacity.busy",
+          "messageKey": "capacity.busy",
+          "category": 7,
+          "effect": 1,
+          "retry": {
+            "mode": 3,
+            "retryAt": {
+              "$ref": "Instant"
+            }
+          }
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-capacity.busy",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "capacity.busy",
+          "messageKey": "capacity.busy",
+          "category": 8,
+          "effect": 1,
+          "retry": {
+            "mode": 3,
+            "retryAt": {
+              "$ref": "Instant"
+            }
+          }
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-resource.upload_expired",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.upload_expired",
+          "messageKey": "resource.upload_expired",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-resource.upload_expired",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.upload_expired",
+          "messageKey": "resource.upload_expired",
+          "category": 8,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-resource.parser_failed",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.parser_failed",
+          "messageKey": "resource.parser_failed",
+          "category": 7,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-resource.parser_failed",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "resource.parser_failed",
+          "messageKey": "resource.parser_failed",
+          "category": 8,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-dependency.unavailable",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "dependency.unavailable",
+          "messageKey": "dependency.unavailable",
+          "category": 8,
+          "effect": 3
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-dependency.unavailable",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "dependency.unavailable",
+          "messageKey": "dependency.unavailable",
+          "category": 9,
+          "effect": 3
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-dependency.timeout",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "dependency.timeout",
+          "messageKey": "dependency.timeout",
+          "category": 8,
+          "effect": 3
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-dependency.timeout",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "dependency.timeout",
+          "messageKey": "dependency.timeout",
+          "category": 9,
+          "effect": 3
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-provider.declined",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "provider.declined",
+          "messageKey": "provider.declined",
+          "category": 8,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-provider.declined",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "provider.declined",
+          "messageKey": "provider.declined",
+          "category": 9,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-security.isolation_unavailable",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "security.isolation_unavailable",
+          "messageKey": "security.isolation_unavailable",
+          "category": 8,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-security.isolation_unavailable",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "security.isolation_unavailable",
+          "messageKey": "security.isolation_unavailable",
+          "category": 9,
+          "effect": 1
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-internal.unexpected",
+        "target": "ArcError",
+        "valid": true,
+        "sample": "ArcError",
+        "set": {
+          "code": "internal.unexpected",
+          "messageKey": "internal.unexpected",
+          "category": 9,
+          "effect": 3
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "catalogue-wrong-category-internal.unexpected",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "code": "internal.unexpected",
+          "messageKey": "internal.unexpected",
+          "category": 1,
+          "effect": 3
+        },
+        "remove": [
+          "details"
+        ]
+      },
+      {
+        "id": "invalid-id-258",
+        "target": "Id",
+        "valid": false,
+        "value": {
+          "value": ""
+        }
+      },
+      {
+        "id": "invalid-id-259",
+        "target": "Id",
+        "valid": false,
+        "value": {
+          "value": "AAAAAAAAAAAAAAAAAAAAAA=="
+        }
+      },
+      {
+        "id": "invalid-id-260",
+        "target": "Id",
+        "valid": false,
+        "value": {
+          "value": "AA=="
+        }
+      },
+      {
+        "id": "invalid-revision--1",
+        "target": "Revision",
+        "valid": false,
+        "value": {
+          "value": "-1"
+        }
+      },
+      {
+        "id": "invalid-revision-9223372036854775808",
+        "target": "Revision",
+        "valid": false,
+        "value": {
+          "value": "9223372036854775808"
+        }
+      },
+      {
+        "id": "missing-scalar-presence",
+        "target": "NativeContentRev",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "noncanonical-decimal-+1",
+        "target": "Decimal",
+        "valid": false,
+        "value": {
+          "value": "+1"
+        }
+      },
+      {
+        "id": "noncanonical-decimal-01",
+        "target": "Decimal",
+        "valid": false,
+        "value": {
+          "value": "01"
+        }
+      },
+      {
+        "id": "noncanonical-decimal-1e3",
+        "target": "Decimal",
+        "valid": false,
+        "value": {
+          "value": "1e3"
+        }
+      },
+      {
+        "id": "noncanonical-decimal--0",
+        "target": "Decimal",
+        "valid": false,
+        "value": {
+          "value": "-0"
+        }
+      },
+      {
+        "id": "noncanonical-decimal-1.0",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "number": {
+            "value": "1.0"
+          }
+        }
+      },
+      {
+        "id": "noncanonical-decimal-0.0000000001",
+        "target": "Decimal",
+        "valid": false,
+        "value": {
+          "value": "0.0000000001"
+        }
+      },
+      {
+        "id": "noncanonical-decimal-12345678901234567890123456789",
+        "target": "Decimal",
+        "valid": false,
+        "value": {
+          "value": "12345678901234567890123456789"
+        }
+      },
+      {
+        "id": "rational-unreduced",
+        "target": "Rational",
+        "valid": false,
+        "value": {
+          "numerator": "2",
+          "denominator": "4"
+        }
+      },
+      {
+        "id": "rational-zero-denominator",
+        "target": "Rational",
+        "valid": false,
+        "value": {
+          "numerator": "1",
+          "denominator": "0"
+        }
+      },
+      {
+        "id": "range-overflow",
+        "target": "ByteRange",
+        "valid": false,
+        "value": {
+          "offset": "18446744073709551615",
+          "length": "1"
+        }
+      },
+      {
+        "id": "range-zero-length",
+        "target": "ByteRange",
+        "valid": false,
+        "value": {
+          "offset": "0",
+          "length": "0"
+        }
+      },
+      {
+        "id": "instant-outside-years",
+        "target": "Instant",
+        "valid": false,
+        "sample": "Instant",
+        "set": {
+          "unixSeconds": "253402300800"
+        }
+      },
+      {
+        "id": "instant-invalid-nanos",
+        "target": "Instant",
+        "valid": false,
+        "sample": "Instant",
+        "set": {
+          "nanos": 1000000000
+        }
+      },
+      {
+        "id": "page-negative",
+        "target": "PageRequest",
+        "valid": false,
+        "sample": "PageRequest",
+        "set": {
+          "limit": -1
+        }
+      },
+      {
+        "id": "page-zero-not-absent",
+        "target": "PageRequest",
+        "valid": false,
+        "sample": "PageRequest",
+        "set": {
+          "limit": 0
+        }
+      },
+      {
+        "id": "page-absent-default",
+        "target": "PageRequest",
+        "valid": true,
+        "value": {}
+      },
+      {
+        "id": "cursor-too-long",
+        "target": "PageRequest",
+        "valid": false,
+        "sample": "PageRequest",
+        "set": {
+          "cursor": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      {
+        "id": "two-revision-kinds",
+        "target": "RequestMeta",
+        "valid": false,
+        "sample": "RequestMeta",
+        "set": {
+          "expectedLocal": {
+            "$ref": "LocalNotesVersion"
+          }
+        }
+      },
+      {
+        "id": "error-unknown-category",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "category": 999
+        }
+      },
+      {
+        "id": "error-unspecified-effect",
+        "target": "ArcError",
+        "valid": false,
+        "sample": "ArcError",
+        "set": {
+          "effect": 0
+        }
+      },
+      {
+        "id": "retry-after-without-time",
+        "target": "RetryAdvice",
+        "valid": false,
+        "value": {
+          "mode": 3
+        }
+      },
+      {
+        "id": "retry-reconcile-without-operation",
+        "target": "RetryAdvice",
+        "valid": false,
+        "value": {
+          "mode": 4
+        }
+      },
+      {
+        "id": "oneof-missing",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "oneof-two-variants",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "text": "x",
+          "boolean": false
+        }
+      },
+      {
+        "id": "ErrorDetails-missing-oneof",
+        "target": "ErrorDetails",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "ResourceVersionRef-missing-oneof",
+        "target": "ResourceVersionRef",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "AggregateBody-missing-oneof",
+        "target": "AggregateBody",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "BlockBody-missing-oneof",
+        "target": "BlockBody",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "NotesFilter-missing-oneof",
+        "target": "NotesFilter",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "ContextSelector-missing-oneof",
+        "target": "ContextSelector",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "TriggerSpec-missing-oneof",
+        "target": "TriggerSpec",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "MetadataScalar-missing-oneof",
+        "target": "MetadataScalar",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "origin-order",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "nonAi",
+            "aiGenerated"
+          ]
+        }
+      },
+      {
+        "id": "origin-duplicates",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated",
+            "aiGenerated"
+          ]
+        }
+      },
+      {
+        "id": "origin-empty",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": []
+        }
+      },
+      {
+        "id": "origin-future-request",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "profile": "arcforges.content-origin.v2"
+        }
+      },
+      {
+        "id": "origin-wrong-producer",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "producerKind": "serverAuthority"
+        }
+      },
+      {
+        "id": "origin-overflow-omitted",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "omittedParentCount": 2147483648
+        }
+      },
+      {
+        "id": "origin-self-parent",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "parentOriginIds": [
+            {
+              "$ref": "Id"
+            }
+          ]
+        }
+      },
+      {
+        "id": "origin-unsorted-parents",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "parentOriginIds": [
+            {
+              "$ref": "$Id2"
+            },
+            {
+              "$ref": "Id"
+            }
+          ]
+        }
+      },
+      {
+        "id": "origin-negative-omitted",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "omittedParentCount": -1
+        }
+      },
+      {
+        "id": "scalar-null",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "null": true
+        }
+      },
+      {
+        "id": "scalar-text",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "text": ""
+        }
+      },
+      {
+        "id": "scalar-boolean",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "boolean": false
+        }
+      },
+      {
+        "id": "scalar-number",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "number": {
+            "value": "0"
+          }
+        }
+      },
+      {
+        "id": "scalar-date",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "date": "2026-01-01"
+        }
+      },
+      {
+        "id": "scalar-select",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "select": {
+            "$ref": "Id"
+          }
+        }
+      },
+      {
+        "id": "scalar-multiSelect",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "multiSelect": {
+            "items": []
+          }
+        }
+      },
+      {
+        "id": "scalar-dateTime",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "dateTime": {
+            "unixSeconds": "1767225600",
+            "nanos": 0
+          }
+        }
+      },
+      {
+        "id": "scalar-url",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "url": "https://example.invalid/unchanged"
+        }
+      },
+      {
+        "id": "scalar-null-false",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "null": false
+        }
+      },
+      {
+        "id": "scalar-invalid-date",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "date": "2025-02-29"
+        }
+      },
+      {
+        "id": "scalar-instant-sub100ns",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "dateTime": {
+            "unixSeconds": "0",
+            "nanos": 1
+          }
+        }
+      },
+      {
+        "id": "scalar-unsorted-set",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "multiSelect": {
+            "items": [
+              {
+                "$ref": "$Id2"
+              },
+              {
+                "$ref": "Id"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "scalar-duplicate-set",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "multiSelect": {
+            "items": [
+              {
+                "$ref": "Id"
+              },
+              {
+                "$ref": "Id"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "filter-not-unary",
+        "target": "FilterGroup",
+        "valid": false,
+        "sample": "FilterGroup",
+        "set": {
+          "children": [
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            }
+          ]
+        }
+      },
+      {
+        "id": "filter-empty-any",
+        "target": "FilterGroup",
+        "valid": false,
+        "value": {
+          "operator": "any",
+          "children": []
+        }
+      },
+      {
+        "id": "filter-and-alias",
+        "target": "FilterGroup",
+        "valid": false,
+        "sample": "FilterGroup",
+        "set": {
+          "operator": "and"
+        }
+      },
+      {
+        "id": "filter-child-limit",
+        "target": "FilterGroup",
+        "valid": false,
+        "value": {
+          "operator": "all",
+          "children": [
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            },
+            {
+              "$ref": "NotesFilter"
+            }
+          ]
+        }
+      },
+      {
+        "id": "predicate-null-literal",
+        "target": "ScalarPredicate",
+        "valid": false,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operands": [
+            {
+              "null": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "predicate-in-empty",
+        "target": "ScalarPredicate",
+        "valid": false,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "in",
+          "operands": []
+        }
+      },
+      {
+        "id": "predicate-in-mixed-kinds",
+        "target": "ScalarPredicate",
+        "valid": false,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "in",
+          "operands": [
+            {
+              "text": "a"
+            },
+            {
+              "boolean": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "predicate-isMissing",
+        "target": "ScalarPredicate",
+        "valid": true,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "isMissing",
+          "operands": []
+        }
+      },
+      {
+        "id": "predicate-isMissing-operand",
+        "target": "ScalarPredicate",
+        "valid": false,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "isMissing"
+        }
+      },
+      {
+        "id": "predicate-hasAll-elements",
+        "target": "ScalarPredicate",
+        "valid": true,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "hasAll",
+          "operands": [
+            {
+              "select": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "select": {
+                "$ref": "$Id2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "predicate-hasAll-set-wrapper",
+        "target": "ScalarPredicate",
+        "valid": false,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "hasAll",
+          "operands": [
+            {
+              "multiSelect": {
+                "$ref": "IdList"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "query-future-profile",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "profile": "notes.scalar.v2"
+        }
+      },
+      {
+        "id": "query-missing-definition-binding",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "definitionVersions": []
+        }
+      },
+      {
+        "id": "query-view-without-revision",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "savedViewId": {
+            "$ref": "Id"
+          }
+        }
+      },
+      {
+        "id": "query-nine-sorts",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "sorts": [
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            },
+            {
+              "$ref": "NotesSort"
+            }
+          ]
+        }
+      },
+      {
+        "id": "query-65-projections",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "projection": [
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            }
+          ]
+        }
+      },
+      {
+        "id": "query-null-filter",
+        "target": "NotesQuery",
+        "valid": true,
+        "sample": "NotesQuery",
+        "remove": [
+          "filter"
+        ]
+      },
+      {
+        "id": "definition-options-on-number",
+        "target": "PropertyDefinition",
+        "valid": false,
+        "sample": "PropertyDefinition",
+        "set": {
+          "options": [
+            {
+              "$ref": "SelectOption"
+            }
+          ]
+        }
+      },
+      {
+        "id": "definition-invalid-scale",
+        "target": "PropertyDefinition",
+        "valid": false,
+        "sample": "PropertyDefinition",
+        "set": {
+          "numberScale": 10
+        }
+      },
+      {
+        "id": "saved-view-page-cursor",
+        "target": "SavedViewRecord",
+        "valid": false,
+        "sample": "SavedViewRecord",
+        "set": {
+          "query.page.cursor": "cursor"
+        }
+      },
+      {
+        "id": "saved-view-dataset",
+        "target": "SavedViewRecord",
+        "valid": false,
+        "sample": "SavedViewRecord",
+        "set": {
+          "query.datasetToken": "dataset"
+        }
+      },
+      {
+        "id": "saved-view-self-reference",
+        "target": "SavedViewRecord",
+        "valid": false,
+        "sample": "SavedViewRecord",
+        "set": {
+          "query.savedViewId": {
+            "$ref": "Id"
+          },
+          "query.savedViewRev": {
+            "$ref": "Revision"
+          }
+        }
+      },
+      {
+        "id": "measurement-unknown-family",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "variance"
+          ]
+        }
+      },
+      {
+        "id": "measurement-future-profile",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "profile": "scope.measurement.v2"
+        }
+      },
+      {
+        "id": "measurement-empty-channels",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "channels": []
+        }
+      },
+      {
+        "id": "measurement-duplicate-channels",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "channels": [
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "Id"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-outside-configuration",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "channels": [
+            {
+              "$ref": "$Id2"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-reversed-window",
+        "target": "MeasurementWindow",
+        "valid": false,
+        "sample": "MeasurementWindow",
+        "set": {
+          "start": {
+            "$ref": "$ScopeEnd"
+          },
+          "end": {
+            "$ref": "ScopeTime"
+          }
+        }
+      },
+      {
+        "id": "measurement-empty-window",
+        "target": "MeasurementWindow",
+        "valid": false,
+        "sample": "MeasurementWindow",
+        "set": {
+          "end": {
+            "$ref": "ScopeTime"
+          }
+        }
+      },
+      {
+        "id": "measurement-missing-source-hash",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "remove": [
+          "source.capture.contentHash"
+        ]
+      },
+      {
+        "id": "measurement-cursor-missing",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "cursorDelta"
+          ]
+        }
+      },
+      {
+        "id": "measurement-unknown-threshold",
+        "target": "MeasurementThreshold",
+        "valid": false,
+        "sample": "MeasurementThreshold",
+        "set": {
+          "name": "middle"
+        }
+      },
+      {
+        "id": "measurement-overridden-fraction",
+        "target": "MeasurementThreshold",
+        "valid": false,
+        "sample": "MeasurementThreshold",
+        "set": {
+          "value": 0.6
+        }
+      },
+      {
+        "id": "measurement-fraction-unit",
+        "target": "MeasurementThreshold",
+        "valid": false,
+        "sample": "MeasurementThreshold",
+        "set": {
+          "unit": "V"
+        }
+      },
+      {
+        "id": "measurement-status-needs-reason",
+        "target": "FamilyResult",
+        "valid": false,
+        "sample": "FamilyResult",
+        "set": {
+          "status": "insufficient",
+          "values": []
+        }
+      },
+      {
+        "id": "measurement-insufficient-zero",
+        "target": "FamilyResult",
+        "valid": false,
+        "sample": "FamilyResult",
+        "set": {
+          "status": "insufficient",
+          "reason": "noFiniteSamples"
+        }
+      },
+      {
+        "id": "measurement-wrong-value-name",
+        "target": "FamilyResult",
+        "valid": false,
+        "sample": "FamilyResult",
+        "set": {
+          "values.0.name": "minimum"
+        }
+      },
+      {
+        "id": "measurement-nonfinite-value",
+        "target": "MeasurementValue",
+        "valid": false,
+        "sample": "MeasurementValue",
+        "set": {
+          "value": "NaN"
+        }
+      },
+      {
+        "id": "measurement-count-double",
+        "target": "FamilyResult",
+        "valid": false,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "count",
+          "values": [
+            {
+              "name": "count",
+              "value": 2,
+              "unit": "1"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-count-exact",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "count",
+          "values": [
+            {
+              "name": "count",
+              "count": "9007199254740993",
+              "unit": "1"
+            }
+          ],
+          "validCount": "9007199254740993"
+        }
+      },
+      {
+        "id": "measurement-count-unit",
+        "target": "FamilyResult",
+        "valid": false,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "count",
+          "values": [
+            {
+              "name": "count",
+              "count": "2",
+              "unit": "V"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-duplicate-family",
+        "target": "MeasurementResult",
+        "valid": false,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "$ref": "FamilyResult"
+            },
+            {
+              "$ref": "FamilyResult"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-absent-result-channel",
+        "target": "MeasurementResult",
+        "valid": false,
+        "sample": "MeasurementResult",
+        "set": {
+          "resolvedThresholds": [
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1"
+            }
+          ]
+        }
+      },
+      {
+        "id": "query-depth-nine",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "filter": {
+            "group": {
+              "operator": "not",
+              "children": [
+                {
+                  "group": {
+                    "operator": "not",
+                    "children": [
+                      {
+                        "group": {
+                          "operator": "not",
+                          "children": [
+                            {
+                              "group": {
+                                "operator": "not",
+                                "children": [
+                                  {
+                                    "group": {
+                                      "operator": "not",
+                                      "children": [
+                                        {
+                                          "group": {
+                                            "operator": "not",
+                                            "children": [
+                                              {
+                                                "group": {
+                                                  "operator": "not",
+                                                  "children": [
+                                                    {
+                                                      "group": {
+                                                        "operator": "not",
+                                                        "children": [
+                                                          {
+                                                            "$ref": "NotesFilter"
+                                                          }
+                                                        ]
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "query-node129",
+        "target": "NotesQuery",
+        "valid": false,
+        "sample": "NotesQuery",
+        "set": {
+          "filter": {
+            "group": {
+              "operator": "all",
+              "children": [
+                {
+                  "group": {
+                    "operator": "any",
+                    "children": [
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "group": {
+                    "operator": "any",
+                    "children": [
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "group": {
+                    "operator": "any",
+                    "children": [
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "group": {
+                    "operator": "any",
+                    "children": [
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      },
+                      {
+                        "$ref": "NotesFilter"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "measurement-family-minimum",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "minimum",
+          "values": [
+            {
+              "name": "minimum",
+              "unit": "V",
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-maximum",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "maximum",
+          "values": [
+            {
+              "name": "maximum",
+              "unit": "V",
+              "value": 2
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-mean",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "mean",
+          "values": [
+            {
+              "name": "mean",
+              "unit": "V",
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-rms",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "rms",
+          "values": [
+            {
+              "name": "rms",
+              "unit": "V",
+              "value": 1.4142135623730951
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-peakToPeak",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "peakToPeak",
+          "values": [
+            {
+              "name": "peakToPeak",
+              "unit": "V",
+              "value": 2
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-standardDeviation",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "standardDeviation",
+          "values": [
+            {
+              "name": "standardDeviation",
+              "unit": "V",
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-count",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "count",
+          "values": [
+            {
+              "name": "count",
+              "unit": "1",
+              "count": "2"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-duration",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "duration",
+          "values": [
+            {
+              "name": "duration",
+              "unit": "s",
+              "value": 4
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-frequency",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "frequency",
+          "values": [
+            {
+              "name": "frequency",
+              "unit": "Hz",
+              "value": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-dutyCycle",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "dutyCycle",
+          "values": [
+            {
+              "name": "dutyCycle",
+              "unit": "1",
+              "value": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-riseTime",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "riseTime",
+          "values": [
+            {
+              "name": "riseTime",
+              "unit": "s",
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-fallTime",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "fallTime",
+          "values": [
+            {
+              "name": "fallTime",
+              "unit": "s",
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-eventCount",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "eventCount",
+          "values": [
+            {
+              "name": "eventCount",
+              "unit": "1",
+              "count": "2"
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-family-cursorDelta",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "cursorDelta",
+          "values": [
+            {
+              "name": "deltaTime",
+              "value": 0,
+              "unit": "s"
+            },
+            {
+              "name": "deltaValue",
+              "value": 0,
+              "unit": "V"
+            }
+          ]
+        }
+      },
+      {
+        "id": "scope-vector-two-samples",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "minimum",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "minimum",
+                  "unit": "V",
+                  "value": 0
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "maximum",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "maximum",
+                  "unit": "V",
+                  "value": 2
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "mean",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "mean",
+                  "unit": "V",
+                  "value": 1
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "rms",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "rms",
+                  "unit": "V",
+                  "value": 1.4142135623730951
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "peakToPeak",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "peakToPeak",
+                  "unit": "V",
+                  "value": 2
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "standardDeviation",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "standardDeviation",
+                  "unit": "V",
+                  "value": 1
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "count",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "count",
+                  "unit": "1",
+                  "count": "2"
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "scope-vector-irregular",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "mean",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "mean",
+                  "unit": "V",
+                  "value": 2
+                }
+              ],
+              "validCount": "3",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "rms",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "rms",
+                  "unit": "V",
+                  "value": 2.581988897471611
+                }
+              ],
+              "validCount": "3",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "standardDeviation",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "standardDeviation",
+                  "unit": "V",
+                  "value": 1.632993161855452
+                }
+              ],
+              "validCount": "3",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "count",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "count",
+                  "unit": "1",
+                  "count": "3"
+                }
+              ],
+              "validCount": "3",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "finiteCount": "3",
+          "coveredDuration": {
+            "ticks": "3",
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        }
+      },
+      {
+        "id": "scope-vector-digital",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "frequency",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "frequency",
+                  "unit": "Hz",
+                  "value": 0.5
+                }
+              ],
+              "validCount": "5",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "dutyCycle",
+                  "unit": "1",
+                  "value": 0.5
+                }
+              ],
+              "validCount": "5",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "riseTime",
+                  "unit": "s",
+                  "value": 0
+                }
+              ],
+              "validCount": "5",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "fallTime",
+                  "unit": "s",
+                  "value": 0
+                }
+              ],
+              "validCount": "5",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "finiteCount": "5",
+          "requestedDuration": {
+            "ticks": "5",
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "coveredDuration": {
+            "ticks": "4",
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "configuration.channels.0.sampleType": "digital",
+          "resolvedThresholds": [
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "high",
+              "value": 1,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "high",
+              "value": 1,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "high",
+              "value": 1,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "high",
+              "value": 1,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "scope-vector-gap",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "frequency",
+              "status": "insufficient",
+              "values": [],
+              "validCount": "5",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              },
+              "reason": "noCompleteCycle"
+            },
+            {
+              "family": "dutyCycle",
+              "status": "insufficient",
+              "values": [],
+              "validCount": "5",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              },
+              "reason": "noCompleteCycle"
+            }
+          ],
+          "finiteCount": "5",
+          "runCount": "2",
+          "requestedDuration": {
+            "ticks": "5",
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "coveredDuration": {
+            "ticks": "3",
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "configuration.channels.0.sampleType": "digital"
+        }
+      },
+      {
+        "id": "scope-vector-analog",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "frequency",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "frequency",
+                  "unit": "Hz",
+                  "value": 0.5
+                }
+              ],
+              "validCount": "4",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "dutyCycle",
+                  "unit": "1",
+                  "value": 0.5
+                }
+              ],
+              "validCount": "4",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "riseTime",
+                  "unit": "s",
+                  "value": 0.8
+                }
+              ],
+              "validCount": "4",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "fallTime",
+                  "unit": "s",
+                  "value": 0.8
+                }
+              ],
+              "validCount": "4",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "finiteCount": "4",
+          "coveredDuration": {
+            "ticks": "3",
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "resolvedThresholds": [
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "high",
+              "value": 10,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "high",
+              "value": 10,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "dutyCycle",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "high",
+              "value": 10,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "riseTime",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "high",
+              "value": 10,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "fraction10",
+              "value": 0.1,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "fallTime",
+              "name": "fraction90",
+              "value": 0.9,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "scope-vector-event-boundary",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "eventCount",
+          "values": [
+            {
+              "name": "eventCount",
+              "count": "1",
+              "unit": "1"
+            }
+          ],
+          "validCount": "1"
+        }
+      },
+      {
+        "id": "scope-vector-empty",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "mean",
+          "status": "insufficient",
+          "values": [],
+          "reason": "noFiniteSamples",
+          "validCount": "0"
+        }
+      },
+      {
+        "id": "scope-vector-constant",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "frequency",
+          "status": "insufficient",
+          "values": [],
+          "reason": "noCompleteCycle",
+          "validCount": "0"
+        }
+      },
+      {
+        "id": "scope-vector-no-edge",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "riseTime",
+          "status": "insufficient",
+          "values": [],
+          "reason": "noCompleteEdge",
+          "validCount": "0"
+        }
+      },
+      {
+        "id": "scope-vector-cursor-tie",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "family": "cursorDelta",
+          "status": "insufficient",
+          "values": [],
+          "reason": "cursorUnavailable",
+          "validCount": "0"
+        }
+      },
+      {
+        "id": "scope-vector-invalidTimeOrder",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "status": "invalid",
+          "values": [],
+          "reason": "invalidTimeOrder"
+        }
+      },
+      {
+        "id": "scope-vector-invalidConfiguration",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "status": "invalid",
+          "values": [],
+          "reason": "invalidConfiguration"
+        }
+      },
+      {
+        "id": "scope-vector-numericOverflow",
+        "target": "FamilyResult",
+        "valid": true,
+        "sample": "FamilyResult",
+        "set": {
+          "status": "invalid",
+          "values": [],
+          "reason": "numericOverflow"
+        }
+      },
+      {
+        "id": "threshold-request-valid-pulse",
+        "target": "MeasurementRequest",
+        "valid": true,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "frequency"
+          ],
+          "thresholds": [
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1"
+            }
+          ],
+          "referenceLevels": [
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V"
+            },
+            {
+              "family": "frequency",
+              "name": "high",
+              "value": 1,
+              "unit": "V"
+            }
+          ]
+        }
+      },
+      {
+        "id": "threshold-request-incomplete-pair",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "frequency"
+          ],
+          "referenceLevels": [
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V"
+            }
+          ]
+        }
+      },
+      {
+        "id": "threshold-request-foreign-channel",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "frequency"
+          ],
+          "thresholds": [
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "$Id2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "threshold-request-overlap",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "frequency"
+          ],
+          "thresholds": [
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1"
+            },
+            {
+              "family": "frequency",
+              "name": "fraction50",
+              "value": 0.5,
+              "unit": "1",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "threshold-result-missing-levels",
+        "target": "MeasurementResult",
+        "valid": false,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "frequency",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "frequency",
+                  "unit": "Hz",
+                  "value": 0.5
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "decimal-trailing-LF",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "number": {
+            "value": "1\n"
+          }
+        }
+      },
+      {
+        "id": "key-trailing-LF",
+        "target": "ApplicationScope",
+        "valid": false,
+        "sample": "ApplicationScope",
+        "set": {
+          "productId": "arcnotes\n"
+        }
+      },
+      {
+        "id": "decimal-trailing-CR",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "number": {
+            "value": "1\r"
+          }
+        }
+      },
+      {
+        "id": "key-trailing-CR",
+        "target": "ApplicationScope",
+        "valid": false,
+        "sample": "ApplicationScope",
+        "set": {
+          "productId": "arcnotes\r"
+        }
+      },
+      {
+        "id": "decimal-trailing-LS",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "number": {
+            "value": "1\u2028"
+          }
+        }
+      },
+      {
+        "id": "key-trailing-LS",
+        "target": "ApplicationScope",
+        "valid": false,
+        "sample": "ApplicationScope",
+        "set": {
+          "productId": "arcnotes\u2028"
+        }
+      },
+      {
+        "id": "origin-vector-model-generated",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated"
+          ],
+          "producerKind": "model",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-notes-copy",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated"
+          ],
+          "producerKind": "deterministic",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-manual-edit",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated",
+            "nonAi"
+          ],
+          "producerKind": "human",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-markdown-export",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated",
+            "nonAi"
+          ],
+          "producerKind": "deterministic",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-scope-statistics",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "nonAi"
+          ],
+          "producerKind": "deterministic",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-report-narrative",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated"
+          ],
+          "producerKind": "model",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-mixed-report",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated",
+            "nonAi"
+          ],
+          "producerKind": "deterministic",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-legacy-import",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "unknown"
+          ],
+          "producerKind": "import",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        },
+        "remove": [
+          "createdAt"
+        ]
+      },
+      {
+        "id": "origin-vector-marked-render",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "kinds": [
+            "aiGenerated",
+            "nonAi"
+          ],
+          "producerKind": "deterministic",
+          "payloadSha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+        }
+      },
+      {
+        "id": "origin-vector-truncated-lineage",
+        "target": "ContentOrigin",
+        "valid": true,
+        "sample": "ContentOrigin",
+        "set": {
+          "parentOriginIds": [
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAAQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAAg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAAw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAIA=="
+            }
+          ],
+          "omittedParentCount": 3
+        }
+      },
+      {
+        "id": "origin-vector-too-many-parents",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "parentOriginIds": [
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAAQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAAg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAAw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAABw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAACw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAADw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAEw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAFw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAGw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHA=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHQ=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHg=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAHw=="
+            },
+            {
+              "value": "AAAAAAAAAAAAAAAAAAAAIA=="
+            },
+            {
+              "$ref": "$Id2"
+            }
+          ]
+        }
+      },
+      {
+        "id": "origin-vector-incomplete-truncation",
+        "target": "ContentOrigin",
+        "valid": false,
+        "sample": "ContentOrigin",
+        "set": {
+          "omittedParentCount": 3
+        }
+      },
+      {
+        "id": "notes-vector-text-eq",
+        "target": "ScalarPredicate",
+        "valid": true,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operands": [
+            {
+              "text": "A"
+            }
+          ]
+        }
+      },
+      {
+        "id": "notes-vector-text-ne",
+        "target": "ScalarPredicate",
+        "valid": true,
+        "sample": "ScalarPredicate",
+        "set": {
+          "operator": "ne",
+          "operands": [
+            {
+              "text": "A"
+            }
+          ]
+        }
+      },
+      {
+        "id": "notes-vector-not-eq",
+        "target": "NotesFilter",
+        "valid": true,
+        "value": {
+          "group": {
+            "operator": "not",
+            "children": [
+              {
+                "predicate": {
+                  "propertyId": {
+                    "$ref": "Id"
+                  },
+                  "operator": "eq",
+                  "operands": [
+                    {
+                      "text": "A"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "notes-vector-zero-present",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "number": {
+            "value": "0"
+          }
+        }
+      },
+      {
+        "id": "notes-vector-utc-instant",
+        "target": "ScalarValue",
+        "valid": true,
+        "value": {
+          "dateTime": {
+            "unixSeconds": "1767225600",
+            "nanos": 0
+          }
+        }
+      },
+      {
+        "id": "richtext-surrogate-split",
+        "target": "RichText",
+        "valid": false,
+        "sample": "RichText",
+        "set": {
+          "runs.0.until": 3,
+          "spans.0.until": 3
+        }
+      },
+      {
+        "id": "richtext-uncovered-suffix",
+        "target": "RichText",
+        "valid": false,
+        "sample": "RichText",
+        "set": {
+          "runs.0.until": 2,
+          "spans.0.until": 2
+        }
+      },
+      {
+        "id": "richtext-empty-stable-run",
+        "target": "RichText",
+        "valid": true,
+        "sample": "RichText",
+        "set": {
+          "text": "",
+          "spans": [],
+          "runs.0.until": 0
+        }
+      },
+      {
+        "id": "threshold-common-levels-compatible-unit-only",
+        "target": "MeasurementRequest",
+        "valid": true,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "frequency"
+          ],
+          "channels": [
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "$Id2"
+            }
+          ],
+          "configuration.channels": [
+            {
+              "$ref": "ChannelDefinition"
+            },
+            {
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "name": "Current",
+              "unit": "A",
+              "sampleType": "numeric",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "calibration": {
+                "scale": 1,
+                "offset": 0,
+                "unit": "A"
+              }
+            }
+          ],
+          "referenceLevels": [
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V"
+            },
+            {
+              "family": "frequency",
+              "name": "high",
+              "value": 1,
+              "unit": "V"
+            }
+          ]
+        }
+      },
+      {
+        "id": "threshold-common-levels-duplicate-effective-channel",
+        "target": "MeasurementRequest",
+        "valid": false,
+        "sample": "MeasurementRequest",
+        "set": {
+          "families": [
+            "frequency"
+          ],
+          "channels": [
+            {
+              "$ref": "Id"
+            },
+            {
+              "$ref": "$Id2"
+            }
+          ],
+          "configuration.channels": [
+            {
+              "$ref": "ChannelDefinition"
+            },
+            {
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "name": "Current",
+              "unit": "A",
+              "sampleType": "numeric",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "calibration": {
+                "scale": 1,
+                "offset": 0,
+                "unit": "A"
+              }
+            }
+          ],
+          "referenceLevels": [
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V"
+            },
+            {
+              "family": "frequency",
+              "name": "high",
+              "value": 1,
+              "unit": "V"
+            },
+            {
+              "family": "frequency",
+              "name": "low",
+              "value": 0,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            },
+            {
+              "family": "frequency",
+              "name": "high",
+              "value": 1,
+              "unit": "V",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "measurement-cursor-agrees",
+        "target": "MeasurementResult",
+        "valid": true,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "cursorDelta",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "deltaTime",
+                  "value": 0,
+                  "unit": "s"
+                },
+                {
+                  "name": "deltaValue",
+                  "value": 0,
+                  "unit": "V"
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "cursor": {
+            "$ref": "CursorResult"
+          }
+        }
+      },
+      {
+        "id": "measurement-cursor-deltaTime-disagrees",
+        "target": "MeasurementResult",
+        "valid": false,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "cursorDelta",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "deltaTime",
+                  "value": 1,
+                  "unit": "s"
+                },
+                {
+                  "name": "deltaValue",
+                  "value": 0,
+                  "unit": "V"
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "cursor": {
+            "$ref": "CursorResult"
+          }
+        }
+      },
+      {
+        "id": "measurement-cursor-deltaValue-disagrees",
+        "target": "MeasurementResult",
+        "valid": false,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "cursorDelta",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "deltaTime",
+                  "value": 0,
+                  "unit": "s"
+                },
+                {
+                  "name": "deltaValue",
+                  "value": 1,
+                  "unit": "V"
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "cursor": {
+            "$ref": "CursorResult"
+          }
+        }
+      },
+      {
+        "id": "measurement-cursor-incompatible-units",
+        "target": "MeasurementResult",
+        "valid": false,
+        "sample": "MeasurementResult",
+        "set": {
+          "families": [
+            {
+              "family": "cursorDelta",
+              "status": "ok",
+              "values": [
+                {
+                  "name": "deltaTime",
+                  "value": 0,
+                  "unit": "s"
+                },
+                {
+                  "name": "deltaValue",
+                  "value": 0,
+                  "unit": "V"
+                }
+              ],
+              "validCount": "2",
+              "invalidCount": "0",
+              "channelId": {
+                "$ref": "Id"
+              }
+            }
+          ],
+          "cursor": {
+            "a": {
+              "$ref": "SelectedSample"
+            },
+            "b": {
+              "captureId": {
+                "$ref": "Id"
+              },
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "segmentId": {
+                "$ref": "$Id2"
+              },
+              "sampleIndex": "9007199254740993",
+              "time": {
+                "$ref": "ScopeTime"
+              },
+              "value": 2
+            },
+            "deltaTime": {
+              "$ref": "ScopeTime"
+            },
+            "deltaValue": 0
+          },
+          "configuration.channels": [
+            {
+              "$ref": "ChannelDefinition"
+            },
+            {
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "name": "Current",
+              "unit": "A",
+              "sampleType": "numeric",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "calibration": {
+                "scale": 1,
+                "offset": 0,
+                "unit": "A"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "fixed-binary-touching-fields",
+        "target": "FrameConfiguration",
+        "valid": true,
+        "sample": "FrameConfiguration",
+        "set": {
+          "fields": [
+            {
+              "channelId": {
+                "$ref": "Id"
+              },
+              "offset": 0,
+              "jsonPath": [],
+              "scalarType": "u16",
+              "required": true
+            },
+            {
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "offset": 2,
+              "jsonPath": [],
+              "scalarType": "u16",
+              "required": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "fixed-binary-disjoint-fields",
+        "target": "FrameConfiguration",
+        "valid": true,
+        "sample": "FrameConfiguration",
+        "set": {
+          "fields": [
+            {
+              "channelId": {
+                "$ref": "Id"
+              },
+              "offset": 0,
+              "jsonPath": [],
+              "scalarType": "u16",
+              "required": true
+            },
+            {
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "offset": 4,
+              "jsonPath": [],
+              "scalarType": "u16",
+              "required": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "fixed-binary-overlapping-fields",
+        "target": "FrameConfiguration",
+        "valid": false,
+        "sample": "FrameConfiguration",
+        "set": {
+          "fields": [
+            {
+              "channelId": {
+                "$ref": "Id"
+              },
+              "offset": 0,
+              "jsonPath": [],
+              "scalarType": "u16",
+              "required": true
+            },
+            {
+              "channelId": {
+                "$ref": "$Id2"
+              },
+              "offset": 1,
+              "jsonPath": [],
+              "scalarType": "u16",
+              "required": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "checksum-input-adjacent-before",
+        "target": "ChecksumSpec",
+        "valid": true,
+        "sample": "ChecksumSpec"
+      },
+      {
+        "id": "checksum-input-adjacent-after",
+        "target": "ChecksumSpec",
+        "valid": true,
+        "sample": "ChecksumSpec",
+        "set": {
+          "offset": 0,
+          "input": {
+            "offset": "2",
+            "length": "8"
+          }
+        }
+      },
+      {
+        "id": "checksum-input-overlaps-left",
+        "target": "ChecksumSpec",
+        "valid": false,
+        "sample": "ChecksumSpec",
+        "set": {
+          "input": {
+            "offset": "0",
+            "length": "9"
+          }
+        }
+      },
+      {
+        "id": "checksum-input-overlaps-right",
+        "target": "ChecksumSpec",
+        "valid": false,
+        "sample": "ChecksumSpec",
+        "set": {
+          "input": {
+            "offset": "9",
+            "length": "1"
+          }
+        }
+      },
+      {
+        "id": "checksum-unknown-byte-order",
+        "target": "ChecksumSpec",
+        "valid": false,
+        "sample": "ChecksumSpec",
+        "set": {
+          "byteOrder": "middle"
+        }
+      },
+      {
+        "id": "fixed-binary-checksum-input-overlap",
+        "target": "FrameConfiguration",
+        "valid": false,
+        "sample": "FrameConfiguration",
+        "set": {
+          "checksum.input.length": "9"
+        }
+      },
+      {
+        "id": "link-url-trailing-newline",
+        "target": "LinkSpec",
+        "valid": false,
+        "value": {
+          "kind": "external",
+          "url": "https://example.test\n",
+          "label": "External link"
+        }
+      },
+      {
+        "id": "date-trailing-newline",
+        "target": "ScalarValue",
+        "valid": false,
+        "value": {
+          "date": "2026-01-01\n"
+        }
+      },
+      {
+        "id": "union-BlockBody-code",
+        "target": "BlockBody",
+        "valid": true,
+        "value": {
+          "code": {
+            "$ref": "CodeBlock"
+          }
+        }
+      },
+      {
+        "id": "union-BlockBody-resource",
+        "target": "BlockBody",
+        "valid": true,
+        "value": {
+          "resource": {
+            "$ref": "ResourceRef"
+          }
+        }
+      },
+      {
+        "id": "union-BlockBody-link",
+        "target": "BlockBody",
+        "valid": true,
+        "value": {
+          "link": {
+            "$ref": "LinkSpec"
+          }
+        }
+      },
+      {
+        "id": "union-BlockBody-table",
+        "target": "BlockBody",
+        "valid": true,
+        "value": {
+          "table": {
+            "$ref": "TableBlock"
+          }
+        }
+      },
+      {
+        "id": "union-BlockBody-math",
+        "target": "BlockBody",
+        "valid": true,
+        "value": {
+          "math": {
+            "$ref": "MathContent"
+          }
+        }
+      },
+      {
+        "id": "union-BlockBody-empty",
+        "target": "BlockBody",
+        "valid": true,
+        "value": {
+          "empty": true
+        }
+      },
+      {
+        "id": "union-ContextSelector-byteRange",
+        "target": "ContextSelector",
+        "valid": true,
+        "value": {
+          "byteRange": {
+            "$ref": "ByteRange"
+          }
+        }
+      },
+      {
+        "id": "union-ContextSelector-notes",
+        "target": "ContextSelector",
+        "valid": true,
+        "value": {
+          "notes": {
+            "$ref": "NotesSelection"
+          }
+        }
+      },
+      {
+        "id": "union-ContextSelector-scope",
+        "target": "ContextSelector",
+        "valid": true,
+        "value": {
+          "scope": {
+            "$ref": "ScopeSelection"
+          }
+        }
+      },
+      {
+        "id": "union-ContextSelector-slate",
+        "target": "ContextSelector",
+        "valid": true,
+        "value": {
+          "slate": {
+            "$ref": "SlateSelection"
+          }
+        }
+      },
+      {
+        "id": "union-EffectParameter-boolean",
+        "target": "EffectParameter",
+        "valid": true,
+        "value": {
+          "name": "parameter",
+          "boolean": false
+        }
+      },
+      {
+        "id": "union-EffectParameter-text",
+        "target": "EffectParameter",
+        "valid": true,
+        "value": {
+          "name": "parameter",
+          "text": "Normal"
+        }
+      },
+      {
+        "id": "union-EffectParameter-keyframes",
+        "target": "EffectParameter",
+        "valid": true,
+        "value": {
+          "name": "parameter",
+          "keyframes": {
+            "$ref": "KeyframeList"
+          }
+        }
+      },
+      {
+        "id": "union-EffectParameter-rational",
+        "target": "EffectParameter",
+        "valid": true,
+        "value": {
+          "name": "parameter",
+          "rational": {
+            "$ref": "Rational"
+          }
+        }
+      },
+      {
+        "id": "union-InlineAtom-mention",
+        "target": "InlineAtom",
+        "valid": true,
+        "value": {
+          "offset": 0,
+          "inlineId": {
+            "$ref": "Id"
+          },
+          "mention": {
+            "$ref": "LinkSpec"
+          }
+        }
+      },
+      {
+        "id": "union-InlineAtom-footnote",
+        "target": "InlineAtom",
+        "valid": true,
+        "value": {
+          "offset": 0,
+          "inlineId": {
+            "$ref": "Id"
+          },
+          "footnote": {
+            "$ref": "LinkSpec"
+          }
+        }
+      },
+      {
+        "id": "union-MessagePart-resource",
+        "target": "MessagePart",
+        "valid": true,
+        "value": {
+          "origin": {
+            "$ref": "ContentOrigin"
+          },
+          "resource": {
+            "$ref": "ResourceRef"
+          }
+        }
+      },
+      {
+        "id": "union-MessagePart-toolProposal",
+        "target": "MessagePart",
+        "valid": true,
+        "value": {
+          "origin": {
+            "$ref": "ContentOrigin"
+          },
+          "toolProposal": {
+            "$ref": "ToolProposal"
+          }
+        }
+      },
+      {
+        "id": "union-MessagePart-toolResult",
+        "target": "MessagePart",
+        "valid": true,
+        "value": {
+          "origin": {
+            "$ref": "ContentOrigin"
+          },
+          "toolResult": {
+            "$ref": "ToolResult"
+          }
+        }
+      },
+      {
+        "id": "union-MetadataScalar-text",
+        "target": "MetadataScalar",
+        "valid": true,
+        "value": {
+          "text": "A\u4e2d\ud83d\ude00"
+        }
+      },
+      {
+        "id": "union-MetadataScalar-boolean",
+        "target": "MetadataScalar",
+        "valid": true,
+        "value": {
+          "boolean": false
+        }
+      },
+      {
+        "id": "union-MetadataScalar-number",
+        "target": "MetadataScalar",
+        "valid": true,
+        "value": {
+          "number": 0.125
+        }
+      },
+      {
+        "id": "union-MetadataScalar-decimal",
+        "target": "MetadataScalar",
+        "valid": true,
+        "value": {
+          "decimal": {
+            "$ref": "Decimal"
+          }
+        }
+      },
+      {
+        "id": "union-MetadataScalar-instant",
+        "target": "MetadataScalar",
+        "valid": true,
+        "value": {
+          "instant": {
+            "$ref": "Instant"
+          }
+        }
+      },
+      {
+        "id": "union-MetadataScalar-resource",
+        "target": "MetadataScalar",
+        "valid": true,
+        "value": {
+          "resource": {
+            "$ref": "ResourceRef"
+          }
+        }
+      },
+      {
+        "id": "union-ResourceVersionRef-native",
+        "target": "ResourceVersionRef",
+        "valid": true,
+        "value": {
+          "resource": {
+            "$ref": "ResourceRef"
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "blob": {
+            "$ref": "BlobRef"
+          },
+          "native": {
+            "$ref": "NativeContentRev"
+          }
+        }
+      },
+      {
+        "id": "union-ResourceVersionRef-local",
+        "target": "ResourceVersionRef",
+        "valid": true,
+        "value": {
+          "resource": {
+            "$ref": "ResourceRef"
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "blob": {
+            "$ref": "BlobRef"
+          },
+          "local": {
+            "$ref": "LocalNotesVersion"
+          }
+        }
+      },
+      {
+        "id": "union-StructuredValue-null",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "null": true
+        }
+      },
+      {
+        "id": "union-StructuredValue-decimal",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "decimal": {
+            "$ref": "Decimal"
+          }
+        }
+      },
+      {
+        "id": "union-StructuredValue-instant",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "instant": {
+            "$ref": "Instant"
+          }
+        }
+      },
+      {
+        "id": "union-StructuredValue-resource",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "resource": {
+            "$ref": "ResourceRef"
+          }
+        }
+      },
+      {
+        "id": "union-StructuredValue-list",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "list": {
+            "$ref": "ValueList"
+          }
+        }
+      },
+      {
+        "id": "union-StructuredValue-record",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "record": {
+            "$ref": "ValueRecord"
+          }
+        }
+      },
+      {
+        "id": "union-StructuredValue-number",
+        "target": "StructuredValue",
+        "valid": true,
+        "value": {
+          "number": 0.125
+        }
+      },
+      {
+        "id": "union-ToolResult-error",
+        "target": "ToolResult",
+        "valid": true,
+        "value": {
+          "invocationId": {
+            "$ref": "Id"
+          },
+          "effect": 1,
+          "artifacts": [],
+          "error": {
+            "$ref": "ArcError"
+          }
+        }
+      },
+      {
+        "id": "union-TriggerSpec-schedule",
+        "target": "TriggerSpec",
+        "valid": true,
+        "value": {
+          "schedule": {
+            "$ref": "ScheduleSpec"
+          }
+        }
+      },
+      {
+        "id": "union-TriggerSpec-event",
+        "target": "TriggerSpec",
+        "valid": true,
+        "value": {
+          "event": {
+            "$ref": "EventTrigger"
+          }
+        }
+      }
+    ],
+    "wireVectors": [
+      {
+        "id": "uuid-network-order",
+        "target": "Id",
+        "value": {
+          "value": "ABEiM0RVZneImaq7zN3u/w=="
+        },
+        "hex": "0a1000112233445566778899aabbccddeeff"
+      },
+      {
+        "id": "integer-over-js-safe-range",
+        "target": "Revision",
+        "value": {
+          "value": "9007199254740993"
+        },
+        "hex": "088180808080808010"
+      },
+      {
+        "id": "signed-int64-maximum",
+        "target": "Revision",
+        "value": {
+          "value": "9223372036854775807"
+        },
+        "hex": "08ffffffffffffffff7f"
+      },
+      {
+        "id": "unsigned-maximum",
+        "target": "NativeContentRev",
+        "value": {
+          "value": "18446744073709551615"
+        },
+        "hex": "08ffffffffffffffffff01"
+      },
+      {
+        "id": "optional-zero-present",
+        "target": "NativeContentRev",
+        "value": {
+          "value": "0"
+        },
+        "hex": "0800"
+      },
+      {
+        "id": "optional-zero-absent",
+        "target": "NativeContentRev",
+        "value": {},
+        "hex": ""
+      },
+      {
+        "id": "oneof-false-present",
+        "target": "ScalarValue",
+        "value": {
+          "boolean": false
+        },
+        "hex": "1800"
+      },
+      {
+        "id": "oneof-empty-string-present",
+        "target": "ScalarValue",
+        "value": {
+          "text": ""
+        },
+        "hex": "1200"
+      },
+      {
+        "id": "signed-zigzag-minimum",
+        "target": "StructuredValue",
+        "value": {
+          "integer": "-9223372036854775808"
+        },
+        "hex": "18ffffffffffffffffff01"
+      },
+      {
+        "id": "ninth-decimal-place",
+        "target": "Decimal",
+        "value": {
+          "value": "0.000000001"
+        },
+        "hex": "0a0b302e303030303030303031"
+      }
+    ],
+    "errorCategories": {
+      "validation.invalid_request": 1,
+      "validation.ast_bounds_exceeded": 1,
+      "validation.unsupported_version": 1,
+      "validation.invalid_offset": 1,
+      "media.time_not_representable": 1,
+      "auth.unauthenticated": 2,
+      "auth.session_expired": 2,
+      "auth.step_up_required": 2,
+      "auth.local_presence_required": 3,
+      "perm.capability_denied": 3,
+      "perm.resource_denied": 3,
+      "perm.egress_denied": 3,
+      "perm.approval_required": 3,
+      "perm.approval_expired": 3,
+      "perm.lease_expired": 3,
+      "entitlement.no_service_term": 4,
+      "entitlement.not_entitled": 4,
+      "entitlement.quota_exceeded": 4,
+      "entitlement.capacity_exhausted": 4,
+      "entitlement.extra_credits_required": 4,
+      "entitlement.credits_exhausted": 4,
+      "entitlement.request_too_large": 4,
+      "commerce.supplier_budget_exhausted": 4,
+      "conflict.revision_mismatch": 5,
+      "conflict.local_changes_pending": 5,
+      "conflict.duplicate_identifier": 5,
+      "command.reused_identifier": 5,
+      "identity.last_credential": 6,
+      "state.not_found": 6,
+      "state.invalid_transition": 6,
+      "state.gone": 6,
+      "sync.cursor_expired": 6,
+      "sync.bootstrap_expired": 6,
+      "state.stale_fence": 6,
+      "resource.unavailable": 7,
+      "resource.integrity_failed": 7,
+      "capacity.rate_limited": 7,
+      "capacity.busy": 7,
+      "resource.upload_expired": 7,
+      "resource.parser_failed": 7,
+      "dependency.unavailable": 8,
+      "dependency.timeout": 8,
+      "provider.declined": 8,
+      "security.isolation_unavailable": 8,
+      "internal.unexpected": 9
+    },
+    "foundationTypes": [
+      "ActorChain",
+      "AggregateRef",
+      "ApplicationScope",
+      "ArcError",
+      "ArtifactRef",
+      "BlobRef",
+      "ByteRange",
+      "ContentOrigin",
+      "Decimal",
+      "ErrorDetails",
+      "Id",
+      "Instant",
+      "LimitFailure",
+      "LocalNotesVersion",
+      "MediaRange",
+      "MediaTime",
+      "NativeContentRev",
+      "PageRequest",
+      "PageState",
+      "Rational",
+      "Receipt",
+      "RequestMeta",
+      "ResourceRef",
+      "ResourceVersionRef",
+      "ResponseMeta",
+      "RetryAdvice",
+      "Revision",
+      "RevisionConflict",
+      "StateFailure",
+      "TimeRangeUtc",
+      "VersionFailure",
+      "VersionedRef"
+    ],
+    "profileScenarios": [
+      {
+        "id": "two-samples",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "values": [
+            0,
+            2
+          ]
+        },
+        "expectedCaseIds": [
+          "scope-vector-two-samples"
+        ],
+        "expectedMeaning": "min0/max2/mean1/rms\u221a2/population stddev1/peakToPeak2/count2 are preserved.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "irregular-sampling",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "samples": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "window": [
+            0,
+            4
+          ]
+        },
+        "expectedCaseIds": [
+          "scope-vector-irregular"
+        ],
+        "expectedMeaning": "Sample-weighted mean2, RMS\u221a(20/3), stddev\u221a(8/3), count3, requested4/covered3; no time weighting.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "digital-pulse",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "times": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "values": [
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "low": 0,
+          "high": 1,
+          "window": [
+            0,
+            5
+          ]
+        },
+        "expectedCaseIds": [
+          "scope-vector-digital"
+        ],
+        "expectedMeaning": "One complete cycle period2/high1, frequency0.5Hz/duty0.5; digital rise/fall zero is valid.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "gap-breaks-cycle",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "times": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "values": [
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "gapBetween": [
+            2,
+            3
+          ]
+        },
+        "expectedCaseIds": [
+          "scope-vector-gap"
+        ],
+        "expectedMeaning": "No complete cycle; insufficiency carries no invented frequency/duty value.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "analog-pulse",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "samples": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              10
+            ]
+          ],
+          "window": [
+            0,
+            4
+          ],
+          "low": 0,
+          "high": 10
+        },
+        "expectedCaseIds": [
+          "scope-vector-analog"
+        ],
+        "expectedMeaning": "Rise/fall0.8s; one complete period2/high1; frequency0.5Hz/duty0.5.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "half-open-events",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "window": [
+            0,
+            4
+          ],
+          "events": [
+            {
+              "id": "a",
+              "start": 0
+            },
+            {
+              "id": "a",
+              "start": 0
+            },
+            {
+              "id": "b",
+              "start": 4
+            }
+          ]
+        },
+        "expectedCaseIds": [
+          "scope-vector-event-boundary"
+        ],
+        "expectedMeaning": "Start included, end excluded, repeated stable event ID counts once.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "invalid-and-insufficient",
+        "profile": "scope.measurement.v1",
+        "input": {
+          "cases": [
+            "empty",
+            "constant",
+            "nonfinite continuity break",
+            "duplicate timestamps",
+            "overflow",
+            "cursor unavailable"
+          ]
+        },
+        "expectedCaseIds": [
+          "scope-vector-empty",
+          "scope-vector-constant",
+          "scope-vector-no-edge",
+          "scope-vector-cursor-tie",
+          "scope-vector-invalidTimeOrder",
+          "scope-vector-invalidConfiguration",
+          "scope-vector-numericOverflow"
+        ],
+        "expectedMeaning": "Typed insufficient/invalid statuses and bounded reasons survive; no NaN/Infinity or zero substitutes.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "origin-lifecycle",
+        "profile": "arcforges.content-origin.v1",
+        "input": {
+          "payloadUtf8": "hello",
+          "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "steps": [
+            "model",
+            "save",
+            "notes copy",
+            "manual edit",
+            "Markdown export/import",
+            "marked render"
+          ],
+          "failureConditions": [
+            "marking failed",
+            "corrupt hash",
+            "missing sidecar",
+            "crash before publication"
+          ]
+        },
+        "expectedCaseIds": [
+          "origin-vector-model-generated",
+          "origin-vector-notes-copy",
+          "origin-vector-manual-edit",
+          "origin-vector-markdown-export",
+          "origin-vector-scope-statistics",
+          "origin-vector-report-narrative",
+          "origin-vector-mixed-report",
+          "origin-vector-legacy-import",
+          "origin-vector-marked-render",
+          "origin-vector-truncated-lineage"
+        ],
+        "expectedMeaning": "Known AI kinds survive copy/edit/export; deterministic statistics retain nonAi; mixed-report union retains both; legacy has unknown and no fabricated time. Owner publication failure remains staged, never falsely complete.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "notes-order-and-missing",
+        "profile": "notes.scalar.v1",
+        "input": {
+          "documentIds": [
+            "D1",
+            "D2",
+            "D3",
+            "D4"
+          ],
+          "textValues": [
+            null,
+            "",
+            "A",
+            "a"
+          ],
+          "ascending": [
+            "D2",
+            "D3",
+            "D4",
+            "D1"
+          ],
+          "neA": [
+            "D2",
+            "D4"
+          ],
+          "notEqA": [
+            "D1",
+            "D2",
+            "D4"
+          ],
+          "numbers": [
+            "0",
+            "2",
+            "10"
+          ],
+          "equalInstants": [
+            "2026-01-01T01:00:00+01:00",
+            "2026-01-01T00:00:00Z"
+          ]
+        },
+        "expectedCaseIds": [
+          "notes-vector-text-eq",
+          "notes-vector-text-ne",
+          "notes-vector-not-eq",
+          "notes-vector-zero-present",
+          "notes-vector-utc-instant"
+        ],
+        "expectedMeaning": "Missing differs from empty,false,zero; ordinal case-sensitive strings; exact numeric order; IDs ascending final tie-break even descending sort; offset inputs identify same UTC instant.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      },
+      {
+        "id": "notes-owner-projections",
+        "profile": "notes.scalar.v1",
+        "input": {
+          "cases": [
+            "label rename stability",
+            "type-change refusal",
+            "referenced option removal",
+            "invalid definition",
+            "AST bounds",
+            "dataset mutation requires restart",
+            "partial hydration remains partial"
+          ]
+        },
+        "expectedCaseIds": [
+          "query-missing-definition-binding",
+          "query-depth-nine",
+          "query-node129",
+          "query-nine-sorts",
+          "query-65-projections",
+          "catalogue-conflict.revision_mismatch"
+        ],
+        "expectedMeaning": "Schema rejection and restart error shapes are tested; actual authorization, query evaluation, hydration and transactional refusal remain product owners.",
+        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
+      }
+    ]
   }
 } as const;

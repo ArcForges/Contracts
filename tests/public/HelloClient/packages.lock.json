@@ -39,9 +39,16 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
         }
       },
+      "arcforges.contracts.foundation": {
+        "type": "Project",
+        "dependencies": {
+          "Google.Protobuf": "[3.36.1, )"
+        }
+      },
       "arcforges.contracts.publicapi": {
         "type": "Project",
         "dependencies": {
+          "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
           "Google.Protobuf": "[3.36.1, )",
           "Grpc.Core.Api": "[2.83.0, )"
         }

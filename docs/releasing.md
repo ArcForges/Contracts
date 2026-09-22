@@ -223,7 +223,7 @@ To stop future uploads, disable the relevant variable. To recover consumers,
 pin their last verified version and merge a fix that publishes a new immutable
 version. Immutable releases are never overwritten, automatically unlisted or deleted. Maven development snapshots are the explicit mutable exception. Formal tag publication does not establish product readiness or production compatibility.
 
-## WP03.00 first publication readiness
+## WP03.00 first publication readiness (historical)
 
 Before source merge, confirm NuGet policy coverage for Contracts, SDK and CLI,
 and a valid scope-authorized temporary npm bootstrap credential for the three new
@@ -267,19 +267,51 @@ complete registered set of 22 outputs: 14 NuGet and five npm packages at
 and CI build identity. This is the accepted WP03.00 package set; the earlier
 partial `1.0.0-ci.82.1` set remains historical.
 
-The npm job used bootstrap authorization. On 2026-09-22, the account owner
+The initial npm job used bootstrap authorization. On 2026-09-22, the account owner
 confirmed that all three new packages have their GitHub Actions trusted
 publisher saved for `ArcForges/Contracts`, workflow `ci.yml`, environment `npm`,
 with direct `npm publish` allowed. `NPM_PUBLISH_MODE` was then set to `oidc` and
-read back. That configuration change alone does not prove a successful normal
-OIDC publication covering all five packages. Retain the temporary
-`NPM_BOOTSTRAP_TOKEN` environment secret until that publication succeeds;
-OIDC mode does not pass it to the publisher. Afterwards, remove the stored secret and revoke the npm token as
-described above. No verification-only publication, replacement version or tag
-is required to record this transition.
+read back. The later normal publication following
+[PR #35](https://github.com/ArcForges/Contracts/pull/35), source
+`30ddcad2bcb3634e089abb5e29d6c9ce05d38386`, completed in
+[main run 35716069370](https://github.com/ArcForges/Contracts/actions/runs/35716069370).
+It published all 14 NuGet and five npm packages as `1.0.0-ci.86.1`; all five npm
+uploads used OIDC with signed provenance. The Maven job completed its actual
+15-file SNAPSHOT upload. The GitHub `npm` environment's `NPM_BOOTSTRAP_TOKEN`
+secret was then deleted and confirmed absent. Revocation of the original token
+in the npm account was not observed and is not claimed. These are the recorded
+[WP03.00 completion observations](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/assurance/wp03-00-implementation-evidence.md),
+not a verification-only publication or a current credential inspection.
 
 Acceptance uses the expected source identity and successful build/publication
 job results. No post-publication archive download, installation or runtime test
 was performed. The selected structure, generated slices and offline checks do
 not establish the later WP03 business-schema, compatibility, product integration
 or device acceptance gates.
+
+## WP03.01 foundation candidate
+
+WP03.01 extends generated content and fixture data within the existing 22 package
+identities. It introduces no new registry identity or publisher setup requirement.
+The selected public message closure must reach Foundation/PublicApi, public npm
+proto and Maven contracts-proto together; public fixture packages include
+`wp03-01.json` alongside the retained `.00` and Hello fixtures. Generation exports
+public JSON fixtures to the npm fixture package, and Maven packages them under
+`arcforges/fixtures/`. Internal fixtures stay outside those public packages.
+
+The [foundation evidence record](wp03-01-foundation.md) tracks current validation
+and publication status. Before merge, review the full authored/generated change
+and pass every applicable latest-head CI/security check, including candidate
+production. Offline foundation codec/validator tests and exact-value checks do
+not establish live services, installed consumers or complete product behavior.
+The committed/CI SDK pin remains `10.0.400`; a local `10.0.401` execution adapter
+must be recorded separately and cannot stand in for that configured CI result.
+
+After merge, confirm the expected source and normal required build/publication
+jobs for the complete candidate, then cleanly fast-forward the primary checkout.
+Use the original candidate identity, fixture/schema metadata and registry receipts;
+do not download public packages or rerun the suite after publication. Retain the
+separate Maven SNAPSHOT channel and deliberate formal-tag policy. This step
+creates no verification-only version, tag, signature or publication. Its current
+source additions do not claim a newly published candidate until the required
+provider results are recorded.

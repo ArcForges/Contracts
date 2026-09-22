@@ -175,8 +175,10 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
                 raise ValueError("Connect client must reuse the proto package's messages")
         if module == "contracts-proto" and (jar.get("contracts.binpb") != descriptor or "proto/arcforges/hello/v1/hello.proto" not in jar):
             raise ValueError("Maven proto or descriptor is missing")
-        if module == "contract-fixtures" and not jar.get("arcforges/fixtures/hello.json"):
-            raise ValueError("Maven fixture resource is missing")
+        if module == "contract-fixtures":
+            for fixture in (ROOT / "fixtures/public").glob("*.json"):
+                if not jar.get("arcforges/fixtures/" + fixture.name):
+                    raise ValueError("Maven fixture resource is missing: " + fixture.name)
         sources = zip_contents(files[prefix + "-sources.jar"])
         docs = zip_contents(files[prefix + "-javadoc.jar"])
         for companion in (sources, docs):

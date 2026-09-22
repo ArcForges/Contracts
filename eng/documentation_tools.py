@@ -13,7 +13,7 @@ from check_provenance import (INVENTORY, STORE, digest, document, fields, packag
                               path as check_path, read, require, verify_package_notice)
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json"
+PROFILE = "eng/provenance/artifact-profiles/dokka-2-2-0-r6.json"
 MODULES = ("contracts-proto", "contracts-connect-client", "contract-fixtures")
 THEME_FIX = (b"\n/* SPDX-License-Identifier: Apache-2.0; ArcForges documentation contrast correction. */\n"
              b".theme-dark .main-content a:not([data-name]) { color: var(--default-font-color); }\n")
@@ -81,6 +81,19 @@ def normalized_page(data: bytes, release: str) -> bytes:
     return data.replace(b"\r\n", b"\n").replace(release.encode(), b"{version}")
 
 
+def verify_public_api(docs: dict[str, bytes], module: str, policy: dict) -> None:
+    require("publicApi" in policy["modules"][module], "Documentation profile has no public API marker field")
+    for name, markers in policy["modules"][module]["publicApi"].items():
+        require(name in docs, "Public API documentation is missing: " + name)
+        for marker in markers:
+            require(marker.encode() in docs[name], "Public API documentation is incomplete: " + name)
+        if module == "contracts-proto":
+            # Generated lite messages declare parser(), while getParserForType is
+            # inherited. Dokka can alias the latter to an unrelated sibling type.
+            require(b'anchor-label="getParserForType"' not in docs[name],
+                    "Generated protobuf documentation contains an inherited parser alias: " + name)
+
+
 def admit(raw: dict[str, bytes], module: str, release: str, policy: dict) -> dict[str, bytes]:
     expected = set(policy["fixed"]) | set(policy["excluded"]) | set(policy["modules"][module]["pages"])
     require(set(raw) == expected, "Unclassified or missing generated documentation members: " + module)
@@ -103,6 +116,7 @@ def admit(raw: dict[str, bytes], module: str, release: str, policy: dict) -> dic
             require(sha(normalized_page(data, release)) == policy["modules"][module]["pages"][name],
                     "Generated documentation differs from reviewed API oracle: " + name)
         result[name] = data
+    verify_public_api(result, module, policy)
     return result
 
 
@@ -155,9 +169,7 @@ def verify(docs: dict[str, bytes], module: str, manifest: dict, archive: bytes, 
     for name, expected_hash in pages.items():
         require(sha(normalized_page(docs[name], manifest.get("mavenVersion", manifest["version"]))) == expected_hash,
                 "Packaged API documentation differs from oracle: " + name)
-    for name, markers in policy["modules"][module]["publicApi"].items():
-        for marker in markers:
-            require(marker.encode() in docs[name], "Public API documentation is incomplete: " + name)
+    verify_public_api(docs, module, policy)
     inv = document(read(root, INVENTORY))
     records = sorted(set(inv["artifacts"]) | {name for name in inv["reused"].values()
                      if document(read(root, STORE + name + ".json"))["notice"]["distribution"] == "documentation"})

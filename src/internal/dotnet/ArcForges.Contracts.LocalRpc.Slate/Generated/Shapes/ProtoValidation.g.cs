@@ -8,24 +8,50 @@ namespace ArcForges.Contracts.LocalRpc.Slate.Shapes;
 /// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>
 public static class ContractShapeValidation
 {
-    /// <summary>Checks the declared presence, field bounds and shape rules of arcforges.foundation.v1.NativeContentRev.</summary>
-    public static bool IsValid(global::ArcForges.Contracts.Foundation.V1.NativeContentRev? value)
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.NativeContentRev.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.NativeContentRev? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.NativeContentRev? value, ValidationContext context)
     {
-        if (value is null) return false;
-        if (!value.HasValue) return false;
-        return true;
-    }
-    /// <summary>Checks the declared presence, field bounds and shape rules of arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue.</summary>
-    public static bool IsValid(global::ArcForges.Contracts.LocalRpc.Slate.V1.SlateOperationsServiceApplyTimelineEditsValue? value)
-    {
-        if (value is null) return false;
-        if (value.Revision is null) return false;
-        if (value.Revision is not null)
+        if (value is null || !context.Enter(value)) return false;
+        try
         {
-            if (!IsValid(value.Revision)) return false;
+        if (!value.HasValue) return false;
+        if (value.HasValue)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.LocalRpc.Slate.V1.SlateOperationsServiceApplyTimelineEditsValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.LocalRpc.Slate.V1.SlateOperationsServiceApplyTimelineEditsValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    private sealed class ValidationContext
+    {
+        private readonly global::System.Collections.Generic.HashSet<object> active = new(global::System.Collections.Generic.ReferenceEqualityComparer.Instance);
+        public bool Enter(object value) => active.Count < 100 && active.Add(value);
+        public void Exit(object value) => active.Remove(value);
+    }
+    private static bool ValidUnicode(string text)
+    {
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (!char.IsSurrogate(text[i])) continue;
+            if (!char.IsHighSurrogate(text[i]) || ++i >= text.Length || !char.IsLowSurrogate(text[i])) return false;
         }
         return true;
     }
+
     private static bool Matches(string value, string pattern)
     {
         var match = global::System.Text.RegularExpressions.Regex.Match(value, pattern, global::System.Text.RegularExpressions.RegexOptions.CultureInvariant | global::System.Text.RegularExpressions.RegexOptions.NonBacktracking, global::System.TimeSpan.FromMilliseconds(100));
@@ -49,5 +75,75 @@ public static class ContractShapeValidation
         var digits = value.Replace("-", "", global::System.StringComparison.Ordinal).Replace(".", "", global::System.StringComparison.Ordinal).TrimStart('0');
         return digits.Length <= 28;
     }
+
+    private static bool Reduced(long numerator, ulong denominator) => denominator != 0 &&
+        global::System.Numerics.BigInteger.GreatestCommonDivisor(global::System.Numerics.BigInteger.Abs(numerator), denominator) == 1;
+    private static bool SafeLink(string value)
+    {
+        var mailto = value.StartsWith("mailto:", global::System.StringComparison.Ordinal);
+        var start = mailto ? 7 : value.StartsWith("https://", global::System.StringComparison.Ordinal) ? 8 : value.StartsWith("http://", global::System.StringComparison.Ordinal) ? 7 : -1;
+        if (start < 0 || value.Length <= start || (!mailto && value[start] is '/' or '?' or '#')) return false;
+        // Share Unicode whitespace plus BOM rejection with TypeScript. A single
+        // scan avoids overlapping authority/path quantifiers and backtracking.
+        foreach (var character in value)
+            if (char.IsWhiteSpace(character) || character == '\uFEFF') return false;
+        return true;
+    }
+    private static string IdKey(global::Google.Protobuf.ByteString value) => global::System.Convert.ToHexString(value.Span);
+    private static bool UniqueIds(global::System.Collections.Generic.IEnumerable<global::Google.Protobuf.ByteString> values)
+    {
+        var seen = new global::System.Collections.Generic.HashSet<global::Google.Protobuf.ByteString>();
+        return values.All(seen.Add);
+    }
+    private static bool OrderedIds(global::System.Collections.Generic.IEnumerable<global::Google.Protobuf.ByteString> values)
+    {
+        global::Google.Protobuf.ByteString? previous = null;
+        foreach (var item in values)
+        {
+            if (previous is not null && previous.Span.SequenceCompareTo(item.Span) >= 0) return false;
+            previous = item;
+        }
+        return true;
+    }
+    private static bool OrderedKeys(global::System.Collections.Generic.IEnumerable<string> values)
+    {
+        string? previous = null;
+        foreach (var item in values)
+        {
+            if (previous is not null && global::System.StringComparer.Ordinal.Compare(previous, item) >= 0) return false;
+            previous = item;
+        }
+        return true;
+    }
+    private static bool OrderedKinds(global::System.Collections.Generic.IEnumerable<string> values)
+    {
+        var previous = -1;
+        foreach (var item in values)
+        {
+            var position = item switch { "aiGenerated" => 0, "aiManipulated" => 1, "nonAi" => 2, "unknown" => 3, _ => -1 };
+            if (position <= previous) return false;
+            previous = position;
+        }
+        return previous >= 0;
+    }
+    private static int ErrorCategoryFor(string code) => code switch
+    {
+        "validation.invalid_request" or "validation.ast_bounds_exceeded" or "validation.unsupported_version" or "validation.invalid_offset" or "media.time_not_representable" => 1,
+        "auth.unauthenticated" or "auth.session_expired" or "auth.step_up_required" => 2,
+        "auth.local_presence_required" or "perm.capability_denied" or "perm.resource_denied" or "perm.egress_denied" or "perm.approval_required" or "perm.approval_expired" or "perm.lease_expired" => 3,
+        "entitlement.no_service_term" or "entitlement.not_entitled" or "entitlement.quota_exceeded" or "entitlement.capacity_exhausted" or "entitlement.extra_credits_required" or "entitlement.credits_exhausted" or "entitlement.request_too_large" or "commerce.supplier_budget_exhausted" => 4,
+        "conflict.revision_mismatch" or "conflict.local_changes_pending" or "conflict.duplicate_identifier" or "command.reused_identifier" => 5,
+        "state.not_found" or "state.invalid_transition" or "state.gone" or "state.stale_fence" or "sync.cursor_expired" or "sync.bootstrap_expired" or "identity.last_credential" => 6,
+        "resource.unavailable" or "resource.integrity_failed" or "resource.upload_expired" or "resource.parser_failed" or "capacity.rate_limited" or "capacity.busy" => 7,
+        "dependency.unavailable" or "dependency.timeout" or "provider.declined" or "security.isolation_unavailable" => 8,
+        "internal.unexpected" => 9,
+        _ => 0,
+    };
+    private static bool NoRetryCode(string code) => code is
+        "auth.unauthenticated" or "auth.session_expired" or "auth.step_up_required" or "auth.local_presence_required" or
+        "perm.capability_denied" or "perm.resource_denied" or "perm.egress_denied" or "perm.approval_required" or "perm.approval_expired" or "perm.lease_expired" or
+        "entitlement.no_service_term" or "entitlement.not_entitled" or "entitlement.extra_credits_required" or "entitlement.credits_exhausted" or
+        "validation.invalid_request" or "validation.ast_bounds_exceeded" or "validation.unsupported_version" or "identity.last_credential" or
+        "conflict.duplicate_identifier" or "command.reused_identifier" or "state.not_found" or "state.invalid_transition" or "state.gone" or "resource.integrity_failed";
 
 }

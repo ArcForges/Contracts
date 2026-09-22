@@ -161,6 +161,12 @@ test("reviewed current source inventory rejects omissions, reassignment and hash
 test("type inventory excludes comments, string text and parameter types", () => {
   assert.deepEqual(
     declaredTypes(
+      "public readonly record struct DocumentId {}\npublic sealed record class Receipt {}\npublic record Bare(string Value);",
+    ),
+    ["DocumentId", "Receipt", "Bare"],
+  );
+  assert.deepEqual(
+    declaredTypes(
       '/* class Fake {} */\npublic sealed class Real {\n public override bool Equals(object other) { return false; }\n private const string Text = "class Fake {}";\n private sealed class Nested<T> {}\n}',
     ),
     ["Real", "Nested"],

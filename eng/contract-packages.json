@@ -16,8 +16,11 @@
       "kind": "nuget",
       "access": "public",
       "sourceRoot": "src/public/dotnet/ArcForges.Contracts.PublicApi",
-      "proto": ["public/proto/arcforges/hello/v1/hello.proto"],
-      "dependencies": [],
+      "proto": [
+        "public/proto/arcforges/hello/v1/hello.proto",
+        "public/proto/arcforges/publicapi/v1/content.proto"
+      ],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
       "jsonSchemas": ["public/http/v1/schema.json"]
     },
@@ -154,7 +157,8 @@
       "proto": [
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/foundation/v1/foundation.proto",
-        "public/proto/arcforges/events/v1/events.proto"
+        "public/proto/arcforges/events/v1/events.proto",
+        "public/proto/arcforges/publicapi/v1/content.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -208,7 +212,8 @@
       "proto": [
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/foundation/v1/foundation.proto",
-        "public/proto/arcforges/events/v1/events.proto"
+        "public/proto/arcforges/events/v1/events.proto",
+        "public/proto/arcforges/publicapi/v1/content.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",

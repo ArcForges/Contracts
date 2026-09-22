@@ -51,6 +51,13 @@ subprojects {
         }
     }
     extensions.configure<DokkaExtension> {
+        if (project.name == "contracts-proto") {
+            dokkaPublications.configureEach {
+                // Dokka aliases inherited protobuf methods across sibling messages.
+                // Document declared APIs without those misleading cross-type links.
+                suppressInheritedMembers.set(true)
+            }
+        }
         dokkaSourceSets.configureEach {
             jdkVersion.set(17)
             // Offline documentation: no mutable external package-list downloads.
