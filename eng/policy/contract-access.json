@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-00-contract-structure-profile.md",
     "sha256": "d0f7ab8df50e6a94665ad87cbe9c815721b2129278e95fecdd96a29a2277839e"
   },
-  "sourceCommit": "d716045854e2e401a1a536ba2ee5c62ad1c4e8ab",
+  "sourceCommit": "7c56710d1d36bc6e10aab961fd306fad02f2124a",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -421,7 +421,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["CommitReceipt", "VersionedRef", "AggregateRef", "CommitReceiptJsonContext"],
-      "sha256": "f7a09bf190b5491017cfe5d7bd88d9c15e370f7f4923f9cf7ba8b4e64051d073",
+      "sha256": "9c1700f89543a48942ca533515389f0400ab3b4b821f88d2e289d1798f483740",
       "kind": "generated"
     },
     {
@@ -545,6 +545,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/ts/ai-internal/src/index.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [],
+      "sha256": "728225c6541e270326132f0ee6d009bec4dd52b0f787a3a4c207b754ded46b1c",
+      "kind": "authored"
+    },
+    {
       "path": "src/internal/ts/ai-internal/src/shapes/gen/CommitReceipt.ts",
       "package": "@arcforges/ai-internal",
       "access": "internal",
@@ -647,7 +655,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["PartReceipt", "PartReceiptJsonContext"],
-      "sha256": "8517fc2e0f016d1642d16d02a949be249bce443ff106ec6b1662738f67f3cd35",
+      "sha256": "bc1a4569cf4eeb923fe88d5745d090a2aeca2a3ca99b892f25a9c35359f7df02",
       "kind": "generated"
     },
     {
@@ -716,7 +724,7 @@
       "package": "ArcForges.Sdk.Contracts",
       "access": "public",
       "types": ["PackageInventory", "InventoryFile", "PackageInventoryJsonContext"],
-      "sha256": "00950b82f972bd6e71d780d70ee069fd473ca215351279a76e68331c702a0751",
+      "sha256": "f8baed42f0056d8f4e1bb6831cf5b5e022f81d9ac8de1aed19f4e5abb50b4668",
       "kind": "generated"
     },
     {
@@ -836,7 +844,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["EffectCertainty", "EffectCertaintyVerifier"],
-      "sha256": "e59db6f1a44982d5318c484c4cac278bcfba91515bd4eb733c2efbc9d9fc1b3d",
+      "sha256": "79732345b9d39a7f475211e1362b9b73d5577ace596d2537ef66e35e391004d8",
       "kind": "generated"
     },
     {
@@ -844,7 +852,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["ErrorCategory", "ErrorCategoryVerifier"],
-      "sha256": "f37d6e5b2a1b8c117872484d7cd12c54d9aea9459df832d12f149e95f269edd3",
+      "sha256": "c7af39da9a6d8ab7a9f037f069c39706182895b78c05fa2aa13ed80cfa04dd58",
       "kind": "generated"
     },
     {
@@ -1020,7 +1028,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["RetryMode", "RetryModeVerifier"],
-      "sha256": "1352d2decfa7c26c684040d5adb61dc69bdc17ed92e163080464b45a65059b73",
+      "sha256": "0300c1d54f3d2070b3ed70a61e8011c412472708b8a2bdc56b75e14cd797a419",
       "kind": "generated"
     },
     {
@@ -1356,7 +1364,7 @@
       "package": "@arcforges/api-client",
       "access": "public",
       "types": [],
-      "sha256": "9b77f2bc4411a21c9d7a12c66b61ffd359a9a17efb4bebe7bd6d46dde7717b1b",
+      "sha256": "8565b4279c9d063a0c33c505bab06d94f60e71c7cba63d8772c689a017163080",
       "kind": "authored"
     },
     {
@@ -1466,11 +1474,11 @@
     },
     {
       "path": "build.gradle.kts",
-      "sha256": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64"
+      "sha256": "f8c6b4304b0e23291021ea24800b4f08b482f0eb9527923c2d8f8fab260d65b5"
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "a95b445909366238db51d5274e61f804743c7ed2c035b8121b7311d7abe63941"
+      "sha256": "020f27b839486bf56482e1ac9468005a62e4c2e5e920a3eb7618b71801e4005f"
     },
     {
       "path": "gradle.properties",

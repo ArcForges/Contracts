@@ -143,7 +143,8 @@ test("reviewed current source inventory rejects omissions, reassignment and hash
     (p) => p.distribution.pop(),
     (p) => p.schemas.pop(),
     (p) => p.distribution[0].types.pop(),
-    (p) => (p.distribution[0].access = "internal"),
+    (p) =>
+      (p.distribution[0].access = p.distribution[0].access === "public" ? "internal" : "public"),
     (p) => (p.distribution[0].sha256 = "0".repeat(64)),
     (p) => (p.distribution[0].package = "Unknown.Package"),
     (p) => p.packages.pop(),
