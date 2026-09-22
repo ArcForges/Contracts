@@ -203,8 +203,8 @@ Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.
 
-Inspect the exact failure before retrying a publication job. Stop on network failure; do not
-change proxies or retry blindly. A diagnosed retry uses the original retained candidate/version,
+Inspect the exact failure before retrying a publication job. Stop on local network failure; do not
+change proxies or retry blindly. Diagnose CI failures and fix their concrete cause before recovery. A diagnosed retry uses the original retained candidate/version,
 without rebuilding. Existing npm versions are compared through registry integrity metadata.
 An existing NuGet version fails for investigation of its publication receipt; it is not downloaded
 or silently skipped. Maven formal recovery resumes the retained deployment ID and checks provider
@@ -233,3 +233,17 @@ After merge, inspect the expected commit and required publication job results,
 then fast-forward the clean primary checkout. Do not run another package download,
 hash-audit, install or runtime cycle. Report partial publication and pending account
 setup explicitly; neither a secret name nor green compilation proves publisher readiness.
+
+### WP03.00 first-publish correction
+
+Run 35702693766 published NuGet and Maven successfully and npm proto/API
+`1.0.0-ci.82.1`, but stopped before the three new npm uploads. The dist-tag
+management endpoint returned HTTP 401 for the unpublished fixture package.
+Tag selection now reads `dist-tags` from the public package metadata document;
+a missing package (404) starts at `latest`, while 401/403 and other failures
+still stop publication. Stable and newer CI tags retain their existing protection.
+
+The old run is a partial release and is not an accepted complete package set.
+Re-running its unchanged job would execute the same defective source. The reviewed
+source correction uses the normal main publication channel to produce a complete
+corrected release; it does not overwrite or republish the old immutable versions.
