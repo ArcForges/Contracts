@@ -29,6 +29,7 @@ Follow the [current CI/local authority](https://github.com/ArcForges/ArcForges-D
 - Preserve Maven main SNAPSHOT and deliberate-tag formal releases. Never create tags, republish or re-sign solely for verification. Diagnose failed jobs before rerun; ambiguous existing immutable releases require investigation, not silent skipping.
 - Do not reinstall vcpkg, SDKs, emulators or toolchains to expand validation. Stop on local network failure and report the exact operation; diagnose and repair CI failures before a targeted retry; no proxy configuration, port 7890, wsl.exe or WSL wrappers.
 - Review the full latest PR and wait for applicable checks before merging. Post-merge work ends after expected commit, required build/publication status and clean primary fast-forward. Keep branches/worktrees and report untested coverage accurately.
+- This repository has configured CI/security checks; they remain required for documentation-only PRs. Direct merge after review without CI applies only to documentation repositories with no configured CI. Do not suppress configured workflows with skip directives or bypass branch protection. Documentation changes require no additional ad-hoc local product builds or runtime tests.
 
 ## Dependency admission (WP02.05)
 

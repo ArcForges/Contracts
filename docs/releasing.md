@@ -271,10 +271,10 @@ The npm job used bootstrap authorization. On 2026-09-22, the account owner
 confirmed that all three new packages have their GitHub Actions trusted
 publisher saved for `ArcForges/Contracts`, workflow `ci.yml`, environment `npm`,
 with direct `npm publish` allowed. `NPM_PUBLISH_MODE` was then set to `oidc` and
-read back. The first normal OIDC publication covering all five packages has
-not yet been observed. The temporary `NPM_BOOTSTRAP_TOKEN` environment secret
-is retained until that publication succeeds; OIDC mode does not pass it to the
-publisher. Afterwards, remove the stored secret and revoke the npm token as
+read back. That configuration change alone does not prove a successful normal
+OIDC publication covering all five packages. Retain the temporary
+`NPM_BOOTSTRAP_TOKEN` environment secret until that publication succeeds;
+OIDC mode does not pass it to the publisher. Afterwards, remove the stored secret and revoke the npm token as
 described above. No verification-only publication, replacement version or tag
 is required to record this transition.
 
