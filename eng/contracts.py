@@ -288,7 +288,13 @@ def build() -> None:
     from build_identity import build as identity
     write_json(ARTIFACTS / "expected-build.json", identity())
     projects = [ROOT / name for name in run("git", "ls-files", "*.csproj", capture=True).splitlines()]
-    assemblies = [project.parent / "bin/Release/net10.0" / (project.stem + ".dll") for project in projects]
+    def assembly(project: Path) -> Path:
+        output = project.parent / "bin/Release/net10.0"
+        # The AOT probe selects its host RID in the project, so it builds under a RID directory.
+        rid = {"Windows": "win-x64", "Linux": "linux-x64"}.get(platform.system(), "")
+        candidates = [output / (project.stem + ".dll"), output / rid / (project.stem + ".dll")]
+        return next((path for path in candidates if path.is_file()), candidates[0])
+    assemblies = [assembly(project) for project in projects]
     run("dotnet", ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll",
         "--inspect-build", ARTIFACTS / "expected-build.json", *assemblies)
     structure_tests = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
