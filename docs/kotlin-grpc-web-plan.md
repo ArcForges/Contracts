@@ -1,5 +1,9 @@
 # Kotlin Hello over gRPC-Web
 
+Historical completed bootstrap plan. WP03.00 retires `contracts-client` from
+new publications; the current three-module inventory is authoritative in
+[the producer catalog](../eng/contract-packages.json). Existing releases remain immutable.
+
 > Historical plan/evidence. Current execution follows [AGENTS.md](../AGENTS.md) and Design P2-017;
 > hosted runtime/consumer gates and repeated public-byte checks below are superseded, not instructions to repeat them.
 

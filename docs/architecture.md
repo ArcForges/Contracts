@@ -2,63 +2,53 @@
 
 ## Authored source and generated output
 
-`public/proto` is the authority for the public wire format. The current example
-is `arcforges.hello.v1.HelloService/SayHello`, with a string name and string reply.
-The demo server returns `Hello, <name>!` and rejects an empty name with
-`INVALID_ARGUMENT`; all other strings, including whitespace and Unicode, are
-preserved. This deliberately small rule belongs to the example, not a product.
+The authored proto trees, JSON schemas and constraint sidecars own the wire and
+validation shapes. `eng/contract-packages.json` defines all 22 current outputs:
+14 NuGet, five npm and three Maven packages. The complete selected source slices
+and later-substep exclusions are fixed by the
+[WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
+These selected slices do not claim the remaining production schema catalog is complete.
 
-`eng/Codegen` restores the pinned Grpc.Tools package. Its protoc generates C# (with the matching gRPC C# plugin), TypeScript
-(with protoc-gen-es), and Java/Kotlin lite messages with Java/Kotlin gRPC and
-Connect-Kotlin service plugins. Connect-Kotlin 0.9.0's executable generator JAR
-is resolved from Maven Central with the other checksum-verified codegen tools.
-The Java package options do not change protobuf wire names or existing C#/TS APIs.
-Generated C# lives in `src/public/dotnet/ArcForges.Contracts.PublicApi/Generated`;
-TS lives in `src/public/ts/proto/src/gen`; Java/Kotlin lives in each Maven
-module's `generated` directory under `src/public/kotlin`. Generated sources are committed so a PR
-can review both schema and API changes. CI regenerates into a temporary directory
-and fails if the committed files differ. The binary descriptor is built alongside
-the bindings and distributed in the NuGet, npm proto and Maven proto packages.
+Each NuGet project owns real generated contracts or validation/client/tool code.
+Foundation and Events are reusable public contracts. The six LocalRpc owners
+(Platform, Sandbox, Chat, Notes, Scope and Slate) and CloudInternal have explicit
+internal access boundaries. All authored packages remain Apache-2.0; access and
+licensing are independent properties. The compiled-descriptor/access gate checks
+actual project, npm and Gradle dependencies against the catalog and rejects public
+references to internal contracts.
 
-The .slnx contains the public library, code generation tool restore project and
-two small test applications. The test host is an ordinary ASP.NET Core process
-with explicit service registration and loopback gRPC/gRPC-Web listeners. It is
-never packaged as a product/server deliverable.
+The pinned Grpc.Tools protoc and gRPC C# plugin generate per-owner C# bindings.
+Protobuf-es generates public core/Hello/events and the internal operator module;
+the operator module reuses public Foundation types. Java/Kotlin lite and
+Connect-Kotlin generate only public core/Hello/events and the retained Hello
+service. Extension IPC is C# only. Generated sources are committed and regenerated
+into temporary directories for comparison. JSON schema and constraint generators
+emit concrete models, AOT-compatible C# validation and TypeScript unknown-input
+validation. Public and internal offline fixtures exercise the selected boundaries.
+
+`ArcForges.Contracts.slnx` includes every C# producer project and targeted offline
+tests. The CLI validates the declared inventory.v1 JSON shape; it does not inspect
+archive payload bytes or decide signatures, trust or authorization. The SDK client
+composes a caller-owned CallInvoker for RenewLease and validates its request. The
+caller owns transport, session, authentication and lifecycle.
 
 ## Public consumers
 
-Public business clients use binary gRPC-Web under the [current runtime authority](https://github.com/ArcForges/ArcForges-Design/blob/e2dd78058ce2d4bd1a8434a34d049bbc1158eacb/docs/architecture/30-runtime-and-source-ownership-policy.md).
-C# uses `ArcForges.Contracts.PublicApi` with a gRPC-Web channel in the consuming
-application. The retained Hello fixture also tests native gRPC for compatibility;
-that fixture does not select the public business transport. The package has no native binaries, service
-implementation, UI, persistence or build-time compiler dependency.
+Public business clients use binary gRPC-Web. The retained Hello example and its
+native transport diagnostic are migration fixtures, not production behavior.
+`@arcforges/proto` exports generated messages/descriptors and core shape checks;
+`@arcforges/api-client` supplies the transport factory and public HTTP types/checks.
+`@arcforges/contract-fixtures` exports offline public cases. `@arcforges/ai-internal`
+and `@arcforges/operator-client` expose internal HTTP and operator contracts without
+introducing them into a public consumer closure.
 
-`@arcforges/proto` contains messages and service descriptors. Its TypeScript
-compile has only the ES library, so it cannot accidentally require DOM or Node
-types. The runtime dependency is protobuf-es. Web uses these generated types; browser runtime and transport behavior still
-require application integration tests.
-
-`@arcforges/api-client` is a small gRPC-Web transport factory using the generated
-service descriptor. The caller supplies the endpoint/fetch options and owns
-authentication. Android consumes the Kotlin artifacts and explicitly selects
-binary gRPC-Web for public business ingress. Native gRPC remains an explicitly
-labelled Hello compatibility fixture, not an alternative product configuration.
-
-`contracts-proto` contains Java/Kotlin lite messages, `contracts-client` contains
-Java-lite service bindings and coroutine stubs, `contracts-connect-client`
-contains Connect-Kotlin service interfaces and coroutine clients, and `contract-fixtures` contains
-the same JSON wire cases used by C#/TS plus a resource accessor. All use group
-`io.github.arcforges`. The caller owns channel/transport configuration; the client
-does not impose OkHttp on a JVM server or create a global channel. The Connect
-client uses the same proto classes and depends on Connect-Kotlin core. The caller
-adds OkHttp and the Google Java lite serialization strategy and explicitly selects
-`NetworkProtocol.GRPC_WEB` for the public product. The Hello fixtures also test
-`GRPC`; the Connect protocol default is not supported
-by the ASP.NET fixture. This extension covers unary Hello only.
-
-The seven package identities are listed in the repository README. Their Hello
-namespaces are examples, not completed PublicApi business
-contracts. Do not add production rules by treating this demo as their design.
+Maven group `io.github.arcforges` publishes `contracts-proto`,
+`contracts-connect-client` and `contract-fixtures`. The native-only
+`contracts-client` is retired from new candidates before business-schema expansion;
+previous immutable publications and consumer pins remain untouched. Connect callers
+supply transport and serialization configuration and explicitly choose binary
+gRPC-Web for public business ingress. No package creates global channels, product
+storage, endpoint dispatch or authentication policy.
 
 ## Dependency and package discipline
 
@@ -72,23 +62,17 @@ edited manually. No submodules or cross-repository source references are allowed
 Packing builds one immutable candidate set. npm first-party dependency versions
 are rewritten only in a temporary staging directory; source manifests and their
 lock stay unchanged. The API client pins the exact proto candidate version.
-NuGet contains generated .NET assemblies and runtime dependency references, not
-Grpc.Tools or an embedded compiler. Hash verification checks identity, contents,
+NuGet libraries contain their own assemblies and runtime dependency references.
+The framework-dependent CLI tool carries its managed dependency closure and terms.
+No package embeds Grpc.Tools or a compiler. Per-package descriptors and authored
+schema sources follow the selected dependency closure; public packages exclude
+internal sources and extension IPC is excluded from public TS/Maven. Hash verification checks identity, contents,
 metadata, licences and the expected runtime dependency set.
 
-The explicit local-only independent consumer copies only the demo application's source, configuration
-and candidate archives into an OS temporary directory. It replaces the demo's
-producer ProjectReference with a package reference. Fresh NuGet/npm/Gradle caches and a
-source-mapped local NuGet feed force use of the candidate package. npm installs
-both candidate tarballs. Each consumer first resolves its ephemeral dependency
-lock, then restores in locked mode; these consumer locks are retained as evidence.
-Two independent Kotlin applications restore the four Maven publications from an
-exclusive local repository for `io.github.arcforges`, then run against the same
-C# host. The Connect consumer has no grpc-kotlin client dependency and exercises
-HTTP/1.1 gRPC-Web with an `/api` prefix and native HTTP/2 gRPC. Their committed
-third-party locks/checksums are reused; only the exact, independently
-hash-verified first-party candidate is excluded from static locks/checksums. No
-producer classes or Gradle caches are copied into that consumer.
+The retained Hello installed-package diagnostics are local opt-in only. They use
+C#, TypeScript and the Connect-Kotlin fixture, and are not required by build, pack,
+publish or CI. Their results cover that example only. No public-package downloads
+or consumer executions are part of ordinary post-merge verification.
 
 Formal Maven Central releases require main/source/documentation JARs, POM metadata and detached
 PGP signatures. Gradle prepares the unsigned repository and API documentation in
@@ -112,9 +96,8 @@ Generation preserves the schema's Apache-2.0 declaration. Package metadata,
 embedded LICENSE/NOTICE and SBOM must agree. Dependencies retain their own licences
 and notices. The SBOM inventories the resolved runtime closure for each
 deliverable; source metadata identifies the dependency locks used to produce it.
-Build tools are not shipped in public packages. The gRPC Kotlin dependency
-includes `javax.annotation-api` under its offered CDDL-1.1 option; that dependency
-is referenced rather than copied. Gradle wrapper code retains its upstream
+Build tools are not shipped in packages. Retired native-only Maven dependencies
+remain in historical review receipts; they are not new publication outputs. Gradle wrapper code retains its upstream
 Apache-2.0 notices. The explicit Maven runtime licence catalog rejects an unknown
 new dependency until its upstream licence is reviewed.
 
@@ -138,8 +121,8 @@ field numbers/names and introduce a reviewed versioned API for incompatible
 behavior. All current releases are prerelease candidates. A normal main merge
 increments the package build version, not the protobuf wire namespace.
 
-This bootstrap checks regeneration, a fixed field-number fixture, actual binary
-RPC success/error behavior and the package dependency/metadata closure. It does
+The retained CI checks regeneration, selected offline shape/wire cases, compilation
+and the package dependency/metadata closure. It does not run live RPC fixtures. It does
 not implement the future production descriptor compatibility gate, full business
 validation catalogues, Android app/device behavior, authentication, browser CORS integration,
 Cloud deployment or production AOT server acceptance. Those remain governed by

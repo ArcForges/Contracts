@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.events.v1;
+
+option csharp_namespace = "ArcForges.Contracts.Events.V1";
+option java_package = "io.github.arcforges.contracts.events.v1";
+option java_multiple_files = true;
+option java_outer_classname = "EventsProto";
+
+// The complete entitlement.changed hint payload; not the full Event envelope.
+message EntitlementChanged {
+  optional int64 entitlement_version = 1 [json_name = "entitlementVersion"];
+}

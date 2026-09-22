@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Reviewed false positives: public source SHA256 values, never credentials.
-# Only these exact input path/digest rows in the two dependency receipts qualify.
+# Only these exact input path/digest rows in the reviewed dependency receipts qualify.
 [extend]
 useDefault = true
 
@@ -8,7 +8,7 @@ useDefault = true
 description = "Verified public dependency-input source hashes"
 targetRules = ["generic-api-key"]
 condition = "AND"
-paths = ['''^eng/policy/(dependency-policy\.json|dependency-reviews/wp02-05-r1\.json)$''']
+paths = ['''^eng/policy/(dependency-policy\.json|dependency-reviews/(wp02-05-r1|wp03-00-r1)\.json)$''']
 regexTarget = "line"
 regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"f8e1d85aeeef62719a5aeb0466acbb4d15653cdf5b9f8fc9289aa1d9265f1472",?\s*$''',

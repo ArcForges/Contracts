@@ -9,12 +9,12 @@
     },
     "ContractSet": {
       "kind": "contracts",
-      "sources": ["public/proto/arcforges/hello/v1/hello.proto"]
+      "packageClosure": true
     },
     "CapabilityVersion": {
       "kind": "declarations",
       "absence": "not-produced",
-      "reason": "Hello declares no production capabilities.",
+      "reason": "The selected contract records do not declare implemented product capabilities.",
       "producer": "WP09 and product capability owners"
     },
     "NativeFormatVersion": {
@@ -37,14 +37,12 @@
     "PolicySchemaVersion": {
       "kind": "declarations",
       "absence": "not-produced",
-      "reason": "Hello is not a product policy schema.",
+      "reason": "The selected schemas contain no implemented product policy declaration.",
       "producer": "WP03 and WP44"
     },
     "ExtensionProtocolVersion": {
       "kind": "declarations",
-      "absence": "not-produced",
-      "reason": "Hello is not an extension protocol.",
-      "producer": "WP03 and WP41"
+      "protoProtocol": "public/proto/arcforges/extensions/v1/extensions.proto"
     },
     "PackageVersion": { "kind": "packages" }
   }

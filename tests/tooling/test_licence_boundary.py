@@ -91,7 +91,7 @@ class LicenceBoundaryTests(unittest.TestCase):
                     audit(self.root)
 
     def test_closed_first_party_names(self):
-        for valid in ['ArcForges.Contracts.PublicApi', '@arcforges/api-client', 'io.github.arcforges:contracts-client']:
+        for valid in ['ArcForges.Contracts.PublicApi', '@arcforges/api-client', 'io.github.arcforges:contracts-connect-client']:
             check_package(valid)
         for invalid in ['@arcforges/unknown', 'io.github.arcforges:unknown']:
             with self.assertRaisesRegex(ValueError, 'unknown'):
@@ -124,7 +124,7 @@ class LicenceBoundaryTests(unittest.TestCase):
 
     def test_actual_gradle_rejects_evaluated_override(self):
         init = self.root / 'override.gradle'
-        init.write_text('gradle.afterProject { p -> if (p.path == ":contracts-client") p.ext.licenceBoundary = "AGPL" }\n', encoding='utf-8')
+        init.write_text('gradle.afterProject { p -> if (p.path == ":contracts-connect-client") p.ext.licenceBoundary = "AGPL" }\n', encoding='utf-8')
         wrapper = ROOT / ('gradlew.bat' if os.name == 'nt' else 'gradlew')
         result = subprocess.run([str(wrapper), '--no-daemon', '--console=plain', '-I', str(init), 'help'],
                                 cwd=ROOT, text=True, encoding='utf-8', capture_output=True, timeout=180)

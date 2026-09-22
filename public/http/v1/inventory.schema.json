@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "title": "PackageInventory",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "inventory.v1"
+    },
+    "files": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "#/$defs/InventoryFile"
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["schemaVersion", "files"],
+  "additionalProperties": false,
+  "$defs": {
+    "InventoryFile": {
+      "title": "InventoryFile",
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$"
+        },
+        "size": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "maxLength": 20,
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["path", "size", "sha256"],
+      "additionalProperties": false
+    }
+  },
+  "x-arcforges-rules": ["inventoryPaths", "inventoryBounds"],
+  "x-arcforges-schema-version": "1"
+}

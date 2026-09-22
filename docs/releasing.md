@@ -42,7 +42,7 @@ approvals). Initial setup used disabled publisher switches. Normal operation now
 uses `NUGET_PUBLISH_ENABLED=true` and `NPM_PUBLISH_MODE=oidc`; check the current
 repository variables before diagnosing a skipped publication.
 
-## 2. NuGet: use the existing account and add a Contracts policy
+## 2. NuGet: authorize every registered package family
 
 Sign in to [nuget.org](https://www.nuget.org/) with the existing verified account.
 Open the username menu → Trusted Publishing and create a policy:
@@ -58,6 +58,11 @@ Open the username menu → Trusted Publishing and create a policy:
 | Environment      | `nuget`                                                              |
 | Permission       | Push new packages and versions                                       |
 | Package pattern  | `ArcForges.Contracts.*`                                              |
+
+The same trusted workflow/environment must also authorize `ArcForges.Sdk.*` and
+`ArcForges.Cli` through matching additional policies. Confirm all three scopes
+before merging the first complete split-package candidate. An existing
+`ArcForges.Contracts.*` policy alone is insufficient.
 
 The DesktopPlatform policy does not authorise this repository. The wildcard
 allows future matching package IDs without creating a policy per version. It
@@ -77,8 +82,10 @@ the free plan), or obtain publication rights from its existing owner. You must
 be able to publish under `@arcforges`; do not silently rename the package scope.
 
 npm currently requires a package to exist before its trusted publisher can be
-configured. The two initial package identities therefore need one bootstrap
-publication. The workflow performs that publication automatically with a
+configured. Every new package identity needs one first real candidate publication.
+The initial proto/API packages already exist; WP03.00 introduces
+`@arcforges/contract-fixtures`, `@arcforges/ai-internal` and
+`@arcforges/operator-client`, which need their own setup. The workflow performs that publication automatically with a
 temporary granular token:
 
 1. In the npm account menu, open Access Tokens and create a granular token named
@@ -93,8 +100,9 @@ temporary granular token:
    put it in source or store it as a repository variable.
 5. Set the repository variable **NPM_PUBLISH_MODE=bootstrap**.
 6. Merge the bootstrap PR, or the next accepted PR if the scaffold is already on
-   main. CI creates both `@arcforges/proto` and `@arcforges/api-client` after the
-   build/offline candidate gate. The proto package is uploaded first.
+   main. CI publishes all five registered npm packages after the
+   build/offline candidate gate, in dependency order. Use a token authorized for
+   existing packages and new identities; secret-name presence does not prove validity.
 
 There is no manual `npm publish` command or version input in this sequence.
 Bootstrap mode deliberately uses the temporary token instead of OIDC, because
@@ -103,7 +111,7 @@ package trust is not configured yet.
 Official references: [token setup](https://docs.npmjs.com/creating-and-viewing-access-tokens/),
 [npm trusted-publisher prerequisites](https://docs.npmjs.com/cli/v11/commands/npm-trust/).
 
-## 4. npm: switch to OIDC after the first two packages exist
+## 4. npm: configure OIDC for every package after first creation
 
 Open each package's Settings → Trusted publishing. Add GitHub Actions:
 
@@ -115,13 +123,13 @@ Open each package's Settings → Trusted publishing. Add GitHub Actions:
 | Environment          | `npm`                |
 | Allowed operation    | Direct `npm publish` |
 
-Configure this **for both packages**. npm trust is per package; there is no
+Configure this **for every package in the producer catalog**. npm trust is per package; there is no
 NuGet-style package glob policy. The relationship is reused for every future
 version. A genuinely new npm package needs its own initial setup once.
 
 Set **NPM_PUBLISH_MODE=oidc** before the next main merge. That run uses GitHub
-OIDC and automatically supplies provenance on npm. Confirm both npm packages
-were accepted, then delete the **NPM_BOOTSTRAP_TOKEN** GitHub environment secret,
+OIDC and automatically supplies provenance on npm. Confirm every required npm package
+was accepted, then delete the **NPM_BOOTSTRAP_TOKEN** GitHub environment secret,
 revoke the token on npm, and disallow token publishing in the packages' publishing
 settings. Keep account 2FA enabled. Daily main merges now need no credentials,
 version entry or publish button.
@@ -146,8 +154,9 @@ Android device acceptance.
 ## Maven Central setup
 
 Follow [the complete Maven Central account, signing and recovery guide](maven-central.md).
-The group is `io.github.arcforges`, with `contracts-proto`, `contracts-client`,
-`contracts-connect-client` and `contract-fixtures`. Formal releases share the NuGet/npm version; development Maven snapshots retain the CI build identity in JAR metadata. Enable SNAPSHOTs for the existing namespace; keep its credentials and publication switch.
+The group is `io.github.arcforges`, with `contracts-proto`,
+`contracts-connect-client` and `contract-fixtures`. The native-only
+`contracts-client` is retired from new candidates; historical releases remain available. Formal releases share the NuGet/npm version; development Maven snapshots retain the CI build identity in JAR metadata. Enable SNAPSHOTs for the existing namespace; keep its credentials and publication switch.
 For a new repository installation, leave Maven disabled until that setup is ready.
 
 ## 5. Understand the result
@@ -189,7 +198,7 @@ above continues. These mutable tags do not alter consumer locks.
 
 ## 6. Failure and retry
 
-Registries do not provide an atomic transaction spanning all seven packages.
+Registries do not provide an atomic transaction spanning all 22 packages.
 Treat the common version as usable only after all required packages are present.
 Do not promote a partially published set by changing a client's dependency to an
 unrelated version.
@@ -208,3 +217,19 @@ run; do not reconstruct an old version from another source revision.
 To stop future uploads, disable the relevant variable. To recover consumers,
 pin their last verified version and merge a fix that publishes a new immutable
 version. Immutable releases are never overwritten, automatically unlisted or deleted. Maven development snapshots are the explicit mutable exception. Formal tag publication does not establish product readiness or production compatibility.
+
+## WP03.00 first publication readiness
+
+Before source merge, confirm NuGet policy coverage for Contracts, SDK and CLI,
+and a valid scope-authorized temporary npm bootstrap credential for the three new
+package identities. Existing OIDC for proto/API does not authorize packages that
+do not yet exist. Publish only the reviewed actual candidate; do not create empty
+placeholder packages or allocate verification-only versions. Configure each new
+package's trusted publisher after its first accepted publication, then return the
+repository to OIDC mode. npm trust administration requires an authenticated account
+with 2FA; a publishing token that bypasses 2FA does not authorize trust management.
+
+After merge, inspect the expected commit and required publication job results,
+then fast-forward the clean primary checkout. Do not run another package download,
+hash-audit, install or runtime cycle. Report partial publication and pending account
+setup explicitly; neither a secret name nor green compilation proves publisher readiness.

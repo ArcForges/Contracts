@@ -10,13 +10,16 @@
   "packageManager": "npm@11.19.0",
   "workspaces": [
     "src/public/ts/proto",
-    "src/public/ts/api-client"
+    "src/public/ts/api-client",
+    "src/public/ts/contract-fixtures",
+    "src/internal/ts/ai-internal",
+    "src/internal/ts/operator-client"
   ],
   "scripts": {
     "generate": "python eng/contracts.py generate",
     "generate:check": "python eng/contracts.py generate --check",
-    "build": "npm run build --workspace @arcforges/proto && npm run build --workspace @arcforges/api-client",
-    "test": "node --test tests/public/wire.test.mjs",
+    "build": "npm run build --workspace @arcforges/proto && npm run build --workspace @arcforges/api-client && npm run build --workspace @arcforges/contract-fixtures && npm run build --workspace @arcforges/ai-internal && npm run build --workspace @arcforges/operator-client",
+    "test": "node --test tests/public/wire.test.mjs tests/public/structure.test.mjs",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "verify": "python eng/contracts.py verify-local"

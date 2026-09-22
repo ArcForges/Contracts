@@ -152,7 +152,7 @@ jobs:
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         with:
           user: ${{ vars.NUGET_USER }}
-      - name: Publish the retained NuGet archive
+      - name: Publish the retained NuGet archives in dependency order
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
         run: python eng/contracts.py publish nuget
@@ -189,7 +189,7 @@ jobs:
         with:
           name: ${{ needs.candidate.outputs.artifact }}
           path: artifacts/packages/
-      - name: Publish proto, then its dependent API client, advancing npm latest
+      - name: Publish the registered npm packages in dependency order
         env:
           NPM_PUBLISH_MODE: ${{ vars.NPM_PUBLISH_MODE }}
           NPM_BOOTSTRAP_TOKEN: ${{ vars.NPM_PUBLISH_MODE == 'bootstrap' && secrets.NPM_BOOTSTRAP_TOKEN || '' }}

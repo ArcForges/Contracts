@@ -1,14 +1,64 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-09-21",
+  "reviewedOn": "2026-09-22",
   "design": {
-    "commit": "94b3ec43389d8ec6f8cd3ad277daf0eac5e9259e",
-    "path": "docs/assurance/wp01-01-contract-access-policy.md",
-    "sha256": "80a93508b987e5ae4cb107a72e1cb6cc5bebfb126a287b56099dd94fb0c15884"
+    "commit": "26f15ebf6278e8cd42c2b2396e82c326513e1078",
+    "path": "docs/assurance/wp03-00-contract-structure-profile.md",
+    "sha256": "d0f7ab8df50e6a94665ad87cbe9c815721b2129278e95fecdd96a29a2277839e"
   },
   "sourceCommit": "d716045854e2e401a1a536ba2ee5c62ad1c4e8ab",
   "schemas": [
+    {
+      "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal",
+      "sha256": "3e9c76af5aefc63c78d21609e09d7106cf809f8e271d2382c3f0c15cdb4cd519"
+    },
+    {
+      "path": "internal/proto/arcforges/local/notes/v1/notes.proto",
+      "access": "internal",
+      "sha256": "6986907e69f15c21e495f2f5ff4f234bca2c00fb2b2a90f8698680adc38e8fda"
+    },
+    {
+      "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal",
+      "sha256": "519bd579aa83cfaa00e05d981c8d646524bddb8c27be22e67573c190e5762800"
+    },
+    {
+      "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal",
+      "sha256": "f97dbd60a9bc471bfc58f0cc8998b40e3fef4ddb8b10dbea8906e89fafe02574"
+    },
+    {
+      "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal",
+      "sha256": "027b0f72e1d1285fa3b2fcc13130400f8e8f0e801601485fef63e7a102b014c4"
+    },
+    {
+      "path": "internal/proto/arcforges/local/slate/v1/slate.proto",
+      "access": "internal",
+      "sha256": "9bdc13d5344a6b30b01cf844b34ce183bd4d58b6277696ec70f9e2dc1e918a6c"
+    },
+    {
+      "path": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal",
+      "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8"
+    },
+    {
+      "path": "public/proto/arcforges/events/v1/events.proto",
+      "access": "public",
+      "sha256": "ea0ac740c06bbb5b81724b4a7e601110424cabc4940b07e579cf97d852880f43"
+    },
+    {
+      "path": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public",
+      "sha256": "188c3667e1887926efd0df3bd3cb3574a2d8573ee0271171c7f96622d5dc8642"
+    },
+    {
+      "path": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public",
+      "sha256": "9445c5229ff92c2376fb8bfb49ca98b4503441636544795b9853fba3cd25bdb6"
+    },
     {
       "path": "public/proto/arcforges/hello/v1/hello.proto",
       "access": "public",
@@ -16,6 +66,180 @@
     }
   ],
   "types": [
+    {
+      "name": "arcforges.events.v1.EntitlementChanged",
+      "kind": "message",
+      "file": "public/proto/arcforges/events/v1/events.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostService",
+      "kind": "service",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionLease",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.AggregateRef",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.ApplicationScope",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.ArcError",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.Decimal",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.EffectCertainty",
+      "kind": "enum",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.ErrorCategory",
+      "kind": "enum",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.ErrorDetails",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.Id",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.Instant",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.LimitFailure",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.LocalNotesVersion",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.NativeContentRev",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.Receipt",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.RequestMeta",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.ResponseMeta",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.RetryAdvice",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.RetryMode",
+      "kind": "enum",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.Revision",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.RevisionConflict",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.StateFailure",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.VersionedRef",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.VersionFailure",
+      "kind": "message",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.hello.v1.HelloService",
+      "kind": "service",
+      "file": "public/proto/arcforges/hello/v1/hello.proto",
+      "access": "public"
+    },
     {
       "name": "arcforges.hello.v1.SayHelloRequest",
       "kind": "message",
@@ -29,17 +253,118 @@
       "access": "public"
     },
     {
-      "name": "arcforges.hello.v1.HelloService",
-      "kind": "service",
-      "file": "public/proto/arcforges/hello/v1/hello.proto",
-      "access": "public"
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/notes/v1/notes.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalChunk",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxLimits",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/slate/v1/slate.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorCallContext",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
     }
   ],
   "packages": [
     {
+      "id": "ArcForges.Contracts.Foundation",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Foundation",
+      "access": "public"
+    },
+    {
       "id": "ArcForges.Contracts.PublicApi",
       "sourceRoot": "src/public/dotnet/ArcForges.Contracts.PublicApi",
       "access": "public"
+    },
+    {
+      "id": "ArcForges.Contracts.Events",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Events",
+      "access": "public"
+    },
+    {
+      "id": "ArcForges.Sdk.Contracts",
+      "sourceRoot": "src/public/dotnet/ArcForges.Sdk.Contracts",
+      "access": "public"
+    },
+    {
+      "id": "ArcForges.Contracts.Validation",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Validation",
+      "access": "public"
+    },
+    {
+      "id": "ArcForges.Sdk.Client",
+      "sourceRoot": "src/public/dotnet/ArcForges.Sdk.Client",
+      "access": "public"
+    },
+    {
+      "id": "ArcForges.Cli",
+      "sourceRoot": "src/public/dotnet/ArcForges.Cli",
+      "access": "public"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Platform",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox",
+      "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Chat",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat",
+      "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Notes",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes",
+      "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Scope",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope",
+      "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Slate",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate",
+      "access": "internal"
+    },
+    {
+      "id": "ArcForges.Contracts.CloudInternal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.CloudInternal",
+      "access": "internal"
     },
     {
       "id": "@arcforges/proto",
@@ -52,13 +377,23 @@
       "access": "public"
     },
     {
-      "id": "io.github.arcforges:contracts-proto",
-      "sourceRoot": "src/public/kotlin/contracts-proto",
+      "id": "@arcforges/contract-fixtures",
+      "sourceRoot": "src/public/ts/contract-fixtures",
       "access": "public"
     },
     {
-      "id": "io.github.arcforges:contracts-client",
-      "sourceRoot": "src/public/kotlin/contracts-client",
+      "id": "@arcforges/ai-internal",
+      "sourceRoot": "src/internal/ts/ai-internal",
+      "access": "internal"
+    },
+    {
+      "id": "@arcforges/operator-client",
+      "sourceRoot": "src/internal/ts/operator-client",
+      "access": "internal"
+    },
+    {
+      "id": "io.github.arcforges:contracts-proto",
+      "sourceRoot": "src/public/kotlin/contracts-proto",
       "access": "public"
     },
     {
@@ -74,19 +409,314 @@
   ],
   "distribution": [
     {
-      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Hello.cs",
-      "package": "ArcForges.Contracts.PublicApi",
-      "access": "public",
-      "types": ["HelloReflection", "SayHelloRequest", "SayHelloResponse"],
-      "sha256": "ed94f07ed0b686a5144eadd01b27bc658647a9cb86faba348c6a6c8d653e48ee",
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Proto/Operator.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["OperatorReflection", "OperatorCallContext", "context_", "ContextOneofCase"],
+      "sha256": "e10c60c0576825a17c26ed03b07bf45ad0e98ca93763a578d3fdd46613938cae",
       "kind": "generated"
     },
     {
-      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/HelloGrpc.cs",
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CommitReceipt.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["CommitReceipt", "VersionedRef", "AggregateRef", "CommitReceiptJsonContext"],
+      "sha256": "f7a09bf190b5491017cfe5d7bd88d9c15e370f7f4923f9cf7ba8b4e64051d073",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CommitReceiptValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["CommitReceiptJson"],
+      "sha256": "9b1b50ed6499bb5214efb3c093f623b07f8deea80d5c3945f987eba3936f0bf5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "52a4c185b870321d746bd34d7e9526e89d56787e4a6f3b20e87718caa658e482",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/Proto/Chat.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Chat",
+      "access": "internal",
+      "types": ["ChatReflection", "ChatOperationsServiceOpenArtifactValue"],
+      "sha256": "b7b35fefb991f98913d3f3586c696eb667c727c831f478338886d2f98cb5a6c6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Chat",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "98fee374b3d4e7433ff404c03baa5ab676cc22a4d0bf900f95a9bd9afa1e1046",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/Generated/Proto/Notes.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Notes",
+      "access": "internal",
+      "types": ["NotesReflection", "NotesOperationsServiceTrashDocumentValue"],
+      "sha256": "0d16902d575c5201f4f25b2a61ed9aa3229bba44969d356cb3066fbef35d1c14",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Notes",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "e4f8338535c1ac7c7483bf96848129864cb49171f77e33174da41fad77e0e844",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/Platform.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal",
+      "types": ["PlatformReflection", "LocalChunk"],
+      "sha256": "22d31db7bb514b215d5aa20e6cd230aed7ede730d303bca9670d90a3f05a56f1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "fcf2be0b6e071a01359b90024b4196aebbdf5c79f5bb403da1f729616d97bd4f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Proto/Sandbox.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "access": "internal",
+      "types": ["SandboxReflection", "SandboxLimits"],
+      "sha256": "bd1bf0afbdc8fe7ef1890e13760705b3713a13b7de0230c01b7b1e43ea0e7269",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "65c724f8a8db68140a21710a6395788309541f8bef14e3fd43201b54fad0c804",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/Proto/Scope.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Scope",
+      "access": "internal",
+      "types": ["ScopeReflection", "ScopeOperationsServiceCreateFindingValue"],
+      "sha256": "29352108dd58c65fcd6ae47190a90f92e7ad71a1936a48643752a5dd116b1282",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Scope",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "074cd7bfd10f0d895269d3264e2713ef728aa2feeabd5c2c2f4c26ccaa298f54",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/Generated/Proto/Slate.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Slate",
+      "access": "internal",
+      "types": ["SlateReflection", "SlateOperationsServiceApplyTimelineEditsValue"],
+      "sha256": "a08a43fe85bafe7a20c819a5befd995e62cfa690f6e24499b6ea715eb8309749",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Slate",
+      "access": "internal",
+      "types": ["ContractShapeValidation"],
+      "sha256": "12831faa1fa92bd912d06e3890339ea4f8fa351a9b56383c45faba3bf5e9dc9e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/gen/http.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [],
+      "sha256": "2f77ad4309a03b099db14173dc84ad79c2eb05acc7af908f1bd307c5e1be6094",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/CommitReceipt.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["CommitReceipt", "VersionedRef", "AggregateRef"],
+      "sha256": "c52be745780f90d1d33e6848b0c15a1a830cf687c641b025e6d284167af40a3c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/operator-client/src/gen/arcforges/operator/v1/operator_pb.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": ["OperatorCallContext"],
+      "sha256": "6604d82da2537f469186376f0487e6c7a08152736a2aea0264e4abc21e0acabe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/operator-client/src/index.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": [],
+      "sha256": "d14861c0f7de332e30317a56a5acee58b86a17d7aa55460d1f458f253decd5e4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/operator-client/src/shapes/gen/proto.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": [],
+      "sha256": "e6ad7dbe5ba65b56114acb46eeb9be3e93b9d983c9cadb179d672f9cf622849f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Cli/Program.cs",
+      "package": "ArcForges.Cli",
+      "access": "public",
+      "types": [],
+      "sha256": "2e871c072d04c60ca1e5ab6de1a337e51b11552cf316896dfd082d8316813e29",
+      "kind": "authored"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Events/Generated/Proto/Events.cs",
+      "package": "ArcForges.Contracts.Events",
+      "access": "public",
+      "types": ["EventsReflection", "EntitlementChanged"],
+      "sha256": "815584ad9125ce01f187091596b3bab2c6c5388f97fe81310f7b12c7055386e6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+      "package": "ArcForges.Contracts.Foundation",
+      "access": "public",
+      "types": [
+        "FoundationReflection",
+        "EffectCertainty",
+        "RetryMode",
+        "ErrorCategory",
+        "Id",
+        "Revision",
+        "LocalNotesVersion",
+        "NativeContentRev",
+        "Instant",
+        "Decimal",
+        "AggregateRef",
+        "VersionedRef",
+        "Receipt",
+        "ApplicationScope",
+        "RequestMeta",
+        "ResponseMeta",
+        "ArcError",
+        "RetryAdvice",
+        "ErrorDetails",
+        "detail_",
+        "DetailOneofCase",
+        "RevisionConflict",
+        "LimitFailure",
+        "VersionFailure",
+        "StateFailure"
+      ],
+      "sha256": "152b3fb5196abcd17793f47e5ad4f06c89b027a1326a8953bad4efe8a103a0c7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Hello.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["HelloReflection", "SayHelloRequest", "SayHelloResponse"],
+      "sha256": "009300e6d8a46305d409d7920757347775fcf5dfc8f87ecc729be05d87b917eb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/HelloGrpc.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["HelloService", "__Helper_MessageCache", "HelloServiceBase", "HelloServiceClient"],
-      "sha256": "672f75aae224a5d4fd78cbaf69390d8b00878929bb3cbcbb27e5a2e876513a55",
+      "sha256": "92049cb1d4cfc512499e1a3126140b3c6d8aa8f28f6398e6a79588fc352f3c75",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PartReceipt.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["PartReceipt", "PartReceiptJsonContext"],
+      "sha256": "8517fc2e0f016d1642d16d02a949be249bce443ff106ec6b1662738f67f3cd35",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PackageInventoryValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["PackageInventoryJson"],
+      "sha256": "acc4323b511fcc037e169ce85c13193440939884917723cff39601064d9b71f7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PartReceiptValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["PartReceiptJson"],
+      "sha256": "f089cae66b6415ea1b0846059e28b5a6b66b52f96528122a6cbe2f79bcc1084e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ProtoValidation.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["ContractShapeValidation"],
+      "sha256": "13701da91de7d1dd186e49ef0b18eb429de624a922a10676c5cbe97d3b9a8b57",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Client/ExtensionLeaseClient.cs",
+      "package": "ArcForges.Sdk.Client",
+      "access": "public",
+      "types": ["ExtensionLeaseClient"],
+      "sha256": "4913982e8af4902893581ffcd5a0205483e4b13790b41bcbdb70f8764a1236e6",
+      "kind": "authored"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Proto/Extensions.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": [
+        "ExtensionsReflection",
+        "ExtensionLease",
+        "ExtensionHostServiceRenewLeaseRequest",
+        "ExtensionHostServiceRenewLeaseResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ExtensionHostServiceRenewLeaseValue"
+      ],
+      "sha256": "79e3c1de76e534df603d721b9da1a8cdcb0f8b4737d4c776b469d90c2937c447",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Proto/ExtensionsGrpc.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": [
+        "ExtensionHostService",
+        "__Helper_MessageCache",
+        "ExtensionHostServiceBase",
+        "ExtensionHostServiceClient"
+      ],
+      "sha256": "b9d73d5c8d06bebfdb00a3fc52ec7abf9c809700e32207240ee552fcc917473c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/PackageInventory.g.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": ["PackageInventory", "InventoryFile", "PackageInventoryJsonContext"],
+      "sha256": "00950b82f972bd6e71d780d70ee069fd473ca215351279a76e68331c702a0751",
       "kind": "generated"
     },
     {
@@ -98,36 +728,11 @@
       "kind": "authored"
     },
     {
-      "path": "src/public/kotlin/contracts-client/generated/java/io/github/arcforges/contracts/hello/v1/HelloServiceGrpc.java",
-      "package": "io.github.arcforges:contracts-client",
-      "access": "public",
-      "types": [
-        "HelloServiceGrpc",
-        "AsyncService",
-        "HelloServiceImplBase",
-        "HelloServiceStub",
-        "HelloServiceBlockingV2Stub",
-        "HelloServiceBlockingStub",
-        "HelloServiceFutureStub",
-        "MethodHandlers"
-      ],
-      "sha256": "5c5ff63be5962bab2d3108d1f0f707286d22ec76471fd4aab3ec309bab061365",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/kotlin/contracts-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloProtoGrpcKt.kt",
-      "package": "io.github.arcforges:contracts-client",
-      "access": "public",
-      "types": ["HelloServiceGrpcKt", "HelloServiceCoroutineStub", "HelloServiceCoroutineImplBase"],
-      "sha256": "34525455062022b1600da6f9977319ce051647f5142cd8ad8a8ff56b177b1ccb",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClient.kt",
       "package": "io.github.arcforges:contracts-connect-client",
       "access": "public",
       "types": ["HelloServiceClient"],
-      "sha256": "efd6777f0c9717f5a434ad4bc26895b99461c032d339b681ac1875915f01b0e4",
+      "sha256": "990b77a0d1e1bc844355b1fe19914187660f842b175d29cb26b4f5fd3e6559a4",
       "kind": "generated"
     },
     {
@@ -135,7 +740,367 @@
       "package": "io.github.arcforges:contracts-connect-client",
       "access": "public",
       "types": ["HelloServiceClientInterface"],
-      "sha256": "3b61e2b737c84c17b71aa7eb0bda6846b75f92b1d0dbfdd5e17e8cee8635049b",
+      "sha256": "32b55e844500d7d6ac0c081b4c3d50cb4feaaefe5b24bcba708d7e515d1f8e3b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/events/v1/EntitlementChanged.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementChanged", "Builder"],
+      "sha256": "f1651ea86a69749686de5335406129bfe778f22ecf1d821be96d613f0299cd39",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/events/v1/EntitlementChangedOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementChangedOrBuilder"],
+      "sha256": "dea61b2cfc0d3673b1aa8d8613e9e5cac5b02f8f99de3752dbf8b08323574462",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/events/v1/EventsProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EventsProto"],
+      "sha256": "ce385ae3f764756fa5e367a623e084c348b7b25fc897f3c0b765047e6235f84d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/AggregateRef.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AggregateRef", "Builder"],
+      "sha256": "5ca342085c648d5f40ca93b88050d0737fd0b23f383aefb9f37368fd5d47435b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/AggregateRefOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AggregateRefOrBuilder"],
+      "sha256": "8640d078901a3044196b0f3c72134d0c01977ecd4c9e95afe9fea8dd4ee774b8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ApplicationScope.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApplicationScope", "Builder"],
+      "sha256": "481bd89784c1d1d9f7210f7fad6f2d9ea3f8e4589dcdf72e5592ec26d968f74a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ApplicationScopeOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApplicationScopeOrBuilder"],
+      "sha256": "1d78b93c6e9aabbd193908dac46d593985791eb722a871e8c66d0135f84e2a47",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ArcError.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ArcError", "Builder"],
+      "sha256": "41759ab06da5ab491b416a6ace4aba5ca6de5fcbbe7022ad9882435e4940a048",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ArcErrorOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ArcErrorOrBuilder"],
+      "sha256": "05155dd38fbd28b86ffe308c64a35e2666efac2f89bdc8bd7fb8368b49c6b418",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Decimal.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Decimal", "Builder"],
+      "sha256": "4eba90670dd1c6051863350f06b5a2eaf53a0c7cd031ff264877580f43516ab0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/DecimalOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["DecimalOrBuilder"],
+      "sha256": "ecff746cee89e091fcfa49904934028b0909b0b3098a1d8151a710fdce959e03",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/EffectCertainty.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EffectCertainty", "EffectCertaintyVerifier"],
+      "sha256": "e59db6f1a44982d5318c484c4cac278bcfba91515bd4eb733c2efbc9d9fc1b3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ErrorCategory.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ErrorCategory", "ErrorCategoryVerifier"],
+      "sha256": "f37d6e5b2a1b8c117872484d7cd12c54d9aea9459df832d12f149e95f269edd3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ErrorDetails.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ErrorDetails", "DetailCase", "Builder"],
+      "sha256": "4094df41b5c5a9612539122f50ce6b71ca109b06ca7b8362b59cc9da5a64867e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ErrorDetailsOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ErrorDetailsOrBuilder"],
+      "sha256": "c85f989bb88ad6c42d2c7981114180fc9aabd2fd97858341f2ce8a577a6d0775",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/FoundationProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FoundationProto"],
+      "sha256": "e00379ac4af65db8d9c581c72330a259b88c5b5918ce6a7f684f479072171f99",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Id.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Id", "Builder"],
+      "sha256": "a0c4a9fba689e8b3a0f17a7fc8e2afa3cd965e990ffe009791bdf50cc639c061",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/IdOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["IdOrBuilder"],
+      "sha256": "839b166873748b95e746b2938e031749812f10afebe41a59ac43b666465bab51",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Instant.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Instant", "Builder"],
+      "sha256": "ab1ec79114ddaf1d503bc0ab6eccf16ba0a9916e05865139f6ca473c5787fb57",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/InstantOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InstantOrBuilder"],
+      "sha256": "f8994f6c9e50dc3f296220ab642129492af13709205a92b0af8cc72e3401e86f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LimitFailure.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["LimitFailure", "Builder"],
+      "sha256": "1b12ac7d877839075996ee93fa63f22588c86019cd147529da9257ffb11e6d64",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LimitFailureOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["LimitFailureOrBuilder"],
+      "sha256": "3c6ca262f7f015d52ad31b4fb918f41e9b63fc62baea44eb504302c4191ad87b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LocalNotesVersion.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["LocalNotesVersion", "Builder"],
+      "sha256": "c685c5b2f8a7cff75fc64daf25c20a900188bbc237577e2301eecb4341b492c5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LocalNotesVersionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["LocalNotesVersionOrBuilder"],
+      "sha256": "e6d0f49d83dbc4579506bf8aa8bb84ac798a1fcd6146d5624473c6f4e07fadbe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/NativeContentRev.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["NativeContentRev", "Builder"],
+      "sha256": "c50f0c212062994f1bcf13e8dfbe5158c2042a6b40b448cf24f78925957aaf46",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/NativeContentRevOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["NativeContentRevOrBuilder"],
+      "sha256": "cd9f37449419231ea74962f0e87b0df3458c1a520120e8f50c3bad58234e7700",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Receipt.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Receipt", "Builder"],
+      "sha256": "836a380ff454c9c841177765edce4890045af2d9812041d24a15f60d87c1dfe4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ReceiptOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ReceiptOrBuilder"],
+      "sha256": "44ca675570ae903e704d4dba0fc65581479b02613a607f986dcc4a36d9018d1a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMeta.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RequestMeta", "Builder"],
+      "sha256": "b89752208dbc40842d52f53cf02e9a7ddf5b365ace92216f00438aef813657a6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMetaOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RequestMetaOrBuilder"],
+      "sha256": "bc2ba7a1553979a2b2fff3d8346a9d35795b8babf81d119b9b2e63210e5267c2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResponseMeta.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResponseMeta", "Builder"],
+      "sha256": "0a2cad41082005ab6e4715bc8f679836c7b55275154a04cd8856f428dd5be66b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResponseMetaOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResponseMetaOrBuilder"],
+      "sha256": "2b57501e9693bf8226c5b5d27d70232eef49e182a0c083a9b55a95581bd61e70",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RetryAdvice.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RetryAdvice", "Builder"],
+      "sha256": "02c57b0de06c99bbbd865330501791ee976fefdf204129076b25a85406b22e7e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RetryAdviceOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RetryAdviceOrBuilder"],
+      "sha256": "62979680ee33448777aa4feca8559989e19a408ec1dd1552584ff749564ba733",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RetryMode.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RetryMode", "RetryModeVerifier"],
+      "sha256": "1352d2decfa7c26c684040d5adb61dc69bdc17ed92e163080464b45a65059b73",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Revision.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Revision", "Builder"],
+      "sha256": "b4b7f7a66efd15356900fcf0342e686c7ece2e60903f71dd41b91a4b5a91e112",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RevisionConflict.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RevisionConflict", "Builder"],
+      "sha256": "f4949bcb85e1864efec2a48f571b6e1716e59a5afe1de519eda24163af8a0a22",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RevisionConflictOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RevisionConflictOrBuilder"],
+      "sha256": "009d3940c3f35f237fa8651aaf16c1430a5d76aea4079004334e8755ada79848",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RevisionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RevisionOrBuilder"],
+      "sha256": "449a11473d7ee235d5b1e80df6b06a43786d8d2d6c897ec87560984085c2dff8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailure.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["StateFailure", "Builder"],
+      "sha256": "32c5741780ef2b4ed5166f22ed74f15ff2e8a1fbf1a6d4d2233c176438e2123e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailureOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["StateFailureOrBuilder"],
+      "sha256": "e7a1404025c7c6c07ac2fee6bc320150aa20e143f118bccd516786b4623cfe78",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailure.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailure", "Builder"],
+      "sha256": "3862a2be735400af87a8aa57cde56572074b17d41b183f65315709fe58c30114",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailureOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailureOrBuilder"],
+      "sha256": "657056a0bc0688efae70618ba0a541f0fd65782da26b597eb2b8700ce045192f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionedRef", "Builder"],
+      "sha256": "3131061fa28e11f5494dff299b495e81ead0906695b117d55bfbe51856fdca75",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRefOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionedRefOrBuilder"],
+      "sha256": "1bbe39ad30027c20fcf206af6c9482802c9bc96adac899f83e6e2b9ba1b72465",
       "kind": "generated"
     },
     {
@@ -143,7 +1108,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["HelloProto"],
-      "sha256": "49d1bddffe65e53d584620b5aecfbac320bbb989c2bb679736e2fd49539050c4",
+      "sha256": "53954801755cd825c80fa9b2721f4eef714287f4c428cdb574b4c81b90e25686",
       "kind": "generated"
     },
     {
@@ -151,7 +1116,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SayHelloRequest", "Builder"],
-      "sha256": "d3ae661dcbc8673e5098319e0c7d43ba8ed4bad198f7e7ec45b7bef82b0faaba",
+      "sha256": "d7084f9c9349faeb2b9a516d740a1f45ead6da42cefe9094b479674071e91a4d",
       "kind": "generated"
     },
     {
@@ -159,7 +1124,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SayHelloRequestOrBuilder"],
-      "sha256": "c166148a395453d2284903b9216ec600d63bc606e0e843b25699beed6faeabd0",
+      "sha256": "6cce3dca4baf6a40e288fa301f802205f987254448277e54b45e0ec8ec94c35e",
       "kind": "generated"
     },
     {
@@ -167,7 +1132,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SayHelloResponse", "Builder"],
-      "sha256": "8b614d3b726653a4a36a238d0f17814623a3a151a834722ddf68d09013d9c3a1",
+      "sha256": "31eccd856428b5b95e2e68219d5bb90f742e3c3e83322eaaea6313437131b57b",
       "kind": "generated"
     },
     {
@@ -175,7 +1140,183 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SayHelloResponseOrBuilder"],
-      "sha256": "05b8a1aef1f5f15b1be0051546a36be427d500525fbda64e3d7cfaf1ec97172c",
+      "sha256": "d5d83d2a9dc95bbf4013b49f473d69c0f132591fbcf9d9eba6e1cb7b8223a956",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/events/v1/EntitlementChangedKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementChangedKt", "Dsl"],
+      "sha256": "fe8ebfcc9648408fe502f08a8a2723dc5a437b126f9676b2922bf7fa2a31b528",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/events/v1/EventsProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "1db62e96f448dac65b8d49a99349a065f5ff7feff0a1bac7a6e8071172a67658",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/AggregateRefKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AggregateRefKt", "Dsl"],
+      "sha256": "b311238a98caabb19dcd929ca76242c73311cd5084866ebd8d90d01099b7fdf1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ApplicationScopeKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApplicationScopeKt", "Dsl"],
+      "sha256": "83d0e34721e59593a62e34285ee0dbd6415e8d7288d600d4edaa759a3a349ce8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ArcErrorKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ArcErrorKt", "Dsl"],
+      "sha256": "32b965355b0ecaff8c70a36d7cd79864c0d00bd180fcbec31750649a225025a1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/DecimalKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["DecimalKt", "Dsl"],
+      "sha256": "d257c9fce9193ea989b057d90f8cd7ead5d8887e3c2245bfe1f7258b860d6033",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ErrorDetailsKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ErrorDetailsKt", "Dsl"],
+      "sha256": "c1f0385e384567dafb6211f9fdb9daca78ee9ba14daa3b917595d3d5a2e8082e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/FoundationProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "99f4e6e3daaac7ced2a1dd41c62fc87cbeba6b19cf7557f181703dfbde444565",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/IdKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["IdKt", "Dsl"],
+      "sha256": "a82bdcef00c1697afb7f12696def78a30cd281cfd09e3742b9fb08ad65d25410",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/InstantKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InstantKt", "Dsl"],
+      "sha256": "02ae32542532961606cdeb3773376eadfa13e67367201d3d875775dcb74fc9da",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/LimitFailureKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["LimitFailureKt", "Dsl"],
+      "sha256": "490c1e2fc02a81e1cc35267be5d0925d870bb3a2ce0971a945a0631e003fd939",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/LocalNotesVersionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["LocalNotesVersionKt", "Dsl"],
+      "sha256": "37d2eea09ca3e1ca6df5d1f9ec1f504e77eaf0fe1906860fb0389947fb2b432c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/NativeContentRevKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["NativeContentRevKt", "Dsl"],
+      "sha256": "b34322ae96a82e5e39a48273cd92d560d322e5c1b3320c9c3f309482f211724a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ReceiptKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ReceiptKt", "Dsl"],
+      "sha256": "633d2f2e253c9eee040025f35b5d06147d595ed90447a9ccb680830faeef7382",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RequestMetaKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RequestMetaKt", "Dsl"],
+      "sha256": "18e1c74074eb75edf4fca5bd1cc5c4d27e7e17bf23e29ffca85403be88ef0a98",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ResponseMetaKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResponseMetaKt", "Dsl", "WarningsProxy"],
+      "sha256": "f8f499884810b908ab71f70f87ea43bcd2579e6a4b6a230f6c7b8aa5f66d3333",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RetryAdviceKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RetryAdviceKt", "Dsl"],
+      "sha256": "8bca147f4687902ac98b545e083cf6718ad802d35558cbd195aa71089d9db283",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RevisionConflictKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RevisionConflictKt", "Dsl"],
+      "sha256": "bff06769af5625833a81e9f3f1e3d42ab6c7eb1b7440f924e5f801f963a3b86e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RevisionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RevisionKt", "Dsl"],
+      "sha256": "9b6c2f4d01c669ce8283226eb31f3ea0edfaece14162d1fee79d6b525133cb83",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/StateFailureKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["StateFailureKt", "Dsl"],
+      "sha256": "00b68e19347e56b4cefe892ac7ea96d9d018f15990d6359493944a06291a89ff",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionFailureKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailureKt", "Dsl"],
+      "sha256": "386340e2635090263d6dacda90bfe8334a923f2eb6a745d3d86bd39d54d867c1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionedRefKt", "Dsl"],
+      "sha256": "5cfa97b24ceb9d067fbd6781f398e3c48d075ea0dd25dc4f12ff1956bf550e09",
       "kind": "generated"
     },
     {
@@ -183,7 +1324,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": [],
-      "sha256": "e136567ee4b31e2c7b65dc999681686dfcf99ce7abc543203dae0a748607f11e",
+      "sha256": "858ffdee11fcb438e594b231a8c5870add28da12f0004e25202e579aae34651a",
       "kind": "generated"
     },
     {
@@ -191,7 +1332,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SayHelloRequestKt", "Dsl"],
-      "sha256": "6ac00b6ff8bc568f004c93f22370f9c1af653d935fc3c59e93126a7c81e698dc",
+      "sha256": "6592591e75b92d28cdadd8d5bce7713b9128fe02283bed2f4f1c756eb39a0ddb",
       "kind": "generated"
     },
     {
@@ -199,7 +1340,15 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SayHelloResponseKt", "Dsl"],
-      "sha256": "ebe2a936356ec3d194da216a91aca1f9a8f9f85c5245612bd669a830d28e7af9",
+      "sha256": "fb82759414a4817fb9a932eb6e7a57edd602af796f75ab125c6f986eff546397",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/gen/http.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [],
+      "sha256": "c2d964d185d5ab0e0288401468780cae66284af73c9d3165ce5b8978e2664a82",
       "kind": "generated"
     },
     {
@@ -211,11 +1360,74 @@
       "kind": "authored"
     },
     {
+      "path": "src/public/ts/api-client/src/shapes/gen/PackageInventory.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": ["PackageInventory", "InventoryFile"],
+      "sha256": "0c5aadeefe350034e18c11a6c45fb9776eb6d3875d355c1faf9c704583f30a5c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/PartReceipt.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": ["PartReceipt"],
+      "sha256": "cd46bd36c3dc3849b6ecc4f30f071b950aa2afb4007a8302a4cd1ade1004f1a7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/contract-fixtures/src/index.ts",
+      "package": "@arcforges/contract-fixtures",
+      "access": "public",
+      "types": [],
+      "sha256": "cff25b2e78ef0d9b8a11ec3fe520e8042dae963823946ebf057e55834f14b213",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/events/v1/events_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": ["EntitlementChanged"],
+      "sha256": "a27e66f4552827cd094a026b37a3f2cd4beac1e6bc1c4043d5fa77a35bbde1ca",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "Id",
+        "Revision",
+        "LocalNotesVersion",
+        "NativeContentRev",
+        "Instant",
+        "Decimal",
+        "AggregateRef",
+        "VersionedRef",
+        "Receipt",
+        "ApplicationScope",
+        "RequestMeta",
+        "ResponseMeta",
+        "ArcError",
+        "RetryAdvice",
+        "ErrorDetails",
+        "RevisionConflict",
+        "LimitFailure",
+        "VersionFailure",
+        "StateFailure",
+        "EffectCertainty",
+        "RetryMode",
+        "ErrorCategory"
+      ],
+      "sha256": "350097209ccf9e311b897066bd96a6d8ea692909030a72a26e29391f6e4f85c1",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts",
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["SayHelloRequest", "SayHelloResponse"],
-      "sha256": "5470a1e989ca03c7ed38681473a2ca1140cb1e6fdb998e8e8201e54b0fba4cdb",
+      "sha256": "793a78310bceb84d08cdb402f69f15da22a1882f53c3b93c5ea4f688c46704dc",
       "kind": "generated"
     },
     {
@@ -223,8 +1435,16 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "0f1cf054dac82a85aa344b8f45fcd3c609aa49af99e6f62f2e0f21e4b1adb744",
-      "kind": "authored"
+      "sha256": "d62babda6e83436f615d9fc12add5c42147961159e80f4a83de0faf4a72e4a39",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/shapes/gen/proto.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [],
+      "sha256": "043e916d6d783a489f5611391a4fd018c71728e07d5a7d2482ab8b00228f6b3a",
+      "kind": "generated"
     }
   ],
   "buildInputs": [
@@ -249,6 +1469,10 @@
       "sha256": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64"
     },
     {
+      "path": "eng/contract-packages.json",
+      "sha256": "a95b445909366238db51d5274e61f804743c7ed2c035b8121b7311d7abe63941"
+    },
+    {
       "path": "gradle.properties",
       "sha256": "4ed453e5e776317aad97e656248d35b051216652b05cc29fe5ecc88a3dfc2cab"
     },
@@ -257,24 +1481,164 @@
       "sha256": "75913647f51c39122d54d1e6f311115145aa975033b567a7ae86455b1cd5dac8"
     },
     {
+      "path": "internal/ai-http/v1/schema.json",
+      "sha256": "395ffc80d24bc9d59b2de0706e9efd5071ec8ce3763dddf2dc7c3f4f7456da78"
+    },
+    {
+      "path": "internal/proto/constraints.json",
+      "sha256": "2560a714da7d5f60d7b7010d95c9dc8bda26338dbb320073b57a15b7d8898285"
+    },
+    {
       "path": "package-lock.json",
-      "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+      "sha256": "9315666370bc19c05eed6023ef932f1c5305fe52cd64da4af74cbfe114c3681f"
     },
     {
       "path": "package.json",
-      "sha256": "fbd3bc8d9f5c69cc8b119314086187964d671cdf634b91edc8d1eef5f3d768c6"
+      "sha256": "80c1893a8cb1d39c2ce3f1fcaba2ebc2472d742b4842d040d8915705dc937ce3"
+    },
+    {
+      "path": "public/http/v1/inventory.schema.json",
+      "sha256": "fb6929548278f6e16e61491001fecae4143882efbfe732950a1584e1e2f80a5d"
+    },
+    {
+      "path": "public/http/v1/schema.json",
+      "sha256": "23587b33320fcbe4a917c2839552984eb40e716c4ce317a5c218f35bedf06751"
+    },
+    {
+      "path": "public/proto/constraints.json",
+      "sha256": "45d072e56b2bf755502021cdbe48982465745d7614f5afe62e9a9f0c0fcc1e38"
     },
     {
       "path": "settings.gradle.kts",
-      "sha256": "1f5b60ba4526dc5c0df1bbad3733f3d54c8986b7bb182d4de6af226d80ed6e10"
+      "sha256": "08e4e324a1fd3b548fced7c36945454823410fd7a7fbb95061375352668a7e64"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj",
+      "sha256": "4d0a0dcdcebc57e2bb261b4e70ab8226ddfc853a405b5b28368cca1767380911"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/packages.lock.json",
+      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj",
+      "sha256": "c9234b9f411e729544374450cd745cbfac520497499e88a990dc115c6803e6d9"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json",
+      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/ArcForges.Contracts.LocalRpc.Notes.csproj",
+      "sha256": "822453736ad47d07fa3e684d15545eb5efad2d01fc3570372ceca437ac2216d2"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/packages.lock.json",
+      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
+      "sha256": "07d07fa1db0b0d39d8ce92819270b28cf825ba5e41f7a952f81439eed4b5f24b"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json",
+      "sha256": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj",
+      "sha256": "f7385e84978291ea74162ed555ddbfa81ea44926d0b2cbb584039a97e5d27869"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json",
+      "sha256": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
+      "sha256": "34c1aa338c952ac2b5047ded8a67bdab783555ce01c4abdc04155cb268b1614c"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json",
+      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/ArcForges.Contracts.LocalRpc.Slate.csproj",
+      "sha256": "a7946add01ad8307f586773721d875c5e0cd585b73f93d899e4e1f90c08c3800"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/packages.lock.json",
+      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/package.json",
+      "sha256": "0bff2cf81a1a98ae3b94b9215e813b97d5ce3048dc09184cab1a7de496a68870"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/tsconfig.json",
+      "sha256": "f13de7d9494783c4077aa3ddcf1242d26301f8b0ecce32ec263c58aeb4a81262"
+    },
+    {
+      "path": "src/internal/ts/operator-client/package.json",
+      "sha256": "d086732d7aa86738498b74f57f82652667f3603059e5a71d0744c71e85ae8d58"
+    },
+    {
+      "path": "src/internal/ts/operator-client/tsconfig.json",
+      "sha256": "f13de7d9494783c4077aa3ddcf1242d26301f8b0ecce32ec263c58aeb4a81262"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj",
+      "sha256": "315e0898b9276c1fcde34510e2ef6c1fce067d30c462b71fc3ffa89261d9ba1a"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Cli/packages.lock.json",
+      "sha256": "09563c12da99098f1aed0d2966cd8e45509e4b2b6a2a13cfc01dbb212128d858"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
+      "sha256": "e6e7bee2e85cdcd6104b4250cc68570c4166e3cb6b300fc0c56cac4ba2fd5a32"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Events/packages.lock.json",
+      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj",
+      "sha256": "d87e9fb79689cc245332286e3eee8a045069831144d28ca513805f89b8a7e344"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Foundation/packages.lock.json",
+      "sha256": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj",
-      "sha256": "8729e258c7d3de2ff083a3a19fc2d7bce73c2ffc036983c1d9d793d0d0555b37"
+      "sha256": "cf9e5c1a1ebfc28c3bee9b26309aa8bbe5a809e3a6b777535b5bd7382554ab2b"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json",
       "sha256": "6081ad4fb578234a0fb55b07cc28f635269fc9441be05a1d7c484bc423c25706"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
+      "sha256": "169a71dde7093d66d727a966c558ddfefe12cb00c21e01f1b53c4acf5ee12901"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json",
+      "sha256": "33ce7598a49127dbadcd5cac91b76f27bce523a5d226596df2bb3cc488317e52"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
+      "sha256": "f9c35650873d79f50e83a85e29cd51ce2b117a5af72ecfc84a81d554cc67e0fc"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json",
+      "sha256": "4a9cd785831a5d0785bc43867548f2e6c4052552b1bd1734bd22166c925af61f"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
+      "sha256": "3fa1d4a377776b1d659628471bf5a238eb85933a5517258dd5471dbc7ecea49f"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json",
+      "sha256": "0244d57ce10e1aaf95d4e29c6d5794684c3a1e7bc64ba6543cf3232a08a3851b"
     },
     {
       "path": "src/public/kotlin/contract-fixtures/build.gradle.kts",
@@ -283,14 +1647,6 @@
     {
       "path": "src/public/kotlin/contract-fixtures/gradle.lockfile",
       "sha256": "14dc5803d23ab183aa24b2849ee51541e52e4d26fbada80e19082d15e0b1c654"
-    },
-    {
-      "path": "src/public/kotlin/contracts-client/build.gradle.kts",
-      "sha256": "aad5df34d4aa67656c72931d8450a6e36468c4d6576ec01c196fa92a44db4c96"
-    },
-    {
-      "path": "src/public/kotlin/contracts-client/gradle.lockfile",
-      "sha256": "8f73565fdf42782b54bc63075e9daa435f7301dcee0654657f47235975e640ce"
     },
     {
       "path": "src/public/kotlin/contracts-connect-client/build.gradle.kts",
@@ -302,7 +1658,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/build.gradle.kts",
-      "sha256": "a7716ed1821d35154e862d5c6851f5c6d2abf5201a34f8f63b4d4c94f071c1b7"
+      "sha256": "f5d9d16b233c30d563cfe558cdf13c9ff6d34fc5f07d09d965ecd9739ae82298"
     },
     {
       "path": "src/public/kotlin/contracts-proto/gradle.lockfile",
@@ -310,15 +1666,23 @@
     },
     {
       "path": "src/public/ts/api-client/package.json",
-      "sha256": "393e78887e6e7bb297ecbda6831f76882cf3a1daa15c279ea29877ee1b50653f"
+      "sha256": "898f6dd155206d058bd3b9ff73718fc5adaf9960db1b22719015c67d8437ecf8"
     },
     {
       "path": "src/public/ts/api-client/tsconfig.json",
       "sha256": "9981abe59645c0367cb651ecd782c0dd830517d8a0bcd421cf14d5d68c6dc946"
     },
     {
+      "path": "src/public/ts/contract-fixtures/package.json",
+      "sha256": "c593abc4f5179b38fc470cf034a993ba0e0d552e7d6bd224b770c87db3047128"
+    },
+    {
+      "path": "src/public/ts/contract-fixtures/tsconfig.json",
+      "sha256": "f13de7d9494783c4077aa3ddcf1242d26301f8b0ecce32ec263c58aeb4a81262"
+    },
+    {
       "path": "src/public/ts/proto/package.json",
-      "sha256": "98367a7015180269a235989d7b30567c51595af931b24dc6e5e1916f7e326a84"
+      "sha256": "7f69597208f2c4dcb3d7de80cc878d12953622397f60a4c8b375df09910ec035"
     },
     {
       "path": "src/public/ts/proto/tsconfig.json",

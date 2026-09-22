@@ -1,7 +1,8 @@
 # Repository instructions
 
 - Plan before implementing. Keep work within the requested bootstrap or contract change.
-- Handwritten `public/proto` schemas own the public wire definition. Never edit
+- Handwritten proto/HTTP schemas and constraint sidecars own their wire/shape definitions.
+  Keep the complete `eng/contract-packages.json` inventory and actual access boundaries synchronized. Never edit
   generated C#, TypeScript, Java or Kotlin files directly; use `python eng/contracts.py generate`.
 - Read `docs/architecture.md` and `docs/releasing.md` before changing generation,
   package identities, licensing or CI publication.

@@ -1,0 +1,846 @@
+{
+  "schemaVersion": "wp03-00-fixtures.v1",
+  "license": "Apache-2.0",
+  "cases": [
+    {
+      "id": "Id-valid",
+      "target": "arcforges.foundation.v1.Id",
+      "valid": true,
+      "value": {
+        "value": "ABEiM0RVZneImaq7zN3u_w"
+      }
+    },
+    {
+      "id": "Revision-valid",
+      "target": "arcforges.foundation.v1.Revision",
+      "valid": true,
+      "value": {
+        "value": "1"
+      }
+    },
+    {
+      "id": "LocalNotesVersion-valid",
+      "target": "arcforges.foundation.v1.LocalNotesVersion",
+      "valid": true,
+      "value": {
+        "ackedRev": {
+          "value": "0"
+        },
+        "headLocalSeq": "18446744073709551615"
+      }
+    },
+    {
+      "id": "NativeContentRev-valid",
+      "target": "arcforges.foundation.v1.NativeContentRev",
+      "valid": true,
+      "value": {
+        "value": "0"
+      }
+    },
+    {
+      "id": "Instant-valid",
+      "target": "arcforges.foundation.v1.Instant",
+      "valid": true,
+      "value": {
+        "unixSeconds": "0",
+        "nanos": 0
+      }
+    },
+    {
+      "id": "Decimal-valid",
+      "target": "arcforges.foundation.v1.Decimal",
+      "valid": true,
+      "value": {
+        "value": "0.000000001"
+      }
+    },
+    {
+      "id": "AggregateRef-valid",
+      "target": "arcforges.foundation.v1.AggregateRef",
+      "valid": true,
+      "value": {
+        "kind": "notes.document",
+        "id": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "VersionedRef-valid",
+      "target": "arcforges.foundation.v1.VersionedRef",
+      "valid": true,
+      "value": {
+        "root": {
+          "kind": "notes.document",
+          "id": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          }
+        },
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "Receipt-valid",
+      "target": "arcforges.foundation.v1.Receipt",
+      "valid": true,
+      "value": {
+        "commandId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "effect": 2
+      }
+    },
+    {
+      "id": "ApplicationScope-valid",
+      "target": "arcforges.foundation.v1.ApplicationScope",
+      "valid": true,
+      "value": {
+        "productId": "arcnotes"
+      }
+    },
+    {
+      "id": "RequestMeta-valid",
+      "target": "arcforges.foundation.v1.RequestMeta",
+      "valid": true,
+      "value": {
+        "correlationId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "ResponseMeta-valid",
+      "target": "arcforges.foundation.v1.ResponseMeta",
+      "valid": true,
+      "value": {
+        "correlationId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "ArcError-valid",
+      "target": "arcforges.foundation.v1.ArcError",
+      "valid": true,
+      "value": {
+        "code": "future.error",
+        "category": 1,
+        "messageKey": "validation.invalid",
+        "retry": {
+          "mode": 1
+        },
+        "effect": 1,
+        "correlationId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "RetryAdvice-valid",
+      "target": "arcforges.foundation.v1.RetryAdvice",
+      "valid": true,
+      "value": {
+        "mode": 1
+      }
+    },
+    {
+      "id": "ErrorDetails-valid",
+      "target": "arcforges.foundation.v1.ErrorDetails",
+      "valid": true,
+      "value": {
+        "state": {
+          "state": "unavailable",
+          "reason": "future.reason"
+        }
+      }
+    },
+    {
+      "id": "RevisionConflict-valid",
+      "target": "arcforges.foundation.v1.RevisionConflict",
+      "valid": true,
+      "value": {}
+    },
+    {
+      "id": "LimitFailure-valid",
+      "target": "arcforges.foundation.v1.LimitFailure",
+      "valid": true,
+      "value": {
+        "limitName": "storage"
+      }
+    },
+    {
+      "id": "VersionFailure-valid",
+      "target": "arcforges.foundation.v1.VersionFailure",
+      "valid": true,
+      "value": {
+        "minReadable": "1",
+        "minWritable": "1",
+        "received": "1"
+      }
+    },
+    {
+      "id": "StateFailure-valid",
+      "target": "arcforges.foundation.v1.StateFailure",
+      "valid": true,
+      "value": {
+        "state": "unavailable",
+        "reason": "future.reason"
+      }
+    },
+    {
+      "id": "Id-zero",
+      "target": "arcforges.foundation.v1.Id",
+      "valid": false,
+      "value": {
+        "value": "AAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    {
+      "id": "Id-missing",
+      "target": "arcforges.foundation.v1.Id",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "Revision-negative",
+      "target": "arcforges.foundation.v1.Revision",
+      "valid": false,
+      "value": {
+        "value": "-1"
+      }
+    },
+    {
+      "id": "LocalNotesVersion-missing-token",
+      "target": "arcforges.foundation.v1.LocalNotesVersion",
+      "valid": false,
+      "value": {
+        "headLocalSeq": "0"
+      }
+    },
+    {
+      "id": "NativeContentRev-overflow",
+      "target": "arcforges.foundation.v1.NativeContentRev",
+      "valid": false,
+      "value": {
+        "value": "18446744073709551616"
+      }
+    },
+    {
+      "id": "Instant-nanos-overflow",
+      "target": "arcforges.foundation.v1.Instant",
+      "valid": false,
+      "value": {
+        "unixSeconds": "0",
+        "nanos": 1000000000
+      }
+    },
+    {
+      "id": "Decimal-exponent",
+      "target": "arcforges.foundation.v1.Decimal",
+      "valid": false,
+      "value": {
+        "value": "1e3"
+      }
+    },
+    {
+      "id": "Decimal-too-precise",
+      "target": "arcforges.foundation.v1.Decimal",
+      "valid": false,
+      "value": {
+        "value": "0.0000000001"
+      }
+    },
+    {
+      "id": "AggregateRef-missing-id",
+      "target": "arcforges.foundation.v1.AggregateRef",
+      "valid": false,
+      "value": {
+        "kind": "notes.document"
+      }
+    },
+    {
+      "id": "VersionedRef-zero-committed",
+      "target": "arcforges.foundation.v1.VersionedRef",
+      "valid": false,
+      "value": {
+        "root": {
+          "kind": "notes.document",
+          "id": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          }
+        },
+        "revision": {
+          "value": "0"
+        }
+      }
+    },
+    {
+      "id": "Receipt-unspecified-effect",
+      "target": "arcforges.foundation.v1.Receipt",
+      "valid": false,
+      "value": {
+        "commandId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "effect": 0
+      }
+    },
+    {
+      "id": "ApplicationScope-retired-product",
+      "target": "arcforges.foundation.v1.ApplicationScope",
+      "valid": false,
+      "value": {
+        "productId": "arcchat"
+      }
+    },
+    {
+      "id": "RequestMeta-two-revisions",
+      "target": "arcforges.foundation.v1.RequestMeta",
+      "valid": false,
+      "value": {
+        "correlationId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "expectedRev": {
+          "value": "1"
+        },
+        "expectedNative": {
+          "value": "0"
+        }
+      }
+    },
+    {
+      "id": "ResponseMeta-missing-correlation",
+      "target": "arcforges.foundation.v1.ResponseMeta",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "ArcError-missing-retry",
+      "target": "arcforges.foundation.v1.ArcError",
+      "valid": false,
+      "value": {
+        "code": "future.error",
+        "category": 1,
+        "messageKey": "validation.invalid",
+        "effect": 1,
+        "correlationId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "RetryAdvice-unspecified",
+      "target": "arcforges.foundation.v1.RetryAdvice",
+      "valid": false,
+      "value": {
+        "mode": 0
+      }
+    },
+    {
+      "id": "ErrorDetails-absent",
+      "target": "arcforges.foundation.v1.ErrorDetails",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "LimitFailure-invalid-key",
+      "target": "arcforges.foundation.v1.LimitFailure",
+      "valid": false,
+      "value": {
+        "limitName": "bad key"
+      }
+    },
+    {
+      "id": "VersionFailure-missing-received",
+      "target": "arcforges.foundation.v1.VersionFailure",
+      "valid": false,
+      "value": {
+        "minReadable": "1",
+        "minWritable": "1"
+      }
+    },
+    {
+      "id": "StateFailure-missing-reason",
+      "target": "arcforges.foundation.v1.StateFailure",
+      "valid": false,
+      "value": {
+        "state": "unavailable"
+      }
+    },
+    {
+      "id": "event-zero-present",
+      "target": "arcforges.events.v1.EntitlementChanged",
+      "valid": true,
+      "value": {
+        "entitlementVersion": "0"
+      }
+    },
+    {
+      "id": "event-value-absent",
+      "target": "arcforges.events.v1.EntitlementChanged",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "ExtensionLease-valid",
+      "target": "arcforges.extensions.v1.ExtensionLease",
+      "valid": true,
+      "value": {
+        "leaseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "expiresAt": {
+          "unixSeconds": "30",
+          "nanos": 0
+        },
+        "renewAfterSeconds": 10,
+        "negotiatedContracts": ["extensions.v1"]
+      }
+    },
+    {
+      "id": "ExtensionHostServiceRenewLeaseRequest-valid",
+      "target": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          }
+        },
+        "leaseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "ExtensionHostServiceRenewLeaseResponse-valid",
+      "target": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          }
+        },
+        "value": {
+          "lease": {
+            "leaseId": {
+              "value": "ABEiM0RVZneImaq7zN3u_w"
+            },
+            "expiresAt": {
+              "unixSeconds": "30",
+              "nanos": 0
+            },
+            "renewAfterSeconds": 10,
+            "negotiatedContracts": ["extensions.v1"]
+          }
+        }
+      }
+    },
+    {
+      "id": "ExtensionHostServiceRenewLeaseValue-valid",
+      "target": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue",
+      "valid": true,
+      "value": {
+        "lease": {
+          "leaseId": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          },
+          "expiresAt": {
+            "unixSeconds": "30",
+            "nanos": 0
+          },
+          "renewAfterSeconds": 10,
+          "negotiatedContracts": ["extensions.v1"]
+        }
+      }
+    },
+    {
+      "id": "lease-renewal-profile",
+      "target": "arcforges.extensions.v1.ExtensionLease",
+      "valid": false,
+      "value": {
+        "leaseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "expiresAt": {
+          "unixSeconds": "30",
+          "nanos": 0
+        },
+        "renewAfterSeconds": 0,
+        "negotiatedContracts": ["extensions.v1"]
+      }
+    },
+    {
+      "id": "renew-missing-meta",
+      "target": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest",
+      "valid": false,
+      "value": {
+        "leaseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        }
+      }
+    },
+    {
+      "id": "renew-missing-outcome",
+      "target": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          }
+        }
+      }
+    },
+    {
+      "id": "renew-value-empty",
+      "target": "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "part-exact-uint64",
+      "target": "PartReceipt",
+      "valid": true,
+      "value": {
+        "partNumber": 1,
+        "size": "18446744073709551615",
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "etag": "opaque-receipt"
+      }
+    },
+    {
+      "id": "part-uint64-overflow",
+      "target": "PartReceipt",
+      "valid": false,
+      "value": {
+        "partNumber": 1,
+        "size": "18446744073709551616",
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "etag": "opaque-receipt"
+      }
+    },
+    {
+      "id": "part-size-number",
+      "target": "PartReceipt",
+      "valid": false,
+      "value": {
+        "partNumber": 1,
+        "size": 8,
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "etag": "opaque-receipt"
+      }
+    },
+    {
+      "id": "part-unknown-property",
+      "target": "PartReceipt",
+      "valid": false,
+      "value": {
+        "partNumber": 1,
+        "size": "18446744073709551615",
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "etag": "opaque-receipt",
+        "storageKey": "private"
+      }
+    },
+    {
+      "id": "inventory-valid",
+      "target": "PackageInventory",
+      "valid": true,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "manifest.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-traversal",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "../payload",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-absolute",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "/payload",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-drive",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "C:/payload",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-device",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "files/CON.txt",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-trailing-dot",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "payload.",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-self-reference",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "inventory.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-signature",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "SIGNATURE.JSON",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-unicode",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "fich\u00e9.txt",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-duplicate",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "manifest.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "manifest.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-case-collision",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "Manifest.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "manifest.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-order",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "z",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "manifest.json",
+            "size": "123",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-file-limit",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "manifest.json",
+            "size": "134217729",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-total-limit",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "file0",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file1",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file2",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file3",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file4",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file5",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file6",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "file7",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "path": "manifest.json",
+            "size": "134217728",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-leading-zero",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "manifest.json",
+            "size": "01",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inventory-missing-manifest",
+      "target": "PackageInventory",
+      "valid": false,
+      "value": {
+        "schemaVersion": "inventory.v1",
+        "files": [
+          {
+            "path": "payload.txt",
+            "size": "1",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        ]
+      }
+    }
+  ]
+}

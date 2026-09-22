@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.local.slate.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.LocalRpc.Slate.V1";
+option java_package = "io.github.arcforges.contracts.local.slate.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SlateProto";
+
+// Complete in-process operation result; no product RPC service is registered.
+message SlateOperationsServiceApplyTimelineEditsValue {
+  arcforges.foundation.v1.NativeContentRev revision = 10 [json_name = "revision"];
+}

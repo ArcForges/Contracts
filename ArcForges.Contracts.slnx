@@ -9,4 +9,18 @@
     <Project Path="tests/public/HelloHost/HelloHost.csproj" />
     <Project Path="tests/public/HelloClient/HelloClient.csproj" />
   </Folder>
+  <Project Path="src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj" />
+  <Project Path="src/public/dotnet/ArcForges.Cli/ArcForges.Cli.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/ArcForges.Contracts.LocalRpc.Notes.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/ArcForges.Contracts.LocalRpc.Slate.csproj" />
+  <Project Path="src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
+  <Project Path="tests/StructureTests/StructureTests.csproj" />
 </Solution>

@@ -114,7 +114,8 @@ class DependencyAdmission(unittest.TestCase):
                    'eng/provenance/records/dokka-object-keys-licence-r1.json',
                    'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
         for source, pattern in zip(sources, allow['regexes']):
-            digest = hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+            receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/wp02-05-r1.json').read_text(encoding='utf-8'))
+            digest = receipt['review']['inputHashes'][source]
             self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
             self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
 

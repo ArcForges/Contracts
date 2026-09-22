@@ -1,6 +1,6 @@
 # Maven development snapshots and formal releases
 
-The group remains `io.github.arcforges`, with `contracts-proto`, `contracts-client`, `contracts-connect-client` and `contract-fixtures`.
+The group remains `io.github.arcforges`, with `contracts-proto`, `contracts-connect-client` and `contract-fixtures`.
 
 Main builds publish `1.0.0-SNAPSHOT` to `https://central.sonatype.com/repository/maven-snapshots/`. Canonical `vX.Y.Z` tags publish immutable `X.Y.Z` releases to Maven Central. The tag commit must be reachable from main and passes the same build/offline candidate gates. No production tag is created by a validation test.
 
@@ -52,7 +52,7 @@ Formal releases retain the Central Portal `AUTOMATIC` upload and required detach
 Retries recover the accepted deployment ID from the same run's receipt. An ambiguous upload without
 an ID is not uploaded again: inspect Central and set `MAVEN_CENTRAL_DEPLOYMENT_ID` only to the
 confirmed ID, then remove the override. The [Portal status response](https://central.sonatype.org/publish/publish-portal-api/)
-must identify the expected deployment ID/name and all four package coordinates at `PUBLISHED`.
+must identify the expected deployment ID/name and all three package coordinates at `PUBLISHED`.
 That provider result completes publication; public propagation and search indexing are not polled.
 
 Candidates remain retained for 30 days and receipts for 90 days. An expired immutable candidate

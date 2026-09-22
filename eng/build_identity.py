@@ -92,6 +92,22 @@ def axes(package: dict, dependencies: list[dict], descriptor: bytes, root: Path 
     if set(catalog.get("axes", {})) != set(AXES) or catalog.get("owner") != "Contracts" or catalog.get("schemaVersion") != 1:
         raise ValueError("Version source catalog must define exactly nine axes")
     output = {}
+    closure_sources: list[str] | None = None
+
+    def package_sources() -> list[str]:
+        nonlocal closure_sources
+        if closure_sources is None:
+            from package_catalog import closure
+            identity = package.get("name", "")
+            if identity.startswith("io.github.arcforges/"):
+                identity = identity.replace("/", ":", 1)
+            try:
+                rows = closure(identity, root=root)
+            except KeyError as error:
+                raise ValueError(f"Unregistered contract package identity: {identity}") from error
+            closure_sources = sorted({path for row in rows for path in [*row["proto"], *row["jsonSchemas"]]})
+        return closure_sources
+
     for name, kind in zip(AXES, KINDS, strict=True):
         spec = catalog["axes"][name]
         if spec.get("kind") != kind:
@@ -106,8 +122,12 @@ def axes(package: dict, dependencies: list[dict], descriptor: bytes, root: Path 
             if "producer" in spec:
                 output[name]["producer"] = spec["producer"]
             continue
-        if set(spec) - {"kind", "sources"}:
+        if set(spec) - {"kind", "sources", "packageClosure", "protoProtocol"}:
             raise ValueError("Aliases and unknown version source properties are forbidden")
+        if "packageClosure" in spec and (name != "ContractSet" or spec["packageClosure"] is not True or "sources" in spec):
+            raise ValueError("Package closure applies only to the actual ContractSet")
+        if "protoProtocol" in spec and (name != "ExtensionProtocolVersion" or "sources" in spec):
+            raise ValueError("Protocol source applies only to ExtensionProtocolVersion")
         values = []
         if kind == "packages":
             proof = hashlib.sha256(json.dumps(dependencies, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
@@ -115,15 +135,33 @@ def axes(package: dict, dependencies: list[dict], descriptor: bytes, root: Path 
                        "version": item["version"], "source": {"path": "sbom.cdx.json#components", "sha256": proof}}
                       for item in dependencies]
         else:
-            for path in spec.get("sources", []):
+            paths = package_sources() if spec.get("packageClosure") else spec.get("sources", [])
+            if spec.get("packageClosure") and not paths:
+                output[name] = {"status": "not-applicable", "reason": "This package closure contains fixtures but no generated schema."}
+                continue
+            if "protoProtocol" in spec:
+                path = spec["protoProtocol"]
+                if path not in package_sources():
+                    output[name] = {"status": "not-applicable", "reason": "This package closure contains no extension protocol."}
+                    continue
+                paths = [path]
+            for path in paths:
                 content, evidence = source(path, root)
-                if kind == "contracts":
+                if kind == "contracts" and path.endswith(".json"):
+                    schema = json.loads(content)
+                    version = schema.get("x-arcforges-schema-version")
+                    if not isinstance(version, str) or not re.fullmatch(r"[1-9][0-9]*", version) or not schema.get("title"):
+                        raise ValueError("JSON contract source requires its own declared schema version/title")
+                    values.append({"subject": "json:" + schema["title"], "version": version, "source": evidence})
+                elif kind == "contracts" or "protoProtocol" in spec:
                     matches = re.findall(rb"^package\s+([a-zA-Z0-9_.]+)\.v([1-9][0-9]*);", content, re.MULTILINE)
-                    if len(matches) != 1 or not descriptor:
+                    if len(matches) != 1 or (kind == "contracts" and not descriptor):
                         raise ValueError("Contract source requires its authored namespace and descriptor")
                     subject, major = matches[0]
-                    values.append({"subject": subject.decode(), "version": major.decode(), "source": evidence,
-                                   "descriptorSha256": hashlib.sha256(descriptor).hexdigest()})
+                    value = {"subject": subject.decode(), "version": major.decode(), "source": evidence}
+                    if kind == "contracts":
+                        value["descriptorSha256"] = hashlib.sha256(descriptor).hexdigest()
+                    values.append(value)
                 elif kind == "native-abi":
                     major = re.search(rb"#define\s+ARC_ABI_MAJOR\s+(\d+)", content)
                     minor = re.search(rb"#define\s+ARC_ABI_MINOR\s+(\d+)", content)

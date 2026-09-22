@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.platform.v1.LocalChunk": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk",
+      "fields": {
+        "bytes": {
+          "required": true,
+          "maxLength": 65536
+        },
+        "offset": {
+          "required": true
+        },
+        "nextOffset": {
+          "required": true
+        },
+        "eof": {
+          "required": true
+        },
+        "sha256": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "rules": ["chunkOffsets"]
+    },
+    "arcforges.local.sandbox.v1.SandboxLimits": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxLimits",
+      "fields": {
+        "maxInputBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxMemoryBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxOutputBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxWidth": {
+          "required": true,
+          "min": 1
+        },
+        "maxHeight": {
+          "required": true,
+          "min": 1
+        },
+        "maxItems": {
+          "required": true,
+          "min": 1
+        },
+        "timeoutMs": {
+          "required": true,
+          "min": 1
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Notes.V1.NotesOperationsServiceTrashDocumentValue",
+      "fields": {
+        "version": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateFindingValue",
+      "fields": {
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Slate.V1.SlateOperationsServiceApplyTimelineEditsValue",
+      "fields": {
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.operator.v1.OperatorCallContext": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCallContext",
+      "fields": {
+        "caseId": {},
+        "incidentId": {},
+        "purpose": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 262144
+        }
+      },
+      "oneofRequired": ["context"]
+    }
+  }
+}

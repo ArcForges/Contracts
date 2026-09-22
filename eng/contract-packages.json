@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "packages": [
+    {
+      "id": "ArcForges.Contracts.Foundation",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Foundation",
+      "proto": ["public/proto/arcforges/foundation/v1/foundation.proto"],
+      "dependencies": [],
+      "descriptor": "foundation.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.PublicApi",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.PublicApi",
+      "proto": ["public/proto/arcforges/hello/v1/hello.proto"],
+      "dependencies": [],
+      "descriptor": "public-api.binpb",
+      "jsonSchemas": ["public/http/v1/schema.json"]
+    },
+    {
+      "id": "ArcForges.Contracts.Events",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Events",
+      "proto": ["public/proto/arcforges/events/v1/events.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "events.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Sdk.Contracts",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Sdk.Contracts",
+      "proto": ["public/proto/arcforges/extensions/v1/extensions.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "extensions.binpb",
+      "jsonSchemas": ["public/http/v1/inventory.schema.json"]
+    },
+    {
+      "id": "ArcForges.Contracts.Validation",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Contracts.Validation",
+      "proto": [],
+      "dependencies": [
+        "ArcForges.Contracts.Foundation",
+        "ArcForges.Contracts.PublicApi",
+        "ArcForges.Contracts.Events",
+        "ArcForges.Sdk.Contracts"
+      ],
+      "descriptor": "validation.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Sdk.Client",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Sdk.Client",
+      "proto": [],
+      "dependencies": ["ArcForges.Sdk.Contracts", "ArcForges.Contracts.Validation"],
+      "descriptor": "sdk-client.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Cli",
+      "kind": "nuget",
+      "access": "public",
+      "sourceRoot": "src/public/dotnet/ArcForges.Cli",
+      "proto": [],
+      "dependencies": ["ArcForges.Contracts.Validation"],
+      "descriptor": "cli.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Platform",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform",
+      "proto": ["internal/proto/arcforges/local/platform/v1/platform.proto"],
+      "dependencies": [],
+      "descriptor": "local-platform.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox",
+      "proto": ["internal/proto/arcforges/local/sandbox/v1/sandbox.proto"],
+      "dependencies": [],
+      "descriptor": "local-sandbox.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Chat",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat",
+      "proto": ["internal/proto/arcforges/local/chat/v1/chat.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "local-chat.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Notes",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes",
+      "proto": ["internal/proto/arcforges/local/notes/v1/notes.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "local-notes.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Scope",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope",
+      "proto": ["internal/proto/arcforges/local/scope/v1/scope.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "local-scope.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.LocalRpc.Slate",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate",
+      "proto": ["internal/proto/arcforges/local/slate/v1/slate.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "local-slate.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "ArcForges.Contracts.CloudInternal",
+      "kind": "nuget",
+      "access": "internal",
+      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.CloudInternal",
+      "proto": ["internal/proto/arcforges/operator/v1/operator.proto"],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "descriptor": "operator.binpb",
+      "jsonSchemas": ["internal/ai-http/v1/schema.json"]
+    },
+    {
+      "id": "@arcforges/proto",
+      "kind": "npm",
+      "access": "public",
+      "sourceRoot": "src/public/ts/proto",
+      "proto": [
+        "public/proto/arcforges/hello/v1/hello.proto",
+        "public/proto/arcforges/foundation/v1/foundation.proto",
+        "public/proto/arcforges/events/v1/events.proto"
+      ],
+      "dependencies": [],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "@arcforges/api-client",
+      "kind": "npm",
+      "access": "public",
+      "sourceRoot": "src/public/ts/api-client",
+      "proto": [],
+      "dependencies": ["@arcforges/proto"],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": ["public/http/v1/schema.json"]
+    },
+    {
+      "id": "@arcforges/contract-fixtures",
+      "kind": "npm",
+      "access": "public",
+      "sourceRoot": "src/public/ts/contract-fixtures",
+      "proto": [],
+      "dependencies": [],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "@arcforges/ai-internal",
+      "kind": "npm",
+      "access": "internal",
+      "sourceRoot": "src/internal/ts/ai-internal",
+      "proto": [],
+      "dependencies": [],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": ["internal/ai-http/v1/schema.json"]
+    },
+    {
+      "id": "@arcforges/operator-client",
+      "kind": "npm",
+      "access": "internal",
+      "sourceRoot": "src/internal/ts/operator-client",
+      "proto": ["internal/proto/arcforges/operator/v1/operator.proto"],
+      "dependencies": ["@arcforges/proto"],
+      "descriptor": "operator-client.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "io.github.arcforges:contracts-proto",
+      "kind": "maven",
+      "access": "public",
+      "sourceRoot": "src/public/kotlin/contracts-proto",
+      "proto": [
+        "public/proto/arcforges/hello/v1/hello.proto",
+        "public/proto/arcforges/foundation/v1/foundation.proto",
+        "public/proto/arcforges/events/v1/events.proto"
+      ],
+      "dependencies": [],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "io.github.arcforges:contracts-connect-client",
+      "kind": "maven",
+      "access": "public",
+      "sourceRoot": "src/public/kotlin/contracts-connect-client",
+      "proto": ["public/proto/arcforges/hello/v1/hello.proto"],
+      "dependencies": ["io.github.arcforges:contracts-proto"],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": []
+    },
+    {
+      "id": "io.github.arcforges:contract-fixtures",
+      "kind": "maven",
+      "access": "public",
+      "sourceRoot": "src/public/kotlin/contract-fixtures",
+      "proto": [],
+      "dependencies": [],
+      "descriptor": "contracts.binpb",
+      "jsonSchemas": []
+    }
+  ]
+}

@@ -122,7 +122,9 @@ class BuildIdentityTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as folder:
                 candidate = Path(folder) / "candidate"
                 shutil.copytree(ARTIFACTS / "packages", candidate)
-                package = next(candidate.glob("*.nupkg"))
+                manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
+                entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
+                package = candidate / entry["name"]
                 with zipfile.ZipFile(package) as archive:
                     files = {name: archive.read(name) for name in archive.namelist()}
                 report = json.loads(files["build-identity.json"])
@@ -135,7 +137,7 @@ class BuildIdentityTests(unittest.TestCase):
                     for name, content in files.items():
                         archive.writestr(name, content)
                 manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
-                entry = next(item for item in manifest["files"] if item["kind"] == "nuget")
+                entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
                 entry.update(sha256=sha256(package), size=package.stat().st_size)
                 write_json(candidate / "manifest.json", manifest)
                 with self.assertRaisesRegex(ValueError, "build identity or independent version axes"):

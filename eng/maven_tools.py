@@ -128,7 +128,7 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
                 raise ValueError("Third-party dependencies cannot use SNAPSHOT")
             if dep.startswith(MAVEN_GROUP + ":") and resolved != release:
                 raise ValueError("Maven client must pin this candidate's proto version")
-        if module in {"contracts-client", "contracts-connect-client"} and f"{MAVEN_GROUP}:contracts-proto" not in dependencies:
+        if module == "contracts-connect-client" and f"{MAVEN_GROUP}:contracts-proto" not in dependencies:
             raise ValueError("Maven client lost its proto dependency")
         if any(dep.endswith(":protobuf-java") or dep.endswith(":grpc-protobuf") for dep in dependencies):
             raise ValueError("Android artifacts must use protobuf lite")
@@ -162,7 +162,6 @@ def verify_bundle(path: Path, manifest: dict, descriptor: bytes) -> dict[str, by
         if sbom["metadata"]["component"]["name"] != f"{MAVEN_GROUP}/{module}":
             raise ValueError("Maven SBOM identifies another module")
         classes = {"contracts-proto": "io/github/arcforges/contracts/hello/v1/SayHelloRequest.class",
-                   "contracts-client": "io/github/arcforges/contracts/hello/v1/HelloServiceGrpcKt$HelloServiceCoroutineStub.class",
                    "contracts-connect-client": "io/github/arcforges/contracts/hello/v1/HelloServiceClient.class",
                    "contract-fixtures": "io/github/arcforges/contracts/fixtures/ContractFixtures.class"}
         if classes[module] not in jar:

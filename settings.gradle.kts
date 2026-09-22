@@ -5,5 +5,5 @@ dependencyResolutionManagement {
     repositories { mavenCentral() }
 }
 rootProject.name = "arcforges-contracts"
-include("contracts-proto", "contracts-client", "contracts-connect-client", "contract-fixtures")
+include("contracts-proto", "contracts-connect-client", "contract-fixtures")
 rootProject.children.forEach { it.projectDir = file("src/public/kotlin/${it.name}") }

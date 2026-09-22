@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "owner": "Contracts",
+  "project": "contracts-client",
+  "package": "io.github.arcforges:contracts-client",
+  "kind": "maven-javadoc",
+  "previousRecord": "dokka-documentation-resources-r3",
+  "replacementPackage": "io.github.arcforges:contracts-connect-client",
+  "sourceRoot": "src/public/kotlin/contracts-client",
+  "designCommit": "26f15ebf6278e8cd42c2b2396e82c326513e1078",
+  "reason": "WP03.00 retires the native-gRPC-only Android producer before the first business-schema publication. Connect is the selected Android transport. Existing registry versions and all historical provenance records remain unchanged; this source tree no longer builds or publishes the retired module."
+}

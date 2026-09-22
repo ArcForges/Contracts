@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 from release_channels import maven_version
+from package_catalog import packages, ordered, closure
 from contracts import (ARTIFACTS, DOTNET_PROJECT, NPM, NPM_IDS, NPM_PROJECTS, NUGET_ID,
                        ROOT, build, check_tools, generate, read_json, run, sha256,
                        source_commit, version, write_json)
@@ -32,7 +33,7 @@ def component(name: str, release: str, license_expression: str, ecosystem: str) 
 def npm_graph(project: Path, release: str) -> tuple[list[dict], list[dict]]:
     components: dict[str, dict] = {}
     edges: dict[str, dict] = {}
-    sources = {name: path for name, path in zip(NPM_IDS, NPM_PROJECTS, strict=True)}
+    sources = {row["id"]: ROOT / row["sourceRoot"] for row in packages("npm")}
 
     def visit(path: Path) -> str:
         package = read_json(path / "package.json")
@@ -50,10 +51,12 @@ def npm_graph(project: Path, release: str) -> tuple[list[dict], list[dict]]:
     return list(components.values()), list(edges.values())
 
 
-def nuget_graph(release: str) -> tuple[list[dict], list[dict]]:
-    assets = read_json(DOTNET_PROJECT.parent / "obj/project.assets.json")
+def nuget_graph(release: str, row: dict | None = None) -> tuple[list[dict], list[dict]]:
+    row = row or next(item for item in packages("nuget") if item["id"] == NUGET_ID)
+    assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")
     target = assets["targets"]["net10.0"]
     resolved = {key.split("/")[0]: key for key in target}
+    first_party = {item["id"] for item in packages("nuget")}
     components: dict[str, dict] = {}
     edges: list[dict] = []
 
@@ -61,24 +64,65 @@ def nuget_graph(release: str) -> tuple[list[dict], list[dict]]:
         if name in components:
             return components[name]["bom-ref"]
         key = resolved[name]
-        package_path = next(Path(folder) / key.lower() for folder in assets["packageFolders"]
-                            if (Path(folder) / key.lower()).is_dir())
-        metadata = ET.parse(next(package_path.glob("*.nuspec")))
-        licence = metadata.find(".//{*}license")
-        if licence is None or licence.get("type") != "expression":
-            raise ValueError(f"Missing SPDX expression for {key}")
-        entry = component(name, key.split("/")[1], licence.text or "", "nuget")
+        if name in first_party:
+            expression, resolved_version = "Apache-2.0", release
+        else:
+            package_path = next(Path(folder) / key.lower() for folder in assets["packageFolders"]
+                                if (Path(folder) / key.lower()).is_dir())
+            licence = ET.parse(next(package_path.glob("*.nuspec"))).find(".//{*}license")
+            if licence is None or licence.get("type") != "expression":
+                raise ValueError(f"Missing SPDX expression for {key}")
+            expression, resolved_version = licence.text or "", key.split("/")[1]
+        entry = component(name, resolved_version, expression, "nuget")
         components[name] = entry
         children = [visit(dep) for dep in sorted(target[key].get("dependencies", {}))]
         edges.append({"ref": entry["bom-ref"], "dependsOn": children})
         return entry["bom-ref"]
 
-    dependencies = assets["project"]["frameworks"]["net10.0"]["dependencies"]
-    root = component(NUGET_ID, release, "Apache-2.0", "nuget")
-    children = [visit(name) for name, dep in dependencies.items()
-                if not dep.get("autoReferenced") and dep.get("suppressParent") != "All"]
+    dependencies = assets["project"]["frameworks"]["net10.0"].get("dependencies", {})
+    direct = {name for name, dep in dependencies.items()
+              if not dep.get("autoReferenced") and dep.get("suppressParent") != "All"}
+    direct.update(row["dependencies"])
+    root = component(row["id"], release, "Apache-2.0", "nuget")
+    children = [visit(name) for name in sorted(direct)]
     edges.append({"ref": root["bom-ref"], "dependsOn": children})
     return [root, *components.values()], edges
+
+
+def package_row(identity: str) -> dict:
+    identity = identity.replace("/", ":") if identity.startswith("io.github.arcforges/") else identity
+    return next(row for row in packages() if row["id"] == identity)
+
+
+def schema_sources(row: dict) -> list[str]:
+    return sorted({path for item in closure(row["id"])
+                   for path in [*item["proto"], *item["jsonSchemas"]]})
+
+
+def stage_schemas(target: Path, row: dict) -> None:
+    shutil.copyfile(ARTIFACTS / row["descriptor"], target / "contracts.binpb")
+    for source in schema_sources(row):
+        # Preserve the access root to make internal/public ownership explicit.
+        destination = target / "schemas" / source
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / source, destination)
+
+
+def stage_tool_licences(target: Path, row: dict) -> None:
+    """Retain terms for the framework-dependent tool's embedded managed closure."""
+    sbom = read_json(target / "sbom.cdx.json")
+    terms = {"Apache-2.0": ROOT / "LICENSE",
+             "BSD-3-Clause": ROOT / "third-party/protobuf-generator-LICENSE.txt"}
+    destination = target / "third-party"
+    destination.mkdir()
+    for dependency in sbom["components"]:
+        expression = dependency["licenses"][0]["expression"]
+        if expression not in terms or (expression == "BSD-3-Clause" and dependency["name"] != "Google.Protobuf"):
+            raise ValueError("Review embedded CLI dependency terms: " + dependency["name"])
+        shutil.copyfile(terms[expression], destination / (dependency["name"] + "-LICENSE.txt"))
+    with (target / "NOTICE").open("a", encoding="utf-8") as stream:
+        stream.write("\nEmbedded Google.Protobuf: Copyright 2008 Google Inc. All rights reserved.\n")
+        stream.write("Embedded Grpc.Core.Api: Copyright the gRPC authors. Apache-2.0.\n")
 
 
 def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str,
@@ -86,6 +130,8 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
     from check_provenance import package_notice
     components, edges = graph
     root, *dependencies = components
+    row = package_row(root["name"])
+    descriptor_path = ARTIFACTS / row["descriptor"]
     directory.mkdir(parents=True, exist_ok=True)
     write_json(directory / "sbom.cdx.json", {
         "bomFormat": "CycloneDX", "specVersion": "1.6", "version": 1,
@@ -96,15 +142,18 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
               "Resolved runtime dependency inventory (dependencies retain their own licences):"]
     notice.extend(f"- {dep['name']} {dep['version']}: {dep['licenses'][0]['expression']} ({dep['purl']})"
                   for dep in dependencies)
-    notice.extend(["", "Third-party dependencies are referenced, not vendored into this package.",
-                   "The installed dependency packages supply their original licence and notice files.", ""])
+    notice.extend(["", ("The CLI tool embeds its resolved managed runtime dependencies; their upstream licence texts accompany this inventory."
+                        if row["id"] == "ArcForges.Cli" else
+                        "Third-party dependencies are referenced, not vendored into this package. Installed dependencies supply their original licence and notice files."), ""])
     directory.joinpath("NOTICE").write_text("\n".join(notice) + "\n" + package_notice(), encoding="utf-8")
     write_json(directory / "source.json", {
         "repository": "https://github.com/ArcForges/Contracts", "commit": commit,
-        "dirty": dirty, "version": release, "schema": "arcforges.hello.v1",
-        "descriptorSha256": sha256(ARTIFACTS / "contracts.binpb"),
+        "dirty": dirty, "version": release, "contractAccess": row["access"],
+        "schemaSources": {path: sha256(ROOT / path) for path in schema_sources(row)},
+        "descriptorSha256": sha256(descriptor_path),
         "dependencyLocks": {"package-lock.json": sha256(ROOT / "package-lock.json"),
-                            "PublicApi/packages.lock.json": sha256(DOTNET_PROJECT.parent / "packages.lock.json"),
+                            **{item["sourceRoot"] + "/packages.lock.json": sha256(ROOT / item["sourceRoot"] / "packages.lock.json")
+                               for item in packages("nuget")},
                             **{str(path.relative_to(ROOT)).replace("\\", "/"): sha256(path)
                                for path in [ROOT / "gradle.lockfile", *sorted((ROOT / "src/public/kotlin").rglob("gradle.lockfile"))]}},
     })
@@ -113,7 +162,7 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
     if identity["sourceCommit"] != commit or identity["dirty"] != dirty:
         raise ValueError("Source changed while packaging")
     write_json(directory / "build-identity.json", report(root, dependencies,
-               (ARTIFACTS / "contracts.binpb").read_bytes(), identity))
+               descriptor_path.read_bytes(), identity))
     if root["purl"].startswith("pkg:maven/"):
         write_json(directory / "META-INF/arcforges" / root["name"].split("/")[-1] / "build-identity.json",
                    read_json(directory / "build-identity.json"))
@@ -140,40 +189,43 @@ def pack(release: str) -> None:
     output.mkdir(parents=True)
     with tempfile.TemporaryDirectory(prefix="pack-", dir=ARTIFACTS) as temporary:
         stage = Path(temporary)
-        nuget_metadata = stage / "nuget-metadata"
-        metadata(nuget_metadata, nuget_graph(release), release, commit, dirty)
-        shutil.copyfile(ARTIFACTS / "contracts.binpb", nuget_metadata / "contracts.binpb")
-        run("dotnet", "pack", DOTNET_PROJECT, "-c", "Release", "--no-restore", "-o", output,
-            f"-p:PackageVersion={release}", f"-p:Version={release}",
-            f"-p:RepositoryCommit={commit}", f"-p:ContractMetadataDir={nuget_metadata}")
-        entries = [{"name": next(output.glob("*.nupkg")).name, "kind": "nuget", "id": NUGET_ID}]
-        for project in NPM_PROJECTS:
+        entries = []
+        for row in ordered("nuget"):
+            nuget_metadata = stage / row["id"]
+            metadata(nuget_metadata, nuget_graph(release, row), release, commit, dirty)
+            stage_schemas(nuget_metadata, row)
+            if row["id"] == "ArcForges.Cli":
+                stage_tool_licences(nuget_metadata, row)
+            project = ROOT / row["sourceRoot"] / (row["id"] + ".csproj")
+            run("dotnet", "pack", project, "-c", "Release", "--no-restore", "-o", output,
+                f"-p:PackageVersion={release}", f"-p:Version={release}",
+                f"-p:RepositoryCommit={commit}", f"-p:ContractMetadataDir={nuget_metadata}")
+            entries.append({"name": f"{row['id']}.{release}.nupkg", "kind": "nuget", "id": row["id"]})
+        for row in ordered("npm"):
+            project = ROOT / row["sourceRoot"]
             package = read_json(project / "package.json")
             target = stage / package["name"].split("/")[-1]
             target.mkdir()
             shutil.copytree(project / "dist", target / "dist")
-            for name in ["README.md"]:
-                shutil.copyfile(project / name, target / name)
+            shutil.copyfile(project / "README.md", target / "README.md")
             shutil.copyfile(ROOT / "src/public/LICENSE", target / "LICENSE")
             metadata(target, npm_graph(project, release), release, commit, dirty)
+            stage_schemas(target, row)
             package["version"] = release
-            package["files"].append("build-identity.json")
+            package["files"] = sorted(set(package["files"]) | {"build-identity.json", "schemas", "contracts.binpb"})
             package["exports"]["./build-identity"] = "./build-identity.json"
             package.pop("scripts", None)
-            for dependency in NPM_IDS:
-                if dependency in package["dependencies"]:
-                    package["dependencies"][dependency] = release
-            if package["name"] == "@arcforges/proto":
-                shutil.copytree(ROOT / "public/proto", target / "proto")
-                shutil.copyfile(ARTIFACTS / "contracts.binpb", target / "contracts.binpb")
+            for dependency in row["dependencies"]:
+                package["dependencies"][dependency] = release
             write_json(target / "package.json", package)
             packed = json.loads(run(NPM, "pack", target, "--ignore-scripts", "--json",
                                     "--pack-destination", output, capture=True))
             entries.append({"name": packed[0]["filename"], "kind": "npm", "id": package["name"]})
         from maven_tools import pack as pack_maven
         entries.append(pack_maven(output, release, commit, dirty))
-        shutil.copyfile(ARTIFACTS / "contracts.binpb", output / "contracts.binpb")
-        entries.append({"name": "contracts.binpb", "kind": "descriptor", "id": "arcforges.hello.v1"})
+        for descriptor in sorted({row["descriptor"] for row in packages()}):
+            shutil.copyfile(ARTIFACTS / descriptor, output / descriptor)
+            entries.append({"name": descriptor, "kind": "descriptor", "id": "descriptor:" + descriptor})
         for entry in entries:
             entry.update(sha256=sha256(output / entry["name"]), size=(output / entry["name"]).stat().st_size)
         from build_identity import build as build_identity
@@ -214,9 +266,11 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
     validate_source(manifest["build"])
     if manifest["build"]["sourceCommit"] != manifest["commit"] or manifest["build"]["dirty"] != manifest["dirty"]:
         raise ValueError("Candidate build identity differs from source metadata")
-    expected = {NUGET_ID, *NPM_IDS, "arcforges.hello.v1", "io.github.arcforges"}
-    if len(manifest["files"]) != 5 or {entry["id"] for entry in manifest["files"]} != expected:
-        raise ValueError("Candidate must contain one NuGet, two npm packages, a complete Maven bundle and a descriptor")
+    kinds = {row["id"]: row["kind"] for row in packages() if row["kind"] != "maven"}
+    kinds.update({"descriptor:" + row["descriptor"]: "descriptor" for row in packages()})
+    kinds["io.github.arcforges"] = "maven"
+    if len(manifest["files"]) != len(kinds) or {entry["id"] for entry in manifest["files"]} != set(kinds):
+        raise ValueError("Candidate must contain the complete registered package and descriptor inventory")
     names = {entry["name"] for entry in manifest["files"]}
     if {path.name for path in directory.iterdir()} != names | {"manifest.json"}:
         raise ValueError("Unexpected or missing candidate files")
@@ -228,20 +282,20 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         path = directory / name
         if sha256(path) != entry["sha256"] or path.stat().st_size != entry["size"]:
             raise ValueError(f"Candidate hash or size mismatch: {name}")
-        kinds = {NUGET_ID: "nuget", **{item: "npm" for item in NPM_IDS},
-                 "arcforges.hello.v1": "descriptor", "io.github.arcforges": "maven"}
         if entry["kind"] != kinds[entry["id"]]:
             raise ValueError("Candidate package kind differs from its identity")
         if not contents:
             continue  # The producer already checked archive contents; this is a trust handoff.
         if entry["kind"] == "descriptor":
-            if name != "contracts.binpb" or not descriptor:
+            if entry["id"] != "descriptor:" + name or not path.read_bytes():
                 raise ValueError("Missing descriptor")
             continue
         if entry["kind"] == "maven":
             from maven_tools import verify_bundle
-            verify_bundle(path, manifest, descriptor)
+            verify_bundle(path, manifest, (directory / "contracts.binpb").read_bytes())
             continue
+        row = package_row(entry["id"])
+        descriptor = (directory / row["descriptor"]).read_bytes()
         files = archive_files(path)
         for required in ["LICENSE", "NOTICE", "README.md", "sbom.cdx.json", "source.json", "build-identity.json"]:
             if not files.get(required):
@@ -253,6 +307,8 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         source = json.loads(files["source.json"])
         if source["version"] != release or source["commit"] != manifest["commit"] or source["dirty"] != manifest["dirty"]:
             raise ValueError(f"Source metadata differs in {name}")
+        if source.get("contractAccess") != row["access"] or source.get("schemaSources") != {item: sha256(ROOT / item) for item in schema_sources(row)}:
+            raise ValueError("Package source ownership or schema inventory differs")
         if source["descriptorSha256"] != hashlib.sha256(descriptor).hexdigest():
             raise ValueError(f"Schema hash differs in {name}")
         sbom = json.loads(files["sbom.cdx.json"])
@@ -260,16 +316,28 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         if sbom["metadata"]["component"]["name"] != entry["id"]:
             raise ValueError("SBOM identifies another package")
         if entry["kind"] == "nuget":
-            nuspec = ET.fromstring(files[f"{NUGET_ID}.nuspec"])
-            if nuspec.findtext(".//{*}id") != NUGET_ID or nuspec.findtext(".//{*}version") != release:
+            nuspec = ET.fromstring(files[f"{entry['id']}.nuspec"])
+            if nuspec.findtext(".//{*}id") != entry["id"] or nuspec.findtext(".//{*}version") != release:
                 raise ValueError("Unexpected NuGet identity")
             if nuspec.findtext(".//{*}license") != "Apache-2.0":
                 raise ValueError("Unexpected NuGet licence")
-            if f"lib/net10.0/{NUGET_ID}.dll" not in files:
+            assembly = ("tools/net10.0/any/" if entry["id"] == "ArcForges.Cli" else "lib/net10.0/") + entry["id"] + ".dll"
+            if assembly not in files:
                 raise ValueError("NuGet assembly is missing")
-            dependencies = {dep.get("id") for dep in nuspec.findall(".//{*}dependency")}
-            if dependencies != {"Google.Protobuf", "Grpc.Core.Api"}:
-                raise ValueError(f"Unexpected runtime dependency closure: {dependencies}")
+            dependencies = {dep.get("id"): dep.get("version") for dep in nuspec.findall(".//{*}dependency")}
+            if entry["id"] == "ArcForges.Cli":
+                if "tools/net10.0/any/DotnetToolSettings.xml" not in files:
+                    raise ValueError("CLI tool entry point is missing")
+            else:
+                project = ET.parse(ROOT / row["sourceRoot"] / (row["id"] + ".csproj"))
+                expected_dependencies = set(row["dependencies"]) | {
+                    item.get("Include") for item in project.findall(".//PackageReference")
+                    if item.get("PrivateAssets", "").lower() != "all"}
+                if set(dependencies) != expected_dependencies:
+                    raise ValueError(f"Unexpected runtime dependency closure: {dependencies}")
+                for dependency in row["dependencies"]:
+                    if dependencies[dependency].strip("[]() ") != release:
+                        raise ValueError("NuGet first-party dependency differs from candidate version")
         elif entry["kind"] == "npm":
             package = json.loads(files["package.json"])
             if package.get("exports", {}).get("./build-identity") != "./build-identity.json":
@@ -278,13 +346,18 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
                 raise ValueError("Unexpected npm identity or licence")
             if "scripts" in package or "dist/index.js" not in files or "dist/index.d.ts" not in files:
                 raise ValueError("npm package must contain prebuilt JS and declarations without lifecycle scripts")
-            if entry["id"] == "@arcforges/api-client" and package["dependencies"]["@arcforges/proto"] != release:
-                raise ValueError("The API client must pin this candidate's proto version")
+            for dependency in row["dependencies"]:
+                if package.get("dependencies", {}).get(dependency) != release:
+                    raise ValueError("The npm package must pin its first-party candidate dependencies")
         else:
             raise ValueError("Unknown candidate entry kind")
-        if entry["id"] in {NUGET_ID, "@arcforges/proto"}:
-            if files.get("contracts.binpb") != descriptor or "proto/arcforges/hello/v1/hello.proto" not in files:
-                raise ValueError("Proto or descriptor set is missing from schema package")
+        if files.get("contracts.binpb") != descriptor:
+            raise ValueError("Package descriptor differs from its selected schema closure")
+        for source_path in schema_sources(row):
+            if files.get("schemas/" + source_path) != (ROOT / source_path).read_bytes():
+                raise ValueError("Authored schema source missing or changed in package")
+        if row["access"] == "public" and any(item.startswith("schemas/internal/") for item in files):
+            raise ValueError("Internal schema leaked into a public package")
         if any("node_modules/" in item or "/obj/" in item or item.endswith(".csproj") for item in files):
             raise ValueError("Build inputs or installed dependencies leaked into an archive")
     print(f"Verified candidate {'contents' if contents else 'handoff identity/integrity'}: {release}")

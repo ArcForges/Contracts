@@ -11,6 +11,7 @@ artifacts/
 **/dist/
 **/node_modules/
 **/generated/
+src/public/ts/contract-fixtures/src/index.ts
 **/build/
 **/.gradle/
 **/.kotlin/

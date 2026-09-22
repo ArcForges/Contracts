@@ -36,6 +36,37 @@ LICENCES = {**{name: "permissive" for name in
             "GPL-3.0-only": "gpl-only", "NOASSERTION": "unclear", "EPL-1.0": "incompatible"}
 
 
+def retired_contract_artifact(root: Path, owner: str, target: dict, old_record: str,
+                              files: set | list) -> bool:
+    """One explicit historical retirement; all other removed artifacts fail closed."""
+    receipt_path = "eng/provenance/retirements/contracts-client-wp03-00.json"
+    expected = {"project": "contracts-client", "package": "io.github.arcforges:contracts-client",
+                "kind": "maven-javadoc"}
+    if owner != "Contracts" or any(target.get(key) != value for key, value in expected.items()):
+        return False
+    if receipt_path not in files:
+        return False
+    receipt = document(read(root, receipt_path))
+    fields(receipt, "schemaVersion owner project package kind previousRecord replacementPackage sourceRoot designCommit reason")
+    require(receipt["schemaVersion"] == 1 and receipt["owner"] == owner and
+            all(receipt[key] == value for key, value in expected.items()), "Invalid artifact retirement identity")
+    require(receipt["previousRecord"] == old_record == "dokka-documentation-resources-r3",
+            "Artifact retirement does not bind the accepted record")
+    require(receipt["designCommit"] == "26f15ebf6278e8cd42c2b2396e82c326513e1078" and
+            bool(text(receipt["reason"])), "Artifact retirement lacks approved design decision")
+    require(receipt["sourceRoot"] == "src/public/kotlin/contracts-client" and
+            not (root / receipt["sourceRoot"]).exists() and
+            not any(name.startswith(receipt["sourceRoot"] + "/") for name in files),
+            "Retired artifact still has producer sources")
+    require(receipt["replacementPackage"] == "io.github.arcforges:contracts-connect-client",
+            "Unexpected retirement replacement")
+    packages = document(read(root, "eng/contract-packages.json"))["packages"]
+    ids = {row["id"] for row in packages}
+    require(receipt["package"] not in ids and receipt["replacementPackage"] in ids,
+            "Retirement differs from active publication catalog")
+    return True
+
+
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
@@ -338,6 +369,8 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
                 replacements = [name for name in inv["artifacts"] if any(
                     all(row[key] == target[key] for key in ("project", "package", "kind"))
                     for row in records[name]["artifactTargets"])]
+                if not replacements and retired_contract_artifact(root, owner, target, old_name, files):
+                    continue
                 require(len(replacements) == 1, "Active artifact silently removed or multiply classified")
                 name = replacements[0]
                 while name != old_name and name is not None:

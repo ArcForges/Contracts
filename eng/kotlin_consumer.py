@@ -11,10 +11,11 @@ from maven_tools import zip_contents
 
 
 def prepare(consumer: Path, directory: Path, manifest: dict, env: dict,
-            evidence: Path, update_locks: bool = False, project_name: str = "KotlinClient", repository: str | None = None) -> tuple[Path, dict]:
-    application = {"KotlinClient": "kotlin-archive-consumer",
-                   "KotlinConnectClient": "kotlin-connect-archive-consumer"}[project_name]
-    evidence_prefix = "kotlin-" if project_name == "KotlinClient" else "kotlin-connect-"
+            evidence: Path, update_locks: bool = False, project_name: str = "KotlinConnectClient", repository: str | None = None) -> tuple[Path, dict]:
+    if project_name != "KotlinConnectClient":
+        raise ValueError("Native-only Kotlin consumer retired; use the Connect client")
+    application = "kotlin-connect-archive-consumer"
+    evidence_prefix = "kotlin-connect-"
     source = ROOT / "tests/public" / project_name
     project = consumer / project_name
     shutil.copytree(source, project,

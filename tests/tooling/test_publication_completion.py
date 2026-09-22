@@ -109,11 +109,13 @@ class PublicationCompletion(unittest.TestCase):
 
     def test_publication_handoff_checks_bytes_without_rescanning_archives(self):
         entries = []
-        for name, kind, identity in (("x.nupkg", "nuget", "ArcForges.Contracts.PublicApi"),
-                                     ("proto.tgz", "npm", "@arcforges/proto"),
-                                     ("client.tgz", "npm", "@arcforges/api-client"),
-                                     ("maven.zip", "maven", "io.github.arcforges"),
-                                     ("contracts.binpb", "descriptor", "arcforges.hello.v1")):
+        from package_catalog import packages
+        inventory = [("package-" + str(index) + (".nupkg" if row["kind"] == "nuget" else ".tgz"), row["kind"], row["id"])
+                     for index, row in enumerate(packages()) if row["kind"] != "maven"]
+        inventory += [("maven.zip", "maven", "io.github.arcforges")]
+        inventory += [(name, "descriptor", "descriptor:" + name)
+                      for name in sorted({row["descriptor"] for row in packages()})]
+        for name, kind, identity in inventory:
             data = name.encode()
             (self.directory / name).write_bytes(data)
             entries.append({"name": name, "kind": kind, "id": identity,
@@ -124,7 +126,7 @@ class PublicationCompletion(unittest.TestCase):
         with patch("build_identity.validate_source"), \
              patch("packaging_tools.archive_files", side_effect=AssertionError("Archive rescan prohibited")):
             self.assertEqual(verify_artifacts(self.directory, "a" * 40, contents=False), manifest)
-            (self.directory / "x.nupkg").write_bytes(b"altered")
+            (self.directory / inventory[0][0]).write_bytes(b"altered")
             with self.assertRaisesRegex(ValueError, "hash or size mismatch"):
                 verify_artifacts(self.directory, "a" * 40, contents=False)
 
