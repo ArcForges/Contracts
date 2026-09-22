@@ -16,6 +16,8 @@
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditMode>all</NuGetAuditMode>
     <IsPackable>false</IsPackable>
+    <!-- WP03.02: JSON uses generated metadata only; reflection-based System.Text.Json is off in every project. -->
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <RepositoryUrl>https://github.com/ArcForges/Contracts</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

@@ -18,6 +18,11 @@
   Registry setup belongs in GitHub environments/variables and trusted publishers.
 - Write repository documentation in English. Keep examples explicitly separate
   from production product contracts and from evidence of Android device operation.
+- Serialization (WP03.02): generated protobuf code is the only business wire format; declared
+  HTTP exceptions use the generated strict JSON codecs. Never add reflection serializers, protobuf
+  JSON mapping, `Any`/`Struct`, runtime registries or server reflection, and never enable
+  reflection-based System.Text.Json. `eng/check_serialization.py` and the Native AOT
+  `tests/public/SerializationProbe` enforce this in the build.
 
 ## Validation policy (P2-017)
 

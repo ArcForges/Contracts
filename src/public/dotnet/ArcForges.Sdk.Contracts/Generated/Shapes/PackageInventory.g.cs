@@ -31,6 +31,17 @@ public sealed record InventoryFile
 }
 
 /// <summary>Compile-time JSON metadata for the PackageInventory schema and its record dependencies.</summary>
+[global::System.Text.Json.Serialization.JsonSourceGenerationOptions(
+    AllowDuplicateProperties = false,
+    AllowTrailingCommas = false,
+    DefaultIgnoreCondition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+    MaxDepth = 32,
+    NumberHandling = global::System.Text.Json.Serialization.JsonNumberHandling.Strict,
+    ReadCommentHandling = global::System.Text.Json.JsonCommentHandling.Disallow,
+    RespectNullableAnnotations = true,
+    RespectRequiredConstructorParameters = true,
+    UnmappedMemberHandling = global::System.Text.Json.Serialization.JsonUnmappedMemberHandling.Disallow,
+    WriteIndented = false)]
 [global::System.Text.Json.Serialization.JsonSerializable(typeof(InventoryFile))]
 [global::System.Text.Json.Serialization.JsonSerializable(typeof(PackageInventory))]
 public partial class PackageInventoryJsonContext : global::System.Text.Json.Serialization.JsonSerializerContext { }

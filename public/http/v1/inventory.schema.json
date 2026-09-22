@@ -44,5 +44,6 @@
     }
   },
   "x-arcforges-rules": ["inventoryPaths", "inventoryBounds"],
+  "x-arcforges-max-bytes": 4194304,
   "x-arcforges-schema-version": "1"
 }

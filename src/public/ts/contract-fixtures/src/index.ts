@@ -9992,5 +9992,863 @@ export const publicFixtures = {
         "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
       }
     ]
+  },
+  "wp03-02.json": {
+    "schemaVersion": "wp03-02-fixtures.v1",
+    "license": "Apache-2.0",
+    "authority": "Design WP03.02 serialization posture profile and registry04 section 8 at 212825003ed712200e585445301473233404f597",
+    "oracle": "Independently authored construction rules and expected outcomes. Implementations build the described bytes; no expectation is derived from generated code output.",
+    "limits": {
+      "unaryMessage": 4194304,
+      "helperMessage": 4194304,
+      "inlinePage": 262144,
+      "streamFrame": 32768,
+      "largeProjection": 67108864,
+      "nestedMessageLevels": 100,
+      "jsonDepth": 32,
+      "jsonBytes": {
+        "PartReceipt": 65536,
+        "CommitReceipt": 65536,
+        "PackageInventory": 4194304
+      }
+    },
+    "constructions": {
+      "filler": "Encode one unknown length-delimited field 15999 of zero bytes, choosing its payload length so the complete message has exactly totalBytes bytes.",
+      "nested": "Starting at an empty innermost message, wrap it levels times as a length-delimited field; the outermost wrapper uses fields[0] and fields alternate inward. levels counts nested message levels below the root.",
+      "hex": "Decode exactly the lowercase hexadecimal bytes.",
+      "pad": "Append ASCII spaces to the UTF-8 base text until the document has exactly totalBytes bytes."
+    },
+    "outcomes": {
+      "accept": "Decoding or encoding succeeds; reencodeHex, when present, is the exact re-encoded message and canonical is the semantic JSON value after parse and serialize.",
+      "tooLarge": "Refused by the byte limit before parsing or writing.",
+      "tooDeep": "Refused by the nesting-depth limit.",
+      "malformed": "Refused as invalid wire bytes, invalid UTF-8/JSON syntax, duplicate property or excess JSON depth.",
+      "invalid": "Well-formed JSON refused by the closed schema."
+    },
+    "binary": [
+      {
+        "id": "size-unaryMessage-exact",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 4194304
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "size-unaryMessage-over",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 4194305
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "size-helperMessage-exact",
+        "operation": "decode",
+        "limit": "helperMessage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 4194304
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "size-helperMessage-over",
+        "operation": "decode",
+        "limit": "helperMessage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 4194305
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "size-inlinePage-exact",
+        "operation": "decode",
+        "limit": "inlinePage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 262144
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "size-inlinePage-over",
+        "operation": "decode",
+        "limit": "inlinePage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 262145
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "size-streamFrame-exact",
+        "operation": "decode",
+        "limit": "streamFrame",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 32768
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "size-streamFrame-over",
+        "operation": "decode",
+        "limit": "streamFrame",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 32769
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "size-largeProjection-exact",
+        "operation": "decode",
+        "limit": "largeProjection",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 67108864
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "size-largeProjection-over",
+        "operation": "decode",
+        "limit": "largeProjection",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 67108865
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "encode-streamFrame-exact",
+        "operation": "encode",
+        "limit": "streamFrame",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 32768
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "encode-streamFrame-over",
+        "operation": "encode",
+        "limit": "streamFrame",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 32769
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "encode-inlinePage-exact",
+        "operation": "encode",
+        "limit": "inlinePage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 262144
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "encode-inlinePage-over",
+        "operation": "encode",
+        "limit": "inlinePage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 262145
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "encode-unaryMessage-exact",
+        "operation": "encode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 4194304
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "encode-unaryMessage-over",
+        "operation": "encode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "filler",
+          "target": "arcforges.foundation.v1.Id",
+          "totalBytes": 4194305
+        },
+        "expect": "tooLarge"
+      },
+      {
+        "id": "nesting-1",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "nested",
+          "target": "arcforges.publicapi.v1.NotesFilter",
+          "fields": [
+            1,
+            2
+          ],
+          "levels": 1
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "nesting-99",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "nested",
+          "target": "arcforges.publicapi.v1.NotesFilter",
+          "fields": [
+            1,
+            2
+          ],
+          "levels": 99
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "nesting-100",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "nested",
+          "target": "arcforges.publicapi.v1.NotesFilter",
+          "fields": [
+            1,
+            2
+          ],
+          "levels": 100
+        },
+        "expect": "accept"
+      },
+      {
+        "id": "nesting-101",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "nested",
+          "target": "arcforges.publicapi.v1.NotesFilter",
+          "fields": [
+            1,
+            2
+          ],
+          "levels": 101
+        },
+        "expect": "tooDeep"
+      },
+      {
+        "id": "nesting-150",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "nested",
+          "target": "arcforges.publicapi.v1.NotesFilter",
+          "fields": [
+            1,
+            2
+          ],
+          "levels": 150
+        },
+        "expect": "tooDeep"
+      },
+      {
+        "id": "unknown-fields-preserved",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0a1000112233445566778899aabbccddeeff2801c23e03616263"
+        },
+        "expect": "accept",
+        "reencodeHex": "0a1000112233445566778899aabbccddeeff2801c23e03616263",
+        "note": "Known field 1 followed by unknown varint field 5 and unknown length-delimited field 1000; both are retained in order."
+      },
+      {
+        "id": "unknown-enum-number-retained",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.ArcError",
+          "hex": "1063"
+        },
+        "expect": "accept",
+        "reencodeHex": "1063",
+        "note": "ErrorCategory number 99 is not declared; the open enum value is retained on read and re-emitted."
+      },
+      {
+        "id": "empty-message",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": ""
+        },
+        "expect": "accept",
+        "reencodeHex": ""
+      },
+      {
+        "id": "truncated-length-delimited",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0a050102"
+        },
+        "expect": "malformed"
+      },
+      {
+        "id": "invalid-wire-type-7",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0f00"
+        },
+        "expect": "malformed"
+      },
+      {
+        "id": "invalid-wire-type-6",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0e00"
+        },
+        "expect": "malformed"
+      },
+      {
+        "id": "unmatched-end-group",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0c"
+        },
+        "expect": "malformed"
+      },
+      {
+        "id": "varint-overflow",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "08ffffffffffffffffffff01"
+        },
+        "expect": "malformed"
+      },
+      {
+        "id": "field-number-zero",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0000"
+        },
+        "expect": "malformed"
+      },
+      {
+        "id": "truncated-varint",
+        "operation": "decode",
+        "limit": "unaryMessage",
+        "construct": {
+          "kind": "hex",
+          "target": "arcforges.foundation.v1.Id",
+          "hex": "0880"
+        },
+        "expect": "malformed"
+      }
+    ],
+    "json": [
+      {
+        "id": "part-canonical",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}",
+        "canonical": {
+          "partNumber": 1,
+          "size": "5242880",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        }
+      },
+      {
+        "id": "part-whitespace",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": " \n{ \"partNumber\" : 1 ,\t\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}\r\n",
+        "canonical": {
+          "partNumber": 1,
+          "size": "5242880",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        }
+      },
+      {
+        "id": "part-reordered",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": "{\"etag\":\"\\\"e1\\\"\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"size\":\"5242880\",\"partNumber\":1}",
+        "canonical": {
+          "partNumber": 1,
+          "size": "5242880",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        }
+      },
+      {
+        "id": "part-unicode-escapes",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": "{\"partNumber\":0,\"size\":\"0\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\u4e2d\\ud83d\\ude00\\n\"}",
+        "canonical": {
+          "partNumber": 0,
+          "size": "0",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\u4e2d\ud83d\ude00\n"
+        }
+      },
+      {
+        "id": "part-negative-zero",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": "{\"partNumber\":-0,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}",
+        "canonical": {
+          "partNumber": 0,
+          "size": "5242880",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        },
+        "note": "-0 matches the integer lexeme grammar and denotes zero."
+      },
+      {
+        "id": "part-max-part-number",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": "{\"partNumber\":4294967295,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}",
+        "canonical": {
+          "partNumber": 4294967295,
+          "size": "5242880",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        }
+      },
+      {
+        "id": "part-max-uint64-size",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "text": "{\"partNumber\":1,\"size\":\"18446744073709551615\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}",
+        "canonical": {
+          "partNumber": 1,
+          "size": "18446744073709551615",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        }
+      },
+      {
+        "id": "part-unknown-property",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\",\"extra\":1}"
+      },
+      {
+        "id": "part-missing-etag",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}"
+      },
+      {
+        "id": "part-null-etag",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":null}"
+      },
+      {
+        "id": "part-string-integer",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":\"1\",\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-fraction-integer",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1.0,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-exponent-integer",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1e0,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-negative-integer",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":-1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-integer-overflow",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":4294967296,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-numeric-size",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":5242880,\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-leading-zero-size",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"05242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-size-overflow",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"18446744073709551616\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-top-level-array",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "[{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}]"
+      },
+      {
+        "id": "part-uppercase-sha",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-boolean-etag",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":true}"
+      },
+      {
+        "id": "part-duplicate-property",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\",\"etag\":\"x\"}"
+      },
+      {
+        "id": "part-comment",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{/*c*/\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-trailing-comma",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\",}"
+      },
+      {
+        "id": "part-trailing-content",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"} {}"
+      },
+      {
+        "id": "part-empty-input",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": ""
+      },
+      {
+        "id": "part-lone-surrogate-escape",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\ud800\"}"
+      },
+      {
+        "id": "part-single-quotes",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",'etag':'x'}"
+      },
+      {
+        "id": "part-unterminated",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\""
+      },
+      {
+        "id": "part-nan",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":NaN,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}"
+      },
+      {
+        "id": "part-utf8-bom",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "hex": "efbbbf7b22706172744e756d626572223a312c2273697a65223a2235323432383830222c22736861323536223a2261616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c2265746167223a225c2265315c22227d"
+      },
+      {
+        "id": "part-invalid-utf8",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "hex": "7b22706172744e756d626572223a312c2273697a65223a2235323432383830222c22736861323536223a2261616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c2265746167223a225c2265ff5c22227d",
+        "note": "The etag contains the invalid UTF-8 byte ff."
+      },
+      {
+        "id": "part-depth-32",
+        "schema": "PartReceipt",
+        "expect": "invalid",
+        "text": "{\"partNumber\":1,\"size\":\"1\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}",
+        "note": "The root object plus 31 nested arrays is 32 levels: syntactically admitted, rejected by the schema."
+      },
+      {
+        "id": "part-depth-33",
+        "schema": "PartReceipt",
+        "expect": "malformed",
+        "text": "{\"partNumber\":1,\"size\":\"1\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}",
+        "note": "The root object plus 32 nested arrays exceeds maximum depth 32."
+      },
+      {
+        "id": "part-byte-limit-exact",
+        "schema": "PartReceipt",
+        "expect": "accept",
+        "construct": {
+          "kind": "pad",
+          "base": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}",
+          "totalBytes": 65536
+        },
+        "canonical": {
+          "partNumber": 1,
+          "size": "5242880",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "etag": "\"e1\""
+        },
+        "note": "Trailing spaces pad the document to exactly the declared byte limit."
+      },
+      {
+        "id": "part-byte-limit-over",
+        "schema": "PartReceipt",
+        "expect": "tooLarge",
+        "construct": {
+          "kind": "pad",
+          "base": "{\"partNumber\":1,\"size\":\"5242880\",\"sha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"etag\":\"\\\"e1\\\"\"}",
+          "totalBytes": 65537
+        }
+      },
+      {
+        "id": "commit-canonical",
+        "schema": "CommitReceipt",
+        "expect": "accept",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\"}",
+        "canonical": {
+          "commandId": "00112233-4455-6677-8899-aabbccddeeff",
+          "operation": "notes.document.create",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "resultHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "state": "committed"
+        }
+      },
+      {
+        "id": "commit-with-result",
+        "schema": "CommitReceipt",
+        "expect": "accept",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\",\"resultRef\":{\"root\":{\"kind\":\"notes.document\",\"id\":\"ffeeddcc-bbaa-9988-7766-554433221100\"},\"revision\":\"9223372036854775807\",\"sha256\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"}}",
+        "canonical": {
+          "commandId": "00112233-4455-6677-8899-aabbccddeeff",
+          "operation": "notes.document.create",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "resultHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "state": "committed",
+          "resultRef": {
+            "root": {
+              "kind": "notes.document",
+              "id": "ffeeddcc-bbaa-9988-7766-554433221100"
+            },
+            "revision": "9223372036854775807",
+            "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        }
+      },
+      {
+        "id": "commit-null-optional",
+        "schema": "CommitReceipt",
+        "expect": "invalid",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\",\"resultRef\":null}",
+        "note": "An absent optional property is omitted, never null."
+      },
+      {
+        "id": "commit-zero-revision",
+        "schema": "CommitReceipt",
+        "expect": "invalid",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\",\"resultRef\":{\"root\":{\"kind\":\"notes.document\",\"id\":\"ffeeddcc-bbaa-9988-7766-554433221100\"},\"revision\":\"0\",\"sha256\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"}}"
+      },
+      {
+        "id": "commit-revision-overflow",
+        "schema": "CommitReceipt",
+        "expect": "invalid",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\",\"resultRef\":{\"root\":{\"kind\":\"notes.document\",\"id\":\"ffeeddcc-bbaa-9988-7766-554433221100\"},\"revision\":\"9223372036854775808\",\"sha256\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"}}"
+      },
+      {
+        "id": "commit-unknown-state",
+        "schema": "CommitReceipt",
+        "expect": "invalid",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"pending\"}"
+      },
+      {
+        "id": "commit-nil-uuid",
+        "schema": "CommitReceipt",
+        "expect": "invalid",
+        "text": "{\"commandId\":\"00000000-0000-0000-0000-000000000000\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\"}"
+      },
+      {
+        "id": "commit-nested-unknown",
+        "schema": "CommitReceipt",
+        "expect": "invalid",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\",\"resultRef\":{\"root\":{\"kind\":\"notes.document\",\"id\":\"ffeeddcc-bbaa-9988-7766-554433221100\"},\"revision\":\"9223372036854775807\",\"sha256\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\",\"extra\":true}}"
+      },
+      {
+        "id": "commit-nested-duplicate",
+        "schema": "CommitReceipt",
+        "expect": "malformed",
+        "text": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\",\"resultRef\":{\"root\":{\"kind\":\"notes.document\",\"id\":\"ffeeddcc-bbaa-9988-7766-554433221100\"},\"revision\":\"9223372036854775807\",\"sha256\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\",\"sha256\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"}}"
+      },
+      {
+        "id": "commit-byte-limit-over",
+        "schema": "CommitReceipt",
+        "expect": "tooLarge",
+        "construct": {
+          "kind": "pad",
+          "base": "{\"commandId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"operation\":\"notes.document.create\",\"requestHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"resultHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"state\":\"committed\"}",
+          "totalBytes": 65537
+        }
+      },
+      {
+        "id": "inventory-canonical",
+        "schema": "PackageInventory",
+        "expect": "accept",
+        "text": "{\"schemaVersion\":\"inventory.v1\",\"files\":[{\"path\":\"lib/a.dll\",\"size\":\"10\",\"sha256\":\"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\"},{\"path\":\"manifest.json\",\"size\":\"2\",\"sha256\":\"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\"}]}",
+        "canonical": {
+          "schemaVersion": "inventory.v1",
+          "files": [
+            {
+              "path": "lib/a.dll",
+              "size": "10",
+              "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            {
+              "path": "manifest.json",
+              "size": "2",
+              "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            }
+          ]
+        }
+      },
+      {
+        "id": "inventory-byte-limit-exact",
+        "schema": "PackageInventory",
+        "expect": "accept",
+        "construct": {
+          "kind": "pad",
+          "base": "{\"schemaVersion\":\"inventory.v1\",\"files\":[{\"path\":\"lib/a.dll\",\"size\":\"10\",\"sha256\":\"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\"},{\"path\":\"manifest.json\",\"size\":\"2\",\"sha256\":\"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\"}]}",
+          "totalBytes": 4194304
+        },
+        "canonical": {
+          "schemaVersion": "inventory.v1",
+          "files": [
+            {
+              "path": "lib/a.dll",
+              "size": "10",
+              "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            {
+              "path": "manifest.json",
+              "size": "2",
+              "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            }
+          ]
+        }
+      },
+      {
+        "id": "inventory-byte-limit-over",
+        "schema": "PackageInventory",
+        "expect": "tooLarge",
+        "construct": {
+          "kind": "pad",
+          "base": "{\"schemaVersion\":\"inventory.v1\",\"files\":[{\"path\":\"lib/a.dll\",\"size\":\"10\",\"sha256\":\"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\"},{\"path\":\"manifest.json\",\"size\":\"2\",\"sha256\":\"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\"}]}",
+          "totalBytes": 4194305
+        }
+      },
+      {
+        "id": "inventory-unsorted",
+        "schema": "PackageInventory",
+        "expect": "invalid",
+        "text": "{\"schemaVersion\":\"inventory.v1\",\"files\":[{\"path\":\"manifest.json\",\"size\":\"2\",\"sha256\":\"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\"},{\"path\":\"lib/a.dll\",\"size\":\"10\",\"sha256\":\"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\"}]}"
+      },
+      {
+        "id": "inventory-duplicate-key",
+        "schema": "PackageInventory",
+        "expect": "malformed",
+        "text": "{\"schemaVersion\":\"inventory.v1\",\"files\":[{\"path\":\"lib/a.dll\",\"size\":\"10\",\"sha256\":\"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\"},{\"path\":\"manifest.json\",\"size\":\"2\",\"sha256\":\"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\"}],\"schemaVersion\":\"inventory.v1\"}"
+      }
+    ],
+    "services": {
+      "csharp": {
+        "ArcForges.Contracts.PublicApi": [
+          "arcforges.hello.v1.HelloService"
+        ],
+        "ArcForges.Sdk.Contracts": [
+          "arcforges.extensions.v1.ExtensionHostService"
+        ]
+      },
+      "typescript": {
+        "@arcforges/proto": [
+          "arcforges.hello.v1.HelloService"
+        ]
+      },
+      "methods": {
+        "arcforges.hello.v1.HelloService": [
+          "/arcforges.hello.v1.HelloService/SayHello"
+        ],
+        "arcforges.extensions.v1.ExtensionHostService": [
+          "/arcforges.extensions.v1.ExtensionHostService/RenewLease"
+        ]
+      }
+    }
   }
 } as const;

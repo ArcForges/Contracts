@@ -214,10 +214,7 @@
       "construct": {
         "kind": "nested",
         "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [
-          1,
-          2
-        ],
+        "fields": [1, 2],
         "levels": 1
       },
       "expect": "accept"
@@ -229,10 +226,7 @@
       "construct": {
         "kind": "nested",
         "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [
-          1,
-          2
-        ],
+        "fields": [1, 2],
         "levels": 99
       },
       "expect": "accept"
@@ -244,10 +238,7 @@
       "construct": {
         "kind": "nested",
         "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [
-          1,
-          2
-        ],
+        "fields": [1, 2],
         "levels": 100
       },
       "expect": "accept"
@@ -259,10 +250,7 @@
       "construct": {
         "kind": "nested",
         "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [
-          1,
-          2
-        ],
+        "fields": [1, 2],
         "levels": 101
       },
       "expect": "tooDeep"
@@ -274,10 +262,7 @@
       "construct": {
         "kind": "nested",
         "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [
-          1,
-          2
-        ],
+        "fields": [1, 2],
         "levels": 150
       },
       "expect": "tooDeep"
@@ -834,22 +819,14 @@
   ],
   "services": {
     "csharp": {
-      "ArcForges.Contracts.PublicApi": [
-        "arcforges.hello.v1.HelloService"
-      ],
-      "ArcForges.Sdk.Contracts": [
-        "arcforges.extensions.v1.ExtensionHostService"
-      ]
+      "ArcForges.Contracts.PublicApi": ["arcforges.hello.v1.HelloService"],
+      "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"]
     },
     "typescript": {
-      "@arcforges/proto": [
-        "arcforges.hello.v1.HelloService"
-      ]
+      "@arcforges/proto": ["arcforges.hello.v1.HelloService"]
     },
     "methods": {
-      "arcforges.hello.v1.HelloService": [
-        "/arcforges.hello.v1.HelloService/SayHello"
-      ],
+      "arcforges.hello.v1.HelloService": ["/arcforges.hello.v1.HelloService/SayHello"],
       "arcforges.extensions.v1.ExtensionHostService": [
         "/arcforges.extensions.v1.ExtensionHostService/RenewLease"
       ]

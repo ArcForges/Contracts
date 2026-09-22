@@ -25,5 +25,6 @@
   },
   "required": ["partNumber", "size", "sha256", "etag"],
   "additionalProperties": false,
+  "x-arcforges-max-bytes": 65536,
   "x-arcforges-schema-version": "1"
 }

@@ -59,7 +59,8 @@ class JsonShapes:
         self.nodes.append(node)
         allowed = {"$schema", "$id", "$defs", "title", "description", "type", "properties", "required",
                    "additionalProperties", "items", "minItems", "maxItems", "minLength", "maxLength",
-                   "minimum", "maximum", "pattern", "enum", "const", "not", "x-arcforges-rules", "x-arcforges-schema-version", "$comment"}
+                   "minimum", "maximum", "pattern", "enum", "const", "not", "x-arcforges-rules", "x-arcforges-schema-version",
+                   "x-arcforges-max-bytes", "$comment"}
         unknown = node.keys() - allowed
         if unknown:
             raise ValueError(f"Unimplemented JSON shape constraints: {sorted(unknown)}")
@@ -117,16 +118,56 @@ class JsonShapes:
             self.compile_node(index, node)
         cs = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {self.namespace};\n\n" + "\n".join(model_cs)
         cs += f"\n/// <summary>Compile-time JSON metadata for the {html.escape(self.title)} schema and its record dependencies.</summary>\n"
+        cs += CS_CONTEXT_OPTIONS
         cs += "\n".join(f"[global::System.Text.Json.Serialization.JsonSerializable(typeof({name}))]" for name in sorted(done))
         cs += f"\npublic partial class {self.title}JsonContext : global::System.Text.Json.Serialization.JsonSerializerContext {{ }}\n\n"
         validator_namespace = self.namespace if "CloudInternal" in self.namespace else "ArcForges.Contracts.Validation"
         validator = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {validator_namespace};\n\n"
         validator += f"/// <summary>Closed authored-schema validation for {html.escape(self.title)} JSON values.</summary>\npublic static class {self.title}Json\n{{\n"
         validator += "    /// <summary>Checks required fields, declared types, unknown properties and selected profile bounds.</summary>\n    public static bool IsValid(global::System.Text.Json.JsonElement value) => Check0(value);\n"
+        validator += self.cs_codec()
         validator += "\n".join(self.cs) + "\n" + CS_JSON_HELPERS + "\n}\n"
         ts = HEADER + "\n".join(model_ts) + f"\nexport function is{self.title}(value: unknown): value is {self.title} {{ return check0(value); }}\n"
+        ts += self.ts_codec(sorted(done))
         ts += "\n".join(self.ts) + "\n" + TS_JSON_HELPERS
         return cs, validator, ts
+
+    def max_bytes(self) -> int:
+        value = self.schema.get("x-arcforges-max-bytes")
+        if type(value) is not int or not 1 <= value <= 4194304:
+            raise ValueError(f"{self.title} must declare x-arcforges-max-bytes within the 4 MiB transport bound")
+        return value
+
+    def cs_codec(self) -> str:
+        record = f"global::{self.namespace}.{self.title}"
+        info = f"global::{self.namespace}.{self.title}JsonContext.Default.{self.title}"
+        return (CS_CODEC.replace("__RECORD__", record).replace("__INFO__", info)
+                .replace("__MAX__", str(self.max_bytes())).replace("__TITLE__", html.escape(self.title)))
+
+    def ts_codec(self, models: list[str]) -> str:
+        stem = self.title[:1].lower() + self.title[1:]
+        lines = [TS_CODEC.replace("__TITLE__", self.title).replace("__STEM__", stem).replace("__MAX__", str(self.max_bytes()))]
+        for name in models:
+            node = self.models[name]
+            lines.append(f"function order{name}(value: {name}): Record<string, unknown> {{\n  const out: Record<string, unknown> = {{}};")
+            for prop, child in node["properties"].items():
+                access = f"value[{literal(prop)}]"
+                target = self.resolve(child)
+                if target.get("type") == "object":
+                    child_name = child["$ref"].split("/")[-1] if "$ref" in child else target.get("title", name + pascal(prop))
+                    expression = f"order{child_name}({access})"
+                elif target.get("type") == "array" and self.resolve(target["items"]).get("type") == "object":
+                    items = target["items"]
+                    child_name = items["$ref"].split("/")[-1] if "$ref" in items else self.resolve(items).get("title")
+                    expression = f"{access}.map(item => order{child_name}(item))"
+                else:
+                    expression = access
+                if prop in node.get("required", []):
+                    lines.append(f"  out[{literal(prop)}] = {expression};")
+                else:
+                    lines.append(f"  if ({access} !== undefined) out[{literal(prop)}] = {expression};")
+            lines.append("  return out;\n}")
+        return "\n".join(lines) + "\n"
 
     def compile_node(self, index: int, node: dict) -> None:
         c = [f"    private static bool Check{index}(global::System.Text.Json.JsonElement value)\n    {{"]
@@ -213,6 +254,107 @@ class JsonShapes:
         self.ts.append("\n".join(t))
 
 
+CS_CONTEXT_OPTIONS = '''[global::System.Text.Json.Serialization.JsonSourceGenerationOptions(
+    AllowDuplicateProperties = false,
+    AllowTrailingCommas = false,
+    DefaultIgnoreCondition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+    MaxDepth = 32,
+    NumberHandling = global::System.Text.Json.Serialization.JsonNumberHandling.Strict,
+    ReadCommentHandling = global::System.Text.Json.JsonCommentHandling.Disallow,
+    RespectNullableAnnotations = true,
+    RespectRequiredConstructorParameters = true,
+    UnmappedMemberHandling = global::System.Text.Json.Serialization.JsonUnmappedMemberHandling.Disallow,
+    WriteIndented = false)]
+'''
+
+CS_CODEC = r'''    /// <summary>The schema's declared UTF-8 document bound in bytes.</summary>
+    public const int MaxBytes = __MAX__;
+    /// <summary>The maximum JSON container depth, counting the root.</summary>
+    public const int MaxDepth = 32;
+
+    /// <summary>Parses one strict __TITLE__ document or throws a typed refusal.</summary>
+    public static __RECORD__ Parse(global::System.ReadOnlyMemory<byte> utf8)
+        => TryParse(utf8, out var value, out var failure) ? value! : throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
+
+    /// <summary>Checks the byte bound, UTF-8 without BOM, syntax, depth and duplicate properties, then the closed schema, before generated deserialization.</summary>
+    public static bool TryParse(global::System.ReadOnlyMemory<byte> utf8, out __RECORD__? value,
+        out global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure failure)
+    {
+        value = null;
+        failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Malformed;
+        if (utf8.Length > MaxBytes)
+        {
+            failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.TooLarge;
+            return false;
+        }
+        if (utf8.Span.StartsWith("\xEF\xBB\xBF"u8) || !global::System.Text.Unicode.Utf8.IsValid(utf8.Span)) return false;
+        global::System.Text.Json.JsonDocument document;
+        try { document = global::System.Text.Json.JsonDocument.Parse(utf8, DocumentOptions); }
+        catch (global::System.Text.Json.JsonException) { return false; }
+        using (document)
+        {
+            bool valid;
+            // Escaped lone surrogates are syntactically JSON but cannot become text.
+            try { valid = IsValid(document.RootElement); }
+            catch (global::System.InvalidOperationException) { return false; }
+            failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Invalid;
+            if (!valid) return false;
+            try { value = global::System.Text.Json.JsonSerializer.Deserialize(document.RootElement, __INFO__); }
+            catch (global::System.Text.Json.JsonException) { return false; }
+        }
+        if (value is null) return false;
+        failure = default;
+        return true;
+    }
+
+    /// <summary>Writes compact UTF-8 through the generated metadata and refuses output the schema rejects.</summary>
+    public static byte[] Serialize(__RECORD__ value)
+    {
+        global::System.ArgumentNullException.ThrowIfNull(value);
+        var bytes = global::System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(value, __INFO__);
+        if (!TryParse(bytes, out _, out var failure))
+            throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
+        return bytes;
+    }
+
+    private static readonly global::System.Text.Json.JsonDocumentOptions DocumentOptions = new()
+    {
+        AllowDuplicateProperties = false,
+        AllowTrailingCommas = false,
+        CommentHandling = global::System.Text.Json.JsonCommentHandling.Disallow,
+        MaxDepth = MaxDepth,
+    };
+
+'''
+
+TS_CODEC = r'''
+/** The schema's declared UTF-8 document bound in bytes. */
+export const __STEM__JsonMaxBytes = __MAX__;
+
+/** Parses one strict __TITLE__ document; refusal kinds match the C# codec. */
+export function tryParse__TITLE__Json(input: Uint8Array | string):
+  { ok: true; value: __TITLE__ } | { ok: false; failure: "tooLarge" | "malformed" | "invalid" } {
+  const parsed = strictJson(input, __MAX__);
+  if (!parsed.ok) return parsed;
+  return is__TITLE__(parsed.value) ? { ok: true, value: parsed.value } : { ok: false, failure: "invalid" };
+}
+
+/** Parses one strict __TITLE__ document or throws an error carrying the refusal kind. */
+export function parse__TITLE__Json(input: Uint8Array | string): __TITLE__ {
+  const result = tryParse__TITLE__Json(input);
+  if (!result.ok) throw Object.assign(new Error(`__TITLE__ JSON refused: ${result.failure}.`), { failure: result.failure });
+  return result.value;
+}
+
+/** Writes compact UTF-8 in schema property order and refuses output the schema rejects. */
+export function serialize__TITLE__Json(value: __TITLE__): Uint8Array {
+  const bytes = new TextEncoder().encode(JSON.stringify(order__TITLE__(value)));
+  const result = tryParse__TITLE__Json(bytes);
+  if (!result.ok) throw Object.assign(new Error(`__TITLE__ JSON refused: ${result.failure}.`), { failure: result.failure });
+  return bytes;
+}
+'''
+
 CS_JSON_HELPERS = r'''
     private static bool Matches(string value, string pattern)
     {
@@ -266,6 +408,126 @@ CS_JSON_HELPERS = r'''
 '''
 
 TS_JSON_HELPERS = r'''
+// WHATWG encoding APIs exist in every supported runtime; declared locally so no DOM/Node typings are required.
+declare const TextEncoder: { new (): { encode(input: string): Uint8Array } };
+declare const TextDecoder: { new (label: string, options: { fatal: boolean; ignoreBOM: boolean }): { decode(input: Uint8Array): string } };
+
+type StrictJsonResult = { ok: true; value: unknown } | { ok: false; failure: "tooLarge" | "malformed" };
+
+/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */
+function strictJson(input: Uint8Array | string, maxBytes: number): StrictJsonResult {
+  let text: string;
+  if (typeof input === "string") {
+    if (!validText(input)) return { ok: false, failure: "malformed" };
+    if (new TextEncoder().encode(input).byteLength > maxBytes) return { ok: false, failure: "tooLarge" };
+    text = input;
+  } else {
+    if (input.byteLength > maxBytes) return { ok: false, failure: "tooLarge" };
+    try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(input); }
+    catch { return { ok: false, failure: "malformed" }; }
+  }
+  try { return { ok: true, value: new StrictJsonReader(text).document() }; }
+  catch { return { ok: false, failure: "malformed" }; }
+}
+
+class StrictJsonReader {
+  private index = 0;
+  constructor(private readonly text: string) {}
+  document(): unknown {
+    this.space();
+    const value = this.value(0);
+    this.space();
+    if (this.index !== this.text.length) throw new SyntaxError("Trailing JSON content");
+    return value;
+  }
+  private value(depth: number): unknown {
+    switch (this.text[this.index]) {
+      case "{": return this.object(depth + 1);
+      case "[": return this.array(depth + 1);
+      case '"': return this.string();
+      case "t": return this.literal("true", true);
+      case "f": return this.literal("false", false);
+      case "n": return this.literal("null", null);
+      default: return this.number();
+    }
+  }
+  private object(depth: number): Record<string, unknown> {
+    if (depth > 32) throw new SyntaxError("JSON depth exceeded");
+    this.index++;
+    const out: Record<string, unknown> = {};
+    const keys = new Set<string>();
+    this.space();
+    if (this.text[this.index] === "}") { this.index++; return out; }
+    for (;;) {
+      this.space();
+      if (this.text[this.index] !== '"') throw new SyntaxError("Expected property name");
+      const key = this.string();
+      if (keys.has(key)) throw new SyntaxError("Duplicate JSON property");
+      keys.add(key);
+      this.space();
+      if (this.text[this.index++] !== ":") throw new SyntaxError("Expected colon");
+      this.space();
+      // defineProperty keeps names such as __proto__ as ordinary own properties.
+      Object.defineProperty(out, key, { value: this.value(depth), enumerable: true, writable: true, configurable: true });
+      this.space();
+      const next = this.text[this.index++];
+      if (next === "}") return out;
+      if (next !== ",") throw new SyntaxError("Expected comma");
+    }
+  }
+  private array(depth: number): unknown[] {
+    if (depth > 32) throw new SyntaxError("JSON depth exceeded");
+    this.index++;
+    const out: unknown[] = [];
+    this.space();
+    if (this.text[this.index] === "]") { this.index++; return out; }
+    for (;;) {
+      this.space();
+      out.push(this.value(depth));
+      this.space();
+      const next = this.text[this.index++];
+      if (next === "]") return out;
+      if (next !== ",") throw new SyntaxError("Expected comma");
+    }
+  }
+  private string(): string {
+    this.index++;
+    let out = "";
+    for (;;) {
+      const c = this.text[this.index++];
+      if (c === undefined) throw new SyntaxError("Unterminated string");
+      if (c === '"') break;
+      if (c < " ") throw new SyntaxError("Unescaped control character");
+      if (c !== "\\") { out += c; continue; }
+      const e = this.text[this.index++];
+      const simple: Record<string, string> = { '"': '"', "\\": "\\", "/": "/", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t" };
+      if (e !== undefined && e in simple) { out += simple[e]; continue; }
+      if (e !== "u" || !/^[0-9a-fA-F]{4}$/.test(this.text.slice(this.index, this.index + 4))) throw new SyntaxError("Invalid escape");
+      out += String.fromCharCode(parseInt(this.text.slice(this.index, this.index + 4), 16));
+      this.index += 4;
+    }
+    if (!validText(out)) throw new SyntaxError("Lone surrogate escape");
+    return out;
+  }
+  private number(): number {
+    const match = /-?(?:0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/y;
+    match.lastIndex = this.index;
+    const found = match.exec(this.text);
+    if (found === null) throw new SyntaxError("Invalid JSON value");
+    this.index = match.lastIndex;
+    // Selected schemas have no fractional numbers; fraction/exponent lexemes never satisfy an integer.
+    return found[1] !== undefined || found[2] !== undefined ? Number.NaN : Number(found[0]);
+  }
+  private literal<T>(word: string, value: T): T {
+    if (this.text.slice(this.index, this.index + word.length) !== word) throw new SyntaxError("Invalid JSON literal");
+    this.index += word.length;
+    return value;
+  }
+  private space(): void {
+    while (this.text[this.index] === " " || this.text[this.index] === "\t" || this.text[this.index] === "\n" || this.text[this.index] === "\r") this.index++;
+  }
+}
+
 function validText(value: string): boolean {
   for (const scalar of value) { const point = scalar.codePointAt(0)!; if (point >= 0xd800 && point <= 0xdfff) return false; }
   return true;

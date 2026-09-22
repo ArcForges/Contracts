@@ -23,5 +23,16 @@ public sealed record PartReceipt
 }
 
 /// <summary>Compile-time JSON metadata for the PartReceipt schema and its record dependencies.</summary>
+[global::System.Text.Json.Serialization.JsonSourceGenerationOptions(
+    AllowDuplicateProperties = false,
+    AllowTrailingCommas = false,
+    DefaultIgnoreCondition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+    MaxDepth = 32,
+    NumberHandling = global::System.Text.Json.Serialization.JsonNumberHandling.Strict,
+    ReadCommentHandling = global::System.Text.Json.JsonCommentHandling.Disallow,
+    RespectNullableAnnotations = true,
+    RespectRequiredConstructorParameters = true,
+    UnmappedMemberHandling = global::System.Text.Json.Serialization.JsonUnmappedMemberHandling.Disallow,
+    WriteIndented = false)]
 [global::System.Text.Json.Serialization.JsonSerializable(typeof(PartReceipt))]
 public partial class PartReceiptJsonContext : global::System.Text.Json.Serialization.JsonSerializerContext { }
