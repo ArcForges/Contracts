@@ -9,8 +9,8 @@ Notice scope: source
 Apache License, Version 2.0, January 2004; preserve the complete terms.
 The complete Apache-2.0 terms remain in LICENSE and the four public export copies.
 
-contract-bindings-r4
-Source: https://github.com/ArcForges/Contracts @ af7b6cca5e14a51735512d283b03d3ae9d96d170
+contract-bindings-r5
+Source: https://github.com/ArcForges/Contracts @ b6795dc55852e16bcd555751a58bd494958e3917
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
