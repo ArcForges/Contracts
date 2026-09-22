@@ -10,6 +10,13 @@ Use `create(SayHelloRequestSchema, { name: "World" })`, `toBinary` and
 `fromBinary` from `@bufbuild/protobuf`. Use the exported `HelloService`
 descriptor with a compatible gRPC/gRPC-Web client transport.
 
+`decodeContract(schema, bytes, limit)` and `encodeContract` apply the registry size
+classes in `wireLimits` (4 MiB unary/helper, 256 KiB inline page, 32 KiB stream frame,
+64 MiB large projection) and the root-plus-100 nesting bound, retaining unknown fields.
+Refusals are `ContractSerializationError` values with `tooLarge`, `tooDeep` or
+`malformed`. `contractServices` lists the generated services; nothing is discovered
+at runtime.
+
 Use `parseId` and `idToWire` to preserve an explicit identifier domain, bigint for
 exact 64-bit values, and `notesDecimal`/`decimalParts` for Notes decimal boundaries.
 The generated `is<Type>` functions check the current supported mutation profile.

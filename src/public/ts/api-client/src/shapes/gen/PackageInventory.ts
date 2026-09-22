@@ -13,6 +13,46 @@ export interface InventoryFile {
 }
 
 export function isPackageInventory(value: unknown): value is PackageInventory { return check0(value); }
+
+/** The schema's declared UTF-8 document bound in bytes. */
+export const packageInventoryJsonMaxBytes = 4194304;
+
+/** Parses one strict PackageInventory document; refusal kinds match the C# codec. */
+export function tryParsePackageInventoryJson(input: Uint8Array | string):
+  { ok: true; value: PackageInventory } | { ok: false; failure: "tooLarge" | "malformed" | "invalid" } {
+  const parsed = strictJson(input, 4194304);
+  if (!parsed.ok) return parsed;
+  return isPackageInventory(parsed.value) ? { ok: true, value: parsed.value } : { ok: false, failure: "invalid" };
+}
+
+/** Parses one strict PackageInventory document or throws an error carrying the refusal kind. */
+export function parsePackageInventoryJson(input: Uint8Array | string): PackageInventory {
+  const result = tryParsePackageInventoryJson(input);
+  if (!result.ok) throw Object.assign(new Error(`PackageInventory JSON refused: ${result.failure}.`), { failure: result.failure });
+  return result.value;
+}
+
+/** Writes compact UTF-8 in schema property order and refuses output the schema rejects. */
+export function serializePackageInventoryJson(value: PackageInventory): Uint8Array {
+  const bytes = new TextEncoder().encode(JSON.stringify(orderPackageInventory(value)));
+  const result = tryParsePackageInventoryJson(bytes);
+  if (!result.ok) throw Object.assign(new Error(`PackageInventory JSON refused: ${result.failure}.`), { failure: result.failure });
+  return bytes;
+}
+
+function orderInventoryFile(value: InventoryFile): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  out["path"] = value["path"];
+  out["size"] = value["size"];
+  out["sha256"] = value["sha256"];
+  return out;
+}
+function orderPackageInventory(value: PackageInventory): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  out["schemaVersion"] = value["schemaVersion"];
+  out["files"] = value["files"].map(item => orderInventoryFile(item));
+  return out;
+}
 function check0(value: unknown): boolean {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
   const object = value as Record<string, unknown>;
@@ -73,6 +113,126 @@ function check6(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
   if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
+}
+
+// WHATWG encoding APIs exist in every supported runtime; declared locally so no DOM/Node typings are required.
+declare const TextEncoder: { new (): { encode(input: string): Uint8Array } };
+declare const TextDecoder: { new (label: string, options: { fatal: boolean; ignoreBOM: boolean }): { decode(input: Uint8Array): string } };
+
+type StrictJsonResult = { ok: true; value: unknown } | { ok: false; failure: "tooLarge" | "malformed" };
+
+/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */
+function strictJson(input: Uint8Array | string, maxBytes: number): StrictJsonResult {
+  let text: string;
+  if (typeof input === "string") {
+    if (!validText(input)) return { ok: false, failure: "malformed" };
+    if (new TextEncoder().encode(input).byteLength > maxBytes) return { ok: false, failure: "tooLarge" };
+    text = input;
+  } else {
+    if (input.byteLength > maxBytes) return { ok: false, failure: "tooLarge" };
+    try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(input); }
+    catch { return { ok: false, failure: "malformed" }; }
+  }
+  try { return { ok: true, value: new StrictJsonReader(text).document() }; }
+  catch { return { ok: false, failure: "malformed" }; }
+}
+
+class StrictJsonReader {
+  private index = 0;
+  constructor(private readonly text: string) {}
+  document(): unknown {
+    this.space();
+    const value = this.value(0);
+    this.space();
+    if (this.index !== this.text.length) throw new SyntaxError("Trailing JSON content");
+    return value;
+  }
+  private value(depth: number): unknown {
+    switch (this.text[this.index]) {
+      case "{": return this.object(depth + 1);
+      case "[": return this.array(depth + 1);
+      case '"': return this.string();
+      case "t": return this.literal("true", true);
+      case "f": return this.literal("false", false);
+      case "n": return this.literal("null", null);
+      default: return this.number();
+    }
+  }
+  private object(depth: number): Record<string, unknown> {
+    if (depth > 32) throw new SyntaxError("JSON depth exceeded");
+    this.index++;
+    const out: Record<string, unknown> = {};
+    const keys = new Set<string>();
+    this.space();
+    if (this.text[this.index] === "}") { this.index++; return out; }
+    for (;;) {
+      this.space();
+      if (this.text[this.index] !== '"') throw new SyntaxError("Expected property name");
+      const key = this.string();
+      if (keys.has(key)) throw new SyntaxError("Duplicate JSON property");
+      keys.add(key);
+      this.space();
+      if (this.text[this.index++] !== ":") throw new SyntaxError("Expected colon");
+      this.space();
+      // defineProperty keeps names such as __proto__ as ordinary own properties.
+      Object.defineProperty(out, key, { value: this.value(depth), enumerable: true, writable: true, configurable: true });
+      this.space();
+      const next = this.text[this.index++];
+      if (next === "}") return out;
+      if (next !== ",") throw new SyntaxError("Expected comma");
+    }
+  }
+  private array(depth: number): unknown[] {
+    if (depth > 32) throw new SyntaxError("JSON depth exceeded");
+    this.index++;
+    const out: unknown[] = [];
+    this.space();
+    if (this.text[this.index] === "]") { this.index++; return out; }
+    for (;;) {
+      this.space();
+      out.push(this.value(depth));
+      this.space();
+      const next = this.text[this.index++];
+      if (next === "]") return out;
+      if (next !== ",") throw new SyntaxError("Expected comma");
+    }
+  }
+  private string(): string {
+    this.index++;
+    let out = "";
+    for (;;) {
+      const c = this.text[this.index++];
+      if (c === undefined) throw new SyntaxError("Unterminated string");
+      if (c === '"') break;
+      if (c < " ") throw new SyntaxError("Unescaped control character");
+      if (c !== "\\") { out += c; continue; }
+      const e = this.text[this.index++];
+      const simple: Record<string, string> = { '"': '"', "\\": "\\", "/": "/", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t" };
+      if (e !== undefined && e in simple) { out += simple[e]; continue; }
+      if (e !== "u" || !/^[0-9a-fA-F]{4}$/.test(this.text.slice(this.index, this.index + 4))) throw new SyntaxError("Invalid escape");
+      out += String.fromCharCode(parseInt(this.text.slice(this.index, this.index + 4), 16));
+      this.index += 4;
+    }
+    if (!validText(out)) throw new SyntaxError("Lone surrogate escape");
+    return out;
+  }
+  private number(): number {
+    const match = /-?(?:0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/y;
+    match.lastIndex = this.index;
+    const found = match.exec(this.text);
+    if (found === null) throw new SyntaxError("Invalid JSON value");
+    this.index = match.lastIndex;
+    // Selected schemas have no fractional numbers; fraction/exponent lexemes never satisfy an integer.
+    return found[1] !== undefined || found[2] !== undefined ? Number.NaN : Number(found[0]);
+  }
+  private literal<T>(word: string, value: T): T {
+    if (this.text.slice(this.index, this.index + word.length) !== word) throw new SyntaxError("Invalid JSON literal");
+    this.index += word.length;
+    return value;
+  }
+  private space(): void {
+    while (this.text[this.index] === " " || this.text[this.index] === "\t" || this.text[this.index] === "\n" || this.text[this.index] === "\r") this.index++;
+  }
 }
 
 function validText(value: string): boolean {

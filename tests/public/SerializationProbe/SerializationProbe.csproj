@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- WP03.02 Native AOT probe: roots every contract library and runs the independent
+       serialization vectors. Test-only; never packed or distributed. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PublishAot>true</PublishAot>
+    <RuntimeIdentifiers>linux-x64;win-x64</RuntimeIdentifiers>
+    <!-- The host RID is selected here, not with -r, so RID-agnostic library references and their locks stay unchanged. -->
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="!$([MSBuild]::IsOSPlatform('Windows'))">linux-x64</RuntimeIdentifier>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <IlcTreatWarningsAsErrors>true</IlcTreatWarningsAsErrors>
+    <ILLinkTreatWarningsAsErrors>true</ILLinkTreatWarningsAsErrors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj" />
+    <ProjectReference Include="../../../src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/ArcForges.Contracts.LocalRpc.Notes.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/ArcForges.Contracts.LocalRpc.Slate.csproj" />
+    <ProjectReference Include="../../../src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Root every library so the AOT compiler analyzes all of its code, not only probe-reachable paths. -->
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Foundation" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.PublicApi" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Events" />
+    <TrimmerRootAssembly Include="ArcForges.Sdk.Contracts" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.Validation" />
+    <TrimmerRootAssembly Include="ArcForges.Sdk.Client" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Platform" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Sandbox" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Chat" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Notes" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Scope" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.LocalRpc.Slate" />
+    <TrimmerRootAssembly Include="ArcForges.Contracts.CloudInternal" />
+  </ItemGroup>
+</Project>

@@ -123,6 +123,10 @@
     {
       "path": "tests/public/KotlinConnectClient/build.gradle.kts",
       "kind": "gradle"
+    },
+    {
+      "path": "tests/public/SerializationProbe/SerializationProbe.csproj",
+      "kind": "msbuild"
     }
   ]
 }

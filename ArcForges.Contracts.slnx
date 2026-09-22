@@ -8,6 +8,7 @@
   <Folder Name="/tests/public/">
     <Project Path="tests/public/HelloHost/HelloHost.csproj" />
     <Project Path="tests/public/HelloClient/HelloClient.csproj" />
+    <Project Path="tests/public/SerializationProbe/SerializationProbe.csproj" />
   </Folder>
   <Project Path="src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
   <Project Path="src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj" />

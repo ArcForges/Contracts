@@ -9,7 +9,9 @@ validation shapes. `eng/contract-packages.json` defines all 22 current outputs:
 The [WP03.01 foundation profile](https://github.com/ArcForges/ArcForges-Design/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md)
 adds the complete selected foundation, Notes query, Scope measurement and recursive
 owner-body message closure. [This step's evidence record](wp03-01-foundation.md)
-separates implemented source from validation and publication status. The remaining
+separates implemented source from validation and publication status. The
+[WP03.02 serialization posture profile](https://github.com/ArcForges/ArcForges-Design/blob/212825003ed712200e585445301473233404f597/docs/assurance/wp03-02-serialization-posture-profile.md)
+fixes the codec, limit, registration and AOT rules below. The remaining
 production operation catalogue and later semantic gates are not complete.
 
 Each NuGet project owns real generated contracts or validation/client/tool code.
@@ -70,6 +72,39 @@ C# `ReadProjection<T>` and TypeScript `readProjection` report whether current-pr
 validation passed while preserving the original generated message. That observation
 does not authorize mutation; consumers must validate the actual message again before
 using it as a current mutation input. Unsupported read values remain inert.
+
+## Serialization posture
+
+Generated Google.Protobuf (C#) and protobuf-es (TypeScript) code is the only business
+wire implementation. `ContractWire` (C#, `ArcForges.Contracts.Foundation.Serialization`)
+and `decodeContract`/`encodeContract` (`@arcforges/proto`) apply the registry limits:
+4 MiB unary/helper messages, 256 KiB inline pages, 32 KiB stream frames and 64 MiB
+large read projections, with the root plus at most 100 nested message levels.
+Oversized, too deep and malformed input are distinct typed refusals; unknown fields
+are retained and re-emitted. The public TypeScript transport factory
+`createPublicGrpcWebTransport` fixes binary gRPC-Web and the same read options.
+
+Each package with services exports a generated catalogue: C# `ContractServices.All`
+lists the generated `ServiceDescriptor` values beside the plugin's explicit
+`BindService` methods, and TypeScript exports `contractServices`. No server reflection
+service, assembly scanning or runtime schema registry is used.
+
+Only the declared HTTP-exception schemas generate JSON records. Their
+`JsonSerializerContext` classes disallow unmapped and duplicate properties, use strict
+numbers and respect required/nullable annotations. Generated `<Schema>Json.Parse`/
+`TryParse`/`Serialize` (C#) and `parse<Schema>Json`/`tryParse<Schema>Json`/
+`serialize<Schema>Json` (TypeScript) check the schema's `x-arcforges-max-bytes`, UTF-8
+without BOM, JSON depth 32, duplicate properties and integer lexemes before the closed
+schema. Every project disables reflection-based System.Text.Json.
+
+`eng/check_serialization.py` rejects reflection serializers and discovery packages in
+all locks, runtime-selected well-known proto types, reflection/discovery APIs in
+production source, handwritten wire records outside generated owners, missing strict
+JSON options and stale service catalogues. The test-only
+`tests/public/SerializationProbe` roots all 13 C# libraries, publishes with Native AOT
+(analysis warnings are errors) and runs the independent
+[`wp03-02.json`](../fixtures/public/wp03-02.json) vectors; the TypeScript suite runs the
+same vectors. See the [WP03.02 record](wp03-02-serialization.md).
 
 ## Public consumers
 
@@ -165,8 +200,9 @@ The retained CI checks regeneration, selected offline shape/wire cases, compilat
 and the package dependency/metadata closure. The foundation suite uses independent
 positive/negative records, fixed binary oracles and C#/TS exchange; profile scenario
 inputs/results are fixture data, not executed numerical/query/transaction engines.
-It does not run live RPC fixtures. WP03.02 retains complete serialization/AOT/service
-registration proof; .03 retains resource/descriptor/Sync admission semantics; .05
+It does not run live RPC fixtures. The Linux candidate build also runs the
+serialization gate and the Native AOT probe once. The real generated-client call in a
+published host/client AOT artifact remains WP06.02; .03 retains resource/descriptor/Sync admission semantics; .05
 retains complete operations, scope/stream/history and three-language client
 conformance; .06/.07/.90 retain their full compatibility/signing/stage gates.
 Android device behavior, authentication, browser CORS, live Cloud/provider behavior

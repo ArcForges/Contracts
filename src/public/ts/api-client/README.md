@@ -12,6 +12,13 @@ const reply = await client.sayHello({ name: "World" }, { timeoutMs: 5000 });
 console.log(reply.message);
 ```
 
+`createPublicGrpcWebTransport` is the public business transport: binary gRPC-Web
+only, unknown fields retained and the shared 100-level nesting bound. It refuses
+`useBinaryFormat`, `jsonOptions` and `binaryOptions` overrides. The declared HTTP
+exception records have strict codecs such as `tryParsePartReceiptJson` and
+`serializePartReceiptJson`; they enforce the schema byte limit, UTF-8, JSON depth 32,
+duplicate-property and integer-lexeme rules before the closed schema check.
+
 The endpoint must serve gRPC-Web. Browser cross-origin access also requires
 server CORS configuration. The demo host binds to loopback for tests.
 

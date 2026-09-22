@@ -3,11 +3,11 @@
   "licence": "Apache-2.0",
   "reviewedOn": "2026-09-22",
   "design": {
-    "commit": "5e202ff10f3c218d9e159029579ca535c641169b",
-    "path": "docs/assurance/wp03-01-foundation-contract-profile.md",
-    "sha256": "cdf1ee5cca36de32720ce55845c142fd2aef5ef53df581ad77c8c857e082e1ce"
+    "commit": "212825003ed712200e585445301473233404f597",
+    "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
+    "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "af7b6cca5e14a51735512d283b03d3ae9d96d170",
+  "sourceCommit": "b6795dc55852e16bcd555751a58bd494958e3917",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -1242,7 +1242,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["CommitReceipt", "VersionedRef", "AggregateRef", "CommitReceiptJsonContext"],
-      "sha256": "9c1700f89543a48942ca533515389f0400ab3b4b821f88d2e289d1798f483740",
+      "sha256": "6c0a7fa715ffdadacf6b9965458cf464d440f6056e846dc849bd8724169babaa",
       "kind": "generated"
     },
     {
@@ -1250,7 +1250,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["CommitReceiptJson"],
-      "sha256": "9b1b50ed6499bb5214efb3c093f623b07f8deea80d5c3945f987eba3936f0bf5",
+      "sha256": "e4e86541abe73dd43e5b2f89558f3730afeeb9797b99582478297f940274848a",
       "kind": "generated"
     },
     {
@@ -1377,8 +1377,14 @@
       "path": "src/internal/ts/ai-internal/src/shapes/gen/CommitReceipt.ts",
       "package": "@arcforges/ai-internal",
       "access": "internal",
-      "types": ["CommitReceipt", "VersionedRef", "AggregateRef"],
-      "sha256": "c52be745780f90d1d33e6848b0c15a1a830cf687c641b025e6d284167af40a3c",
+      "types": [
+        "CommitReceipt",
+        "VersionedRef",
+        "AggregateRef",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "242ff9d688b460806ddff00bc3a3371d1160952d04d3dd4ac15292ecc6143401",
       "kind": "generated"
     },
     {
@@ -1420,6 +1426,20 @@
       "types": ["EventsReflection", "EntitlementChanged"],
       "sha256": "815584ad9125ce01f187091596b3bab2c6c5388f97fe81310f7b12c7055386e6",
       "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Foundation/ContractSerialization.cs",
+      "package": "ArcForges.Contracts.Foundation",
+      "access": "public",
+      "types": [
+        "ContractSerializationFailure",
+        "ContractSerializationException",
+        "WireLimit",
+        "WireLimits",
+        "ContractWire"
+      ],
+      "sha256": "90d8410b89c8113f25224f22fede8d7d4a20c81f40390cdaaf91c68e40aeb0b4",
+      "kind": "authored"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
@@ -1689,11 +1709,19 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Services/ContractServices.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["ContractServices"],
+      "sha256": "0286d33f4a32db0e111a5394b98b8b8124e03528270bdcf0c053103d27f10f79",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PartReceipt.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["PartReceipt", "PartReceiptJsonContext"],
-      "sha256": "bc1a4569cf4eeb923fe88d5745d090a2aeca2a3ca99b892f25a9c35359f7df02",
+      "sha256": "c5fc2e21df017212204fbaf68648d4c8afe7c1fa69d53b29c824c116c21ee808",
       "kind": "generated"
     },
     {
@@ -1764,7 +1792,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["PackageInventoryJson"],
-      "sha256": "acc4323b511fcc037e169ce85c13193440939884917723cff39601064d9b71f7",
+      "sha256": "9cce0e4b875e6821e6ca5765d240f38539e1bd497f126d9dfb09054bd4870729",
       "kind": "generated"
     },
     {
@@ -1772,7 +1800,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["PartReceiptJson"],
-      "sha256": "f089cae66b6415ea1b0846059e28b5a6b66b52f96528122a6cbe2f79bcc1084e",
+      "sha256": "a2ceeb9441b6dc39a8f26ad098ebe4bdcb4a41ba44353a2e5d1e757875c36835",
       "kind": "generated"
     },
     {
@@ -1821,11 +1849,19 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Services/ContractServices.g.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": ["ContractServices"],
+      "sha256": "f00b657422ef45db617c4c89e55bd129392d0602be82ba102b344b96a2fb1722",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/PackageInventory.g.cs",
       "package": "ArcForges.Sdk.Contracts",
       "access": "public",
       "types": ["PackageInventory", "InventoryFile", "PackageInventoryJsonContext"],
-      "sha256": "f8baed42f0056d8f4e1bb6831cf5b5e022f81d9ac8de1aed19f4e5abb50b4668",
+      "sha256": "cd91500d2f6870fffa11b0d3eef53d886664f77825c054706d00daf5eabab307",
       "kind": "generated"
     },
     {
@@ -5673,24 +5709,24 @@
       "path": "src/public/ts/api-client/src/index.ts",
       "package": "@arcforges/api-client",
       "access": "public",
-      "types": [],
-      "sha256": "8565b4279c9d063a0c33c505bab06d94f60e71c7cba63d8772c689a017163080",
+      "types": ["PublicGrpcWebTransportOptions"],
+      "sha256": "0734e50d85a650b60a0a10fddbbab4e48a29a3ba84ca1938a73432c9f49bf90e",
       "kind": "authored"
     },
     {
       "path": "src/public/ts/api-client/src/shapes/gen/PackageInventory.ts",
       "package": "@arcforges/api-client",
       "access": "public",
-      "types": ["PackageInventory", "InventoryFile"],
-      "sha256": "0c5aadeefe350034e18c11a6c45fb9776eb6d3875d355c1faf9c704583f30a5c",
+      "types": ["PackageInventory", "InventoryFile", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "b644ffac577d48ed17a5cc4d1015697ba8e1bd0603087601cbc1e5d929b9d01f",
       "kind": "generated"
     },
     {
       "path": "src/public/ts/api-client/src/shapes/gen/PartReceipt.ts",
       "package": "@arcforges/api-client",
       "access": "public",
-      "types": ["PartReceipt"],
-      "sha256": "cd46bd36c3dc3849b6ecc4f30f071b950aa2afb4007a8302a4cd1ade1004f1a7",
+      "types": ["PartReceipt", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "e19df4d0461e49eabee97cf44c31c348c8295e4d6bd37374c4178ad1f34e18ae",
       "kind": "generated"
     },
     {
@@ -5698,7 +5734,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "7560981e34c77764c023109e7dc0f1245114d061467d5a0dd2792db2bd8dd2e5",
+      "sha256": "ca73ba9be87173e10a50b7e6b0e77966b9be05e726c8359e0223e3a90954b304",
       "kind": "generated"
     },
     {
@@ -5898,7 +5934,15 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "823e2e08821567f670860564669d5dab32ae40766d5e5d57c87c2e026079d16c",
+      "sha256": "c85b66293b811e44ed36537ae16f4eaa14da203bedff6bbc1febbeb29a9a2d3f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/services/gen/catalog.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [],
+      "sha256": "835b8e11f1112aa7496b87c0b554bad2159ab84d393bd2f0222a90303438ad8c",
       "kind": "generated"
     },
     {
@@ -6005,12 +6049,20 @@
       ],
       "sha256": "17f4c6adf458d0ba1df4ac9341f620f50219863ee127c6fbf1071d1870ec8c3c",
       "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/wire.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": ["WireLimit", "ContractSerializationFailure", "ContractSerializationError"],
+      "sha256": "f1ec30cb721bef8b617bc3c82dd75a2b068e3443421374866b52bee09aca9d56",
+      "kind": "authored"
     }
   ],
   "buildInputs": [
     {
       "path": "Directory.Build.props",
-      "sha256": "443ed70fc6faca54f904a3b9bfdc5ea3153377184ad39cdd65284a44ec075648"
+      "sha256": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b"
     },
     {
       "path": "Directory.Build.targets",
@@ -6042,7 +6094,7 @@
     },
     {
       "path": "internal/ai-http/v1/schema.json",
-      "sha256": "395ffc80d24bc9d59b2de0706e9efd5071ec8ce3763dddf2dc7c3f4f7456da78"
+      "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831"
     },
     {
       "path": "internal/proto/constraints.json",
@@ -6054,15 +6106,15 @@
     },
     {
       "path": "package.json",
-      "sha256": "b176cfd9c43b414493975bc2a0c3311843b617c7cbd9c0a0f931c264e4cbf6a6"
+      "sha256": "b9ab4712743684b8153a009c96484f3ce4c517c37f06817d1ea70369b407fd73"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
-      "sha256": "fb6929548278f6e16e61491001fecae4143882efbfe732950a1584e1e2f80a5d"
+      "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce"
     },
     {
       "path": "public/http/v1/schema.json",
-      "sha256": "23587b33320fcbe4a917c2839552984eb40e716c4ce317a5c218f35bedf06751"
+      "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce"
     },
     {
       "path": "public/proto/constraints.json",

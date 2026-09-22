@@ -10,6 +10,64 @@ public static class PartReceiptJson
 {
     /// <summary>Checks required fields, declared types, unknown properties and selected profile bounds.</summary>
     public static bool IsValid(global::System.Text.Json.JsonElement value) => Check0(value);
+    /// <summary>The schema's declared UTF-8 document bound in bytes.</summary>
+    public const int MaxBytes = 65536;
+    /// <summary>The maximum JSON container depth, counting the root.</summary>
+    public const int MaxDepth = 32;
+
+    /// <summary>Parses one strict PartReceipt document or throws a typed refusal.</summary>
+    public static global::ArcForges.Contracts.PublicApi.Http.V1.PartReceipt Parse(global::System.ReadOnlyMemory<byte> utf8)
+        => TryParse(utf8, out var value, out var failure) ? value! : throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
+
+    /// <summary>Checks the byte bound, UTF-8 without BOM, syntax, depth and duplicate properties, then the closed schema, before generated deserialization.</summary>
+    public static bool TryParse(global::System.ReadOnlyMemory<byte> utf8, out global::ArcForges.Contracts.PublicApi.Http.V1.PartReceipt? value,
+        out global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure failure)
+    {
+        value = null;
+        failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Malformed;
+        if (utf8.Length > MaxBytes)
+        {
+            failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.TooLarge;
+            return false;
+        }
+        if (utf8.Span.StartsWith("\xEF\xBB\xBF"u8) || !global::System.Text.Unicode.Utf8.IsValid(utf8.Span)) return false;
+        global::System.Text.Json.JsonDocument document;
+        try { document = global::System.Text.Json.JsonDocument.Parse(utf8, DocumentOptions); }
+        catch (global::System.Text.Json.JsonException) { return false; }
+        using (document)
+        {
+            bool valid;
+            // Escaped lone surrogates are syntactically JSON but cannot become text.
+            try { valid = IsValid(document.RootElement); }
+            catch (global::System.InvalidOperationException) { return false; }
+            failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Invalid;
+            if (!valid) return false;
+            try { value = global::System.Text.Json.JsonSerializer.Deserialize(document.RootElement, global::ArcForges.Contracts.PublicApi.Http.V1.PartReceiptJsonContext.Default.PartReceipt); }
+            catch (global::System.Text.Json.JsonException) { return false; }
+        }
+        if (value is null) return false;
+        failure = default;
+        return true;
+    }
+
+    /// <summary>Writes compact UTF-8 through the generated metadata and refuses output the schema rejects.</summary>
+    public static byte[] Serialize(global::ArcForges.Contracts.PublicApi.Http.V1.PartReceipt value)
+    {
+        global::System.ArgumentNullException.ThrowIfNull(value);
+        var bytes = global::System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(value, global::ArcForges.Contracts.PublicApi.Http.V1.PartReceiptJsonContext.Default.PartReceipt);
+        if (!TryParse(bytes, out _, out var failure))
+            throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
+        return bytes;
+    }
+
+    private static readonly global::System.Text.Json.JsonDocumentOptions DocumentOptions = new()
+    {
+        AllowDuplicateProperties = false,
+        AllowTrailingCommas = false,
+        CommentHandling = global::System.Text.Json.JsonCommentHandling.Disallow,
+        MaxDepth = MaxDepth,
+    };
+
     private static bool Check0(global::System.Text.Json.JsonElement value)
     {
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.Object) return false;
