@@ -51,8 +51,11 @@ def existing_matches(path: Path, entry: dict, release: str) -> bool:
 
 def npm_publish_tag(package_id: str, release: str) -> str:
     """Called inside the serialized npm job so an older run cannot rewind latest."""
-    metadata = get(f"https://registry.npmjs.org/-/package/{quote(package_id, safe='')}/dist-tags")
-    latest = json.loads(metadata).get("latest") if metadata is not None else None
+    # Read the public package document: the dist-tag management endpoint may
+    # return 401 for a package that has never been published. Only a real 404
+    # means absent; authentication and registry failures still fail closed.
+    metadata = get(f"https://registry.npmjs.org/{quote(package_id, safe='')}")
+    latest = json.loads(metadata).get("dist-tags", {}).get("latest") if metadata is not None else None
     if latest is None:
         return "latest"
     from release_channels import stable

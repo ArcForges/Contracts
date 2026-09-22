@@ -27,7 +27,7 @@ Follow the [current CI/local authority](https://github.com/ArcForges/ArcForges-D
 - Keep necessary Windows/Linux compilation, packaging, targeted offline unit/static tests, locks, required signatures, licence/provenance and non-duplicated security scans. Runtime diagnostics are explicit local opt-in for affected behavior with existing tools; hooks must not silently rebuild/test.
 - Validate candidate contents once during production and identity/integrity at the actual publication handoff. Do not repeatedly download public artifacts, rescan archives, compare hashes or rerun consumers after publishing. Registry status/coordinate metadata establishes completion.
 - Preserve Maven main SNAPSHOT and deliberate-tag formal releases. Never create tags, republish or re-sign solely for verification. Diagnose failed jobs before rerun; ambiguous existing immutable releases require investigation, not silent skipping.
-- Do not reinstall vcpkg, SDKs, emulators or toolchains to expand validation. Stop on network failure and report the exact operation; no proxy configuration, port 7890, wsl.exe or WSL wrappers.
+- Do not reinstall vcpkg, SDKs, emulators or toolchains to expand validation. Stop on local network failure and report the exact operation; diagnose and repair CI failures before a targeted retry; no proxy configuration, port 7890, wsl.exe or WSL wrappers.
 - Review the full latest PR and wait for applicable checks before merging. Post-merge work ends after expected commit, required build/publication status and clean primary fast-forward. Keep branches/worktrees and report untested coverage accurately.
 
 ## Dependency admission (WP02.05)

@@ -49,7 +49,7 @@ class PublicationChannels(unittest.TestCase):
     def test_stable_npm_ordering(self):
         for current, incoming, tag in (("1.0.0-ci.99.1", "1.0.0", "latest"),
                                       ("2.0.0", "1.0.0", "release"), ("1.0.0", "1.1.0", "latest")):
-            with patch("publish_tools.get", return_value=json.dumps({"latest": current}).encode()):
+            with patch("publish_tools.get", return_value=json.dumps({"dist-tags": {"latest": current}}).encode()):
                 self.assertEqual(npm_publish_tag("@arcforges/proto", incoming), tag)
 
     def test_snapshot_metadata_cannot_escape_repository(self):
