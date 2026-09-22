@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-01-foundation-contract-profile.md",
     "sha256": "cdf1ee5cca36de32720ce55845c142fd2aef5ef53df581ad77c8c857e082e1ce"
   },
-  "sourceCommit": "f9dc23fea7ae1dae3805404bb800583aea4e13e0",
+  "sourceCommit": "af7b6cca5e14a51735512d283b03d3ae9d96d170",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -1258,7 +1258,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "0377073cc57eab0ed7ba2799237638461fe26d735e9e088dc4f57791582339d5",
+      "sha256": "6b7a4607f79f632e35f27551d4e85134222c4e32eae3a0f67b506aeb157bf919",
       "kind": "generated"
     },
     {
@@ -1274,7 +1274,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Chat",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "4856979ddc42003429ea9f2ede1d78a9e4dea14db40bed604bf2594cab68afa5",
+      "sha256": "679c535bc8032fa6cf296fa7b93b338a9a33db8d6e767bf88fd21df981357d8f",
       "kind": "generated"
     },
     {
@@ -1290,7 +1290,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Notes",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "5d231a730d9d28b1fbea1fcd0f19dd27fdfff52adfade92e8738d18531ba8da9",
+      "sha256": "7b857438632df1763e19eead876654da953ccf15506315b34387138903997b41",
       "kind": "generated"
     },
     {
@@ -1306,7 +1306,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "d2d4ddb84b7dae1d1be69abb2a1f585a03df1a86c3a5e0271867a71179687b1a",
+      "sha256": "e891a89ecc2d704d3e4e91b5b2f8c8358f59afd9669bc01eb119b4cb78e6405b",
       "kind": "generated"
     },
     {
@@ -1322,7 +1322,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Sandbox",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "d5d4150cad85ac612cb0c752e89336910795f20aae8ee66cc2979544a87df829",
+      "sha256": "4e233d99e0cb8ec38a8a1646abf8e491d3920024db4f5c7a389f75874214341a",
       "kind": "generated"
     },
     {
@@ -1338,7 +1338,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Scope",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "b17f48fde704cce733945af7bf2385f8e8f27b0d893055b3186d349a6a58ed62",
+      "sha256": "c035add35c4ab044e73a35d79c2175ac06ebd00ed4441e87cf3de448c163ce95",
       "kind": "generated"
     },
     {
@@ -1354,7 +1354,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Slate",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "c116f15cdd616339d185addd59f67a1024d67e558e9481db3a470331f43ee680",
+      "sha256": "749be308f139c5f40b2206fa3dab34ba558196623ecdca422a6bef4ddfdbef6a",
       "kind": "generated"
     },
     {
@@ -1402,7 +1402,7 @@
       "package": "@arcforges/operator-client",
       "access": "internal",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "b9f37fe22dbbfe8d60a71271e675b6be5a804b50993e1ed594c530b63d16745b",
+      "sha256": "03b28f089c35319d3454a7f46d98df95c33c4384095021dca72f0399ded9388f",
       "kind": "generated"
     },
     {
@@ -1780,7 +1780,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "1042910c82fbafce03eeec348d71d829abd03d5195548568fcf00b9d8f9b209f",
+      "sha256": "eb52070bbeb05aedc82af66987f574ff6da011af8a439a830ff78475ae0d4912",
       "kind": "generated"
     },
     {
@@ -5906,7 +5906,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "5e3db5424128de82fcd96efc84467d503e7fdb91c883c0541c2dd2ea78751006",
+      "sha256": "1e98d1f5a0d75a6b80c2167778ce921af0c91a6270b6a237bb1ee64f01d66682",
       "kind": "generated"
     },
     {
@@ -6026,7 +6026,7 @@
     },
     {
       "path": "build.gradle.kts",
-      "sha256": "f8c6b4304b0e23291021ea24800b4f08b482f0eb9527923c2d8f8fab260d65b5"
+      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
     },
     {
       "path": "eng/contract-packages.json",
@@ -6054,7 +6054,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "d7c4ae81959fc1da4a78001e7fdc60f847eee9748f926cb7f1caa2fbfb61dbba"
+      "sha256": "b176cfd9c43b414493975bc2a0c3311843b617c7cbd9c0a0f931c264e4cbf6a6"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
