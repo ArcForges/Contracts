@@ -82,6 +82,7 @@
     "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json",
     "eng/provenance/conflicts/javadoc-script-boundary-r1.json",
     "eng/provenance/files.json",
     "eng/provenance/records/canonical-apache-licence-r1.json",
@@ -105,6 +106,7 @@
     "eng/provenance/records/dokka-documentation-resources-r2.json",
     "eng/provenance/records/dokka-documentation-resources-r3.json",
     "eng/provenance/records/dokka-documentation-resources-r4.json",
+    "eng/provenance/records/dokka-documentation-resources-r5.json",
     "eng/provenance/records/dokka-dom-helpers-licence-r1.json",
     "eng/provenance/records/dokka-dunder-proto-licence-r1.json",
     "eng/provenance/records/dokka-es-define-property-licence-r1.json",
@@ -527,5 +529,7 @@
     "src/public/ts/proto/src/index.ts": "contract-bindings-r2",
     "src/public/ts/proto/src/shapes/gen/proto.ts": "contract-bindings-r2"
   },
-  "artifacts": ["dokka-documentation-resources-r4"]
+  "artifacts": [
+    "dokka-documentation-resources-r5"
+  ]
 }

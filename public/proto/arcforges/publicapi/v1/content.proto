@@ -1,0 +1,1200 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ContentProto";
+
+// Complete selected public owner-body and profile closure. No service registration.
+// Authoritative field allocations: Design registry04 and the WP03.01 profile.
+
+enum ContextLifetime {
+  CONTEXT_LIFETIME_UNSPECIFIED = 0;
+  CONTEXT_LIFETIME_PINNED = 1;
+  CONTEXT_LIFETIME_TURN = 2;
+  CONTEXT_LIFETIME_PROJECT = 3;
+  CONTEXT_LIFETIME_SELECTION = 4;
+}
+
+enum ControlKind {
+  CONTROL_KIND_UNSPECIFIED = 0;
+  CONTROL_KIND_CANCEL = 1;
+  CONTROL_KIND_PAUSE = 2;
+  CONTROL_KIND_RESUME = 3;
+}
+
+enum ControlState {
+  CONTROL_STATE_UNSPECIFIED = 0;
+  CONTROL_STATE_REQUESTED = 1;
+  CONTROL_STATE_ACKNOWLEDGED = 2;
+  CONTROL_STATE_REFUSED = 3;
+  CONTROL_STATE_COMPLETED = 4;
+}
+
+enum HistoryMode {
+  HISTORY_MODE_UNSPECIFIED = 0;
+  HISTORY_MODE_LOCAL = 1;
+  HISTORY_MODE_CLOUD = 2;
+  HISTORY_MODE_TEMPORARY = 3;
+}
+
+enum TaskReasonFacet {
+  TASK_REASON_FACET_UNSPECIFIED = 0;
+  TASK_REASON_FACET_NONE = 1;
+  TASK_REASON_FACET_APPROVAL = 2;
+  TASK_REASON_FACET_DEVICE = 3;
+  TASK_REASON_FACET_CAPACITY = 4;
+  TASK_REASON_FACET_DEPENDENCY = 5;
+  TASK_REASON_FACET_RECONCILIATION = 6;
+}
+
+enum TaskState {
+  TASK_STATE_UNSPECIFIED = 0;
+  TASK_STATE_QUEUED = 1;
+  TASK_STATE_RUNNING = 2;
+  TASK_STATE_WAITING = 3;
+  TASK_STATE_PAUSED = 4;
+  TASK_STATE_INTERRUPTED = 5;
+  TASK_STATE_SUCCEEDED = 6;
+  TASK_STATE_PARTIALLY_SUCCEEDED = 7;
+  TASK_STATE_FAILED = 8;
+  TASK_STATE_CANCELED = 9;
+}
+
+// registry04: AgentProfile; complete selected WP03.01 projection.
+message AgentProfile {
+  arcforges.foundation.v1.Id profile_id = 1 [json_name = "profileId"];
+  optional string name = 2 [json_name = "name"];
+  optional string model_id = 3 [json_name = "modelId"];
+  optional string instructions = 4 [json_name = "instructions"];
+  repeated arcforges.foundation.v1.Id skill_ids = 5 [json_name = "skillIds"];
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"];
+  repeated ContextRef context = 7 [json_name = "context"];
+  repeated string capabilities = 8 [json_name = "capabilities"];
+}
+
+// registry04: AggregateBody; complete selected WP03.01 projection.
+message AggregateBody {
+  oneof body {
+    NotesDocument notes = 1 [json_name = "notes"];
+    ConversationBody chat = 2 [json_name = "chat"];
+    ScopeMetadata scope_metadata = 3 [json_name = "scopeMetadata"];
+    SlateMetadata slate_metadata = 4 [json_name = "slateMetadata"];
+    NotebookBody notebook = 5 [json_name = "notebook"];
+    PropertyDefinition property_definition = 6 [json_name = "propertyDefinition"];
+    SavedViewRecord saved_view = 7 [json_name = "savedView"];
+    TagRecord tag = 8 [json_name = "tag"];
+    AgentProfile agent_profile = 9 [json_name = "agentProfile"];
+    SkillRecord skill = 10 [json_name = "skill"];
+    ChatProjectRecord chat_project = 11 [json_name = "chatProject"];
+    PreferenceRecord preferences = 12 [json_name = "preferences"];
+    TaskSnapshot task = 13 [json_name = "task"];
+    AutomationView automation = 14 [json_name = "automation"];
+    MemoryRecord memory = 15 [json_name = "memory"];
+    arcforges.foundation.v1.ResourceVersionRef external_body = 16 [json_name = "externalBody"];
+  }
+}
+
+// registry04: AlignmentSpec; complete selected WP03.01 projection.
+message AlignmentSpec {
+  optional string kind = 1 [json_name = "kind"];
+  ScopeTime left_anchor = 2 [json_name = "leftAnchor"];
+  ScopeTime right_anchor = 3 [json_name = "rightAnchor"];
+  ScopeTime offset = 4 [json_name = "offset"];
+  arcforges.foundation.v1.Id event_id = 5 [json_name = "eventId"];
+}
+
+// registry04: AutomationSpec; complete selected WP03.01 projection.
+message AutomationSpec {
+  optional string name = 1 [json_name = "name"];
+  TriggerSpec trigger = 2 [json_name = "trigger"];
+  TurnInput input = 3 [json_name = "input"];
+  arcforges.foundation.v1.Id profile_id = 4 [json_name = "profileId"];
+  optional uint64 per_run_budget = 5 [json_name = "perRunBudget"];
+  optional uint64 period_budget = 6 [json_name = "periodBudget"];
+  arcforges.foundation.v1.TimeRangeUtc budget_period = 7 [json_name = "budgetPeriod"];
+  optional string concurrency = 8 [json_name = "concurrency"];
+  optional string misfire = 9 [json_name = "misfire"];
+  optional uint32 catch_up_count = 10 [json_name = "catchUpCount"];
+  optional uint32 catch_up_window_seconds = 11 [json_name = "catchUpWindowSeconds"];
+  repeated arcforges.foundation.v1.Id grants = 12 [json_name = "grants"];
+  arcforges.foundation.v1.Id target_device_id = 13 [json_name = "targetDeviceId"];
+}
+
+// registry04: AutomationView; complete selected WP03.01 projection.
+message AutomationView {
+  arcforges.foundation.v1.Id automation_id = 1 [json_name = "automationId"];
+  AutomationSpec definition = 2 [json_name = "definition"];
+  optional bool enabled = 3 [json_name = "enabled"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+  arcforges.foundation.v1.Instant next_occurrence = 5 [json_name = "nextOccurrence"];
+}
+
+// registry04: Block; complete selected WP03.01 projection.
+message Block {
+  arcforges.foundation.v1.Id block_id = 1 [json_name = "blockId"];
+  arcforges.foundation.v1.Id parent_id = 2 [json_name = "parentId"];
+  optional string order_key = 3 [json_name = "orderKey"];
+  optional string kind = 4 [json_name = "kind"];
+  BlockBody body = 5 [json_name = "body"];
+  arcforges.foundation.v1.ContentOrigin origin = 6 [json_name = "origin"];
+  BlockProperties properties = 7 [json_name = "properties"];
+}
+
+// registry04: BlockBody; complete selected WP03.01 projection.
+message BlockBody {
+  oneof content {
+    RichText text = 1 [json_name = "text"];
+    CodeBlock code = 2 [json_name = "code"];
+    arcforges.foundation.v1.ResourceRef resource = 3 [json_name = "resource"];
+    LinkSpec link = 4 [json_name = "link"];
+    TableBlock table = 5 [json_name = "table"];
+    MathContent math = 6 [json_name = "math"];
+    bool empty = 7 [json_name = "empty"];
+  }
+}
+
+// registry04: BlockProperties; complete selected WP03.01 projection.
+message BlockProperties {
+  reserved 2, 5, 6, 7, 8;
+  reserved "list_start", "collapsed", "caption", "pdf_page", "target_block_id";
+  optional uint32 heading_level = 1 [json_name = "headingLevel"];
+  optional bool checked = 3 [json_name = "checked"];
+  optional string callout_kind = 4 [json_name = "calloutKind"];
+  optional string list_style = 9 [json_name = "listStyle"];
+  optional string alt_text = 10 [json_name = "altText"];
+  ImageLayout image_layout = 11 [json_name = "imageLayout"];
+  optional string attachment_presentation = 12 [json_name = "attachmentPresentation"];
+  optional string embed_render_mode = 13 [json_name = "embedRenderMode"];
+}
+
+// registry04: Calibration; complete selected WP03.01 projection.
+message Calibration {
+  optional double scale = 1 [json_name = "scale"];
+  optional double offset = 2 [json_name = "offset"];
+  optional string unit = 3 [json_name = "unit"];
+}
+
+// registry04: CapabilityArguments; complete selected WP03.01 projection.
+message CapabilityArguments {
+  optional string schema_id = 1 [json_name = "schemaId"];
+  StructuredValue value = 2 [json_name = "value"];
+}
+
+// registry04: CapabilityResult; complete selected WP03.01 projection.
+message CapabilityResult {
+  optional string schema_id = 1 [json_name = "schemaId"];
+  StructuredValue value = 2 [json_name = "value"];
+}
+
+// registry04: CaptureMetadata; complete selected WP03.01 projection.
+message CaptureMetadata {
+  arcforges.foundation.v1.Id capture_id = 1 [json_name = "captureId"];
+  optional uint64 sample_count = 2 [json_name = "sampleCount"];
+  repeated ChannelDefinition channels = 3 [json_name = "channels"];
+  optional string content_hash = 4 [json_name = "contentHash"];
+  arcforges.foundation.v1.ResourceRef resource = 5 [json_name = "resource"];
+}
+
+// registry04: ChannelDefinition; complete selected WP03.01 projection.
+message ChannelDefinition {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  optional string name = 2 [json_name = "name"];
+  optional string unit = 3 [json_name = "unit"];
+  optional string sample_type = 4 [json_name = "sampleType"];
+  arcforges.foundation.v1.Rational rate = 5 [json_name = "rate"];
+  Calibration calibration = 6 [json_name = "calibration"];
+}
+
+// registry04: ChatProjectRecord; complete selected WP03.01 projection.
+message ChatProjectRecord {
+  arcforges.foundation.v1.Id project_id = 1 [json_name = "projectId"];
+  optional string name = 2 [json_name = "name"];
+  repeated arcforges.foundation.v1.Id conversation_ids = 3 [json_name = "conversationIds"];
+  repeated ContextRef context = 4 [json_name = "context"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+  arcforges.foundation.v1.Instant trashed_at = 6 [json_name = "trashedAt"];
+}
+
+// registry04: ChecksumSpec; complete selected WP03.01 projection.
+message ChecksumSpec {
+  optional string algorithm = 1 [json_name = "algorithm"];
+  arcforges.foundation.v1.ByteRange input = 2 [json_name = "input"];
+  optional uint32 offset = 3 [json_name = "offset"];
+  optional string byte_order = 4 [json_name = "byteOrder"];
+}
+
+// registry04: CodeBlock; complete selected WP03.01 projection.
+message CodeBlock {
+  optional string text = 1 [json_name = "text"];
+  optional string language = 2 [json_name = "language"];
+  optional bool wrap = 3 [json_name = "wrap"];
+}
+
+// registry04: ColourConfiguration; complete selected WP03.01 projection.
+message ColourConfiguration {
+  optional string working_space = 1 [json_name = "workingSpace"];
+  optional string display_space = 2 [json_name = "displaySpace"];
+  arcforges.foundation.v1.ResourceVersionRef ocio_config = 3 [json_name = "ocioConfig"];
+  repeated MediaColourAssignment input_assignments = 4 [json_name = "inputAssignments"];
+}
+
+// registry04: ContextRef; complete selected WP03.01 projection.
+message ContextRef {
+  arcforges.foundation.v1.AggregateRef source = 1 [json_name = "source"];
+  arcforges.foundation.v1.Revision revision = 2 [json_name = "revision"];
+  arcforges.foundation.v1.ResourceRef resource = 3 [json_name = "resource"];
+  ContextSelector selector = 4 [json_name = "selector"];
+  arcforges.foundation.v1.ContentOrigin origin = 5 [json_name = "origin"];
+  optional ContextLifetime lifetime = 6 [json_name = "lifetime"];
+  EphemeralSelection ephemeral = 7 [json_name = "ephemeral"];
+  SourceConsentRef consent = 8 [json_name = "consent"];
+}
+
+// registry04: ContextSelector; complete selected WP03.01 projection.
+message ContextSelector {
+  oneof selection {
+    bool whole = 1 [json_name = "whole"];
+    arcforges.foundation.v1.ByteRange byte_range = 2 [json_name = "byteRange"];
+    NotesSelection notes = 3 [json_name = "notes"];
+    ScopeSelection scope = 4 [json_name = "scope"];
+    SlateSelection slate = 5 [json_name = "slate"];
+  }
+}
+
+// registry04: ControlProgress; complete selected WP03.01 projection.
+message ControlProgress {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"];
+  optional ControlKind kind = 2 [json_name = "kind"];
+  optional ControlState state = 3 [json_name = "state"];
+  arcforges.foundation.v1.Instant requested_at = 4 [json_name = "requestedAt"];
+  arcforges.foundation.v1.Instant acknowledged_at = 5 [json_name = "acknowledgedAt"];
+  optional string reason = 6 [json_name = "reason"];
+}
+
+// registry04: ConversationBody; complete selected WP03.01 projection.
+message ConversationBody {
+  ConversationView conversation = 1 [json_name = "conversation"];
+  repeated MessageView messages = 2 [json_name = "messages"];
+}
+
+// registry04: ConversationView; complete selected WP03.01 projection.
+message ConversationView {
+  arcforges.foundation.v1.Id conversation_id = 1 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id branch_id = 2 [json_name = "branchId"];
+  optional string title = 3 [json_name = "title"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+  arcforges.foundation.v1.Instant last_message_at = 5 [json_name = "lastMessageAt"];
+  arcforges.foundation.v1.Id project_id = 6 [json_name = "projectId"];
+  optional bool pinned = 7 [json_name = "pinned"];
+  optional bool archived = 8 [json_name = "archived"];
+  optional bool temporary = 9 [json_name = "temporary"];
+  arcforges.foundation.v1.ApplicationScope application_scope = 10 [json_name = "applicationScope"];
+  optional HistoryMode history_mode = 11 [json_name = "historyMode"];
+}
+
+// registry04: CursorResult; complete selected WP03.01 projection.
+message CursorResult {
+  SelectedSample a = 1 [json_name = "a"];
+  SelectedSample b = 2 [json_name = "b"];
+  ScopeTime delta_time = 3 [json_name = "deltaTime"];
+  optional double delta_value = 4 [json_name = "deltaValue"];
+}
+
+// registry04: CursorSpec; complete selected WP03.01 projection.
+message CursorSpec {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  arcforges.foundation.v1.Id segment_id = 2 [json_name = "segmentId"];
+  ScopeTime time = 3 [json_name = "time"];
+}
+
+// registry04: EffectParameter; complete selected WP03.01 projection.
+message EffectParameter {
+  optional string name = 1 [json_name = "name"];
+  oneof value {
+    arcforges.foundation.v1.Decimal decimal = 2 [json_name = "decimal"];
+    bool boolean = 3 [json_name = "boolean"];
+    string text = 4 [json_name = "text"];
+    KeyframeList keyframes = 5 [json_name = "keyframes"];
+    arcforges.foundation.v1.Rational rational = 6 [json_name = "rational"];
+  }
+}
+
+// registry04: EffectSpec; complete selected WP03.01 projection.
+message EffectSpec {
+  optional string kind = 1 [json_name = "kind"];
+  repeated EffectParameter parameters = 2 [json_name = "parameters"];
+  arcforges.foundation.v1.Id instance_id = 3 [json_name = "instanceId"];
+  optional string definition_version = 4 [json_name = "definitionVersion"];
+  optional string scope = 5 [json_name = "scope"];
+  optional bool enabled = 6 [json_name = "enabled"];
+  optional bytes retained_definition = 7 [json_name = "retainedDefinition"];
+}
+
+// registry04: EphemeralSelection; complete selected WP03.01 projection.
+message EphemeralSelection {
+  arcforges.foundation.v1.Id instance_id = 1 [json_name = "instanceId"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  arcforges.foundation.v1.Id selection_id = 3 [json_name = "selectionId"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+}
+
+// registry04: EventTrigger; complete selected WP03.01 projection.
+message EventTrigger {
+  optional string kind = 1 [json_name = "kind"];
+  arcforges.foundation.v1.AggregateRef source = 2 [json_name = "source"];
+  NotesFilter predicate = 3 [json_name = "predicate"];
+}
+
+// registry04: FamilyResult; complete selected WP03.01 projection.
+message FamilyResult {
+  optional string family = 1 [json_name = "family"];
+  optional string status = 2 [json_name = "status"];
+  repeated MeasurementValue values = 3 [json_name = "values"];
+  optional uint64 valid_count = 4 [json_name = "validCount"];
+  optional uint64 invalid_count = 5 [json_name = "invalidCount"];
+  optional string reason = 6 [json_name = "reason"];
+  arcforges.foundation.v1.Id channel_id = 7 [json_name = "channelId"];
+}
+
+// registry04: FilterGroup; complete selected WP03.01 projection.
+message FilterGroup {
+  optional string operator = 1 [json_name = "operator"];
+  repeated NotesFilter children = 2 [json_name = "children"];
+}
+
+// registry04: FolderView; complete selected WP03.01 projection.
+message FolderView {
+  arcforges.foundation.v1.Id folder_id = 1 [json_name = "folderId"];
+  arcforges.foundation.v1.Id notebook_id = 2 [json_name = "notebookId"];
+  arcforges.foundation.v1.Id parent_id = 3 [json_name = "parentId"];
+  optional string name = 4 [json_name = "name"];
+  optional string order_key = 5 [json_name = "orderKey"];
+  arcforges.foundation.v1.Instant trashed_at = 6 [json_name = "trashedAt"];
+  arcforges.foundation.v1.Revision notebook_rev = 7 [json_name = "notebookRev"];
+}
+
+// registry04: FrameConfiguration; complete selected WP03.01 projection.
+message FrameConfiguration {
+  optional string kind = 1 [json_name = "kind"];
+  optional bytes start = 2 [json_name = "start"];
+  optional bytes end = 3 [json_name = "end"];
+  optional uint32 escape_byte = 4 [json_name = "escapeByte"];
+  optional uint32 delimiter = 5 [json_name = "delimiter"];
+  optional bool header = 6 [json_name = "header"];
+  optional uint32 frame_bytes = 7 [json_name = "frameBytes"];
+  optional string byte_order = 8 [json_name = "byteOrder"];
+  repeated FrameField fields = 9 [json_name = "fields"];
+  ChecksumSpec checksum = 10 [json_name = "checksum"];
+}
+
+// registry04: FrameField; complete selected WP03.01 projection.
+message FrameField {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  optional uint32 column = 2 [json_name = "column"];
+  repeated string json_path = 3 [json_name = "jsonPath"];
+  optional uint32 offset = 4 [json_name = "offset"];
+  optional string scalar_type = 5 [json_name = "scalarType"];
+  optional bool required = 6 [json_name = "required"];
+}
+
+// registry04: GeneratedSource; complete selected WP03.01 projection.
+message GeneratedSource {
+  optional string kind = 1 [json_name = "kind"];
+  repeated EffectParameter parameters = 2 [json_name = "parameters"];
+  TimedText text = 3 [json_name = "text"];
+}
+
+// registry04: IdList; complete selected WP03.01 projection.
+message IdList {
+  repeated arcforges.foundation.v1.Id items = 1 [json_name = "items"];
+}
+
+// registry04: ImageLayout; complete selected WP03.01 projection.
+message ImageLayout {
+  optional double width_ratio = 1 [json_name = "widthRatio"];
+  optional string alignment = 2 [json_name = "alignment"];
+}
+
+// registry04: InlineAtom; complete selected WP03.01 projection.
+message InlineAtom {
+  optional uint32 offset = 1 [json_name = "offset"];
+  arcforges.foundation.v1.ContentOrigin origin = 5 [json_name = "origin"];
+  arcforges.foundation.v1.Id inline_id = 6 [json_name = "inlineId"];
+  oneof content {
+    LinkSpec mention = 2 [json_name = "mention"];
+    MathContent math = 3 [json_name = "math"];
+    LinkSpec footnote = 4 [json_name = "footnote"];
+  }
+}
+
+// registry04: Keyframe; complete selected WP03.01 projection.
+message Keyframe {
+  arcforges.foundation.v1.MediaTime time = 1 [json_name = "time"];
+  arcforges.foundation.v1.Decimal value = 2 [json_name = "value"];
+  optional string interpolation = 3 [json_name = "interpolation"];
+  arcforges.foundation.v1.Rational in_tangent = 4 [json_name = "inTangent"];
+  arcforges.foundation.v1.Rational out_tangent = 5 [json_name = "outTangent"];
+  optional string scope = 6 [json_name = "scope"];
+}
+
+// registry04: KeyframeList; complete selected WP03.01 projection.
+message KeyframeList {
+  repeated Keyframe items = 1 [json_name = "items"];
+}
+
+// registry04: LinkSpec; complete selected WP03.01 projection.
+message LinkSpec {
+  optional string kind = 1 [json_name = "kind"];
+  arcforges.foundation.v1.Id target_id = 2 [json_name = "targetId"];
+  optional string url = 3 [json_name = "url"];
+  optional string label = 4 [json_name = "label"];
+}
+
+// registry04: MarkerView; complete selected WP03.01 projection.
+message MarkerView {
+  arcforges.foundation.v1.Id marker_id = 1 [json_name = "markerId"];
+  arcforges.foundation.v1.Id sequence_id = 2 [json_name = "sequenceId"];
+  arcforges.foundation.v1.MediaRange range = 3 [json_name = "range"];
+  optional string label = 4 [json_name = "label"];
+  arcforges.foundation.v1.ContentOrigin origin = 5 [json_name = "origin"];
+  arcforges.foundation.v1.Id clip_id = 6 [json_name = "clipId"];
+  optional string anchor = 7 [json_name = "anchor"];
+}
+
+// registry04: MathContent; complete selected WP03.01 projection.
+message MathContent {
+  optional string tex = 1 [json_name = "tex"];
+  optional bool display = 2 [json_name = "display"];
+}
+
+// registry04: MeasurementRequest; complete selected WP03.01 projection.
+message MeasurementRequest {
+  optional string profile = 1 [json_name = "profile"];
+  MeasurementSource source = 2 [json_name = "source"];
+  arcforges.foundation.v1.NativeContentRev source_revision = 3 [json_name = "sourceRevision"];
+  repeated arcforges.foundation.v1.Id channels = 4 [json_name = "channels"];
+  MeasurementWindow window = 5 [json_name = "window"];
+  repeated string families = 6 [json_name = "families"];
+  repeated MeasurementThreshold thresholds = 7 [json_name = "thresholds"];
+  ScopeConfiguration configuration = 8 [json_name = "configuration"];
+  AlignmentSpec alignment = 9 [json_name = "alignment"];
+  repeated CursorSpec cursors = 10 [json_name = "cursors"];
+  repeated MeasurementThreshold reference_levels = 11 [json_name = "referenceLevels"];
+}
+
+// registry04: MeasurementResult; complete selected WP03.01 projection.
+message MeasurementResult {
+  optional string profile = 1 [json_name = "profile"];
+  optional string input_hash = 2 [json_name = "inputHash"];
+  repeated FamilyResult families = 3 [json_name = "families"];
+  repeated string warnings = 4 [json_name = "warnings"];
+  ScopeConfiguration configuration = 5 [json_name = "configuration"];
+  optional uint64 finite_count = 6 [json_name = "finiteCount"];
+  optional uint64 excluded_count = 7 [json_name = "excludedCount"];
+  optional uint64 run_count = 8 [json_name = "runCount"];
+  ScopeTime requested_duration = 9 [json_name = "requestedDuration"];
+  ScopeTime covered_duration = 10 [json_name = "coveredDuration"];
+  ScopeTime timing_uncertainty = 11 [json_name = "timingUncertainty"];
+  MeasurementSource source = 12 [json_name = "source"];
+  repeated MeasurementThreshold resolved_thresholds = 13 [json_name = "resolvedThresholds"];
+  CursorResult cursor = 14 [json_name = "cursor"];
+}
+
+// registry04: MeasurementSource; complete selected WP03.01 projection.
+message MeasurementSource {
+  arcforges.foundation.v1.ResourceVersionRef capture = 1 [json_name = "capture"];
+  arcforges.foundation.v1.Id channel_id = 2 [json_name = "channelId"];
+  optional uint64 committed_prefix = 3 [json_name = "committedPrefix"];
+  arcforges.foundation.v1.ResourceVersionRef configuration = 4 [json_name = "configuration"];
+  arcforges.foundation.v1.ResourceVersionRef decoder = 5 [json_name = "decoder"];
+  arcforges.foundation.v1.ResourceVersionRef time_mapping = 6 [json_name = "timeMapping"];
+  arcforges.foundation.v1.ResourceVersionRef event_set = 7 [json_name = "eventSet"];
+}
+
+// registry04: MeasurementThreshold; complete selected WP03.01 projection.
+message MeasurementThreshold {
+  optional string family = 1 [json_name = "family"];
+  optional string name = 2 [json_name = "name"];
+  optional double value = 3 [json_name = "value"];
+  optional string unit = 4 [json_name = "unit"];
+  arcforges.foundation.v1.Id channel_id = 5 [json_name = "channelId"];
+}
+
+// registry04: MeasurementValue; complete selected WP03.01 projection.
+message MeasurementValue {
+  optional string name = 1 [json_name = "name"];
+  optional string unit = 3 [json_name = "unit"];
+  oneof result {
+    double value = 2 [json_name = "value"];
+    uint64 count = 4 [json_name = "count"];
+  }
+}
+
+// registry04: MeasurementWindow; complete selected WP03.01 projection.
+message MeasurementWindow {
+  ScopeTime start = 1 [json_name = "start"];
+  ScopeTime end = 2 [json_name = "end"];
+}
+
+// registry04: MediaBin; complete selected WP03.01 projection.
+message MediaBin {
+  arcforges.foundation.v1.Id bin_id = 1 [json_name = "binId"];
+  arcforges.foundation.v1.Id parent_id = 2 [json_name = "parentId"];
+  optional string name = 3 [json_name = "name"];
+  repeated arcforges.foundation.v1.Id media_ids = 4 [json_name = "mediaIds"];
+  repeated arcforges.foundation.v1.Id sequence_ids = 5 [json_name = "sequenceIds"];
+  optional uint32 order = 6 [json_name = "order"];
+}
+
+// registry04: MediaColourAssignment; complete selected WP03.01 projection.
+message MediaColourAssignment {
+  arcforges.foundation.v1.Id media_id = 1 [json_name = "mediaId"];
+  optional string input_space = 2 [json_name = "inputSpace"];
+}
+
+// registry04: MediaStream; complete selected WP03.01 projection.
+message MediaStream {
+  optional uint32 index = 1 [json_name = "index"];
+  optional string kind = 2 [json_name = "kind"];
+  optional string codec = 3 [json_name = "codec"];
+  arcforges.foundation.v1.Rational rate = 4 [json_name = "rate"];
+  optional uint32 channels = 5 [json_name = "channels"];
+}
+
+// registry04: MediaView; complete selected WP03.01 projection.
+message MediaView {
+  arcforges.foundation.v1.Id media_id = 1 [json_name = "mediaId"];
+  arcforges.foundation.v1.ResourceRef source = 2 [json_name = "source"];
+  optional arcforges.foundation.v1.ResourceAvailability availability = 3 [json_name = "availability"];
+  arcforges.foundation.v1.MediaTime duration = 4 [json_name = "duration"];
+  repeated MediaStream streams = 5 [json_name = "streams"];
+}
+
+// registry04: MemoryRecord; complete selected WP03.01 projection.
+message MemoryRecord {
+  arcforges.foundation.v1.Id memory_id = 1 [json_name = "memoryId"];
+  optional string text = 2 [json_name = "text"];
+  repeated ContextRef sources = 3 [json_name = "sources"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+  optional bool enabled = 5 [json_name = "enabled"];
+  arcforges.foundation.v1.ContentOrigin origin = 6 [json_name = "origin"];
+}
+
+// registry04: MessageDraft; complete selected WP03.01 projection.
+message MessageDraft {
+  repeated MessagePart parts = 1 [json_name = "parts"];
+  repeated ContextRef context = 2 [json_name = "context"];
+}
+
+// registry04: MessagePart; complete selected WP03.01 projection.
+message MessagePart {
+  arcforges.foundation.v1.ContentOrigin origin = 5 [json_name = "origin"];
+  oneof content {
+    string text = 1 [json_name = "text"];
+    arcforges.foundation.v1.ResourceRef resource = 2 [json_name = "resource"];
+    ToolProposal tool_proposal = 3 [json_name = "toolProposal"];
+    ToolResult tool_result = 4 [json_name = "toolResult"];
+  }
+}
+
+// registry04: MessageView; complete selected WP03.01 projection.
+message MessageView {
+  arcforges.foundation.v1.Id message_id = 1 [json_name = "messageId"];
+  arcforges.foundation.v1.Id conversation_id = 2 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id branch_id = 3 [json_name = "branchId"];
+  optional string role = 4 [json_name = "role"];
+  repeated MessagePart parts = 5 [json_name = "parts"];
+  optional string state = 6 [json_name = "state"];
+  arcforges.foundation.v1.Revision revision = 7 [json_name = "revision"];
+  arcforges.foundation.v1.Id task_id = 8 [json_name = "taskId"];
+  arcforges.foundation.v1.Id turn_id = 9 [json_name = "turnId"];
+}
+
+// registry04: MetadataEntry; complete selected WP03.01 projection.
+message MetadataEntry {
+  optional string name = 1 [json_name = "name"];
+  MetadataScalar value = 2 [json_name = "value"];
+}
+
+// registry04: MetadataScalar; complete selected WP03.01 projection.
+message MetadataScalar {
+  oneof value {
+    string text = 1 [json_name = "text"];
+    bool boolean = 2 [json_name = "boolean"];
+    sint64 integer = 3 [json_name = "integer"];
+    double number = 4 [json_name = "number"];
+    arcforges.foundation.v1.Decimal decimal = 5 [json_name = "decimal"];
+    arcforges.foundation.v1.Instant instant = 6 [json_name = "instant"];
+    arcforges.foundation.v1.ResourceRef resource = 7 [json_name = "resource"];
+  }
+}
+
+// registry04: NotebookBody; complete selected WP03.01 projection.
+message NotebookBody {
+  NotebookView notebook = 1 [json_name = "notebook"];
+  repeated FolderView folders = 2 [json_name = "folders"];
+  repeated arcforges.foundation.v1.Id document_order = 3 [json_name = "documentOrder"];
+}
+
+// registry04: NotebookView; complete selected WP03.01 projection.
+message NotebookView {
+  arcforges.foundation.v1.Id notebook_id = 1 [json_name = "notebookId"];
+  optional string name = 2 [json_name = "name"];
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"];
+  arcforges.foundation.v1.Instant trashed_at = 4 [json_name = "trashedAt"];
+}
+
+// registry04: NotesDocument; complete selected WP03.01 projection.
+message NotesDocument {
+  arcforges.foundation.v1.Id document_id = 1 [json_name = "documentId"];
+  arcforges.foundation.v1.Id notebook_id = 2 [json_name = "notebookId"];
+  arcforges.foundation.v1.Id folder_id = 3 [json_name = "folderId"];
+  optional string title = 4 [json_name = "title"];
+  repeated Block blocks = 5 [json_name = "blocks"];
+  repeated PropertyValue properties = 6 [json_name = "properties"];
+  repeated arcforges.foundation.v1.Id tags = 7 [json_name = "tags"];
+  repeated LinkSpec links = 8 [json_name = "links"];
+  arcforges.foundation.v1.ContentOrigin origin = 9 [json_name = "origin"];
+}
+
+// registry04: NotesFilter; complete selected WP03.01 projection.
+message NotesFilter {
+  oneof expression {
+    FilterGroup group = 1 [json_name = "group"];
+    ScalarPredicate predicate = 2 [json_name = "predicate"];
+  }
+}
+
+// registry04: NotesQuery; complete selected WP03.01 projection.
+message NotesQuery {
+  optional string profile = 1 [json_name = "profile"];
+  arcforges.foundation.v1.Id notebook_id = 2 [json_name = "notebookId"];
+  arcforges.foundation.v1.Id saved_view_id = 3 [json_name = "savedViewId"];
+  arcforges.foundation.v1.Revision saved_view_rev = 4 [json_name = "savedViewRev"];
+  NotesFilter filter = 5 [json_name = "filter"];
+  repeated NotesSort sorts = 6 [json_name = "sorts"];
+  repeated arcforges.foundation.v1.Id projection = 7 [json_name = "projection"];
+  arcforges.foundation.v1.PageRequest page = 8 [json_name = "page"];
+  optional string dataset_token = 9 [json_name = "datasetToken"];
+  repeated PropertyDefinitionVersion definition_versions = 10 [json_name = "definitionVersions"];
+  NotesSelectors selectors = 11 [json_name = "selectors"];
+}
+
+// registry04: NotesSelection; complete selected WP03.01 projection.
+message NotesSelection {
+  arcforges.foundation.v1.Id document_id = 1 [json_name = "documentId"];
+  NotesTextPosition anchor = 2 [json_name = "anchor"];
+  NotesTextPosition focus = 3 [json_name = "focus"];
+  arcforges.foundation.v1.LocalNotesVersion local_version = 4 [json_name = "localVersion"];
+  arcforges.foundation.v1.Revision cloud_revision = 5 [json_name = "cloudRevision"];
+}
+
+// registry04: NotesSelectors; complete selected WP03.01 projection.
+message NotesSelectors {
+  arcforges.foundation.v1.Id document_id = 1 [json_name = "documentId"];
+  arcforges.foundation.v1.Id folder_id = 2 [json_name = "folderId"];
+  repeated arcforges.foundation.v1.Id tag_ids = 3 [json_name = "tagIds"];
+  optional string text = 4 [json_name = "text"];
+  repeated string block_kinds = 5 [json_name = "blockKinds"];
+  optional bool has_attachment = 6 [json_name = "hasAttachment"];
+  arcforges.foundation.v1.TimeRangeUtc modified = 7 [json_name = "modified"];
+  arcforges.foundation.v1.Id linked_to = 8 [json_name = "linkedTo"];
+}
+
+// registry04: NotesSort; complete selected WP03.01 projection.
+message NotesSort {
+  arcforges.foundation.v1.Id property_id = 1 [json_name = "propertyId"];
+  optional bool descending = 2 [json_name = "descending"];
+}
+
+// registry04: NotesTextPosition; complete selected WP03.01 projection.
+message NotesTextPosition {
+  arcforges.foundation.v1.Id block_id = 1 [json_name = "blockId"];
+  arcforges.foundation.v1.Id inline_id = 2 [json_name = "inlineId"];
+  optional uint32 offset_utf16 = 3 [json_name = "offsetUtf16"];
+  optional string affinity = 4 [json_name = "affinity"];
+  arcforges.foundation.v1.Id cell_id = 5 [json_name = "cellId"];
+}
+
+// registry04: PreferenceRecord; complete selected WP03.01 projection.
+message PreferenceRecord {
+  arcforges.foundation.v1.Id preference_id = 1 [json_name = "preferenceId"];
+  optional string owner_app_id = 2 [json_name = "ownerAppId"];
+  repeated MetadataEntry values = 3 [json_name = "values"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+}
+
+// registry04: ProcessingEdge; complete selected WP03.01 projection.
+message ProcessingEdge {
+  arcforges.foundation.v1.Id source_node_id = 1 [json_name = "sourceNodeId"];
+  optional string source_port = 2 [json_name = "sourcePort"];
+  arcforges.foundation.v1.Id target_node_id = 3 [json_name = "targetNodeId"];
+  optional string target_port = 4 [json_name = "targetPort"];
+}
+
+// registry04: ProcessingGraph; complete selected WP03.01 projection.
+message ProcessingGraph {
+  repeated EffectSpec nodes = 1 [json_name = "nodes"];
+  repeated ProcessingEdge edges = 2 [json_name = "edges"];
+  arcforges.foundation.v1.Id output_node_id = 3 [json_name = "outputNodeId"];
+  optional string profile = 4 [json_name = "profile"];
+}
+
+// registry04: PropertyDefinition; complete selected WP03.01 projection.
+message PropertyDefinition {
+  arcforges.foundation.v1.Id property_id = 1 [json_name = "propertyId"];
+  arcforges.foundation.v1.Id notebook_id = 2 [json_name = "notebookId"];
+  optional string name = 3 [json_name = "name"];
+  optional string type = 4 [json_name = "type"];
+  optional string profile = 5 [json_name = "profile"];
+  arcforges.foundation.v1.Revision semantic_revision = 6 [json_name = "semanticRevision"];
+  arcforges.foundation.v1.Revision revision = 7 [json_name = "revision"];
+  repeated SelectOption options = 8 [json_name = "options"];
+  optional uint32 number_scale = 9 [json_name = "numberScale"];
+  arcforges.foundation.v1.Instant trashed_at = 10 [json_name = "trashedAt"];
+}
+
+// registry04: PropertyDefinitionVersion; complete selected WP03.01 projection.
+message PropertyDefinitionVersion {
+  arcforges.foundation.v1.Id property_id = 1 [json_name = "propertyId"];
+  arcforges.foundation.v1.Revision semantic_revision = 2 [json_name = "semanticRevision"];
+}
+
+// registry04: PropertyValue; complete selected WP03.01 projection.
+message PropertyValue {
+  arcforges.foundation.v1.Id property_id = 1 [json_name = "propertyId"];
+  ScalarValue value = 2 [json_name = "value"];
+}
+
+// registry04: RenderPreset; complete selected WP03.01 projection.
+message RenderPreset {
+  optional string container = 1 [json_name = "container"];
+  optional string video_codec = 2 [json_name = "videoCodec"];
+  optional string audio_codec = 3 [json_name = "audioCodec"];
+  optional uint32 width = 4 [json_name = "width"];
+  optional uint32 height = 5 [json_name = "height"];
+  arcforges.foundation.v1.Rational rate = 6 [json_name = "rate"];
+  optional string colour_space = 7 [json_name = "colourSpace"];
+  optional uint32 sample_rate = 8 [json_name = "sampleRate"];
+  optional string channel_layout = 9 [json_name = "channelLayout"];
+  optional string profile = 10 [json_name = "profile"];
+  optional uint32 audio_bitrate = 11 [json_name = "audioBitrate"];
+  optional uint64 video_bitrate = 12 [json_name = "videoBitrate"];
+  optional string subtitle_mode = 13 [json_name = "subtitleMode"];
+}
+
+// registry04: RetimeCurve; complete selected WP03.01 projection.
+message RetimeCurve {
+  repeated RetimePoint points = 1 [json_name = "points"];
+  optional string profile = 2 [json_name = "profile"];
+}
+
+// registry04: RetimePoint; complete selected WP03.01 projection.
+message RetimePoint {
+  arcforges.foundation.v1.MediaTime timeline_offset = 1 [json_name = "timelineOffset"];
+  arcforges.foundation.v1.MediaTime source_offset = 2 [json_name = "sourceOffset"];
+}
+
+// registry04: RichText; complete selected WP03.01 projection.
+message RichText {
+  optional string text = 1 [json_name = "text"];
+  repeated TextSpan spans = 2 [json_name = "spans"];
+  repeated InlineAtom atoms = 3 [json_name = "atoms"];
+  repeated TextRunSegment runs = 4 [json_name = "runs"];
+}
+
+// registry04: SampleRange; complete selected WP03.01 projection.
+message SampleRange {
+  optional uint64 from = 1 [json_name = "from"];
+  optional uint64 count = 2 [json_name = "count"];
+}
+
+// registry04: SavedViewRecord; complete selected WP03.01 projection.
+message SavedViewRecord {
+  arcforges.foundation.v1.Id view_id = 1 [json_name = "viewId"];
+  arcforges.foundation.v1.Id notebook_id = 2 [json_name = "notebookId"];
+  optional string name = 3 [json_name = "name"];
+  optional string layout = 4 [json_name = "layout"];
+  NotesQuery query = 5 [json_name = "query"];
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"];
+  arcforges.foundation.v1.Instant trashed_at = 7 [json_name = "trashedAt"];
+}
+
+// registry04: ScalarPredicate; complete selected WP03.01 projection.
+message ScalarPredicate {
+  arcforges.foundation.v1.Id property_id = 1 [json_name = "propertyId"];
+  optional string operator = 2 [json_name = "operator"];
+  repeated ScalarValue operands = 3 [json_name = "operands"];
+}
+
+// registry04: ScalarValue; complete selected WP03.01 projection.
+message ScalarValue {
+  oneof value {
+    bool null = 1 [json_name = "null"];
+    string text = 2 [json_name = "text"];
+    bool boolean = 3 [json_name = "boolean"];
+    arcforges.foundation.v1.Decimal number = 4 [json_name = "number"];
+    string date = 5 [json_name = "date"];
+    arcforges.foundation.v1.Id select = 6 [json_name = "select"];
+    IdList multi_select = 7 [json_name = "multiSelect"];
+    arcforges.foundation.v1.Instant date_time = 8 [json_name = "dateTime"];
+    string url = 9 [json_name = "url"];
+  }
+}
+
+// registry04: ScheduleSpec; complete selected WP03.01 projection.
+message ScheduleSpec {
+  optional string kind = 1 [json_name = "kind"];
+  optional string expression = 2 [json_name = "expression"];
+  optional string zone = 3 [json_name = "zone"];
+  arcforges.foundation.v1.Instant starts_at = 4 [json_name = "startsAt"];
+  arcforges.foundation.v1.Instant ends_at = 5 [json_name = "endsAt"];
+  optional string dst_gap = 6 [json_name = "dstGap"];
+  optional string dst_overlap = 7 [json_name = "dstOverlap"];
+}
+
+// registry04: ScopeAnnotation; complete selected WP03.01 projection.
+message ScopeAnnotation {
+  arcforges.foundation.v1.Id annotation_id = 1 [json_name = "annotationId"];
+  SampleRange range = 2 [json_name = "range"];
+  optional string text = 3 [json_name = "text"];
+  arcforges.foundation.v1.ContentOrigin origin = 4 [json_name = "origin"];
+}
+
+// registry04: ScopeConfiguration; complete selected WP03.01 projection.
+message ScopeConfiguration {
+  arcforges.foundation.v1.Id configuration_id = 1 [json_name = "configurationId"];
+  repeated ChannelDefinition channels = 2 [json_name = "channels"];
+  optional string parser_profile = 3 [json_name = "parserProfile"];
+  arcforges.foundation.v1.NativeContentRev revision = 4 [json_name = "revision"];
+  FrameConfiguration framing = 5 [json_name = "framing"];
+  TriggerConfiguration trigger = 6 [json_name = "trigger"];
+}
+
+// registry04: ScopeFinding; complete selected WP03.01 projection.
+message ScopeFinding {
+  arcforges.foundation.v1.Id finding_id = 1 [json_name = "findingId"];
+  arcforges.foundation.v1.ResourceVersionRef result = 2 [json_name = "result"];
+  optional string text = 3 [json_name = "text"];
+  arcforges.foundation.v1.ContentOrigin origin = 4 [json_name = "origin"];
+  optional string severity = 5 [json_name = "severity"];
+  optional string status = 6 [json_name = "status"];
+  repeated ContextRef evidence = 7 [json_name = "evidence"];
+  arcforges.foundation.v1.ActorChain actor = 8 [json_name = "actor"];
+}
+
+// registry04: ScopeMetadata; complete selected WP03.01 projection.
+message ScopeMetadata {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional string name = 2 [json_name = "name"];
+  repeated CaptureMetadata captures = 3 [json_name = "captures"];
+  repeated ScopeAnnotation annotations = 4 [json_name = "annotations"];
+  repeated ScopeFinding findings = 5 [json_name = "findings"];
+  arcforges.foundation.v1.Id project_id = 6 [json_name = "projectId"];
+  ScopeConfiguration configuration = 7 [json_name = "configuration"];
+  repeated arcforges.foundation.v1.ResourceVersionRef analyses = 8 [json_name = "analyses"];
+  repeated arcforges.foundation.v1.ArtifactRef reports = 9 [json_name = "reports"];
+  repeated arcforges.foundation.v1.Id tags = 10 [json_name = "tags"];
+  repeated MetadataEntry metadata = 11 [json_name = "metadata"];
+}
+
+// registry04: ScopeSelection; complete selected WP03.01 projection.
+message ScopeSelection {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id capture_id = 2 [json_name = "captureId"];
+  repeated arcforges.foundation.v1.Id channels = 3 [json_name = "channels"];
+  arcforges.foundation.v1.MediaRange range = 4 [json_name = "range"];
+  arcforges.foundation.v1.NativeContentRev revision = 5 [json_name = "revision"];
+}
+
+// registry04: ScopeTime; complete selected WP03.01 projection.
+message ScopeTime {
+  optional sint64 ticks = 1 [json_name = "ticks"];
+  arcforges.foundation.v1.Rational rate = 2 [json_name = "rate"];
+}
+
+// registry04: SelectOption; complete selected WP03.01 projection.
+message SelectOption {
+  arcforges.foundation.v1.Id option_id = 1 [json_name = "optionId"];
+  optional string label = 2 [json_name = "label"];
+  optional uint32 order = 3 [json_name = "order"];
+}
+
+// registry04: SelectedSample; complete selected WP03.01 projection.
+message SelectedSample {
+  arcforges.foundation.v1.Id capture_id = 1 [json_name = "captureId"];
+  arcforges.foundation.v1.Id channel_id = 2 [json_name = "channelId"];
+  arcforges.foundation.v1.Id segment_id = 3 [json_name = "segmentId"];
+  optional uint64 sample_index = 4 [json_name = "sampleIndex"];
+  ScopeTime time = 5 [json_name = "time"];
+  optional double value = 6 [json_name = "value"];
+}
+
+// registry04: SequenceView; complete selected WP03.01 projection.
+message SequenceView {
+  arcforges.foundation.v1.Id sequence_id = 1 [json_name = "sequenceId"];
+  arcforges.foundation.v1.Id project_id = 2 [json_name = "projectId"];
+  optional string name = 3 [json_name = "name"];
+  arcforges.foundation.v1.NativeContentRev revision = 4 [json_name = "revision"];
+  arcforges.foundation.v1.MediaTime duration = 5 [json_name = "duration"];
+  arcforges.foundation.v1.Rational video_rate = 6 [json_name = "videoRate"];
+  optional uint32 sample_rate = 7 [json_name = "sampleRate"];
+  optional uint32 width = 8 [json_name = "width"];
+  optional uint32 height = 9 [json_name = "height"];
+  optional string channel_layout = 10 [json_name = "channelLayout"];
+  ColourConfiguration colour = 11 [json_name = "colour"];
+}
+
+// registry04: SkillRecord; complete selected WP03.01 projection.
+message SkillRecord {
+  arcforges.foundation.v1.Id skill_id = 1 [json_name = "skillId"];
+  optional string name = 2 [json_name = "name"];
+  optional string instructions = 3 [json_name = "instructions"];
+  repeated arcforges.foundation.v1.ResourceVersionRef resources = 4 [json_name = "resources"];
+  repeated string capabilities = 5 [json_name = "capabilities"];
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"];
+  optional bool enabled = 7 [json_name = "enabled"];
+}
+
+// registry04: SlateMetadata; complete selected WP03.01 projection.
+message SlateMetadata {
+  arcforges.foundation.v1.Id project_id = 1 [json_name = "projectId"];
+  optional string name = 2 [json_name = "name"];
+  repeated SequenceView sequences = 3 [json_name = "sequences"];
+  repeated MediaView media = 4 [json_name = "media"];
+  repeated TimelineView timelines = 5 [json_name = "timelines"];
+  repeated MediaBin bins = 6 [json_name = "bins"];
+  repeated RenderPreset presets = 7 [json_name = "presets"];
+  repeated arcforges.foundation.v1.ResourceVersionRef transcripts = 8 [json_name = "transcripts"];
+  repeated arcforges.foundation.v1.ResourceVersionRef small_assets = 9 [json_name = "smallAssets"];
+  arcforges.foundation.v1.NativeContentRev content_rev = 10 [json_name = "contentRev"];
+  optional string profile = 11 [json_name = "profile"];
+}
+
+// registry04: SlateSelection; complete selected WP03.01 projection.
+message SlateSelection {
+  arcforges.foundation.v1.Id project_id = 1 [json_name = "projectId"];
+  arcforges.foundation.v1.Id sequence_id = 2 [json_name = "sequenceId"];
+  arcforges.foundation.v1.MediaRange range = 3 [json_name = "range"];
+  repeated arcforges.foundation.v1.Id items = 4 [json_name = "items"];
+  arcforges.foundation.v1.NativeContentRev revision = 5 [json_name = "revision"];
+}
+
+// registry04: SourceConsentRef; complete selected WP03.01 projection.
+message SourceConsentRef {
+  arcforges.foundation.v1.Id consent_id = 1 [json_name = "consentId"];
+  optional string scope_hash = 2 [json_name = "scopeHash"];
+  arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"];
+}
+
+// registry04: StructuredValue; complete selected WP03.01 projection.
+message StructuredValue {
+  oneof value {
+    bool null = 1 [json_name = "null"];
+    bool boolean = 2 [json_name = "boolean"];
+    sint64 integer = 3 [json_name = "integer"];
+    arcforges.foundation.v1.Decimal decimal = 4 [json_name = "decimal"];
+    string text = 5 [json_name = "text"];
+    arcforges.foundation.v1.Instant instant = 6 [json_name = "instant"];
+    arcforges.foundation.v1.ResourceRef resource = 7 [json_name = "resource"];
+    ValueList list = 8 [json_name = "list"];
+    ValueRecord record = 9 [json_name = "record"];
+    double number = 10 [json_name = "number"];
+  }
+}
+
+// registry04: TableBlock; complete selected WP03.01 projection.
+message TableBlock {
+  repeated TableRow rows = 1 [json_name = "rows"];
+}
+
+// registry04: TableCell; complete selected WP03.01 projection.
+message TableCell {
+  arcforges.foundation.v1.Id cell_id = 1 [json_name = "cellId"];
+  RichText content = 2 [json_name = "content"];
+}
+
+// registry04: TableRow; complete selected WP03.01 projection.
+message TableRow {
+  arcforges.foundation.v1.Id row_id = 1 [json_name = "rowId"];
+  repeated TableCell cells = 2 [json_name = "cells"];
+}
+
+// registry04: TagRecord; complete selected WP03.01 projection.
+message TagRecord {
+  arcforges.foundation.v1.Id tag_id = 1 [json_name = "tagId"];
+  arcforges.foundation.v1.Id notebook_id = 2 [json_name = "notebookId"];
+  optional string name = 3 [json_name = "name"];
+  optional string colour = 4 [json_name = "colour"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+  arcforges.foundation.v1.Instant trashed_at = 6 [json_name = "trashedAt"];
+}
+
+// registry04: TaskSnapshot; complete selected WP03.01 projection.
+message TaskSnapshot {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional TaskState state = 2 [json_name = "state"];
+  optional string reason = 3 [json_name = "reason"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+  arcforges.foundation.v1.Id run_id = 5 [json_name = "runId"];
+  arcforges.foundation.v1.Id current_stream_id = 6 [json_name = "currentStreamId"];
+  arcforges.foundation.v1.VersionedRef final_message = 7 [json_name = "finalMessage"];
+  arcforges.foundation.v1.Instant recovery_at = 8 [json_name = "recoveryAt"];
+  ControlProgress control = 9 [json_name = "control"];
+  optional bool has_unknown_effect = 10 [json_name = "hasUnknownEffect"];
+  optional uint32 completed_steps = 11 [json_name = "completedSteps"];
+  optional uint32 total_steps = 12 [json_name = "totalSteps"];
+  repeated string missing_outputs = 13 [json_name = "missingOutputs"];
+  optional TaskReasonFacet reason_facet = 14 [json_name = "reasonFacet"];
+}
+
+// registry04: TextRunSegment; complete selected WP03.01 projection.
+message TextRunSegment {
+  arcforges.foundation.v1.Id run_id = 1 [json_name = "runId"];
+  optional uint32 from = 2 [json_name = "from"];
+  optional uint32 until = 3 [json_name = "until"];
+}
+
+// registry04: TextSpan; complete selected WP03.01 projection.
+message TextSpan {
+  optional uint32 from = 1 [json_name = "from"];
+  optional uint32 until = 2 [json_name = "until"];
+  repeated string marks = 3 [json_name = "marks"];
+  LinkSpec link = 4 [json_name = "link"];
+  arcforges.foundation.v1.ContentOrigin origin = 5 [json_name = "origin"];
+}
+
+// registry04: TimedText; complete selected WP03.01 projection.
+message TimedText {
+  optional string text = 1 [json_name = "text"];
+  optional string language = 2 [json_name = "language"];
+  optional string font_family = 3 [json_name = "fontFamily"];
+  arcforges.foundation.v1.ResourceVersionRef font_asset = 4 [json_name = "fontAsset"];
+  arcforges.foundation.v1.Decimal size = 5 [json_name = "size"];
+  optional string colour = 6 [json_name = "colour"];
+  optional string alignment = 7 [json_name = "alignment"];
+  arcforges.foundation.v1.ContentOrigin origin = 8 [json_name = "origin"];
+}
+
+// registry04: TimelineClip; complete selected WP03.01 projection.
+message TimelineClip {
+  arcforges.foundation.v1.Id clip_id = 1 [json_name = "clipId"];
+  arcforges.foundation.v1.Id media_id = 2 [json_name = "mediaId"];
+  arcforges.foundation.v1.MediaRange timeline = 3 [json_name = "timeline"];
+  arcforges.foundation.v1.MediaRange source = 4 [json_name = "source"];
+  arcforges.foundation.v1.Rational playback_rate = 5 [json_name = "playbackRate"];
+  repeated EffectSpec effects = 6 [json_name = "effects"];
+  arcforges.foundation.v1.ContentOrigin origin = 7 [json_name = "origin"];
+  optional string kind = 8 [json_name = "kind"];
+  optional bool enabled = 9 [json_name = "enabled"];
+  arcforges.foundation.v1.Id nested_sequence_id = 10 [json_name = "nestedSequenceId"];
+  GeneratedSource generated = 11 [json_name = "generated"];
+  TimedText text = 12 [json_name = "text"];
+  ProcessingGraph graph = 13 [json_name = "graph"];
+  optional string name = 14 [json_name = "name"];
+  arcforges.foundation.v1.Id link_group_id = 15 [json_name = "linkGroupId"];
+  RetimeCurve retime = 16 [json_name = "retime"];
+  arcforges.foundation.v1.Id group_id = 17 [json_name = "groupId"];
+}
+
+// registry04: TimelineTrack; complete selected WP03.01 projection.
+message TimelineTrack {
+  arcforges.foundation.v1.Id track_id = 1 [json_name = "trackId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional uint32 order = 3 [json_name = "order"];
+  repeated TimelineClip clips = 4 [json_name = "clips"];
+  repeated TransitionSpec transitions = 5 [json_name = "transitions"];
+  optional bool enabled = 6 [json_name = "enabled"];
+  optional string name = 7 [json_name = "name"];
+  optional bool locked = 8 [json_name = "locked"];
+  ProcessingGraph graph = 9 [json_name = "graph"];
+}
+
+// registry04: TimelineView; complete selected WP03.01 projection.
+message TimelineView {
+  SequenceView sequence = 1 [json_name = "sequence"];
+  repeated TimelineTrack tracks = 2 [json_name = "tracks"];
+  repeated MarkerView markers = 3 [json_name = "markers"];
+  ProcessingGraph graph = 4 [json_name = "graph"];
+}
+
+// registry04: ToolProposal; complete selected WP03.01 projection.
+message ToolProposal {
+  arcforges.foundation.v1.Id proposal_id = 1 [json_name = "proposalId"];
+  optional string capability = 2 [json_name = "capability"];
+  CapabilityArguments arguments = 3 [json_name = "arguments"];
+  arcforges.foundation.v1.Id source_attempt_id = 4 [json_name = "sourceAttemptId"];
+}
+
+// registry04: ToolResult; complete selected WP03.01 projection.
+message ToolResult {
+  arcforges.foundation.v1.Id invocation_id = 1 [json_name = "invocationId"];
+  optional arcforges.foundation.v1.EffectCertainty effect = 2 [json_name = "effect"];
+  repeated arcforges.foundation.v1.ArtifactRef artifacts = 5 [json_name = "artifacts"];
+  oneof outcome {
+    CapabilityResult success = 3 [json_name = "success"];
+    arcforges.foundation.v1.ArcError error = 4 [json_name = "error"];
+  }
+}
+
+// registry04: TransitionSpec; complete selected WP03.01 projection.
+message TransitionSpec {
+  arcforges.foundation.v1.Id transition_id = 1 [json_name = "transitionId"];
+  arcforges.foundation.v1.Id left_clip_id = 2 [json_name = "leftClipId"];
+  arcforges.foundation.v1.Id right_clip_id = 3 [json_name = "rightClipId"];
+  optional string kind = 4 [json_name = "kind"];
+  arcforges.foundation.v1.MediaTime in_offset = 5 [json_name = "inOffset"];
+  arcforges.foundation.v1.MediaTime out_offset = 6 [json_name = "outOffset"];
+}
+
+// registry04: TriggerConfiguration; complete selected WP03.01 projection.
+message TriggerConfiguration {
+  optional string kind = 1 [json_name = "kind"];
+  arcforges.foundation.v1.Id channel_id = 2 [json_name = "channelId"];
+  optional double threshold = 3 [json_name = "threshold"];
+  optional string direction = 4 [json_name = "direction"];
+  optional double hysteresis = 5 [json_name = "hysteresis"];
+  ScopeTime holdoff = 6 [json_name = "holdoff"];
+  ScopeTime pre = 7 [json_name = "pre"];
+  ScopeTime post = 8 [json_name = "post"];
+  optional bool repeated = 9 [json_name = "repeated"];
+  optional uint32 max_occurrences = 10 [json_name = "maxOccurrences"];
+}
+
+// registry04: TriggerSpec; complete selected WP03.01 projection.
+message TriggerSpec {
+  oneof trigger {
+    bool manual = 1 [json_name = "manual"];
+    ScheduleSpec schedule = 2 [json_name = "schedule"];
+    EventTrigger event = 3 [json_name = "event"];
+  }
+}
+
+// registry04: TurnInput; complete selected WP03.01 projection.
+message TurnInput {
+  MessageDraft message = 1 [json_name = "message"];
+  repeated ContextRef context = 2 [json_name = "context"];
+  optional string instructions = 3 [json_name = "instructions"];
+}
+
+// registry04: ValueEntry; complete selected WP03.01 projection.
+message ValueEntry {
+  optional string name = 1 [json_name = "name"];
+  StructuredValue value = 2 [json_name = "value"];
+}
+
+// registry04: ValueList; complete selected WP03.01 projection.
+message ValueList {
+  repeated StructuredValue items = 1 [json_name = "items"];
+}
+
+// registry04: ValueRecord; complete selected WP03.01 projection.
+message ValueRecord {
+  repeated ValueEntry entries = 1 [json_name = "entries"];
+}

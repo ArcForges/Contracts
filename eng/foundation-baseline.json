@@ -1,0 +1,773 @@
+{
+  "schemaVersion": "foundation-baseline.v1",
+  "license": "Apache-2.0",
+  "sourceCommit": "30ddcad2bcb3634e089abb5e29d6c9ce05d38386",
+  "sourcePath": "public/proto/arcforges/foundation/v1/foundation.proto",
+  "evidence": "The 19 Foundation records and 3 enums already present at the parent of WP03.01 are frozen here for additive wire compatibility. identifierDomains separately records the reviewed WP03.01 nominal-ID owner inventory, not a prior published API.",
+  "identifierDesignCommit": "5e202ff10f3c218d9e159029579ca535c641169b",
+  "foundation": {
+    "package": "arcforges.foundation.v1",
+    "options": {
+      "csharp_namespace": "ArcForges.Contracts.Foundation.V1",
+      "java_package": "io.github.arcforges.contracts.foundation.v1",
+      "java_multiple_files": "true",
+      "java_outer_classname": "FoundationProto"
+    },
+    "imports": [],
+    "messages": {
+      "Id": {
+        "fields": [
+          {
+            "name": "value",
+            "jsonName": "value",
+            "type": "bytes",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "Revision": {
+        "fields": [
+          {
+            "name": "value",
+            "jsonName": "value",
+            "type": "int64",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "LocalNotesVersion": {
+        "fields": [
+          {
+            "name": "acked_rev",
+            "jsonName": "ackedRev",
+            "type": "Revision",
+            "tag": 1,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "head_local_seq",
+            "jsonName": "headLocalSeq",
+            "type": "uint64",
+            "tag": 2,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "NativeContentRev": {
+        "fields": [
+          {
+            "name": "value",
+            "jsonName": "value",
+            "type": "uint64",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "Instant": {
+        "fields": [
+          {
+            "name": "unix_seconds",
+            "jsonName": "unixSeconds",
+            "type": "sint64",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "nanos",
+            "jsonName": "nanos",
+            "type": "uint32",
+            "tag": 2,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "Decimal": {
+        "fields": [
+          {
+            "name": "value",
+            "jsonName": "value",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "AggregateRef": {
+        "fields": [
+          {
+            "name": "kind",
+            "jsonName": "kind",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "id",
+            "jsonName": "id",
+            "type": "Id",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "VersionedRef": {
+        "fields": [
+          {
+            "name": "root",
+            "jsonName": "root",
+            "type": "AggregateRef",
+            "tag": 1,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "revision",
+            "jsonName": "revision",
+            "type": "Revision",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "sha256",
+            "jsonName": "sha256",
+            "type": "string",
+            "tag": 3,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "Receipt": {
+        "fields": [
+          {
+            "name": "command_id",
+            "jsonName": "commandId",
+            "type": "Id",
+            "tag": 1,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "result_revision",
+            "jsonName": "resultRevision",
+            "type": "Revision",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "effect",
+            "jsonName": "effect",
+            "type": "EffectCertainty",
+            "tag": 3,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "ApplicationScope": {
+        "fields": [
+          {
+            "name": "product_id",
+            "jsonName": "productId",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "installation_id",
+            "jsonName": "installationId",
+            "type": "Id",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "RequestMeta": {
+        "fields": [
+          {
+            "name": "command_id",
+            "jsonName": "commandId",
+            "type": "Id",
+            "tag": 1,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "expected_rev",
+            "jsonName": "expectedRev",
+            "type": "Revision",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "correlation_id",
+            "jsonName": "correlationId",
+            "type": "Id",
+            "tag": 3,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "workspace_id",
+            "jsonName": "workspaceId",
+            "type": "Id",
+            "tag": 4,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "expected_local",
+            "jsonName": "expectedLocal",
+            "type": "LocalNotesVersion",
+            "tag": 5,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "expected_native",
+            "jsonName": "expectedNative",
+            "type": "NativeContentRev",
+            "tag": 6,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "recovery_generation",
+            "jsonName": "recoveryGeneration",
+            "type": "uint64",
+            "tag": 7,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "application_scope",
+            "jsonName": "applicationScope",
+            "type": "ApplicationScope",
+            "tag": 8,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "ResponseMeta": {
+        "fields": [
+          {
+            "name": "result_rev",
+            "jsonName": "resultRev",
+            "type": "Revision",
+            "tag": 1,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "entitlement_version",
+            "jsonName": "entitlementVersion",
+            "type": "int64",
+            "tag": 2,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "warnings",
+            "jsonName": "warnings",
+            "type": "string",
+            "tag": 3,
+            "label": "repeated",
+            "oneof": null
+          },
+          {
+            "name": "correlation_id",
+            "jsonName": "correlationId",
+            "type": "Id",
+            "tag": 4,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "recovery_generation",
+            "jsonName": "recoveryGeneration",
+            "type": "uint64",
+            "tag": 5,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "ArcError": {
+        "fields": [
+          {
+            "name": "code",
+            "jsonName": "code",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "category",
+            "jsonName": "category",
+            "type": "ErrorCategory",
+            "tag": 2,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "message_key",
+            "jsonName": "messageKey",
+            "type": "string",
+            "tag": 3,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "retry",
+            "jsonName": "retry",
+            "type": "RetryAdvice",
+            "tag": 4,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "effect",
+            "jsonName": "effect",
+            "type": "EffectCertainty",
+            "tag": 5,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "correlation_id",
+            "jsonName": "correlationId",
+            "type": "Id",
+            "tag": 6,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "details",
+            "jsonName": "details",
+            "type": "ErrorDetails",
+            "tag": 7,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "RetryAdvice": {
+        "fields": [
+          {
+            "name": "mode",
+            "jsonName": "mode",
+            "type": "RetryMode",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "retry_at",
+            "jsonName": "retryAt",
+            "type": "Instant",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "reconciliation_operation",
+            "jsonName": "reconciliationOperation",
+            "type": "string",
+            "tag": 3,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "ErrorDetails": {
+        "fields": [
+          {
+            "name": "revision",
+            "jsonName": "revision",
+            "type": "RevisionConflict",
+            "tag": 1,
+            "label": "",
+            "oneof": "detail"
+          },
+          {
+            "name": "limit",
+            "jsonName": "limit",
+            "type": "LimitFailure",
+            "tag": 2,
+            "label": "",
+            "oneof": "detail"
+          },
+          {
+            "name": "upgrade",
+            "jsonName": "upgrade",
+            "type": "VersionFailure",
+            "tag": 3,
+            "label": "",
+            "oneof": "detail"
+          },
+          {
+            "name": "state",
+            "jsonName": "state",
+            "type": "StateFailure",
+            "tag": 4,
+            "label": "",
+            "oneof": "detail"
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "RevisionConflict": {
+        "fields": [
+          {
+            "name": "expected",
+            "jsonName": "expected",
+            "type": "Revision",
+            "tag": 1,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "actual",
+            "jsonName": "actual",
+            "type": "Revision",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "conflict_id",
+            "jsonName": "conflictId",
+            "type": "Id",
+            "tag": 3,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "LimitFailure": {
+        "fields": [
+          {
+            "name": "limit_name",
+            "jsonName": "limitName",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "maximum",
+            "jsonName": "maximum",
+            "type": "Decimal",
+            "tag": 2,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "available",
+            "jsonName": "available",
+            "type": "Decimal",
+            "tag": 3,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "recovery_at",
+            "jsonName": "recoveryAt",
+            "type": "Instant",
+            "tag": 4,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "VersionFailure": {
+        "fields": [
+          {
+            "name": "min_readable",
+            "jsonName": "minReadable",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "min_writable",
+            "jsonName": "minWritable",
+            "type": "string",
+            "tag": 2,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "received",
+            "jsonName": "received",
+            "type": "string",
+            "tag": 3,
+            "label": "optional",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      },
+      "StateFailure": {
+        "fields": [
+          {
+            "name": "state",
+            "jsonName": "state",
+            "type": "string",
+            "tag": 1,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "reason",
+            "jsonName": "reason",
+            "type": "string",
+            "tag": 2,
+            "label": "optional",
+            "oneof": null
+          },
+          {
+            "name": "resource",
+            "jsonName": "resource",
+            "type": "AggregateRef",
+            "tag": 3,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "local",
+            "jsonName": "local",
+            "type": "LocalNotesVersion",
+            "tag": 4,
+            "label": "",
+            "oneof": null
+          },
+          {
+            "name": "native",
+            "jsonName": "native",
+            "type": "NativeContentRev",
+            "tag": 5,
+            "label": "",
+            "oneof": null
+          }
+        ],
+        "reservedTags": [],
+        "reservedNames": []
+      }
+    },
+    "enums": {
+      "EffectCertainty": [
+        {
+          "name": "EFFECT_CERTAINTY_UNSPECIFIED",
+          "number": 0
+        },
+        {
+          "name": "EFFECT_CERTAINTY_DID_NOT_HAPPEN",
+          "number": 1
+        },
+        {
+          "name": "EFFECT_CERTAINTY_HAPPENED",
+          "number": 2
+        },
+        {
+          "name": "EFFECT_CERTAINTY_UNKNOWN",
+          "number": 3
+        }
+      ],
+      "RetryMode": [
+        {
+          "name": "RETRY_MODE_UNSPECIFIED",
+          "number": 0
+        },
+        {
+          "name": "RETRY_MODE_NEVER",
+          "number": 1
+        },
+        {
+          "name": "RETRY_MODE_SAME_COMMAND",
+          "number": 2
+        },
+        {
+          "name": "RETRY_MODE_AFTER_TIME",
+          "number": 3
+        },
+        {
+          "name": "RETRY_MODE_RECONCILE",
+          "number": 4
+        }
+      ],
+      "ErrorCategory": [
+        {
+          "name": "ERROR_CATEGORY_UNSPECIFIED",
+          "number": 0
+        },
+        {
+          "name": "ERROR_CATEGORY_VALIDATION",
+          "number": 1
+        },
+        {
+          "name": "ERROR_CATEGORY_AUTHENTICATION",
+          "number": 2
+        },
+        {
+          "name": "ERROR_CATEGORY_AUTHORIZATION",
+          "number": 3
+        },
+        {
+          "name": "ERROR_CATEGORY_ENTITLEMENT",
+          "number": 4
+        },
+        {
+          "name": "ERROR_CATEGORY_CONFLICT",
+          "number": 5
+        },
+        {
+          "name": "ERROR_CATEGORY_STATE",
+          "number": 6
+        },
+        {
+          "name": "ERROR_CATEGORY_RESOURCE",
+          "number": 7
+        },
+        {
+          "name": "ERROR_CATEGORY_EXECUTION",
+          "number": 8
+        },
+        {
+          "name": "ERROR_CATEGORY_INTERNAL",
+          "number": 9
+        }
+      ]
+    }
+  },
+  "identifierDomains": {
+    "Foundation": [
+      "RealmId",
+      "UserId",
+      "WorkspaceId",
+      "DeviceId",
+      "InstallationId",
+      "InstanceId",
+      "CommandId",
+      "CorrelationId",
+      "ResourceId",
+      "BlobId",
+      "ArtifactId",
+      "ContentOriginId",
+      "ContentUnitId",
+      "ConflictId",
+      "DelegationId"
+    ],
+    "PublicApi": [
+      "TaskId",
+      "RunId",
+      "StepId",
+      "AttemptId",
+      "InvocationId",
+      "ApprovalId",
+      "AutomationId",
+      "ConversationId",
+      "BranchId",
+      "MessageId",
+      "ProjectId",
+      "AgentProfileId",
+      "SkillId",
+      "FolderId",
+      "DocumentId",
+      "BlockId",
+      "NotebookId",
+      "TagId",
+      "PropertyDefId",
+      "ViewId",
+      "SessionRecordId",
+      "CaptureId",
+      "SegmentId",
+      "ChannelId",
+      "FindingId",
+      "SequenceId",
+      "TrackId",
+      "TimelineItemId",
+      "MediaAssetId",
+      "EffectInstanceId",
+      "SlateProjectId",
+      "ChatTurnId",
+      "ExecutionStreamId",
+      "ProductJobId",
+      "ToolProposalId",
+      "MemoryId",
+      "PreferenceId",
+      "GrantId",
+      "InlineId",
+      "TextRunId",
+      "TableRowId",
+      "TableCellId",
+      "SelectOptionId",
+      "ScopeConfigurationId",
+      "ScopeProjectId",
+      "ScopeAnnotationId",
+      "ScopeEventId",
+      "SelectionId",
+      "SourceConsentId",
+      "MediaBinId",
+      "TimelineGroupId",
+      "TimelineLinkGroupId",
+      "TimelineMarkerId",
+      "TransitionId"
+    ]
+  }
+}

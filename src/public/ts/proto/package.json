@@ -1,7 +1,7 @@
 {
   "name": "@arcforges/proto",
   "version": "1.0.0-ci.0.0",
-  "description": "ArcForges public protobuf messages and service descriptors; initial Hello World example.",
+  "description": "ArcForges public foundation and domain protobuf messages, shape validation and exact value adapters.",
   "type": "module",
   "license": "Apache-2.0",
   "sideEffects": false,

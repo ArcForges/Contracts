@@ -351,13 +351,13 @@ def generate_proto_checks(check: bool) -> None:
                 for field in re.finditer(r"[\w.]+\s+(\w+)\s*=", group[2]):
                     oneofs[field[1]] = group[1]
             fields = {}
-            for field in re.finditer(r"(?:(optional|repeated)\s+)?([\w.]+)\s+(\w+)\s*=\s*\d+(?:\s*\[([^]]+)\])?\s*;", body):
-                label, kind, name, options = field.groups()
+            for field in re.finditer(r"(?:(optional|repeated)\s+)?([\w.]+)\s+(\w+)\s*=\s*(\d+)(?:\s*\[([^]]+)\])?\s*;", body):
+                label, kind, name, tag, options = field.groups()
                 jsonname = re.search(r'json_name\s*=\s*"([^"]+)"', options or "")
                 key = jsonname[1] if jsonname else name.split("_")[0] + "".join(pascal(v) for v in name.split("_")[1:])
                 resolved = kind.lstrip(".") if "." in kind else package + "." + kind
                 fields[key] = {"name": pascal(name), "type": kind, "message": resolved if resolved in messages else None,
-                               "label": label, "oneof": oneofs.get(name)}
+                               "label": label, "oneof": oneofs.get(name), "tag": int(tag)}
             if set(fields) != set(messages[fqname]["constraints"]["fields"]):
                 raise ValueError(f"Constraint field inventory does not match {fqname}")
             messages[fqname]["fields"] = fields
@@ -383,44 +383,61 @@ def generate_proto_checks(check: bool) -> None:
     for namespace, directory, names in groups:
         methods = [proto_cs(name, messages) for name in sorted(names)]
         content = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {namespace};\n\n/// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>\npublic static class ContractShapeValidation\n{{\n"
-        content += "\n".join(methods) + CS_PROTO_HELPERS + "\n}\n"
+        from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS
+        content += "\n".join(methods) + CS_PROTO_HELPERS + COMMON_CS_HELPERS
+        if any(n.startswith("arcforges.publicapi.") for n in names):
+            content += CS_HELPERS
+        content += "\n}\n"
         emit(ROOT / directory / "Generated/Shapes/ProtoValidation.g.cs", content, check)
     # Public protobuf-es checks intentionally exclude extension/private protocols.
     for directory, names in [("src/public/ts/proto", {n for n in public if not n.startswith("arcforges.extensions.")}),
                              ("src/internal/ts/operator-client", next((g[2] for g in groups if g[0] == "ArcForges.Contracts.CloudInternal.Shapes"), set()))]:
-        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS, check)
+        from foundation_semantics import TS_HELPERS, ts_imports
+        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS, check)
 
 
 def proto_cs(name: str, messages: dict) -> str:
+    from foundation_semantics import cs_rules
     info = messages[name]
     profile = info["constraints"]
-    lines = [f"    /// <summary>Checks the declared presence, field bounds and shape rules of {html.escape(name)}.</summary>",
-             f"    public static bool IsValid(global::{profile['csharpType']}? value)", "    {", "        if (value is null) return false;"]
+    cstype = "global::" + profile["csharpType"]
+    lines = [f"    /// <summary>Checks the declared wire/profile constraints of {html.escape(name)}.</summary>",
+             f"    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {cstype}? value) => Check(value, new ValidationContext());",
+             f"    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {cstype}? value, ValidationContext context)", "    {",
+             "        if (value is null || !context.Enter(value)) return false;", "        try", "        {"]
     for fieldname, rules in profile["fields"].items():
         field = info["fields"][fieldname]
         prop = "value." + field["name"]
         message = field["message"]
+        repeated = field["label"] == "repeated"
         optional = field["label"] == "optional"
-        if rules.get("required"):
+        if rules.get("required") and not repeated:
             if message:
                 lines.append(f"        if ({prop} is null) return false;")
             elif optional:
                 lines.append(f"        if (!value.Has{field['name']}) return false;")
-        guard = f"value.Has{field['name']}" if optional else f"{prop} is not null" if message else None
+        # A required message already has a fail-fast null check. Rechecking it in
+        # a conditional block weakens flow after the branch joins; validate it
+        # directly and retain the Check(true) non-null postcondition instead.
+        guard = f"value.Has{field['name']}" if optional else f"{prop} is not null" if message and not repeated and not rules.get("required") else None
         if field["oneof"]:
-            guard = f"(int)value.{pascal(field['oneof'])}Case != 0 && {prop} is not null" if message else None
+            guard = f"(int)value.{pascal(field['oneof'])}Case == {field['tag']}"
         inner = []
-        if field["label"] == "repeated":
+        if repeated:
+            for key, op in [("minItems", "<"), ("maxItems", ">")]:
+                if key in rules:
+                    inner.append(f"if ({prop}.Count {op} {rules[key]}) return false;")
+            if rules.get("unique"):
+                inner.append(f"if ({prop}.Distinct().Count() != {prop}.Count) return false;")
             inner.append(f"foreach (var item in {prop})\n        {{")
             inner.extend("    " + item for item in cs_field_checks("item", field, rules.get("items", {})))
             inner.append("}")
         else:
             inner.extend(cs_field_checks(prop, field, rules))
-        if inner:
-            if guard:
-                lines += [f"        if ({guard})", "        {"] + ["            " + line for line in inner] + ["        }"]
-            else:
-                lines.extend("        " + line for line in inner)
+        if guard:
+            lines += [f"        if ({guard})", "        {"] + ["            " + line for line in inner] + ["        }"]
+        else:
+            lines.extend("        " + line for line in inner)
     for group in profile.get("oneofRequired", []):
         lines.append(f"        if ((int)value.{pascal(group)}Case == 0) return false;")
     rules = {
@@ -429,48 +446,58 @@ def proto_cs(name: str, messages: dict) -> str:
         "committedRevision": "if (value.Revision is not { Value: > 0 }) return false;",
         "exclusiveRevision": "if ((value.ExpectedRev is null ? 0 : 1) + (value.ExpectedLocal is null ? 0 : 1) + (value.ExpectedNative is null ? 0 : 1) > 1) return false;",
         "chunkOffsets": "if (value.Offset > ulong.MaxValue - (ulong)value.Bytes.Length || value.NextOffset != value.Offset + (ulong)value.Bytes.Length) return false;",
+        **cs_rules,
     }
     for rule in profile.get("rules", []):
         if rule not in rules:
             raise ValueError(f"Unimplemented proto rule {rule}")
         lines.append("        " + rules[rule])
-    lines += ["        return true;", "    }"]
+    lines += ["        return true;", "        }", "        finally { context.Exit(value); }", "    }"]
     return "\n".join(lines)
 
 
 def cs_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
-    known = {"required", "min", "max", "minLength", "maxLength", "bytesLength", "pattern", "enumValues", "maxUtf8Bytes", "items"}
+    known = {"required", "min", "max", "minLength", "maxLength", "bytesLength", "pattern", "enumValues", "maxUtf8Bytes", "items", "finite", "minItems", "maxItems", "unique"}
     if rules.keys() - known:
         raise ValueError(f"Unsupported proto field rules {rules.keys() - known}")
     result = []
+    kind = field["type"]
     if field["message"]:
-        result.append(f"if (!IsValid({prop})) return false;")
+        result.append(f"if (!Check({prop}, context)) return false;")
+    if kind == "string":
+        result.append(f"if (!ValidUnicode({prop})) return false;")
+    if kind in {"double", "float"}:
+        result.append(f"if (!{kind}.IsFinite({prop})) return false;")
     if "bytesLength" in rules:
         result.append(f"if ({prop}.Length != {rules['bytesLength']}) return false;")
     for key, op in [("min", "<"), ("max", ">")]:
         if key in rules:
-            suffix = "UL" if field["type"] == "uint64" else "L" if field["type"] in {"int64", "sint64"} else ""
+            suffix = "UL" if kind == "uint64" else "L" if kind in {"int64", "sint64"} else "D" if kind == "double" else "F" if kind == "float" else ""
             result.append(f"if ({prop} {op} {rules[key]}{suffix}) return false;")
     for key, op in [("minLength", "<"), ("maxLength", ">")]:
         if key in rules:
-            size = f"ScalarLength({prop})" if field["type"] == "string" else prop + ".Length"
+            size = f"ScalarLength({prop})" if kind == "string" else prop + ".Length"
             result.append(f"if ({size} {op} {rules[key]}) return false;")
     if "maxUtf8Bytes" in rules:
         result.append(f"if (global::System.Text.Encoding.UTF8.GetByteCount({prop}) > {rules['maxUtf8Bytes']}) return false;")
     if "pattern" in rules:
         result.append(f"if (!Matches({prop}, {literal(rules['pattern'])})) return false;")
     if "enumValues" in rules:
-        numeric = all(isinstance(v, int) for v in rules["enumValues"])
-        target = f"(int){prop}" if numeric else prop
+        numeric = all(type(v) is int for v in rules["enumValues"])
+        target = f"(int){prop}" if numeric and kind not in {"uint32", "int32", "sint32", "uint64", "int64", "sint64"} else prop
         result.append("if (" + " && ".join(f"{target} != {json.dumps(v)}" for v in rules["enumValues"]) + ") return false;")
     return result
 
 
 def proto_ts(name: str, messages: dict) -> str:
+    from foundation_semantics import ts_rules
     info = messages[name]
     profile = info["constraints"]
     simple = name.split(".")[-1]
-    lines = [f"export function is{simple}(input: unknown): boolean {{", "  if (typeof input !== 'object' || input === null) return false;", "  const value = input as Record<string, unknown>;"]
+    lines = [f"export function is{simple}(input: unknown): boolean {{ return check{simple}(input, {{active: new Set<object>(), depth: 0}}); }}",
+             f"function check{simple}(input: unknown, context: ValidationContext): boolean {{",
+             "  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;",
+             "  context.active.add(input); context.depth++;", "  try {", "  const value = input as Record<string, unknown>;"]
     groups: dict[str, list[str]] = {}
     for fieldname, rules in profile["fields"].items():
         field = info["fields"][fieldname]
@@ -480,14 +507,20 @@ def proto_ts(name: str, messages: dict) -> str:
             lines.append(f"  if ((value.{field['oneof']} as {{case?: string}} | undefined)?.case === {literal(fieldname)}) {{")
         else:
             prop = "value." + fieldname
-            if rules.get("required"):
+            if rules.get("required") or field["label"] == "repeated":
                 lines.append(f"  if ({prop} === undefined) return false;")
             lines.append(f"  if ({prop} !== undefined) {{")
         lines.append(f"    const fieldValue = {prop};")
         prop = "fieldValue"
         repeated = field["label"] == "repeated"
         if repeated:
-            lines += [f"    if (!Array.isArray({prop})) return false;", f"    for (const item of {prop}) {{"]
+            lines += [f"    if (!Array.isArray({prop})) return false;"]
+            for key, op in [("minItems", "<"), ("maxItems", ">")]:
+                if key in rules:
+                    lines.append(f"    if ({prop}.length {op} {rules[key]}) return false;")
+            if rules.get("unique"):
+                lines.append(f"    if (new Set({prop}).size !== {prop}.length) return false;")
+            lines.append(f"    for (const item of {prop}) {{")
         lines.extend("    " + line for line in ts_field_checks("item" if repeated else prop, field, rules.get("items", {}) if repeated else rules))
         if repeated:
             lines.append("    }")
@@ -504,9 +537,10 @@ def proto_ts(name: str, messages: dict) -> str:
         "committedRevision": "if ((value.revision as {value: bigint}).value <= 0n) return false;",
         "exclusiveRevision": "if ([value.expectedRev, value.expectedLocal, value.expectedNative].filter(v => v !== undefined).length > 1) return false;",
         "chunkOffsets": "if ((value.offset as bigint) + BigInt((value.bytes as Uint8Array).length) > 18446744073709551615n || value.nextOffset !== (value.offset as bigint) + BigInt((value.bytes as Uint8Array).length)) return false;",
+        **ts_rules,
     }
     lines.extend("  " + special[rule] for rule in profile.get("rules", []))
-    lines += ["  return true;", "}"]
+    lines += ["  return true;", "  } finally { context.depth--; context.active.delete(input); }", "}"]
     return "\n".join(lines)
 
 
@@ -514,7 +548,7 @@ def ts_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
     kind = field["type"]
     result = []
     if field["message"]:
-        return [f"if (!is{field['message'].split('.')[-1]}({prop})) return false;"]
+        return [f"if (!check{field['message'].split('.')[-1]}({prop}, context)) return false;"]
     bigint = kind in {"uint64", "int64", "sint64"}
     if kind == "bytes":
         result.append(f"if (!({prop} instanceof Uint8Array)) return false;")
@@ -522,7 +556,12 @@ def ts_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
         typename = "bigint" if bigint else "string" if kind == "string" else "boolean" if kind == "bool" else "number"
         result.append(f"if (typeof {prop} !== {literal(typename)}) return false;")
         if typename == "number":
-            result.append(f"if (!Number.isInteger({prop}) || {prop} < {'0' if kind == 'uint32' else '-2147483648'} || {prop} > {'4294967295' if kind == 'uint32' else '2147483647'}) return false;")
+            if kind in {"double", "float"}:
+                result.append(f"if (!Number.isFinite({prop}){f' || Math.abs({prop}) > 3.4028234663852886e38' if kind == 'float' else ''}) return false;")
+            else:
+                result.append(f"if (!Number.isInteger({prop}) || {prop} < {'0' if kind == 'uint32' else '-2147483648'} || {prop} > {'4294967295' if kind == 'uint32' else '2147483647'}) return false;")
+        if kind == "string":
+            result.append(f"if (!validUnicode({prop})) return false;")
     if bigint:
         lower, upper = ("0n", "18446744073709551615n") if kind == "uint64" else ("-9223372036854775808n", "9223372036854775807n")
         result.append(f"if ({prop} < {lower} || {prop} > {upper}) return false;")
@@ -543,6 +582,22 @@ def ts_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
 
 
 CS_PROTO_HELPERS = r'''
+    private sealed class ValidationContext
+    {
+        private readonly global::System.Collections.Generic.HashSet<object> active = new(global::System.Collections.Generic.ReferenceEqualityComparer.Instance);
+        public bool Enter(object value) => active.Count < 100 && active.Add(value);
+        public void Exit(object value) => active.Remove(value);
+    }
+    private static bool ValidUnicode(string text)
+    {
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (!char.IsSurrogate(text[i])) continue;
+            if (!char.IsHighSurrogate(text[i]) || ++i >= text.Length || !char.IsLowSurrogate(text[i])) return false;
+        }
+        return true;
+    }
+
     private static bool Matches(string value, string pattern)
     {
         var match = global::System.Text.RegularExpressions.Regex.Match(value, pattern, global::System.Text.RegularExpressions.RegexOptions.CultureInvariant | global::System.Text.RegularExpressions.RegexOptions.NonBacktracking, global::System.TimeSpan.FromMilliseconds(100));
@@ -569,6 +624,18 @@ CS_PROTO_HELPERS = r'''
 '''
 
 TS_PROTO_HELPERS = r'''
+type ValidationContext = {active: Set<object>; depth: number};
+function validUnicode(text: string): boolean {
+  for (let i = 0; i < text.length; i++) {
+    const unit = text.charCodeAt(i);
+    if (unit < 0xd800 || unit > 0xdfff) continue;
+    if (unit > 0xdbff || ++i >= text.length) return false;
+    const low = text.charCodeAt(i);
+    if (low < 0xdc00 || low > 0xdfff) return false;
+  }
+  return true;
+}
+
 function canonicalDecimal(value: string): boolean {
   if (/^-?(0|[1-9][0-9]*)(\.[0-9]{1,9})?$/.exec(value)?.[0] !== value) return false;
   if (value.startsWith('-') && !/[1-9]/.test(value)) return false;

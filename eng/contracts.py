@@ -196,6 +196,8 @@ def generate(check: bool = False) -> None:
                 barrel += "".join(f'export * from "./gen/{file.relative_to(output).as_posix()[:-3]}.js";\n'
                                   for file in sorted(output.rglob("*.ts")))
                 barrel += 'export * from "./shapes/gen/proto.js";\n'
+                if row['id'] == '@arcforges/proto':
+                    barrel += 'export * from "./values.js";\n'
                 index_file = ROOT / row["sourceRoot"] / "src/index.ts"
                 if check:
                     if not index_file.is_file() or index_file.read_text(encoding="utf-8") != barrel:
@@ -210,12 +212,15 @@ def generate(check: bool = False) -> None:
         generate_shapes(check)
         from generate_fixtures import generate as generate_fixtures
         generate_fixtures(check)
+        from generate_values import generate as generate_values
+        generate_values(check)
     print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript, Java/Kotlin and descriptor set.")
 
 
 def build() -> None:
     run(sys.executable, ROOT / "eng/check_licences.py")
     run("node", ROOT / "eng/check_contract_access.mjs")
+    run(sys.executable, ROOT / "eng/check_foundation.py", "--generated", "--self-test")
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
     from build_identity import build as identity
     write_json(ARTIFACTS / "expected-build.json", identity())
@@ -223,9 +228,12 @@ def build() -> None:
     assemblies = [project.parent / "bin/Release/net10.0" / (project.stem + ".dll") for project in projects]
     run("dotnet", ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll",
         "--inspect-build", ARTIFACTS / "expected-build.json", *assemblies)
-    run("dotnet", ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll")
+    structure_tests = ROOT / "tests/StructureTests/bin/Release/net10.0/StructureTests.dll"
+    run("dotnet", structure_tests, ROOT, "--foundation-exchange")
     run(NPM, "run", "build")
     run(NPM, "test")
+    run("node", ROOT / "tests/public/foundation.test.mjs", "--exchange")
+    run("dotnet", structure_tests, ROOT, "--verify-foundation-exchange")
     from kotlin_tools import build as build_kotlin
     build_kotlin()
 

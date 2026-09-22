@@ -4,10 +4,13 @@
 
 The authored proto trees, JSON schemas and constraint sidecars own the wire and
 validation shapes. `eng/contract-packages.json` defines all 22 current outputs:
-14 NuGet, five npm and three Maven packages. The complete selected source slices
-and later-substep exclusions are fixed by the
+14 NuGet, five npm and three Maven packages. The initial source slices are fixed by the
 [WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
-These selected slices do not claim the remaining production schema catalog is complete.
+The [WP03.01 foundation profile](https://github.com/ArcForges/ArcForges-Design/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md)
+adds the complete selected foundation, Notes query, Scope measurement and recursive
+owner-body message closure. [This step's evidence record](wp03-01-foundation.md)
+separates implemented source from validation and publication status. The remaining
+production operation catalogue and later semantic gates are not complete.
 
 Each NuGet project owns real generated contracts or validation/client/tool code.
 Foundation and Events are reusable public contracts. The six LocalRpc owners
@@ -18,10 +21,10 @@ actual project, npm and Gradle dependencies against the catalog and rejects publ
 references to internal contracts.
 
 The pinned Grpc.Tools protoc and gRPC C# plugin generate per-owner C# bindings.
-Protobuf-es generates public core/Hello/events and the internal operator module;
+Protobuf-es generates public foundation/content/Hello/events and the internal operator module;
 the operator module reuses public Foundation types. Java/Kotlin lite and
-Connect-Kotlin generate only public core/Hello/events and the retained Hello
-service. Extension IPC is C# only. Generated sources are committed and regenerated
+Connect-Kotlin generate the public foundation/content/Hello/events messages and the
+retained Hello service. The new content schema contains no services. Extension IPC is C# only. Generated sources are committed and regenerated
 into temporary directories for comparison. JSON schema and constraint generators
 emit concrete models, AOT-compatible C# validation and TypeScript unknown-input
 validation. Public and internal offline fixtures exercise the selected boundaries.
@@ -32,11 +35,48 @@ archive payload bytes or decide signatures, trust or authorization. The SDK clie
 composes a caller-owned CallInvoker for RenewLease and validates its request. The
 caller owns transport, session, authentication and lifecycle.
 
+## Foundation values and profile validation
+
+`eng/foundation-inventory.json` binds the selected seeds and complete recursive
+closure to authored fields, tags, presence, oneofs, enums and owners. The current
+closure has 148 messages: 32 in Foundation and 116 in PublicApi, including all 16
+`AggregateBody` branches. Completeness is checked from field dependencies rather
+than inferred from these counts. Stable common values, errors, origin and resource
+references stay in `arcforges.foundation.v1`; domain projections live in
+`arcforges.publicapi.v1` from `public/proto/arcforges/publicapi/v1/content.proto`.
+Foundation does not import those domain projections.
+
+Generated `ContractShapeValidation.IsValid` overloads and TypeScript `is<Type>`
+functions validate current wire/profile shape. They check required presence,
+oneofs, exact scalar bounds and self-contained Notes, content-origin and measurement
+relationships. Measurement thresholds carry their selected channel identity;
+result levels/fractions cannot be confused across channels. Rich text keeps exact
+UTF-16 boundaries and stable run/atom identities. These checks do not issue cursors,
+authorize a resource, retrieve bytes, query a database, evaluate Notes filters or
+compute measurements. A valid reference does not establish ownership or availability.
+
+`public/proto/value-boundaries.json` defines 69 separate ID domains. Generated C#
+record structs under `ArcForges.Contracts.Foundation.Values` and
+`ArcForges.Contracts.PublicApi.Values`, and exported TypeScript ID brands, prevent
+accidental domain interchange. Shared value adapters preserve canonical UUID byte
+order, int64/uint64 precision, distinct Cloud/native/local tokens, opaque cursor
+bounds, exact decimal coefficient/scale and checked rational time conversion.
+The generated protobuf messages remain the sole wire representation. Shared decimals
+preserve declared scale; `ExactDecimal.FromNotes` / `notesDecimal` additionally
+reject trailing fractional zeroes. No adapter grants permission or implements an owner.
+
+Compatible reads can retain unknown protobuf fields and unsupported profile keys.
+C# `ReadProjection<T>` and TypeScript `readProjection` report whether current-profile
+validation passed while preserving the original generated message. That observation
+does not authorize mutation; consumers must validate the actual message again before
+using it as a current mutation input. Unsupported read values remain inert.
+
 ## Public consumers
 
 Public business clients use binary gRPC-Web. The retained Hello example and its
 native transport diagnostic are migration fixtures, not production behavior.
-`@arcforges/proto` exports generated messages/descriptors and core shape checks;
+`@arcforges/proto` exports generated messages/descriptors, shape/profile checks and
+safe value adapters through its public entry point;
 `@arcforges/api-client` supplies the transport factory and public HTTP types/checks.
 `@arcforges/contract-fixtures` exports offline public cases. `@arcforges/ai-internal`
 and `@arcforges/operator-client` expose internal HTTP and operator contracts without
@@ -122,8 +162,12 @@ behavior. All current releases are prerelease candidates. A normal main merge
 increments the package build version, not the protobuf wire namespace.
 
 The retained CI checks regeneration, selected offline shape/wire cases, compilation
-and the package dependency/metadata closure. It does not run live RPC fixtures. It does
-not implement the future production descriptor compatibility gate, full business
-validation catalogues, Android app/device behavior, authentication, browser CORS integration,
-Cloud deployment or production AOT server acceptance. Those remain governed by
-the accepted design and implementation work packages.
+and the package dependency/metadata closure. The foundation suite uses independent
+positive/negative records, fixed binary oracles and C#/TS exchange; profile scenario
+inputs/results are fixture data, not executed numerical/query/transaction engines.
+It does not run live RPC fixtures. WP03.02 retains complete serialization/AOT/service
+registration proof; .03 retains resource/descriptor/Sync admission semantics; .05
+retains complete operations, scope/stream/history and three-language client
+conformance; .06/.07/.90 retain their full compatibility/signing/stage gates.
+Android device behavior, authentication, browser CORS, live Cloud/provider behavior
+and commercial acceptance remain with their designated owners.

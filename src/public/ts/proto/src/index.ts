@@ -3,4 +3,6 @@
 export * from "./gen/arcforges/events/v1/events_pb.js";
 export * from "./gen/arcforges/foundation/v1/foundation_pb.js";
 export * from "./gen/arcforges/hello/v1/hello_pb.js";
+export * from "./gen/arcforges/publicapi/v1/content_pb.js";
 export * from "./shapes/gen/proto.js";
+export * from "./values.js";

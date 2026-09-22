@@ -126,3 +126,123 @@ message StateFailure {
   LocalNotesVersion local = 4 [json_name = "local"];
   NativeContentRev native = 5 [json_name = "native"];
 }
+
+enum ResourceAvailability {
+  RESOURCE_AVAILABILITY_UNSPECIFIED = 0;
+  RESOURCE_AVAILABILITY_ALWAYS_KEEP = 1;
+  RESOURCE_AVAILABILITY_AVAILABLE_OFFLINE = 2;
+  RESOURCE_AVAILABILITY_ON_DEMAND = 3;
+  RESOURCE_AVAILABILITY_CLOUD_ONLY = 4;
+  RESOURCE_AVAILABILITY_MISSING_EXTERNAL = 5;
+}
+
+// registry04: ActorChain; complete selected WP03.01 projection.
+message ActorChain {
+  Id initiator = 1 [json_name = "initiator"];
+  Id owner = 2 [json_name = "owner"];
+  optional string actor_kind = 3 [json_name = "actorKind"];
+  Id delegation_id = 4 [json_name = "delegationId"];
+  Id device_id = 5 [json_name = "deviceId"];
+}
+
+// registry04: ArtifactRef; complete selected WP03.01 projection.
+message ArtifactRef {
+  Id artifact_id = 1 [json_name = "artifactId"];
+  optional string kind = 2 [json_name = "kind"];
+  AggregateRef owner = 3 [json_name = "owner"];
+  ResourceRef resource = 4 [json_name = "resource"];
+  Id job_id = 5 [json_name = "jobId"];
+  ContentOrigin origin = 6 [json_name = "origin"];
+  Id producing_task_id = 7 [json_name = "producingTaskId"];
+  Id producing_run_id = 8 [json_name = "producingRunId"];
+  ActorChain actor = 9 [json_name = "actor"];
+  Instant created_at = 10 [json_name = "createdAt"];
+  optional string availability = 11 [json_name = "availability"];
+  repeated VersionedRef provenance = 12 [json_name = "provenance"];
+}
+
+// registry04: BlobRef; complete selected WP03.01 projection.
+message BlobRef {
+  Id blob_id = 1 [json_name = "blobId"];
+  optional string content_hash = 2 [json_name = "contentHash"];
+  optional uint64 size_bytes = 3 [json_name = "sizeBytes"];
+}
+
+// registry04: ByteRange; complete selected WP03.01 projection.
+message ByteRange {
+  optional uint64 offset = 1 [json_name = "offset"];
+  optional uint64 length = 2 [json_name = "length"];
+}
+
+// registry04: ContentOrigin; complete selected WP03.01 projection.
+message ContentOrigin {
+  optional string profile = 1 [json_name = "profile"];
+  Id origin_id = 2 [json_name = "originId"];
+  Id content_unit_id = 3 [json_name = "contentUnitId"];
+  repeated string kinds = 4 [json_name = "kinds"];
+  optional string payload_sha256 = 5 [json_name = "payloadSha256"];
+  optional string producer_kind = 6 [json_name = "producerKind"];
+  Instant created_at = 7 [json_name = "createdAt"];
+  repeated Id parent_origin_ids = 8 [json_name = "parentOriginIds"];
+  optional uint32 omitted_parent_count = 9 [json_name = "omittedParentCount"];
+}
+
+// registry04: MediaRange; complete selected WP03.01 projection.
+message MediaRange {
+  MediaTime start = 1 [json_name = "start"];
+  MediaTime duration = 2 [json_name = "duration"];
+}
+
+// registry04: MediaTime; complete selected WP03.01 projection.
+message MediaTime {
+  optional sint64 ticks = 1 [json_name = "ticks"];
+  Rational rate = 2 [json_name = "rate"];
+}
+
+// registry04: PageRequest; complete selected WP03.01 projection.
+message PageRequest {
+  optional string cursor = 1 [json_name = "cursor"];
+  optional int32 limit = 2 [json_name = "limit"];
+}
+
+// registry04: PageState; complete selected WP03.01 projection.
+message PageState {
+  optional string next_cursor = 1 [json_name = "nextCursor"];
+  optional bool has_more = 2 [json_name = "hasMore"];
+}
+
+// registry04: Rational; complete selected WP03.01 projection.
+message Rational {
+  optional sint64 numerator = 1 [json_name = "numerator"];
+  optional uint64 denominator = 2 [json_name = "denominator"];
+}
+
+// registry04: ResourceRef; complete selected WP03.01 projection.
+message ResourceRef {
+  Id realm_id = 1 [json_name = "realmId"];
+  Id workspace_id = 2 [json_name = "workspaceId"];
+  optional string owner_app_id = 3 [json_name = "ownerAppId"];
+  optional string resource_kind = 4 [json_name = "resourceKind"];
+  Id resource_id = 5 [json_name = "resourceId"];
+  optional string display_hint = 6 [json_name = "displayHint"];
+  optional ResourceAvailability availability = 7 [json_name = "availability"];
+  Id holding_device_id = 8 [json_name = "holdingDeviceId"];
+}
+
+// registry04: ResourceVersionRef; complete selected WP03.01 projection.
+message ResourceVersionRef {
+  ResourceRef resource = 1 [json_name = "resource"];
+  optional string content_hash = 5 [json_name = "contentHash"];
+  BlobRef blob = 6 [json_name = "blob"];
+  oneof revision {
+    Revision cloud = 2 [json_name = "cloud"];
+    NativeContentRev native = 3 [json_name = "native"];
+    LocalNotesVersion local = 4 [json_name = "local"];
+  }
+}
+
+// registry04: TimeRangeUtc; complete selected WP03.01 projection.
+message TimeRangeUtc {
+  Instant from = 1 [json_name = "from"];
+  Instant until = 2 [json_name = "until"];
+}

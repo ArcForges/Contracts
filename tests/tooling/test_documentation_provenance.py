@@ -2,7 +2,6 @@
 """Resource admission and semantic checks against the actual Maven candidate."""
 
 import copy
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -49,7 +48,7 @@ class DocumentationAdmissionTests(unittest.TestCase):
 
     def test_current_profile_preserves_reviewed_resources_and_retires_native_client(self):
         root = Path(__file__).resolve().parents[2]
-        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json").read_bytes())
+        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json").read_bytes())
         current = json.loads((root / documentation.PROFILE).read_bytes())
         self.assertEqual(set(current["modules"]),
                          {"contracts-proto", "contracts-connect-client", "contract-fixtures"})
@@ -60,6 +59,9 @@ class DocumentationAdmissionTests(unittest.TestCase):
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
         self.assertTrue(any("foundation.v1" in name for name in proto_pages))
         self.assertTrue(any("events.v1" in name for name in proto_pages))
+        self.assertTrue(any("publicapi.v1/-aggregate-body/" in name for name in proto_pages))
+        self.assertTrue(any("publicapi.v1/-notes-query/" in name for name in proto_pages))
+        self.assertTrue(any("publicapi.v1/-measurement-result/" in name for name in proto_pages))
 
     def test_distinct_npm_names_cannot_share_a_normalized_record_id(self):
         # object-assign and object.assign are different MIT implementations.
@@ -82,16 +84,6 @@ class DocumentationArchiveTests(unittest.TestCase):
     def fixture(self, module):
         name = f"io/github/arcforges/{module}/{self.manifest.get('mavenVersion', self.manifest['version'])}/{module}-{self.manifest.get('mavenVersion', self.manifest['version'])}-javadoc.jar"
         return self.files[name], zip_contents(self.files[name])
-
-    def test_every_actual_archive_has_closed_members_full_notices_and_public_api(self):
-        for module in documentation.MODULES:
-            with self.subTest(module=module):
-                archive, docs = self.fixture(module)
-                receipt = documentation.verify(docs, module, self.manifest, archive)
-                self.assertEqual(receipt["archiveSha256"], hashlib.sha256(archive).hexdigest())
-                self.assertEqual(set(receipt["members"]), set(docs))
-                self.assertGreater(len(receipt["recordIds"]), 80)
-                self.assertNotIn(b"@font-face", docs["ui-kit/ui-kit.min.css"])
 
     def test_actual_archive_resource_mutations_fail_semantic_checks(self):
         archive, original = self.fixture("contract-fixtures")

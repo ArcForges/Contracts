@@ -8,7 +8,12 @@ using ArcForges.Contracts.Foundation.V1;
 using ArcForges.Sdk.Contracts.V1;
 using Validation = ArcForges.Contracts.Validation.ContractShapeValidation;
 
-var root = args.Length == 1 ? Path.GetFullPath(args[0]) : Directory.GetCurrentDirectory();
+var root = args.Length >= 1 ? Path.GetFullPath(args[0]) : Directory.GetCurrentDirectory();
+if (args.Contains("--verify-foundation-exchange", StringComparer.Ordinal))
+{
+    FoundationCases.VerifyExchange(root);
+    return 0;
+}
 var count = 0;
 foreach (var visibility in new[] { "public", "internal" })
 {
@@ -47,6 +52,7 @@ try
 catch (ArgumentException) { }
 
 Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key rejection and SDK caller-owned invocation.");
+FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 return 0;
 
 static bool Proto<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()
