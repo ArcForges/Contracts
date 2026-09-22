@@ -53,10 +53,12 @@ jobs:
       - name: Restore locked dependencies
         # Java 17 is also the published JVM bytecode target.
         run: python eng/contracts.py restore
+      - name: Verify dependency admission and upgrade receipt
+        run: python eng/dependency_admission.py
       - name: Verify product naming policy and repository inventory
         run: python eng/check_naming.py --report artifacts/evidence/naming.json
       - name: Verify immutable provenance records and file inventory
-        run: python eng/check_provenance.py --owner Contracts
+        run: python eng/check_provenance.py --owner Contracts --base "${{ startsWith(github.ref, 'refs/tags/') && github.sha || '' }}"
       - name: Reject invalid compiled contract access graphs
         run: node --test tests/tooling/contract_access.test.mjs
       - name: Check formatting and dependencies

@@ -40,6 +40,7 @@
     "docs/implementation/wp00-03-provenance.md",
     "docs/implementation/wp01-01-contract-access.md",
     "docs/implementation/wp02-04-build-identity.md",
+    "docs/implementation/wp02-05-dependency-policy.md",
     "docs/kotlin-artifacts-plan.md",
     "docs/kotlin-grpc-web-plan.md",
     "docs/maven-central.md",
@@ -57,12 +58,15 @@
     "eng/check_provenance.py",
     "eng/consumer_tools.py",
     "eng/contracts.py",
+    "eng/dependency_admission.py",
     "eng/documentation_tools.py",
     "eng/kotlin_consumer.py",
     "eng/kotlin_tools.py",
     "eng/maven_tools.py",
     "eng/packaging_tools.py",
     "eng/policy/contract-access.json",
+    "eng/policy/dependency-policy.json",
+    "eng/policy/dependency-reviews/wp02-05-r1.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/product-names.json",
     "eng/policy/reuse-policy.json",
@@ -224,6 +228,7 @@
     "tests/public/wire.test.mjs",
     "tests/tooling/contract_access.test.mjs",
     "tests/tooling/test_build_identity.py",
+    "tests/tooling/test_dependency_admission.py",
     "tests/tooling/test_documentation_provenance.py",
     "tests/tooling/test_licence_boundary.py",
     "tests/tooling/test_maven_release.py",
@@ -343,5 +348,7 @@
     "src/public/ts/proto/src/gen/arcforges/hello/v1/hello_pb.ts": "hello-bindings-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r3"]
+  "artifacts": [
+    "dokka-documentation-resources-r3"
+  ]
 }
