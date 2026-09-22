@@ -88,3 +88,57 @@ regexes = [
   '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/get\-message\-key\.html":\s*"f45262464bef4ac36508d5003e5feceb25dc4b2a6f3bcab9b1170dddf9c6b746",?\s*$''',
   '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/has\-message\-key\.html":\s*"ded31531551a204963587fdf139c3c4f81017168ee1439a8760a89439f7fae67",?\s*$''',
 ]
+
+[[allowlists]]
+description = "Reviewed WP03.01 Dokka public order-key and dataset-token API page hashes"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/provenance/artifact-profiles/dokka-2-2-0-r5\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block\-kt/\-dsl/clear\-order\-key\.html":\s*"ed8f55f971270886eb4fdbdc4e9af575bf3f286e6267898a1acc5a267b4dd87c",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block\-kt/\-dsl/has\-order\-key\.html":\s*"8184b3850a45ac4dcb9ab3d8f8c6c8fcaab72a1e1643ebbd2288ed494f8712f0",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block\-kt/\-dsl/order\-key\.html":\s*"6d0a00a9b2464d1a3b0d73658616fad6383564e54ccf68d2c07ffd01cd12cfc0",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block\-or\-builder/get\-order\-key\-bytes\.html":\s*"86bb86d0ef01ba7bc998816b0375b8771b27cf498bb055f554b80711d93515d3",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block\-or\-builder/get\-order\-key\.html":\s*"e2116537c8d272ebd289baf2d93eb69983e40458cc9badf67fd1b5294fe198d6",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block\-or\-builder/has\-order\-key\.html":\s*"aadbb59a4ca2255f913ce0f41b02533c45b551f67a5569e0c6e6d9d659a2c56a",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/\-builder/clear\-order\-key\.html":\s*"129bce016b2dcfa84de24b36cc59f58ec2e092b76f0fc194611c3cc80118cff3",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/\-builder/get\-order\-key\-bytes\.html":\s*"fc32bac564c94cf25c550ca5de0675a2063caef083f1f3d827a5233496d59019",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/\-builder/get\-order\-key\.html":\s*"451bd68144f6bdc5acd2446d92b648ca6a4fec0c6ec0e3f93c935c45bad4691c",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/\-builder/has\-order\-key\.html":\s*"5c2ce61cdfc6c373a18b995f1f99de4692289966daaa83900547c9cbfcdd6217",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/\-builder/set\-order\-key\-bytes\.html":\s*"f8f1e7fae6955c9838050046e33ab29e794bacca4e8264bef8e439a7720c5e60",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/\-builder/set\-order\-key\.html":\s*"1e92c8a8a723ef09fc458dabd8357c11a9279c115ef1dcfd0d163da43cfcf329",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/get\-order\-key\-bytes\.html":\s*"601184f932924ba84e7477296d2041f94f7728d5b142a0512db43d848c7df76b",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/get\-order\-key\.html":\s*"643e04057505981e591fb4b6201cc5da21b40a41c0d4b832ba9ce74467966229",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-block/has\-order\-key\.html":\s*"e274154d0e36facfabf30bbea0f176b02cadb83636eda3e42e7e6c9929f7d572",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view\-kt/\-dsl/clear\-order\-key\.html":\s*"5ccfcb3be4b37d11f5c2b6590b990b41bf6a5622e8dca9ab6f2e3313af4104d6",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view\-kt/\-dsl/has\-order\-key\.html":\s*"963ed7f97edaf725c09cf3c8fcbadc0c4cbab3ebb5f986c90a53615f97bcb21d",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view\-kt/\-dsl/order\-key\.html":\s*"d792b7e7275a7b043d036ba47274327b0e7f0672849d7b7d3c946b40fc058ca3",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view\-or\-builder/get\-order\-key\-bytes\.html":\s*"ea7fbe9ed8b55fa12be64ab790491903508ce217cf3258c27f47ea84ec227b77",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view\-or\-builder/get\-order\-key\.html":\s*"2486ed982fa6f7701b4ac02b086cc956d89fd57dc62bd8262e1e9101da8f8713",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view\-or\-builder/has\-order\-key\.html":\s*"391061a6369ecc875774fe61a4517ae8d32a57997b2e460a4849eb12e47c9ef9",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/\-builder/clear\-order\-key\.html":\s*"6d3414d363e745f463137d720dde952439f6de24e5fc5eb0db54bdd963b1c6f8",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/\-builder/get\-order\-key\-bytes\.html":\s*"6ecccad3a710b6c933d3f8a6e985f8f294830ad91c9600642285eb84bd0382ec",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/\-builder/get\-order\-key\.html":\s*"404afcece8daf6a488f2ae715f59c792482ffa5d656b7cfba28af250d4ab8990",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/\-builder/has\-order\-key\.html":\s*"5e6397ed393c07a867f37ef473451d7c893a5cd9ccb0b137109167dfeac89f7b",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/\-builder/set\-order\-key\-bytes\.html":\s*"40405da72ae9239d09749aa2ad8aeb4bf55c007c8eb3aa043bad4db4b9f9e797",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/\-builder/set\-order\-key\.html":\s*"8e21ca2ae83abb7c71e4d65cae94a0c0c8ff4eecfc2e5d3a61f3b882a3c19dbe",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/get\-order\-key\-bytes\.html":\s*"4be154aaf985b31abca476fafce191ce1a862bd9410bae503933d451d96e83b2",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/get\-order\-key\.html":\s*"e4eb1e87f2d5ee07952329abf7e5f082dc8f7be4af192e0376eb447fcc5132d7",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-folder\-view/has\-order\-key\.html":\s*"75dd3392b256d9c28f1716331a737f913eb7bdae6c37d87f34f9c0871e0b28c6",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query\-kt/\-dsl/clear\-dataset\-token\.html":\s*"4081859e6aca34f9888f41b87fca6f39dcf223430644698b197722ade0982dbd",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query\-kt/\-dsl/dataset\-token\.html":\s*"db5b475894ca63c2eb07fee4c2f4d890dfce8bd93f7ace7195da94d6fedaff11",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query\-kt/\-dsl/has\-dataset\-token\.html":\s*"e61ea4be3e60000912313c86da6514bb60f307d1d49234776bd680ae4894b595",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query\-or\-builder/get\-dataset\-token\-bytes\.html":\s*"717727f574960aaccd566a280608e39b7faee36e5086452a8907a423cfd3a0d9",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query\-or\-builder/get\-dataset\-token\.html":\s*"35ce22e50ed5541bc48486438d00baec1ce35b8772c0869c848a34072b5027f2",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query\-or\-builder/has\-dataset\-token\.html":\s*"f03440055bc4df1c2ed238140a9df15ff33de37ff55ab722fc545f13de964896",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/\-builder/clear\-dataset\-token\.html":\s*"efed61e040cec9b8b5ca260d98f5477acea9a323f439a7f6f25d75c95eea93f0",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/\-builder/get\-dataset\-token\-bytes\.html":\s*"2b4f92a3cc37619e002973cb4458c439ae15a33fb7e83d26a4d9ea8f839cadb4",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/\-builder/get\-dataset\-token\.html":\s*"fb60fd98607c5b04496d3900b3720f5b3a32ec77ad9d0b2034fa06c5beeda8db",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/\-builder/has\-dataset\-token\.html":\s*"08e3ee82aca6d116b50c2372a9d72cec87596b7c6e94e2971f127f87abb4c548",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/\-builder/set\-dataset\-token\-bytes\.html":\s*"b1a83ec2793b1d041ddab34dceb55bf392a288a6ba16fa856217984c4ca672f7",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/\-builder/set\-dataset\-token\.html":\s*"ffdd2623b3a2a28f4be941092b55cfc7ab492a14af50444d2d669d52ac535beb",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/get\-dataset\-token\-bytes\.html":\s*"3d188c9186a5e6aa930b5cf1326e26c2a3d8391a8c85e7c708895d6af12e17ca",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/get\-dataset\-token\.html":\s*"31b891c0386f600afba86e69d206add567d88399a418d053de6b2d63cfcc2c97",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-notes\-query/has\-dataset\-token\.html":\s*"c80d50214fe149432d932dc6fc2dc33080017b76eb8442eec1da51bed3eab403",?\s*$''',
+]

@@ -19,7 +19,7 @@
     "generate": "python eng/contracts.py generate",
     "generate:check": "python eng/contracts.py generate --check",
     "build": "npm run build --workspace @arcforges/proto && npm run build --workspace @arcforges/api-client && npm run build --workspace @arcforges/contract-fixtures && npm run build --workspace @arcforges/ai-internal && npm run build --workspace @arcforges/operator-client",
-    "test": "node --test tests/public/wire.test.mjs tests/public/structure.test.mjs && tsc --noEmit --strict --target es2022 --module nodenext tests/public/foundation-types.ts",
+    "test": "node --test tests/public/wire.test.mjs tests/public/structure.test.mjs tests/public/foundation-links.test.mjs && tsc --noEmit --strict --target es2022 --module nodenext tests/public/foundation-types.ts",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "verify": "python eng/contracts.py verify-local"

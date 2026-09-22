@@ -5802,7 +5802,14 @@ function reduced(numerator: bigint, denominator: bigint): boolean {
   while (b !== 0n) { const r = a % b; a = b; b = r; }
   return a === 1n;
 }
-function safeLink(value: string): boolean { return /^(?:https?:\/\/[^\s/?#]+(?:[^\s]*)|mailto:[^\s]+)$/.exec(value)?.[0] === value; }
+function safeLink(value: string): boolean {
+  const mailto = value.startsWith('mailto:');
+  const start = mailto ? 7 : value.startsWith('https://') ? 8 : value.startsWith('http://') ? 7 : -1;
+  if (start < 0 || value.length <= start || (!mailto && '/?#'.includes(value[start]!))) return false;
+  // ECMAScript whitespace plus NEL equals C# Unicode whitespace plus BOM.
+  // This single-character search is linear; no authority/path backtracking.
+  return !/[\s\u0085]/u.test(value);
+}
 function idKey(value: Profile): string { return Array.from(value.value as Uint8Array, x => x.toString(16).padStart(2, '0')).join(''); }
 function uniqueIds(values: Profile[]): boolean { return new Set(values.map(idKey)).size === values.length; }
 function orderedKeys(values: string[]): boolean { return values.every((v, i) => i === 0 || values[i - 1]! < v); }

@@ -96,7 +96,17 @@ public static class ContractShapeValidation
 
     private static bool Reduced(long numerator, ulong denominator) => denominator != 0 &&
         global::System.Numerics.BigInteger.GreatestCommonDivisor(global::System.Numerics.BigInteger.Abs(numerator), denominator) == 1;
-    private static bool SafeLink(string value) => Matches(value, @"^(?:https?://[^\s/?#]+(?:[^\s]*)|mailto:[^\s]+)$");
+    private static bool SafeLink(string value)
+    {
+        var mailto = value.StartsWith("mailto:", global::System.StringComparison.Ordinal);
+        var start = mailto ? 7 : value.StartsWith("https://", global::System.StringComparison.Ordinal) ? 8 : value.StartsWith("http://", global::System.StringComparison.Ordinal) ? 7 : -1;
+        if (start < 0 || value.Length <= start || (!mailto && value[start] is '/' or '?' or '#')) return false;
+        // Share Unicode whitespace plus BOM rejection with TypeScript. A single
+        // scan avoids overlapping authority/path quantifiers and backtracking.
+        foreach (var character in value)
+            if (char.IsWhiteSpace(character) || character == '\uFEFF') return false;
+        return true;
+    }
     private static string IdKey(global::Google.Protobuf.ByteString value) => global::System.Convert.ToHexString(value.Span);
     private static bool UniqueIds(global::System.Collections.Generic.IEnumerable<global::Google.Protobuf.ByteString> values)
     {

@@ -9,6 +9,11 @@ using ArcForges.Sdk.Contracts.V1;
 using Validation = ArcForges.Contracts.Validation.ContractShapeValidation;
 
 var root = args.Length >= 1 ? Path.GetFullPath(args[0]) : Directory.GetCurrentDirectory();
+if (args.Contains("--foundation-links", StringComparer.Ordinal))
+{
+    FoundationLinkCases.Run();
+    return 0;
+}
 if (args.Contains("--verify-foundation-exchange", StringComparer.Ordinal))
 {
     FoundationCases.VerifyExchange(root);
@@ -52,6 +57,7 @@ try
 catch (ArgumentException) { }
 
 Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key rejection and SDK caller-owned invocation.");
+FoundationLinkCases.Run();
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 return 0;
 

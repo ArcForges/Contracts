@@ -23,7 +23,7 @@ class DocumentationAdmissionTests(unittest.TestCase):
             "ui-kit/ui-kit.min.css": {"upstreamSha256": documentation.sha(self.raw["ui-kit/ui-kit.min.css"]),
                                       "distributedSha256": documentation.sha(b"body{font-family:system-ui}")}},
             "excluded": {"ui-kit/fonts/font.woff": documentation.sha(b"excluded font")},
-            "modules": {"fixture": {"pages": {"index.html": documentation.sha(b"API {version}")}}},
+            "modules": {"fixture": {"pages": {"index.html": documentation.sha(b"API {version}")}, "publicApi": {}}},
             "fontTransform": {"declarations": 1}}
 
     def test_known_transform_retains_api_and_uses_system_fonts(self):
@@ -46,15 +46,35 @@ class DocumentationAdmissionTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     documentation.admit(raw, "fixture", "1.0.0-ci.1.1", self.policy)
 
+    def test_reviewed_page_cannot_restore_an_inherited_parser_alias(self):
+        page = b'Id <a anchor-label="getValue"></a><a anchor-label="hasValue"></a>'
+        raw = {"index.html": page}
+        policy = {"fixed": {}, "excluded": {}, "modules": {"contracts-proto": {
+            "pages": {"index.html": documentation.sha(page)},
+            "publicApi": {"index.html": ["Id", 'anchor-label="getValue"', 'anchor-label="hasValue"']}}}}
+        documentation.admit(raw, "contracts-proto", "1.0.0-SNAPSHOT", policy)
+        raw["index.html"] += b'<a anchor-label="getParserForType" href="../unrelated/index.html"></a>'
+        policy["modules"]["contracts-proto"]["pages"]["index.html"] = documentation.sha(raw["index.html"])
+        with self.assertRaisesRegex(ValueError, "inherited parser alias"):
+            documentation.admit(raw, "contracts-proto", "1.0.0-SNAPSHOT", policy)
+
+    def test_public_api_marker_field_cannot_be_omitted(self):
+        del self.policy["modules"]["fixture"]["publicApi"]
+        with self.assertRaisesRegex(ValueError, "no public API marker field"):
+            documentation.admit(self.raw, "fixture", "1.0.0-ci.1.1", self.policy)
+
     def test_current_profile_preserves_reviewed_resources_and_retires_native_client(self):
         root = Path(__file__).resolve().parents[2]
-        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json").read_bytes())
+        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json").read_bytes())
         current = json.loads((root / documentation.PROFILE).read_bytes())
         self.assertEqual(set(current["modules"]),
                          {"contracts-proto", "contracts-connect-client", "contract-fixtures"})
         self.assertEqual(set(documentation.MODULES), set(current["modules"]))
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
+        for module in current["modules"]:
+            self.assertEqual(current["modules"][module]["publicApi"], previous["modules"][module]["publicApi"],
+                             "Suppressing inherited runtime methods must preserve every declared public API marker")
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
         self.assertTrue(any("foundation.v1" in name for name in proto_pages))
