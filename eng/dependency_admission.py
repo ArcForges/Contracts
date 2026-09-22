@@ -47,7 +47,7 @@ def input_paths(root):
             or p in {'global.json', 'NuGet.config', '.npmrc', '.node-version', '.java-version', '.python-version',
                      'gradle/libs.versions.toml', 'gradle/verification-metadata.xml',
                      'gradle/wrapper/gradle-wrapper.properties', 'eng/toolchain.json', 'eng/contract-packages.json', 'eng/policy/contract-access.json'}
-            or p.startswith(('eng/provenance/records/', 'eng/provenance/artifact-profiles/'))]
+            or p.startswith(('eng/provenance/records/', 'eng/provenance/artifact-profiles/', 'eng/provenance/retirements/'))]
 
 
 def input_hashes(root):
