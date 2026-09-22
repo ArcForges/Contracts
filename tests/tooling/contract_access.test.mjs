@@ -9,6 +9,7 @@ import {
   checkAssignments,
   checkPackageBoundaries,
   checkPackageInputs,
+  maskXmlComments,
   checkSources,
   compile,
   declaredTypes,
@@ -303,4 +304,21 @@ test("actual project and npm dependencies cannot bypass reviewed package edges",
     }),
   );
   assert.throws(() => checkPackageInputs(root, { packages: [npm] }), /dependency graph/);
+});
+
+test("XML comments cannot concatenate dependency tokens or create new comment delimiters", () => {
+  const boundary = "<!<!-- comment -->--";
+  const masked = maskXmlComments(boundary);
+  assert.equal(masked.length, boundary.length);
+  assert.equal(masked.includes("<!--"), false);
+  assert.equal(
+    maskXmlComments("Project<!-- ignored -->Reference").includes("ProjectReference"),
+    false,
+  );
+  assert.equal(
+    maskXmlComments('<!-- <PackageReference Include="ArcForges.Private" /> -->').trim(),
+    "",
+  );
+  assert.throws(() => maskXmlComments("<Project><!-- unterminated"), /malformed XML comment/);
+  assert.throws(() => maskXmlComments("<Project>-->"), /malformed XML comment/);
 });

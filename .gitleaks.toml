@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Reviewed false positives: public source SHA256 values, never credentials.
-# Only these exact input path/digest rows in the reviewed dependency receipts qualify.
+# Only exact file/path/digest rows in reviewed receipts and public API page oracles qualify.
 [extend]
 useDefault = true
 
@@ -15,4 +15,39 @@ regexes = [
   '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
   '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
   '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"8729e258c7d3de2ff083a3a19fc2d7bce73c2ffc036983c1d9d793d0d0555b37",?\s*$''',
+]
+
+[[allowlists]]
+description = "Reviewed WP03.00 public source hashes"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/(dependency-policy\.json|dependency-reviews/wp03-00-r1\.json)$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"acd927e909fd8f5f8934e166c04cf0552ae15311b7af0b9c6f1fc36ef8de9c60",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"cf9e5c1a1ebfc28c3bee9b26309aa8bbe5a809e3a6b777535b5bd7382554ab2b",?\s*$''',
+]
+
+[[allowlists]]
+description = "Reviewed Dokka public ArcError message-key API page hashes"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/provenance/artifact-profiles/dokka-2-2-0-r4\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error\-kt/\-dsl/clear\-message\-key\.html":\s*"bb160486b78b3595eedcee3bb4fd282191a8d7b708912596f3c9f18f797bf250",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error\-kt/\-dsl/has\-message\-key\.html":\s*"bd34c165a80d8011be85bc104d2e4ecc5b85556a4da910525f8dfca5e73d1f06",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error\-kt/\-dsl/message\-key\.html":\s*"4edc786b8ae96d4d0816616be23b59ce56ac8e4b29dafb57f95a1b79c21902c8",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error\-or\-builder/get\-message\-key\-bytes\.html":\s*"d91a7ee39f573ec436987ad4c342d6216ca9a1432b34dd7c631921d573d5f3a1",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error\-or\-builder/get\-message\-key\.html":\s*"97234d3f6abeca67eb1d83bde77f967280c172f2d7e762e2385cde0c2a997545",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error\-or\-builder/has\-message\-key\.html":\s*"7e1c3899255c519decdab32de294a28f23200cd12e1a82c32714c4cebae398bc",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/\-builder/clear\-message\-key\.html":\s*"2721d36ddeac8711e568b4b90a89876b37d2ae624cfb7174b72c253efbab5bd5",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/\-builder/get\-message\-key\-bytes\.html":\s*"f93a6fd4f30bc502344aefb4fed3efab6c9b75c109c80965bb5b48caa6eecc43",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/\-builder/get\-message\-key\.html":\s*"3495708671875ddbabf3d69b600d83a7cc855d276891ffed46b75e33cd7efb7d",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/\-builder/has\-message\-key\.html":\s*"4eb80168831dd40e4977deddaad4752142e7634d3f9fd22c264604e429ae3e4d",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/\-builder/set\-message\-key\-bytes\.html":\s*"d4138e8689289e7ff994e5f8c4bb02ff95bba94f1fdf07bbda6067f37953cbc9",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/\-builder/set\-message\-key\.html":\s*"6fc18cd8341ace5821ef95bcf6f68415984349392b9b89f75e68171f1840f593",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/get\-message\-key\-bytes\.html":\s*"b2493bf0f6925e08f7ca5dbe582fae81aaf0a076deda755fc229986a3b935560",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/get\-message\-key\.html":\s*"f45262464bef4ac36508d5003e5feceb25dc4b2a6f3bcab9b1170dddf9c6b746",?\s*$''',
+  '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/has\-message\-key\.html":\s*"ded31531551a204963587fdf139c3c4f81017168ee1439a8760a89439f7fae67",?\s*$''',
 ]

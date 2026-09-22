@@ -51,6 +51,16 @@ def npm_graph(project: Path, release: str) -> tuple[list[dict], list[dict]]:
     return list(components.values()), list(edges.values())
 
 
+def nuget_direct_dependencies(assets: dict, row: dict) -> set[str]:
+    dependencies = assets["project"]["frameworks"]["net10.0"].get("dependencies", {})
+    direct = {name for name, dep in dependencies.items()
+              if not dep.get("autoReferenced") and dep.get("suppressParent") != "All"}
+    # NuGet promotes centrally pinned transitive packages into the published nuspec.
+    direct.update(assets.get("centralTransitiveDependencyGroups", {}).get("net10.0", {}))
+    direct.update(row["dependencies"])
+    return direct
+
+
 def nuget_graph(release: str, row: dict | None = None) -> tuple[list[dict], list[dict]]:
     row = row or next(item for item in packages("nuget") if item["id"] == NUGET_ID)
     assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")
@@ -79,10 +89,7 @@ def nuget_graph(release: str, row: dict | None = None) -> tuple[list[dict], list
         edges.append({"ref": entry["bom-ref"], "dependsOn": children})
         return entry["bom-ref"]
 
-    dependencies = assets["project"]["frameworks"]["net10.0"].get("dependencies", {})
-    direct = {name for name, dep in dependencies.items()
-              if not dep.get("autoReferenced") and dep.get("suppressParent") != "All"}
-    direct.update(row["dependencies"])
+    direct = nuget_direct_dependencies(assets, row)
     root = component(row["id"], release, "Apache-2.0", "nuget")
     children = [visit(name) for name in sorted(direct)]
     edges.append({"ref": root["bom-ref"], "dependsOn": children})
@@ -329,10 +336,8 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
                 if "tools/net10.0/any/DotnetToolSettings.xml" not in files:
                     raise ValueError("CLI tool entry point is missing")
             else:
-                project = ET.parse(ROOT / row["sourceRoot"] / (row["id"] + ".csproj"))
-                expected_dependencies = set(row["dependencies"]) | {
-                    item.get("Include") for item in project.findall(".//PackageReference")
-                    if item.get("PrivateAssets", "").lower() != "all"}
+                assets = read_json(ROOT / row["sourceRoot"] / "obj/project.assets.json")
+                expected_dependencies = nuget_direct_dependencies(assets, row)
                 if set(dependencies) != expected_dependencies:
                     raise ValueError(f"Unexpected runtime dependency closure: {dependencies}")
                 for dependency in row["dependencies"]:

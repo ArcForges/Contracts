@@ -421,6 +421,13 @@ export function checkPackageBoundaries(
   }
 }
 
+export function maskXmlComments(source) {
+  // Keep token boundaries: deleting a comment could join surrounding XML syntax.
+  const masked = source.replace(/<!--[\s\S]*?-->/g, (comment) => " ".repeat(comment.length));
+  requireThat(!masked.includes("<!--") && !masked.includes("-->"), "malformed XML comment");
+  return masked;
+}
+
 export function checkPackageInputs(
   root = ROOT,
   manifest = JSON.parse(bytes(root, "eng/contract-packages.json")),
@@ -433,10 +440,7 @@ export function checkPackageInputs(
   for (const row of manifest.packages) {
     let actual = [];
     if (row.kind === "nuget") {
-      const project = bytes(root, row.sourceRoot + "/" + row.id + ".csproj").replace(
-        /<!--[\s\S]*?-->/g,
-        "",
-      );
+      const project = maskXmlComments(bytes(root, row.sourceRoot + "/" + row.id + ".csproj"));
       requireThat(
         !/<PackageReference\b[^>]*\bInclude\s*=\s*["']ArcForges\./i.test(project),
         "first-party NuGet reference bypasses source owner",

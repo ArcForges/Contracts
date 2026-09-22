@@ -18,6 +18,15 @@ from contracts import ARTIFACTS, ROOT, sha256, write_json
 
 
 class BuildIdentityTests(unittest.TestCase):
+    def test_nuget_central_pins_are_published_but_private_build_tools_are_not(self):
+        from packaging_tools import nuget_direct_dependencies
+        assets = {"project": {"frameworks": {"net10.0": {"dependencies": {
+            "Google.Protobuf": {}, "Analyzer": {"suppressParent": "All"},
+            "Framework": {"autoReferenced": True}}}}},
+            "centralTransitiveDependencyGroups": {"net10.0": {"Grpc.Core.Api": {"version": "[2.83.0, )"}}}}
+        self.assertEqual(nuget_direct_dependencies(assets, {"dependencies": ["ArcForges.Sdk.Contracts"]}),
+                         {"Google.Protobuf", "Grpc.Core.Api", "ArcForges.Sdk.Contracts"})
+
     def test_compiled_metadata_rejects_wrong_expected_commit(self):
         executable = ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll"
         assembly = ROOT / "eng/Codegen/bin/Release/net10.0/Codegen.dll"
