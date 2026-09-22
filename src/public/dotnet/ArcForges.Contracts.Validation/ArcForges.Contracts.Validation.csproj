@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PackageId>ArcForges.Contracts.Validation</PackageId>
+    <Version>1.0.0-ci.0.0</Version>
+    <Description>Generated wire shape and declared package schema validation.</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>ArcForges;protobuf;contracts</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" />
+    <ProjectReference Include="../ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
+    <ProjectReference Include="../ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+    <ProjectReference Include="../ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj" />
+    <ProjectReference Include="../ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="$(ContractMetadataDir)/**/*" Pack="true" PackagePath="/" Condition="'$(ContractMetadataDir)' != ''" />
+  </ItemGroup>
+</Project>

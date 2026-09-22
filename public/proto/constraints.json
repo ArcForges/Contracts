@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.foundation.v1.Id": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.Id",
+      "fields": {
+        "value": {
+          "required": true,
+          "bytesLength": 16
+        }
+      },
+      "rules": ["nonzeroId"]
+    },
+    "arcforges.foundation.v1.Revision": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.Revision",
+      "fields": {
+        "value": {
+          "required": true,
+          "min": 0
+        }
+      }
+    },
+    "arcforges.foundation.v1.LocalNotesVersion": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.LocalNotesVersion",
+      "fields": {
+        "ackedRev": {
+          "required": true
+        },
+        "headLocalSeq": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.foundation.v1.NativeContentRev": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.NativeContentRev",
+      "fields": {
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.foundation.v1.Instant": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.Instant",
+      "fields": {
+        "unixSeconds": {
+          "required": true,
+          "min": -62135596800,
+          "max": 253402300799
+        },
+        "nanos": {
+          "required": true,
+          "min": 0,
+          "max": 999999999
+        }
+      }
+    },
+    "arcforges.foundation.v1.Decimal": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.Decimal",
+      "fields": {
+        "value": {
+          "required": true
+        }
+      },
+      "rules": ["canonicalDecimal"]
+    },
+    "arcforges.foundation.v1.AggregateRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.AggregateRef",
+      "fields": {
+        "kind": {
+          "required": true,
+          "minLength": 1
+        },
+        "id": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.foundation.v1.VersionedRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.VersionedRef",
+      "fields": {
+        "root": {
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "rules": ["committedRevision"]
+    },
+    "arcforges.foundation.v1.Receipt": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.Receipt",
+      "fields": {
+        "commandId": {
+          "required": true
+        },
+        "resultRevision": {},
+        "effect": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        }
+      }
+    },
+    "arcforges.foundation.v1.ApplicationScope": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ApplicationScope",
+      "fields": {
+        "productId": {
+          "required": true,
+          "enumValues": ["arcnotes", "arcscope", "arcslate", "companion"]
+        },
+        "installationId": {}
+      }
+    },
+    "arcforges.foundation.v1.RequestMeta": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.RequestMeta",
+      "fields": {
+        "commandId": {},
+        "expectedRev": {},
+        "correlationId": {
+          "required": true
+        },
+        "workspaceId": {},
+        "expectedLocal": {},
+        "expectedNative": {},
+        "recoveryGeneration": {},
+        "applicationScope": {}
+      },
+      "rules": ["exclusiveRevision"]
+    },
+    "arcforges.foundation.v1.ResponseMeta": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ResponseMeta",
+      "fields": {
+        "resultRev": {},
+        "entitlementVersion": {},
+        "warnings": {
+          "items": {}
+        },
+        "correlationId": {
+          "required": true
+        },
+        "recoveryGeneration": {}
+      }
+    },
+    "arcforges.foundation.v1.ArcError": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ArcError",
+      "fields": {
+        "code": {
+          "required": true
+        },
+        "category": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        },
+        "messageKey": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "retry": {
+          "required": true
+        },
+        "effect": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        },
+        "correlationId": {
+          "required": true
+        },
+        "details": {}
+      }
+    },
+    "arcforges.foundation.v1.RetryAdvice": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.RetryAdvice",
+      "fields": {
+        "mode": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "retryAt": {},
+        "reconciliationOperation": {
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.foundation.v1.ErrorDetails": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ErrorDetails",
+      "fields": {
+        "revision": {},
+        "limit": {},
+        "upgrade": {},
+        "state": {}
+      },
+      "oneofRequired": ["detail"]
+    },
+    "arcforges.foundation.v1.RevisionConflict": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.RevisionConflict",
+      "fields": {
+        "expected": {},
+        "actual": {},
+        "conflictId": {}
+      }
+    },
+    "arcforges.foundation.v1.LimitFailure": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.LimitFailure",
+      "fields": {
+        "limitName": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "maximum": {},
+        "available": {},
+        "recoveryAt": {}
+      }
+    },
+    "arcforges.foundation.v1.VersionFailure": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.VersionFailure",
+      "fields": {
+        "minReadable": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "minWritable": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "received": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.foundation.v1.StateFailure": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.StateFailure",
+      "fields": {
+        "state": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "reason": {
+          "required": true
+        },
+        "resource": {},
+        "local": {},
+        "native": {}
+      }
+    },
+    "arcforges.events.v1.EntitlementChanged": {
+      "csharpType": "ArcForges.Contracts.Events.V1.EntitlementChanged",
+      "fields": {
+        "entitlementVersion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionLease": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionLease",
+      "fields": {
+        "leaseId": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "renewAfterSeconds": {
+          "required": true,
+          "enumValues": [10]
+        },
+        "negotiatedContracts": {
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseValue",
+      "fields": {
+        "lease": {
+          "required": true
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,4 @@
 # This file is expected to be part of source control.
 # To regenerate this file, run: ./gradlew :dependencies --write-locks
 com.connectrpc:protoc-gen-connect-kotlin:0.9.0=codegen
-io.grpc:protoc-gen-grpc-java:1.84.0=codegen
-io.grpc:protoc-gen-grpc-kotlin:1.5.0=codegen
 empty=

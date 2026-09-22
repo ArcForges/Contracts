@@ -7,23 +7,29 @@ Handwritten protobuf contracts and generated C#/TypeScript/Java/Kotlin packages 
 ArcForges product family. Consumers install versioned packages; they do not clone
 this repository, run protoc, use Git submodules or depend on sibling source.
 
-**Current scope:** one Hello World service and a working generation, packaging and
-CI foundation, including Kotlin/JVM for Android. Product APIs and mobile applications are later deliveries.
+**Current scope:** WP03.00 establishes source-bearing contract boundaries with
+selected complete Foundation/error, event, private product/helper, operator and
+extension records, HTTP definitions, validators and an offline inventory CLI.
+Hello compatibility remains; complete business services and product integration
+remain later WP03 substeps. The exact producer inventory is
+[`eng/contract-packages.json`](eng/contract-packages.json).
 
-| Package                                        | Contents                                                                   | Consumer                              |
-| ---------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------- |
-| `ArcForges.Contracts.PublicApi`                | Generated C# messages, gRPC client/server bindings, proto and descriptor   | .NET 10                               |
-| `@arcforges/proto`                             | ESM JavaScript, TS declarations, messages, service descriptors and proto   | Web contract types                    |
-| `@arcforges/api-client`                        | Typed Hello client using gRPC-Web                                          | Browser-compatible fetch environments |
-| `io.github.arcforges:contracts-proto`          | Java/Kotlin lite messages, schema and descriptor                           | Android/JVM                           |
-| `io.github.arcforges:contracts-client`         | Java-lite gRPC bindings and Kotlin coroutine stubs                         | Android/JVM                           |
-| `io.github.arcforges:contracts-connect-client` | Generated Connect-Kotlin coroutine client; caller selects gRPC-Web or gRPC | Android/JVM                           |
-| `io.github.arcforges:contract-fixtures`        | Shared wire fixtures and Java resource accessor                            | Consumer tests                        |
+| Package family                                                                             | Contents                                                                                          |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `ArcForges.Contracts.Foundation`, `.PublicApi`, `.Events`, `.Validation`                   | Shared wire records, retained Hello and public HTTP definitions, event hints and shape validators |
+| `ArcForges.Contracts.LocalRpc.Platform`, `.Sandbox`, `.Chat`, `.Notes`, `.Scope`, `.Slate` | Private helper and in-process product result records; no product listener                         |
+| `ArcForges.Contracts.CloudInternal`                                                        | Private HTTP and separately partitioned operator records                                          |
+| `ArcForges.Sdk.Contracts`, `ArcForges.Sdk.Client`, `ArcForges.Cli`                         | Public extension protocol, caller-owned transport composition and offline inventory validation    |
+| `@arcforges/proto`, `@arcforges/api-client`, `@arcforges/contract-fixtures`                | Public ESM messages/descriptors, gRPC-Web composition/HTTP definitions and independent fixtures   |
+| `@arcforges/ai-internal`, `@arcforges/operator-client`                                     | Separate private AI/Cloud HTTP and Operations-only bindings                                       |
+| `io.github.arcforges:contracts-proto`, `:contracts-connect-client`, `:contract-fixtures`   | Public Java/Kotlin lite messages, Connect-Kotlin client and fixture resources                     |
 
-Android uses the Kotlin/JVM artifacts: `contracts-connect-client` supports the
-current Worker gRPC-Web ingress; `contracts-client` retains native grpc-kotlin.
-Web uses the TypeScript artifacts and gRPC-Web. All share the same handwritten proto; consumers need no
-compiler or source checkout. Kotlin/Native and iOS are outside this delivery.
+Android uses `contracts-connect-client` with binary gRPC-Web for Worker ingress.
+The native-grpc-only `contracts-client` is retired from new publications; existing
+immutable releases and consumer pins are unchanged. Web uses the public TypeScript
+artifacts and gRPC-Web. Extension IPC bindings are C# SDK-only. Internal packages
+remain Apache-2.0 but are excluded from public client imports. Kotlin/Native and
+iOS are outside this delivery.
 
 ## Local quick start
 
@@ -52,16 +58,15 @@ on Windows, or clang and zlib development headers on Linux.
 - Edit `public/proto/arcforges/hello/v1/hello.proto`, then run
   `python eng/contracts.py generate`. Commit generated C#, TS, Java and Kotlin changes.
 - Use `python eng/contracts.py restore --update-locks` after an intentional
-  dependency change; also run `python eng/contracts.py consume --update-kotlin-locks`
-  after packing to update the isolated Kotlin consumer locks/checksums. Ordinary
+  dependency change; update any affected retained local consumer locks only when that diagnostic is required. Ordinary
   development/CI uses strict Gradle locks and checksum verification.
 - `python eng/contracts.py verify-local` runs locked restore, generation checks,
   build, wire tests and formatting without producing archives.
 - `npm run format` formats authored JSON/YAML/Markdown/TS. Generated output is
   compared against protoc output instead.
 
-The local candidate version is `1.0.0-ci.0.0`. Pack creates one `.nupkg`, two
-`.tgz` archives, a Maven repository ZIP containing four modules, `contracts.binpb`
+The local candidate version is `1.0.0-ci.0.0`. Pack creates fourteen `.nupkg`, five
+`.tgz` archives, a Maven repository ZIP containing three modules, `contracts.binpb`
 and a hash manifest in `artifacts/packages`.
 Each package carries its licence, dependency NOTICE, CycloneDX SBOM and source
 metadata. Runtime consumers are explicit local opt-in (`python eng/contracts.py consume --aot`)
@@ -77,8 +82,8 @@ flowchart LR
   B --> C[Compile and wire tests]
   C --> D[Pack one candidate]
   D --> G[Offline candidate checks / Verify gate]
-  G --> H[Main: publish same NuGet archive]
-  G --> I[Main: publish proto, then API client to npm]
+  G --> H[Main: publish same NuGet archives]
+  G --> I[Main: publish npm packages in dependency order]
   G --> J[Latest main: upload Maven SNAPSHOT files]
   G --> K[Formal tag: sign and publish Maven Central release]
 ```

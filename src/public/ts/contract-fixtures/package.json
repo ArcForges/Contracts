@@ -1,0 +1,43 @@
+{
+  "name": "@arcforges/contract-fixtures",
+  "version": "1.0.0-ci.0.0",
+  "description": "Independent public contract fixtures for offline conformance.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcForges/Contracts.git",
+    "directory": "src/public/ts/contract-fixtures"
+  },
+  "homepage": "https://github.com/ArcForges/Contracts#readme",
+  "bugs": {
+    "url": "https://github.com/ArcForges/Contracts/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "sbom.cdx.json",
+    "source.json"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "arcforges": {
+    "licenceBoundary": "Apache",
+    "contractAccess": "public"
+  }
+}

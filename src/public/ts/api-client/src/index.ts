@@ -8,3 +8,5 @@ import type { GrpcWebTransportOptions } from "@connectrpc/connect-web";
 export function createHelloClient(options: GrpcWebTransportOptions) {
   return createClient(HelloService, createGrpcWebTransport(options));
 }
+
+export * from "./gen/http.js";

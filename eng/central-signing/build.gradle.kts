@@ -32,7 +32,7 @@ if (snapshot != null) {
         target.scheme == "file" || loopback) { "Only Sonatype or a local test repository is allowed" }
     publishing {
         publications {
-            for (module in listOf("contracts-proto", "contracts-client", "contracts-connect-client", "contract-fixtures")) {
+            for (module in listOf("contracts-proto", "contracts-connect-client", "contract-fixtures")) {
                 create<MavenPublication>(module) {
                     groupId = "io.github.arcforges"
                     artifactId = module

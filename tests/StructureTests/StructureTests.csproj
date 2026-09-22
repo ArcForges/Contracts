@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj" />
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj" />
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj" />
+    <ProjectReference Include="../../src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/ArcForges.Contracts.LocalRpc.Notes.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/ArcForges.Contracts.LocalRpc.Slate.csproj" />
+    <ProjectReference Include="../../src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
+  </ItemGroup>
+</Project>

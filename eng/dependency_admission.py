@@ -46,8 +46,8 @@ def input_paths(root):
                 '.lockfile', 'packages.lock.json', 'package.json', 'package-lock.json', 'verification-metadata.xml'))
             or p in {'global.json', 'NuGet.config', '.npmrc', '.node-version', '.java-version', '.python-version',
                      'gradle/libs.versions.toml', 'gradle/verification-metadata.xml',
-                     'gradle/wrapper/gradle-wrapper.properties', 'eng/toolchain.json', 'eng/policy/contract-access.json'}
-            or p.startswith(('eng/provenance/records/', 'eng/provenance/artifact-profiles/'))]
+                     'gradle/wrapper/gradle-wrapper.properties', 'eng/toolchain.json', 'eng/contract-packages.json', 'eng/policy/contract-access.json'}
+            or p.startswith(('eng/provenance/records/', 'eng/provenance/artifact-profiles/', 'eng/provenance/retirements/'))]
 
 
 def input_hashes(root):
@@ -181,7 +181,8 @@ def audit(root=ROOT, stable=False):
                   == [policy['publisher']['nuget']['feed']], 'Untrusted NuGet feed')
     # Source manifests may use * only for an exact owner-local producer workspace;
     # packing already substitutes the immutable first-party candidate identity.
-    workspace = {'@arcforges/proto', '@arcforges/api-client'}
+    from package_catalog import packages
+    workspace = {row['id'] for row in packages('npm', root)}
     for path in input_paths(root):
         if path.endswith('package.json'):
             doc = json.loads((root / path).read_text())

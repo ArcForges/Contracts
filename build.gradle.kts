@@ -16,10 +16,6 @@ val release = providers.gradleProperty("releaseVersion").getOrElse("1.0.0-ci.0.0
 require(Regex("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-ci\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)|-SNAPSHOT)?").matches(release))
 val codegen = configurations.create("codegen") { isCanBeConsumed = false }
 dependencies {
-    for (platform in listOf("windows-x86_64", "linux-x86_64", "osx-x86_64")) {
-        codegen("io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.asProvider().get()}:$platform@exe")
-    }
-    codegen("io.grpc:protoc-gen-grpc-kotlin:${libs.versions.grpc.kotlin.get()}:jdk8@jar")
     // Upstream publishes an executable fat JAR; compiler dependencies are not runtime APIs.
     codegen("com.connectrpc:protoc-gen-connect-kotlin:${libs.versions.connect.get()}@jar")
 }

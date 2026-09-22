@@ -47,6 +47,20 @@ class DocumentationAdmissionTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     documentation.admit(raw, "fixture", "1.0.0-ci.1.1", self.policy)
 
+    def test_current_profile_preserves_reviewed_resources_and_retires_native_client(self):
+        root = Path(__file__).resolve().parents[2]
+        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json").read_bytes())
+        current = json.loads((root / documentation.PROFILE).read_bytes())
+        self.assertEqual(set(current["modules"]),
+                         {"contracts-proto", "contracts-connect-client", "contract-fixtures"})
+        self.assertEqual(set(documentation.MODULES), set(current["modules"]))
+        for section in ("source", "fixed", "excluded", "components", "fontTransform"):
+            self.assertEqual(current[section], previous[section], section)
+        self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
+        proto_pages = current["modules"]["contracts-proto"]["publicApi"]
+        self.assertTrue(any("foundation.v1" in name for name in proto_pages))
+        self.assertTrue(any("events.v1" in name for name in proto_pages))
+
     def test_distinct_npm_names_cannot_share_a_normalized_record_id(self):
         # object-assign and object.assign are different MIT implementations.
         # A punctuation-normalized slug must never discard either obligation.

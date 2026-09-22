@@ -4,10 +4,11 @@
     <IsAotCompatible>true</IsAotCompatible>
     <PackageId>ArcForges.Contracts.PublicApi</PackageId>
     <Version>1.0.0-ci.0.0</Version>
-    <Description>ArcForges public protobuf messages and gRPC bindings. Initial Hello World demonstration.</Description>
+    <Description>Public protobuf bindings and declared HTTP exception records.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>ArcForges;protobuf;grpc;contracts</PackageTags>
+    <PackageTags>ArcForges;protobuf;contracts</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
@@ -16,12 +17,7 @@
     <PackageReference Include="Google.Protobuf" />
     <PackageReference Include="Grpc.Core.Api" />
     <None Include="README.md" Pack="true" PackagePath="/" />
-    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
-    <None Include="../../../../public/proto/**/*.proto" Pack="true" PackagePath="proto/" />
-    <None Include="$(ContractMetadataDir)/*" Pack="true" PackagePath="/"
-          Condition="'$(ContractMetadataDir)' != ''" />
+    <None Include="../../../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="$(ContractMetadataDir)/**/*" Pack="true" PackagePath="/" Condition="'$(ContractMetadataDir)' != ''" />
   </ItemGroup>
-  <PropertyGroup>
-    <LicenceBoundary>Apache</LicenceBoundary>
-  </PropertyGroup>
 </Project>

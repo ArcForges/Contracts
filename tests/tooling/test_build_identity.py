@@ -18,6 +18,15 @@ from contracts import ARTIFACTS, ROOT, sha256, write_json
 
 
 class BuildIdentityTests(unittest.TestCase):
+    def test_nuget_central_pins_are_published_but_private_build_tools_are_not(self):
+        from packaging_tools import nuget_direct_dependencies
+        assets = {"project": {"frameworks": {"net10.0": {"dependencies": {
+            "Google.Protobuf": {}, "Analyzer": {"suppressParent": "All"},
+            "Framework": {"autoReferenced": True}}}}},
+            "centralTransitiveDependencyGroups": {"net10.0": {"Grpc.Core.Api": {"version": "[2.83.0, )"}}}}
+        self.assertEqual(nuget_direct_dependencies(assets, {"dependencies": ["ArcForges.Sdk.Contracts"]}),
+                         {"Google.Protobuf", "Grpc.Core.Api", "ArcForges.Sdk.Contracts"})
+
     def test_compiled_metadata_rejects_wrong_expected_commit(self):
         executable = ROOT / "tests/public/HelloClient/bin/Release/net10.0/HelloClient.dll"
         assembly = ROOT / "eng/Codegen/bin/Release/net10.0/Codegen.dll"
@@ -122,7 +131,9 @@ class BuildIdentityTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as folder:
                 candidate = Path(folder) / "candidate"
                 shutil.copytree(ARTIFACTS / "packages", candidate)
-                package = next(candidate.glob("*.nupkg"))
+                manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
+                entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
+                package = candidate / entry["name"]
                 with zipfile.ZipFile(package) as archive:
                     files = {name: archive.read(name) for name in archive.namelist()}
                 report = json.loads(files["build-identity.json"])
@@ -135,7 +146,7 @@ class BuildIdentityTests(unittest.TestCase):
                     for name, content in files.items():
                         archive.writestr(name, content)
                 manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
-                entry = next(item for item in manifest["files"] if item["kind"] == "nuget")
+                entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
                 entry.update(sha256=sha256(package), size=package.stat().st_size)
                 write_json(candidate / "manifest.json", manifest)
                 with self.assertRaisesRegex(ValueError, "build identity or independent version axes"):

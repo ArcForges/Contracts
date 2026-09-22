@@ -48,7 +48,7 @@ class MavenReleaseGuards(unittest.TestCase):
                 verify_artifacts(candidate)
 
     def test_maven_client_cannot_pin_another_candidate(self):
-        for module in ("contracts-client", "contracts-connect-client"):
+        for module in ("contracts-connect-client",):
             with self.subTest(module=module), tempfile.TemporaryDirectory(prefix="contracts-maven-guard-") as temporary:
                 files = dict(self.files)
                 pom = next(name for name in files if f"/{module}/" in name and name.endswith(".pom"))

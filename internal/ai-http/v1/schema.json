@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "title": "CommitReceipt",
+  "type": "object",
+  "properties": {
+    "commandId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "x-arcforges-rules": ["nonzeroUuid"]
+    },
+    "operation": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "resultHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["committed", "rejected"]
+    },
+    "resultRef": {
+      "$ref": "#/$defs/VersionedRef"
+    }
+  },
+  "required": ["commandId", "operation", "requestHash", "resultHash", "state"],
+  "additionalProperties": false,
+  "$defs": {
+    "AggregateRef": {
+      "title": "AggregateRef",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["kind", "id"],
+      "additionalProperties": false
+    },
+    "VersionedRef": {
+      "title": "VersionedRef",
+      "type": "object",
+      "properties": {
+        "root": {
+          "$ref": "#/$defs/AggregateRef"
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 19,
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["root", "revision"],
+      "additionalProperties": false
+    }
+  },
+  "x-arcforges-schema-version": "1"
+}

@@ -102,7 +102,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 1)
+        self.assertEqual(len(config['allowlists']), 3)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -114,9 +114,39 @@ class DependencyAdmission(unittest.TestCase):
                    'eng/provenance/records/dokka-object-keys-licence-r1.json',
                    'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
         for source, pattern in zip(sources, allow['regexes']):
-            digest = hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+            receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/wp02-05-r1.json').read_text(encoding='utf-8'))
+            digest = receipt['review']['inputHashes'][source]
             self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
             self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
+
+
+        receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/wp03-00-r1.json').read_text())
+        pages = json.loads((ROOT / 'eng/provenance/artifact-profiles/dokka-2-2-0-r4.json').read_text())['modules']['contracts-proto']['pages']
+        new_sources = [
+            {key: receipt['review']['inputHashes'][key] for key in [
+                'eng/policy/contract-access.json',
+                'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']},
+            {key: value for key, value in pages.items() if 'message-key' in key},
+        ]
+        for allow, source_rows, permitted, excluded in zip(config['allowlists'][1:], new_sources,
+                ['eng/policy/dependency-reviews/wp03-00-r1.json',
+                 'eng/provenance/artifact-profiles/dokka-2-2-0-r4.json'],
+                ['eng/provenance/artifact-profiles/dokka-2-2-0-r4.json',
+                 'eng/policy/dependency-policy.json'], strict=True):
+            self.assertEqual(allow['targetRules'], ['generic-api-key'])
+            self.assertEqual(allow['condition'], 'AND')
+            self.assertEqual(allow['regexTarget'], 'line')
+            self.assertEqual(len(allow['paths']), 1)
+            self.assertIsNotNone(re.fullmatch(allow['paths'][0], permitted))
+            for wrong_path in [excluded, 'src/secret.json', permitted + '.backup']:
+                self.assertIsNone(re.fullmatch(allow['paths'][0], wrong_path))
+            self.assertEqual(len(allow['regexes']), len(source_rows))
+            for (source, digest), pattern in zip(sorted(source_rows.items()), allow['regexes'], strict=True):
+                self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
+                self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
+                self.assertIsNone(re.fullmatch(pattern, f'  "credential": "{digest}",'))
+                self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "{digest}", "credential": "other"'))
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15])
 
 
 if __name__ == '__main__':

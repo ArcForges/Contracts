@@ -148,59 +148,11 @@ and Kotlin 2.4.20 or a compatible compiler; Android also needs INTERNET permissi
 For a future native gRPC endpoint, the same generated Connect client can select
 `NetworkProtocol.GRPC` with a working HTTP/2 transport and that endpoint's URL.
 Changing the protocol alone does not enable native gRPC on the current Worker.
-The following grpc-kotlin API is also retained for native endpoints.
-
-### Existing native grpc-kotlin client
-
-Add `mavenCentral()` to the application's dependency repositories. Add the exact
-common release and the Android-compatible transport (the versions below are
-examples for the Contracts release):
-
-```kotlin
-dependencies {
-    implementation("io.github.arcforges:contracts-client:1.0.0-ci.12.1")
-    implementation("io.grpc:grpc-okhttp:1.84.0")
-    testImplementation("io.github.arcforges:contract-fixtures:1.0.0-ci.12.1")
-}
-```
-
-`contracts-client` brings the matching `contracts-proto`, coroutine and gRPC
-runtime dependencies transitively. For serialization only, depend directly on
-`contracts-proto`. JARs contain generated code, not copies of those dependencies.
-Use JDK 17, JVM target 17 and Kotlin 2.4.20 or a compatible newer compiler. Android
-apps configure their normal Java/desugaring toolchain and INTERNET permission.
-
-```kotlin
-import io.github.arcforges.contracts.hello.v1.HelloServiceGrpcKt.HelloServiceCoroutineStub
-import io.github.arcforges.contracts.hello.v1.sayHelloRequest
-import io.grpc.okhttp.OkHttpChannelBuilder
-import java.util.concurrent.TimeUnit
-
-// Own this channel at the application/service scope, not per UI recomposition.
-val channel = OkHttpChannelBuilder.forAddress("api.example.com", 443)
-    .useTransportSecurity()
-    .build()
-val client = HelloServiceCoroutineStub(channel)
-
-// Call from an application-owned coroutine.
-suspend fun hello(): String = client.withDeadlineAfter(5, TimeUnit.SECONDS)
-    .sayHello(sayHelloRequest { name = "World" }).message
-
-// On owner shutdown, stop the channel; do not block Android's UI thread waiting.
-fun close() { channel.shutdown() }
-```
-
-The endpoint above is illustrative and must implement the Hello service. The
-local test host uses plaintext loopback: choose `usePlaintext()` only for that
-local test. Android emulator loopback to the development host normally uses
-`10.0.2.2`; an app must explicitly permit any development cleartext traffic.
-Production TLS, account tokens/interceptors, endpoint selection and lifecycle
-belong to the application, not the generated package. Coroutine cancellation
-cancels the call; gRPC failures are `StatusException` (for example
-`INVALID_ARGUMENT` for this example's empty name).
-
-Java callers can use `HelloServiceGrpc` from the same client JAR. Kotlin/Native,
-iOS and React Native are not supplied by these JVM artifacts.
+The native-grpc-only `contracts-client` is retired from new publications at
+WP03.00. Historical releases and exact existing consumer pins are unchanged.
+New Android/JVM consumption uses the selected Connect client; no removed
+native-grpc client package or runtime diagnostic is claimed for this candidate.
+Kotlin/Native, iOS and React Native are not supplied by these JVM artifacts.
 
 Commit application Gradle dependency locks and verification metadata. Use exact
 versions, not `+`/`latest.release`/SNAPSHOT. No Maven publishing credential is

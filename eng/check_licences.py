@@ -45,10 +45,10 @@ def check_package(name):
                 f'Non-Apache or unknown first-party NuGet dependency: {name}')
     if lower.startswith('@arcforges/'):
         require(lower in {'@arcforges/proto', '@arcforges/api-client', '@arcforges/contract-fixtures',
-                          '@arcforges/ai-internal'}, f'Non-Apache or unknown first-party npm dependency: {name}')
+                          '@arcforges/ai-internal', '@arcforges/operator-client'}, f'Non-Apache or unknown first-party npm dependency: {name}')
     if lower.startswith('io.github.arcforges:'):
         require(lower in {'io.github.arcforges:' + module for module in
-                         ('contracts-proto', 'contracts-client', 'contracts-connect-client', 'contract-fixtures')},
+                         ('contracts-proto', 'contracts-connect-client', 'contract-fixtures')},
                 f'Non-Apache or unknown first-party Maven dependency: {name}')
 
 
@@ -90,7 +90,7 @@ def audit(root=ROOT):
                     local_managed.add(element.text.lower())
         elif kind == 'npm':
             package = document(name)
-            require(package.get('license') == 'Apache-2.0' and package.get('arcforges') == {'licenceBoundary': 'Apache'},
+            require(package.get('license') == 'Apache-2.0' and package.get('arcforges', {}).get('licenceBoundary') == 'Apache' and set(package.get('arcforges', {})) <= {'licenceBoundary', 'contractAccess'},
                     f'Missing/incorrect npm declaration: {name}')
         elif kind == 'gradle':
             for prop, expected in [('spdxLicense', 'Apache-2.0'), ('licenceBoundary', 'Apache')]:

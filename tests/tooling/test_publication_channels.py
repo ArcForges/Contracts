@@ -62,7 +62,7 @@ class PublicationChannels(unittest.TestCase):
                 resolve("contracts-proto", "1.0.0-SNAPSHOT")
 
     @unittest.skipUnless(os.environ.get("ARCFORGES_LOCAL_INTEGRATION") == "1" and not os.environ.get("GITHUB_ACTIONS") and os.environ.get("CI", "").lower() != "true", "Explicit local transport/signing diagnostic only")
-    def test_real_snapshot_transport_preserves_all_twenty_files(self):
+    def test_real_snapshot_transport_preserves_all_candidate_files(self):
         directory = ARTIFACTS / "packages"
         manifest = json.loads((directory / "manifest.json").read_text())
         if manifest.get("mavenVersion") != "1.0.0-SNAPSHOT":
@@ -106,7 +106,7 @@ class PublicationChannels(unittest.TestCase):
                 self.assertTrue(any(method == "PUT" and path.endswith(".jar") for method, path in requests))
                 complete, records = inspect(files, manifest, uri)
                 self.assertTrue(complete)
-                self.assertEqual(len(records), 20)
+                self.assertEqual(len(records), len(files))
                 # The retry's public-byte check succeeds without another upload.
                 self.assertTrue(inspect(files, manifest, uri)[0])
                 altered = dict(files)

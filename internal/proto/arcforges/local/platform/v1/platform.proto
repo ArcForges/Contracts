@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.local.platform.v1;
+
+option csharp_namespace = "ArcForges.Contracts.LocalRpc.Platform.V1";
+option java_package = "io.github.arcforges.contracts.local.platform.v1";
+option java_multiple_files = true;
+option java_outer_classname = "PlatformProto";
+
+// Private bounded byte transfer; hash identifies the whole versioned source.
+message LocalChunk {
+  optional bytes bytes = 1 [json_name = "bytes"];
+  optional uint64 offset = 2 [json_name = "offset"];
+  optional uint64 next_offset = 3 [json_name = "nextOffset"];
+  optional bool eof = 4 [json_name = "eof"];
+  optional string sha256 = 5 [json_name = "sha256"];
+}

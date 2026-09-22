@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-/** WP01.01 closed current contract assignment and compiled dependency audit. */
+/** WP03.00 package ownership and compiled contract dependency audit. */
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -79,20 +79,25 @@ export function inventory(root) {
 }
 
 export function protoc(root = ROOT) {
-  const assets = JSON.parse(
-    readFileSync(path.join(root, "eng/Codegen/obj/project.assets.json"), "utf8"),
-  );
-  const name = Object.keys(assets.libraries).find((k) => k.toLowerCase().startsWith("grpc.tools/"));
-  requireThat(name, "restore pinned Grpc.Tools first");
+  const toolRoot = execFileSync(
+    "python",
+    [
+      "-c",
+      "import sys; sys.path.insert(0, 'eng'); from contracts import grpc_tools; print(grpc_tools())",
+    ],
+    { cwd: root, encoding: "utf8" },
+  ).trim();
   const platform = { win32: "windows_x64", linux: "linux_x64", darwin: "macosx_x64" }[
     process.platform
   ];
   requireThat(platform && process.arch === "x64", "unsupported producer architecture");
-  const suffix = process.platform === "win32" ? ".exe" : "";
-  for (const folder of Object.keys(assets.packageFolders)) {
-    const executable = path.join(folder, name.toLowerCase(), "tools", platform, "protoc" + suffix);
-    if (existsSync(executable)) return executable;
-  }
+  const executable = path.join(
+    toolRoot,
+    "tools",
+    platform,
+    "protoc" + (process.platform === "win32" ? ".exe" : ""),
+  );
+  if (existsSync(executable)) return executable;
   throw new Error("pinned protoc missing");
 }
 
@@ -284,6 +289,14 @@ export function checkSources(root, files, policy) {
           row.types,
           "incomplete source type assignment",
         );
+        if (row.kind === "generated") {
+          const content = bytes(root, row.path);
+          requireThat(
+            content.startsWith("// SPDX-License-Identifier: Apache-2.0\n") &&
+              /Generated|generated|auto-generated/.test(content.slice(0, 600)),
+            "missing generated licence/header: " + row.path,
+          );
+        }
         const owner = policy.packages.find((p) => p.id === row.package);
         requireThat(
           owner && owner.access === row.access && row.path.startsWith(owner.sourceRoot + "/"),
@@ -312,6 +325,7 @@ export function checkSources(root, files, policy) {
     );
   }
   const rootInputs = new Set([
+    "eng/contract-packages.json",
     "Directory.Build.props",
     "Directory.Build.targets",
     "Directory.Packages.props",
@@ -326,6 +340,7 @@ export function checkSources(root, files, policy) {
   const buildInputs = files.filter(
     (p) =>
       rootInputs.has(p) ||
+      (/^(public|internal)\//.test(p) && p.endsWith(".json")) ||
       (p.startsWith("src/") &&
         (/\.(csproj|gradle\.kts)$/.test(p) ||
           /(?:^|\/)(packages\.lock\.json|gradle\.lockfile|tsconfig\.json|package\.json)$/.test(p))),
@@ -342,11 +357,158 @@ export function checkSources(root, files, policy) {
     );
 }
 
+export function checkPackageBoundaries(
+  root = ROOT,
+  manifest = JSON.parse(bytes(root, "eng/contract-packages.json")),
+) {
+  requireThat(manifest.schemaVersion === 1, "unknown package manifest");
+  const packages = new Map(manifest.packages.map((row) => [row.id, row]));
+  requireThat(packages.size === manifest.packages.length, "duplicate package identity");
+  for (const row of packages.values()) {
+    requireThat(
+      ACCESS.has(row.access) && row.sourceRoot.startsWith("src/" + row.access + "/"),
+      "package access/root mismatch",
+    );
+    safePath(row.sourceRoot);
+    for (const dependency of row.dependencies) {
+      const target = packages.get(dependency);
+      requireThat(
+        target && target.kind === row.kind,
+        "unknown or cross-ecosystem package dependency",
+      );
+      requireThat(
+        row.access === "internal" || target.access === "public",
+        "public-to-internal package dependency",
+      );
+      requireThat(
+        !/LocalRpc\./.test(dependency) || /LocalRpc\./.test(row.id),
+        "local contract leaked into another owner",
+      );
+    }
+    for (const schema of [...row.proto, ...row.jsonSchemas]) {
+      safePath(schema);
+      requireThat(
+        row.access === "internal" || schema.startsWith("public/"),
+        "public-to-internal schema ownership",
+      );
+      requireThat(
+        !/\/extensions\//.test(schema) || row.kind === "nuget",
+        "extension IPC leaked into browser/Android",
+      );
+      requireThat(
+        !/\/local\//.test(schema) || row.kind === "nuget",
+        "local IPC leaked into browser/Android",
+      );
+      if (!schema.endsWith(".json")) continue;
+      const visit = (value) => {
+        if (!value || typeof value !== "object") return;
+        if (typeof value.$ref === "string" && !value.$ref.startsWith("#")) {
+          requireThat(!/^[a-z]+:/i.test(value.$ref), "remote JSON schema reference");
+          const reference = path.posix.normalize(
+            path.posix.join(path.posix.dirname(schema), value.$ref.split("#")[0]),
+          );
+          safePath(reference);
+          requireThat(
+            row.access === "internal" || reference.startsWith("public/"),
+            "public-to-internal JSON reference",
+          );
+          requireThat(existsSync(path.join(root, reference)), "missing JSON reference");
+        }
+        Object.values(value).forEach(visit);
+      };
+      visit(JSON.parse(bytes(root, schema)));
+    }
+  }
+}
+
+export function maskXmlComments(source) {
+  // Keep token boundaries: deleting a comment could join surrounding XML syntax.
+  const masked = source.replace(/<!--[\s\S]*?-->/g, (comment) => " ".repeat(comment.length));
+  requireThat(!masked.includes("<!--") && !masked.includes("-->"), "malformed XML comment");
+  return masked;
+}
+
+export function checkPackageInputs(
+  root = ROOT,
+  manifest = JSON.parse(bytes(root, "eng/contract-packages.json")),
+) {
+  const projects = new Map(
+    manifest.packages
+      .filter((row) => row.kind === "nuget")
+      .map((row) => [row.sourceRoot + "/" + row.id + ".csproj", row.id]),
+  );
+  for (const row of manifest.packages) {
+    let actual = [];
+    if (row.kind === "nuget") {
+      const project = maskXmlComments(bytes(root, row.sourceRoot + "/" + row.id + ".csproj"));
+      requireThat(
+        !/<PackageReference\b[^>]*\bInclude\s*=\s*["']ArcForges\./i.test(project),
+        "first-party NuGet reference bypasses source owner",
+      );
+      for (const match of project.matchAll(/<Compile\b[^>]*\bInclude\s*=\s*["']([^"']+)["']/g)) {
+        const target = path.posix.normalize(
+          path.posix.join(row.sourceRoot, match[1].replaceAll("\\", "/")),
+        );
+        requireThat(
+          target.startsWith(row.sourceRoot + "/") && !match[1].includes("$("),
+          "compiled source escapes package owner",
+        );
+      }
+      for (const match of project.matchAll(/<ProjectReference\b([^>]*)>/g)) {
+        const include = match[1].match(/\bInclude\s*=\s*["']([^"']+)["']/);
+        requireThat(include, "unresolved project reference");
+        const target = path.posix.normalize(
+          path.posix.join(row.sourceRoot, include[1].replaceAll("\\", "/")),
+        );
+        safePath(target);
+        requireThat(projects.has(target), "project reference has no contract owner");
+        actual.push(projects.get(target));
+      }
+    } else if (row.kind === "npm") {
+      const value = JSON.parse(bytes(root, row.sourceRoot + "/package.json"));
+      requireThat(
+        value.name === row.id && value.license === "Apache-2.0",
+        "incorrect npm identity/SPDX",
+      );
+      actual = [
+        ...new Set(
+          ["dependencies", "peerDependencies", "optionalDependencies", "devDependencies"]
+            .flatMap((key) => Object.keys(value[key] ?? {}))
+            .filter((name) => name.startsWith("@arcforges/")),
+        ),
+      ];
+    } else if (row.kind === "maven") {
+      const value = bytes(root, row.sourceRoot + "/build.gradle.kts");
+      actual = [...value.matchAll(/project\(\s*["']:([^"']+)["']\s*\)/g)].map(
+        (match) => "io.github.arcforges:" + match[1],
+      );
+    }
+    assert.deepEqual(
+      [...new Set(actual)].sort(),
+      [...row.dependencies].sort(),
+      "declared dependency graph differs from package owner: " + row.id,
+    );
+  }
+}
+
 export function audit(root = ROOT) {
   const policy = JSON.parse(bytes(root, POLICY));
   const before = [git(root, "rev-parse", "HEAD"), git(root, "status", "--porcelain")];
   const files = inventory(root);
   checkSources(root, files, policy);
+  checkPackageBoundaries(root);
+  checkPackageInputs(root);
+  const packages = JSON.parse(bytes(root, "eng/contract-packages.json")).packages;
+  assert.deepEqual(
+    [...new Set(packages.flatMap((row) => row.proto))].sort(),
+    policy.schemas.map((row) => row.path).sort(),
+    "schema has no generator owner",
+  );
+  assert.deepEqual(
+    [...new Set(packages.flatMap((row) => row.jsonSchemas))].sort(),
+    files.filter((p) => /^(public\/http|internal\/ai-http)\/.+\.json$/.test(p)).sort(),
+    "HTTP schema has no package owner",
+  );
   const types = descriptorGraph(compile(root, policy.schemas), policy.schemas);
   checkAssignments(types, policy.types);
   assert.deepEqual(
@@ -355,7 +517,7 @@ export function audit(root = ROOT) {
     "source changed during audit",
   );
   return {
-    substep: "WP01.01",
+    substep: "WP03.00",
     result: "passed",
     commit: before[0],
     dirty: Boolean(before[1]),
@@ -369,7 +531,7 @@ export function audit(root = ROOT) {
     policySha256: digest(bytes(root, POLICY)),
     design: policy.design,
     limitations:
-      "Current contract access and compiled dependency proof; full production schemas remain WP03, provider/device operation is separate evidence.",
+      "Selected contract slices and package access proof; later WP03 schemas and provider/device operation remain separate evidence.",
   };
 }
 
@@ -379,7 +541,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   try {
     report = audit();
   } catch (error) {
-    report = { substep: "WP01.01", result: "failed", error: error.message };
+    report = { substep: "WP03.00", result: "failed", error: error.message };
     process.exitCode = 1;
   }
   mkdirSync(path.dirname(output), { recursive: true });

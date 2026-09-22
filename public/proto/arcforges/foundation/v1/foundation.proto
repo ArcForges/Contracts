@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.foundation.v1;
+
+option csharp_namespace = "ArcForges.Contracts.Foundation.V1";
+option java_package = "io.github.arcforges.contracts.foundation.v1";
+option java_multiple_files = true;
+option java_outer_classname = "FoundationProto";
+
+// Complete selected registry04 records; shape constraints are owned beside this schema.
+message Id { optional bytes value = 1 [json_name = "value"]; }
+message Revision { optional int64 value = 1 [json_name = "value"]; }
+message LocalNotesVersion {
+  Revision acked_rev = 1 [json_name = "ackedRev"];
+  optional uint64 head_local_seq = 2 [json_name = "headLocalSeq"];
+}
+message NativeContentRev { optional uint64 value = 1 [json_name = "value"]; }
+message Instant {
+  optional sint64 unix_seconds = 1 [json_name = "unixSeconds"];
+  optional uint32 nanos = 2 [json_name = "nanos"];
+}
+message Decimal { optional string value = 1 [json_name = "value"]; }
+message AggregateRef {
+  optional string kind = 1 [json_name = "kind"];
+  Id id = 2 [json_name = "id"];
+}
+message VersionedRef {
+  AggregateRef root = 1 [json_name = "root"];
+  Revision revision = 2 [json_name = "revision"];
+  optional string sha256 = 3 [json_name = "sha256"];
+}
+enum EffectCertainty {
+  EFFECT_CERTAINTY_UNSPECIFIED = 0;
+  EFFECT_CERTAINTY_DID_NOT_HAPPEN = 1;
+  EFFECT_CERTAINTY_HAPPENED = 2;
+  EFFECT_CERTAINTY_UNKNOWN = 3;
+}
+enum RetryMode {
+  RETRY_MODE_UNSPECIFIED = 0;
+  RETRY_MODE_NEVER = 1;
+  RETRY_MODE_SAME_COMMAND = 2;
+  RETRY_MODE_AFTER_TIME = 3;
+  RETRY_MODE_RECONCILE = 4;
+}
+enum ErrorCategory {
+  ERROR_CATEGORY_UNSPECIFIED = 0;
+  ERROR_CATEGORY_VALIDATION = 1;
+  ERROR_CATEGORY_AUTHENTICATION = 2;
+  ERROR_CATEGORY_AUTHORIZATION = 3;
+  ERROR_CATEGORY_ENTITLEMENT = 4;
+  ERROR_CATEGORY_CONFLICT = 5;
+  ERROR_CATEGORY_STATE = 6;
+  ERROR_CATEGORY_RESOURCE = 7;
+  ERROR_CATEGORY_EXECUTION = 8;
+  ERROR_CATEGORY_INTERNAL = 9;
+}
+message Receipt {
+  Id command_id = 1 [json_name = "commandId"];
+  Revision result_revision = 2 [json_name = "resultRevision"];
+  optional EffectCertainty effect = 3 [json_name = "effect"];
+}
+message ApplicationScope {
+  optional string product_id = 1 [json_name = "productId"];
+  Id installation_id = 2 [json_name = "installationId"];
+}
+message RequestMeta {
+  Id command_id = 1 [json_name = "commandId"];
+  Revision expected_rev = 2 [json_name = "expectedRev"];
+  Id correlation_id = 3 [json_name = "correlationId"];
+  Id workspace_id = 4 [json_name = "workspaceId"];
+  LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];
+  NativeContentRev expected_native = 6 [json_name = "expectedNative"];
+  optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
+  ApplicationScope application_scope = 8 [json_name = "applicationScope"];
+}
+message ResponseMeta {
+  Revision result_rev = 1 [json_name = "resultRev"];
+  optional int64 entitlement_version = 2 [json_name = "entitlementVersion"];
+  repeated string warnings = 3 [json_name = "warnings"];
+  Id correlation_id = 4 [json_name = "correlationId"];
+  optional uint64 recovery_generation = 5 [json_name = "recoveryGeneration"];
+}
+message ArcError {
+  optional string code = 1 [json_name = "code"];
+  optional ErrorCategory category = 2 [json_name = "category"];
+  optional string message_key = 3 [json_name = "messageKey"];
+  RetryAdvice retry = 4 [json_name = "retry"];
+  optional EffectCertainty effect = 5 [json_name = "effect"];
+  Id correlation_id = 6 [json_name = "correlationId"];
+  ErrorDetails details = 7 [json_name = "details"];
+}
+message RetryAdvice {
+  optional RetryMode mode = 1 [json_name = "mode"];
+  Instant retry_at = 2 [json_name = "retryAt"];
+  optional string reconciliation_operation = 3 [json_name = "reconciliationOperation"];
+}
+message ErrorDetails {
+  oneof detail {
+    RevisionConflict revision = 1 [json_name = "revision"];
+    LimitFailure limit = 2 [json_name = "limit"];
+    VersionFailure upgrade = 3 [json_name = "upgrade"];
+    StateFailure state = 4 [json_name = "state"];
+  }
+}
+message RevisionConflict {
+  Revision expected = 1 [json_name = "expected"];
+  Revision actual = 2 [json_name = "actual"];
+  Id conflict_id = 3 [json_name = "conflictId"];
+}
+message LimitFailure {
+  optional string limit_name = 1 [json_name = "limitName"];
+  Decimal maximum = 2 [json_name = "maximum"];
+  Decimal available = 3 [json_name = "available"];
+  Instant recovery_at = 4 [json_name = "recoveryAt"];
+}
+message VersionFailure {
+  optional string min_readable = 1 [json_name = "minReadable"];
+  optional string min_writable = 2 [json_name = "minWritable"];
+  optional string received = 3 [json_name = "received"];
+}
+message StateFailure {
+  optional string state = 1 [json_name = "state"];
+  optional string reason = 2 [json_name = "reason"];
+  AggregateRef resource = 3 [json_name = "resource"];
+  LocalNotesVersion local = 4 [json_name = "local"];
+  NativeContentRev native = 5 [json_name = "native"];
+}

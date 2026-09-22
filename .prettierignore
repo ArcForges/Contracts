@@ -11,6 +11,7 @@ artifacts/
 **/dist/
 **/node_modules/
 **/generated/
+src/public/ts/contract-fixtures/src/index.ts
 **/build/
 **/.gradle/
 **/.kotlin/
@@ -19,3 +20,5 @@ artifacts/
 eng/provenance/records/
 eng/provenance/artifact-profiles/
 third-party/
+src/public/ts/proto/src/index.ts
+src/internal/ts/operator-client/src/index.ts

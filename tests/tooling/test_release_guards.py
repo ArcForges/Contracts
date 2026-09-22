@@ -22,7 +22,9 @@ class ReleaseGuards(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="contracts-guard-") as directory:
             candidate = Path(directory) / "candidate"
             shutil.copytree(ARTIFACTS / "packages", candidate)
-            package = next(candidate.glob("*.nupkg"))
+            manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
+            entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
+            package = candidate / entry["name"]
             with package.open("ab") as stream:
                 stream.write(b"unexpected mutation")
             with self.assertRaisesRegex(ValueError, "hash or size mismatch"):
@@ -32,18 +34,19 @@ class ReleaseGuards(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="contracts-guard-") as directory:
             candidate = Path(directory) / "candidate"
             shutil.copytree(ARTIFACTS / "packages", candidate)
-            package = next(candidate.glob("*.nupkg"))
+            manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
+            entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
+            package = candidate / entry["name"]
             with zipfile.ZipFile(package) as original:
+                self.assertTrue(any(name.startswith("schemas/public/proto/") for name in original.namelist()))
                 entries = {name: original.read(name) for name in original.namelist()
-                           if not name.startswith("proto/")}
+                           if not name.startswith("schemas/public/proto/")}
             with zipfile.ZipFile(package, "w") as altered:
                 for name, contents in entries.items():
                     altered.writestr(name, contents)
-            manifest = json.loads((candidate / "manifest.json").read_text())
-            entry = next(entry for entry in manifest["files"] if entry["kind"] == "nuget")
             entry.update(sha256=sha256(package), size=package.stat().st_size)
             write_json(candidate / "manifest.json", manifest)
-            with self.assertRaisesRegex(ValueError, "Proto or descriptor"):
+            with self.assertRaisesRegex(ValueError, "Authored schema source missing or changed"):
                 verify_artifacts(candidate)
 
     def test_other_source_revision_is_rejected(self):
@@ -54,15 +57,15 @@ class ReleaseGuards(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="contracts-notice-guard-") as directory:
             candidate = Path(directory) / "candidate"
             shutil.copytree(ARTIFACTS / "packages", candidate)
-            package = next(candidate.glob("*.nupkg"))
+            manifest = json.loads((candidate / "manifest.json").read_text(encoding="utf-8"))
+            entry = next(item for item in manifest["files"] if item["id"] == "ArcForges.Contracts.Foundation")
+            package = candidate / entry["name"]
             with zipfile.ZipFile(package) as original:
                 entries = {name: original.read(name) for name in original.namelist()}
             entries["NOTICE"] = b"ArcForges Contracts\nRuntime dependency inventory only.\n"
             with zipfile.ZipFile(package, "w") as altered:
                 for name, contents in entries.items():
                     altered.writestr(name, contents)
-            manifest = json.loads((candidate / "manifest.json").read_text())
-            entry = next(item for item in manifest["files"] if item["kind"] == "nuget")
             entry.update(sha256=sha256(package), size=package.stat().st_size)
             write_json(candidate / "manifest.json", manifest)
             with self.assertRaisesRegex(ValueError, "Package lost recorded source/generator notices"):

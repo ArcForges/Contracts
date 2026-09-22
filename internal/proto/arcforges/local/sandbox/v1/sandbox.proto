@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.local.sandbox.v1;
+
+option csharp_namespace = "ArcForges.Contracts.LocalRpc.Sandbox.V1";
+option java_package = "io.github.arcforges.contracts.local.sandbox.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SandboxProto";
+
+// Positive limits must also fit the native/launch admission profile.
+message SandboxLimits {
+  optional uint64 max_input_bytes = 1 [json_name = "maxInputBytes"];
+  optional uint64 max_memory_bytes = 2 [json_name = "maxMemoryBytes"];
+  optional uint64 max_output_bytes = 3 [json_name = "maxOutputBytes"];
+  optional uint32 max_width = 4 [json_name = "maxWidth"];
+  optional uint32 max_height = 5 [json_name = "maxHeight"];
+  optional uint32 max_items = 6 [json_name = "maxItems"];
+  optional uint32 timeout_ms = 7 [json_name = "timeoutMs"];
+}

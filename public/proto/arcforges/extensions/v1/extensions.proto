@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.extensions.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Sdk.Contracts.V1";
+option java_package = "io.github.arcforges.contracts.extensions.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ExtensionsProto";
+
+// Public extension protocol, generated only for the C# SDK in this slice.
+message ExtensionLease {
+  arcforges.foundation.v1.Id lease_id = 1 [json_name = "leaseId"];
+  arcforges.foundation.v1.Instant expires_at = 2 [json_name = "expiresAt"];
+  optional uint32 renew_after_seconds = 3 [json_name = "renewAfterSeconds"];
+  repeated string negotiated_contracts = 4 [json_name = "negotiatedContracts"];
+}
+service ExtensionHostService {
+  rpc RenewLease(ExtensionHostServiceRenewLeaseRequest) returns (ExtensionHostServiceRenewLeaseResponse);
+}
+message ExtensionHostServiceRenewLeaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id lease_id = 10 [json_name = "leaseId"];
+}
+message ExtensionHostServiceRenewLeaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExtensionHostServiceRenewLeaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ExtensionHostServiceRenewLeaseValue {
+  ExtensionLease lease = 10 [json_name = "lease"];
+}

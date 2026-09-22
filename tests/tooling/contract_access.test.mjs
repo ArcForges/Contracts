@@ -7,6 +7,9 @@ import test from "node:test";
 import {
   ROOT,
   checkAssignments,
+  checkPackageBoundaries,
+  checkPackageInputs,
+  maskXmlComments,
   checkSources,
   compile,
   declaredTypes,
@@ -141,7 +144,8 @@ test("reviewed current source inventory rejects omissions, reassignment and hash
     (p) => p.distribution.pop(),
     (p) => p.schemas.pop(),
     (p) => p.distribution[0].types.pop(),
-    (p) => (p.distribution[0].access = "internal"),
+    (p) =>
+      (p.distribution[0].access = p.distribution[0].access === "public" ? "internal" : "public"),
     (p) => (p.distribution[0].sha256 = "0".repeat(64)),
     (p) => (p.distribution[0].package = "Unknown.Package"),
     (p) => p.packages.pop(),
@@ -172,4 +176,149 @@ test("type inventory excludes comments, string text and parameter types", () => 
 test("unsafe inventory paths are never read", () => {
   for (const input of ["../outside", "/absolute", "C:/absolute", "a\\b", "a/../b", "a//b"])
     assert.throws(() => safePath(input), /unsafe/);
+});
+
+test("package routing rejects private dependencies and extension Android output", () => {
+  const row = {
+    id: "public",
+    kind: "npm",
+    access: "public",
+    sourceRoot: "src/public/ts/example",
+    dependencies: [],
+    proto: [],
+    jsonSchemas: [],
+  };
+  const internal = {
+    ...row,
+    id: "private",
+    access: "internal",
+    sourceRoot: "src/internal/ts/example",
+  };
+  checkPackageBoundaries(ROOT, { schemaVersion: 1, packages: [row, internal] });
+  assert.throws(
+    () =>
+      checkPackageBoundaries(ROOT, {
+        schemaVersion: 1,
+        packages: [{ ...row, dependencies: ["private"] }, internal],
+      }),
+    /public-to-internal/,
+  );
+  assert.throws(
+    () =>
+      checkPackageBoundaries(ROOT, {
+        schemaVersion: 1,
+        packages: [{ ...row, proto: ["internal/proto/arcforges/operator/v1/operator.proto"] }],
+      }),
+    /public-to-internal/,
+  );
+  assert.throws(
+    () =>
+      checkPackageBoundaries(ROOT, {
+        schemaVersion: 1,
+        packages: [
+          {
+            ...row,
+            kind: "maven",
+            proto: ["public/proto/arcforges/extensions/v1/extensions.proto"],
+          },
+        ],
+      }),
+    /extension IPC/,
+  );
+});
+
+test("public HTTP schema cannot reference an internal schema", (t) => {
+  const root = temporary(t);
+  mkdirSync(path.join(root, "public/http"), { recursive: true });
+  writeFileSync(
+    path.join(root, "public/http/schema.json"),
+    JSON.stringify({ $ref: "../../internal/private.json" }),
+  );
+  const row = {
+    id: "public",
+    kind: "npm",
+    access: "public",
+    sourceRoot: "src/public/ts/example",
+    dependencies: [],
+    proto: [],
+    jsonSchemas: ["public/http/schema.json"],
+  };
+  assert.throws(
+    () => checkPackageBoundaries(root, { schemaVersion: 1, packages: [row] }),
+    /public-to-internal JSON/,
+  );
+});
+
+test("actual project and npm dependencies cannot bypass reviewed package edges", (t) => {
+  const root = temporary(t);
+  const project = {
+    id: "ArcForges.Public",
+    kind: "nuget",
+    sourceRoot: "src/public/dotnet/ArcForges.Public",
+    dependencies: [],
+  };
+  const internal = {
+    ...project,
+    id: "ArcForges.Private",
+    sourceRoot: "src/internal/dotnet/ArcForges.Private",
+  };
+  for (const row of [project, internal]) {
+    mkdirSync(path.join(root, row.sourceRoot), { recursive: true });
+    writeFileSync(path.join(root, row.sourceRoot, row.id + ".csproj"), "<Project />");
+  }
+  checkPackageInputs(root, { packages: [project, internal] });
+  writeFileSync(
+    path.join(root, project.sourceRoot, project.id + ".csproj"),
+    '<Project><ProjectReference Include="../../../internal/dotnet/ArcForges.Private/ArcForges.Private.csproj" /></Project>',
+  );
+  assert.throws(
+    () => checkPackageInputs(root, { packages: [project, internal] }),
+    /dependency graph/,
+  );
+  writeFileSync(
+    path.join(root, project.sourceRoot, project.id + ".csproj"),
+    '<Project><PackageReference Include="ArcForges.Unregistered" /></Project>',
+  );
+  assert.throws(() => checkPackageInputs(root, { packages: [project, internal] }), /bypasses/);
+  writeFileSync(
+    path.join(root, project.sourceRoot, project.id + ".csproj"),
+    '<Project><Compile Include="../../../internal/dotnet/ArcForges.Private/Operator.cs" /></Project>',
+  );
+  assert.throws(
+    () => checkPackageInputs(root, { packages: [project, internal] }),
+    /escapes package owner/,
+  );
+  const npm = {
+    id: "@arcforges/public",
+    kind: "npm",
+    sourceRoot: "src/public/ts/public",
+    dependencies: [],
+  };
+  mkdirSync(path.join(root, npm.sourceRoot), { recursive: true });
+  writeFileSync(
+    path.join(root, npm.sourceRoot, "package.json"),
+    JSON.stringify({
+      name: npm.id,
+      license: "Apache-2.0",
+      dependencies: { "@arcforges/operator-client": "1.0.0" },
+    }),
+  );
+  assert.throws(() => checkPackageInputs(root, { packages: [npm] }), /dependency graph/);
+});
+
+test("XML comments cannot concatenate dependency tokens or create new comment delimiters", () => {
+  const boundary = "<!<!-- comment -->--";
+  const masked = maskXmlComments(boundary);
+  assert.equal(masked.length, boundary.length);
+  assert.equal(masked.includes("<!--"), false);
+  assert.equal(
+    maskXmlComments("Project<!-- ignored -->Reference").includes("ProjectReference"),
+    false,
+  );
+  assert.equal(
+    maskXmlComments('<!-- <PackageReference Include="ArcForges.Private" /> -->').trim(),
+    "",
+  );
+  assert.throws(() => maskXmlComments("<Project><!-- unterminated"), /malformed XML comment/);
+  assert.throws(() => maskXmlComments("<Project>-->"), /malformed XML comment/);
 });

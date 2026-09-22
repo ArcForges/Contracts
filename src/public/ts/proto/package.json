@@ -41,6 +41,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "arcforges": {
-    "licenceBoundary": "Apache"
+    "licenceBoundary": "Apache",
+    "contractAccess": "public"
   }
 }

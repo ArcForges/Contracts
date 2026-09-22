@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.local.chat.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.LocalRpc.Chat.V1";
+option java_package = "io.github.arcforges.contracts.local.chat.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ChatProto";
+
+// Complete in-process operation result; no product RPC service is registered.
+message ChatOperationsServiceOpenArtifactValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}

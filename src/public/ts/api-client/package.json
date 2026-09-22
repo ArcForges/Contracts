@@ -26,7 +26,8 @@
     "NOTICE",
     "sbom.cdx.json",
     "source.json",
-    "README.md"
+    "README.md",
+    "schemas"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json"
@@ -42,6 +43,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "arcforges": {
-    "licenceBoundary": "Apache"
+    "licenceBoundary": "Apache",
+    "contractAccess": "public"
   }
 }

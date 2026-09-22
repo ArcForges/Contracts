@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "wp03-00-fixtures.v1",
+  "license": "Apache-2.0",
+  "cases": [
+    {
+      "id": "local-chunk-empty",
+      "target": "arcforges.local.platform.v1.LocalChunk",
+      "valid": true,
+      "value": {
+        "bytes": "",
+        "offset": "0",
+        "nextOffset": "0",
+        "eof": true,
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "local-chunk-mismatched-offset",
+      "target": "arcforges.local.platform.v1.LocalChunk",
+      "valid": false,
+      "value": {
+        "bytes": "YQ",
+        "offset": "0",
+        "nextOffset": "2",
+        "eof": false,
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "sandbox-positive",
+      "target": "arcforges.local.sandbox.v1.SandboxLimits",
+      "valid": true,
+      "value": {
+        "maxInputBytes": "1",
+        "maxMemoryBytes": "1",
+        "maxOutputBytes": "1",
+        "maxWidth": 1,
+        "maxHeight": 1,
+        "maxItems": 1,
+        "timeoutMs": 1
+      }
+    },
+    {
+      "id": "sandbox-zero-timeout",
+      "target": "arcforges.local.sandbox.v1.SandboxLimits",
+      "valid": false,
+      "value": {
+        "maxInputBytes": "1",
+        "maxMemoryBytes": "1",
+        "maxOutputBytes": "1",
+        "maxWidth": 1,
+        "maxHeight": 1,
+        "maxItems": 1,
+        "timeoutMs": 0
+      }
+    },
+    {
+      "id": "chat-result",
+      "target": "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue",
+      "valid": true,
+      "value": {
+        "receipt": {
+          "commandId": {
+            "value": "ABEiM0RVZneImaq7zN3u_w"
+          },
+          "effect": 2
+        }
+      }
+    },
+    {
+      "id": "chat-missing-result",
+      "target": "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "notes-result",
+      "target": "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue",
+      "valid": true,
+      "value": {
+        "version": {
+          "ackedRev": {
+            "value": "1"
+          },
+          "headLocalSeq": "0"
+        }
+      }
+    },
+    {
+      "id": "notes-missing-result",
+      "target": "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "scope-result",
+      "target": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue",
+      "valid": true,
+      "value": {
+        "revision": {
+          "value": "0"
+        }
+      }
+    },
+    {
+      "id": "scope-missing-result",
+      "target": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "slate-result",
+      "target": "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue",
+      "valid": true,
+      "value": {
+        "revision": {
+          "value": "0"
+        }
+      }
+    },
+    {
+      "id": "slate-missing-result",
+      "target": "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "operator-context",
+      "target": "arcforges.operator.v1.OperatorCallContext",
+      "valid": true,
+      "value": {
+        "caseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "purpose": "Review the support case"
+      }
+    },
+    {
+      "id": "operator-missing-context",
+      "target": "arcforges.operator.v1.OperatorCallContext",
+      "valid": false,
+      "value": {
+        "purpose": "Review"
+      }
+    },
+    {
+      "id": "operator-two-contexts",
+      "target": "arcforges.operator.v1.OperatorCallContext",
+      "valid": false,
+      "value": {
+        "caseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "incidentId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "purpose": "Review"
+      }
+    },
+    {
+      "id": "operator-empty-purpose",
+      "target": "arcforges.operator.v1.OperatorCallContext",
+      "valid": false,
+      "value": {
+        "caseId": {
+          "value": "ABEiM0RVZneImaq7zN3u_w"
+        },
+        "purpose": ""
+      }
+    },
+    {
+      "id": "commit-receipt",
+      "target": "CommitReceipt",
+      "valid": true,
+      "value": {
+        "commandId": "00112233-4455-6677-8899-aabbccddeeff",
+        "operation": "objects.partReceipt",
+        "requestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "resultHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "state": "committed"
+      }
+    },
+    {
+      "id": "commit-result-ref",
+      "target": "CommitReceipt",
+      "valid": true,
+      "value": {
+        "commandId": "00112233-4455-6677-8899-aabbccddeeff",
+        "operation": "objects.partReceipt",
+        "requestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "resultHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "state": "committed",
+        "resultRef": {
+          "root": {
+            "kind": "notes.document",
+            "id": "00112233-4455-6677-8899-aabbccddeeff"
+          },
+          "revision": "9223372036854775807",
+          "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "id": "commit-unknown-state",
+      "target": "CommitReceipt",
+      "valid": false,
+      "value": {
+        "commandId": "00112233-4455-6677-8899-aabbccddeeff",
+        "operation": "objects.partReceipt",
+        "requestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "resultHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "state": "pending"
+      }
+    },
+    {
+      "id": "commit-zero-id",
+      "target": "CommitReceipt",
+      "valid": false,
+      "value": {
+        "commandId": "00000000-0000-0000-0000-000000000000",
+        "operation": "objects.partReceipt",
+        "requestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "resultHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "state": "committed"
+      }
+    },
+    {
+      "id": "commit-unknown-field",
+      "target": "CommitReceipt",
+      "valid": false,
+      "value": {
+        "commandId": "00112233-4455-6677-8899-aabbccddeeff",
+        "operation": "objects.partReceipt",
+        "requestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "resultHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "state": "committed",
+        "credential": "forbidden"
+      }
+    }
+  ]
+}
