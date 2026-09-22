@@ -1,0 +1,2973 @@
+{
+  "schemaVersion": 1,
+  "repository": "Contracts",
+  "inputHashes": {
+    ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
+    ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+    ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
+    ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+    "Directory.Build.props": "443ed70fc6faca54f904a3b9bfdc5ea3153377184ad39cdd65284a44ec075648",
+    "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
+    "Directory.Packages.props": "da77af081aa25740bc3a66e950df7efd6a894674f186d355818f5cc7c4857e0c",
+    "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
+    "build.gradle.kts": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64",
+    "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
+    "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
+    "eng/central-signing/build.gradle.kts": "7be19180f108dac2d92d363a823952bce41e197e04ca5a95a2d6103c23e6a8ed",
+    "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
+    "eng/policy/contract-access.json": "f8e1d85aeeef62719a5aeb0466acbb4d15653cdf5b9f8fc9289aa1d9265f1472",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
+    "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
+    "eng/provenance/records/dokka-array-buffer-byte-length-licence-r1.json": "906e5f9298de3d24654fa77460e12888a8ea2c98f89c1d95974dcf7d8bf73704",
+    "eng/provenance/records/dokka-available-typed-arrays-licence-r1.json": "168ac5eef74afda62ef3567eae064fb817179a24653f24b9d15ec0f5dc052816",
+    "eng/provenance/records/dokka-babel-runtime-licence-r1.json": "4ff13d02084d04052687e0151f0a3b9949d12ce712253b15437ff4a95902654e",
+    "eng/provenance/records/dokka-call-bind-apply-helpers-licence-r1.json": "2b1b70355716be411798040cb7f531cfcaf09b8c3907a7bbedfd61ee3b78b5eb",
+    "eng/provenance/records/dokka-call-bind-licence-r1.json": "bba895c674f398ce0de80c7aa30cffaf8c9c4bfee55f4d1a223766f2c908f6f6",
+    "eng/provenance/records/dokka-call-bound-licence-r1.json": "d6428ac8c2ac9f4a1f85f10e8807ca455fdb552fc8033ffe3ec7d1f905ba9b90",
+    "eng/provenance/records/dokka-classnames-licence-r1.json": "f5927e1496a05bac5b09bb960024455d4ca621be6e4e43f05437b34ed0c1ac43",
+    "eng/provenance/records/dokka-clsx-licence-r1.json": "757cc85cb6bddfde0030029ecbdee12e0c6e8485c42183ba74f3b41d578ea8cb",
+    "eng/provenance/records/dokka-column-resizer-core-licence-r1.json": "448eff01e7bbd7b110c1ee0c11398d5105ff9aa6d744f37e8fa96f8ba66d0fbf",
+    "eng/provenance/records/dokka-combokeys-licence-r1.json": "75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",
+    "eng/provenance/records/dokka-core-js-licence-r1.json": "3cf28ab2fd5f6473f45dcbabf18aebc01189ba642ea5b5617ff1606dfacfd756",
+    "eng/provenance/records/dokka-css-loader-licence-r1.json": "fa8cdef1d5beccffd74f6ccbb57379b1304a3e204242f776059cba24529e5e76",
+    "eng/provenance/records/dokka-deep-equal-licence-r1.json": "b39d18ff1bce56cde5faf26e399a23c1bbc5cdb3525aec17024eef2092247e18",
+    "eng/provenance/records/dokka-define-data-property-licence-r1.json": "17f2f4e45bfa4828496bb697f349fb27760356b1e221b0b4c0e686c8f8494277",
+    "eng/provenance/records/dokka-define-properties-licence-r1.json": "be80edc44910583355abeae35a6099bcd3adaa715851cbea95602dd563705f73",
+    "eng/provenance/records/dokka-documentation-resources-r1.json": "7246ebabdc633c0d328c7d0e221088d3965bf36169cfefb2f8ae1c0f3778eb19",
+    "eng/provenance/records/dokka-documentation-resources-r2.json": "7ff0f30361298e2df58dc7180294007f0b27e20b1ff7c70a33d351c1328115c8",
+    "eng/provenance/records/dokka-documentation-resources-r3.json": "0cae2f2168ca3eb8f92303a95812e8fbd4dd82cacce49e574d46078f94c9c169",
+    "eng/provenance/records/dokka-dom-helpers-licence-r1.json": "13303b969579dd5694c0544925d45b7126c3d9c1a6e0a754122896ca263da918",
+    "eng/provenance/records/dokka-dunder-proto-licence-r1.json": "78b90efc76c0649d6150b4710fc90b58a99fe582af3696a7f3180f3a79f6aa7d",
+    "eng/provenance/records/dokka-es-define-property-licence-r1.json": "f496d51bead2a29f6d9ea98032b46ccf6363caeb3dea928807974128d2f16139",
+    "eng/provenance/records/dokka-es-errors-licence-r1.json": "62c7508dee7b711566bdbc4f1f0d3907609477d9fcc2b1a37176cae0d570be7e",
+    "eng/provenance/records/dokka-es-get-iterator-licence-r1.json": "6bd29a282c583b3798d6738232d9e46ad2c69b122d0f601d51480ce5dfb90aa9",
+    "eng/provenance/records/dokka-es-object-atoms-licence-r1.json": "d23be3ea4d29296b2afdeb4c87cdc1967d3fcac65489efca6e9c315d59282515",
+    "eng/provenance/records/dokka-for-each-licence-r1.json": "e71810875144b6703684404b88ca77b45077bf9b240199e2ca3f6754a4f26425",
+    "eng/provenance/records/dokka-function-bind-licence-r1.json": "2b1137c37eab8192c35347eb2ca95eea59677920b7bbc5c948dfe6b589993ed4",
+    "eng/provenance/records/dokka-functions-have-names-licence-r1.json": "ea7a5adef62b8603220d2ce1aca9440526dc1e052abaa5352c46cdf18e066d50",
+    "eng/provenance/records/dokka-get-intrinsic-licence-r1.json": "c18d311f5021a64b1e97b3fb622f8c7c1af5241cbfb5a847a756c26ef88d2492",
+    "eng/provenance/records/dokka-get-proto-licence-r1.json": "8f844514516ff137fdbf53bcd5318edf42a35730e5489a4be7ca50e80f60dd63",
+    "eng/provenance/records/dokka-gopd-licence-r1.json": "ba9dbdde65fdb1ac04852f31de1fbcafe05c25ec386c8dc6ae33d62b4f5c9c0e",
+    "eng/provenance/records/dokka-has-bigints-licence-r1.json": "e150e83104f26a97791b9ecb8e471747f549e2b493fe261ce6da0068e14d2b65",
+    "eng/provenance/records/dokka-has-property-descriptors-licence-r1.json": "100d1b845a620c72ba3b74e0464b92ba23666502bfb08146a91967300ae75220",
+    "eng/provenance/records/dokka-has-symbols-licence-r1.json": "7d20741f95630a0dfa0eb65d85bd2173c4311edac50af1a4ba760180bed1d78d",
+    "eng/provenance/records/dokka-has-tostringtag-licence-r1.json": "ff7a26d4ff159c99561605a3d739d3d0f1dd8555d99cb0bbc5c04d0310768480",
+    "eng/provenance/records/dokka-hasown-licence-r1.json": "2513d1d47f82c11c98b6f8c432e34cac67d36959d0828514cb77f5a34f8df5b5",
+    "eng/provenance/records/dokka-internal-slot-licence-r1.json": "c4b40d9429ac63ea3c2a5f1edc55641d2d28dc2765df7ae25f5c18a9848826c7",
+    "eng/provenance/records/dokka-is-arguments-licence-r1.json": "f37eb034c3d7fc793114c3f12d82d07ad4cf0c4a42927f10bd200c2430c1dfb8",
+    "eng/provenance/records/dokka-is-array-buffer-licence-r1.json": "03aae98c247a27cd97175a75888c5eddb81821e84a283312ae8004d2080406a8",
+    "eng/provenance/records/dokka-is-bigint-licence-r1.json": "c8e917c1fa1c406c356c3b655b4ab56a92a15b38da89562272191d0221876bff",
+    "eng/provenance/records/dokka-is-boolean-object-licence-r1.json": "89fbf25bf063c77437409589b0c72af5f9c6f0046a623e21a9d75acfc5f297d5",
+    "eng/provenance/records/dokka-is-callable-licence-r1.json": "dfb1b4a3e90ac228e68cd511f00bb453fa04a6da53608959daac9f5b3fa65a4e",
+    "eng/provenance/records/dokka-is-date-object-licence-r1.json": "01b08d069fbf6bf551b1662b4dc811c8a9e6d599d1199c86aa76489f4e5da377",
+    "eng/provenance/records/dokka-is-map-licence-r1.json": "fc618ce317e0b9f8e364e6fc8104a51e1625973a966bf80a8ce13807f55218cf",
+    "eng/provenance/records/dokka-is-number-object-licence-r1.json": "537ea760782b92d74fe22ae09cfefa6356d535c0c4aa825b3d638638d5902a7a",
+    "eng/provenance/records/dokka-is-regex-licence-r1.json": "0952af9265686c7197c6114b9c72bbe29b7eb7295c9cbc489c051adac0f09bb0",
+    "eng/provenance/records/dokka-is-set-licence-r1.json": "55f56ffad059be569e9dbf11bfdfe8b1d6e61a8d1d986f7a0df836bbf86453b0",
+    "eng/provenance/records/dokka-is-shared-array-buffer-licence-r1.json": "5d41bd93547ce25bb39215f216109d2fb76d0c5a0c364978949bf85c5dbfc266",
+    "eng/provenance/records/dokka-is-string-licence-r1.json": "f10aaaa588a18865d210e445da28d06649c4ff2f21334b310cf6e04cf345ec26",
+    "eng/provenance/records/dokka-is-symbol-licence-r1.json": "723daec6ee36ad56b3ad5d308a269ffebcdb75bfc29d62a0535bf1865f8423f2",
+    "eng/provenance/records/dokka-is-weakmap-licence-r1.json": "07decee3936c2377716b19854ec05f35c3cd1e9ab7cc49ca2c7e8f0e9652d398",
+    "eng/provenance/records/dokka-is-weakset-licence-r1.json": "4ef462368f1c4a94cefce0e41d5b230bf4d8034d13ac6f35a9ec6ed3b9033c0f",
+    "eng/provenance/records/dokka-isarray-licence-r1.json": "13337fd2b19586b7602f739bfbb3cf11efffd9fae5106e17edde32c0142f72d1",
+    "eng/provenance/records/dokka-jetbrains-icons-licence-r1.json": "e091fe652dc777057111999a1d8cf30b3546198ef658ded772ef9666cd645e29",
+    "eng/provenance/records/dokka-jetbrains-ring-ui-licence-r1.json": "2f65bfa8807561a1b948ed0169480e0f1bf0763149931571af1b28385ebf3d76",
+    "eng/provenance/records/dokka-math-intrinsics-licence-r1.json": "a94fbca1d4646e5ecf2d86322676e1b9d973ace6d9f04ac87e44aad326b26823",
+    "eng/provenance/records/dokka-memoize-one-licence-r1.json": "9e6db7bc18a7440c68a09b91d45bddae04406e1d50a6b621bf2a87e00abafba6",
+    "eng/provenance/records/dokka-object-assign-licence-r1.json": "1018758cb07635e458fa2e5100b7aacbeebcff79d640a3accfe4d1823292136d",
+    "eng/provenance/records/dokka-object-dot-assign-licence-r1.json": "dc96c41fa16b08bffe15e8459ed97ff90764b71ce1e62f3e27e9dc6b9b57abf0",
+    "eng/provenance/records/dokka-object-inspect-licence-r1.json": "6c2b752bc6cbf46238f4f130c50848586ac5722862d32b7dee6e0474f06b6880",
+    "eng/provenance/records/dokka-object-is-licence-r1.json": "ef52ac07b422cd6926376f8da583f641bfb560d704b8dc492a72001c19a92738",
+    "eng/provenance/records/dokka-object-keys-licence-r1.json": "55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",
+    "eng/provenance/records/dokka-own-licence-r1.json": "e6a8139e1564c5c8ed0bb04190644647f146fb9e7ac13489e518475dd22c9449",
+    "eng/provenance/records/dokka-possible-typed-array-names-licence-r1.json": "2bd1cd266c8e192e8cddde30ebd25ad3576f39ec6234056771b3042d7f2d0486",
+    "eng/provenance/records/dokka-prismjs-licence-r1.json": "eb8eb5a584bd300f6261279254e2a27d12f7ec415b64a93fee8776a5c5e08d6c",
+    "eng/provenance/records/dokka-prop-types-licence-r1.json": "fa8775ecb4676a5c731c85120cd07e3787a25d9387902073c79cdadb008b6265",
+    "eng/provenance/records/dokka-react-dom-licence-r1.json": "9b0b48439b47ffadfb50960f8e8e1e462b9ad8bceba694e7764b2db475923bfa",
+    "eng/provenance/records/dokka-react-licence-r1.json": "1e95a01a8dca133ba848d9a933ed5170a78f9e61028a9e5336a40dec8c8c86fd",
+    "eng/provenance/records/dokka-react-lifecycles-compat-licence-r1.json": "980a643bc3949b3de7f3a1c930b52bb3fa9b3af5e9004a6fb319ded00fc6dd92",
+    "eng/provenance/records/dokka-react-virtualized-licence-r1.json": "b9851059d61a022d0c6d5f473bbf8bc954c21f272b2d932e1a899a5187a22a3c",
+    "eng/provenance/records/dokka-regexp-prototype-flags-licence-r1.json": "ebd4c403a39ebea737d5c39eadfbd23df1c0cae5c0f103acb4b13404af9c89b5",
+    "eng/provenance/records/dokka-safe-regex-test-licence-r1.json": "9e3d5575e3b40b52c5fe3ff92fc8bd45b3466ba853ff8ffac9776c700b6cd8cf",
+    "eng/provenance/records/dokka-scheduler-licence-r1.json": "5082e14c3e28ebadd06e87a0b72beefd559f32d767626ef922ee17a1ba3abc22",
+    "eng/provenance/records/dokka-set-function-length-licence-r1.json": "aad109a8e511621c0d21834ddcf04f66ba0b2b91cbb574ea6a15bfc5d1374f67",
+    "eng/provenance/records/dokka-set-function-name-licence-r1.json": "d0df690b38c8599ea507f2c343ede405ab67158e7ca0720715b13f22689e7156",
+    "eng/provenance/records/dokka-side-channel-licence-r1.json": "179985988673fe24b2837b0cd32e5a5d6dc625ce56c09038af421958f3bb9cd1",
+    "eng/provenance/records/dokka-side-channel-list-licence-r1.json": "317efc443db102c6669b413a61aed8047e567da46fdc1a4c742d443afda5153d",
+    "eng/provenance/records/dokka-side-channel-map-licence-r1.json": "929b196ffd98ac6189e86958139dda63f8c553e66021a23ac52cae534f39b631",
+    "eng/provenance/records/dokka-side-channel-weakmap-licence-r1.json": "ad555cf9891f717861bf0f56d6703b3a5ca659d9db0e5a14ec1ace3ae12f9282",
+    "eng/provenance/records/dokka-sniffr-licence-r1.json": "7c383f9ba83928dd638caa2e3ec6f1f190ff2a54ba65012998608ef246351f3b",
+    "eng/provenance/records/dokka-stop-iteration-iterator-licence-r1.json": "b231f71addf72bf951e90095a3a6b0e86979bb62300f5d5cc79d8485c0f43469",
+    "eng/provenance/records/dokka-style-loader-licence-r1.json": "62d99c05ace2b18b760c9109a983624c302395ac47db50869542e6c66cfc7bd7",
+    "eng/provenance/records/dokka-util-deprecate-licence-r1.json": "ccb2ebe52b970b3b03b6e943c1a1500a33d5b441feb456d0ed8d0540ea3554bd",
+    "eng/provenance/records/dokka-which-boxed-primitive-licence-r1.json": "18ad9e03d27cfe2816725f58ceacf04fbfb7381023fad7a82c498c29dd103291",
+    "eng/provenance/records/dokka-which-collection-licence-r1.json": "60f258f62506034ec8d91900cbccedc782055d9c3c5f61da6b0b1c1fb9dd819d",
+    "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
+    "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
+    "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
+    "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
+    "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
+    "gradle.lockfile": "410eb7817f1bdf23eb5c2563b1953c4c2ee0403d54f687cb1ccdf82c0bd816de",
+    "gradle/libs.versions.toml": "75913647f51c39122d54d1e6f311115145aa975033b567a7ae86455b1cd5dac8",
+    "gradle/verification-metadata.xml": "c9c78c7de10d769f47c7f025ccf28a3259ab75416242136c14cb00aac3a472c8",
+    "gradle/wrapper/gradle-wrapper.properties": "45b09518a2f0ea326bc776066e735b94527d2a94002e3b27621c32cdaee7e3ce",
+    "package-lock.json": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d",
+    "package.json": "fbd3bc8d9f5c69cc8b119314086187964d671cdf634b91edc8d1eef5f3d768c6",
+    "settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
+    "settings.gradle.kts": "1f5b60ba4526dc5c0df1bbad3733f3d54c8986b7bb182d4de6af226d80ed6e10",
+    "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "8729e258c7d3de2ff083a3a19fc2d7bce73c2ffc036983c1d9d793d0d0555b37",
+    "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "6081ad4fb578234a0fb55b07cc28f635269fc9441be05a1d7c484bc423c25706",
+    "src/public/kotlin/contract-fixtures/build.gradle.kts": "04a795a0a53289dfd045258203676340c38ffd07c2a2af5defeba6eba538f6c6",
+    "src/public/kotlin/contract-fixtures/gradle.lockfile": "14dc5803d23ab183aa24b2849ee51541e52e4d26fbada80e19082d15e0b1c654",
+    "src/public/kotlin/contracts-client/build.gradle.kts": "aad5df34d4aa67656c72931d8450a6e36468c4d6576ec01c196fa92a44db4c96",
+    "src/public/kotlin/contracts-client/gradle.lockfile": "8f73565fdf42782b54bc63075e9daa435f7301dcee0654657f47235975e640ce",
+    "src/public/kotlin/contracts-connect-client/build.gradle.kts": "c874f55eca9149f4849c727c8fbb7282015b520c50b55cf91e5ad67283b4c5c0",
+    "src/public/kotlin/contracts-connect-client/gradle.lockfile": "560f3bf8fa2d38cc4b9a87717342c7a3e003ed1243f405519f5b73e6de0acfb9",
+    "src/public/kotlin/contracts-proto/build.gradle.kts": "a7716ed1821d35154e862d5c6851f5c6d2abf5201a34f8f63b4d4c94f071c1b7",
+    "src/public/kotlin/contracts-proto/gradle.lockfile": "766ba7a9c4101ae5149d0200ddc2bfc45d54aa1e3187717171a1dfab28a1ec4b",
+    "src/public/ts/api-client/package.json": "393e78887e6e7bb297ecbda6831f76882cf3a1daa15c279ea29877ee1b50653f",
+    "src/public/ts/proto/package.json": "98367a7015180269a235989d7b30567c51595af931b24dc6e5e1916f7e326a84",
+    "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
+    "tests/public/HelloClient/packages.lock.json": "1f14735e85fa30c10fd7f24f45f4c028de48b7ba565b70104896aa139efa8bbb",
+    "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
+    "tests/public/HelloHost/packages.lock.json": "b42b2af5b45874a50dac347b26dc7a6a5dd54a4d8a9848ba6c1c620b02cbc022",
+    "tests/public/KotlinClient/build.gradle.kts": "a1371195ad503182e279d7fa9fc6fe6e87c1fe96ca6f1d267280bc16f10bac7f",
+    "tests/public/KotlinClient/gradle.lockfile": "b56875e6636e543c6afff508ef1159771073c208a15accc4fdd91e0bcdc0a251",
+    "tests/public/KotlinClient/gradle/verification-metadata.xml": "d76c87dcde5b2cc94eabba962560725ec67469831f0a86a93b9984d172173ee1",
+    "tests/public/KotlinClient/settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
+    "tests/public/KotlinClient/settings.gradle.kts": "6c91f0dd5ae42eed55499c7561ea0e5526bf85b136279fac6c4a4fa977b771f1",
+    "tests/public/KotlinConnectClient/build.gradle.kts": "463f683b9dea47959b7063e74670cc7fd890346b4f2cba969d62d71b23ac73d2",
+    "tests/public/KotlinConnectClient/gradle.lockfile": "be60b42d35161579032a9cc8665f64849b7cc4af4ca17f7356a9139d45690cad",
+    "tests/public/KotlinConnectClient/gradle/verification-metadata.xml": "b7688c90212d87b52e446ec1da2ccbe50196517fd308849851a1aa9d9b3d0e85",
+    "tests/public/KotlinConnectClient/settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
+    "tests/public/KotlinConnectClient/settings.gradle.kts": "997d5d04e67aafbd50d094c4aed81bcc239cf5a9c205a786f2847140474f61e5"
+  },
+  "closure": {
+    "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
+      "integrity": {
+        "connect-kotlin-google-javalite-ext-0.9.0.jar": [
+          "c5dbde38cb1d6ad36073aa87c761cb573232c75c52c109393f4feb913296ab68"
+        ],
+        "connect-kotlin-google-javalite-ext-0.9.0.module": [
+          "a90a481f65b7eceb64c8f75bf39840a0d4c7c07a9d6feca22e2bf9eaa4d5f18e"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/connectrpc/connect-kotlin-google-javalite-ext/0.9.0/connect-kotlin-google-javalite-ext-0.9.0.pom",
+          "sha256": "b3e72a140bdbf0cb23a9adf7a0c513b57e0658866c5dec5ee7a228175219971b"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.connectrpc:connect-kotlin-okhttp:0.9.0": {
+      "integrity": {
+        "connect-kotlin-okhttp-0.9.0.jar": [
+          "8c2387ee1e0e106965a9952aedd0ca88623008a8a3298c3cf8a8e408ad21b90c"
+        ],
+        "connect-kotlin-okhttp-0.9.0.module": [
+          "027c0147a83e506015b8250a114b9f683f17e7f7938bfabc0cf1f09e1ffba9fb"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/connectrpc/connect-kotlin-okhttp/0.9.0/connect-kotlin-okhttp-0.9.0.pom",
+          "sha256": "4ac838e6c6dabdbaf5e947267171c00273340679eb07a9b1e60ab339928c992f"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.connectrpc:connect-kotlin:0.9.0": {
+      "integrity": {
+        "connect-kotlin-0.9.0.jar": [
+          "59b742254227d87818dc0a9dcf8c6ebc70c99744f371ed9fef643dbe268453d9"
+        ],
+        "connect-kotlin-0.9.0.module": [
+          "2a2028fa71933ebed191f7ec9693de812461bafceb02c3e0c69bf999fbd2fc67"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/connectrpc/connect-kotlin/0.9.0/connect-kotlin-0.9.0.pom",
+          "sha256": "f676e2a9d8205b8fc33d4c34ba59cda877bf066e713173d05a22ca28da670787"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.connectrpc:protoc-gen-connect-kotlin:0.9.0": {
+      "integrity": {
+        "protoc-gen-connect-kotlin-0.9.0.jar": [
+          "c23657189f8f31beda517497d2c60610de71725c3748a011577bc546af0796e5"
+        ],
+        "protoc-gen-connect-kotlin-0.9.0.module": [
+          "6734f444ceee95ad19b1612fb6a2bcf1791cd8d30b5a426d8973dce4e665eb5f"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/connectrpc/protoc-gen-connect-kotlin/0.9.0/protoc-gen-connect-kotlin-0.9.0.pom",
+          "sha256": "77e5216bf9880a8b5da7a631637ccb65340956167010beedfb1caaf19d0a4a95"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.jackson.core:jackson-annotations:2.15.3": {
+      "integrity": {
+        "jackson-annotations-2.15.3.jar": [
+          "aae865c3d88256d61b11523cb1e88bd48d5b9ad5855fa1fc859504fd2204708a"
+        ],
+        "jackson-annotations-2.15.3.module": [
+          "6410c94b393e494d53d569dc4193a79187848ddb6ee3c2ee1f392477a21059cb"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.pom",
+          "sha256": "ffa67166fbe4cff3497d0cc629c2019cd0e7cd5ed01bec683a7cbf213d030ec8"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.jackson.core:jackson-core:2.15.3": {
+      "integrity": {
+        "jackson-core-2.15.3.jar": [
+          "51fab7aad51ed588482edc507fd542747936c5094d1ab76ed21ddb63b96b610d"
+        ],
+        "jackson-core-2.15.3.module": [
+          "138029bcb32b0bfa7010d3f646632bde5c98c187e2f1aa120a1cd413f23a6c28"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.pom",
+          "sha256": "ccd500917483b21ae1835df9845b91ab11ac9aba08b793d2ecf82d28c069ece2"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.jackson.core:jackson-databind:2.15.3": {
+      "integrity": {
+        "jackson-databind-2.15.3.jar": [
+          "c3c53333a2172a80678bda1803e39cff45bec6ae3e9c7d4f44a81ec4e2ab18dc"
+        ],
+        "jackson-databind-2.15.3.module": [
+          "51ba8d71f5a04ae768e84c91d4edf09a1fc8bc1244b03bd4f9b060b8fb395615"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.pom",
+          "sha256": "b6e3cd4ae77d0ff9507eab1ce794b3aa9ee278241c6544333bdb7efbc5a2e4f9"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.3": {
+      "integrity": {
+        "jackson-dataformat-xml-2.15.3.jar": [
+          "39a34531dca5fca75eb547663c300855c968c8faca6861d92eca9e9747af0416"
+        ],
+        "jackson-dataformat-xml-2.15.3.module": [
+          "30ad1786f48af58048353d9be1374fc022610ceab921ebea6f62e5080b345bf2"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.15.3/jackson-dataformat-xml-2.15.3.pom",
+          "sha256": "e761ed896bf73b180f8af2e79975eef14aeb61cf64430a9ba03ed5f090a76aad"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/jackson-base/2.15.3/jackson-base-2.15.3.pom",
+          "sha256": "4290342abf0b0e4567322ffb2d0c36e25b0a87a217bb56b35680a8dd8f8d66e4"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3": {
+      "integrity": {
+        "jackson-module-kotlin-2.15.3.jar": [
+          "8f72e6b99e6145e3284a5224355ca8ee6030afa8c1d6a3395b530d29026f8d52"
+        ],
+        "jackson-module-kotlin-2.15.3.module": [
+          "0dee29c18a90700a3a0457be88f7c41f67571947e6633d84a22433a4fb5d792c"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/module/jackson-module-kotlin/2.15.3/jackson-module-kotlin-2.15.3.pom",
+          "sha256": "8dc5c9dadbaefa20022edb5190044a47a757e7d665621b801b32344e89af54ed"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.jackson:jackson-bom:2.15.3": {
+      "integrity": {
+        "jackson-bom-2.15.3.pom": [
+          "66fc9945c16716bc202f4b9d7e6d969df3f509feffbe1acf1a31511b753d5c9d"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/jackson-bom/2.15.3/jackson-bom-2.15.3.pom",
+          "sha256": "66fc9945c16716bc202f4b9d7e6d969df3f509feffbe1acf1a31511b753d5c9d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.fasterxml.woodstox:woodstox-core:6.5.1": {
+      "integrity": {
+        "woodstox-core-6.5.1.jar": [
+          "c928d60665c6415fb1c39775cf95cfc44f7f4580cf5ab01b1c380ebffd76887f"
+        ],
+        "woodstox-core-6.5.1.pom": [
+          "4839654e16b1714e74f51abcb378d8356814ab8f4d5273d1dd2f1ce8a390addc"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/fasterxml/woodstox/woodstox-core/6.5.1/woodstox-core-6.5.1.pom",
+          "sha256": "4839654e16b1714e74f51abcb378d8356814ab8f4d5273d1dd2f1ce8a390addc"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.android:annotations:4.1.1.4": {
+      "integrity": {
+        "annotations-4.1.1.4.jar": [
+          "ba734e1e84c09d615af6a09d33034b4f0442f8772dec120efb376d86a565ae15"
+        ],
+        "annotations-4.1.1.4.pom": [
+          "e4bb54753c36a27a0e5d70154a5034fedd8feac4282295034bfd483d6c7aae78"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.pom",
+          "sha256": "e4bb54753c36a27a0e5d70154a5034fedd8feac4282295034bfd483d6c7aae78"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.code.findbugs:jsr305:3.0.2": {
+      "integrity": {
+        "jsr305-3.0.2.jar": ["766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7"],
+        "jsr305-3.0.2.pom": ["19889dbdf1b254b2601a5ee645b8147a974644882297684c798afe5d63d78dfe"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.pom",
+          "sha256": "19889dbdf1b254b2601a5ee645b8147a974644882297684c798afe5d63d78dfe"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.code.gson:gson:2.14.0": {
+      "integrity": {
+        "gson-2.14.0.jar": ["2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"],
+        "gson-2.14.0.pom": ["1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.14.0/gson-2.14.0.pom",
+          "sha256": "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.errorprone:error_prone_annotations:2.48.0": {
+      "integrity": {
+        "error_prone_annotations-2.48.0.pom": [
+          "189e09ad0489c325e90daaa9d5c8f406330602fa366609bca07cbcdad03ab9da"
+        ],
+        "error_prone_annotations-2.48.0.jar": [
+          "b49c5c958316ed67a09c699dda9aa749caf434d51d863dea599ef36a49b9c855"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.pom",
+          "sha256": "189e09ad0489c325e90daaa9d5c8f406330602fa366609bca07cbcdad03ab9da"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.errorprone:error_prone_annotations:2.50.0": {
+      "integrity": {
+        "error_prone_annotations-2.50.0.jar": [
+          "4667724877f1d37a689202da191e23efa7657c62eef93ccdac406eccfe5cdd0a"
+        ],
+        "error_prone_annotations-2.50.0.pom": [
+          "71a0680d277324bab46bec4b00f6f111c1b794a931d0d8cda79bcb9246982f92"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0.pom",
+          "sha256": "71a0680d277324bab46bec4b00f6f111c1b794a931d0d8cda79bcb9246982f92"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.guava:failureaccess:1.0.3": {
+      "integrity": {
+        "failureaccess-1.0.3.jar": [
+          "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+        ],
+        "failureaccess-1.0.3.pom": [
+          "c54beff37f6d42d43e14722d54a522c9ad51ef97fc5b79277e62a3ebf882f3bb"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.pom",
+          "sha256": "c54beff37f6d42d43e14722d54a522c9ad51ef97fc5b79277e62a3ebf882f3bb"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/33.4.0-android/guava-parent-33.4.0-android.pom",
+          "sha256": "7220ede61026596fbc720ee4b93246fa2d14f328058532b59ef053de397c7d83"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.guava:guava:33.6.0-android": {
+      "integrity": {
+        "guava-33.6.0-android.module": [
+          "6db7aace48a97f350a5e2a2450082d048bde05ec13fb2df25f83b28fe0a4b581"
+        ],
+        "guava-33.6.0-jre.jar": ["dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/guava/guava/33.6.0-android/guava-33.6.0-android.pom",
+          "sha256": "37f12cdff04a49e96a4ae1e48d526bbc486cff151a12fe9812d68a49698b8ed9"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/33.6.0-android/guava-parent-33.6.0-android.pom",
+          "sha256": "05841855f91ceaf1cf5354ab3c3792cf1aab10cf5b4cb2be75dc075601d82f07"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava": {
+      "integrity": {
+        "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar": [
+          "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99"
+        ],
+        "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.pom": [
+          "18d4b1db26153d4e55079ce1f76bb1fe05cdb862ef9954a88cbcc4ff38b8679b"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.pom",
+          "sha256": "18d4b1db26153d4e55079ce1f76bb1fe05cdb862ef9954a88cbcc4ff38b8679b"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/26.0-android/guava-parent-26.0-android.pom",
+          "sha256": "f8698ab46ca996ce889c1afc8ca4f25eb8ac6b034dc898d4583742360016cc04"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.j2objc:j2objc-annotations:3.1": {
+      "integrity": {
+        "j2objc-annotations-3.1.jar": [
+          "84d3a150518485f8140ea99b8a985656749629f6433c92b80c75b36aba3b099b"
+        ],
+        "j2objc-annotations-3.1.pom": [
+          "14570838500034fc1b47c8205ce1c9d6b255c1ccdd2d1afdcdcbf75e89b24a33"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.pom",
+          "sha256": "14570838500034fc1b47c8205ce1c9d6b255c1ccdd2d1afdcdcbf75e89b24a33"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.protobuf:protobuf-javalite:4.36.1": {
+      "integrity": {
+        "protobuf-javalite-4.36.1.jar": [
+          "91d3dba2521322103230c509d41a017da3a5e6766610adcb10c5bb127cbb26c5"
+        ],
+        "protobuf-javalite-4.36.1.pom": [
+          "f04f786db88fa8694ef7127ed1d8c0b98603851b23e58b7d74d6d3b229ab41b9"
+        ]
+      },
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-javalite/4.36.1/protobuf-javalite-4.36.1.pom",
+          "sha256": "f04f786db88fa8694ef7127ed1d8c0b98603851b23e58b7d74d6d3b229ab41b9"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/4.36.1/protobuf-parent-4.36.1.pom",
+          "sha256": "2344af2c8544212be5ae4c8f30331ebfe775be30d61b9efd20619236667358d9"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.google.protobuf:protobuf-kotlin-lite:4.36.1": {
+      "integrity": {
+        "protobuf-kotlin-lite-4.36.1.jar": [
+          "536d1f64e07a779834cfcd34158ac649976209173cf99182a84ade49dd4796a6"
+        ],
+        "protobuf-kotlin-lite-4.36.1.pom": [
+          "48dbb17e7428ae06f928058fdb527533ed1c94d88baad4a3146eefc293adc7d8"
+        ]
+      },
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-kotlin-lite/4.36.1/protobuf-kotlin-lite-4.36.1.pom",
+          "sha256": "48dbb17e7428ae06f928058fdb527533ed1c94d88baad4a3146eefc293adc7d8"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/4.36.1/protobuf-parent-4.36.1.pom",
+          "sha256": "2344af2c8544212be5ae4c8f30331ebfe775be30d61b9efd20619236667358d9"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.moshi:moshi-kotlin:1.15.2": {
+      "integrity": {
+        "moshi-kotlin-1.15.2.jar": [
+          "5c39cd77e83b111af9c54708173af96a89fd3b09d15019a11da355e83e97d75a"
+        ],
+        "moshi-kotlin-1.15.2.module": [
+          "e9d768798203049483cae20ce300cedff21bbb434bef38c7f91ee6aa2f034c31"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/moshi/moshi-kotlin/1.15.2/moshi-kotlin-1.15.2.pom",
+          "sha256": "ab6b0f3e440a4509dd940bba1c26658feb46a87699c6d65267e9ff96c9d1b030"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.moshi:moshi:1.15.2": {
+      "integrity": {
+        "moshi-1.15.2.jar": ["767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"],
+        "moshi-1.15.2.module": ["d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/moshi/moshi/1.15.2/moshi-1.15.2.pom",
+          "sha256": "317a1d3fb7054031bfe90cca89b1024901fd9b9fcca99166c2ce7853b5fc7bd9"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.okhttp3:okhttp-jvm:5.4.0": {
+      "integrity": {
+        "okhttp-jvm-5.4.0.jar": [
+          "b15e605ca0a4b12c62ea7f657dad413c236c947e875854767349cdbe20df473c"
+        ],
+        "okhttp-jvm-5.4.0.module": [
+          "2ee94132ec09cd3f113cc900f6e6dce7a56d9ef9af44ed5acb2ea6b7bca1367d"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/okhttp3/okhttp-jvm/5.4.0/okhttp-jvm-5.4.0.pom",
+          "sha256": "02ca957550d89f499b561744d9b6a59abfd535723faf31269c3290a0d78c6d0e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.okhttp3:okhttp:5.4.0": {
+      "integrity": {
+        "okhttp-5.4.0.module": ["63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/okhttp3/okhttp/5.4.0/okhttp-5.4.0.pom",
+          "sha256": "ebee6842d0b5b700ab7e015fddcc3f1e575d92b31a76f7b62eb9026c3388b88b"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.okio:okio-jvm:3.17.0": {
+      "integrity": {
+        "okio-jvm-3.17.0.jar": ["3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"],
+        "okio-jvm-3.17.0.module": [
+          "d4617d0df71f202e7299471848e625f4f36d7fa64d46c3503f70acf4821a45de"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/okio/okio-jvm/3.17.0/okio-jvm-3.17.0.pom",
+          "sha256": "e4e44237a66f4091bc0f5b1d5a2bbe228ac014ab3c0f918cd6fc02ba31999030"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.okio:okio-jvm:3.4.0": {
+      "integrity": {
+        "okio-jvm-3.4.0.jar": ["0139ec7a506dbbd54cad62291b019cb850534be097c8c66c1000d5fbe8edef3e"],
+        "okio-jvm-3.4.0.module": [
+          "6fec13cf3361600364bfcc68004af7c760ceaf1fc1bbcc958742ae4d61db1512"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/okio/okio-jvm/3.4.0/okio-jvm-3.4.0.pom",
+          "sha256": "66a8857981ea6c3ec8b8613a409bf12f147965ef9498cb7a8f371728c4e2da4d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.okio:okio:3.17.0": {
+      "integrity": {
+        "okio-3.17.0.module": ["3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/okio/okio/3.17.0/okio-3.17.0.pom",
+          "sha256": "15b4831e84f5ca52dd37c1d6e1709a2907e2e9bc2a9c3ea13f282031de0c0135"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:com.squareup.okio:okio:3.4.0": {
+      "integrity": {
+        "okio-3.4.0.module": ["69173608417a2113e6fa6afeb7b4540b20df70cfda3fa16c73aaa4fa702ffad3"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/com/squareup/okio/okio/3.4.0/okio-3.4.0.pom",
+          "sha256": "40eafdb3e7a96acc5c151de9ccbec12850f2dfb5cbe773e1f74ceb5362558203"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.github.java-diff-utils:java-diff-utils:4.12": {
+      "integrity": {
+        "java-diff-utils-4.12.jar": [
+          "9990a2039778f6b4cc94790141c2868864eacee0620c6c459451121a901cd5b5"
+        ],
+        "java-diff-utils-4.12.pom": [
+          "c26e097edc8ec6805d1319817d23d4e496cc1015cc55dc5202112d8f6a9165fc"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/github/java-diff-utils/java-diff-utils/4.12/java-diff-utils-4.12.pom",
+          "sha256": "c26e097edc8ec6805d1319817d23d4e496cc1015cc55dc5202112d8f6a9165fc"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/github/java-diff-utils/java-diff-utils-parent/4.12/java-diff-utils-parent-4.12.pom",
+          "sha256": "d811cf9f118cc2cad130c9427ad55c174d4c0a6f1a00ac1ae1c9bcbec5c44b19"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-api:1.84.0": {
+      "integrity": {
+        "grpc-api-1.84.0.jar": ["a2a57594571a4392751609bf4c63cf838ba7dcdbc8e5fd07983c313cb1565ac8"],
+        "grpc-api-1.84.0.pom": ["70fb831b6849bc8596a7c5245b01a2479b78d8dbe15fd3e76d845fbef444857e"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-api/1.84.0/grpc-api-1.84.0.pom",
+          "sha256": "70fb831b6849bc8596a7c5245b01a2479b78d8dbe15fd3e76d845fbef444857e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-context:1.84.0": {
+      "integrity": {
+        "grpc-context-1.84.0.jar": [
+          "e6f6e5db0d704e34d03f013cceb6be326c9ed3916346378ca1587ed41f943080"
+        ],
+        "grpc-context-1.84.0.pom": [
+          "a873713763e720090876c3fd0b84e8f0eecc4f224436226f4282033b02346f64"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-context/1.84.0/grpc-context-1.84.0.pom",
+          "sha256": "a873713763e720090876c3fd0b84e8f0eecc4f224436226f4282033b02346f64"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-core:1.84.0": {
+      "integrity": {
+        "grpc-core-1.84.0.jar": [
+          "750c08018e22014cb5e6b6ac64fd4d0b2302b7db9cb2b83a1e0914d0561ed71c"
+        ],
+        "grpc-core-1.84.0.pom": ["20058d792c9f3720a8e1b280e29a0e6f4df8fe93e169551ffc220be9920e08fa"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-core/1.84.0/grpc-core-1.84.0.pom",
+          "sha256": "20058d792c9f3720a8e1b280e29a0e6f4df8fe93e169551ffc220be9920e08fa"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-kotlin-stub:1.5.0": {
+      "integrity": {
+        "grpc-kotlin-stub-1.5.0.jar": [
+          "cc482c0e2f6b588ba90c7152d4aeee27cfee4bde1688326327dc74c6284477f0"
+        ],
+        "grpc-kotlin-stub-1.5.0.module": [
+          "d756db27c37550e9b77a5b21e046ea9a79ff7af1894513068c9b68a39f2030ee"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-kotlin-stub/1.5.0/grpc-kotlin-stub-1.5.0.pom",
+          "sha256": "44b0db04968a679e997b61105b8a42fbaeaa74f2104515629b9b526a661a2cd5"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-okhttp:1.84.0": {
+      "integrity": {
+        "grpc-okhttp-1.84.0.jar": [
+          "e7fba0986c7a6c9133b6b99fca064551229f747e08f5a8d17308c3d772eb97cd"
+        ],
+        "grpc-okhttp-1.84.0.pom": [
+          "c2c87af9e1355ccd719265aa3e777a6be98684aa355d80f673a31bd6ab34a37d"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-okhttp/1.84.0/grpc-okhttp-1.84.0.pom",
+          "sha256": "c2c87af9e1355ccd719265aa3e777a6be98684aa355d80f673a31bd6ab34a37d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-protobuf-lite:1.84.0": {
+      "integrity": {
+        "grpc-protobuf-lite-1.84.0.jar": [
+          "12827fd4ba3d75f7ab5fceb3296c5ac9f473826e6b2aa67684d32879b7fa239b"
+        ],
+        "grpc-protobuf-lite-1.84.0.pom": [
+          "04e6d70f4d67c04bdd00391396f22e50bdc7e93d767ea1301f6ef31f35385350"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf-lite/1.84.0/grpc-protobuf-lite-1.84.0.pom",
+          "sha256": "04e6d70f4d67c04bdd00391396f22e50bdc7e93d767ea1301f6ef31f35385350"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-stub:1.84.0": {
+      "integrity": {
+        "grpc-stub-1.84.0.jar": [
+          "5d7c9eac0386fbf6f1c9dc90171034939093c9f72196bd9242acf819c5f10a4a"
+        ],
+        "grpc-stub-1.84.0.pom": ["b7c5d6724a11ef32fe08e032deae400b60ae12643c765d39dff74d4cc16c8423"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-stub/1.84.0/grpc-stub-1.84.0.pom",
+          "sha256": "b7c5d6724a11ef32fe08e032deae400b60ae12643c765d39dff74d4cc16c8423"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:grpc-util:1.84.0": {
+      "integrity": {
+        "grpc-util-1.84.0.jar": [
+          "b64b8eedb714ec8c22ddc57361c7f2c0718cd51fa9d44a8cff68b30c117a6c23"
+        ],
+        "grpc-util-1.84.0.pom": ["a218de8bb7f13050ce7aa39258f8ed16f8b8f2a6218e34a439b5e4bfbc6faee2"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/grpc-util/1.84.0/grpc-util-1.84.0.pom",
+          "sha256": "a218de8bb7f13050ce7aa39258f8ed16f8b8f2a6218e34a439b5e4bfbc6faee2"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:protoc-gen-grpc-java:1.84.0": {
+      "integrity": {
+        "protoc-gen-grpc-java-1.84.0-linux-x86_64.exe": [
+          "907c2d4efc2bae9b21cada75c31b36f3821e15b7be96311e214a6be65bcd20aa"
+        ],
+        "protoc-gen-grpc-java-1.84.0-osx-x86_64.exe": [
+          "49aab9e56a30a8484e9c32d36be12a351d5783e00bdaafe9ec2c2fd8c9029504"
+        ],
+        "protoc-gen-grpc-java-1.84.0-windows-x86_64.exe": [
+          "1d0b584f436c2521542a98914d8e6c42ba0aa5d86b459bc632e4c3884a3b5d4d"
+        ],
+        "protoc-gen-grpc-java-1.84.0.pom": [
+          "424c18842490113b363a10d457c7150d9f32af1f9e1f959f69097c8678775633"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/protoc-gen-grpc-java/1.84.0/protoc-gen-grpc-java-1.84.0.pom",
+          "sha256": "424c18842490113b363a10d457c7150d9f32af1f9e1f959f69097c8678775633"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.grpc:protoc-gen-grpc-kotlin:1.5.0": {
+      "integrity": {
+        "protoc-gen-grpc-kotlin-1.5.0-jdk8.jar": [
+          "da938e9047a7973d53916eee33a1465adce1e72dce75127474b8808388023026"
+        ],
+        "protoc-gen-grpc-kotlin-1.5.0.pom": [
+          "28f3ea31359303af7e6b870321b013232cc1d207c3eabe9fafc8198fb188604f"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/grpc/protoc-gen-grpc-kotlin/1.5.0/protoc-gen-grpc-kotlin-1.5.0.pom",
+          "sha256": "28f3ea31359303af7e6b870321b013232cc1d207c3eabe9fafc8198fb188604f"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.ktor:ktor-http-jvm:3.5.0": {
+      "integrity": {
+        "ktor-http-jvm-3.5.0.jar": [
+          "2babac355de364c473b27b060d1c810fc2f83ed6e44822eabc6c3f46adf155a3"
+        ],
+        "ktor-http-jvm-3.5.0.module": [
+          "707fb825de713e0f21729e0ad6d4184990b83cfb5a61c7940b9e4ea1aba0c78e"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/ktor/ktor-http-jvm/3.5.0/ktor-http-jvm-3.5.0.pom",
+          "sha256": "f6ff315d426efe8be7402894ca4c48df48fcc5e3344f12499d286b8beaba3267"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.ktor:ktor-http:3.5.0": {
+      "integrity": {
+        "ktor-http-3.5.0.module": [
+          "5642284b76ac016d839c1c28c925c06e2ab4f6d16dfa737a1ff88965f1d937d4"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/ktor/ktor-http/3.5.0/ktor-http-3.5.0.pom",
+          "sha256": "3ab8580c4600bea1a14c0f69826d67e611f312785bb08a4645a67dd410288e40"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.ktor:ktor-io-jvm:3.5.0": {
+      "integrity": {
+        "ktor-io-jvm-3.5.0.jar": [
+          "ca9f9443479204fe97a00bd53bc3dee5b0514c1a088e9df1e0e4d4ccfc605e51"
+        ],
+        "ktor-io-jvm-3.5.0.module": [
+          "fd0c6613ec827cf09d202753e6c663e7b393f766b098d3e101b502b677dbdba8"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/ktor/ktor-io-jvm/3.5.0/ktor-io-jvm-3.5.0.pom",
+          "sha256": "c50c8303f386e825fe7e677122ae2b9da01b261afa3e1f70a16c088877266cc5"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.ktor:ktor-io:3.5.0": {
+      "integrity": {
+        "ktor-io-3.5.0.module": ["cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/ktor/ktor-io/3.5.0/ktor-io-3.5.0.pom",
+          "sha256": "6e24950dc472cf5fbca86a05782d2e8d3e104a2f6458f39bdddde6d1b7ac72b5"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.ktor:ktor-utils-jvm:3.5.0": {
+      "integrity": {
+        "ktor-utils-jvm-3.5.0.jar": [
+          "214200f074afe9d4b915d347397b5c1f768fbdd10ead7192e8adfd662dd4a72f"
+        ],
+        "ktor-utils-jvm-3.5.0.module": [
+          "96bf126533d38cb8b3f16911c36980c2db3e746c64878288003a0b6e19385ae3"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/ktor/ktor-utils-jvm/3.5.0/ktor-utils-jvm-3.5.0.pom",
+          "sha256": "59ef3c362d83064f0b064c7948ace38b199f6717183e0aad08e9e827929b876b"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.ktor:ktor-utils:3.5.0": {
+      "integrity": {
+        "ktor-utils-3.5.0.module": [
+          "2923cda55c01a6d7005a860f5b8ffd0872ee704b8b28d14ce905a5ea66bbaac8"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/ktor/ktor-utils/3.5.0/ktor-utils-3.5.0.pom",
+          "sha256": "24928172f75f0c79074a8fbdae02f428d47613f0f3f5ab32a27cf69911c20d2e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:io.perfmark:perfmark-api:0.27.0": {
+      "integrity": {
+        "perfmark-api-0.27.0.jar": [
+          "c7b478503ec524e55df19b424d46d27c8a68aeb801664fadd4f069b71f52d0f6"
+        ],
+        "perfmark-api-0.27.0.module": [
+          "9f6c4e6a62b8defd14173acdb7db293d086353b224923eef6293f58161893cca"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.27.0/perfmark-api-0.27.0.pom",
+          "sha256": "22c175c2c1823667630c84e73225767f5970492d8e6cbffb81a6575dba472d26"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:javax.annotation:javax.annotation-api:1.3.2": {
+      "integrity": {
+        "javax.annotation-api-1.3.2.jar": [
+          "e04ba5195bcd555dc95650f7cc614d151e4bcd52d29a10b8aa2197f3ab89ab9b"
+        ],
+        "javax.annotation-api-1.3.2.pom": [
+          "46a4a251ca406e78e4853d7a2bae83282844a4992851439ee9a1f23716f06b97"
+        ]
+      },
+      "licence": "CDDL-1.1",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.pom",
+          "sha256": "46a4a251ca406e78e4853d7a2bae83282844a4992851439ee9a1f23716f06b97"
+        },
+        {
+          "source": "docs/architecture.md#licensing (existing reviewed CDDL option, dependency reference only)",
+          "sha256": "55448ee7286d0d0d7ce4a22f0000ed27a88b505fb6663fadaaaa618095e5e046"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.codehaus.mojo:animal-sniffer-annotations:1.27": {
+      "integrity": {
+        "animal-sniffer-annotations-1.27.jar": [
+          "cfd7e51a828fe6b98bc0dbb99e34900c9e9012322cb9ddd57fd8dd0b02da5e27"
+        ],
+        "animal-sniffer-annotations-1.27.pom": [
+          "e596be247f2d3ef943be65edb0c05334d1996fed5fe0fe5518ff00a50b28c769"
+        ]
+      },
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.27/animal-sniffer-annotations-1.27.pom",
+          "sha256": "e596be247f2d3ef943be65edb0c05334d1996fed5fe0fe5518ff00a50b28c769"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-parent/1.27/animal-sniffer-parent-1.27.pom",
+          "sha256": "680260a8b94111ec2fcd439287391fdc40340292ba2e3167f8bef0d797003cec"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.codehaus.woodstox:stax2-api:4.2.1": {
+      "integrity": {
+        "stax2-api-4.2.1.jar": ["678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"],
+        "stax2-api-4.2.1.pom": ["79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"]
+      },
+      "licence": "BSD-2-Clause",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.pom",
+          "sha256": "79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"
+        },
+        {
+          "source": "org.codehaus.woodstox:stax2-api:4.2.1!/META-INF/LICENSE (existing cached archive)",
+          "sha256": "b3e969d18f690ab8783e4ec77729c9fea85691b8090c550bb3c626dda5e837a7"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.freemarker:freemarker:2.3.32": {
+      "integrity": {
+        "freemarker-2.3.32.jar": [
+          "04d65ec1bde6cea20e3495d5e78ef96ab774d9936434861d3254bd88e7e94f92"
+        ],
+        "freemarker-2.3.32.pom": [
+          "07a07e2eaf0976022b540567c7df622712b9a0393a6c5f6d20e6ff1579222a01"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.32/freemarker-2.3.32.pom",
+          "sha256": "07a07e2eaf0976022b540567c7df622712b9a0393a6c5f6d20e6ff1579222a01"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.dokka:analysis-kotlin-symbols:2.2.0": {
+      "integrity": {
+        "analysis-kotlin-symbols-2.2.0.jar": [
+          "31b4eabf7436083ae33200da6be7203675fb1fcdcd34d2f394f55e822dac8f0f"
+        ],
+        "analysis-kotlin-symbols-2.2.0.pom": [
+          "54573a79dfc16d0540a42594679feadbd36c11140213a0fe813c3a4716b53f88"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/dokka/analysis-kotlin-symbols/2.2.0/analysis-kotlin-symbols-2.2.0.pom",
+          "sha256": "54573a79dfc16d0540a42594679feadbd36c11140213a0fe813c3a4716b53f88"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.dokka:analysis-markdown:2.2.0": {
+      "integrity": {
+        "analysis-markdown-2.2.0.jar": [
+          "7070de21dc5078013b53cc9c139321cceaf476c1630711cc5bda6d96e9da2087"
+        ],
+        "analysis-markdown-2.2.0.module": [
+          "f86033ab342a334b656d207a6b0b7041fea1732ff1f5560417e4a50dadf4b2ec"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/dokka/analysis-markdown/2.2.0/analysis-markdown-2.2.0.pom",
+          "sha256": "dc8116d4ed3505a252abb0da4e9c36c77c8b8c77f065182e44bb0b94021747b1"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.dokka:dokka-base:2.2.0": {
+      "integrity": {
+        "dokka-base-2.2.0.jar": [
+          "721c5a1647dc49d1680d884350b438a039b2426aec65b696baee8e5aeb6442f5"
+        ],
+        "dokka-base-2.2.0.module": [
+          "f377ca30b57f80262b4d50694102cc56f1f27d4d388682eaf6b84b0bedc19550"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/dokka/dokka-base/2.2.0/dokka-base-2.2.0.pom",
+          "sha256": "e95d1140b163a7924b3b6cf384d71dec2ae1bfcee77908dfb3fcc349be20152e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.dokka:dokka-core:2.2.0": {
+      "integrity": {
+        "dokka-core-2.2.0.jar": [
+          "2ea7e1eeb158163b6e1109ebc5c8137ef713ae020189f87bc79d1cbe3702093d"
+        ],
+        "dokka-core-2.2.0.module": [
+          "7df767d1748176565443a4f3492da8c033d51fe0022ac0d7fe2212fd6aee068b"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/dokka/dokka-core/2.2.0/dokka-core-2.2.0.pom",
+          "sha256": "85e7dbd7c5b7640610752718ef2cbdbe972b065d4dd2f3369993857bd2bc3377"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.dokka:templating-plugin:2.2.0": {
+      "integrity": {
+        "templating-plugin-2.2.0.jar": [
+          "710774a96e555421066cb0c99a7222129ab39be4d86add06acd88f28bedbb7ce"
+        ],
+        "templating-plugin-2.2.0.module": [
+          "66b32cbea904d79d9b88d3ebab01bce04a6d88b39025055c48a6ea42891b341b"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/dokka/templating-plugin/2.2.0/templating-plugin-2.2.0.pom",
+          "sha256": "084ae688e5459d69ca723632d8e3aa9e4f8a95ba77f355c74a2cf5f939a2025d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:abi-tools-api:2.3.21": {
+      "integrity": {
+        "abi-tools-api-2.3.21.jar": [
+          "dc721c7faa844df7f5d6eb62021dc9eadfd1998e1e8df918341f16eb3c391aea"
+        ],
+        "abi-tools-api-2.3.21.pom": [
+          "7395788baca82921694d2661f4bea6737d9e78545b3b56aba624100e0505d8c2"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/abi-tools-api/2.3.21/abi-tools-api-2.3.21.pom",
+          "sha256": "7395788baca82921694d2661f4bea6737d9e78545b3b56aba624100e0505d8c2"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:abi-tools:2.3.21": {
+      "integrity": {
+        "abi-tools-2.3.21.jar": [
+          "6761656205c3514050f68fde7c32b2beb47246786247dacfb279db432a70562b"
+        ],
+        "abi-tools-2.3.21.pom": ["e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/abi-tools/2.3.21/abi-tools-2.3.21.pom",
+          "sha256": "e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-api:2.4.0": {
+      "integrity": {
+        "kotlin-build-tools-api-2.4.0.jar": [
+          "66917335497f9ab75a36c34b3d90bad2bc8dc256c34b2413ecd0c9467fcf597d"
+        ],
+        "kotlin-build-tools-api-2.4.0.pom": [
+          "9686fa8f16867b2aba2e5c0e4cfc4a0aeecf59fe6de419f89f7bd838fdde8e74"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-api/2.4.0/kotlin-build-tools-api-2.4.0.pom",
+          "sha256": "9686fa8f16867b2aba2e5c0e4cfc4a0aeecf59fe6de419f89f7bd838fdde8e74"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-api:2.4.20": {
+      "integrity": {
+        "kotlin-build-tools-api-2.4.20.jar": [
+          "47a622dce7231b1916334b69a00bc1094adf6577e6492f9f06b3d9c2450fe459"
+        ],
+        "kotlin-build-tools-api-2.4.20.pom": [
+          "e8cd9ffd7d0886ba1a1795cbf4a34a06681f184aa50f25686effeefb3c1f56f5"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-api/2.4.20/kotlin-build-tools-api-2.4.20.pom",
+          "sha256": "e8cd9ffd7d0886ba1a1795cbf4a34a06681f184aa50f25686effeefb3c1f56f5"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-compat:2.4.20": {
+      "integrity": {
+        "kotlin-build-tools-compat-2.4.20.jar": [
+          "937d2961fc0b957a50c3d85a14fcc1bd0585f2229164136895b623691660c9b4"
+        ],
+        "kotlin-build-tools-compat-2.4.20.pom": [
+          "f8e9f647a00bfbc237e3ddff3891b2d4e4a947611b949281658f836def304002"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.pom",
+          "sha256": "f8e9f647a00bfbc237e3ddff3891b2d4e4a947611b949281658f836def304002"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-cri-impl:2.4.0": {
+      "integrity": {
+        "kotlin-build-tools-cri-impl-2.4.0.jar": [
+          "5168b866945f6ac1ffcb6d4c88cf582497249469c2e4a4eafc0bcd35b5a264a9"
+        ],
+        "kotlin-build-tools-cri-impl-2.4.0.pom": [
+          "856d59395489276e93edb4390c99397de83e20d27572c5238c56ed21e43433da"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.0/kotlin-build-tools-cri-impl-2.4.0.pom",
+          "sha256": "856d59395489276e93edb4390c99397de83e20d27572c5238c56ed21e43433da"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-cri-impl:2.4.20": {
+      "integrity": {
+        "kotlin-build-tools-cri-impl-2.4.20.jar": [
+          "277d2acc8f7dbef364dca33f777b9ceeaf5fd803f07652c2bda14e155f83076f"
+        ],
+        "kotlin-build-tools-cri-impl-2.4.20.pom": [
+          "8af52efa886eed45c54d568b692e339b70ddc7c768bee9ab9c2d2f96ed8bb0e1"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.pom",
+          "sha256": "8af52efa886eed45c54d568b692e339b70ddc7c768bee9ab9c2d2f96ed8bb0e1"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-impl:2.4.0": {
+      "integrity": {
+        "kotlin-build-tools-impl-2.4.0.jar": [
+          "076c0a7f84d303f1e390774410c8678b8b584faa3f642435f93d2e4e81dabe7c"
+        ],
+        "kotlin-build-tools-impl-2.4.0.pom": [
+          "485ca3d511aa384207db5706e0741dc79ace45d40e0489f9ef29731aafb14f7c"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.0/kotlin-build-tools-impl-2.4.0.pom",
+          "sha256": "485ca3d511aa384207db5706e0741dc79ace45d40e0489f9ef29731aafb14f7c"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-build-tools-impl:2.4.20": {
+      "integrity": {
+        "kotlin-build-tools-impl-2.4.20.jar": [
+          "68fb6f266a66463a1ba3ddb99b96e5eb202ab19a5ca4e3b56dad5eec62641c7d"
+        ],
+        "kotlin-build-tools-impl-2.4.20.pom": [
+          "7a13ab2d818a5de92afa23004aa9baed99671bb48553b7098cf920fa785c3351"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.pom",
+          "sha256": "7a13ab2d818a5de92afa23004aa9baed99671bb48553b7098cf920fa785c3351"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-compiler-embeddable:2.4.0": {
+      "integrity": {
+        "kotlin-compiler-embeddable-2.4.0.jar": [
+          "c2b25e8c1c93ec416ba4327f5e31eaec0f0c8847241b9353e294b8db9dce564f"
+        ],
+        "kotlin-compiler-embeddable-2.4.0.pom": [
+          "f5d78540108e7bbc9162253ce52c42507ead2e530945213dd2a3b793b590c53c"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.0/kotlin-compiler-embeddable-2.4.0.pom",
+          "sha256": "f5d78540108e7bbc9162253ce52c42507ead2e530945213dd2a3b793b590c53c"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-compiler-embeddable:2.4.20": {
+      "integrity": {
+        "kotlin-compiler-embeddable-2.4.20.jar": [
+          "cf97161430683fb9af96dc6a7017ffae1fe8737b80d12eee11f2fe3e76f8ded8"
+        ],
+        "kotlin-compiler-embeddable-2.4.20.pom": [
+          "269d98cc4c68670c11e4aeb404e1c7c6f31b782321908d7268ba25cd236d59b2"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom",
+          "sha256": "269d98cc4c68670c11e4aeb404e1c7c6f31b782321908d7268ba25cd236d59b2"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-compiler-runner:2.4.0": {
+      "integrity": {
+        "kotlin-compiler-runner-2.4.0.jar": [
+          "ad9608152740e92d94a278b4ff2ca82c4bf5ff8ef219220e3c07aeb554638cee"
+        ],
+        "kotlin-compiler-runner-2.4.0.pom": [
+          "5e1ed156cb8d38b61e2ccc546dbd8b2bde778367eb298f8875bd820fbfd0b0f2"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-runner/2.4.0/kotlin-compiler-runner-2.4.0.pom",
+          "sha256": "5e1ed156cb8d38b61e2ccc546dbd8b2bde778367eb298f8875bd820fbfd0b0f2"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-compiler-runner:2.4.20": {
+      "integrity": {
+        "kotlin-compiler-runner-2.4.20.jar": [
+          "cc467c5b63daa7441d6bfb72f3d559d68836ce61cdbf9fc8e1e3a76ec4883d2e"
+        ],
+        "kotlin-compiler-runner-2.4.20.pom": [
+          "4566946280971fe8d67990ee83480af480e846590f325a40951f62657e26a40a"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-runner/2.4.20/kotlin-compiler-runner-2.4.20.pom",
+          "sha256": "4566946280971fe8d67990ee83480af480e846590f325a40951f62657e26a40a"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-daemon-client:2.4.0": {
+      "integrity": {
+        "kotlin-daemon-client-2.4.0.jar": [
+          "f546f0b3699c4984f320dd03080de05cad61064208ba8f37df0d3f8f4a7fd14a"
+        ],
+        "kotlin-daemon-client-2.4.0.pom": [
+          "143793627382d905eda93e152a28c993f6323fc4b748370a45c7badc99914a13"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-client/2.4.0/kotlin-daemon-client-2.4.0.pom",
+          "sha256": "143793627382d905eda93e152a28c993f6323fc4b748370a45c7badc99914a13"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-daemon-client:2.4.20": {
+      "integrity": {
+        "kotlin-daemon-client-2.4.20.jar": [
+          "89532756fc258fbde177cf1654383f15127c048d17525141c922e9aa0969d997"
+        ],
+        "kotlin-daemon-client-2.4.20.pom": [
+          "37cff66ae34c924f0f738106eeb7234e7ace880f199de3362e993f4987025adc"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-client/2.4.20/kotlin-daemon-client-2.4.20.pom",
+          "sha256": "37cff66ae34c924f0f738106eeb7234e7ace880f199de3362e993f4987025adc"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-daemon-embeddable:2.4.0": {
+      "integrity": {
+        "kotlin-daemon-embeddable-2.4.0.jar": [
+          "383093af5e078435b60043d19bfa83eb6191be0f4d13a28fb1c8a0f3ab24fe66"
+        ],
+        "kotlin-daemon-embeddable-2.4.0.pom": [
+          "cb36e780fcb39ee09aab6e398f9bd5ea27f982bb6e19329742a20eb2ebdc2936"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-embeddable/2.4.0/kotlin-daemon-embeddable-2.4.0.pom",
+          "sha256": "cb36e780fcb39ee09aab6e398f9bd5ea27f982bb6e19329742a20eb2ebdc2936"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-daemon-embeddable:2.4.20": {
+      "integrity": {
+        "kotlin-daemon-embeddable-2.4.20.jar": [
+          "eef72cf8f17e6d98d33e5b7c7e1cab31a1cf5fc34084dd5e563e7b1f3ef53435"
+        ],
+        "kotlin-daemon-embeddable-2.4.20.pom": [
+          "ca631ce7c7cc2a8ecb47d3462b429004c1cd3488437b3f739e35eafea2033bfb"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-embeddable/2.4.20/kotlin-daemon-embeddable-2.4.20.pom",
+          "sha256": "ca631ce7c7cc2a8ecb47d3462b429004c1cd3488437b3f739e35eafea2033bfb"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-klib-abi-reader:2.3.21": {
+      "integrity": {
+        "kotlin-klib-abi-reader-2.3.21.jar": [
+          "c4541b0da25452a8ea6455aff0dd590b9d567d1da68f65b2badb281ffd14ceb6"
+        ],
+        "kotlin-klib-abi-reader-2.3.21.pom": [
+          "6c34f3a5bc36f3fd99206d2ae1abb734fe2254881aeacf291541e6abca8894b7"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-klib-abi-reader/2.3.21/kotlin-klib-abi-reader-2.3.21.pom",
+          "sha256": "6c34f3a5bc36f3fd99206d2ae1abb734fe2254881aeacf291541e6abca8894b7"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-klib-commonizer-embeddable:2.4.20": {
+      "integrity": {
+        "kotlin-klib-commonizer-embeddable-2.4.20.jar": [
+          "2025231ec82c932b56125916b1d4e41163d32d3c05816dd9546169a104d7dd3f"
+        ],
+        "kotlin-klib-commonizer-embeddable-2.4.20.pom": [
+          "27b1b87d463fecc7f27eb859366c9afd19fd7a4dc0d87fcf70b7cf3cd83cca79"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-klib-commonizer-embeddable/2.4.20/kotlin-klib-commonizer-embeddable-2.4.20.pom",
+          "sha256": "27b1b87d463fecc7f27eb859366c9afd19fd7a4dc0d87fcf70b7cf3cd83cca79"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-metadata-jvm:2.3.21": {
+      "integrity": {
+        "kotlin-metadata-jvm-2.3.21.jar": [
+          "00590f26a5a768777f04252c6cf93c016a3361a6bc93636df67375ad4d19557d"
+        ],
+        "kotlin-metadata-jvm-2.3.21.pom": [
+          "83b7ab0b0123e7b1428a3d5f74dc151e904a10c8cd32063991a606508bc21e80"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-metadata-jvm/2.3.21/kotlin-metadata-jvm-2.3.21.pom",
+          "sha256": "83b7ab0b0123e7b1428a3d5f74dc151e904a10c8cd32063991a606508bc21e80"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-reflect:1.6.10": {
+      "integrity": {
+        "kotlin-reflect-1.6.10.jar": [
+          "3277ac102ae17aad10a55abec75ff5696c8d109790396434b496e75087854203"
+        ],
+        "kotlin-reflect-1.6.10.pom": [
+          "57905524274a00ae028aaccc27283f6bc5925a934a046c1cc5d06c8ee4d6d5a9"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/1.6.10/kotlin-reflect-1.6.10.pom",
+          "sha256": "57905524274a00ae028aaccc27283f6bc5925a934a046c1cc5d06c8ee4d6d5a9"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-reflect:1.8.21": {
+      "integrity": {
+        "kotlin-reflect-1.8.21.jar": [
+          "8a6cd5a3cf092acee274ce2c444dc36eefdb631579859dd4d857b3309a529c91"
+        ],
+        "kotlin-reflect-1.8.21.pom": [
+          "39d78db33222cdbb32b618c7c5223d4457cc19742856d116a85090e4a96f623a"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/1.8.21/kotlin-reflect-1.8.21.pom",
+          "sha256": "39d78db33222cdbb32b618c7c5223d4457cc19742856d116a85090e4a96f623a"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-reflect:2.0.21": {
+      "integrity": {
+        "kotlin-reflect-2.0.21.jar": [
+          "3ad2fcad0c09ddc0922debab4444d612144b7b465b75a8bb7587e20ddfafd799"
+        ],
+        "kotlin-reflect-2.0.21.pom": [
+          "02ab7aeab03c68f40103026e5e9c277360cbc360818a5b2e36b9a3a9d8e8b049"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/2.0.21/kotlin-reflect-2.0.21.pom",
+          "sha256": "02ab7aeab03c68f40103026e5e9c277360cbc360818a5b2e36b9a3a9d8e8b049"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-reflect:2.2.21": {
+      "integrity": {
+        "kotlin-reflect-2.2.21.jar": [
+          "44380abf37d245ce5c0f294f43512d1c39a59642bfa463922c74e96877cf49f8"
+        ],
+        "kotlin-reflect-2.2.21.pom": [
+          "e5ab6b10560a5a52562c35cdbe71ddbe427d51eb5bfc701dcd4f6b949bd9e03f"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/2.2.21/kotlin-reflect-2.2.21.pom",
+          "sha256": "e5ab6b10560a5a52562c35cdbe71ddbe427d51eb5bfc701dcd4f6b949bd9e03f"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-script-runtime:2.4.0": {
+      "integrity": {
+        "kotlin-script-runtime-2.4.0.jar": [
+          "196e8ecbf63daf477e34e67c2f871ee232ae7bf8b377432d876d1bbf9d273de3"
+        ],
+        "kotlin-script-runtime-2.4.0.pom": [
+          "ce705c50e7e0afb22298acff0a983cdb6ea0f7fe2d1b473cee42b38405bc357f"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-script-runtime/2.4.0/kotlin-script-runtime-2.4.0.pom",
+          "sha256": "ce705c50e7e0afb22298acff0a983cdb6ea0f7fe2d1b473cee42b38405bc357f"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-script-runtime:2.4.20": {
+      "integrity": {
+        "kotlin-script-runtime-2.4.20.jar": [
+          "fc5a19df78be445d84e8352e0d01098a6a8181324aa50c6f7bf850338e81e1b4"
+        ],
+        "kotlin-script-runtime-2.4.20.pom": [
+          "dd0e3846b61a6d641300958cc52e4693cd7b47bd1d626505f383b2f9d23ade0e"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-script-runtime/2.4.20/kotlin-script-runtime-2.4.20.pom",
+          "sha256": "dd0e3846b61a6d641300958cc52e4693cd7b47bd1d626505f383b2f9d23ade0e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-scripting-common:2.4.20": {
+      "integrity": {
+        "kotlin-scripting-common-2.4.20.jar": [
+          "3385f7f05984a6488809b015727eca9aeba7998dc5995d87b4ae5dc9c8d4124b"
+        ],
+        "kotlin-scripting-common-2.4.20.pom": [
+          "2cf95a3cad9078b1e6161d2b7ce11499dfeb64c89b755ef0a89b03808baf2bd5"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-scripting-common/2.4.20/kotlin-scripting-common-2.4.20.pom",
+          "sha256": "2cf95a3cad9078b1e6161d2b7ce11499dfeb64c89b755ef0a89b03808baf2bd5"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:2.4.20": {
+      "integrity": {
+        "kotlin-scripting-compiler-embeddable-2.4.20.jar": [
+          "6eb8ce1d73b89107804b3bdf295791f52c0394cbe18bcdfb90103aee955ea1c5"
+        ],
+        "kotlin-scripting-compiler-embeddable-2.4.20.pom": [
+          "54fe4af63adcc7cf4f567eb6722e05182f637443a26394fa2ef8ffb641906b35"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-scripting-compiler-embeddable/2.4.20/kotlin-scripting-compiler-embeddable-2.4.20.pom",
+          "sha256": "54fe4af63adcc7cf4f567eb6722e05182f637443a26394fa2ef8ffb641906b35"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:2.4.20": {
+      "integrity": {
+        "kotlin-scripting-compiler-impl-embeddable-2.4.20.jar": [
+          "d895b182c4c7bdbd688efb360a897f2182774d91e6c57a7acbeb2dc8f13f5ff2"
+        ],
+        "kotlin-scripting-compiler-impl-embeddable-2.4.20.pom": [
+          "0fa989100bb54b94cea92212a9a1ceb43ef8d4786e2405b17a5dcd5900bc5afe"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-scripting-compiler-impl-embeddable/2.4.20/kotlin-scripting-compiler-impl-embeddable-2.4.20.pom",
+          "sha256": "0fa989100bb54b94cea92212a9a1ceb43ef8d4786e2405b17a5dcd5900bc5afe"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-scripting-jvm:2.4.20": {
+      "integrity": {
+        "kotlin-scripting-jvm-2.4.20.jar": [
+          "2be43e56bdaf38db30f87347ad4f42e9cd69ca8433e579780143791933b01fac"
+        ],
+        "kotlin-scripting-jvm-2.4.20.pom": [
+          "e1c51997f4c5113b74f6fdb87ab9ac2008c6d19dd6cab0986170cfeab2b1fd90"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-scripting-jvm/2.4.20/kotlin-scripting-jvm-2.4.20.pom",
+          "sha256": "e1c51997f4c5113b74f6fdb87ab9ac2008c6d19dd6cab0986170cfeab2b1fd90"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-common:2.0.21": {
+      "integrity": {
+        "kotlin-stdlib-common-2.0.21.module": [
+          "6f5df8af633600a6b9cfb0fcc764af3d5119f376677677b91b6aee816b1d30ab"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.0.21/kotlin-stdlib-common-2.0.21.pom",
+          "sha256": "5f402cfb8d773195b967050124c9e89b5f84b172464e1894929789bf5c4c2f29"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-common:2.4.20": {
+      "integrity": {
+        "kotlin-stdlib-common-2.4.20.module": [
+          "1521881697edb45d73f223d53e5164da527420f1ed12fbaac15bf181b66d5e92"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.4.20/kotlin-stdlib-common-2.4.20.pom",
+          "sha256": "2c4c948cb26a9c874750f7afa856aeeaf078e5d98da5a2a5f852458e53315681"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0": {
+      "integrity": {
+        "kotlin-stdlib-jdk7-1.8.0.jar": [
+          "4c889d1d9803f5f2eb6c1592a6b7e62369ac7660c9eee15aba16fec059163666"
+        ],
+        "kotlin-stdlib-jdk7-1.8.0.pom": [
+          "dfa9644a6ae5b898ee475bb1f57e830ba1f770aee6c9c15f8112aa381180184a"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.pom",
+          "sha256": "dfa9644a6ae5b898ee475bb1f57e830ba1f770aee6c9c15f8112aa381180184a"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.20": {
+      "integrity": {
+        "kotlin-stdlib-jdk7-1.8.20.jar": [
+          "af1ec40c3b951afdcc0c2a0173c7b81763c5281c2d5bafbf0a8544a24c5dcc0c"
+        ],
+        "kotlin-stdlib-jdk7-1.8.20.pom": [
+          "3622d106578cddcc0a9ec20f8ce815f7f49ff542f640228d2141fcaf80616b06"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.20/kotlin-stdlib-jdk7-1.8.20.pom",
+          "sha256": "3622d106578cddcc0a9ec20f8ce815f7f49ff542f640228d2141fcaf80616b06"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21": {
+      "integrity": {
+        "kotlin-stdlib-jdk7-1.8.21.jar": [
+          "33d148db0e11debd0d90677d28242bced907f9c77730000fd597867089039d86"
+        ],
+        "kotlin-stdlib-jdk7-1.8.21.pom": [
+          "9bb107d5d5e3930bc5977f007a43cd20b7d24d91b1c1e528ea6ee0f248f14d36"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.21/kotlin-stdlib-jdk7-1.8.21.pom",
+          "sha256": "9bb107d5d5e3930bc5977f007a43cd20b7d24d91b1c1e528ea6ee0f248f14d36"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0": {
+      "integrity": {
+        "kotlin-stdlib-jdk8-1.8.0.jar": [
+          "05b62804441b0c9a1920b6b7d5cf7329a4e24b6258478e32b1f046ca01900946"
+        ],
+        "kotlin-stdlib-jdk8-1.8.0.pom": [
+          "2bb6c7551b97c7ba029f9866582e7aa19d63abfd4cd53da3fc0c462f3ab5fc26"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.pom",
+          "sha256": "2bb6c7551b97c7ba029f9866582e7aa19d63abfd4cd53da3fc0c462f3ab5fc26"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20": {
+      "integrity": {
+        "kotlin-stdlib-jdk8-1.8.20.jar": [
+          "e398b67977622718bf18ff99b739c7d9da060f33fb458a2e25203221c16af010"
+        ],
+        "kotlin-stdlib-jdk8-1.8.20.pom": [
+          "3a462214a336e995687769531b1e37b0c81d8e10c9949cd5ea7ae1d7803a0232"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.20/kotlin-stdlib-jdk8-1.8.20.pom",
+          "sha256": "3a462214a336e995687769531b1e37b0c81d8e10c9949cd5ea7ae1d7803a0232"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21": {
+      "integrity": {
+        "kotlin-stdlib-jdk8-1.8.21.jar": [
+          "3db752a30074f06ee6c57984aa6f27da44f4d2bbc7f5442651f6988f1cb2b7d7"
+        ],
+        "kotlin-stdlib-jdk8-1.8.21.pom": [
+          "3839d728d7c309a5c368b0270b44b4f1c7878ff5ca5d32a9a204faa3491459d8"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.21/kotlin-stdlib-jdk8-1.8.21.pom",
+          "sha256": "3839d728d7c309a5c368b0270b44b4f1c7878ff5ca5d32a9a204faa3491459d8"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib:2.0.21": {
+      "integrity": {
+        "kotlin-stdlib-2.0.21.jar": [
+          "f31cc53f105a7e48c093683bbd5437561d1233920513774b470805641bedbc09"
+        ],
+        "kotlin-stdlib-2.0.21.module": [
+          "81fd6d181012487ee3246eff4e2bacb64b58c46e5b5aa72971a4ddf1bd1541ed"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.0.21/kotlin-stdlib-2.0.21.pom",
+          "sha256": "fcbada4cd2e9f39658293570ef613752331db69fd1dad1cabaa60548403e17da"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib:2.3.21": {
+      "integrity": {
+        "kotlin-stdlib-2.3.21.jar": [
+          "6f64eac736db9434dd6925b4a518b9d1d17177652320c37916cf9ba3ce7d7d7a"
+        ],
+        "kotlin-stdlib-2.3.21.module": [
+          "7b4ea4b2242bb177a4b4abb63c3f3d857331d40d35865e36fcc3db666ec10174"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.3.21/kotlin-stdlib-2.3.21.pom",
+          "sha256": "3e0b48daa14dc73f8029d8d9e15ed32940377caf7b915510f88d33219b350186"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib:2.4.0": {
+      "integrity": {
+        "kotlin-stdlib-2.4.0.jar": [
+          "ccb14ff83fabcb11458b798dbc9824748ccdffeec79c9aba789e6ed1cda86b1c"
+        ],
+        "kotlin-stdlib-2.4.0.module": [
+          "c24a47dcbd9295d776f443be41d77ac245309601ed053711dee2b0254be02db6"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.4.0/kotlin-stdlib-2.4.0.pom",
+          "sha256": "8194ff79a9ee24a7fa3f74a6b179c04a1859de8b987a4f0983056e59451721de"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-stdlib:2.4.20": {
+      "integrity": {
+        "kotlin-stdlib-2.4.20.jar": [
+          "2226de463d309d4a5500a481320b3dea515a6981dcae1def531fbc158884e25f"
+        ],
+        "kotlin-stdlib-2.4.20.module": [
+          "afb28052ac6c3d605c0f661816ea653e073eb039682fed35bfa6cdc704c0911c"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.4.20/kotlin-stdlib-2.4.20.pom",
+          "sha256": "bd69b382dba8e2b7ae3846375eb2f1389017eb908987277051ae4e3acec8c938"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlin:kotlin-tooling-core:2.4.20": {
+      "integrity": {
+        "kotlin-tooling-core-2.4.20.jar": [
+          "5fc5db083803232857408ed5c25bcc307c703b04bdef6cb2c34ebf4db611a622"
+        ],
+        "kotlin-tooling-core-2.4.20.pom": [
+          "29dd79ed2bc1e64f6bfd5ccf0c1336c6b6c11ee2a69e0c585e3fad2f45b5325d"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-tooling-core/2.4.20/kotlin-tooling-core-2.4.20.pom",
+          "sha256": "29dd79ed2bc1e64f6bfd5ccf0c1336c6b6c11ee2a69e0c585e3fad2f45b5325d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.11.0": {
+      "integrity": {
+        "kotlinx-coroutines-bom-1.11.0.pom": [
+          "f65860bce58a2bfadf05fdc516d38333421f0e387fef87e24449c0394c80d254"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-bom/1.11.0/kotlinx-coroutines-bom-1.11.0.pom",
+          "sha256": "f65860bce58a2bfadf05fdc516d38333421f0e387fef87e24449c0394c80d254"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.7.3": {
+      "integrity": {
+        "kotlinx-coroutines-bom-1.7.3.pom": [
+          "4e5d1900e6379ef3f5970d04a8f30529adc82f859e8cc107c21ce8149ef666c4"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-bom/1.7.3/kotlinx-coroutines-bom-1.7.3.pom",
+          "sha256": "4e5d1900e6379ef3f5970d04a8f30529adc82f859e8cc107c21ce8149ef666c4"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.11.0": {
+      "integrity": {
+        "kotlinx-coroutines-core-jvm-1.11.0.jar": [
+          "d1d75aa01dffbb4d1c520e67e4c4e7f5f6174718e7cb4632412503f2f0e604fa"
+        ],
+        "kotlinx-coroutines-core-jvm-1.11.0.module": [
+          "5b255653ad6b1f21e0c46108605f129e3aa56ed9414849cc9f5b436441517528"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.11.0/kotlinx-coroutines-core-jvm-1.11.0.pom",
+          "sha256": "dd54b97aa3fab91fc24f5df2916c22be9429a339d2f45b7ff092332f6c19dc39"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3": {
+      "integrity": {
+        "kotlinx-coroutines-core-jvm-1.7.3.jar": [
+          "1ab3acc38f3e7355c4f9d1ec62107a46fa73c899f3070d055e5d4373dfe67e12"
+        ],
+        "kotlinx-coroutines-core-jvm-1.7.3.module": [
+          "34d6ee99b76ac062b51555b4a70be18349fe5566da79a190614f171c80b6538e"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.7.3/kotlinx-coroutines-core-jvm-1.7.3.pom",
+          "sha256": "753858753decbbb2397343e2b871f062f697812e9422e41c9ee46a66b93eee30"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.0": {
+      "integrity": {
+        "kotlinx-coroutines-core-jvm-1.8.0.jar": [
+          "9860906a1937490bf5f3b06d2f0e10ef451e65b95b269f22daf68a3d1f5065c5"
+        ],
+        "kotlinx-coroutines-core-jvm-1.8.0.module": [
+          "ff6a22da40040938751db0ae21177e76517dbf126a76796f5426727bf76c1228"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0.pom",
+          "sha256": "a5633abd53467ceb91622d81f2e982080877145e0b76e1b75788715434885d0b"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0": {
+      "integrity": {
+        "kotlinx-coroutines-core-1.11.0.module": [
+          "1e19785d34728b7525d7a77ff32ead4547d51cc7a45d4ac44d4de608169b0c0d"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.11.0/kotlinx-coroutines-core-1.11.0.pom",
+          "sha256": "41b6e78c1b0d11bc99de795390df9e4ece64dc113f482d6e308f1b7a421c1d30"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3": {
+      "integrity": {
+        "kotlinx-coroutines-core-1.7.3.module": [
+          "7fb162396594ec28e1b6a4411b457949a7670f5e12019176774e1fd6b9471bbf"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.7.3/kotlinx-coroutines-core-1.7.3.pom",
+          "sha256": "ed6eb0398717035e29f1c1d60a4e3ddbb89858f3db9e07b57ad759d374dae829"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-html-jvm:0.9.1": {
+      "integrity": {
+        "kotlinx-html-jvm-0.9.1.jar": [
+          "b68f39cd9ad7b46de0a0e77e7f5908d4e7661f3d0c85d2d9171543fcd5b156fb"
+        ],
+        "kotlinx-html-jvm-0.9.1.module": [
+          "ca273fd7d06cde0f32af83230700abd9b0f573b984ae8847ce90e3dc5d0d1353"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-html-jvm/0.9.1/kotlinx-html-jvm-0.9.1.pom",
+          "sha256": "0b07cea4e8202a3906c546f17e2e5a923476aca859d354e79e871f29e84bd297"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-io-bytestring-jvm:0.9.0": {
+      "integrity": {
+        "kotlinx-io-bytestring-jvm-0.9.0.jar": [
+          "43a8c9d7c5460622c4ffe7e7c9443736af1a69183316b532de78a9aafa86b636"
+        ],
+        "kotlinx-io-bytestring-jvm-0.9.0.module": [
+          "d11acf9df4cb8f0b015cd011662722d72490c0889984224ea56dfe4c2734aea4"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-bytestring-jvm/0.9.0/kotlinx-io-bytestring-jvm-0.9.0.pom",
+          "sha256": "8d00f6e5077f3bbe81a1df328beb5eefd008cc8f81fffe6cacd526f015dc9e84"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-io-bytestring:0.9.0": {
+      "integrity": {
+        "kotlinx-io-bytestring-0.9.0.module": [
+          "86183e8f9d3a2d9a82888378fad6f95758619359e45dfb72ecaf6c0b07263850"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-bytestring/0.9.0/kotlinx-io-bytestring-0.9.0.pom",
+          "sha256": "d4302f639a907b4025c07f3d2ee43edca0b7ebdfb6aed580da4d2076340b2067"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-io-core-jvm:0.9.0": {
+      "integrity": {
+        "kotlinx-io-core-jvm-0.9.0.jar": [
+          "338872148faa4a44acc9bfa91343813d51784e8d47f005ad4406647297f85041"
+        ],
+        "kotlinx-io-core-jvm-0.9.0.module": [
+          "1ad8d0e4f80a361c567af5aa904607629e5300dee153a4673e6517f876b21436"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-core-jvm/0.9.0/kotlinx-io-core-jvm-0.9.0.pom",
+          "sha256": "7cb911e263d1cf42e6d7363ed5601a61ac58819768d5207df91b0f69e22a6ce8"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-io-core:0.9.0": {
+      "integrity": {
+        "kotlinx-io-core-0.9.0.module": [
+          "f902561241cde204717e1eaedfaf0306e98ab99679acb7a663aaea81f15a3620"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-core/0.9.0/kotlinx-io-core-0.9.0.pom",
+          "sha256": "ad86bb89840d68b0365b3d219d10024adad4c6464e04136c6a429e1bb768fea6"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-serialization-bom:1.11.0": {
+      "integrity": {
+        "kotlinx-serialization-bom-1.11.0.pom": [
+          "3be221b6da86dcda51cac6c4b2404b89e95ab09cc8d06a05689be2ef36735dec"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-bom/1.11.0/kotlinx-serialization-bom-1.11.0.pom",
+          "sha256": "3be221b6da86dcda51cac6c4b2404b89e95ab09cc8d06a05689be2ef36735dec"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.11.0": {
+      "integrity": {
+        "kotlinx-serialization-core-jvm-1.11.0.jar": [
+          "f4a801c647d4351327cd9e1ac4113e2be9ea37a64ab0abae269c25a52e28f35d"
+        ],
+        "kotlinx-serialization-core-jvm-1.11.0.module": [
+          "d8bee6e8a51d7c169bd6060abbc6b2d4e7bc419a265cd705d47824b83f1bd0b6"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.11.0/kotlinx-serialization-core-jvm-1.11.0.pom",
+          "sha256": "83039385976fdc494241f4572558a136e7b21116d7279b26daf335478bfacb57"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0": {
+      "integrity": {
+        "kotlinx-serialization-core-1.11.0.module": [
+          "4e011406f2c2285a5a9ba8c3b6471ac168f6e82af82b1a93b71a0731d270364e"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core/1.11.0/kotlinx-serialization-core-1.11.0.pom",
+          "sha256": "3133773fbcf9822a7f3a5e85ab19941e67bd289bf5fc3182d9db4d1cab86eb22"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains:annotations:13.0": {
+      "integrity": {
+        "annotations-13.0.jar": [
+          "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478"
+        ],
+        "annotations-13.0.pom": ["965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/annotations/13.0/annotations-13.0.pom",
+          "sha256": "965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains:annotations:23.0.0": {
+      "integrity": {
+        "annotations-23.0.0.jar": [
+          "7b0f19724082cbfcbc66e5abea2b9bc92cf08a1ea11e191933ed43801eb3cd05"
+        ],
+        "annotations-23.0.0.pom": [
+          "c9490f655132328df2cfbcfdf743f53fc3916d6c1d10437175a6ca6e3a67771c"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/annotations/23.0.0/annotations-23.0.0.pom",
+          "sha256": "c9490f655132328df2cfbcfdf743f53fc3916d6c1d10437175a6ca6e3a67771c"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains:markdown-jvm:0.7.3": {
+      "integrity": {
+        "markdown-jvm-0.7.3.jar": [
+          "893abb31f15b6216f74dc704c0c6bf1e567dcf2b62cca29cf42e4f53153637ac"
+        ],
+        "markdown-jvm-0.7.3.module": [
+          "7029b63c74964e5b4334308ee729e95b538da5ed6ac12b2e477d478572d02252"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/markdown-jvm/0.7.3/markdown-jvm-0.7.3.pom",
+          "sha256": "acb9d157ffc7a64ee62be8edd9600d26b5db03270a74e8be53cd79fe0b26f3cd"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jetbrains:markdown:0.7.3": {
+      "integrity": {
+        "markdown-0.7.3.module": [
+          "dbfae7aa853eb5ea1eeba31896538a8403646f55c59a99191d687fc037bdac39"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jetbrains/markdown/0.7.3/markdown-0.7.3.pom",
+          "sha256": "11e52e0a640e54a4b3b230d1485c95ba4ba77b2c7b1fc28437390f9e01227147"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jsoup:jsoup:1.16.1": {
+      "integrity": {
+        "jsoup-1.16.1.jar": ["1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"],
+        "jsoup-1.16.1.pom": ["6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"]
+      },
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.16.1/jsoup-1.16.1.pom",
+          "sha256": "6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.jspecify:jspecify:1.0.0": {
+      "integrity": {
+        "jspecify-1.0.0.jar": ["1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"],
+        "jspecify-1.0.0.module": [
+          "d307ca77a54e18ac1ef1aaed4e5bbe014bd2f49f29e1d2f813e47c278283195b"
+        ]
+      },
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.pom",
+          "sha256": "cdab929a3b95211f43d2090c5e2d0dfe8465960e378bc32b35841dab324433a6"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "maven:org.slf4j:slf4j-api:2.0.18": {
+      "integrity": {
+        "slf4j-api-2.0.18.jar": [
+          "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
+        ],
+        "slf4j-api-2.0.18.pom": ["6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"]
+      },
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+          "sha256": "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-parent/2.0.18/slf4j-parent-2.0.18.pom",
+          "sha256": "0b3896bedad2c9ed9697edcbea1da0c54cd238a723583a81358a83bfb782e9fa"
+        },
+        {
+          "source": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-bom/2.0.18/slf4j-bom-2.0.18.pom",
+          "sha256": "9219aab601575126c4e66e1331eb2b0c6c17a330ac4d5a07e3cd11d580a0c12d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@bufbuild/protobuf@2.15.0": {
+      "integrity": "sha512-DAheWUkVr/SJTWCc+lg9dhY0eN4SaWlf4+bG1KzHeXbnqt0AfB/NX0Z+VunGlM1ki1B4zVvye27MpKh/svySUA==",
+      "licence": "(Apache-2.0 AND BSD-3-Clause)",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@bufbuild/protobuf",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@bufbuild/protoc-gen-es@2.15.0": {
+      "integrity": "sha512-FRhNTAZEXW6arWx2JxgtpuazhmewYctXugu5SfXGpXpLLCInDT1005fSKDzEM/70Es2oIn07PM4RvpwvDvR/fg==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@bufbuild/protoc-gen-es",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@bufbuild/protoplugin@2.15.0": {
+      "integrity": "sha512-vZhRoqB/jTHATqItRvJQf1zbxdrGRRhiusGty4+lKcfEFODG0PMXky2Ezv4WHHS6oSxq+5qShITuE7K1/82SuQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@bufbuild/protoplugin",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@connectrpc/connect-web@2.2.0": {
+      "integrity": "sha512-uuBUcBTYfb/r1o98LzCCZk1H90yx0vmZ5m21dpw/q4EUwsKwkCDGI8H0aEdjcZld+Q2jJ5A5ADvPqfb6lzQ/sg==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@connectrpc/connect-web",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@connectrpc/connect@2.2.0": {
+      "integrity": "sha512-M63OQ1ZFcPUm85CuewJ9G9CMV8LjzGR9935xOnXNQGSazAbwMb3x2W7vXBYM1zqrP7XFD8uxp/dUAhirclgwnQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@connectrpc/connect",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-aix-ppc64@7.0.2": {
+      "integrity": "sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-aix-ppc64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-darwin-arm64@7.0.2": {
+      "integrity": "sha512-gowzar9MwS/aRWp6f3a4KUqzRjAZjOsmGNCM6LcTgXum+dBfgsBVMN+AgvOCCbguXyick6LJhpBszxMebJ8syA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-darwin-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-darwin-x64@7.0.2": {
+      "integrity": "sha512-SZ9xZInqApNlNGc9s0W1VSsktYSOe9cFqNOIqmN1Gs8SmkjKZYFt017G4VwPxASInODuAdbTW7sXiFUf893RgA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-darwin-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-freebsd-arm64@7.0.2": {
+      "integrity": "sha512-W5NH4y/J0plIIS5b2xvTEkU7JFxyqdMAOgf+Ilhl0vHQXKO5dZoxd+C/jEtq56c4F3wk71RB4BMRQ2XdI+bwYQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-freebsd-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-freebsd-x64@7.0.2": {
+      "integrity": "sha512-UMGDx5sTpzNw3WiPebH7l90IWfJggEd+egHt/q6p7/Cm3zqoV7VxkGXt+3DxPIw8CcmvAB0j3sVVfbhX+M4Tpw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-freebsd-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-arm64@7.0.2": {
+      "integrity": "sha512-Qh4eU4/y3yDjnfjjyPYihMj5/ODIlmt+Bzu17OI+fiSRDW57QmU5SiN63exPRNJPKUzcc1INa1NXdrJ+MqHjUQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-arm@7.0.2": {
+      "integrity": "sha512-gffT3xPz9sR7j/YJExkyPntrI0P2EP9XbOyWzth2/Gs0RstK+90RBcO0ncXoXy/beYll1SXw846Nf2zdnEz0QQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-arm",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-loong64@7.0.2": {
+      "integrity": "sha512-uEHck9i8hoAzXPiYRib1O7miOnz23SxIeVl6F4LXox+qov1K35jHcEW6VHKvZI+pyvl7fZEP4MCU5LYvIq1GuQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-loong64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-mips64el@7.0.2": {
+      "integrity": "sha512-R4KvAMnE43W5Qeqb0Ly56O3mWMWIAgsMyz36DCaycd5nbg/9kzm0liw3JocfRqyJY0KPmzFjbswozXyW0DnIYA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-mips64el",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-ppc64@7.0.2": {
+      "integrity": "sha512-DORx5b3sd/4S7eayxm4FQv+A7CrkUIGRaHiwI8oiHTAI1fAPWhF4J0vAlkC8biAlHSVVwxMQ3tjZ2/DVbnQiiA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-ppc64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-riscv64@7.0.2": {
+      "integrity": "sha512-wf0jqEDOjrPRnKwYRyyJDRo11KMbvMFrU+q4zqKyChODBzvlkbhNQfKvLxQCcwTpdDaXSHZTVuh0JoCrKCUMHQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-riscv64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-s390x@7.0.2": {
+      "integrity": "sha512-IkwJc3L7yhytWd/ewjyxNDfOmswCm9GWMJT/ue/dU4aZNbwZeYAetq42VyLmsmSjvoX7z74X6ZaYCtzAr0EuGw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-s390x",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-linux-x64@7.0.2": {
+      "integrity": "sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-linux-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-netbsd-arm64@7.0.2": {
+      "integrity": "sha512-+polYF4MF04aPpO5FTkHran9yUQDSXqy5GiSDKpsll5jy3l3+g9QLhpf39T+ePtefhXLOGrLl0QIjkQP6VnelA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-netbsd-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-netbsd-x64@7.0.2": {
+      "integrity": "sha512-8YIT0EHM/3dq10ZOVF/A7pc/YSMtbcecct4rWtexrnSCHOPcpC2KTLXfTCR6vDpnSiY12heNb1GiN/wu+T/FyA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-netbsd-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-openbsd-arm64@7.0.2": {
+      "integrity": "sha512-APT8+ClYnuYm1u9+kgGXoMj2VzWzcymwh2gNSQVySHfkRDGOTVkoWLjCmOQSaO+PoqQ57B0flRp9SA+7GnnkzQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-openbsd-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-openbsd-x64@7.0.2": {
+      "integrity": "sha512-yX7s+Q0Dln0Dt9tEzZsAjXXR/+ytBM7AlglaqyeMPxQszJ1JhlJdZ6jLA+IzldHtflX81em7lDao1xXu+aRRkg==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-openbsd-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-sunos-x64@7.0.2": {
+      "integrity": "sha512-dLJDGaLZ1D4HPQn62u1n8mBDkJREwMsAkCdkwd4Ieqw+x3TUyTsqY0YiBCtE6H6OzzgGk3iuZ3vFWRS+E8/d1g==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-sunos-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-win32-arm64@7.0.2": {
+      "integrity": "sha512-Gyl1Vy6OsWesLzmq+EP0Fb7b4Nid5232AvcA2SFcdYreldpNtYFFofPjnt62y9hQy7VTaZp65ICJjuAQRaVcIQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-win32-arm64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/typescript-win32-x64@7.0.2": {
+      "integrity": "sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/typescript-win32-x64",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:@typescript/vfs@1.6.4": {
+      "integrity": "sha512-PJFXFS4ZJKiJ9Qiuix6Dz/OwEIqHD7Dme1UwZhTK11vR+5dqW2ACbdndWQexBzCx+CPuMe5WBYQWCsFyGlQLlQ==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/@typescript/vfs",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:debug@4.4.3": {
+      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/debug",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:ms@2.1.3": {
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/ms",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:prettier@3.9.6": {
+      "integrity": "sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/prettier",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:typescript@5.4.5": {
+      "integrity": "sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/typescript",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "npm:typescript@7.0.2": {
+      "integrity": "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "package-lock.json#node_modules/typescript",
+          "sha256": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:google.protobuf@3.36.1": {
+      "integrity": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
+      "licence": "BSD-3-Clause",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/google.protobuf/3.36.1/google.protobuf.nuspec",
+          "sha256": "d6a4a567ce4889e25d098fd39d13a65ce05c847e8574818edc0d1eee6277eb40"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore.server.clientfactory@2.83.0": {
+      "integrity": "DrX1dE9WJNOsaKDQpD1gQaVE567jMNfhpBuG6P2NvGhirf2HZczfIJtd2d1L+steYh0YZ1q57Sa1ZHuufMPYBw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server.clientfactory/2.83.0/grpc.aspnetcore.server.clientfactory.nuspec",
+          "sha256": "c136c73c16bb696799979b16ec3e8cedb71f9787134697f595c9329367b46006"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore.server@2.83.0": {
+      "integrity": "rWeSaXaSPIIerc82lhHKqmzlp/sgLnG+Zw1c3YEEVp/un+hJKPxJOXWuGUOS2cs3EvcZBZ2tliXsnAg5Mdk2Ew==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.server/2.83.0/grpc.aspnetcore.server.nuspec",
+          "sha256": "b9a51de789abe619de7ee4bb9ec9f30452c4bca13d514e53ac574a0bb96116e3"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore.web@2.83.0": {
+      "integrity": "0fQlnmUorVo7SCghly5MQ5IhOn+w+Z9PYQOibdnYVUPJOhzW3iVwr5HYMVC5PnsTUfwpyZWIOfrAnwPa51k5Qw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore.web/2.83.0/grpc.aspnetcore.web.nuspec",
+          "sha256": "8de00c84bf910a92356c9384c2fca141770828596771d38cfef8253a3923be33"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.aspnetcore@2.83.0": {
+      "integrity": "PMoR+paO24EgBjBvfCqrmkurBH+RmfOIYThsUv6sGx6LUH0kxhzQkjtZ44mJxU0IwEw64dCzHhIjAM+CmORp3g==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.aspnetcore/2.83.0/grpc.aspnetcore.nuspec",
+          "sha256": "3852b062a3142127590a43bb41470c956570ca4dd5a65713c4da92a57de1714e"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.core.api@2.83.0": {
+      "integrity": "xU8BT2bCw4Ct+/qIFJhhjkDEilKUbBOfp4US7l3Xa3hnlkN9l2LgISCbOw4PFYpW5jJFcK7FUAyWOFIQ94Hiqg==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.core.api/2.83.0/grpc.core.api.nuspec",
+          "sha256": "1276f66b4414aa409f4548480ef6eeb245449ed2f747541c64d526f7ba73d3e0"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.client@2.83.0": {
+      "integrity": "dHYtx7hW4muttsCrWNG4/Ysb1iAIhNPEq28eo7vF166CdXn/RXOr3SGvSreIGIjvmdrADrBNJ2cUeJBto/T0XA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.client/2.83.0/grpc.net.client.nuspec",
+          "sha256": "bc4f11891023c0511a08b5fcc47497b14ad145f2e3bf19b329fedce20c003367"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.clientfactory@2.83.0": {
+      "integrity": "j07orG5YnET3n5+TnczHCQsyWL3a4n/lJlIS88B3Zffylpp0RkcPzLv4ILAwKmOWOBvbBHiytPzAwJ8p7JomEQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.clientfactory/2.83.0/grpc.net.clientfactory.nuspec",
+          "sha256": "ba34068bb1e956e14021209f9576a3fd9c40340f444a7d0c62ddfdef2cf8788b"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.net.common@2.83.0": {
+      "integrity": "9w52xxORdIGu4Mm8lff3psMIlarenu+7TC4uIfiiW9AyaHZ6iPE/18gIkG1DD9byGDuhjuhnN9hiviBUAmCuZw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.net.common/2.83.0/grpc.net.common.nuspec",
+          "sha256": "08d24d135348f484daad19ec1a456e387ce7d6fddf13615a6ced1c7bbaef7de6"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:grpc.tools@2.84.0": {
+      "integrity": "SarjdfpQYU/mmdu/fWgSW8kEHQ54jiyG2+I4THu9eubtAud+QJf+1iJdGtoKTJ/ZRaI0qAG+7ttsK2WUTao2OQ==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/grpc.tools/2.84.0/grpc.tools.nuspec",
+          "sha256": "ec22ca632fad79aac17b94fdad74aa17dd999a493b68f6b6e693863737daf2ed"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.extensions.dependencyinjection.abstractions@8.0.0": {
+      "integrity": "cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.nuspec",
+          "sha256": "5e666a909af764ae8ab3faeeccc2773187d4ca4155d5d756356cad6766443f51"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.extensions.logging.abstractions@8.0.0": {
+      "integrity": "arDBqTgFCyS0EvRV7O3MZturChstm50OJ0y9bDJvAcmEPJm0FFpFyjU/JLYyStNGGey081DvnQYlncNX5SJJGA==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.nuspec",
+          "sha256": "e49e6e9827ea70fb0f7c8162aa4356a1d2d211157851ba3faeb2cbacbba913f5"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:microsoft.net.illink.tasks@10.0.11": {
+      "integrity": "IBf7lbovvjGWVWXZX5cJ/cO0WXbId0Zq4BuSeT94mGZuOAP66oMeH9PTBZ9Jpp3Jb6jtK0qm/NyUbPRo1gC/wQ==",
+      "licence": "MIT",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/10.0.11/microsoft.net.illink.tasks.nuspec",
+          "sha256": "6c10c93cd2958d71fc46d60c940044071e15b57a75d469d68adf80f0dff57da1"
+        }
+      ],
+      "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    }
+  },
+  "publisher": {
+    "repository": "ArcForges/Contracts",
+    "workflow": "ci.yml",
+    "nuget": {
+      "feed": "https://api.nuget.org/v3/index.json",
+      "environment": "nuget",
+      "credential": "github-oidc"
+    },
+    "npm": {
+      "feed": "https://registry.npmjs.org/",
+      "environment": "npm",
+      "credential": "github-oidc"
+    },
+    "maven": {
+      "environment": "maven-central",
+      "credential": "central-token-and-formal-pgp"
+    }
+  },
+  "publicInternalGate": "eng/policy/contract-access.json",
+  "channels": {
+    "main": "Exact NuGet/npm CI versions; npm latest may name newest verified main candidate but consumers use exact versions. Maven main remains SNAPSHOT with timestamped provider receipts.",
+    "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
+  },
+  "review": {
+    "owner": "Contracts maintainers",
+    "reviewer": "Codex under maintainer authorization",
+    "reviewedOn": "2026-09-21",
+    "baselineCommit": "9f0e90f65d57f405fcee311d467a57a255dfd644",
+    "inputHashes": {
+      ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
+      ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
+      ".npmrc": "d39e9a6c685eb4374c63df103c78708203e435eafe678d1497f168413bf50d9c",
+      ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+      "Directory.Build.props": "443ed70fc6faca54f904a3b9bfdc5ea3153377184ad39cdd65284a44ec075648",
+      "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
+      "Directory.Packages.props": "da77af081aa25740bc3a66e950df7efd6a894674f186d355818f5cc7c4857e0c",
+      "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
+      "build.gradle.kts": "e44b3fd56b94f748fa36b7e2f464191f0ba07a389d671dce7ecd7d184ed57d64",
+      "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
+      "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
+      "eng/central-signing/build.gradle.kts": "7be19180f108dac2d92d363a823952bce41e197e04ca5a95a2d6103c23e6a8ed",
+      "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
+      "eng/policy/contract-access.json": "f8e1d85aeeef62719a5aeb0466acbb4d15653cdf5b9f8fc9289aa1d9265f1472",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
+      "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
+      "eng/provenance/records/dokka-array-buffer-byte-length-licence-r1.json": "906e5f9298de3d24654fa77460e12888a8ea2c98f89c1d95974dcf7d8bf73704",
+      "eng/provenance/records/dokka-available-typed-arrays-licence-r1.json": "168ac5eef74afda62ef3567eae064fb817179a24653f24b9d15ec0f5dc052816",
+      "eng/provenance/records/dokka-babel-runtime-licence-r1.json": "4ff13d02084d04052687e0151f0a3b9949d12ce712253b15437ff4a95902654e",
+      "eng/provenance/records/dokka-call-bind-apply-helpers-licence-r1.json": "2b1b70355716be411798040cb7f531cfcaf09b8c3907a7bbedfd61ee3b78b5eb",
+      "eng/provenance/records/dokka-call-bind-licence-r1.json": "bba895c674f398ce0de80c7aa30cffaf8c9c4bfee55f4d1a223766f2c908f6f6",
+      "eng/provenance/records/dokka-call-bound-licence-r1.json": "d6428ac8c2ac9f4a1f85f10e8807ca455fdb552fc8033ffe3ec7d1f905ba9b90",
+      "eng/provenance/records/dokka-classnames-licence-r1.json": "f5927e1496a05bac5b09bb960024455d4ca621be6e4e43f05437b34ed0c1ac43",
+      "eng/provenance/records/dokka-clsx-licence-r1.json": "757cc85cb6bddfde0030029ecbdee12e0c6e8485c42183ba74f3b41d578ea8cb",
+      "eng/provenance/records/dokka-column-resizer-core-licence-r1.json": "448eff01e7bbd7b110c1ee0c11398d5105ff9aa6d744f37e8fa96f8ba66d0fbf",
+      "eng/provenance/records/dokka-combokeys-licence-r1.json": "75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",
+      "eng/provenance/records/dokka-core-js-licence-r1.json": "3cf28ab2fd5f6473f45dcbabf18aebc01189ba642ea5b5617ff1606dfacfd756",
+      "eng/provenance/records/dokka-css-loader-licence-r1.json": "fa8cdef1d5beccffd74f6ccbb57379b1304a3e204242f776059cba24529e5e76",
+      "eng/provenance/records/dokka-deep-equal-licence-r1.json": "b39d18ff1bce56cde5faf26e399a23c1bbc5cdb3525aec17024eef2092247e18",
+      "eng/provenance/records/dokka-define-data-property-licence-r1.json": "17f2f4e45bfa4828496bb697f349fb27760356b1e221b0b4c0e686c8f8494277",
+      "eng/provenance/records/dokka-define-properties-licence-r1.json": "be80edc44910583355abeae35a6099bcd3adaa715851cbea95602dd563705f73",
+      "eng/provenance/records/dokka-documentation-resources-r1.json": "7246ebabdc633c0d328c7d0e221088d3965bf36169cfefb2f8ae1c0f3778eb19",
+      "eng/provenance/records/dokka-documentation-resources-r2.json": "7ff0f30361298e2df58dc7180294007f0b27e20b1ff7c70a33d351c1328115c8",
+      "eng/provenance/records/dokka-documentation-resources-r3.json": "0cae2f2168ca3eb8f92303a95812e8fbd4dd82cacce49e574d46078f94c9c169",
+      "eng/provenance/records/dokka-dom-helpers-licence-r1.json": "13303b969579dd5694c0544925d45b7126c3d9c1a6e0a754122896ca263da918",
+      "eng/provenance/records/dokka-dunder-proto-licence-r1.json": "78b90efc76c0649d6150b4710fc90b58a99fe582af3696a7f3180f3a79f6aa7d",
+      "eng/provenance/records/dokka-es-define-property-licence-r1.json": "f496d51bead2a29f6d9ea98032b46ccf6363caeb3dea928807974128d2f16139",
+      "eng/provenance/records/dokka-es-errors-licence-r1.json": "62c7508dee7b711566bdbc4f1f0d3907609477d9fcc2b1a37176cae0d570be7e",
+      "eng/provenance/records/dokka-es-get-iterator-licence-r1.json": "6bd29a282c583b3798d6738232d9e46ad2c69b122d0f601d51480ce5dfb90aa9",
+      "eng/provenance/records/dokka-es-object-atoms-licence-r1.json": "d23be3ea4d29296b2afdeb4c87cdc1967d3fcac65489efca6e9c315d59282515",
+      "eng/provenance/records/dokka-for-each-licence-r1.json": "e71810875144b6703684404b88ca77b45077bf9b240199e2ca3f6754a4f26425",
+      "eng/provenance/records/dokka-function-bind-licence-r1.json": "2b1137c37eab8192c35347eb2ca95eea59677920b7bbc5c948dfe6b589993ed4",
+      "eng/provenance/records/dokka-functions-have-names-licence-r1.json": "ea7a5adef62b8603220d2ce1aca9440526dc1e052abaa5352c46cdf18e066d50",
+      "eng/provenance/records/dokka-get-intrinsic-licence-r1.json": "c18d311f5021a64b1e97b3fb622f8c7c1af5241cbfb5a847a756c26ef88d2492",
+      "eng/provenance/records/dokka-get-proto-licence-r1.json": "8f844514516ff137fdbf53bcd5318edf42a35730e5489a4be7ca50e80f60dd63",
+      "eng/provenance/records/dokka-gopd-licence-r1.json": "ba9dbdde65fdb1ac04852f31de1fbcafe05c25ec386c8dc6ae33d62b4f5c9c0e",
+      "eng/provenance/records/dokka-has-bigints-licence-r1.json": "e150e83104f26a97791b9ecb8e471747f549e2b493fe261ce6da0068e14d2b65",
+      "eng/provenance/records/dokka-has-property-descriptors-licence-r1.json": "100d1b845a620c72ba3b74e0464b92ba23666502bfb08146a91967300ae75220",
+      "eng/provenance/records/dokka-has-symbols-licence-r1.json": "7d20741f95630a0dfa0eb65d85bd2173c4311edac50af1a4ba760180bed1d78d",
+      "eng/provenance/records/dokka-has-tostringtag-licence-r1.json": "ff7a26d4ff159c99561605a3d739d3d0f1dd8555d99cb0bbc5c04d0310768480",
+      "eng/provenance/records/dokka-hasown-licence-r1.json": "2513d1d47f82c11c98b6f8c432e34cac67d36959d0828514cb77f5a34f8df5b5",
+      "eng/provenance/records/dokka-internal-slot-licence-r1.json": "c4b40d9429ac63ea3c2a5f1edc55641d2d28dc2765df7ae25f5c18a9848826c7",
+      "eng/provenance/records/dokka-is-arguments-licence-r1.json": "f37eb034c3d7fc793114c3f12d82d07ad4cf0c4a42927f10bd200c2430c1dfb8",
+      "eng/provenance/records/dokka-is-array-buffer-licence-r1.json": "03aae98c247a27cd97175a75888c5eddb81821e84a283312ae8004d2080406a8",
+      "eng/provenance/records/dokka-is-bigint-licence-r1.json": "c8e917c1fa1c406c356c3b655b4ab56a92a15b38da89562272191d0221876bff",
+      "eng/provenance/records/dokka-is-boolean-object-licence-r1.json": "89fbf25bf063c77437409589b0c72af5f9c6f0046a623e21a9d75acfc5f297d5",
+      "eng/provenance/records/dokka-is-callable-licence-r1.json": "dfb1b4a3e90ac228e68cd511f00bb453fa04a6da53608959daac9f5b3fa65a4e",
+      "eng/provenance/records/dokka-is-date-object-licence-r1.json": "01b08d069fbf6bf551b1662b4dc811c8a9e6d599d1199c86aa76489f4e5da377",
+      "eng/provenance/records/dokka-is-map-licence-r1.json": "fc618ce317e0b9f8e364e6fc8104a51e1625973a966bf80a8ce13807f55218cf",
+      "eng/provenance/records/dokka-is-number-object-licence-r1.json": "537ea760782b92d74fe22ae09cfefa6356d535c0c4aa825b3d638638d5902a7a",
+      "eng/provenance/records/dokka-is-regex-licence-r1.json": "0952af9265686c7197c6114b9c72bbe29b7eb7295c9cbc489c051adac0f09bb0",
+      "eng/provenance/records/dokka-is-set-licence-r1.json": "55f56ffad059be569e9dbf11bfdfe8b1d6e61a8d1d986f7a0df836bbf86453b0",
+      "eng/provenance/records/dokka-is-shared-array-buffer-licence-r1.json": "5d41bd93547ce25bb39215f216109d2fb76d0c5a0c364978949bf85c5dbfc266",
+      "eng/provenance/records/dokka-is-string-licence-r1.json": "f10aaaa588a18865d210e445da28d06649c4ff2f21334b310cf6e04cf345ec26",
+      "eng/provenance/records/dokka-is-symbol-licence-r1.json": "723daec6ee36ad56b3ad5d308a269ffebcdb75bfc29d62a0535bf1865f8423f2",
+      "eng/provenance/records/dokka-is-weakmap-licence-r1.json": "07decee3936c2377716b19854ec05f35c3cd1e9ab7cc49ca2c7e8f0e9652d398",
+      "eng/provenance/records/dokka-is-weakset-licence-r1.json": "4ef462368f1c4a94cefce0e41d5b230bf4d8034d13ac6f35a9ec6ed3b9033c0f",
+      "eng/provenance/records/dokka-isarray-licence-r1.json": "13337fd2b19586b7602f739bfbb3cf11efffd9fae5106e17edde32c0142f72d1",
+      "eng/provenance/records/dokka-jetbrains-icons-licence-r1.json": "e091fe652dc777057111999a1d8cf30b3546198ef658ded772ef9666cd645e29",
+      "eng/provenance/records/dokka-jetbrains-ring-ui-licence-r1.json": "2f65bfa8807561a1b948ed0169480e0f1bf0763149931571af1b28385ebf3d76",
+      "eng/provenance/records/dokka-math-intrinsics-licence-r1.json": "a94fbca1d4646e5ecf2d86322676e1b9d973ace6d9f04ac87e44aad326b26823",
+      "eng/provenance/records/dokka-memoize-one-licence-r1.json": "9e6db7bc18a7440c68a09b91d45bddae04406e1d50a6b621bf2a87e00abafba6",
+      "eng/provenance/records/dokka-object-assign-licence-r1.json": "1018758cb07635e458fa2e5100b7aacbeebcff79d640a3accfe4d1823292136d",
+      "eng/provenance/records/dokka-object-dot-assign-licence-r1.json": "dc96c41fa16b08bffe15e8459ed97ff90764b71ce1e62f3e27e9dc6b9b57abf0",
+      "eng/provenance/records/dokka-object-inspect-licence-r1.json": "6c2b752bc6cbf46238f4f130c50848586ac5722862d32b7dee6e0474f06b6880",
+      "eng/provenance/records/dokka-object-is-licence-r1.json": "ef52ac07b422cd6926376f8da583f641bfb560d704b8dc492a72001c19a92738",
+      "eng/provenance/records/dokka-object-keys-licence-r1.json": "55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",
+      "eng/provenance/records/dokka-own-licence-r1.json": "e6a8139e1564c5c8ed0bb04190644647f146fb9e7ac13489e518475dd22c9449",
+      "eng/provenance/records/dokka-possible-typed-array-names-licence-r1.json": "2bd1cd266c8e192e8cddde30ebd25ad3576f39ec6234056771b3042d7f2d0486",
+      "eng/provenance/records/dokka-prismjs-licence-r1.json": "eb8eb5a584bd300f6261279254e2a27d12f7ec415b64a93fee8776a5c5e08d6c",
+      "eng/provenance/records/dokka-prop-types-licence-r1.json": "fa8775ecb4676a5c731c85120cd07e3787a25d9387902073c79cdadb008b6265",
+      "eng/provenance/records/dokka-react-dom-licence-r1.json": "9b0b48439b47ffadfb50960f8e8e1e462b9ad8bceba694e7764b2db475923bfa",
+      "eng/provenance/records/dokka-react-licence-r1.json": "1e95a01a8dca133ba848d9a933ed5170a78f9e61028a9e5336a40dec8c8c86fd",
+      "eng/provenance/records/dokka-react-lifecycles-compat-licence-r1.json": "980a643bc3949b3de7f3a1c930b52bb3fa9b3af5e9004a6fb319ded00fc6dd92",
+      "eng/provenance/records/dokka-react-virtualized-licence-r1.json": "b9851059d61a022d0c6d5f473bbf8bc954c21f272b2d932e1a899a5187a22a3c",
+      "eng/provenance/records/dokka-regexp-prototype-flags-licence-r1.json": "ebd4c403a39ebea737d5c39eadfbd23df1c0cae5c0f103acb4b13404af9c89b5",
+      "eng/provenance/records/dokka-safe-regex-test-licence-r1.json": "9e3d5575e3b40b52c5fe3ff92fc8bd45b3466ba853ff8ffac9776c700b6cd8cf",
+      "eng/provenance/records/dokka-scheduler-licence-r1.json": "5082e14c3e28ebadd06e87a0b72beefd559f32d767626ef922ee17a1ba3abc22",
+      "eng/provenance/records/dokka-set-function-length-licence-r1.json": "aad109a8e511621c0d21834ddcf04f66ba0b2b91cbb574ea6a15bfc5d1374f67",
+      "eng/provenance/records/dokka-set-function-name-licence-r1.json": "d0df690b38c8599ea507f2c343ede405ab67158e7ca0720715b13f22689e7156",
+      "eng/provenance/records/dokka-side-channel-licence-r1.json": "179985988673fe24b2837b0cd32e5a5d6dc625ce56c09038af421958f3bb9cd1",
+      "eng/provenance/records/dokka-side-channel-list-licence-r1.json": "317efc443db102c6669b413a61aed8047e567da46fdc1a4c742d443afda5153d",
+      "eng/provenance/records/dokka-side-channel-map-licence-r1.json": "929b196ffd98ac6189e86958139dda63f8c553e66021a23ac52cae534f39b631",
+      "eng/provenance/records/dokka-side-channel-weakmap-licence-r1.json": "ad555cf9891f717861bf0f56d6703b3a5ca659d9db0e5a14ec1ace3ae12f9282",
+      "eng/provenance/records/dokka-sniffr-licence-r1.json": "7c383f9ba83928dd638caa2e3ec6f1f190ff2a54ba65012998608ef246351f3b",
+      "eng/provenance/records/dokka-stop-iteration-iterator-licence-r1.json": "b231f71addf72bf951e90095a3a6b0e86979bb62300f5d5cc79d8485c0f43469",
+      "eng/provenance/records/dokka-style-loader-licence-r1.json": "62d99c05ace2b18b760c9109a983624c302395ac47db50869542e6c66cfc7bd7",
+      "eng/provenance/records/dokka-util-deprecate-licence-r1.json": "ccb2ebe52b970b3b03b6e943c1a1500a33d5b441feb456d0ed8d0540ea3554bd",
+      "eng/provenance/records/dokka-which-boxed-primitive-licence-r1.json": "18ad9e03d27cfe2816725f58ceacf04fbfb7381023fad7a82c498c29dd103291",
+      "eng/provenance/records/dokka-which-collection-licence-r1.json": "60f258f62506034ec8d91900cbccedc782055d9c3c5f61da6b0b1c1fb9dd819d",
+      "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
+      "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
+      "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
+      "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
+      "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
+      "gradle.lockfile": "410eb7817f1bdf23eb5c2563b1953c4c2ee0403d54f687cb1ccdf82c0bd816de",
+      "gradle/libs.versions.toml": "75913647f51c39122d54d1e6f311115145aa975033b567a7ae86455b1cd5dac8",
+      "gradle/verification-metadata.xml": "c9c78c7de10d769f47c7f025ccf28a3259ab75416242136c14cb00aac3a472c8",
+      "gradle/wrapper/gradle-wrapper.properties": "45b09518a2f0ea326bc776066e735b94527d2a94002e3b27621c32cdaee7e3ce",
+      "package-lock.json": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d",
+      "package.json": "fbd3bc8d9f5c69cc8b119314086187964d671cdf634b91edc8d1eef5f3d768c6",
+      "settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
+      "settings.gradle.kts": "1f5b60ba4526dc5c0df1bbad3733f3d54c8986b7bb182d4de6af226d80ed6e10",
+      "src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj": "8729e258c7d3de2ff083a3a19fc2d7bce73c2ffc036983c1d9d793d0d0555b37",
+      "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json": "6081ad4fb578234a0fb55b07cc28f635269fc9441be05a1d7c484bc423c25706",
+      "src/public/kotlin/contract-fixtures/build.gradle.kts": "04a795a0a53289dfd045258203676340c38ffd07c2a2af5defeba6eba538f6c6",
+      "src/public/kotlin/contract-fixtures/gradle.lockfile": "14dc5803d23ab183aa24b2849ee51541e52e4d26fbada80e19082d15e0b1c654",
+      "src/public/kotlin/contracts-client/build.gradle.kts": "aad5df34d4aa67656c72931d8450a6e36468c4d6576ec01c196fa92a44db4c96",
+      "src/public/kotlin/contracts-client/gradle.lockfile": "8f73565fdf42782b54bc63075e9daa435f7301dcee0654657f47235975e640ce",
+      "src/public/kotlin/contracts-connect-client/build.gradle.kts": "c874f55eca9149f4849c727c8fbb7282015b520c50b55cf91e5ad67283b4c5c0",
+      "src/public/kotlin/contracts-connect-client/gradle.lockfile": "560f3bf8fa2d38cc4b9a87717342c7a3e003ed1243f405519f5b73e6de0acfb9",
+      "src/public/kotlin/contracts-proto/build.gradle.kts": "a7716ed1821d35154e862d5c6851f5c6d2abf5201a34f8f63b4d4c94f071c1b7",
+      "src/public/kotlin/contracts-proto/gradle.lockfile": "766ba7a9c4101ae5149d0200ddc2bfc45d54aa1e3187717171a1dfab28a1ec4b",
+      "src/public/ts/api-client/package.json": "393e78887e6e7bb297ecbda6831f76882cf3a1daa15c279ea29877ee1b50653f",
+      "src/public/ts/proto/package.json": "98367a7015180269a235989d7b30567c51595af931b24dc6e5e1916f7e326a84",
+      "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
+      "tests/public/HelloClient/packages.lock.json": "1f14735e85fa30c10fd7f24f45f4c028de48b7ba565b70104896aa139efa8bbb",
+      "tests/public/HelloHost/HelloHost.csproj": "c7ac2acb49c079907c4fdbe9a937421d93146f4b87e92546032d7881fadc6035",
+      "tests/public/HelloHost/packages.lock.json": "b42b2af5b45874a50dac347b26dc7a6a5dd54a4d8a9848ba6c1c620b02cbc022",
+      "tests/public/KotlinClient/build.gradle.kts": "a1371195ad503182e279d7fa9fc6fe6e87c1fe96ca6f1d267280bc16f10bac7f",
+      "tests/public/KotlinClient/gradle.lockfile": "b56875e6636e543c6afff508ef1159771073c208a15accc4fdd91e0bcdc0a251",
+      "tests/public/KotlinClient/gradle/verification-metadata.xml": "d76c87dcde5b2cc94eabba962560725ec67469831f0a86a93b9984d172173ee1",
+      "tests/public/KotlinClient/settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
+      "tests/public/KotlinClient/settings.gradle.kts": "6c91f0dd5ae42eed55499c7561ea0e5526bf85b136279fac6c4a4fa977b771f1",
+      "tests/public/KotlinConnectClient/build.gradle.kts": "463f683b9dea47959b7063e74670cc7fd890346b4f2cba969d62d71b23ac73d2",
+      "tests/public/KotlinConnectClient/gradle.lockfile": "be60b42d35161579032a9cc8665f64849b7cc4af4ca17f7356a9139d45690cad",
+      "tests/public/KotlinConnectClient/gradle/verification-metadata.xml": "b7688c90212d87b52e446ec1da2ccbe50196517fd308849851a1aa9d9b3d0e85",
+      "tests/public/KotlinConnectClient/settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
+      "tests/public/KotlinConnectClient/settings.gradle.kts": "997d5d04e67aafbd50d094c4aed81bcc239cf5a9c205a786f2847140474f61e5"
+    },
+    "maintenanceAssessment": "Retain the reviewed current generator/runtime/build closure and existing automated update/security review. Cached package metadata establishes licences; no statement that historical compiler/test transitive versions are latest or that offline inspection establishes vulnerability status. Framework changes require a new explicit review.",
+    "checks": {
+      "compilation": "Current retained NuGet/npm/Maven build and generator checks remain required CI gates; no dependency version changes.",
+      "aot-trim": "Existing public managed AOT and trim diagnostics retained; no framework upgrade.",
+      "compatibility": "Pinned generators and schemas unchanged; generated diff and public/internal access guards retained.",
+      "licence-provenance": "Exact cached NuGet metadata, npm lock licences and Maven POM/parent declarations reviewed; existing runtime SBOM, CDDL option and third-party source records preserved.",
+      "security-sbom": "Existing dependency review/npm audit/CodeQL and candidate SBOM gates retained; offline policy does not assert live vulnerability absence.",
+      "runtime-performance-migration": "Not triggered for policy-only changes. Future behavior changes require relevant local evidence or explicit unmet coverage using available tools.",
+      "framework-runtime-posture": "No framework major change. Future upgrades must assess Native AOT/trim and Android Kotlin/JVM/ART/R8 and transport consumer implications; later consumer acceptance remains WP03/WP06."
+    },
+    "frameworkVersions": {
+      "dotnetSdk": "10.0.400",
+      "node": "24.21.0",
+      "kotlin": "2.4.20",
+      "dokka": "2.2.0",
+      "protobuf": "4.36.1",
+      "grpc": "1.84.0",
+      "grpc-kotlin": "1.5.0",
+      "coroutines": "1.11.0",
+      "gson": "2.14.0",
+      "connect": "0.9.0"
+    },
+    "previousReceipt": null
+  },
+  "reviewReceipt": "eng/policy/dependency-reviews/wp02-05-r1.json"
+}

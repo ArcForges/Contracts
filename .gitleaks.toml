@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+# Reviewed false positives: public source SHA256 values, never credentials.
+# Only these exact input path/digest rows in the two dependency receipts qualify.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Verified public dependency-input source hashes"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/(dependency-policy\.json|dependency-reviews/wp02-05-r1\.json)$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"f8e1d85aeeef62719a5aeb0466acbb4d15653cdf5b9f8fc9289aa1d9265f1472",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"8729e258c7d3de2ff083a3a19fc2d7bce73c2ffc036983c1d9d793d0d0555b37",?\s*$''',
+]

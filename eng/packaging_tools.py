@@ -120,8 +120,14 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
 
 
 def pack(release: str) -> None:
+    from dependency_admission import audit
+    from release_channels import stable
+    audit(stable=stable(release))
     check_tools()
-    run(sys.executable, ROOT / "eng/check_provenance.py", "--owner", "Contracts")
+    # New tag pushes have no before commit; the canonical/main-ancestry release
+    # guard establishes the accepted source tree used for provenance comparison.
+    comparison = ["--base", os.environ["GITHUB_SHA"]] if os.environ.get("GITHUB_REF", "").startswith("refs/tags/") else []
+    run(sys.executable, ROOT / "eng/check_provenance.py", "--owner", "Contracts", *comparison)
     generate(check=True)
     build()
     commit = source_commit()

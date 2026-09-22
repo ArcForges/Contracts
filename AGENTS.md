@@ -28,3 +28,9 @@ Follow the [current CI/local authority](https://github.com/ArcForges/ArcForges-D
 - Preserve Maven main SNAPSHOT and deliberate-tag formal releases. Never create tags, republish or re-sign solely for verification. Diagnose failed jobs before rerun; ambiguous existing immutable releases require investigation, not silent skipping.
 - Do not reinstall vcpkg, SDKs, emulators or toolchains to expand validation. Stop on network failure and report the exact operation; no proxy configuration, port 7890, wsl.exe or WSL wrappers.
 - Review the full latest PR and wait for applicable checks before merging. Post-merge work ends after expected commit, required build/publication status and clean primary fast-forward. Keep branches/worktrees and report untested coverage accurately.
+
+## Dependency admission (WP02.05)
+
+- Keep `eng/policy/dependency-policy.json` bound to the complete actual dependency inputs. A dependency or framework change requires a reviewed replacement receipt, closure/licence and maintenance review and every upgrade checklist item. Hash refresh alone is insufficient.
+- Preserve existing source/native provenance and public/internal import gates. Stable closures cannot import prerelease dependencies; only recorded exact foundation candidates are permitted in development.
+- Framework major upgrades require explicit runtime/AOT/trim and affected Android Kotlin/JVM/ART/R8 assessment under VG-08. Record conditional local coverage honestly without adding forbidden CI or provisioning tools.
