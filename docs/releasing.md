@@ -38,9 +38,11 @@ in branch protection before merging.
 
 These GitHub-side settings are configured for this repository, including the
 CI/security checks (including Java/Kotlin CodeQL) and PR requirement on main (zero required review
-approvals). Initial setup used disabled publisher switches. Normal operation now
-uses `NUGET_PUBLISH_ENABLED=true` and `NPM_PUBLISH_MODE=oidc`; check the current
-repository variables before diagnosing a skipped publication.
+approvals). Normal operation uses `NUGET_PUBLISH_ENABLED=true` and
+`NPM_PUBLISH_MODE=oidc`; the WP03.00 first publication temporarily used bootstrap
+mode for new npm identities. See the [accepted publication and OIDC transition](#wp0300-accepted-publication)
+for the recorded state, and check current repository variables before diagnosing
+a skipped publication.
 
 ## 2. NuGet: authorize every registered package family
 
@@ -83,10 +85,11 @@ be able to publish under `@arcforges`; do not silently rename the package scope.
 
 npm currently requires a package to exist before its trusted publisher can be
 configured. Every new package identity needs one first real candidate publication.
-The initial proto/API packages already exist; WP03.00 introduces
+The initial proto/API packages already existed; WP03.00 introduced
 `@arcforges/contract-fixtures`, `@arcforges/ai-internal` and
-`@arcforges/operator-client`, which need their own setup. The workflow performs that publication automatically with a
-temporary granular token:
+`@arcforges/operator-client`. All five now exist; the completed bootstrap and
+remaining OIDC evidence are recorded below. A future new identity follows the
+same first-creation sequence with a temporary granular token:
 
 1. In the npm account menu, open Access Tokens and create a granular token named
    `Contracts-initial-publish`.
@@ -100,7 +103,7 @@ temporary granular token:
    put it in source or store it as a repository variable.
 5. Set the repository variable **NPM_PUBLISH_MODE=bootstrap**.
 6. Merge the bootstrap PR, or the next accepted PR if the scaffold is already on
-   main. CI publishes all five registered npm packages after the
+   main. CI publishes all registered npm packages after the
    build/offline candidate gate, in dependency order. Use a token authorized for
    existing packages and new identities; secret-name presence does not prove validity.
 
@@ -141,15 +144,17 @@ requires updating its registry trust relationships.
 
 Official reference: [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
 
-The [main run publishing 1.0.0-ci.6.1](https://github.com/ArcForges/Contracts/actions/runs/34697244586)
-completed both registry jobs. Its npm log records `NPM_PUBLISH_MODE=oidc`, and
-both npm versions identify GitHub Actions as their trusted publisher with
-provenance. The initial token is no longer needed for these two packages.
-Deleting the GitHub environment secret removes that stored copy; revoke
-`Contracts-initial-publish` in npm Account → Access Tokens to invalidate the
-credential itself. Keep the package trusted-publisher connections and the GitHub
-`npm` environment. This evidence concerns registry publication, not product or
-Android device acceptance.
+The historical [main run publishing 1.0.0-ci.6.1](https://github.com/ArcForges/Contracts/actions/runs/34697244586)
+completed its NuGet/npm registry jobs. Its npm log records
+`NPM_PUBLISH_MODE=oidc`, and the proto/API versions identify GitHub Actions as
+their trusted publisher with provenance. This proves OIDC only for those two
+package identities; it does not authorize later packages or establish their
+OIDC publication. Follow the all-package confirmation above before removing a
+temporary credential used for a later expansion. Deleting the GitHub environment
+secret removes that stored copy; revoking the token in npm Account → Access
+Tokens invalidates the credential itself. Keep the package trusted-publisher
+connections and the GitHub `npm` environment. Registry publication does not
+establish product or Android device acceptance.
 
 ## Maven Central setup
 
@@ -245,5 +250,36 @@ still stop publication. Stable and newer CI tags retain their existing protectio
 
 The old run is a partial release and is not an accepted complete package set.
 Re-running its unchanged job would execute the same defective source. The reviewed
-source correction uses the normal main publication channel to produce a complete
-corrected release; it does not overwrite or republish the old immutable versions.
+source correction used the normal main publication channel to produce the
+complete corrected release below; it did not overwrite or republish the old
+immutable versions.
+
+### WP03.00 accepted publication
+
+[Contracts PR #34](https://github.com/ArcForges/Contracts/pull/34) merged as
+`84c89054b119bb0afa595c85ad85c24638501b65`. Its
+[main run 35704055306](https://github.com/ArcForges/Contracts/actions/runs/35704055306)
+passed Build candidate, Verify and all three publication jobs; the
+[matching Security run](https://github.com/ArcForges/Contracts/actions/runs/35704055307)
+also passed. It published the
+complete registered set of 22 outputs: 14 NuGet and five npm packages at
+`1.0.0-ci.84.1`, plus the three Maven modules at `1.0.0-SNAPSHOT` with that source
+and CI build identity. This is the accepted WP03.00 package set; the earlier
+partial `1.0.0-ci.82.1` set remains historical.
+
+The npm job used bootstrap authorization. On 2026-09-22, the account owner
+confirmed that all three new packages have their GitHub Actions trusted
+publisher saved for `ArcForges/Contracts`, workflow `ci.yml`, environment `npm`,
+with direct `npm publish` allowed. `NPM_PUBLISH_MODE` was then set to `oidc` and
+read back. The first normal OIDC publication covering all five packages has
+not yet been observed. The temporary `NPM_BOOTSTRAP_TOKEN` environment secret
+is retained until that publication succeeds; OIDC mode does not pass it to the
+publisher. Afterwards, remove the stored secret and revoke the npm token as
+described above. No verification-only publication, replacement version or tag
+is required to record this transition.
+
+Acceptance uses the expected source identity and successful build/publication
+job results. No post-publication archive download, installation or runtime test
+was performed. The selected structure, generated slices and offline checks do
+not establish the later WP03 business-schema, compatibility, product integration
+or device acceptance gates.

@@ -1,10 +1,13 @@
 # Installing and using the packages
 
 Choose a version whose main CI candidate and relevant registry job both passed.
-The release manifest supplies the exact common version. An Actions artifact named
-candidate is a tested archive; it becomes a registry package only after upload.
-Versions such as `1.0.0-ci.12.1` below are illustrative, not an assertion that
-this version exists.
+The release manifest supplies the exact NuGet/npm version and the separate
+Maven channel version. An Actions artifact named candidate is a tested archive;
+it becomes a registry package only after upload. Versions such as
+`1.0.0-ci.12.1` and the formal Maven version `1.0.0` below are illustrative, not
+assertions that those releases exist. The
+[accepted WP03.00 publication](releasing.md#wp0300-accepted-publication)
+records the complete published set and its channel identities.
 
 ## C#
 
@@ -60,10 +63,13 @@ service implementation, TLS endpoint and authentication.
 ## TypeScript / Web
 
 The default npm package page and a fresh install without a version follow
-`latest`, which CI advances to the newest published main build. Check that both
-npm publication results passed and use their common version; registry uploads
-are not an atomic operation across packages. Moving `latest` does not rewrite an
-existing application's dependency version or lock file.
+`latest`. Before the first stable release, CI advances it to the newest published
+main build; afterwards, stable releases own `latest` and main builds use `ci`.
+Check that publication succeeded for every package in the producer catalog and
+use the accepted common version for the packages your application consumes;
+registry uploads are not atomic across packages. Moving a tag does not rewrite
+an existing application's dependency version or lock file. Public Web clients
+must not import the private AI or operator packages.
 
 Install exact package versions and commit the application's lock:
 
@@ -90,13 +96,16 @@ Generated service descriptors also work with the caller's compatible transport.
 
 ### gRPC-Web for the Worker ingress
 
-Use `contracts-connect-client` with the exact version from a successful Maven
-publication containing that module. The version shown here is an example, not
-an already published Connect client release. Add `mavenCentral()`:
+Use `contracts-connect-client` with an exact formal version from a successful
+Maven Central publication containing that module. The version shown here is an
+example, not an already published formal release. Main currently publishes
+`1.0.0-SNAPSHOT` through the separate [development channel](maven-central.md);
+its NuGet/npm CI version is not a Maven Central release coordinate. For a
+published formal release, add `mavenCentral()`:
 
 ```kotlin
 dependencies {
-    implementation("io.github.arcforges:contracts-connect-client:1.0.0-ci.12.1")
+    implementation("io.github.arcforges:contracts-connect-client:1.0.0")
     implementation("com.connectrpc:connect-kotlin-okhttp:0.9.0")
     implementation("com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0")
 }
@@ -137,10 +146,10 @@ suspend fun hello(): String = client.sayHello(
 ).getOrThrow().message
 ```
 
-The URL illustrates the Worker route intended for the next Cloud/Mobile
-integration step. This PR tests a loopback C# service, including the `/api` prefix;
-it does not establish that deployment or Android device behavior. Do not use the
-Connect protocol default against ASP.NET gRPC. Keep request compression disabled
+The URL illustrates the public Worker ingress. Historical local loopback
+diagnostics covered the `/api` prefix; this producer candidate does not establish
+current Cloud deployment or Android device behavior. Do not use the Connect
+protocol default against ASP.NET gRPC. Keep request compression disabled
 (the default) for the current Hello ingress. The application owns credentials,
 TLS, coroutine cancellation and transport cleanup. Use JDK/JVM target 17 or newer
 and Kotlin 2.4.20 or a compatible compiler; Android also needs INTERNET permission.
