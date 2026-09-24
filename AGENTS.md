@@ -24,6 +24,17 @@
   reflection-based System.Text.Json. `eng/check_serialization.py` and the Native AOT
   `tests/public/SerializationProbe` enforce this in the build.
 
+## Delivery model (P2-018)
+
+Work is scheduled as delivery tasks in the [delivery graph](https://github.com/ArcForges/ArcForges-Design-B/blob/fd16c5f285de0bda2d0320cdff4d52c34c9098ed/docs/planning/delivery/README.md) and executed through the [Plan execution entry](https://github.com/ArcForges/Plan-B/blob/0cb637d1bfbf64d7db22a96a2b7370a409a25d8e/arcforges-implementation.md). There is no Current task, numbered substep order or single main context.
+
+- Baseline: WP03.00–WP03.02 are accepted and WP03.03 has not started. Its closures and every later contract area are open tasks in the [contracts lane](https://github.com/ArcForges/ArcForges-Design-B/blob/fd16c5f285de0bda2d0320cdff4d52c34c9098ed/docs/planning/delivery/lanes/contracts.md); this repository also owns tasks in the extensions, governance and release lanes.
+- Start only a task that Plan-B's `python tools/delivery.py ready --claims` lists and whose `claims/<task-id>` branch you hold. No task here is ready until its adoption slice (`ADOPT.03.contracts`, `ADOPT.03.extensions`, `ADOPT.03.governance` or `ADOPT.03.release`) is recorded.
+- Several workers may work here at once, each on a different claimed task in its own retained worktree and `task/<task-id>` branch, inside the task's write scope. Closures are authored concurrently in their own domain proto or HTTP-schema, constraint and fixture files.
+- Shared files follow their [declared protocols](https://github.com/ArcForges/ArcForges-Design-B/blob/fd16c5f285de0bda2d0320cdff4d52c34c9098ed/docs/planning/delivery/shared-resources.md): the package inventory, foundation inventory and constraint aggregate are append-only per closure; a proto file with several contributing tasks has one designated author task; generated sources and descriptor baselines are regenerated after rebase, never hand-edited or hand-merged. The Contracts integration owner merges closure pull requests one at a time, and each merge to main publishes all packages at one candidate version.
+- Title pull requests `[<TASK-ID>] <summary>`; a bundle of compatible ready tasks lists each ID, and planning alignment uses `[P2-018]`. The integration owner merges only pull requests of the claimant at the current claim epoch.
+- Dated `docs/wp03-*` and `docs/implementation/wp00-*` records describe their original scope; they are evidence, not execution instructions.
+
 ## Validation policy (P2-017)
 
 Follow the [current CI/local authority](https://github.com/ArcForges/ArcForges-Design/blob/47db6670a727317939b91245e8c0b288834acf99/docs/assurance/ci-and-local-validation-policy.md).

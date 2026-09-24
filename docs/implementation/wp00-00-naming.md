@@ -25,8 +25,8 @@ spoofed remote owners, malformed policy and provenance exception abuse. These ar
 source-policy tests, not product or provider runtime evidence.
 
 CI runs the naming scan and retains its JSON receipt, then the existing tooling test
-suite, package/consumer and security gates. Applicable CI and main publication remain
-pending until the corresponding actual run completes. WP02/WP05 own continuing
+suite, package/consumer and security gates. This record was written before its CI and main
+publication ran; WP00 is accepted in the Design [WP00 stage acceptance](https://github.com/ArcForges/ArcForges-Design/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp00-stage-acceptance.md). WP02/WP05 own continuing
 family-wide build enforcement. WP30 owns the already selected Android prerelease
 identity migration; WP33/WP36/WP53 own real native association/installer behavior.
 
