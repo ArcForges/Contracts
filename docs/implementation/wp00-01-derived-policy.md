@@ -26,6 +26,6 @@ declaration mutations, unknown nested fields, escaped forbidden values, copies,
 invalid owner/path/digest registrations and duplicate JSON keys. The complete
 tooling suite, locked producer build, packaged consumers and security checks remain
 required. `artifacts/evidence/wp00-01-family.json` records the actual local nine-root
-scan and the consumed declaration. PR CI and post-merge registry publication are
-pending until their run-specific evidence is verified; no product-readiness gate
+scan and the consumed declaration. This record predates its PR CI and post-merge registry
+publication; WP00 is accepted in the Design [WP00 stage acceptance](https://github.com/ArcForges/ArcForges-Design/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp00-stage-acceptance.md); no product-readiness gate
 closes from this policy change.

@@ -7,11 +7,14 @@ Handwritten protobuf contracts and generated C#/TypeScript/Java/Kotlin packages 
 ArcForges product family. Consumers install versioned packages; they do not clone
 this repository, run protoc, use Git submodules or depend on sibling source.
 
-**Current scope:** WP03.00 establishes source-bearing contract boundaries with
-selected complete Foundation/error, event, private product/helper, operator and
-extension records, HTTP definitions, validators and an offline inventory CLI.
-Hello compatibility remains; complete business services and product integration
-remain later WP03 substeps. The exact producer inventory is
+**Current scope:** WP03.00–WP03.02 are accepted. WP03.00 establishes source-bearing
+contract boundaries with selected complete Foundation/error, event, private product/helper,
+operator and extension records, HTTP definitions, validators and an offline inventory CLI;
+[WP03.01](docs/wp03-01-foundation.md) adds the foundation value records and
+[WP03.02](docs/wp03-02-serialization.md) the generated-only serialization posture. Hello
+compatibility remains. Capability and resource descriptors (WP03.03), the complete business
+operation registries and the package-level gates are open delivery tasks in the
+[contracts lane](https://github.com/ArcForges/ArcForges-Design-B/blob/fd16c5f285de0bda2d0320cdff4d52c34c9098ed/docs/planning/delivery/lanes/contracts.md). The exact producer inventory is
 [`eng/contract-packages.json`](eng/contract-packages.json).
 
 | Package family                                                                             | Contents                                                                                          |

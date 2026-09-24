@@ -1,5 +1,8 @@
 # WP03.02 serialization posture: implementation and evidence
 
+Accepted: the Design [WP03.02 completion receipt](https://github.com/ArcForges/ArcForges-Design/blob/7e56614ced01a12c84eb2047071d14399249ee90/docs/assurance/wp03-02-implementation-evidence.md)
+records the merged source, required CI and normal publication. The pre-merge status below is historical.
+
 Status: pre-merge implementation record. Source and targeted local validation are
 complete. Applicable PR CI, merge and normal publication remain required acceptance
 gates; this record does not establish a released WP03.02 candidate.
