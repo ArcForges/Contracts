@@ -14,7 +14,7 @@ operator and extension records, HTTP definitions, validators and an offline inve
 [WP03.02](docs/wp03-02-serialization.md) the generated-only serialization posture. Hello
 compatibility remains. Capability and resource descriptors (WP03.03), the complete business
 operation registries and the package-level gates are open delivery tasks in the
-[contracts lane](https://github.com/ArcForges/ArcForges-Design-B/blob/fd16c5f285de0bda2d0320cdff4d52c34c9098ed/docs/planning/delivery/lanes/contracts.md). The exact producer inventory is
+[contracts lane](https://github.com/ArcForges/ArcForges-Design-B/blob/f8dff2d0144c7db020d35711d606334639dd078b/docs/planning/delivery/lanes/contracts.md). The exact producer inventory is
 [`eng/contract-packages.json`](eng/contract-packages.json).
 
 | Package family                                                                             | Contents                                                                                          |
