@@ -87,6 +87,7 @@
     "eng/policy/dependency-reviews/wp03-02-r1.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json",
+    "eng/policy/dependency-reviews/dependabot-2026-09-26-protobuf-4-36-2.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/product-names.json",
     "eng/policy/reuse-policy.json",
@@ -97,6 +98,7 @@
     "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r6.json",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r7.json",
     "eng/provenance/conflicts/javadoc-script-boundary-r1.json",
     "eng/provenance/files.json",
     "eng/provenance/records/canonical-apache-licence-r1.json",
@@ -125,6 +127,7 @@
     "eng/provenance/records/dokka-documentation-resources-r4.json",
     "eng/provenance/records/dokka-documentation-resources-r5.json",
     "eng/provenance/records/dokka-documentation-resources-r6.json",
+    "eng/provenance/records/dokka-documentation-resources-r7.json",
     "eng/provenance/records/dokka-dom-helpers-licence-r1.json",
     "eng/provenance/records/dokka-dunder-proto-licence-r1.json",
     "eng/provenance/records/dokka-es-define-property-licence-r1.json",
@@ -970,5 +973,5 @@
     "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Services/ContractServices.g.cs": "contract-bindings-r5",
     "src/public/ts/proto/src/services/gen/catalog.ts": "contract-bindings-r5"
   },
-  "artifacts": ["dokka-documentation-resources-r6"]
+  "artifacts": ["dokka-documentation-resources-r7"]
 }

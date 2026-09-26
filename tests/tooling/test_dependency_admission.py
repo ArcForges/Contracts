@@ -102,7 +102,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 11)
+        self.assertEqual(len(config['allowlists']), 13)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -128,7 +128,9 @@ class DependencyAdmission(unittest.TestCase):
         serialization_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/wp03-02-r1.json').read_text())
         prettier_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json').read_text())
         grpc_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json').read_text())
+        protobuf_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/dependabot-2026-09-26-protobuf-4-36-2.json').read_text())
         latest_pages = json.loads((ROOT / 'eng/provenance/artifact-profiles/dokka-2-2-0-r6.json').read_text())['modules']['contracts-proto']['pages']
+        r7_pages = json.loads((ROOT / 'eng/provenance/artifact-profiles/dokka-2-2-0-r7.json').read_text())['modules']['contracts-proto']['pages']
         # Exact public API rows reported by CI at source f9dc23fea7ae1dae3805404bb800583aea4e13e0.
         reviewed_public_pages = [
             'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-block-kt/-dsl/clear-order-key.html',
@@ -190,6 +192,8 @@ class DependencyAdmission(unittest.TestCase):
             {key: serialization_receipt['review']['inputHashes'][key] for key in sources},
             {key: prettier_receipt['review']['inputHashes'][key] for key in sources},
             {key: grpc_receipt['review']['inputHashes'][key] for key in sources},
+            {key: protobuf_receipt['review']['inputHashes'][key] for key in sources},
+            {key: r7_pages[key] for key in reviewed_public_pages + [key for key in current_pages if 'message-key' in key]},
         ]
         for allow, source_rows, permitted, excluded in zip(config['allowlists'][1:], new_sources,
                 ['eng/policy/dependency-reviews/wp03-00-r1.json',
@@ -201,7 +205,9 @@ class DependencyAdmission(unittest.TestCase):
                  'eng/policy/dependency-reviews/wp03-01-r2.json',
                  'eng/policy/dependency-reviews/wp03-02-r1.json',
                  'eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json',
-                 'eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json'],
+                 'eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json',
+                 'eng/policy/dependency-reviews/dependabot-2026-09-26-protobuf-4-36-2.json',
+                 'eng/provenance/artifact-profiles/dokka-2-2-0-r7.json'],
                 ['eng/provenance/artifact-profiles/dokka-2-2-0-r4.json',
                  'eng/policy/dependency-policy.json',
                  'eng/policy/dependency-reviews/wp03-00-r1.json',
@@ -211,7 +217,9 @@ class DependencyAdmission(unittest.TestCase):
                  'eng/policy/dependency-reviews/wp03-01-r1.json',
                  'eng/policy/dependency-reviews/wp03-01-r2.json',
                  'eng/policy/dependency-reviews/wp03-02-r1.json',
-                 'eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json'], strict=True):
+                 'eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json',
+                 'eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json',
+                 'eng/provenance/artifact-profiles/dokka-2-2-0-r6.json'], strict=True):
             self.assertEqual(allow['targetRules'], ['generic-api-key'])
             self.assertEqual(allow['condition'], 'AND')
             self.assertEqual(allow['regexTarget'], 'line')
@@ -238,9 +246,13 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][9]['paths'][0], 'eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-9.json'))
         self.assertEqual(config['allowlists'][10]['paths'], [r'^eng/policy/(dependency-policy\.json|dependency-reviews/dependabot\-2026\-09\-26\-grpc\-2\-84\-0\.json)$'])
         self.assertIsNone(re.fullmatch(config['allowlists'][10]['paths'][0], 'eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-1.json'))
+        self.assertEqual(config['allowlists'][11]['paths'], [r'^eng/policy/(dependency-policy\.json|dependency-reviews/dependabot\-2026\-09\-26\-protobuf\-4\-36\-2\.json)$'])
+        self.assertIsNone(re.fullmatch(config['allowlists'][11]['paths'][0], 'eng/policy/dependency-reviews/dependabot-2026-09-26-protobuf-4-36-3.json'))
+        self.assertEqual(config['allowlists'][12]['paths'], [r'^eng/provenance/artifact-profiles/dokka-2-2-0-r7\.json$'])
+        self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
-            self.assertEqual(grpc_receipt['review']['inputHashes'][source], self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4])
+            self.assertEqual(protobuf_receipt['review']['inputHashes'][source], self.policy['inputHashes'][source])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60])
 
 
 if __name__ == '__main__':

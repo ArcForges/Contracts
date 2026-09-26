@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "c68019dbd802e170cfcbe3895f3540337b4833ea",
+  "sourceCommit": "f5432c0b2c7ce827de33da1d5461f6d4a4b3f848",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -6090,7 +6090,7 @@
     },
     {
       "path": "gradle/libs.versions.toml",
-      "sha256": "75913647f51c39122d54d1e6f311115145aa975033b567a7ae86455b1cd5dac8"
+      "sha256": "d364782770de0424c8ec20b7853dda625db91b4a7b5d3c34fbd7fbf16d622c14"
     },
     {
       "path": "internal/ai-http/v1/schema.json",
@@ -6270,7 +6270,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-connect-client/gradle.lockfile",
-      "sha256": "560f3bf8fa2d38cc4b9a87717342c7a3e003ed1243f405519f5b73e6de0acfb9"
+      "sha256": "9b5447a219bb4ec726f780a103ce193eaa6468378da8314316558bbf79ff7281"
     },
     {
       "path": "src/public/kotlin/contracts-proto/build.gradle.kts",
@@ -6278,7 +6278,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/gradle.lockfile",
-      "sha256": "766ba7a9c4101ae5149d0200ddc2bfc45d54aa1e3187717171a1dfab28a1ec4b"
+      "sha256": "15e984aed92f5b614310976df0ca1d27d23d40b333ae732b5287c4bbd72ca90a"
     },
     {
       "path": "src/public/ts/api-client/package.json",

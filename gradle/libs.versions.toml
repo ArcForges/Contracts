@@ -2,7 +2,7 @@
 [versions]
 kotlin = "2.4.20"
 dokka = "2.2.0"
-protobuf = "4.36.1"
+protobuf = "4.36.2"
 grpc = "1.84.0"
 grpc-kotlin = "1.5.0"
 coroutines = "1.11.0"
