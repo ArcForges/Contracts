@@ -21,7 +21,7 @@ A repository using central package management adds these entries to
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="ArcForges.Contracts.PublicApi" Version="1.0.0-ci.12.1" />
-    <PackageVersion Include="Grpc.Net.Client" Version="2.83.0" />
+    <PackageVersion Include="Grpc.Net.Client" Version="2.84.0" />
   </ItemGroup>
 </Project>
 ```
