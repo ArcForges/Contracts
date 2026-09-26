@@ -62,11 +62,11 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+      - uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
         with:
           languages: ${{ matrix.language }}
           build-mode: none
-      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+      - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
 
   codeql-kotlin:
     name: CodeQL (java-kotlin)
@@ -96,11 +96,11 @@ jobs:
           curl --fail --silent --show-error --location \
             "$CODEQL_BUNDLE_URL" --output "$bundle"
           printf '%s  %s\n' "$CODEQL_BUNDLE_SHA256" "$bundle" | sha256sum --check --strict
-      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+      - uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
         with:
           languages: java-kotlin
           build-mode: manual
           tools: ${{ runner.temp }}/codeql-bundle-java-linux64.tar.zst
       - name: Compile Java and Kotlin with CodeQL extraction
         run: ./gradlew --no-daemon --console=plain --no-build-cache clean assemble
-      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+      - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
