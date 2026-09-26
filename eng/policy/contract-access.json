@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-09-22",
+  "reviewedOn": "2026-09-26",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "b6795dc55852e16bcd555751a58bd494958e3917",
+  "sourceCommit": "c68019dbd802e170cfcbe3895f3540337b4833ea",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -6070,7 +6070,7 @@
     },
     {
       "path": "Directory.Packages.props",
-      "sha256": "da77af081aa25740bc3a66e950df7efd6a894674f186d355818f5cc7c4857e0c"
+      "sha256": "e5b916abbfaea2cceb4471a7b2861fbda6685f09a7c35445e3dcb10803fbb43c"
     },
     {
       "path": "NuGet.config",
@@ -6102,11 +6102,11 @@
     },
     {
       "path": "package-lock.json",
-      "sha256": "9315666370bc19c05eed6023ef932f1c5305fe52cd64da4af74cbfe114c3681f"
+      "sha256": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c"
     },
     {
       "path": "package.json",
-      "sha256": "b9ab4712743684b8153a009c96484f3ce4c517c37f06817d1ea70369b407fd73"
+      "sha256": "2f36038dcc047c24126270f680db23265625775c3faf83df0f18340476800c85"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
@@ -6206,7 +6206,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Cli/packages.lock.json",
-      "sha256": "e630d67e4fa94428a730102d0186e1814f0fd9d6225ed4c4d44cf3efb904f793"
+      "sha256": "953b0fd0a6201157ff334804b5bbadf6d6de0c212416c200ff8873e3db1cc449"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
@@ -6230,7 +6230,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/packages.lock.json",
-      "sha256": "0244d57ce10e1aaf95d4e29c6d5794684c3a1e7bc64ba6543cf3232a08a3851b"
+      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/ArcForges.Contracts.Validation.csproj",
@@ -6238,7 +6238,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json",
-      "sha256": "c6789925030ccdc566d6130ddcccd2dd29e77ce3fb796d6543c78e946a73384a"
+      "sha256": "8f1549cd1c68627821ac23754b1c09a9ad164956097ee7e7f8bd8e59e0a974dc"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
@@ -6246,7 +6246,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json",
-      "sha256": "2267f9cdb63782d6faa4a523fde8eec10d08647bbea46310ce0e1549e68ecde4"
+      "sha256": "89318d08cf51665d2f4a44ad801b47cbf06a59ea73df828aecaea01b8dc94512"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
@@ -6254,7 +6254,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json",
-      "sha256": "0244d57ce10e1aaf95d4e29c6d5794684c3a1e7bc64ba6543cf3232a08a3851b"
+      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
     },
     {
       "path": "src/public/kotlin/contract-fixtures/build.gradle.kts",
