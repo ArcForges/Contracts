@@ -85,6 +85,7 @@
     "eng/policy/dependency-reviews/wp03-01-r1.json",
     "eng/policy/dependency-reviews/wp03-01-r2.json",
     "eng/policy/dependency-reviews/wp03-02-r1.json",
+    "eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/product-names.json",
     "eng/policy/reuse-policy.json",
