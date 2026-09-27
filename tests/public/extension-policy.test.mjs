@@ -3,6 +3,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { createHash } from "node:crypto";
 import {
   tryParseExtensionManifestJson,
   serializeExtensionManifestJson,
@@ -25,6 +26,22 @@ const privateFixture = JSON.parse(
   readFileSync(new URL("../../fixtures/internal/con-12-configuration.json", import.meta.url)),
 );
 const codecCases = [...fixture.codecCases, ...privateFixture.codecCases];
+test("length-prefixed SHA256 bucket and allocation boundary vectors", () => {
+  for (const row of fixture.bucketVectors) {
+    const input = Buffer.concat(row.components.map(component => {
+      const bytes = Buffer.from(component, "utf8");
+      const length = Buffer.alloc(4);
+      length.writeUInt32BE(bytes.length);
+      return Buffer.concat([length, bytes]);
+    }));
+    const digest = createHash("sha256").update(input).digest();
+    assert.equal(input.toString("hex"), row.inputHex);
+    assert.equal(digest.toString("hex"), row.sha256);
+    assert.equal(Number(digest.readBigUInt64BE() % 10000n), row.bucket);
+  }
+  for (const row of fixture.allocationVectors)
+    assert.equal(row.bucket < row.allocation, row.included);
+});
 const codecs = {
   ExtensionManifest: {
     parse: tryParseExtensionManifestJson,

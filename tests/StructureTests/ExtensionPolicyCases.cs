@@ -15,6 +15,28 @@ internal static class ExtensionPolicyCases
     public static void Run(string root)
     {
         using var fixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/public/con-12-extension-policy.json")));
+        // Cross-language fixture oracle, not an activation or targeting runtime implementation.
+        foreach (var row in fixture.RootElement.GetProperty("bucketVectors").EnumerateArray())
+        {
+            using var input = new MemoryStream();
+            foreach (var component in row.GetProperty("components").EnumerateArray())
+            {
+                var bytes = Encoding.UTF8.GetBytes(component.GetString()!);
+                var length = new byte[4];
+                System.Buffers.Binary.BinaryPrimitives.WriteUInt32BigEndian(length, checked((uint)bytes.Length));
+                input.Write(length); input.Write(bytes);
+            }
+            var encoded = input.ToArray();
+            var digest = System.Security.Cryptography.SHA256.HashData(encoded);
+            var bucket = System.Buffers.Binary.BinaryPrimitives.ReadUInt64BigEndian(digest) % 10000;
+            if (Convert.ToHexStringLower(encoded) != row.GetProperty("inputHex").GetString()
+                || Convert.ToHexStringLower(digest) != row.GetProperty("sha256").GetString()
+                || bucket != row.GetProperty("bucket").GetUInt64())
+                throw new InvalidOperationException("Length-prefixed bucket fixture differs: " + row.GetProperty("id").GetString());
+        }
+        foreach (var row in fixture.RootElement.GetProperty("allocationVectors").EnumerateArray())
+            if ((row.GetProperty("bucket").GetInt32() < row.GetProperty("allocation").GetInt32()) != row.GetProperty("included").GetBoolean())
+                throw new InvalidOperationException("Allocation boundary fixture differs.");
         using var privateFixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/internal/con-12-configuration.json")));
         var publicCases = fixture.RootElement.GetProperty("codecCases").EnumerateArray().ToArray();
         var privateCases = privateFixture.RootElement.GetProperty("codecCases").EnumerateArray().ToArray();
