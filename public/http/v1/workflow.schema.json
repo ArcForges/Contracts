@@ -1,0 +1,839 @@
+{
+  "title": "ExtensionWorkflow",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "workflow.v1"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/WorkflowInput"
+      },
+      "minItems": 0,
+      "maxItems": 64
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/WorkflowNode"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/WorkflowOutput"
+      },
+      "minItems": 0,
+      "maxItems": 64
+    },
+    "limits": {
+      "$ref": "#/$defs/WorkflowLimits"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "inputs",
+    "nodes",
+    "outputs",
+    "limits"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0; contracts08 section2. Closed workflow graph profile; no execution or owner-authority evidence.",
+  "x-arcforges-max-bytes": 4194304,
+  "$defs": {
+    "WorkflowResourceRef": {
+      "title": "WorkflowResourceRef",
+      "type": "object",
+      "properties": {
+        "realmId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        },
+        "workspaceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        },
+        "ownerAppId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "resourceKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "resourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        },
+        "displayHint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "AlwaysKeep",
+            "AvailableOffline",
+            "OnDemand",
+            "CloudOnly",
+            "MissingExternal"
+          ]
+        },
+        "holdingDeviceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        }
+      },
+      "required": [
+        "realmId",
+        "ownerAppId",
+        "resourceKind",
+        "resourceId",
+        "availability"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowTextValue": {
+      "title": "WorkflowTextValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "text"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowBoolValue": {
+      "title": "WorkflowBoolValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "bool"
+        },
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowInt64Value": {
+      "title": "WorkflowInt64Value",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "int64"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-[1-9][0-9]*|[1-9][0-9]*)$",
+          "x-arcforges-rules": [
+            "int64"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowDecimalValue": {
+      "title": "WorkflowDecimalValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "decimal"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]{0,8}[1-9])$",
+          "x-arcforges-rules": [
+            "canonicalDecimal"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowEnumValue": {
+      "title": "WorkflowEnumValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "enum"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowResourceRefValue": {
+      "title": "WorkflowResourceRefValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "resourceRef"
+        },
+        "value": {
+          "$ref": "#/$defs/WorkflowResourceRef"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowTypedValue": {
+      "title": "WorkflowTypedValue",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WorkflowTextValue"
+        },
+        {
+          "$ref": "#/$defs/WorkflowBoolValue"
+        },
+        {
+          "$ref": "#/$defs/WorkflowInt64Value"
+        },
+        {
+          "$ref": "#/$defs/WorkflowDecimalValue"
+        },
+        {
+          "$ref": "#/$defs/WorkflowEnumValue"
+        },
+        {
+          "$ref": "#/$defs/WorkflowResourceRefValue"
+        }
+      ]
+    },
+    "WorkflowValueRef": {
+      "title": "WorkflowValueRef",
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        }
+      },
+      "required": [
+        "nodeId",
+        "field"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowLiteralOperand": {
+      "title": "WorkflowLiteralOperand",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "literal"
+        },
+        "value": {
+          "$ref": "#/$defs/WorkflowTypedValue"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowReferenceOperand": {
+      "title": "WorkflowReferenceOperand",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "reference"
+        },
+        "valueRef": {
+          "$ref": "#/$defs/WorkflowValueRef"
+        }
+      },
+      "required": [
+        "kind",
+        "valueRef"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowOperand": {
+      "title": "WorkflowOperand",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WorkflowLiteralOperand"
+        },
+        {
+          "$ref": "#/$defs/WorkflowReferenceOperand"
+        }
+      ]
+    },
+    "WorkflowComparison": {
+      "title": "WorkflowComparison",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "enum": [
+            "eq",
+            "ne",
+            "lt",
+            "le",
+            "gt",
+            "ge"
+          ]
+        },
+        "left": {
+          "$ref": "#/$defs/WorkflowOperand"
+        },
+        "right": {
+          "$ref": "#/$defs/WorkflowOperand"
+        }
+      },
+      "required": [
+        "operator",
+        "left",
+        "right"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowExists": {
+      "title": "WorkflowExists",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "const": "exists"
+        },
+        "valueRef": {
+          "$ref": "#/$defs/WorkflowValueRef"
+        }
+      },
+      "required": [
+        "operator",
+        "valueRef"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowAll": {
+      "title": "WorkflowAll",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "const": "all"
+        },
+        "predicates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkflowPredicate"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "operator",
+        "predicates"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowAny": {
+      "title": "WorkflowAny",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "const": "any"
+        },
+        "predicates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkflowPredicate"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "operator",
+        "predicates"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowPredicate": {
+      "title": "WorkflowPredicate",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WorkflowComparison"
+        },
+        {
+          "$ref": "#/$defs/WorkflowExists"
+        },
+        {
+          "$ref": "#/$defs/WorkflowAll"
+        },
+        {
+          "$ref": "#/$defs/WorkflowAny"
+        }
+      ]
+    },
+    "WorkflowArgument": {
+      "title": "WorkflowArgument",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "value": {
+          "$ref": "#/$defs/WorkflowOperand"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowConstantNode": {
+      "title": "WorkflowConstantNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "constant"
+        },
+        "typedValue": {
+          "$ref": "#/$defs/WorkflowTypedValue"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "typedValue"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowInputNode": {
+      "title": "WorkflowInputNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "input"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowSelectNode": {
+      "title": "WorkflowSelectNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "select"
+        },
+        "source": {
+          "$ref": "#/$defs/WorkflowValueRef"
+        },
+        "recordField": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "source",
+        "recordField"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowCapabilityNode": {
+      "title": "WorkflowCapabilityNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "capability"
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "typedArguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkflowArgument"
+          },
+          "minItems": 0,
+          "maxItems": 64
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "operationId",
+        "typedArguments",
+        "dependencies"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowConditionNode": {
+      "title": "WorkflowConditionNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "condition"
+        },
+        "predicate": {
+          "$ref": "#/$defs/WorkflowPredicate"
+        },
+        "thenNodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "elseNodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "predicate",
+        "thenNodes",
+        "elseNodes"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowForeachNode": {
+      "title": "WorkflowForeachNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "foreach"
+        },
+        "inputArray": {
+          "$ref": "#/$defs/WorkflowValueRef"
+        },
+        "maxItems": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "body": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkflowNode"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "inputArray",
+        "maxItems",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowOutputNode": {
+      "title": "WorkflowOutputNode",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "output"
+        },
+        "valueRef": {
+          "$ref": "#/$defs/WorkflowValueRef"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "valueRef"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowNode": {
+      "title": "WorkflowNode",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WorkflowConstantNode"
+        },
+        {
+          "$ref": "#/$defs/WorkflowInputNode"
+        },
+        {
+          "$ref": "#/$defs/WorkflowSelectNode"
+        },
+        {
+          "$ref": "#/$defs/WorkflowCapabilityNode"
+        },
+        {
+          "$ref": "#/$defs/WorkflowConditionNode"
+        },
+        {
+          "$ref": "#/$defs/WorkflowForeachNode"
+        },
+        {
+          "$ref": "#/$defs/WorkflowOutputNode"
+        }
+      ]
+    },
+    "WorkflowInput": {
+      "title": "WorkflowInput",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "schemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "schemaId",
+        "required"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowOutput": {
+      "title": "WorkflowOutput",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "schemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "valueRef": {
+          "$ref": "#/$defs/WorkflowValueRef"
+        }
+      },
+      "required": [
+        "name",
+        "schemaId",
+        "valueRef"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowLimits": {
+      "title": "WorkflowLimits",
+      "type": "object",
+      "properties": {
+        "maxExpandedSteps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "maxForEachNesting": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "maxPredicateDepth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "maxPredicateNodes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        }
+      },
+      "required": [
+        "maxExpandedSteps",
+        "maxForEachNesting",
+        "maxPredicateDepth",
+        "maxPredicateNodes"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "x-arcforges-rules": [
+    "workflowGraph"
+  ]
+}

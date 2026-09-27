@@ -1,0 +1,1655 @@
+{
+  "title": "ExtensionManifest",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "manifest.v1"
+    },
+    "packageId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "publisherId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "signingKeyId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "name": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "minProperties": 1,
+      "maxProperties": 16
+    },
+    "description": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "minProperties": 1,
+      "maxProperties": 16
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestPlatform"
+      },
+      "minItems": 1
+    },
+    "contractRanges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestContractRange"
+      }
+    },
+    "contributions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestContribution"
+      },
+      "minItems": 1,
+      "maxItems": 256
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestPermission"
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestDependency"
+      },
+      "minItems": 0,
+      "maxItems": 64
+    },
+    "executables": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestExecutable"
+      }
+    },
+    "privateState": {
+      "$ref": "#/$defs/ManifestPrivateState"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ManifestResource"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "packageId",
+    "version",
+    "publisherId",
+    "signingKeyId",
+    "name",
+    "description",
+    "platforms",
+    "contractRanges",
+    "contributions",
+    "permissions",
+    "dependencies",
+    "executables",
+    "resources"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0; contracts08 sections1-3. Declared document shape and cross-field invariants only; archive bytes, trust, installed schemas and owner authorization remain separate.",
+  "x-arcforges-max-bytes": 4194304,
+  "x-arcforges-rules": [
+    "manifestProfile"
+  ],
+  "$defs": {
+    "ManifestResource": {
+      "title": "ManifestResource",
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$"
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "licence": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "licence"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestContent": {
+      "title": "ManifestContent",
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$"
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "schemaVersion"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestVersionRange": {
+      "title": "ManifestVersionRange",
+      "type": "object",
+      "properties": {
+        "major": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "min": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "max": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        }
+      },
+      "required": [
+        "major",
+        "min",
+        "max"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestContractRange": {
+      "title": "ManifestContractRange",
+      "type": "object",
+      "properties": {
+        "packageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        },
+        "range": {
+          "$ref": "#/$defs/ManifestVersionRange"
+        }
+      },
+      "required": [
+        "packageId",
+        "range"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestDependency": {
+      "title": "ManifestDependency",
+      "type": "object",
+      "properties": {
+        "packageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        },
+        "range": {
+          "$ref": "#/$defs/ManifestVersionRange"
+        }
+      },
+      "required": [
+        "packageId",
+        "range"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestPlatform": {
+      "title": "ManifestPlatform",
+      "type": "object",
+      "properties": {
+        "os": {
+          "type": "string",
+          "enum": [
+            "windows",
+            "linux",
+            "macos",
+            "android",
+            "any"
+          ]
+        },
+        "rid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "os",
+        "rid"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestExecutable": {
+      "title": "ManifestExecutable",
+      "type": "object",
+      "properties": {
+        "rid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$"
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "runtimeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "systemDependencyIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      },
+      "required": [
+        "rid",
+        "path",
+        "sha256",
+        "runtimeIds",
+        "systemDependencyIds"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestMigrationRange": {
+      "title": "ManifestMigrationRange",
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "min",
+        "max"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestPrivateState": {
+      "title": "ManifestPrivateState",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 268435456
+        },
+        "migrationRange": {
+          "$ref": "#/$defs/ManifestMigrationRange"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "maxBytes",
+        "migrationRange"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestCapabilityPermission": {
+      "title": "ManifestCapabilityPermission",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "capability"
+        },
+        "reasonKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "kind",
+        "reasonKey",
+        "operationId"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestResourcePermission": {
+      "title": "ManifestResourcePermission",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "resource"
+        },
+        "reasonKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "access": {
+          "type": "string",
+          "enum": [
+            "read",
+            "write"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "reasonKey",
+        "resourceKind",
+        "access"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestNetworkPermission": {
+      "title": "ManifestNetworkPermission",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "network"
+        },
+        "reasonKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\\[(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|::(?:[0-9A-Fa-f]{1,4}:){0,5}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){0}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,4}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){1}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){2}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,2}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){3}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,1}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){4}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,0}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3})|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,7}:|([0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,5}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){1,4}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){1,3}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){1,2}(:[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:((:[0-9A-Fa-f]{1,4}){1,6})|:((:[0-9A-Fa-f]{1,4}){1,7}|:))\\])(?::(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?$"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "kind",
+        "reasonKey",
+        "origins"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestBackgroundPermission": {
+      "title": "ManifestBackgroundPermission",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "background"
+        },
+        "reasonKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "reasonKey",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestPermission": {
+      "title": "ManifestPermission",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ManifestCapabilityPermission"
+        },
+        {
+          "$ref": "#/$defs/ManifestResourcePermission"
+        },
+        {
+          "$ref": "#/$defs/ManifestNetworkPermission"
+        },
+        {
+          "$ref": "#/$defs/ManifestBackgroundPermission"
+        }
+      ]
+    },
+    "ManifestResourceRef": {
+      "title": "ManifestResourceRef",
+      "type": "object",
+      "properties": {
+        "realmId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        },
+        "workspaceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        },
+        "ownerAppId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "resourceKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "resourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        },
+        "displayHint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "AlwaysKeep",
+            "AvailableOffline",
+            "OnDemand",
+            "CloudOnly",
+            "MissingExternal"
+          ]
+        },
+        "holdingDeviceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": [
+            "nonzeroUuid"
+          ]
+        }
+      },
+      "required": [
+        "realmId",
+        "ownerAppId",
+        "resourceKind",
+        "resourceId",
+        "availability"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestTextValue": {
+      "title": "ManifestTextValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "text"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestBoolValue": {
+      "title": "ManifestBoolValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "bool"
+        },
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestInt64Value": {
+      "title": "ManifestInt64Value",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "int64"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-[1-9][0-9]*|[1-9][0-9]*)$",
+          "x-arcforges-rules": [
+            "int64"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestDecimalValue": {
+      "title": "ManifestDecimalValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "decimal"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 39,
+          "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]{0,8}[1-9])$",
+          "x-arcforges-rules": [
+            "canonicalDecimal"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestEnumValue": {
+      "title": "ManifestEnumValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "enum"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestResourceRefValue": {
+      "title": "ManifestResourceRefValue",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "resourceRef"
+        },
+        "value": {
+          "$ref": "#/$defs/ManifestResourceRef"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestTypedValue": {
+      "title": "ManifestTypedValue",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ManifestTextValue"
+        },
+        {
+          "$ref": "#/$defs/ManifestBoolValue"
+        },
+        {
+          "$ref": "#/$defs/ManifestInt64Value"
+        },
+        {
+          "$ref": "#/$defs/ManifestDecimalValue"
+        },
+        {
+          "$ref": "#/$defs/ManifestEnumValue"
+        },
+        {
+          "$ref": "#/$defs/ManifestResourceRefValue"
+        }
+      ]
+    },
+    "ManifestParameter": {
+      "title": "ManifestParameter",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "bool",
+            "int64",
+            "decimal",
+            "enum",
+            "resourceRef"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "default": {
+          "$ref": "#/$defs/ManifestTypedValue"
+        },
+        "min": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "max": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "maxLength": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 262144
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "required"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestSecretInput": {
+      "title": "ManifestSecretInput",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "descriptionKey",
+        "required"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestCapabilityBinding": {
+      "title": "ManifestCapabilityBinding",
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "operationId",
+        "inputSchemaId",
+        "outputSchemaId"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestExtensionPoint": {
+      "title": "ManifestExtensionPoint",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "command",
+            "action",
+            "contextProvider",
+            "artifactProvider",
+            "settings",
+            "panel",
+            "importer",
+            "exporter",
+            "decoder",
+            "analysis"
+          ]
+        },
+        "capability": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "id",
+        "kind"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestCallLimits": {
+      "title": "ManifestCallLimits",
+      "type": "object",
+      "properties": {
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30000
+        },
+        "maxRequestBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4194304
+        },
+        "maxResponseBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4194304
+        },
+        "maxConcurrentCalls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        }
+      },
+      "required": [
+        "timeoutMs",
+        "maxRequestBytes",
+        "maxResponseBytes",
+        "maxConcurrentCalls"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestSkillBody": {
+      "title": "ManifestSkillBody",
+      "type": "object",
+      "properties": {
+        "guidance": {
+          "$ref": "#/$defs/ManifestResource"
+        },
+        "triggerLabels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "contextPolicyKeys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "capabilityIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      },
+      "required": [
+        "guidance",
+        "triggerLabels",
+        "contextPolicyKeys",
+        "capabilityIds"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestTemplateBody": {
+      "title": "ManifestTemplateBody",
+      "type": "object",
+      "properties": {
+        "ownerProduct": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "templateKind": {
+          "type": "string",
+          "enum": [
+            "notesDocument",
+            "chatPrompt",
+            "scopeRecipe",
+            "slatePreset"
+          ]
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestContent"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestParameter"
+          },
+          "minItems": 0,
+          "maxItems": 64
+        },
+        "outputCapabilityId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "ownerProduct",
+        "templateKind",
+        "body",
+        "parameters",
+        "outputCapabilityId"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestWorkflowBody": {
+      "title": "ManifestWorkflowBody",
+      "type": "object",
+      "properties": {
+        "workflow": {
+          "$ref": "#/$defs/ManifestContent"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "capabilityIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      },
+      "required": [
+        "workflow",
+        "inputSchemaId",
+        "outputSchemaId",
+        "capabilityIds"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestMcpStdioBody": {
+      "title": "ManifestMcpStdioBody",
+      "type": "object",
+      "properties": {
+        "transport": {
+          "type": "string",
+          "const": "stdio"
+        },
+        "protocolVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "executable": {
+          "$ref": "#/$defs/ManifestExecutable"
+        },
+        "toolAllowlist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestCapabilityBinding"
+          }
+        },
+        "parameterSchemaDigests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "limits": {
+          "$ref": "#/$defs/ManifestCallLimits"
+        }
+      },
+      "required": [
+        "transport",
+        "protocolVersion",
+        "executable",
+        "toolAllowlist",
+        "parameterSchemaDigests",
+        "limits"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestMcpHttpBody": {
+      "title": "ManifestMcpHttpBody",
+      "type": "object",
+      "properties": {
+        "transport": {
+          "type": "string",
+          "const": "streamableHttp"
+        },
+        "protocolVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "serverOrigin": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\\[(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|::(?:[0-9A-Fa-f]{1,4}:){0,5}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){0}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,4}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){1}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){2}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,2}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){3}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,1}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){4}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,0}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3})|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,7}:|([0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,5}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){1,4}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){1,3}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){1,2}(:[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:((:[0-9A-Fa-f]{1,4}){1,6})|:((:[0-9A-Fa-f]{1,4}){1,7}|:))\\])(?::(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?$"
+        },
+        "toolAllowlist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestCapabilityBinding"
+          }
+        },
+        "parameterSchemaDigests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "limits": {
+          "$ref": "#/$defs/ManifestCallLimits"
+        }
+      },
+      "required": [
+        "transport",
+        "protocolVersion",
+        "serverOrigin",
+        "toolAllowlist",
+        "parameterSchemaDigests",
+        "limits"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestMcpBody": {
+      "title": "ManifestMcpBody",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ManifestMcpStdioBody"
+        },
+        {
+          "$ref": "#/$defs/ManifestMcpHttpBody"
+        }
+      ]
+    },
+    "ManifestConnectorBody": {
+      "title": "ManifestConnectorBody",
+      "type": "object",
+      "properties": {
+        "definitionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "authKind": {
+          "type": "string",
+          "enum": [
+            "none",
+            "oauth2",
+            "personalToken"
+          ]
+        },
+        "origins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\\[(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|::(?:[0-9A-Fa-f]{1,4}:){0,5}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){0}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,4}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){1}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){2}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,2}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){3}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,1}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){4}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,0}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3})|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,7}:|([0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,5}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){1,4}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){1,3}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){1,2}(:[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:((:[0-9A-Fa-f]{1,4}){1,6})|:((:[0-9A-Fa-f]{1,4}){1,7}|:))\\])(?::(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?$"
+          }
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "secretInputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestSecretInput"
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestCapabilityBinding"
+          }
+        },
+        "egressLimits": {
+          "$ref": "#/$defs/ManifestCallLimits"
+        }
+      },
+      "required": [
+        "definitionId",
+        "authKind",
+        "origins",
+        "scopes",
+        "secretInputs",
+        "capabilities",
+        "egressLimits"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestExtensionBody": {
+      "title": "ManifestExtensionBody",
+      "type": "object",
+      "properties": {
+        "executableRids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "minItems": 1
+        },
+        "extensionPoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestExtensionPoint"
+          },
+          "minItems": 1
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestContent"
+          }
+        },
+        "settings": {
+          "$ref": "#/$defs/ManifestContent"
+        },
+        "background": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "executableRids",
+        "extensionPoints",
+        "panels",
+        "background"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestSkillContribution": {
+      "title": "ManifestSkillContribution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "skill"
+        },
+        "titleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestPermission"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestSkillBody"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "titleKey",
+        "permissions",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestTemplateContribution": {
+      "title": "ManifestTemplateContribution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "template"
+        },
+        "titleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestPermission"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestTemplateBody"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "titleKey",
+        "permissions",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestWorkflowContribution": {
+      "title": "ManifestWorkflowContribution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "workflow"
+        },
+        "titleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestPermission"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestWorkflowBody"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "titleKey",
+        "permissions",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestMcpContribution": {
+      "title": "ManifestMcpContribution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "mcp"
+        },
+        "titleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestPermission"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestMcpBody"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "titleKey",
+        "permissions",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestConnectorContribution": {
+      "title": "ManifestConnectorContribution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "connector"
+        },
+        "titleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestPermission"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestConnectorBody"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "titleKey",
+        "permissions",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestExtensionContribution": {
+      "title": "ManifestExtensionContribution",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "extension"
+        },
+        "titleKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "descriptionKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "outputSchemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManifestPermission"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/ManifestExtensionBody"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "titleKey",
+        "permissions",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "ManifestContribution": {
+      "title": "ManifestContribution",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ManifestSkillContribution"
+        },
+        {
+          "$ref": "#/$defs/ManifestTemplateContribution"
+        },
+        {
+          "$ref": "#/$defs/ManifestWorkflowContribution"
+        },
+        {
+          "$ref": "#/$defs/ManifestMcpContribution"
+        },
+        {
+          "$ref": "#/$defs/ManifestConnectorContribution"
+        },
+        {
+          "$ref": "#/$defs/ManifestExtensionContribution"
+        }
+      ]
+    }
+  }
+}
