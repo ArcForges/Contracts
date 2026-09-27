@@ -780,7 +780,7 @@ function check6(value: unknown): boolean {
   const object = value as Record<string, unknown>;
   const keys = Object.keys(object);
   for (const key of keys) {
-    if (!validText(key) || (new RegExp("^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$", 'u')).exec(key)?.[0] !== key || !check8(object[key])) return false;
+    if (!validText(key) || (new RegExp("^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$", 'u')).exec(key)?.[0] !== key || !check8(object[key])) return false;
   }
   if (keys.length < 1) return false;
   if (keys.length > 16) return false;
@@ -788,7 +788,7 @@ function check6(value: unknown): boolean {
 }
 function check7(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
-  if ((new RegExp("^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$", 'u')).exec(value)?.[0] !== value) return false;
+  if ((new RegExp("^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 function check8(value: unknown): boolean {
@@ -802,7 +802,7 @@ function check9(value: unknown): boolean {
   const object = value as Record<string, unknown>;
   const keys = Object.keys(object);
   for (const key of keys) {
-    if (!validText(key) || (new RegExp("^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$", 'u')).exec(key)?.[0] !== key || !check11(object[key])) return false;
+    if (!validText(key) || (new RegExp("^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$", 'u')).exec(key)?.[0] !== key || !check11(object[key])) return false;
   }
   if (keys.length < 1) return false;
   if (keys.length > 16) return false;
@@ -810,7 +810,7 @@ function check9(value: unknown): boolean {
 }
 function check10(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
-  if ((new RegExp("^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$", 'u')).exec(value)?.[0] !== value) return false;
+  if ((new RegExp("^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 function check11(value: unknown): boolean {
@@ -2713,6 +2713,7 @@ function canonicalDecimal(value: string): boolean {
 
 function manifestProfile(value: unknown): boolean {
   const root = value as { [key: string]: unknown };
+  for (const localized of [root.name, root.description]) { const tags=Object.keys(localized as object); if(new Set(tags.map(tag=>tag.toLowerCase())).size!==tags.length || !tags.every(manifestLocale)) return false; }
   const obj = (x: unknown) => x as { [key: string]: unknown };
   const list = (x: unknown) => x as unknown[];
   const unique = (xs: unknown[], key: string) => new Set(xs.map(x => obj(x)[key])).size === xs.length;
@@ -2791,6 +2792,25 @@ function manifestProfile(value: unknown): boolean {
     if (c.kind === 'extension') {
       if (!plainUnique(list(b.executableRids)) || !list(b.executableRids).every(rid => executables.some(x => obj(x).rid === rid)) || !unique(list(b.extensionPoints),'id') || !list(b.panels).every(content) || b.settings !== undefined && !content(b.settings)) return false;
       if (b.background === true && ![...list(c.permissions), ...list(root.permissions)].some(x => obj(x).kind === 'background' && obj(x).enabled === true)) return false;
+    }
+  }
+  return true;
+}
+function manifestLocale(value: string): boolean {
+  const normalized = value.toLowerCase();
+  if (['en-gb-oed','i-ami','i-bnn','i-default','i-enochian','i-hak','i-klingon','i-lux','i-mingo','i-navajo','i-pwn','i-tao','i-tay','i-tsu','sgn-be-fr','sgn-be-nl','sgn-ch-de','art-lojban','cel-gaulish','no-bok','no-nyn','zh-guoyu','zh-hakka','zh-min','zh-min-nan','zh-xiang'].includes(normalized)) return true;
+  const grammar = /^(?:(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4}|[A-Za-z]{5,8})(?:-[A-Za-z]{4})?(?:-(?:[A-Za-z]{2}|[0-9]{3}))?(?:-(?:[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(?:-[0-9A-WY-Za-wy-z](?:-[A-Za-z0-9]{2,8})+)*(?:-[xX](?:-[A-Za-z0-9]{1,8})+)?|[xX](?:-[A-Za-z0-9]{1,8})+)$/u;
+  if (grammar.exec(value)?.[0] !== value) return false;
+  const singleton = new Set<string>(), variants = new Set<string>();
+  let extension = false;
+  const tokens = normalized.split('-');
+  if (tokens[0] === 'x') return true;
+  for (const token of tokens.slice(1)) {
+    if (token === 'x') break;
+    if (token.length === 1) { if (singleton.has(token)) return false; singleton.add(token); extension = true; }
+    else if (!extension && (token.length >= 5 || (token.length === 4 && /^[0-9]/u.test(token)))) {
+      if (variants.has(token)) return false;
+      variants.add(token);
     }
   }
   return true;

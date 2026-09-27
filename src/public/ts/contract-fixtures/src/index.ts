@@ -1138,6 +1138,194 @@ export const publicFixtures = {
             }
           ],
           "expected": "accepted"
+        },
+        {
+          "id": "equal-disjoint",
+          "mutations": [
+            {
+              "path": [
+                "rules"
+              ],
+              "value": [
+                {
+                  "ruleId": "rule-11",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "equal",
+                    "field": "realmId",
+                    "value": "12345678-1234-4234-8234-123456789abc"
+                  },
+                  "priority": 100
+                },
+                {
+                  "ruleId": "other-target",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "equal",
+                    "field": "realmId",
+                    "value": "22345678-1234-4234-8234-123456789abc"
+                  },
+                  "priority": 100
+                }
+              ]
+            }
+          ],
+          "expected": "accepted"
+        },
+        {
+          "id": "in-disjoint",
+          "mutations": [
+            {
+              "path": [
+                "rules"
+              ],
+              "value": [
+                {
+                  "ruleId": "rule-11",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "in",
+                    "field": "realmId",
+                    "values": [
+                      "12345678-1234-4234-8234-123456789abc"
+                    ]
+                  },
+                  "priority": 100
+                },
+                {
+                  "ruleId": "other-target",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "in",
+                    "field": "realmId",
+                    "values": [
+                      "22345678-1234-4234-8234-123456789abc"
+                    ]
+                  },
+                  "priority": 100
+                }
+              ]
+            }
+          ],
+          "expected": "accepted"
+        },
+        {
+          "id": "stable-equal-disjoint",
+          "mutations": [
+            {
+              "path": [
+                "rules"
+              ],
+              "value": [
+                {
+                  "ruleId": "rule-11",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": "12345678-1234-4234-8234-123456789abc",
+                  "priority": 100
+                },
+                {
+                  "ruleId": "other-target",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "equal",
+                    "field": "realmId",
+                    "value": "22345678-1234-4234-8234-123456789abc"
+                  },
+                  "priority": 100
+                }
+              ]
+            }
+          ],
+          "expected": "accepted"
+        },
+        {
+          "id": "equal-in-overlap",
+          "mutations": [
+            {
+              "path": [
+                "rules"
+              ],
+              "value": [
+                {
+                  "ruleId": "rule-11",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "equal",
+                    "field": "realmId",
+                    "value": "12345678-1234-4234-8234-123456789abc"
+                  },
+                  "priority": 100
+                },
+                {
+                  "ruleId": "other-target",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "in",
+                    "field": "realmId",
+                    "values": [
+                      "12345678-1234-4234-8234-123456789abc",
+                      "22345678-1234-4234-8234-123456789abc"
+                    ]
+                  },
+                  "priority": 100
+                }
+              ]
+            }
+          ],
+          "expected": "overlapping-priority"
+        },
+        {
+          "id": "different-fields-unknown",
+          "mutations": [
+            {
+              "path": [
+                "rules"
+              ],
+              "value": [
+                {
+                  "ruleId": "rule-11",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "equal",
+                    "field": "realmId",
+                    "value": "12345678-1234-4234-8234-123456789abc"
+                  },
+                  "priority": 100
+                },
+                {
+                  "ruleId": "other-target",
+                  "key": "ai.maxModelCalls",
+                  "value": 16,
+                  "scope": "realm",
+                  "target": {
+                    "op": "equal",
+                    "field": "workspaceId",
+                    "value": "22345678-1234-4234-8234-123456789abc"
+                  },
+                  "priority": 100
+                }
+              ]
+            }
+          ],
+          "expected": "overlapping-priority"
         }
       ],
       "hashVectors": [
@@ -17874,6 +18062,380 @@ export const publicFixtures = {
             },
             "description": {
               "en": "Sample fixture"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": true
+        },
+        {
+          "name": "manifest.invalid-locale-en-a",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "en-a": "Sample"
+            },
+            "description": {
+              "en": "Sample fixture"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": false
+        },
+        {
+          "name": "manifest.invalid-locale-en-US-US",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "en-US-US": "Sample"
+            },
+            "description": {
+              "en": "Sample fixture"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": false
+        },
+        {
+          "name": "manifest.invalid-locale-en-u-ca-gregory-u-nu-latn",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "en-u-ca-gregory-u-nu-latn": "Sample"
+            },
+            "description": {
+              "en": "Sample fixture"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": false
+        },
+        {
+          "name": "manifest.invalid-locale-sl-rozaj-rozaj",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "sl-rozaj-rozaj": "Sample"
+            },
+            "description": {
+              "en": "Sample fixture"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": false
+        },
+        {
+          "name": "manifest.invalid-description-locale",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "en": "Sample"
+            },
+            "description": {
+              "en-a": "Sample"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": false
+        },
+        {
+          "name": "manifest.casefold-locale-duplicate",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "en-US": "Sample",
+              "en-us": "Duplicate"
+            },
+            "description": {
+              "en": "Sample fixture"
+            },
+            "platforms": [
+              {
+                "os": "any",
+                "rid": "any"
+              }
+            ],
+            "contractRanges": [],
+            "contributions": [
+              {
+                "id": "guide",
+                "kind": "skill",
+                "titleKey": "guide.title",
+                "permissions": [],
+                "body": {
+                  "guidance": {
+                    "path": "guide.md",
+                    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "licence": "Apache-2.0"
+                  },
+                  "triggerLabels": [],
+                  "contextPolicyKeys": [],
+                  "capabilityIds": []
+                }
+              }
+            ],
+            "permissions": [],
+            "dependencies": [],
+            "executables": [],
+            "resources": [
+              {
+                "path": "guide.md",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "licence": "Apache-2.0"
+              }
+            ]
+          },
+          "valid": false
+        },
+        {
+          "name": "manifest.grandfathered-privateuse-locales",
+          "profile": "manifest",
+          "value": {
+            "schemaVersion": "manifest.v1",
+            "packageId": "org.example.sample",
+            "version": "1.0.0",
+            "publisherId": "example",
+            "signingKeyId": "key1",
+            "name": {
+              "i-klingon": "Sample",
+              "en-GB-oed": "Sample"
+            },
+            "description": {
+              "x-private": "Sample",
+              "en-US-x-sample": "Sample"
             },
             "platforms": [
               {
@@ -60279,6 +60841,1168 @@ export const publicFixtures = {
         }
       },
       {
+        "id": "workflow-workflow.simple",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.text",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.unordered-dag",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            },
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.text",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.duplicate-id",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            },
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.text",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.missing-ref",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "missing",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.text",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.constant-field",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "missing"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.text",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.cycle",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "a",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": [
+                "b"
+              ]
+            },
+            {
+              "id": "b",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": [
+                "a"
+              ]
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.self-cycle",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "a",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": [
+                "a"
+              ]
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.duplicate-argument",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "a",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [
+                {
+                  "name": "x",
+                  "value": {
+                    "kind": "literal",
+                    "value": {
+                      "kind": "bool",
+                      "value": true
+                    }
+                  }
+                },
+                {
+                  "name": "x",
+                  "value": {
+                    "kind": "literal",
+                    "value": {
+                      "kind": "bool",
+                      "value": true
+                    }
+                  }
+                }
+              ],
+              "dependencies": []
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.unordered-condition",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "branch",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": []
+            },
+            {
+              "id": "gate",
+              "kind": "condition",
+              "predicate": {
+                "operator": "exists",
+                "valueRef": {
+                  "nodeId": "source",
+                  "field": "value"
+                }
+              },
+              "thenNodes": [
+                "branch"
+              ],
+              "elseNodes": []
+            },
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.future-branch-output",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "branch",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": []
+            },
+            {
+              "id": "gate",
+              "kind": "condition",
+              "predicate": {
+                "operator": "exists",
+                "valueRef": {
+                  "nodeId": "branch",
+                  "field": "value"
+                }
+              },
+              "thenNodes": [
+                "branch"
+              ],
+              "elseNodes": []
+            },
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.overlapping-branches",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "gate",
+              "kind": "condition",
+              "predicate": {
+                "operator": "exists",
+                "valueRef": {
+                  "nodeId": "source",
+                  "field": "value"
+                }
+              },
+              "thenNodes": [
+                "branch"
+              ],
+              "elseNodes": [
+                "branch"
+              ]
+            },
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "branch",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": []
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.bounded-loop",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [
+            {
+              "name": "items",
+              "schemaId": "sample.array",
+              "required": true
+            }
+          ],
+          "nodes": [
+            {
+              "id": "input",
+              "kind": "input",
+              "name": "items"
+            },
+            {
+              "id": "loop",
+              "kind": "foreach",
+              "inputArray": {
+                "nodeId": "input",
+                "field": "value"
+              },
+              "maxItems": 100,
+              "body": [
+                {
+                  "id": "step",
+                  "kind": "capability",
+                  "operationId": "sample.read",
+                  "typedArguments": [],
+                  "dependencies": []
+                }
+              ]
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.expanded-budget",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [
+            {
+              "name": "items",
+              "schemaId": "sample.array",
+              "required": true
+            }
+          ],
+          "nodes": [
+            {
+              "id": "input",
+              "kind": "input",
+              "name": "items"
+            },
+            {
+              "id": "loop",
+              "kind": "foreach",
+              "inputArray": {
+                "nodeId": "input",
+                "field": "value"
+              },
+              "maxItems": 100,
+              "body": [
+                {
+                  "id": "step",
+                  "kind": "capability",
+                  "operationId": "sample.read",
+                  "typedArguments": [],
+                  "dependencies": []
+                }
+              ]
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 101,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.scope-escape",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [
+            {
+              "name": "items",
+              "schemaId": "sample.array",
+              "required": true
+            }
+          ],
+          "nodes": [
+            {
+              "id": "input",
+              "kind": "input",
+              "name": "items"
+            },
+            {
+              "id": "loop",
+              "kind": "foreach",
+              "inputArray": {
+                "nodeId": "input",
+                "field": "value"
+              },
+              "maxItems": 100,
+              "body": [
+                {
+                  "id": "step",
+                  "kind": "capability",
+                  "operationId": "sample.read",
+                  "typedArguments": [],
+                  "dependencies": []
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "name": "out",
+              "schemaId": "sample.output",
+              "valueRef": {
+                "nodeId": "step",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.scalar-foreach",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "input",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "loop",
+              "kind": "foreach",
+              "inputArray": {
+                "nodeId": "input",
+                "field": "value"
+              },
+              "maxItems": 100,
+              "body": [
+                {
+                  "id": "step",
+                  "kind": "capability",
+                  "operationId": "sample.read",
+                  "typedArguments": [],
+                  "dependencies": []
+                }
+              ]
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "workflow-workflow.incompatible-known-scalars",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "gate",
+              "kind": "condition",
+              "predicate": {
+                "operator": "eq",
+                "left": {
+                  "kind": "literal",
+                  "value": {
+                    "kind": "bool",
+                    "value": true
+                  }
+                },
+                "right": {
+                  "kind": "literal",
+                  "value": {
+                    "kind": "text",
+                    "value": "true"
+                  }
+                }
+              },
+              "thenNodes": [
+                "branch"
+              ],
+              "elseNodes": [
+                "branch"
+              ]
+            },
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "text",
+                "value": "sample"
+              }
+            },
+            {
+              "id": "branch",
+              "kind": "capability",
+              "operationId": "sample.read",
+              "typedArguments": [],
+              "dependencies": []
+            }
+          ],
+          "outputs": [],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-0",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "0"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-1",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "-0"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-2",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "0.000000001"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-3",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "1.0"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-4",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "1234567890123456789012345678"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-5",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "12345678901234567890123456789"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-6",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "0.0000000001"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-7",
+        "schema": "ExtensionWorkflow",
+        "valid": true,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "-1234567890123456789.123456789"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-8",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "1e3"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
+        "id": "decimal-9",
+        "schema": "ExtensionWorkflow",
+        "valid": false,
+        "value": {
+          "schemaVersion": "workflow.v1",
+          "inputs": [],
+          "nodes": [
+            {
+              "id": "source",
+              "kind": "constant",
+              "typedValue": {
+                "kind": "decimal",
+                "value": "+1"
+              }
+            },
+            {
+              "id": "result",
+              "kind": "output",
+              "valueRef": {
+                "nodeId": "source",
+                "field": "value"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "schemaId": "sample.decimal",
+              "valueRef": {
+                "nodeId": "result",
+                "field": "value"
+              }
+            }
+          ],
+          "limits": {
+            "maxExpandedSteps": 256,
+            "maxForEachNesting": 2,
+            "maxPredicateDepth": 8,
+            "maxPredicateNodes": 128
+          }
+        }
+      },
+      {
         "id": "manifest-manifest.content-only",
         "schema": "ExtensionManifest",
         "valid": true,
@@ -60293,6 +62017,380 @@ export const publicFixtures = {
           },
           "description": {
             "en": "Sample fixture"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.invalid-locale-en-a",
+        "schema": "ExtensionManifest",
+        "valid": false,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "en-a": "Sample"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.invalid-locale-en-US-US",
+        "schema": "ExtensionManifest",
+        "valid": false,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "en-US-US": "Sample"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.invalid-locale-en-u-ca-gregory-u-nu-latn",
+        "schema": "ExtensionManifest",
+        "valid": false,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "en-u-ca-gregory-u-nu-latn": "Sample"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.invalid-locale-sl-rozaj-rozaj",
+        "schema": "ExtensionManifest",
+        "valid": false,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "sl-rozaj-rozaj": "Sample"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.invalid-description-locale",
+        "schema": "ExtensionManifest",
+        "valid": false,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "en": "Sample"
+          },
+          "description": {
+            "en-a": "Sample"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.casefold-locale-duplicate",
+        "schema": "ExtensionManifest",
+        "valid": false,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "en-US": "Sample",
+            "en-us": "Duplicate"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
+            {
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
+            {
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
+              }
+            }
+          ],
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
+            {
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manifest-manifest.grandfathered-privateuse-locales",
+        "schema": "ExtensionManifest",
+        "valid": true,
+        "value": {
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "i-klingon": "Sample",
+            "en-GB-oed": "Sample"
+          },
+          "description": {
+            "x-private": "Sample",
+            "en-US-x-sample": "Sample"
           },
           "platforms": [
             {
@@ -62055,1165 +64153,541 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "workflow-workflow.simple",
-        "schema": "ExtensionWorkflow",
+        "id": "policy-equal-disjoint",
+        "schema": "PolicyBody",
         "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "policy.body.v1",
+          "version": "fixture-v1",
+          "issuedAt": "2026-09-27T00:00:00Z",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "rules": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
+              "ruleId": "rule-11",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "equal",
+                "field": "realmId",
+                "value": "12345678-1234-4234-8234-123456789abc"
+              },
+              "priority": 100
             },
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
+              "ruleId": "other-target",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "equal",
+                "field": "realmId",
+                "value": "22345678-1234-4234-8234-123456789abc"
+              },
+              "priority": 100
             }
           ],
-          "outputs": [
+          "experiments": [
             {
-              "name": "result",
-              "schemaId": "sample.text",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.unordered-dag",
-        "schema": "ExtensionWorkflow",
-        "valid": true,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
-            },
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.text",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.duplicate-id",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
-            },
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.text",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.missing-ref",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "missing",
-                "field": "value"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.text",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.constant-field",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "missing"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.text",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.cycle",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "a",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": [
-                "b"
-              ]
-            },
-            {
-              "id": "b",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": [
-                "a"
-              ]
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.self-cycle",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "a",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": [
-                "a"
-              ]
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.duplicate-argument",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "a",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [
+              "experimentId": "presentation-fixture",
+              "version": "v1",
+              "hypothesis": "compact layout improves navigation",
+              "subject": "user",
+              "eligibility": {
+                "op": "equal",
+                "field": "product",
+                "value": "arcscope"
+              },
+              "variants": [
                 {
-                  "name": "x",
-                  "value": {
-                    "kind": "literal",
-                    "value": {
-                      "kind": "bool",
-                      "value": true
-                    }
+                  "variantId": "compact",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "compact"
                   }
                 },
                 {
-                  "name": "x",
-                  "value": {
-                    "kind": "literal",
-                    "value": {
-                      "kind": "bool",
-                      "value": true
-                    }
+                  "variantId": "control",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "comfortable"
                   }
                 }
               ],
-              "dependencies": []
+              "allocation": 8000,
+              "startsAt": "2026-09-27T00:00:00Z",
+              "endsAt": "2026-09-28T00:00:00Z",
+              "successMetrics": [
+                "navigation-completed"
+              ],
+              "exitCriteria": "choose declared baseline when trial ends",
+              "holdoutBasisPoints": 1000
             }
           ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          "reason": "fixture only; not signed or activated"
         }
       },
       {
-        "id": "workflow-workflow.unordered-condition",
-        "schema": "ExtensionWorkflow",
+        "id": "policy-in-disjoint",
+        "schema": "PolicyBody",
         "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "policy.body.v1",
+          "version": "fixture-v1",
+          "issuedAt": "2026-09-27T00:00:00Z",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "rules": [
             {
-              "id": "branch",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": []
-            },
-            {
-              "id": "gate",
-              "kind": "condition",
-              "predicate": {
-                "operator": "exists",
-                "valueRef": {
-                  "nodeId": "source",
-                  "field": "value"
-                }
+              "ruleId": "rule-11",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "in",
+                "field": "realmId",
+                "values": [
+                  "12345678-1234-4234-8234-123456789abc"
+                ]
               },
-              "thenNodes": [
-                "branch"
-              ],
-              "elseNodes": []
+              "priority": 100
             },
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
+              "ruleId": "other-target",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "in",
+                "field": "realmId",
+                "values": [
+                  "22345678-1234-4234-8234-123456789abc"
+                ]
+              },
+              "priority": 100
             }
           ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.future-branch-output",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "experiments": [
             {
-              "id": "branch",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": []
-            },
-            {
-              "id": "gate",
-              "kind": "condition",
-              "predicate": {
-                "operator": "exists",
-                "valueRef": {
-                  "nodeId": "branch",
-                  "field": "value"
-                }
+              "experimentId": "presentation-fixture",
+              "version": "v1",
+              "hypothesis": "compact layout improves navigation",
+              "subject": "user",
+              "eligibility": {
+                "op": "equal",
+                "field": "product",
+                "value": "arcscope"
               },
-              "thenNodes": [
-                "branch"
-              ],
-              "elseNodes": []
-            },
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.overlapping-branches",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "gate",
-              "kind": "condition",
-              "predicate": {
-                "operator": "exists",
-                "valueRef": {
-                  "nodeId": "source",
-                  "field": "value"
-                }
-              },
-              "thenNodes": [
-                "branch"
-              ],
-              "elseNodes": [
-                "branch"
-              ]
-            },
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            },
-            {
-              "id": "branch",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": []
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.bounded-loop",
-        "schema": "ExtensionWorkflow",
-        "valid": true,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [
-            {
-              "name": "items",
-              "schemaId": "sample.array",
-              "required": true
-            }
-          ],
-          "nodes": [
-            {
-              "id": "input",
-              "kind": "input",
-              "name": "items"
-            },
-            {
-              "id": "loop",
-              "kind": "foreach",
-              "inputArray": {
-                "nodeId": "input",
-                "field": "value"
-              },
-              "maxItems": 100,
-              "body": [
+              "variants": [
                 {
-                  "id": "step",
-                  "kind": "capability",
-                  "operationId": "sample.read",
-                  "typedArguments": [],
-                  "dependencies": []
-                }
-              ]
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.expanded-budget",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [
-            {
-              "name": "items",
-              "schemaId": "sample.array",
-              "required": true
-            }
-          ],
-          "nodes": [
-            {
-              "id": "input",
-              "kind": "input",
-              "name": "items"
-            },
-            {
-              "id": "loop",
-              "kind": "foreach",
-              "inputArray": {
-                "nodeId": "input",
-                "field": "value"
-              },
-              "maxItems": 100,
-              "body": [
-                {
-                  "id": "step",
-                  "kind": "capability",
-                  "operationId": "sample.read",
-                  "typedArguments": [],
-                  "dependencies": []
-                }
-              ]
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 101,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.scope-escape",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [
-            {
-              "name": "items",
-              "schemaId": "sample.array",
-              "required": true
-            }
-          ],
-          "nodes": [
-            {
-              "id": "input",
-              "kind": "input",
-              "name": "items"
-            },
-            {
-              "id": "loop",
-              "kind": "foreach",
-              "inputArray": {
-                "nodeId": "input",
-                "field": "value"
-              },
-              "maxItems": 100,
-              "body": [
-                {
-                  "id": "step",
-                  "kind": "capability",
-                  "operationId": "sample.read",
-                  "typedArguments": [],
-                  "dependencies": []
-                }
-              ]
-            }
-          ],
-          "outputs": [
-            {
-              "name": "out",
-              "schemaId": "sample.output",
-              "valueRef": {
-                "nodeId": "step",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.scalar-foreach",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "input",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            },
-            {
-              "id": "loop",
-              "kind": "foreach",
-              "inputArray": {
-                "nodeId": "input",
-                "field": "value"
-              },
-              "maxItems": 100,
-              "body": [
-                {
-                  "id": "step",
-                  "kind": "capability",
-                  "operationId": "sample.read",
-                  "typedArguments": [],
-                  "dependencies": []
-                }
-              ]
-            }
-          ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "workflow-workflow.incompatible-known-scalars",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "gate",
-              "kind": "condition",
-              "predicate": {
-                "operator": "eq",
-                "left": {
-                  "kind": "literal",
-                  "value": {
-                    "kind": "bool",
-                    "value": true
+                  "variantId": "compact",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "compact"
                   }
                 },
-                "right": {
-                  "kind": "literal",
-                  "value": {
-                    "kind": "text",
-                    "value": "true"
+                {
+                  "variantId": "control",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "comfortable"
                   }
                 }
-              },
-              "thenNodes": [
-                "branch"
               ],
-              "elseNodes": [
-                "branch"
-              ]
-            },
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "text",
-                "value": "sample"
-              }
-            },
-            {
-              "id": "branch",
-              "kind": "capability",
-              "operationId": "sample.read",
-              "typedArguments": [],
-              "dependencies": []
+              "allocation": 8000,
+              "startsAt": "2026-09-27T00:00:00Z",
+              "endsAt": "2026-09-28T00:00:00Z",
+              "successMetrics": [
+                "navigation-completed"
+              ],
+              "exitCriteria": "choose declared baseline when trial ends",
+              "holdoutBasisPoints": 1000
             }
           ],
-          "outputs": [],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          "reason": "fixture only; not signed or activated"
         }
       },
       {
-        "id": "decimal-0",
-        "schema": "ExtensionWorkflow",
+        "id": "policy-stable-equal-disjoint",
+        "schema": "PolicyBody",
         "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "policy.body.v1",
+          "version": "fixture-v1",
+          "issuedAt": "2026-09-27T00:00:00Z",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "rules": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "0"
-              }
+              "ruleId": "rule-11",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": "12345678-1234-4234-8234-123456789abc",
+              "priority": 100
             },
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
+              "ruleId": "other-target",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "equal",
+                "field": "realmId",
+                "value": "22345678-1234-4234-8234-123456789abc"
+              },
+              "priority": 100
             }
           ],
-          "outputs": [
+          "experiments": [
             {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
+              "experimentId": "presentation-fixture",
+              "version": "v1",
+              "hypothesis": "compact layout improves navigation",
+              "subject": "user",
+              "eligibility": {
+                "op": "equal",
+                "field": "product",
+                "value": "arcscope"
+              },
+              "variants": [
+                {
+                  "variantId": "compact",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "compact"
+                  }
+                },
+                {
+                  "variantId": "control",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "comfortable"
+                  }
+                }
+              ],
+              "allocation": 8000,
+              "startsAt": "2026-09-27T00:00:00Z",
+              "endsAt": "2026-09-28T00:00:00Z",
+              "successMetrics": [
+                "navigation-completed"
+              ],
+              "exitCriteria": "choose declared baseline when trial ends",
+              "holdoutBasisPoints": 1000
             }
           ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          "reason": "fixture only; not signed or activated"
         }
       },
       {
-        "id": "decimal-1",
-        "schema": "ExtensionWorkflow",
+        "id": "policy-equal-in-overlap",
+        "schema": "PolicyBody",
         "valid": false,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "policy.body.v1",
+          "version": "fixture-v1",
+          "issuedAt": "2026-09-27T00:00:00Z",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "rules": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "-0"
-              }
+              "ruleId": "rule-11",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "equal",
+                "field": "realmId",
+                "value": "12345678-1234-4234-8234-123456789abc"
+              },
+              "priority": 100
             },
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
+              "ruleId": "other-target",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "in",
+                "field": "realmId",
+                "values": [
+                  "12345678-1234-4234-8234-123456789abc",
+                  "22345678-1234-4234-8234-123456789abc"
+                ]
+              },
+              "priority": 100
             }
           ],
-          "outputs": [
+          "experiments": [
             {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
+              "experimentId": "presentation-fixture",
+              "version": "v1",
+              "hypothesis": "compact layout improves navigation",
+              "subject": "user",
+              "eligibility": {
+                "op": "equal",
+                "field": "product",
+                "value": "arcscope"
+              },
+              "variants": [
+                {
+                  "variantId": "compact",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "compact"
+                  }
+                },
+                {
+                  "variantId": "control",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "comfortable"
+                  }
+                }
+              ],
+              "allocation": 8000,
+              "startsAt": "2026-09-27T00:00:00Z",
+              "endsAt": "2026-09-28T00:00:00Z",
+              "successMetrics": [
+                "navigation-completed"
+              ],
+              "exitCriteria": "choose declared baseline when trial ends",
+              "holdoutBasisPoints": 1000
             }
           ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          "reason": "fixture only; not signed or activated"
         }
       },
       {
-        "id": "decimal-2",
-        "schema": "ExtensionWorkflow",
+        "id": "policy-different-fields-unknown",
+        "schema": "PolicyBody",
+        "valid": false,
+        "value": {
+          "schemaVersion": "policy.body.v1",
+          "version": "fixture-v1",
+          "issuedAt": "2026-09-27T00:00:00Z",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "rules": [
+            {
+              "ruleId": "rule-11",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "equal",
+                "field": "realmId",
+                "value": "12345678-1234-4234-8234-123456789abc"
+              },
+              "priority": 100
+            },
+            {
+              "ruleId": "other-target",
+              "key": "ai.maxModelCalls",
+              "value": 16,
+              "scope": "realm",
+              "target": {
+                "op": "equal",
+                "field": "workspaceId",
+                "value": "22345678-1234-4234-8234-123456789abc"
+              },
+              "priority": 100
+            }
+          ],
+          "experiments": [
+            {
+              "experimentId": "presentation-fixture",
+              "version": "v1",
+              "hypothesis": "compact layout improves navigation",
+              "subject": "user",
+              "eligibility": {
+                "op": "equal",
+                "field": "product",
+                "value": "arcscope"
+              },
+              "variants": [
+                {
+                  "variantId": "compact",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "compact"
+                  }
+                },
+                {
+                  "variantId": "control",
+                  "allocation": 4000,
+                  "values": {
+                    "ui.density": "comfortable"
+                  }
+                }
+              ],
+              "allocation": 8000,
+              "startsAt": "2026-09-27T00:00:00Z",
+              "endsAt": "2026-09-28T00:00:00Z",
+              "successMetrics": [
+                "navigation-completed"
+              ],
+              "exitCriteria": "choose declared baseline when trial ends",
+              "holdoutBasisPoints": 1000
+            }
+          ],
+          "reason": "fixture only; not signed or activated"
+        }
+      },
+      {
+        "id": "manifest-uppercase-X-private",
+        "schema": "ExtensionManifest",
         "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "X-private": "Localized"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "0.000000001"
-              }
-            },
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
               }
             }
           ],
-          "outputs": [
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
             {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
             }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          ]
         }
       },
       {
-        "id": "decimal-3",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "1.0"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "decimal-4",
-        "schema": "ExtensionWorkflow",
+        "id": "manifest-uppercase-I-klingon",
+        "schema": "ExtensionManifest",
         "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "manifest.v1",
+          "packageId": "org.example.sample",
+          "version": "1.0.0",
+          "publisherId": "example",
+          "signingKeyId": "key1",
+          "name": {
+            "I-klingon": "Localized"
+          },
+          "description": {
+            "en": "Sample fixture"
+          },
+          "platforms": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "1234567890123456789012345678"
-              }
-            },
+              "os": "any",
+              "rid": "any"
+            }
+          ],
+          "contractRanges": [],
+          "contributions": [
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
+              "id": "guide",
+              "kind": "skill",
+              "titleKey": "guide.title",
+              "permissions": [],
+              "body": {
+                "guidance": {
+                  "path": "guide.md",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "licence": "Apache-2.0"
+                },
+                "triggerLabels": [],
+                "contextPolicyKeys": [],
+                "capabilityIds": []
               }
             }
           ],
-          "outputs": [
+          "permissions": [],
+          "dependencies": [],
+          "executables": [],
+          "resources": [
             {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
+              "path": "guide.md",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "licence": "Apache-2.0"
             }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          ]
         }
       },
       {
-        "id": "decimal-5",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "12345678901234567890123456789"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "decimal-6",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "0.0000000001"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "decimal-7",
-        "schema": "ExtensionWorkflow",
+        "id": "panel-uppercase-X-private",
+        "schema": "DeclarativePanel",
         "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "panel.v1",
+          "controls": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "-1234567890123456789.123456789"
+              "id": "root",
+              "kind": "column",
+              "children": [
+                "greeting"
+              ],
+              "label": {
+                "X-private": "Localized"
               }
             },
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
+              "id": "greeting",
+              "kind": "text",
+              "text": {
+                "en": "Hello"
               }
             }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          ]
         }
       },
       {
-        "id": "decimal-8",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
+        "id": "panel-uppercase-I-klingon",
+        "schema": "DeclarativePanel",
+        "valid": true,
         "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
+          "schemaVersion": "panel.v1",
+          "controls": [
             {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "1e3"
+              "id": "root",
+              "kind": "column",
+              "children": [
+                "greeting"
+              ],
+              "label": {
+                "I-klingon": "Localized"
               }
             },
             {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
+              "id": "greeting",
+              "kind": "text",
+              "text": {
+                "en": "Hello"
               }
             }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
-        }
-      },
-      {
-        "id": "decimal-9",
-        "schema": "ExtensionWorkflow",
-        "valid": false,
-        "value": {
-          "schemaVersion": "workflow.v1",
-          "inputs": [],
-          "nodes": [
-            {
-              "id": "source",
-              "kind": "constant",
-              "typedValue": {
-                "kind": "decimal",
-                "value": "+1"
-              }
-            },
-            {
-              "id": "result",
-              "kind": "output",
-              "valueRef": {
-                "nodeId": "source",
-                "field": "value"
-              }
-            }
-          ],
-          "outputs": [
-            {
-              "name": "result",
-              "schemaId": "sample.decimal",
-              "valueRef": {
-                "nodeId": "result",
-                "field": "value"
-              }
-            }
-          ],
-          "limits": {
-            "maxExpandedSteps": 256,
-            "maxForEachNesting": 2,
-            "maxPredicateDepth": 8,
-            "maxPredicateNodes": 128
-          }
+          ]
         }
       }
     ],

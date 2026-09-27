@@ -3,7 +3,7 @@
   "id": "con-12-bindings-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "edc2b1b4db77c5857002ce0583abbf97a90aa7b9",
+  "sourceCommit": "ebf7fc34057b22ff02b7d30cbe8f5bb40d83a080",
   "sourcePaths": [
     "eng/contract-packages.json",
     "fixtures/internal/con-12-configuration.json",
@@ -198,7 +198,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PolicyBody.g.cs",
-      "sha256": "1acca0a6c3d72422a68d4dae7ae164aeffad17c523e2711dd27f018bd1f85e9c",
+      "sha256": "e3d7613e8c799e12e9f38b31cfa626e1af6267fcfc22a1a88dbd13eda33c188a",
       "normalization": "lf"
     },
     {
@@ -213,7 +213,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ExtensionManifestValidator.g.cs",
-      "sha256": "11aebda710bf4197311055f0c3d63f3f35bb44cf231d1d01565a51470cfa02e6",
+      "sha256": "79aba349badb08f0c9da3d9f84372e0c2af4cf3d45050b531ad13bbaef848425",
       "normalization": "lf"
     },
     {
@@ -233,7 +233,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PolicyBodyValidator.g.cs",
-      "sha256": "477a38673126f8eb796ff6b0062cfefcbe127073384a4705eab429ceb416d9d5",
+      "sha256": "e602db559183136a7dc824d030b2456820807cce4ccc46b6b488705b8bb01ed1",
       "normalization": "lf"
     },
     {
@@ -263,7 +263,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/ExtensionManifest.g.cs",
-      "sha256": "ef32d7c82dcaf95605161346e92721b499f64f080aa9b097a2884deb4a95bc4d",
+      "sha256": "8bc94f9e30faf0212f085c1d222eacf41a6d4a093a4d1768bf077efbffd0c7f1",
       "normalization": "lf"
     },
     {
@@ -1768,7 +1768,7 @@
     },
     {
       "path": "src/public/ts/api-client/src/shapes/gen/ExtensionManifest.ts",
-      "sha256": "da08d2c812861a0dd6e1d5576bd44e9680e9658f047be582128cf107627690f3",
+      "sha256": "7f995c5e9ad725ce2959a3ee52a4c0677e62ddf8918a21a311bf18ece7e37f2a",
       "normalization": "lf"
     },
     {
@@ -1788,12 +1788,12 @@
     },
     {
       "path": "src/public/ts/api-client/src/shapes/gen/PolicyBody.ts",
-      "sha256": "94155d4192d8b9399b773fd7d9e65544329bf9aa99689eb50439273a32d48768",
+      "sha256": "273613a1fb2351f9d770e73e68de93c4cc368a766e868be3ec3066be724b81d1",
       "normalization": "lf"
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "7d659788106e5488da645dd9bc03fb8b2d13b53200571697180761f60a3e1c4a",
+      "sha256": "b2563f2f0d6a4866dfe925e9359f85839396bbb70581ee2d0b08264e1df96f76",
       "normalization": "lf"
     },
     {
@@ -1956,7 +1956,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "edc2b1b4db77c5857002ce0583abbf97a90aa7b9",
+        "commit": "ebf7fc34057b22ff02b7d30cbe8f5bb40d83a080",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -1984,7 +1984,7 @@
           },
           {
             "path": "eng/generate_shapes.py",
-            "sha256": "a58fee1ac3962f40f1a33aae1f025c28a46cc81788291702fe494439181a4193",
+            "sha256": "4445bcd4130bc88ff1eb67a634fc9bdcf23cf65ac91d430fa1c8bae227891f76",
             "finding": "Apache-2.0 repository-owned schema, fixture or generator source at the bound source snapshot."
           },
           {
@@ -2008,7 +2008,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "edc2b1b4db77c5857002ce0583abbf97a90aa7b9",
+        "commit": "ebf7fc34057b22ff02b7d30cbe8f5bb40d83a080",
         "paths": [
           "eng/contract-packages.json",
           "fixtures/internal/con-12-configuration.json",
@@ -2058,7 +2058,7 @@
           },
           {
             "path": "fixtures/public/con-12-extension-policy.json",
-            "sha256": "a0b750c578e81813e34c64b745700d10e9e0ebd81656550f7300218ff472f602",
+            "sha256": "52bd8e4659df060db4bcbe8d7625d340445c8abed38481481134fe7d7331f6f5",
             "finding": "Apache-2.0 repository-owned schema, fixture or generator source at the bound source snapshot."
           },
           {
@@ -2123,7 +2123,7 @@
           },
           {
             "path": "public/http/v1/manifest.schema.json",
-            "sha256": "a6b620f88c3cc963b3719a8c54718819a63b29a6ba7a0c91250e7ab6434d0bbf",
+            "sha256": "0cf813acf188a4ba4a8689b05504c4c141a655923ba8e7658c8d5228c9248d1f",
             "finding": "Apache-2.0 repository-owned schema, fixture or generator source at the bound source snapshot."
           },
           {
@@ -2197,7 +2197,7 @@
     "reviewer": "CON.12 author under maintainer authorization; independent exact-head peer review required before merge",
     "reviewedOn": "2026-09-27",
     "decision": "approved",
-    "rationale": "Five closed extension/policy profiles, reflection-free generated C#/TS codecs and offline vectors. Full cached pinned generation and TypeScript build passed; 181 C#/TS codec cases passed. Local C# diagnostic used SDK 10.0.401; required CI uses repository-pinned SDK. Runtime archive, grant, activation and provider evidence is not asserted.",
+    "rationale": "Five closed extension/policy profiles, reflection-free generated C#/TS codecs and offline vectors. Full cached pinned generation and TypeScript build passed; 197 C#/TS codec cases passed. Local C# diagnostic used SDK 10.0.401; required CI uses repository-pinned SDK. Runtime archive, grant, activation and provider evidence is not asserted.",
     "baselineCommit": "a6e0de9cba69f634cfa56ce89ecfa38f1f9f748a",
     "reconciliation": false
   },

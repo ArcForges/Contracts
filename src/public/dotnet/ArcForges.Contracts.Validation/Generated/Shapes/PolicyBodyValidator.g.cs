@@ -2652,6 +2652,26 @@ public static class PolicyBodyJson
         => global::System.Text.RegularExpressions.Regex.IsMatch(value, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", global::System.Text.RegularExpressions.RegexOptions.CultureInvariant)
             && value != "00000000-0000-0000-0000-000000000000";
 
+    private static bool PolicyDisjoint(global::System.Text.Json.JsonElement left, global::System.Text.Json.JsonElement right, string scope)
+    {
+        static (string? Field, global::System.Collections.Generic.HashSet<string> Values) Finite(global::System.Text.Json.JsonElement target, string selectedScope)
+        {
+            var values = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+            if (target.ValueKind == global::System.Text.Json.JsonValueKind.String)
+            {
+                values.Add(target.GetString()!);
+                return (selectedScope + "Id", values);
+            }
+            var op = target.GetProperty("op").GetString();
+            if (op == "equal") values.Add(target.GetProperty("value").GetString()!);
+            else if (op == "in") foreach (var item in target.GetProperty("values").EnumerateArray()) values.Add(item.GetString()!);
+            else return (null, values);
+            return (target.GetProperty("field").GetString(), values);
+        }
+        var a = Finite(left, scope); var b = Finite(right, scope);
+        return a.Field is not null && a.Field == b.Field && !a.Values.Overlaps(b.Values);
+    }
+
     private static bool PolicyBody(global::System.Text.Json.JsonElement value)
     {
         try
@@ -2678,9 +2698,7 @@ public static class PolicyBodyJson
                     var otherEnd = other.TryGetProperty("expiresAt", out var otherEndValue) ? PolicyInstant(otherEndValue.GetString()!) : expires;
                     if (end <= otherStart || otherEnd <= start) continue;
                     var otherTarget = other.GetProperty("target");
-                    if (!(target.ValueKind == global::System.Text.Json.JsonValueKind.String
-                        && otherTarget.ValueKind == global::System.Text.Json.JsonValueKind.String
-                        && target.GetString() != otherTarget.GetString())) return false;
+                    if (!PolicyDisjoint(target, otherTarget, rule.GetProperty("scope").GetString()!)) return false;
                 }
                 prior.Add(rule);
                 var key = rule.GetProperty("key").GetString()!;

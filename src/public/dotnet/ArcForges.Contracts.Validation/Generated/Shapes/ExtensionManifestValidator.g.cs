@@ -169,7 +169,7 @@ public static class ExtensionManifestJson
         foreach (var property in value.EnumerateObject())
         {
             if (!seen.Add(property.Name) || !ValidText(property.Name)) return false;
-            if (!Matches(property.Name, "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$") || !Check8(property.Value)) return false;
+            if (!Matches(property.Name, "^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$") || !Check8(property.Value)) return false;
         }
         if (seen.Count < 1) return false;
         if (seen.Count > 16) return false;
@@ -180,7 +180,7 @@ public static class ExtensionManifestJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
-        if (!Matches(text, "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$")) return false;
+        if (!Matches(text, "^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$")) return false;
         return true;
     }
     private static bool Check8(global::System.Text.Json.JsonElement value)
@@ -199,7 +199,7 @@ public static class ExtensionManifestJson
         foreach (var property in value.EnumerateObject())
         {
             if (!seen.Add(property.Name) || !ValidText(property.Name)) return false;
-            if (!Matches(property.Name, "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$") || !Check11(property.Value)) return false;
+            if (!Matches(property.Name, "^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$") || !Check11(property.Value)) return false;
         }
         if (seen.Count < 1) return false;
         if (seen.Count > 16) return false;
@@ -210,7 +210,7 @@ public static class ExtensionManifestJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
-        if (!Matches(text, "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$")) return false;
+        if (!Matches(text, "^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$")) return false;
         return true;
     }
     private static bool Check11(global::System.Text.Json.JsonElement value)
@@ -2582,6 +2582,7 @@ public static class ExtensionManifestJson
 
     private static bool ManifestProfile(JsonElement value)
     {
+        if (!ManifestLocales(value.GetProperty("name")) || !ManifestLocales(value.GetProperty("description"))) return false;
         static string S(JsonElement x,string p) => x.GetProperty(p).GetString()!;
         static JsonElement[] A(JsonElement x,string p) => System.Linq.Enumerable.ToArray(x.GetProperty(p).EnumerateArray());
         static bool Has(JsonElement x,string p) => x.TryGetProperty(p,out _);
@@ -2656,6 +2657,34 @@ public static class ExtensionManifestJson
                 foreach(var p in A(b,"panels")) if(!Content(p)) return false; if(Has(b,"settings") && !Content(b.GetProperty("settings"))) return false;
                 if(b.GetProperty("background").GetBoolean()) { bool found=false; foreach(var xs in new[]{A(c,"permissions"),A(value,"permissions")}) foreach(var p in xs) found|=S(p,"kind")=="background" && p.GetProperty("enabled").GetBoolean(); if(!found) return false; }
             }
+        }
+        return true;
+    }
+    private static bool ManifestLocales(global::System.Text.Json.JsonElement map)
+    {
+        var tags = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.OrdinalIgnoreCase);
+        foreach (var property in map.EnumerateObject())
+            if (!tags.Add(property.Name) || !ManifestLocale(property.Name)) return false;
+        return true;
+    }
+    private static bool ManifestLocale(string value)
+    {
+        const string grammar = @"^(?:(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4}|[A-Za-z]{5,8})(?:-[A-Za-z]{4})?(?:-(?:[A-Za-z]{2}|[0-9]{3}))?(?:-(?:[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(?:-[0-9A-WY-Za-wy-z](?:-[A-Za-z0-9]{2,8})+)*(?:-[xX](?:-[A-Za-z0-9]{1,8})+)?|[xX](?:-[A-Za-z0-9]{1,8})+)$";
+        var grandfathered = new[] { "en-gb-oed", "i-ami", "i-bnn", "i-default", "i-enochian", "i-hak", "i-klingon", "i-lux", "i-mingo", "i-navajo", "i-pwn", "i-tao", "i-tay", "i-tsu", "sgn-be-fr", "sgn-be-nl", "sgn-ch-de", "art-lojban", "cel-gaulish", "no-bok", "no-nyn", "zh-guoyu", "zh-hakka", "zh-min", "zh-min-nan", "zh-xiang" };
+        var normalized = value.ToLowerInvariant();
+        if (global::System.Array.IndexOf(grandfathered, normalized) >= 0) return true;
+        if (global::System.Text.RegularExpressions.Regex.Match(value, grammar).Value != value) return false;
+        var singleton = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+        var variants = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+        var extension = false;
+        var tokens = normalized.Split('-');
+        if (tokens[0] == "x") return true;
+        for (var i = 1; i < tokens.Length; i++)
+        {
+            var token = tokens[i];
+            if (token == "x") break;
+            if (token.Length == 1) { if (!singleton.Add(token)) return false; extension = true; }
+            else if (!extension && (token.Length >= 5 || (token.Length == 4 && char.IsAsciiDigit(token[0]))) && !variants.Add(token)) return false;
         }
         return true;
     }

@@ -2800,7 +2800,14 @@ function policyBody(value: unknown): boolean {
         const otherStart = other.effectiveAt === undefined ? issued : policyInstant(other.effectiveAt);
         const otherEnd = other.expiresAt === undefined ? expires : policyInstant(other.expiresAt);
         if (end <= otherStart || otherEnd <= start) continue;
-        if (!(typeof rule.target === 'string' && typeof other.target === 'string' && rule.target !== other.target)) return false;
+        const finite = (target: any): { field: string; values: string[] } | undefined => {
+          if (typeof target === 'string') return { field: rule.scope + 'Id', values: [target] };
+          if (target.op === 'equal') return { field: target.field, values: [target.value] };
+          if (target.op === 'in') return { field: target.field, values: target.values };
+          return undefined;
+        };
+        const a = finite(rule.target), b = finite(other.target);
+        if (!a || !b || a.field !== b.field || a.values.some(value => b.values.includes(value))) return false;
       }
       prior.push(rule);
       if (rule.key.endsWith('.stop')) {
