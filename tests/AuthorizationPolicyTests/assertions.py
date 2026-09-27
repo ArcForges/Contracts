@@ -44,11 +44,17 @@ def fixture_decision(case: dict) -> str:
     """Evaluate independent symbolic boundary snapshots, not process credentials."""
     actor = case['originalActor']
     chain = case['actorChain']
-    if actor not in {'human', 'agent', 'automation', 'extension'} or not chain or chain[0] != actor:
+    allowed = {'human', 'agent', 'automation', 'extension'}
+    if actor not in allowed or not isinstance(chain, list) or not chain or chain[0] != actor:
         return 'identity-chain'
     if any(kind in {'operator', 'service', 'provider', 'preauth', 'organization', 'customer-service-principal'} for kind in chain):
         return 'identity-substitution'
-    if case['claimedActor'] != actor:
+    # The first identity stays the original actor. Later links can attenuate to
+    # a tool identity, never recover human authority. The claim names the current
+    # link, and every tool link retains tool restrictions for the whole chain.
+    if any(kind not in allowed for kind in chain) or 'human' in chain[1:] or len(chain) > 16:
+        return 'identity-chain'
+    if case['claimedActor'] != chain[-1]:
         return 'identity-substitution'
     if case['ownerRealm'] != case['credentialRealm'] or case['ownerUser'] != case['workspaceOwner']:
         return 'owner-chain'
@@ -58,7 +64,7 @@ def fixture_decision(case: dict) -> str:
         return 'owner-permission'
     if case['ownerServiceEligibility'] != 'current':
         return 'owner-service-eligibility'
-    if actor in metadata.TOOL_ACTORS and (case['humanOnly'] or not case['catalogueTool']):
+    if set(chain) & metadata.TOOL_ACTORS and (case['humanOnly'] or not case['catalogueTool']):
         return 'tool-reachability'
     if case['resourceAuthorization'] != 'current':
         return 'resource'
