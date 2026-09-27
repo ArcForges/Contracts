@@ -1,0 +1,888 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.sandbox.v1.SandboxInput": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxInput",
+      "fields": {
+        "invocationId": {
+          "required": true
+        },
+        "generation": {
+          "required": true
+        },
+        "inputId": {
+          "required": true
+        },
+        "length": {
+          "required": true
+        },
+        "sha256": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxSlotGrant": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxSlotGrant",
+      "fields": {
+        "slotId": {
+          "required": true,
+          "max": 2
+        },
+        "sequence": {
+          "required": true,
+          "min": 1
+        },
+        "capacity": {
+          "required": true,
+          "min": 1,
+          "max": 67108864
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxSession": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxSession",
+      "fields": {
+        "sessionId": {
+          "required": true
+        },
+        "invocationId": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        },
+        "generation": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "input": {
+          "required": true
+        },
+        "limits": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxTag": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxTag",
+      "fields": {
+        "key": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "value": {
+          "required": true,
+          "maxUtf8Bytes": 4096
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxRegion": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxRegion",
+      "fields": {
+        "x": {
+          "required": true
+        },
+        "y": {
+          "required": true
+        },
+        "width": {
+          "required": true
+        },
+        "height": {
+          "required": true
+        },
+        "firstSample": {
+          "required": true
+        },
+        "sampleCount": {
+          "required": true
+        },
+        "rowStride": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxImageChannel": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxImageChannel",
+      "fields": {
+        "name": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "sampleType": {
+          "required": true,
+          "pattern": "^(uint8|int8|uint16|int16|uint32|int32|uint64|int64|half|float|double)$"
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxImageInfo": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxImageInfo",
+      "fields": {
+        "width": {
+          "required": true,
+          "min": 1
+        },
+        "height": {
+          "required": true,
+          "min": 1
+        },
+        "subimageCount": {
+          "required": true,
+          "min": 1
+        },
+        "mipCount": {
+          "required": true,
+          "min": 1
+        },
+        "channels": {
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "tags": {
+          "maxItems": 128
+        },
+        "warnings": {
+          "maxItems": 128,
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxPdfPage": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxPdfPage",
+      "fields": {
+        "pageIndex": {
+          "required": true
+        },
+        "rotation": {
+          "required": true,
+          "enumValues": [
+            0,
+            90,
+            180,
+            270
+          ]
+        },
+        "widthPoints": {
+          "required": true,
+          "finite": true,
+          "min": 0
+        },
+        "heightPoints": {
+          "required": true,
+          "finite": true,
+          "min": 0
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxTextBox": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxTextBox",
+      "fields": {
+        "start": {
+          "required": true
+        },
+        "length": {
+          "required": true
+        },
+        "x": {
+          "required": true,
+          "finite": true
+        },
+        "y": {
+          "required": true,
+          "finite": true
+        },
+        "width": {
+          "required": true,
+          "finite": true
+        },
+        "height": {
+          "required": true,
+          "finite": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxPdfText": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxPdfText",
+      "fields": {
+        "pageIndex": {
+          "required": true
+        },
+        "start": {
+          "required": true
+        },
+        "next": {},
+        "text": {
+          "required": true,
+          "maxUtf8Bytes": 65536
+        },
+        "boxes": {
+          "maxItems": 1024
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxBufferAck": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxBufferAck",
+      "fields": {
+        "invocationId": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        },
+        "generation": {
+          "required": true
+        },
+        "slotId": {
+          "required": true,
+          "max": 2
+        },
+        "sequence": {
+          "required": true,
+          "min": 1
+        },
+        "digest": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.SandboxBufferDescriptor": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxBufferDescriptor",
+      "fields": {
+        "version": {
+          "required": true,
+          "min": 1,
+          "max": 1
+        },
+        "invocationId": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        },
+        "generation": {
+          "required": true
+        },
+        "slotId": {
+          "required": true,
+          "max": 2
+        },
+        "sequence": {
+          "required": true,
+          "min": 1
+        },
+        "kind": {
+          "required": true
+        },
+        "format": {
+          "required": true
+        },
+        "fullWidth": {
+          "required": true
+        },
+        "fullHeight": {
+          "required": true
+        },
+        "tileX": {
+          "required": true
+        },
+        "tileY": {
+          "required": true
+        },
+        "tileWidth": {
+          "required": true
+        },
+        "tileHeight": {
+          "required": true
+        },
+        "sampleStart": {
+          "required": true
+        },
+        "sampleCount": {
+          "required": true
+        },
+        "offset": {
+          "required": true,
+          "max": 67108864
+        },
+        "length": {
+          "required": true,
+          "max": 67108864
+        },
+        "rowStride": {
+          "required": true,
+          "max": 67108864
+        },
+        "sha256": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenSessionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "input": {
+          "required": true
+        },
+        "limits": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenSessionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenSessionValue",
+      "fields": {
+        "session": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenewSessionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenewSessionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenewSessionValue",
+      "fields": {
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGrantSlotRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "grant": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGrantSlotResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGrantSlotValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceAckBufferRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "ack": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceAckBufferResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceAckBufferValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenImageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "imageId": {
+          "required": true
+        },
+        "subimage": {
+          "required": true
+        },
+        "mip": {
+          "required": true
+        },
+        "outputFormat": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenImageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenImageValue",
+      "fields": {
+        "imageId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetImageInfoRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "imageId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetImageInfoResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetImageInfoValue",
+      "fields": {
+        "info": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceReadImageTileRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "imageId": {
+          "required": true
+        },
+        "region": {
+          "required": true
+        },
+        "grant": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceReadImageTileResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceReadImageTileValue",
+      "fields": {
+        "buffer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseImageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "imageId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseImageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseImageValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenPdfRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "documentId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenPdfResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenPdfValue",
+      "fields": {
+        "documentId": {
+          "required": true
+        },
+        "pageCount": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetPdfPageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "documentId": {
+          "required": true
+        },
+        "pageIndex": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetPdfPageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetPdfPageValue",
+      "fields": {
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceExtractPdfTextRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "documentId": {
+          "required": true
+        },
+        "pageIndex": {
+          "required": true
+        },
+        "start": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceExtractPdfTextResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceExtractPdfTextValue",
+      "fields": {
+        "text": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenderPdfTileRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "documentId": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        },
+        "region": {
+          "required": true
+        },
+        "grant": {
+          "required": true
+        },
+        "fullWidth": {
+          "required": true
+        },
+        "fullHeight": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenderPdfTileResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenderPdfTileValue",
+      "fields": {
+        "buffer": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceClosePdfRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "documentId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceClosePdfResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceClosePdfValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCancelSessionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCancelSessionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCancelSessionValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseSessionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseSessionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseSessionValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    }
+  }
+}

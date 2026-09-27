@@ -3,6 +3,8 @@ syntax = "proto3";
 
 package arcforges.local.sandbox.v1;
 
+import "arcforges/foundation/v1/foundation.proto";
+
 option csharp_namespace = "ArcForges.Contracts.LocalRpc.Sandbox.V1";
 option java_package = "io.github.arcforges.contracts.local.sandbox.v1";
 option java_multiple_files = true;
@@ -18,3 +20,449 @@ message SandboxLimits {
   optional uint32 max_items = 6 [json_name = "maxItems"];
   optional uint32 timeout_ms = 7 [json_name = "timeoutMs"];
 }
+
+// Registry04 sandbox records. IDs refer to the finite parent-provisioned inventory; never OS handles or paths.
+message SandboxInput {
+  arcforges.foundation.v1.Id invocation_id = 1 [json_name = "invocationId"];
+  optional uint64 generation = 2 [json_name = "generation"];
+  arcforges.foundation.v1.Id input_id = 3 [json_name = "inputId"];
+  optional uint64 length = 4 [json_name = "length"];
+  optional string sha256 = 5 [json_name = "sha256"];
+}
+
+message SandboxSlotGrant {
+  optional uint32 slot_id = 1 [json_name = "slotId"];
+  optional uint64 sequence = 2 [json_name = "sequence"];
+  optional uint64 capacity = 3 [json_name = "capacity"];
+}
+
+message SandboxSession {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id invocation_id = 2 [json_name = "invocationId"];
+  arcforges.foundation.v1.Id lease_id = 3 [json_name = "leaseId"];
+  optional uint64 generation = 4 [json_name = "generation"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  SandboxInput input = 6 [json_name = "input"];
+  SandboxLimits limits = 7 [json_name = "limits"];
+}
+
+message SandboxTag {
+  optional string key = 1 [json_name = "key"];
+  optional string value = 2 [json_name = "value"];
+}
+
+message SandboxRegion {
+  optional uint32 x = 1 [json_name = "x"];
+  optional uint32 y = 2 [json_name = "y"];
+  optional uint32 width = 3 [json_name = "width"];
+  optional uint32 height = 4 [json_name = "height"];
+  optional uint64 first_sample = 5 [json_name = "firstSample"];
+  optional uint64 sample_count = 6 [json_name = "sampleCount"];
+  optional uint64 row_stride = 7 [json_name = "rowStride"];
+}
+
+message SandboxImageChannel {
+  optional string name = 1 [json_name = "name"];
+  optional string sample_type = 2 [json_name = "sampleType"];
+}
+
+message SandboxImageInfo {
+  optional uint32 width = 1 [json_name = "width"];
+  optional uint32 height = 2 [json_name = "height"];
+  optional uint32 subimage_count = 3 [json_name = "subimageCount"];
+  optional uint32 mip_count = 4 [json_name = "mipCount"];
+  repeated SandboxImageChannel channels = 5 [json_name = "channels"];
+  repeated SandboxTag tags = 6 [json_name = "tags"];
+  repeated string warnings = 7 [json_name = "warnings"];
+}
+
+message SandboxPdfPage {
+  optional uint32 page_index = 1 [json_name = "pageIndex"];
+  optional uint32 rotation = 2 [json_name = "rotation"];
+  optional double width_points = 3 [json_name = "widthPoints"];
+  optional double height_points = 4 [json_name = "heightPoints"];
+}
+
+message SandboxTextBox {
+  optional uint32 start = 1 [json_name = "start"];
+  optional uint32 length = 2 [json_name = "length"];
+  optional double x = 3 [json_name = "x"];
+  optional double y = 4 [json_name = "y"];
+  optional double width = 5 [json_name = "width"];
+  optional double height = 6 [json_name = "height"];
+}
+
+message SandboxPdfText {
+  optional uint32 page_index = 1 [json_name = "pageIndex"];
+  optional uint32 start = 2 [json_name = "start"];
+  optional uint32 next = 3 [json_name = "next"];
+  optional string text = 4 [json_name = "text"];
+  repeated SandboxTextBox boxes = 5 [json_name = "boxes"];
+}
+
+message SandboxBufferAck {
+  arcforges.foundation.v1.Id invocation_id = 1 [json_name = "invocationId"];
+  arcforges.foundation.v1.Id lease_id = 2 [json_name = "leaseId"];
+  optional uint64 generation = 3 [json_name = "generation"];
+  optional uint32 slot_id = 4 [json_name = "slotId"];
+  optional uint64 sequence = 5 [json_name = "sequence"];
+  optional string digest = 6 [json_name = "digest"];
+}
+
+message SandboxBufferDescriptor {
+  reserved 7;
+  reserved "frame_id", "frameId";
+  optional uint32 version = 1 [json_name = "version"];
+  arcforges.foundation.v1.Id invocation_id = 2 [json_name = "invocationId"];
+  arcforges.foundation.v1.Id lease_id = 3 [json_name = "leaseId"];
+  optional uint64 generation = 4 [json_name = "generation"];
+  optional uint32 slot_id = 5 [json_name = "slotId"];
+  optional uint64 sequence = 6 [json_name = "sequence"];
+  optional uint32 kind = 8 [json_name = "kind"];
+  optional uint32 format = 9 [json_name = "format"];
+  optional uint32 full_width = 10 [json_name = "fullWidth"];
+  optional uint32 full_height = 11 [json_name = "fullHeight"];
+  optional uint32 tile_x = 12 [json_name = "tileX"];
+  optional uint32 tile_y = 13 [json_name = "tileY"];
+  optional uint32 tile_width = 14 [json_name = "tileWidth"];
+  optional uint32 tile_height = 15 [json_name = "tileHeight"];
+  optional uint64 sample_start = 16 [json_name = "sampleStart"];
+  optional uint64 sample_count = 17 [json_name = "sampleCount"];
+  optional uint64 offset = 18 [json_name = "offset"];
+  optional uint64 length = 19 [json_name = "length"];
+  optional uint64 row_stride = 20 [json_name = "rowStride"];
+  optional string sha256 = 21 [json_name = "sha256"];
+}
+
+// Internal parent-to-helper only. No product listener and no reverse invocation.
+// Retired method names are reserved by the closed service manifest, since protobuf services have no reserved syntax.
+// Never reintroduce ProbeMedia, OpenMediaReader, ReadMediaFrame, SeekMedia, CopyVideoFrame, CopyAudioFrame, CloseFrame, CloseReader, ReadOtio, WriteOtio or OtioReadChunk.
+service ContentSandboxService {
+  rpc OpenSession(ContentSandboxServiceOpenSessionRequest) returns (ContentSandboxServiceOpenSessionResponse);
+  rpc RenewSession(ContentSandboxServiceRenewSessionRequest) returns (ContentSandboxServiceRenewSessionResponse);
+  rpc GrantSlot(ContentSandboxServiceGrantSlotRequest) returns (ContentSandboxServiceGrantSlotResponse);
+  rpc AckBuffer(ContentSandboxServiceAckBufferRequest) returns (ContentSandboxServiceAckBufferResponse);
+  rpc OpenImage(ContentSandboxServiceOpenImageRequest) returns (ContentSandboxServiceOpenImageResponse);
+  rpc GetImageInfo(ContentSandboxServiceGetImageInfoRequest) returns (ContentSandboxServiceGetImageInfoResponse);
+  rpc ReadImageTile(ContentSandboxServiceReadImageTileRequest) returns (ContentSandboxServiceReadImageTileResponse);
+  rpc CloseImage(ContentSandboxServiceCloseImageRequest) returns (ContentSandboxServiceCloseImageResponse);
+  rpc OpenPdf(ContentSandboxServiceOpenPdfRequest) returns (ContentSandboxServiceOpenPdfResponse);
+  rpc GetPdfPage(ContentSandboxServiceGetPdfPageRequest) returns (ContentSandboxServiceGetPdfPageResponse);
+  rpc ExtractPdfText(ContentSandboxServiceExtractPdfTextRequest) returns (ContentSandboxServiceExtractPdfTextResponse);
+  rpc RenderPdfTile(ContentSandboxServiceRenderPdfTileRequest) returns (ContentSandboxServiceRenderPdfTileResponse);
+  rpc ClosePdf(ContentSandboxServiceClosePdfRequest) returns (ContentSandboxServiceClosePdfResponse);
+  rpc CancelSession(ContentSandboxServiceCancelSessionRequest) returns (ContentSandboxServiceCancelSessionResponse);
+  rpc CloseSession(ContentSandboxServiceCloseSessionRequest) returns (ContentSandboxServiceCloseSessionResponse);
+}
+
+message ContentSandboxServiceOpenSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  SandboxInput input = 10 [json_name = "input"];
+  SandboxLimits limits = 11 [json_name = "limits"];
+}
+
+message ContentSandboxServiceOpenSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceOpenSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceOpenSessionValue {
+  SandboxSession session = 10 [json_name = "session"];
+}
+
+message ContentSandboxServiceRenewSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+}
+
+message ContentSandboxServiceRenewSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceRenewSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceRenewSessionValue {
+  arcforges.foundation.v1.Instant expires_at = 10 [json_name = "expiresAt"];
+}
+
+message ContentSandboxServiceGrantSlotRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  SandboxSlotGrant grant = 11 [json_name = "grant"];
+}
+
+message ContentSandboxServiceGrantSlotResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceGrantSlotValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceGrantSlotValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ContentSandboxServiceAckBufferRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  SandboxBufferAck ack = 11 [json_name = "ack"];
+}
+
+message ContentSandboxServiceAckBufferResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceAckBufferValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceAckBufferValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ContentSandboxServiceOpenImageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id image_id = 11 [json_name = "imageId"];
+  optional uint32 subimage = 12 [json_name = "subimage"];
+  optional uint32 mip = 13 [json_name = "mip"];
+  optional uint32 output_format = 14 [json_name = "outputFormat"];
+}
+
+message ContentSandboxServiceOpenImageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceOpenImageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceOpenImageValue {
+  arcforges.foundation.v1.Id image_id = 10 [json_name = "imageId"];
+}
+
+message ContentSandboxServiceGetImageInfoRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id image_id = 11 [json_name = "imageId"];
+}
+
+message ContentSandboxServiceGetImageInfoResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceGetImageInfoValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceGetImageInfoValue {
+  SandboxImageInfo info = 10 [json_name = "info"];
+}
+
+message ContentSandboxServiceReadImageTileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id image_id = 11 [json_name = "imageId"];
+  SandboxRegion region = 12 [json_name = "region"];
+  SandboxSlotGrant grant = 13 [json_name = "grant"];
+}
+
+message ContentSandboxServiceReadImageTileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceReadImageTileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceReadImageTileValue {
+  SandboxBufferDescriptor buffer = 10 [json_name = "buffer"];
+}
+
+message ContentSandboxServiceCloseImageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id image_id = 11 [json_name = "imageId"];
+}
+
+message ContentSandboxServiceCloseImageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceCloseImageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceCloseImageValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ContentSandboxServiceOpenPdfRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id document_id = 11 [json_name = "documentId"];
+}
+
+message ContentSandboxServiceOpenPdfResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceOpenPdfValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceOpenPdfValue {
+  arcforges.foundation.v1.Id document_id = 10 [json_name = "documentId"];
+  optional uint32 page_count = 11 [json_name = "pageCount"];
+}
+
+message ContentSandboxServiceGetPdfPageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id document_id = 11 [json_name = "documentId"];
+  optional uint32 page_index = 12 [json_name = "pageIndex"];
+}
+
+message ContentSandboxServiceGetPdfPageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceGetPdfPageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceGetPdfPageValue {
+  SandboxPdfPage page = 10 [json_name = "page"];
+}
+
+message ContentSandboxServiceExtractPdfTextRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id document_id = 11 [json_name = "documentId"];
+  optional uint32 page_index = 12 [json_name = "pageIndex"];
+  optional uint32 start = 13 [json_name = "start"];
+}
+
+message ContentSandboxServiceExtractPdfTextResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceExtractPdfTextValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceExtractPdfTextValue {
+  SandboxPdfText text = 10 [json_name = "text"];
+}
+
+message ContentSandboxServiceRenderPdfTileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id document_id = 11 [json_name = "documentId"];
+  SandboxPdfPage page = 12 [json_name = "page"];
+  SandboxRegion region = 13 [json_name = "region"];
+  SandboxSlotGrant grant = 14 [json_name = "grant"];
+  optional uint32 full_width = 15 [json_name = "fullWidth"];
+  optional uint32 full_height = 16 [json_name = "fullHeight"];
+}
+
+message ContentSandboxServiceRenderPdfTileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceRenderPdfTileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceRenderPdfTileValue {
+  SandboxBufferDescriptor buffer = 10 [json_name = "buffer"];
+}
+
+message ContentSandboxServiceClosePdfRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id document_id = 11 [json_name = "documentId"];
+}
+
+message ContentSandboxServiceClosePdfResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceClosePdfValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceClosePdfValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ContentSandboxServiceCancelSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+}
+
+message ContentSandboxServiceCancelSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceCancelSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceCancelSessionValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ContentSandboxServiceCloseSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+}
+
+message ContentSandboxServiceCloseSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContentSandboxServiceCloseSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ContentSandboxServiceCloseSessionValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
