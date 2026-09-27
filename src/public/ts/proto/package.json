@@ -18,6 +18,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./catalog-profile": {
+      "types": "./dist/catalog-profile.d.ts",
+      "import": "./dist/catalog-profile.js"
     }
   },
   "files": [

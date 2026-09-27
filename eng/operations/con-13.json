@@ -7,7 +7,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/Search",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -20,9 +20,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": true,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -30,7 +28,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/GetPackage",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -43,9 +41,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": true,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -53,7 +49,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/ListVersions",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -66,9 +62,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": true,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -76,7 +70,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/RegisterPublisher",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -89,9 +83,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -99,7 +91,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/VerifyPublisher",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -112,9 +104,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -122,7 +112,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/SubmitVersion",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -135,9 +125,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": true,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -145,7 +133,7 @@
       "binding": "arcforges.catalog.v1.CatalogService/GetSubmission",
       "kind": "proto",
       "source": "public/proto/arcforges/catalog/v1/catalog.proto",
-      "scope": "public",
+      "scope": "account",
       "surface": "public",
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
@@ -158,9 +146,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": true,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     }
   ]
