@@ -935,6 +935,24 @@
       "document": "expired-shard-root",
       "shards": ["expired-signed"],
       "expected": "shard-expired"
+    },
+    {
+      "id": "noncanonical-signature-padding-bits",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["signature"],
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "noncanonical-public-key-padding-bits",
+      "document": "realm",
+      "mutation": {
+        "path": ["signingKeys", 0, "publicKey"],
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB"
+      },
+      "expected": "shape"
     }
   ],
   "malformedJson": [
