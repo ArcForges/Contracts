@@ -38,7 +38,7 @@ def shape(value, node, schema):
 def static_rules(body):
     """Independent normative algorithm mirrored by generated C#/TS policyBody hooks.
 
-    Overlap is provably absent only for different stable-ID targets. Predicate
+    Disjoint time windows or different stable-ID targets cannot overlap. Predicate
     overlap is conservative: a same-key/scope/priority ambiguity refuses admission.
     Group ranges are allocated by ordinal experiment ID and must fit one bucket.
     Salt is version-bound by the namespace supplied to the separate bucket vector.
@@ -142,6 +142,7 @@ class PolicyBodyVectors(unittest.TestCase):
             for allocation in (0, 10000): self.assertEqual(result < allocation, allocation == 10000)
 
 if __name__ == "__main__": unittest.main()
+
 
 
 
