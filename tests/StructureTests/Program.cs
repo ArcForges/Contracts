@@ -62,6 +62,7 @@ try
 catch (ArgumentException) { }
 
 Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key rejection and SDK caller-owned invocation.");
+Con05Cases.Run();
 FoundationLinkCases.Run();
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 SemanticHashCases.Run(root);
