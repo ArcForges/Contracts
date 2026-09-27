@@ -66,6 +66,7 @@ var catalogues = new Dictionary<string, IReadOnlyList<ServiceDescriptor>>(String
 {
     ["ArcForges.Contracts.PublicApi"] = ArcForges.Contracts.PublicApi.ContractServices.All,
     ["ArcForges.Sdk.Contracts"] = ArcForges.Sdk.Contracts.ContractServices.All,
+    ["ArcForges.Contracts.LocalRpc.Platform"] = ArcForges.Contracts.LocalRpc.Platform.ContractServices.All,
 };
 foreach (var package in services.GetProperty("csharp").EnumerateObject())
 {
@@ -285,3 +286,4 @@ internal sealed class RecordingBinder : ServiceBinderBase
 internal sealed class HelloEndpoint : ArcForges.Contracts.Hello.V1.HelloService.HelloServiceBase;
 
 internal sealed class ExtensionEndpoint : ArcForges.Sdk.Contracts.V1.ExtensionHostService.ExtensionHostServiceBase;
+

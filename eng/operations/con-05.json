@@ -187,8 +187,7 @@
         "patEligible": false,
         "actorKinds": ["human"]
       },
-      "launchRoles": ["owning-parent"],
-      "requireLaunchRole": true
+      "launchRoles": ["owning-parent"]
     },
     {
       "operationId": "IConnectorBroker.ListConnections",
@@ -210,8 +209,7 @@
         "patEligible": false,
         "actorKinds": ["human"]
       },
-      "launchRoles": ["owning-parent"],
-      "requireLaunchRole": true
+      "launchRoles": ["owning-parent"]
     },
     {
       "operationId": "IConnectorBroker.BeginConnection",
@@ -233,8 +231,7 @@
         "patEligible": false,
         "actorKinds": ["human"]
       },
-      "launchRoles": ["owning-parent"],
-      "requireLaunchRole": true
+      "launchRoles": ["owning-parent"]
     },
     {
       "operationId": "IConnectorBroker.CompleteConnection",
@@ -256,8 +253,7 @@
         "patEligible": false,
         "actorKinds": ["human"]
       },
-      "launchRoles": ["owning-parent"],
-      "requireLaunchRole": true
+      "launchRoles": ["owning-parent"]
     },
     {
       "operationId": "IConnectorBroker.GetConnection",
@@ -279,8 +275,7 @@
         "patEligible": false,
         "actorKinds": ["human"]
       },
-      "launchRoles": ["owning-parent"],
-      "requireLaunchRole": true
+      "launchRoles": ["owning-parent"]
     },
     {
       "operationId": "IConnectorBroker.RevokeConnection",
@@ -302,8 +297,7 @@
         "patEligible": false,
         "actorKinds": ["human"]
       },
-      "launchRoles": ["owning-parent"],
-      "requireLaunchRole": true
+      "launchRoles": ["owning-parent"]
     }
   ]
 }
