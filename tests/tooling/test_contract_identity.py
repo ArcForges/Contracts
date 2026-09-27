@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Offline package-specific contract identity and independent declaration checks."""
 import json
+import hashlib
 from pathlib import Path
 import shutil
 import sys
@@ -23,8 +24,17 @@ class ContractIdentityTests(unittest.TestCase):
             value = self.axes(row["id"])
             expected = {path for package in package_catalog.closure(row["id"])
                         for path in package["proto"] + package["jsonSchemas"]}
-            actual = {item["source"]["path"] for item in value["ContractSet"].get("values", [])}
-            self.assertEqual(actual, expected, row["id"])
+            evidence = []
+            for item in value["ContractSet"].get("values", []):
+                self.assertNotEqual("source" in item, "sources" in item)
+                sources = item["sources"] if "sources" in item else [item["source"]]
+                self.assertTrue(sources)
+                self.assertEqual(sources, sorted(sources, key=lambda entry: entry["path"]))
+                evidence.extend(sources)
+            self.assertEqual(sorted(item["path"] for item in evidence), sorted(expected), row["id"])
+            for item in evidence:
+                self.assertEqual(item["sha256"], hashlib.sha256(
+                    (ROOT / item["path"]).read_bytes().replace(b'\r\n', b'\n')).hexdigest())
             self.assertEqual(value["ContractSet"]["status"], "present" if expected else "not-applicable")
             self.assertEqual(set(value), set(build_identity.AXES))
             has_extension = "public/proto/arcforges/extensions/v1/extensions.proto" in expected

@@ -87,8 +87,22 @@ class DocumentationAdmissionTests(unittest.TestCase):
                             suffix = ''.join(word.title() for word in field['name'].split('_'))
                             retired_markers.update('anchor-label="' + prefix + suffix + '"' for prefix in ('get', 'has'))
                 expected[name] = [marker for marker in markers if marker not in retired_markers]
-            self.assertEqual(current["modules"][module]["publicApi"], expected,
+            actual = current["modules"][module]["publicApi"]
+            self.assertEqual({name: actual[name] for name in expected}, expected,
                              "Only explicitly retired message/field markers may be removed")
+            additions = set(actual) - set(expected)
+            descriptors = {"OperationBinding", "CancelSupport", "CapabilityLimits", "CapabilityDescriptor",
+                           "ActionDescriptor", "ContractVersion", "ContractCompatibility", "FeatureSet",
+                           "CompatibilityDescriptor", "InstanceReadiness", "HealthSnapshot", "EncodedBodyRef",
+                           "ContextProvider", "ContextDescriptor"}
+            self.assertEqual(additions, {
+                "contracts-proto/io.github.arcforges.contracts." +
+                ("publicapi" if name.startswith("Context") else "foundation") + ".v1/" + slug(name) + "/index.html"
+                for name in descriptors
+            } if module == "contracts-proto" else set())
+            for name in additions:
+                self.assertIn('anchor-label="parser"', actual[name])
+                self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]))
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
         self.assertTrue(any("foundation.v1" in name for name in proto_pages))
