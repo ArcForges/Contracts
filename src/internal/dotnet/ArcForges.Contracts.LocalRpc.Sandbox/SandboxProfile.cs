@@ -94,6 +94,7 @@ public static class SandboxProfile
         ulong rowBytes = value.TileWidth * pixelBytes;
         if (value.RowStride < rowBytes || value.TileWidth > 2048 || value.TileHeight > 2048) return false;
         ulong required = (value.TileHeight - 1UL) * value.RowStride + rowBytes;
-        return value.Length == required && required <= SlotBytes;
+        ulong padded = value.TileHeight * value.RowStride;
+        return value.Length >= required && value.Length <= padded && value.Length <= SlotBytes;
     }
 }

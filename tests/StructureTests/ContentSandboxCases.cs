@@ -66,6 +66,13 @@ internal static class ContentSandboxCases
             Kind = 1, Format = 1, FullWidth = 2, FullHeight = 2, TileX = 0, TileY = 0, TileWidth = 2, TileHeight = 2,
             SampleStart = 0, SampleCount = 0, Offset = 0, Length = 16, RowStride = 8, Sha256 = new string('a', 64) };
         Require(SandboxProfile.IsValid(seal, grant, region), "bounded seal");
+        var paddedRegion = region.Clone(); paddedRegion.RowStride = 12;
+        var paddedSeal = seal.Clone(); paddedSeal.RowStride = 12; paddedSeal.Length = 24;
+        Require(SandboxProfile.IsValid(paddedSeal, grant, paddedRegion), "final row padding");
+        paddedSeal.Length = 20;
+        Require(SandboxProfile.IsValid(paddedSeal, grant, paddedRegion), "minimal final row extent");
+        paddedSeal.Length = 19;
+        Require(!SandboxProfile.IsValid(paddedSeal, grant, paddedRegion), "incomplete final row");
         var stale = seal.Clone(); stale.Sequence = 2;
         Require(!SandboxProfile.IsValid(stale, grant, region), "stale slot sequence");
         var outside = seal.Clone(); outside.Offset = 60;
