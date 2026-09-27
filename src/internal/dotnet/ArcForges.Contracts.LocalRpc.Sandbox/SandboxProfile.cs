@@ -10,7 +10,19 @@ namespace ArcForges.Contracts.LocalRpc.Sandbox;
 public static class ContentSandboxPolicy
 {
     /// <summary>The role of an endpoint in a preverified launch pair; never a wire authority claim.</summary>
-    public enum EndpointRole { Parent, Sandbox, Product, Extension, Connector }
+    public enum EndpointRole
+    {
+        /// <summary>The exact parent that launched this helper.</summary>
+        Parent,
+        /// <summary>The restricted content-parser child.</summary>
+        Sandbox,
+        /// <summary>A product endpoint, never a sandbox service receiver.</summary>
+        Product,
+        /// <summary>An extension child, never a sandbox service caller.</summary>
+        Extension,
+        /// <summary>A connector child, never a sandbox service caller.</summary>
+        Connector
+    }
 
     /// <summary>Checks whether a generated method can be registered on this receiver direction.
     /// LocalRpc must separately verify OS launch identity, connection credentials, current grants,
