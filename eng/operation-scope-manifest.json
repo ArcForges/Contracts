@@ -1,0 +1,1263 @@
+{
+  "schemaVersion": "operation-scope.v1",
+  "license": "Apache-2.0",
+  "oracle": {
+    "repository": "ArcForges/ArcForges-Design",
+    "commit": "4a068c5b8185fd64493a34132b5692f1418c3653",
+    "path": "docs/architecture/contracts/11-operation-scope-manifest.md",
+    "sha256": "6c5ef41a9ea09074fbd183275a95c96812b20bcb8db587d661b1c98c1cbfef17"
+  },
+  "idempotencyExamples": [
+    "IScopeOperations.StartCapture",
+    "chat.appendMessage",
+    "chat.createConversation",
+    "chat.getConversation",
+    "commerce.createCheckoutAttempt",
+    "device.rename",
+    "identity.revokeApiToken",
+    "device.revoke"
+  ],
+  "toolAllowlist": [],
+  "operations": [
+    {
+      "operationId": "IArtifactHandler.DescribeArtifactKinds",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IArtifactHandler.Open",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IArtifactHandler.RenderPreview",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IArtifactHandler.Resolve",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "ICapabilityProvider.Describe",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "ICapabilityProvider.EvaluateAvailability",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "ICapabilityProvider.Invoke",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.AppendUserMessage",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.CreateConversation",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.GetConversation",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.ListConversations",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.OpenArtifact",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.StartAgentTurn",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IChatOperations.SubmitApproval",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IConnectorBroker.BeginConnection",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IConnectorBroker.CompleteConnection",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IConnectorBroker.GetConnection",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IConnectorBroker.ListConnections",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IConnectorBroker.ListDefinitions",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IConnectorBroker.RevokeConnection",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.AckBuffer",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.CancelSession",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.CloseImage",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.ClosePdf",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.CloseSession",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.ExtractPdfText",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.GetImageInfo",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.GetPdfPage",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.GrantSlot",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.OpenImage",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.OpenPdf",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.OpenSession",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.ReadImageTile",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.RenderPdfTile",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContentSandbox.RenewSession",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IContextProvider.DescribeContextKinds",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IContextProvider.ProvideContext",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IDeepLinkTarget.HandleDeepLink",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IExtensionHost.Handshake",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IExtensionHost.Invoke",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IExtensionHost.RenewLease",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IExtensionHost.Stop",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "IHubRegistry.Deregister",
+      "scope": "future"
+    },
+    {
+      "operationId": "IHubRegistry.Register",
+      "scope": "future"
+    },
+    {
+      "operationId": "IHubRegistry.RenewLease",
+      "scope": "future"
+    },
+    {
+      "operationId": "IHubRegistry.ReportHealth",
+      "scope": "future"
+    },
+    {
+      "operationId": "IHubRouting.GetHealth",
+      "scope": "future"
+    },
+    {
+      "operationId": "IHubRouting.ListContributions",
+      "scope": "future"
+    },
+    {
+      "operationId": "IHubRouting.ResolveCapability",
+      "scope": "future"
+    },
+    {
+      "operationId": "ILocalBootstrap.Challenge",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "ILocalBootstrap.Confirm",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "ILocalBootstrap.Renew",
+      "scope": "private-helper"
+    },
+    {
+      "operationId": "ILocalEvents.Poll",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IProductLifecycle.GetJob",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IProductLifecycle.GetState",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IProductLifecycle.PrepareForShutdown",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IResourceAccess.GetMetadata",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IResourceAccess.OpenRead",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IResourceAccess.ReadChunk",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IResourceAccess.Release",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.CompareSessions",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.CreateAnnotation",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.CreateFinding",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.GenerateReport",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.GetConfigurationSnapshot",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.GetSession",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.GetStructuredContext",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.ListCaptures",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.ListSessions",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.RunAnalysis",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.RunMeasurement",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.StartCapture",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "IScopeOperations.StopCapture",
+      "scope": "in-process"
+    },
+    {
+      "operationId": "agent.deleteProfile",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "agent.deleteSkill",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "agent.getUsage",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "agent.listModels",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "agent.listProfiles",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "agent.putProfile",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "agent.putSkill",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "application.disconnect",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "application.heartbeat",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "application.list",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "approval.decide",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "approval.list",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.create",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.delete",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.get",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.list",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.resolveMissed",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.runNow",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.setEnabled",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.submitEvent",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "automation.update",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "bridge.getRequestState",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "bridge.pullRequests",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "bridge.submitResult",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "catalog.getPackage",
+      "scope": "account"
+    },
+    {
+      "operationId": "catalog.getSubmission",
+      "scope": "account"
+    },
+    {
+      "operationId": "catalog.listVersions",
+      "scope": "account"
+    },
+    {
+      "operationId": "catalog.registerPublisher",
+      "scope": "account"
+    },
+    {
+      "operationId": "catalog.review",
+      "scope": "operator"
+    },
+    {
+      "operationId": "catalog.revoke",
+      "scope": "operator"
+    },
+    {
+      "operationId": "catalog.search",
+      "scope": "account"
+    },
+    {
+      "operationId": "catalog.submitVersion",
+      "scope": "account"
+    },
+    {
+      "operationId": "catalog.verifyPublisher",
+      "scope": "account"
+    },
+    {
+      "operationId": "chat.appendMessage",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.cancelTurn",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.closeTemporary",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.createBranch",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.createConversation",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.deleteMemory",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.deleteProject",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.getConversation",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.getMemory",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.getProject",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.getTurn",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.listConversations",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.listMemories",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.listProjects",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.previewPromotion",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.promoteTurn",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.putMemory",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.putProject",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.requestExport",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.saveTemporary",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "chat.updateConversation",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "commerce.authoriseExtraUsage",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.cancelSubscription",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.createCheckoutAttempt",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.createPurchaseIntent",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.explainCharge",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.exportEvidence",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.getCatalogue",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.getCredits",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.getPurchaseState",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.getSubscription",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.listBillingHistory",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.reactivateSubscription",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.requestRefund",
+      "scope": "account"
+    },
+    {
+      "operationId": "commerce.revokeExtraUsage",
+      "scope": "account"
+    },
+    {
+      "operationId": "connector.beginConnection",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "connector.completeConnection",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "connector.getConnection",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "connector.listConnections",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "connector.listDefinitions",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "connector.revokeConnection",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "data.getExportState",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "data.requestExport",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "device.getCapabilities",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.getRemotePolicy",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.list",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.register",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.rename",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.revoke",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.setRemoteEnabled",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.setRemotePolicy",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.setTrust",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "device.signOut",
+      "scope": "application-target"
+    },
+    {
+      "operationId": "entitlement.check",
+      "scope": "account"
+    },
+    {
+      "operationId": "entitlement.getCapacity",
+      "scope": "account"
+    },
+    {
+      "operationId": "entitlement.getServiceTerm",
+      "scope": "account"
+    },
+    {
+      "operationId": "entitlement.getSnapshot",
+      "scope": "account"
+    },
+    {
+      "operationId": "entitlement.getUsage",
+      "scope": "account"
+    },
+    {
+      "operationId": "entitlement.listGrants",
+      "scope": "account"
+    },
+    {
+      "operationId": "events.watch",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "execution.acknowledgeOutput",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "execution.purgeTransient",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "execution.readOutput",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "execution.startTransientTurn",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "execution.watchOutput",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "export.cancel",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "export.getDownload",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "export.getStatus",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "history.beginImport",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "history.cancelImport",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "history.finalizeImport",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "history.getImport",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "identity.beginAuthentication",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.beginEmailChange",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.beginPasskeyRegistration",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.beginRecovery",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.beginStepUp",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.cancelAccountDeletion",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.changePassword",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.completeAuthentication",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.completeEmailChange",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.completeEnrollment",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.completePasskeyRegistration",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.completeRecovery",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.completeStepUp",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.createApiToken",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.generateRecoveryCodes",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.getAccountDeletion",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.getProfile",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.listApiTokens",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.listAuthIdentities",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.listAuthProviders",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.listSecurityActivity",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.listSessions",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.redeemEmailCode",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.refreshSession",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.removeAuthIdentity",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.renameAuthIdentity",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.requestAccountDeletion",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.requestEmailCode",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.revokeAllSessions",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.revokeApiToken",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.revokeSession",
+      "scope": "account"
+    },
+    {
+      "operationId": "identity.updateProfile",
+      "scope": "account"
+    },
+    {
+      "operationId": "notification.acknowledge",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "notification.list",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "notification.registerPush",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "notification.unregisterPush",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "operator.activateConfiguration",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.adjustCompensation",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.approveAccess",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.approveAction",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.approveConfiguration",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.decideEnforcement",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.decideRefund",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.endAccess",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.endBreakGlass",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.getAppeal",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.getCase",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.getCatalogSubmission",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.getConfiguration",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.getProposal",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.grantEntitlement",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.issueCompensation",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.listCases",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.proposeAction",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.proposeEnforcement",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.readDiagnostic",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.replyCase",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.requestAccess",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.resolveAppeal",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.revokeEntitlement",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.setCaseState",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.setKillSwitch",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.stageConfiguration",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.startBreakGlass",
+      "scope": "operator"
+    },
+    {
+      "operationId": "operator.validateConfiguration",
+      "scope": "operator"
+    },
+    {
+      "operationId": "policy.getBundle",
+      "scope": "account"
+    },
+    {
+      "operationId": "preference.put",
+      "scope": "account"
+    },
+    {
+      "operationId": "resource.beginUpload",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "resource.completeUpload",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "resource.getDownloadTicket",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "resource.getMetadata",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "resource.getUploadStatus",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "resource.release",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "resource.renewUploadTicket",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "scope.getSession",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "scope.listProjects",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "scope.listSessions",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "search.query",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "simulation.cancelRun",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.createDefinition",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.getDefinition",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.getRun",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.getSegmentTicket",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.listDefinitions",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.listRuns",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.listSegments",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.pauseRun",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.pollState",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.publishScenarioVersion",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.resumeRun",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "simulation.startRun",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "source.clearPolicy",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "source.createConsent",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "source.getPolicy",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "source.revokeConsent",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "source.setPolicy",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "support.appendMessage",
+      "scope": "account"
+    },
+    {
+      "operationId": "support.createCase",
+      "scope": "account"
+    },
+    {
+      "operationId": "support.decideAccess",
+      "scope": "account"
+    },
+    {
+      "operationId": "support.listCases",
+      "scope": "account"
+    },
+    {
+      "operationId": "sync.getAggregate",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.getBootstrapPage",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.listConflicts",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.listScopes",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.pullChanges",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.pushBatch",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.pushChange",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.requestFullResync",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.resolveConflict",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "sync.setScope",
+      "scope": "product-owner"
+    },
+    {
+      "operationId": "task.cancel",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.create",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.get",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.getDetails",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.list",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.pause",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.resume",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.retryAttempt",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "task.steer",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "transfer.cancel",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "transfer.commitImport",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "transfer.get",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "transfer.list",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "transfer.previewImport",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "transfer.requestExport",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "workspace.get",
+      "scope": "account"
+    },
+    {
+      "operationId": "workspace.getDataDeletion",
+      "scope": "account"
+    },
+    {
+      "operationId": "workspace.getHealth",
+      "scope": "account"
+    },
+    {
+      "operationId": "workspace.list",
+      "scope": "account"
+    },
+    {
+      "operationId": "workspace.previewDataDeletion",
+      "scope": "account"
+    },
+    {
+      "operationId": "workspace.requestDataDeletion",
+      "scope": "account"
+    },
+    {
+      "operationId": "workspace.updateSettings",
+      "scope": "account"
+    }
+  ]
+}

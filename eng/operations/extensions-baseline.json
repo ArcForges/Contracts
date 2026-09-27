@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "IExtensionHost.RenewLease",
+      "binding": "arcforges.extensions.v1.ExtensionHostService/RenewLease",
+      "kind": "proto",
+      "source": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "extension-peer",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#extension-operation-authorization-metadata",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["extension-child"]
+      }
+    }
+  ]
+}
