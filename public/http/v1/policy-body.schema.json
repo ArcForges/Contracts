@@ -318,7 +318,31 @@
           "$ref": "#/$defs/PolicyStableTarget"
         },
         {
-          "$ref": "#/$defs/PolicyPredicate"
+          "$ref": "#/$defs/PolicyAll"
+        },
+        {
+          "$ref": "#/$defs/PolicyAny"
+        },
+        {
+          "$ref": "#/$defs/PolicyNot"
+        },
+        {
+          "$ref": "#/$defs/PolicyEqualText"
+        },
+        {
+          "$ref": "#/$defs/PolicyEqualMajor"
+        },
+        {
+          "$ref": "#/$defs/PolicyInText"
+        },
+        {
+          "$ref": "#/$defs/PolicyInMajor"
+        },
+        {
+          "$ref": "#/$defs/PolicyVersionAtLeast"
+        },
+        {
+          "$ref": "#/$defs/PolicyPercent"
         }
       ]
     },

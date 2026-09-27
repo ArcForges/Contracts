@@ -69,6 +69,9 @@ def static_rules(body):
             check_predicate(rule["target"])
             for other in priorities:
                 if (rule["key"], rule["scope"], rule["priority"]) == (other["key"], other["scope"], other["priority"]):
+                    other_start = instant(other.get("effectiveAt", body["issuedAt"]))
+                    other_end = instant(other.get("expiresAt", body["expiresAt"]))
+                    if end <= other_start or other_end <= start: continue
                     disjoint = isinstance(rule["target"], str) and isinstance(other["target"], str) and rule["target"] != other["target"]
                     if not disjoint: return "overlapping-priority"
             priorities.append(rule)
@@ -139,6 +142,7 @@ class PolicyBodyVectors(unittest.TestCase):
             for allocation in (0, 10000): self.assertEqual(result < allocation, allocation == 10000)
 
 if __name__ == "__main__": unittest.main()
+
 
 
 
