@@ -362,7 +362,7 @@ description = "CON.23 exact reviewed SHA-256 inventory rows; no credential or ge
 targetRules = ["generic-api-key"]
 condition = "AND"
 regexTarget = "line"
-paths = ['''^eng/policy/dependency\-reviews/con\-23\-retirement\-r1\.json$''']
+paths = ['''^eng/policy/dependency\-reviews/con\-23\-retirement\-r1\.json$''', '''^eng/policy/dependency\-reviews/con\-23\-retirement\-r2\.json$''']
 regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"b59b9fc1491c3b34323d638a09d7b07a8c23620286b16691b4d78a5390332ff6",?\s*$''',
   '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',

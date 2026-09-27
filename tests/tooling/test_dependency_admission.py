@@ -23,7 +23,10 @@ class DependencyAdmission(unittest.TestCase):
             self.assertEqual(allow['targetRules'], ['generic-api-key'])
             self.assertEqual(allow['condition'], 'AND')
             self.assertEqual(allow['regexTarget'], 'line')
-            self.assertEqual(allow['paths'], ['^' + re.escape(name) + '$'])
+            paths = ['^' + re.escape(name) + '$']
+            if name == expected[1]:
+                paths.append('^' + re.escape(name.replace('-r1.json', '-r2.json')) + '$')
+            self.assertEqual(allow['paths'], paths)
             self.assertIsNone(re.fullmatch(allow['paths'][0], name + '.backup'))
             # The current-policy rows also remain in the immutable r1 receipt.
             source = ROOT / (expected[1] if name == expected[0] else name)

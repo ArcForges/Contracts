@@ -81,6 +81,7 @@
     "eng/policy/contract-access.json",
     "eng/policy/dependency-policy.json",
     "eng/policy/dependency-reviews/con-23-retirement-r1.json",
+    "eng/policy/dependency-reviews/con-23-retirement-r2.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-grpc-2-84-0.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-prettier-3-9-8.json",
     "eng/policy/dependency-reviews/dependabot-2026-09-26-protobuf-4-36-2.json",
