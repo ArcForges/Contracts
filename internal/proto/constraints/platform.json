@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.platform.v1.LocalEndpoint": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint",
+      "fields": {
+        "transport": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "enumValues": [
+            "pipe",
+            "uds"
+          ]
+        },
+        "address": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 2048
+        },
+        "instanceId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.EndpointManifest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest",
+      "fields": {
+        "schemaVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "appId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "installationId": {
+          "required": true
+        },
+        "instanceId": {
+          "required": true
+        },
+        "processId": {
+          "required": true,
+          "min": 1
+        },
+        "processStartedAt": {
+          "required": true
+        },
+        "endpoint": {
+          "required": true
+        },
+        "buildHash": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "contractSetHash": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "contractMajors": {
+          "minItems": 1,
+          "maxItems": 32,
+          "unique": true,
+          "items": {
+            "min": 1
+          }
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorDefinition": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition",
+      "fields": {
+        "definitionId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "packageId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "packageVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "manifestHash": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "authKind": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "enumValues": [
+            "none",
+            "oauth2",
+            "personalToken"
+          ]
+        },
+        "origins": {
+          "maxItems": 32,
+          "unique": true,
+          "items": {
+            "pattern": "^https://[^/\\s]+$",
+            "maxUtf8Bytes": 2048
+          }
+        },
+        "scopes": {
+          "maxItems": 32,
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+            "minLength": 1
+          },
+          "unique": true
+        },
+        "capabilities": {
+          "maxItems": 32,
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+            "minLength": 1
+          },
+          "unique": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorConnection": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection",
+      "fields": {
+        "connectionId": {
+          "required": true
+        },
+        "definitionId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "name": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        },
+        "state": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "enumValues": [
+            "configured",
+            "awaitingAuthorization",
+            "connected",
+            "expired",
+            "revoked",
+            "failed"
+          ]
+        },
+        "scopes": {
+          "maxItems": 32,
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+            "minLength": 1
+          },
+          "unique": true
+        },
+        "revision": {
+          "required": true
+        },
+        "expiresAt": {},
+        "reason": {
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorChallenge": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge",
+      "fields": {
+        "flowId": {
+          "required": true
+        },
+        "connectionId": {
+          "required": true
+        },
+        "authorizationUrl": {
+          "pattern": "^https://[^\\s]+$",
+          "maxUtf8Bytes": 2048
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorProof": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof",
+      "fields": {
+        "callbackReceipt": {
+          "minLength": 1,
+          "maxUtf8Bytes": 4096
+        },
+        "personalToken": {
+          "minLength": 1,
+          "maxUtf8Bytes": 4096
+        }
+      },
+      "oneofRequired": [
+        "proof"
+      ]
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceChallengeRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "instanceId": {
+          "required": true
+        },
+        "challenge": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "caller": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceChallengeResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceChallengeValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue",
+      "fields": {
+        "challengeId": {
+          "required": true
+        },
+        "serverChallenge": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "server": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceConfirmRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "challengeId": {
+          "required": true
+        },
+        "proof": {
+          "required": true,
+          "bytesLength": 32
+        }
+      }
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceConfirmResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceConfirmValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue",
+      "fields": {
+        "peerNonce": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceRenewRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceRenewResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.LocalBootstrapServiceRenewValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue",
+      "fields": {
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue",
+      "fields": {
+        "items": {
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue",
+      "fields": {
+        "items": {
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "connectionId": {
+          "required": true
+        },
+        "definitionId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "name": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "proof": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue",
+      "fields": {
+        "connection": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "connectionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue",
+      "fields": {
+        "connection": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "connectionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue",
+      "fields": {
+        "connection": {
+          "required": true
+        }
+      }
+    }
+  }
+}

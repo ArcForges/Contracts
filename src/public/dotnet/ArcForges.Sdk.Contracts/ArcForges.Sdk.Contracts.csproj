@@ -16,9 +16,11 @@
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" />
     <PackageReference Include="Grpc.Core.Api" />
+    <ProjectReference Include="../ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
     <ProjectReference Include="../ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
     <None Include="README.md" Pack="true" PackagePath="/" />
     <None Include="../../../../LICENSE" Pack="true" PackagePath="/" />
     <None Include="$(ContractMetadataDir)/**/*" Pack="true" PackagePath="/" Condition="'$(ContractMetadataDir)' != ''" />
   </ItemGroup>
 </Project>
+
