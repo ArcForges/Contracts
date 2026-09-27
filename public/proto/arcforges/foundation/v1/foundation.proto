@@ -8,6 +8,128 @@ option java_package = "io.github.arcforges.contracts.foundation.v1";
 option java_multiple_files = true;
 option java_outer_classname = "FoundationProto";
 
+// Registry04 descriptors describe compiled bindings; they never grant authority.
+enum ToolLocality {
+  TOOL_LOCALITY_UNSPECIFIED = 0;
+  TOOL_LOCALITY_CLOUD = 1;
+  TOOL_LOCALITY_DEVICE = 2;
+}
+enum ExecutionLocus {
+  EXECUTION_LOCUS_UNSPECIFIED = 0;
+  EXECUTION_LOCUS_CLOUD = 1;
+  EXECUTION_LOCUS_DEVICE = 2;
+  EXECUTION_LOCUS_EITHER = 3;
+}
+enum EffectKind {
+  EFFECT_KIND_UNSPECIFIED = 0;
+  EFFECT_KIND_PURE_READ = 1;
+  EFFECT_KIND_LOCAL_WRITE = 2;
+  EFFECT_KIND_CLOUD_WRITE = 3;
+  EFFECT_KIND_EXTERNAL_WRITE = 4;
+}
+enum BindingProtocol {
+  BINDING_PROTOCOL_UNSPECIFIED = 0;
+  BINDING_PROTOCOL_PUBLIC_GRPC = 1;
+  BINDING_PROTOCOL_LOCAL_GRPC = 2;
+  BINDING_PROTOCOL_EXTENSION_GRPC = 3;
+  BINDING_PROTOCOL_PROVIDER_HTTP = 4;
+  BINDING_PROTOCOL_MACHINE_TOOL = 5;
+  BINDING_PROTOCOL_IN_PROCESS = 6;
+}
+enum InstanceHealth {
+  INSTANCE_HEALTH_UNSPECIFIED = 0;
+  INSTANCE_HEALTH_READY = 1;
+  INSTANCE_HEALTH_BUSY = 2;
+  INSTANCE_HEALTH_DEGRADED = 3;
+  INSTANCE_HEALTH_DRAINING = 4;
+}
+message OperationBinding {
+  optional string operation_id = 1 [json_name = "operationId"];
+  optional BindingProtocol protocol = 2 [json_name = "protocol"];
+  optional string service = 3 [json_name = "service"];
+  optional string method = 4 [json_name = "method"];
+  optional uint32 contract_major = 5 [json_name = "contractMajor"];
+}
+message CancelSupport {
+  optional bool accepted = 1 [json_name = "accepted"];
+  optional bool before_dispatch_only = 2 [json_name = "beforeDispatchOnly"];
+  optional string status_operation = 3 [json_name = "statusOperation"];
+}
+message CapabilityLimits {
+  optional uint64 max_input_bytes = 1 [json_name = "maxInputBytes"];
+  optional uint64 max_output_bytes = 2 [json_name = "maxOutputBytes"];
+  optional uint64 max_duration_ms = 3 [json_name = "maxDurationMs"];
+  optional uint32 max_concurrency = 4 [json_name = "maxConcurrency"];
+  optional uint32 max_context_items = 5 [json_name = "maxContextItems"];
+}
+message CapabilityDescriptor {
+  optional string key = 1 [json_name = "key"];
+  optional string version = 2 [json_name = "version"];
+  optional string request_schema = 3 [json_name = "requestSchema"];
+  optional string response_schema = 4 [json_name = "responseSchema"];
+  optional string risk = 5 [json_name = "risk"];
+  optional ToolLocality locality = 6 [json_name = "locality"];
+  optional string idempotency = 7 [json_name = "idempotency"];
+  optional string status_operation = 8 [json_name = "statusOperation"];
+  repeated string reads = 9 [json_name = "reads"];
+  repeated string writes = 10 [json_name = "writes"];
+  optional bool exclusive = 11 [json_name = "exclusive"];
+  optional string egress = 12 [json_name = "egress"];
+  optional string approval = 13 [json_name = "approval"];
+  OperationBinding binding = 14 [json_name = "binding"];
+  optional ExecutionLocus execution = 15 [json_name = "execution"];
+  optional EffectKind effect = 16 [json_name = "effect"];
+  optional RetryMode retry = 17 [json_name = "retry"];
+  CancelSupport cancel = 18 [json_name = "cancel"];
+  OperationBinding preview = 19 [json_name = "preview"];
+  OperationBinding compensation = 20 [json_name = "compensation"];
+  optional bool checkpoint = 21 [json_name = "checkpoint"];
+  CapabilityLimits limits = 22 [json_name = "limits"];
+  repeated string accepted_context = 23 [json_name = "acceptedContext"];
+}
+message ActionDescriptor {
+  optional string key = 1 [json_name = "key"];
+  optional string title_key = 2 [json_name = "titleKey"];
+  optional string description_key = 3 [json_name = "descriptionKey"];
+  repeated string accepted_context = 4 [json_name = "acceptedContext"];
+  repeated string capabilities = 5 [json_name = "capabilities"];
+  optional string availability_rule = 6 [json_name = "availabilityRule"];
+}
+message ContractVersion {
+  optional string key = 1 [json_name = "key"];
+  optional string version = 2 [json_name = "version"];
+}
+message ContractCompatibility {
+  ContractVersion contract = 1 [json_name = "contract"];
+  optional string min_readable = 2 [json_name = "minReadable"];
+  optional string min_writable = 3 [json_name = "minWritable"];
+}
+message FeatureSet { repeated string features = 1 [json_name = "features"]; }
+message CompatibilityDescriptor {
+  ContractCompatibility foundation = 1 [json_name = "foundation"];
+  repeated ContractCompatibility contracts = 2 [json_name = "contracts"];
+  repeated ContractCompatibility capabilities = 3 [json_name = "capabilities"];
+  FeatureSet features = 4 [json_name = "features"];
+}
+message InstanceReadiness {
+  optional bool accepts_work = 1 [json_name = "acceptsWork"];
+  repeated string reasons = 2 [json_name = "reasons"];
+}
+message HealthSnapshot {
+  Id instance_id = 1 [json_name = "instanceId"];
+  Instant observed_at = 2 [json_name = "observedAt"];
+  optional InstanceHealth health = 3 [json_name = "health"];
+  InstanceReadiness readiness = 4 [json_name = "readiness"];
+}
+message EncodedBodyRef {
+  ResourceVersionRef resource = 1 [json_name = "resource"];
+  optional string message_type = 2 [json_name = "messageType"];
+  optional string descriptor_hash = 3 [json_name = "descriptorHash"];
+  optional uint64 byte_length = 4 [json_name = "byteLength"];
+  optional string snapshot_token = 5 [json_name = "snapshotToken"];
+  Instant expires_at = 6 [json_name = "expiresAt"];
+}
+
 // Complete selected registry04 records; shape constraints are owned beside this schema.
 message Id { optional bytes value = 1 [json_name = "value"]; }
 message Revision { optional int64 value = 1 [json_name = "value"]; }

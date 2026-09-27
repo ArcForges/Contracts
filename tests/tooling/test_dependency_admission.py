@@ -15,6 +15,45 @@ from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coord
 
 
 class DependencyAdmission(unittest.TestCase):
+    def test_con02_exceptions_bind_only_observed_public_digest_rows(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        rows = [row for row in config['allowlists'] if row['description'].startswith('CON.02 exact')]
+        expected = {
+            'eng/policy/dependency-policy.json': 3,
+            'eng/policy/dependency-reviews/con-02-descriptors-r1.json': 7,
+            'eng/provenance/artifact-profiles/dokka-2-2-0-r9.json': 164,
+        }
+        self.assertEqual(len(rows), len(expected))
+        for row, (path, count) in zip(rows, sorted(expected.items()), strict=True):
+            self.assertEqual(row['targetRules'], ['generic-api-key'])
+            self.assertEqual(row['condition'], 'AND')
+            self.assertEqual(row['regexTarget'], 'line')
+            self.assertEqual(row['paths'], ['^' + re.escape(path) + '$'])
+            self.assertEqual(len(row['regexes']), count)
+            for wrong in [path + '.backup', 'src/secrets.json', path.replace('r1.json', 'r2.json') + '.other']:
+                self.assertIsNone(re.fullmatch(row['paths'][0], wrong))
+            lines = (ROOT / path).read_text().splitlines()
+            # These exact retained task commits produced the two CI observations;
+            # accepted historical receipts are never rewritten to hide findings.
+            for commit in ['77e0965e7f257c5cd4d6a95c2bf9b58167e62fcc',
+                           '55ad3b4a1e60e6f0285fea37cbf71489f7cfabc5',
+                           '4dfaebd33118f5405e1bbbcc5ef92ae21177f650',
+                           'dbfb192751a3745626e89c7907ace188e01b41d7']:
+                lines.extend(subprocess.check_output(['git', 'show', commit + ':' + path], cwd=ROOT,
+                                                      text=True).splitlines())
+            for pattern in row['regexes']:
+                matched = sorted(set(line for line in lines if re.fullmatch(pattern, line)))
+                self.assertTrue(matched, pattern)
+                for line in matched:
+                    key, digest = next(iter(json.loads('{' + line.strip().rstrip(',') + '}').items()))
+                    self.assertRegex(digest, '^[0-9a-f]{64}$')
+                    for invalid in [f'"{key}": "' + '0' * 64 + '"',
+                                    f'"unrelated-key": "{digest}"',
+                                    f'"{key}": "ghp_actual_credential"',
+                                    f'"{key}": "{digest}", "token": "extra"']:
+                        self.assertIsNone(re.fullmatch(pattern, invalid))
+
+
     def test_shard_receipt_exceptions_are_exact_public_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         rows = [row for row in config['allowlists'] if row['description'].startswith('CON.01 exact')]
@@ -123,6 +162,40 @@ class DependencyAdmission(unittest.TestCase):
                              f'"{source}": "{digest}", "token": "extra"']:
                     self.assertIsNone(re.fullmatch(pattern, line))
 
+    def test_con12_observed_hash_exceptions_remain_exact(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        rows = [row for row in config['allowlists'] if row['description'].startswith('CON12 observed')]
+        # CI36345963386 observed these exact public input identities. Source hashes
+        # were independently rehashed at 76d36b1 and pre-rebase 3870157, not secrets.
+        access = 'eng/policy/contract-access.json'
+        current = 'cfe372f32129aa483b7d8e2ba147ee8b973808449843758f48e52ef0bfbeef39'
+        latest = 'f91320260c81e4d6bac5abcf1b479cafa5b51bdbaa2e12a6b3e7978e588f2511'  # CI36348431152 observed source31f9a14, rehashed
+        previous = '7bfbf2a7a7ec9b6e8086261baa6509a57de5de592cc674b5df9d07e67eca1a78'
+        prior_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/con-16-signed-formats-r1.json').read_text())['review']['inputHashes']
+        expected = [
+            ('eng/policy/dependency-policy.json', [(access, current), (access, latest)]),
+            ('eng/policy/dependency-reviews/con-12-profiles-r1.json', [
+                (access, current), (access, latest), (access, previous),
+                ('eng/provenance/records/dokka-combokeys-licence-r1.json', prior_receipt['eng/provenance/records/dokka-combokeys-licence-r1.json']),
+                ('eng/provenance/records/dokka-object-keys-licence-r1.json', prior_receipt['eng/provenance/records/dokka-object-keys-licence-r1.json']),
+                ('src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj', prior_receipt['src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj'])])]
+        self.assertEqual(len(rows), len(expected))
+        for allow, (path, pairs) in zip(rows, expected, strict=True):
+            self.assertEqual(allow['targetRules'], ['generic-api-key'])
+            self.assertEqual(allow['condition'], 'AND')
+            self.assertEqual(allow['regexTarget'], 'line')
+            self.assertEqual(allow['paths'], ['^' + re.escape(path) + '$'])
+            for other in [path + '.backup', 'secrets.json', 'eng/policy/dependency-reviews/other.json']:
+                self.assertIsNone(re.fullmatch(allow['paths'][0], other))
+            self.assertEqual(len(allow['regexes']), len(pairs))
+            for pattern, (key, digest) in zip(allow['regexes'], pairs, strict=True):
+                line = '  "' + key + '": "' + digest + '",'
+                self.assertIsNotNone(re.fullmatch(pattern, line))
+                for wrong in [line.replace(digest, '0' * 64), line.replace(key, 'api_key'),
+                              line.replace(key, key + '.other'), line + ' "token": "extra"',
+                              '"api_key": "synthetic-secret" ' + line]:
+                    self.assertIsNone(re.fullmatch(pattern, wrong))
+
     def test_con16_hash_exceptions_are_exact_observed_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         receipt = 'eng/policy/dependency-reviews/con-16-signed-formats-r1.json'
@@ -142,7 +215,8 @@ class DependencyAdmission(unittest.TestCase):
                 if wrong_path != path:
                     self.assertIsNone(re.fullmatch(allow['paths'][0], wrong_path))
             for pattern, key in zip(allow['regexes'], selected, strict=True):
-                source = subprocess.check_output(['git', 'show', '7eeaa3b407ca1d99f1320ecf9d1fb752c9c9ba21:' + key], cwd=ROOT)
+                source = subprocess.check_output(['git', 'show',
+                    '7eeaa3b407ca1d99f1320ecf9d1fb752c9c9ba21:' + key], cwd=ROOT)
                 digest = hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest()
                 self.assertEqual(values[key], digest)
                 line = '  "' + key + '": "' + digest + '",'
@@ -289,7 +363,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 27)
+        self.assertEqual(len(config['allowlists']), 32)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -439,7 +513,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 2, 6, 3, 7])
 
 
 if __name__ == '__main__':

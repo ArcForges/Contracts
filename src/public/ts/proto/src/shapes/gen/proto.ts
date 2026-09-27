@@ -18,6 +18,79 @@ function checkEntitlementChanged(input: unknown, context: ValidationContext): bo
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isActionDescriptor(input: unknown): boolean { return checkActionDescriptor(input, {active: new Set<object>(), depth: 0}); }
+function checkActionDescriptor(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.key === undefined) return false;
+  if (value.key !== undefined) {
+    const fieldValue = value.key;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.titleKey === undefined) return false;
+  if (value.titleKey !== undefined) {
+    const fieldValue = value.titleKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.descriptionKey !== undefined) {
+    const fieldValue = value.descriptionKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.acceptedContext === undefined) return false;
+  if (value.acceptedContext !== undefined) {
+    const fieldValue = value.acceptedContext;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.capabilities === undefined) return false;
+  if (value.capabilities !== undefined) {
+    const fieldValue = value.capabilities;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length < 1) return false;
+    if (fieldValue.length > 200) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.availabilityRule === undefined) return false;
+  if (value.availabilityRule !== undefined) {
+    const fieldValue = value.availabilityRule;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isActorChain(input: unknown): boolean { return checkActorChain(input, {active: new Set<object>(), depth: 0}); }
 function checkActorChain(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -266,6 +339,306 @@ function checkByteRange(input: unknown, context: ValidationContext): boolean {
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isCancelSupport(input: unknown): boolean { return checkCancelSupport(input, {active: new Set<object>(), depth: 0}); }
+function checkCancelSupport(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.accepted === undefined) return false;
+  if (value.accepted !== undefined) {
+    const fieldValue = value.accepted;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.beforeDispatchOnly === undefined) return false;
+  if (value.beforeDispatchOnly !== undefined) {
+    const fieldValue = value.beforeDispatchOnly;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.statusOperation !== undefined) {
+    const fieldValue = value.statusOperation;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isCapabilityDescriptor(input: unknown): boolean { return checkCapabilityDescriptor(input, {active: new Set<object>(), depth: 0}); }
+function checkCapabilityDescriptor(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.key === undefined) return false;
+  if (value.key !== undefined) {
+    const fieldValue = value.key;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.version === undefined) return false;
+  if (value.version !== undefined) {
+    const fieldValue = value.version;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.requestSchema === undefined) return false;
+  if (value.requestSchema !== undefined) {
+    const fieldValue = value.requestSchema;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.responseSchema === undefined) return false;
+  if (value.responseSchema !== undefined) {
+    const fieldValue = value.responseSchema;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.risk === undefined) return false;
+  if (value.risk !== undefined) {
+    const fieldValue = value.risk;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.locality === undefined) return false;
+  if (value.locality !== undefined) {
+    const fieldValue = value.locality;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2) return false;
+  }
+  if (value.idempotency === undefined) return false;
+  if (value.idempotency !== undefined) {
+    const fieldValue = value.idempotency;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.statusOperation !== undefined) {
+    const fieldValue = value.statusOperation;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.reads === undefined) return false;
+  if (value.reads !== undefined) {
+    const fieldValue = value.reads;
+    if (!Array.isArray(fieldValue)) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.writes === undefined) return false;
+  if (value.writes !== undefined) {
+    const fieldValue = value.writes;
+    if (!Array.isArray(fieldValue)) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.exclusive === undefined) return false;
+  if (value.exclusive !== undefined) {
+    const fieldValue = value.exclusive;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.egress === undefined) return false;
+  if (value.egress !== undefined) {
+    const fieldValue = value.egress;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.approval === undefined) return false;
+  if (value.approval !== undefined) {
+    const fieldValue = value.approval;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.binding === undefined) return false;
+  if (value.binding !== undefined) {
+    const fieldValue = value.binding;
+    if (!checkOperationBinding(fieldValue, context)) return false;
+  }
+  if (value.execution === undefined) return false;
+  if (value.execution !== undefined) {
+    const fieldValue = value.execution;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3) return false;
+  }
+  if (value.effect === undefined) return false;
+  if (value.effect !== undefined) {
+    const fieldValue = value.effect;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4) return false;
+  }
+  if (value.retry === undefined) return false;
+  if (value.retry !== undefined) {
+    const fieldValue = value.retry;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4) return false;
+  }
+  if (value.cancel === undefined) return false;
+  if (value.cancel !== undefined) {
+    const fieldValue = value.cancel;
+    if (!checkCancelSupport(fieldValue, context)) return false;
+  }
+  if (value.preview !== undefined) {
+    const fieldValue = value.preview;
+    if (!checkOperationBinding(fieldValue, context)) return false;
+  }
+  if (value.compensation !== undefined) {
+    const fieldValue = value.compensation;
+    if (!checkOperationBinding(fieldValue, context)) return false;
+  }
+  if (value.checkpoint === undefined) return false;
+  if (value.checkpoint !== undefined) {
+    const fieldValue = value.checkpoint;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.limits === undefined) return false;
+  if (value.limits !== undefined) {
+    const fieldValue = value.limits;
+    if (!checkCapabilityLimits(fieldValue, context)) return false;
+  }
+  if (value.acceptedContext === undefined) return false;
+  if (value.acceptedContext !== undefined) {
+    const fieldValue = value.acceptedContext;
+    if (!Array.isArray(fieldValue)) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.effect === 1 && (value.writes as unknown[]).length !== 0) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isCapabilityLimits(input: unknown): boolean { return checkCapabilityLimits(input, {active: new Set<object>(), depth: 0}); }
+function checkCapabilityLimits(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.maxInputBytes === undefined) return false;
+  if (value.maxInputBytes !== undefined) {
+    const fieldValue = value.maxInputBytes;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.maxOutputBytes === undefined) return false;
+  if (value.maxOutputBytes !== undefined) {
+    const fieldValue = value.maxOutputBytes;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.maxDurationMs === undefined) return false;
+  if (value.maxDurationMs !== undefined) {
+    const fieldValue = value.maxDurationMs;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.maxConcurrency === undefined) return false;
+  if (value.maxConcurrency !== undefined) {
+    const fieldValue = value.maxConcurrency;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+  }
+  if (value.maxContextItems === undefined) return false;
+  if (value.maxContextItems !== undefined) {
+    const fieldValue = value.maxContextItems;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 64) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isCompatibilityDescriptor(input: unknown): boolean { return checkCompatibilityDescriptor(input, {active: new Set<object>(), depth: 0}); }
+function checkCompatibilityDescriptor(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.foundation === undefined) return false;
+  if (value.foundation !== undefined) {
+    const fieldValue = value.foundation;
+    if (!checkContractCompatibility(fieldValue, context)) return false;
+  }
+  if (value.contracts === undefined) return false;
+  if (value.contracts !== undefined) {
+    const fieldValue = value.contracts;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkContractCompatibility(item, context)) return false;
+    }
+  }
+  if (value.capabilities === undefined) return false;
+  if (value.capabilities !== undefined) {
+    const fieldValue = value.capabilities;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkContractCompatibility(item, context)) return false;
+    }
+  }
+  if (value.features === undefined) return false;
+  if (value.features !== undefined) {
+    const fieldValue = value.features;
+    if (!checkFeatureSet(fieldValue, context)) return false;
+  }
+  if (new Set((value.contracts as Profile[]).map(x => x.contract.key)).size !== (value.contracts as unknown[]).length || new Set((value.capabilities as Profile[]).map(x => x.contract.key)).size !== (value.capabilities as unknown[]).length) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isContentOrigin(input: unknown): boolean { return checkContentOrigin(input, {active: new Set<object>(), depth: 0}); }
 function checkContentOrigin(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -343,6 +716,67 @@ function checkContentOrigin(input: unknown, context: ValidationContext): boolean
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isContractCompatibility(input: unknown): boolean { return checkContractCompatibility(input, {active: new Set<object>(), depth: 0}); }
+function checkContractCompatibility(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.contract === undefined) return false;
+  if (value.contract !== undefined) {
+    const fieldValue = value.contract;
+    if (!checkContractVersion(fieldValue, context)) return false;
+  }
+  if (value.minReadable === undefined) return false;
+  if (value.minReadable !== undefined) {
+    const fieldValue = value.minReadable;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[0-9A-Za-z.+-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.minWritable === undefined) return false;
+  if (value.minWritable !== undefined) {
+    const fieldValue = value.minWritable;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[0-9A-Za-z.+-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (!descriptorSemver(value.minReadable as string) || !descriptorSemver(value.minWritable as string) || compareDescriptorVersions(value.minReadable as string, (value.contract as Profile).version) > 0 || compareDescriptorVersions(value.minWritable as string, (value.contract as Profile).version) > 0) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isContractVersion(input: unknown): boolean { return checkContractVersion(input, {active: new Set<object>(), depth: 0}); }
+function checkContractVersion(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.key === undefined) return false;
+  if (value.key !== undefined) {
+    const fieldValue = value.key;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.version === undefined) return false;
+  if (value.version !== undefined) {
+    const fieldValue = value.version;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[0-9A-Za-z.+-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (!descriptorSemver(value.version as string)) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isDecimal(input: unknown): boolean { return checkDecimal(input, {active: new Set<object>(), depth: 0}); }
 function checkDecimal(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -356,6 +790,60 @@ function checkDecimal(input: unknown, context: ValidationContext): boolean {
     if (!validUnicode(fieldValue)) return false;
   }
   if (!canonicalDecimal(value.value as string)) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isEncodedBodyRef(input: unknown): boolean { return checkEncodedBodyRef(input, {active: new Set<object>(), depth: 0}); }
+function checkEncodedBodyRef(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.resource === undefined) return false;
+  if (value.resource !== undefined) {
+    const fieldValue = value.resource;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.messageType === undefined) return false;
+  if (value.messageType !== undefined) {
+    const fieldValue = value.messageType;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.descriptorHash === undefined) return false;
+  if (value.descriptorHash !== undefined) {
+    const fieldValue = value.descriptorHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 64) return false;
+    if ([...fieldValue].length > 64) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.byteLength === undefined) return false;
+  if (value.byteLength !== undefined) {
+    const fieldValue = value.byteLength;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+    if (fieldValue > 67108864n) return false;
+  }
+  if (value.snapshotToken === undefined) return false;
+  if (value.snapshotToken !== undefined) {
+    const fieldValue = value.snapshotToken;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.expiresAt === undefined) return false;
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (typeof (value.resource as Profile).contentHash !== 'string') return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -386,6 +874,60 @@ function checkErrorDetails(input: unknown, context: ValidationContext): boolean 
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isFeatureSet(input: unknown): boolean { return checkFeatureSet(input, {active: new Set<object>(), depth: 0}); }
+function checkFeatureSet(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.features === undefined) return false;
+  if (value.features !== undefined) {
+    const fieldValue = value.features;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHealthSnapshot(input: unknown): boolean { return checkHealthSnapshot(input, {active: new Set<object>(), depth: 0}); }
+function checkHealthSnapshot(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.instanceId === undefined) return false;
+  if (value.instanceId !== undefined) {
+    const fieldValue = value.instanceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.observedAt === undefined) return false;
+  if (value.observedAt !== undefined) {
+    const fieldValue = value.observedAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.health === undefined) return false;
+  if (value.health !== undefined) {
+    const fieldValue = value.health;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4) return false;
+  }
+  if (value.readiness === undefined) return false;
+  if (value.readiness !== undefined) {
+    const fieldValue = value.readiness;
+    if (!checkInstanceReadiness(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isId(input: unknown): boolean { return checkId(input, {active: new Set<object>(), depth: 0}); }
 function checkId(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -399,6 +941,33 @@ function checkId(input: unknown, context: ValidationContext): boolean {
     if (fieldValue.length !== 16) return false;
   }
   if (!(value.value as Uint8Array).some(v => v !== 0)) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isInstanceReadiness(input: unknown): boolean { return checkInstanceReadiness(input, {active: new Set<object>(), depth: 0}); }
+function checkInstanceReadiness(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.acceptsWork === undefined) return false;
+  if (value.acceptsWork !== undefined) {
+    const fieldValue = value.acceptsWork;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.reasons === undefined) return false;
+  if (value.reasons !== undefined) {
+    const fieldValue = value.reasons;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -507,6 +1076,56 @@ function checkNativeContentRev(input: unknown, context: ValidationContext): bool
     const fieldValue = value.value;
     if (typeof fieldValue !== "bigint") return false;
     if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isOperationBinding(input: unknown): boolean { return checkOperationBinding(input, {active: new Set<object>(), depth: 0}); }
+function checkOperationBinding(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.operationId === undefined) return false;
+  if (value.operationId !== undefined) {
+    const fieldValue = value.operationId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.protocol === undefined) return false;
+  if (value.protocol !== undefined) {
+    const fieldValue = value.protocol;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4 && fieldValue !== 5 && fieldValue !== 6) return false;
+  }
+  if (value.service === undefined) return false;
+  if (value.service !== undefined) {
+    const fieldValue = value.service;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.method === undefined) return false;
+  if (value.method !== undefined) {
+    const fieldValue = value.method;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.contractMajor === undefined) return false;
+  if (value.contractMajor !== undefined) {
+    const fieldValue = value.contractMajor;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -1441,6 +2060,127 @@ function checkChecksumSpec(input: unknown, context: ValidationContext): boolean 
     if (fieldValue !== "little" && fieldValue !== "big") return false;
   }
   if (!checksumSemantics(value)) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isContextDescriptor(input: unknown): boolean { return checkContextDescriptor(input, {active: new Set<object>(), depth: 0}); }
+function checkContextDescriptor(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.key === undefined) return false;
+  if (value.key !== undefined) {
+    const fieldValue = value.key;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.provider === undefined) return false;
+  if (value.provider !== undefined) {
+    const fieldValue = value.provider;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.titleKey === undefined) return false;
+  if (value.titleKey !== undefined) {
+    const fieldValue = value.titleKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.context === undefined) return false;
+  if (value.context !== undefined) {
+    const fieldValue = value.context;
+    if (!checkContextRef(fieldValue, context)) return false;
+  }
+  if (value.observedAt === undefined) return false;
+  if (value.observedAt !== undefined) {
+    const fieldValue = value.observedAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isContextProvider(input: unknown): boolean { return checkContextProvider(input, {active: new Set<object>(), depth: 0}); }
+function checkContextProvider(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.key === undefined) return false;
+  if (value.key !== undefined) {
+    const fieldValue = value.key;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.appId === undefined) return false;
+  if (value.appId !== undefined) {
+    const fieldValue = value.appId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.titleKey === undefined) return false;
+  if (value.titleKey !== undefined) {
+    const fieldValue = value.titleKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.contextKinds === undefined) return false;
+  if (value.contextKinds !== undefined) {
+    const fieldValue = value.contextKinds;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.maxItems === undefined) return false;
+  if (value.maxItems !== undefined) {
+    const fieldValue = value.maxItems;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 200) return false;
+  }
+  if (value.maxBytes === undefined) return false;
+  if (value.maxBytes !== undefined) {
+    const fieldValue = value.maxBytes;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 262144) return false;
+  }
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -3669,4 +4409,32 @@ function measurementResultSemantics(value: Profile): boolean {
     }
   }
   return true;
+}
+
+function descriptorSemver(value: string): boolean {
+  if (value.length < 1 || value.length > 128) return false;
+  const pattern = /(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?/;
+  if (pattern.exec(value)?.[0] !== value) return false;
+  const core = value.split('+')[0]!.split(/-(.*)/s);
+  return core.length === 1 || core[1]!.split('.').every(x => !/^0[0-9]+$/.test(x));
+}
+function compareDescriptorVersions(left: string, right: string): number {
+  const a = left.split('+')[0]!.split(/-(.*)/s);
+  const b = right.split('+')[0]!.split(/-(.*)/s);
+  const ac = a[0]!.split('.'); const bc = b[0]!.split('.');
+  for (let i = 0; i < 3; i++) {
+    const x = BigInt(ac[i]!); const y = BigInt(bc[i]!);
+    if (x !== y) return x < y ? -1 : 1;
+  }
+  if (a.length !== b.length) return a.length === 1 ? 1 : -1;
+  if (a.length === 1) return 0;
+  const ap = a[1]!.split('.'); const bp = b[1]!.split('.');
+  for (let i = 0; i < Math.min(ap.length, bp.length); i++) {
+    const x = ap[i]!; const y = bp[i]!;
+    const an = /^[0-9]+$/.test(x); const bn = /^[0-9]+$/.test(y);
+    if (an && bn) { if (BigInt(x) !== BigInt(y)) return BigInt(x) < BigInt(y) ? -1 : 1; }
+    else if (an !== bn) return an ? -1 : 1;
+    else if (x !== y) return x < y ? -1 : 1;
+  }
+  return ap.length - bp.length;
 }

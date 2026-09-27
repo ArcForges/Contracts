@@ -14,6 +14,11 @@ if (args.Length == 3 && args[1].StartsWith("--compatibility-", StringComparison.
     CompatibilityCases.Run(args[1]["--compatibility-".Length..], Path.GetFullPath(args[2]));
     return 0;
 }
+if (args.Contains("--con-02", StringComparer.Ordinal))
+{
+    Con02Cases.Run(root);
+    return 0;
+}
 if (args.Contains("--foundation-links", StringComparer.Ordinal))
 {
     FoundationLinkCases.Run();
@@ -64,8 +69,10 @@ catch (ArgumentException) { }
 Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key rejection and SDK caller-owned invocation.");
 Con05Cases.Run();
 FoundationLinkCases.Run();
+ExtensionPolicyCases.Run(root);
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 SemanticHashCases.Run(root);
+Con02Cases.Run(root);
 return 0;
 
 static bool Proto<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()
