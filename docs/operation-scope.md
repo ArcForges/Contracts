@@ -51,6 +51,15 @@ fields derived rather than claiming static authority. Unknown or partial
 expressions fail. Helper parents acting for a human require the `helper-parent`
 profile and `launchRoles: ["owning-parent"]`; this does not grant tool access.
 
+Invoke also derives `idempotency` from `admittedCapability.idempotency`, rather
+than treating every delegated effect as a retryable write. Bootstrap uses the
+separate `launch-bootstrap-only` profile: its actorKinds expression is exactly
+`{"from":"verifiedLaunchProfile.actorKinds"}`, launchRoles is exactly
+`{"from":"verifiedLaunchProfile.callerRoles"}`, and requireLaunchRole is true.
+Only Challenge/Confirm (NI) and Renew (IW) may use that profile, with the
+fixed R1/no-approval/no-egress/no-PAT fields. This expresses the verified
+listener direction instead of admitting a wildcard parent/child actor list.
+
 Run the narrow checks with:
 
 ```powershell

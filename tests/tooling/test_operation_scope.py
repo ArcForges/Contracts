@@ -103,7 +103,7 @@ class OperationScopeTests(unittest.TestCase):
     def test_helper_cannot_claim_public_human_profile(self):
         self.row["profile"] = "human-owner"
         self.row["authorization"]["actorKinds"] = ["human"]
-        self.fails("helper boundary mismatch")
+        self.fails("profile surface mismatch")
 
     def test_peer_cannot_claim_service_identity(self):
         self.row["authorization"]["actorKinds"] = ["service"]
@@ -128,11 +128,13 @@ class OperationScopeTests(unittest.TestCase):
 
     def test_partial_derived_descriptor_denied(self):
         self.row["profile"] = "delegated-invocation"
+        self.row["idempotency"] = {"from": "admittedCapability.idempotency"}
         self.row["authorization"]["risk"] = {"from": "admittedCapability.risk"}
         self.fails("partial delegated descriptor")
 
     def test_unknown_descriptor_expression(self):
         self.row["profile"] = "delegated-invocation"
+        self.row["idempotency"] = {"from": "admittedCapability.idempotency"}
         self.row["authorization"]["risk"] = {"from": "caller.risk"}
         self.fails("unsupported derived risk")
 
@@ -143,6 +145,7 @@ class OperationScopeTests(unittest.TestCase):
     def test_delegated_actor_and_grant_constraints_are_complete(self):
         row = copy.deepcopy(self.row)
         row.update(operationId="IExtensionHost.Invoke", profile="delegated-invocation")
+        row["idempotency"] = {"from": "admittedCapability.idempotency"}
         row["authorization"] = {field: {"from": "admittedCapability." +
             ("operationId" if field == "capability" else field)} for field in gate.FIELDS - {"patEligible"}}
         row["authorization"]["patEligible"] = False
@@ -183,14 +186,51 @@ class OperationScopeTests(unittest.TestCase):
             gate.authorization(self.row, set())
         self.assertEqual(gate.authorization(self.row, {"workspace.list"})[0], ["agent"])
 
+    def test_tool_profile_cannot_disguise_noncustomer_credentials(self):
+        self.row.update(operationId="workspace.list", scope="account", surface="public", profile="tool-delegation")
+        self.row["authorization"]["capability"] = "workspace.list"
+        for actor in ("operator", "service", "provider", "preauth", "helper-parent"):
+            self.row["authorization"]["actorKinds"] = [actor]
+            with self.subTest(actor=actor), self.assertRaisesRegex(ValueError, "profile identity mismatch"):
+                gate.authorization(self.row, {"workspace.list"})
+
+    def test_operator_profile_cannot_disguise_account_surface(self):
+        self.row.update(operationId="workspace.list", scope="account", surface="in-process", profile="operator")
+        self.row["authorization"]["actorKinds"] = ["operator"]
+        with self.assertRaisesRegex(ValueError, "profile surface mismatch"):
+            gate.authorization(self.row, set())
+
     def test_duplicate_json_key_denied(self):
         path = self.root / "duplicate.json"
         path.write_text('{"risk":"R0","risk":"R3"}')
         with self.assertRaisesRegex(ValueError, "duplicate JSON key"):
             gate.load(path)
 
+    def test_bootstrap_exact_launch_profile(self):
+        row = copy.deepcopy(self.row)
+        row.update(operationId="ILocalBootstrap.Challenge", profile="launch-bootstrap-only", idempotency="NI",
+                   launchRoles={"from": "verifiedLaunchProfile.callerRoles"}, requireLaunchRole=True)
+        row["authorization"]["actorKinds"] = {"from": "verifiedLaunchProfile.actorKinds"}
+        self.assertEqual(gate.authorization(row, set()), ([], ["actorKinds"]))
+        hostile = copy.deepcopy(row)
+        hostile["authorization"]["actorKinds"] = {"from": "caller.actorKinds"}
+        with self.assertRaisesRegex(ValueError, "unsupported bootstrap"):
+            gate.authorization(hostile, set())
+        for mutation in ({"requireLaunchRole": False}, {"operationId": "identity.changePassword"},
+                         {"launchRoles": ["helper-parent", "helper-child"]}, {"idempotency": "IW"}):
+            hostile = {**row, **mutation}
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, "incomplete bootstrap"):
+                gate.authorization(hostile, set())
+
     def test_nonobject_export_denied(self):
         self.fails("row object required", [None])
+
+    def test_export_cannot_spoof_generated_matrix_status(self):
+        for field, value in (("status", "pending"), ("reachableActors", ["human"]),
+                             ("metadataSource", "invented.json"), ("actorKind", "human")):
+            row = {**self.row, field: value}
+            with self.subTest(field=field):
+                self.fails("unknown operation export fields", [row])
 
     def test_duplicate_oracle_denied(self):
         self.manifest["operations"].append(self.manifest["operations"][0])

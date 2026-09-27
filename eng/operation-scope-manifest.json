@@ -3,7 +3,7 @@
   "license": "Apache-2.0",
   "oracle": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "877e8cb50169e40930ccad333fe41fdbf9218828",
+    "commit": "4a068c5b8185fd64493a34132b5692f1418c3653",
     "path": "docs/architecture/contracts/11-operation-scope-manifest.md",
     "sha256": "6c5ef41a9ea09074fbd183275a95c96812b20bcb8db587d661b1c98c1cbfef17"
   },

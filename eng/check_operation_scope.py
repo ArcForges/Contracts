@@ -17,6 +17,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 FIELDS = {"capability", "risk", "approval", "stepUp", "localPresence", "egress", "patEligible", "actorKinds"}
+ROW_REQUIRED = {"operationId", "binding", "kind", "source", "scope", "surface", "profile",
+                "sourceRule", "idempotency", "authorization"}
+ROW_OPTIONAL = {"delegation", "launchRoles", "requireLaunchRole"}
 SCOPES = {"account", "assistant", "product-owner", "resource-owner", "application-target",
           "in-process", "private-helper", "operator", "future"}
 ACTORS = {"human", "agent", "automation", "extension", "operator", "service", "provider",
@@ -25,7 +28,7 @@ TOOL_ACTORS = {"agent", "automation", "extension"}
 SURFACES = {"public", "in-process", "private-helper", "operator", "cf-internal", "http-exception"}
 CLASSES = {"Q", "IW", "CC", "AP", "NI", "EX", "DE"}
 PROFILES = {"human-owner", "tool-delegation", "product-handler", "extension-peer", "helper-parent",
-            "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "local-bootstrap"}
+            "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "launch-bootstrap-only"}
 PAT_OPERATIONS = {"workspace.list", "workspace.get", "catalog.search", "catalog.getPackage",
                   "catalog.listVersions", "catalog.submitVersion", "catalog.getSubmission",
                   "resource.beginUpload", "resource.completeUpload", "resource.getUploadStatus",
@@ -114,18 +117,30 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     auth = row.get("authorization")
     require(isinstance(auth, dict) and set(auth) == FIELDS, f"{operation}: exactly eight authorization fields required")
     require(row.get("profile") in PROFILES, f"{operation}: unclassified source profile")
+    optional = {"delegated-invocation": {"delegation"}, "launch-bootstrap-only": {"launchRoles", "requireLaunchRole"},
+                "helper-parent": {"launchRoles"}}.get(row["profile"], set())
+    require(set(row) & ROW_OPTIONAL <= optional, f"{operation}: metadata contradicts profile")
     require(isinstance(row.get("sourceRule"), str) and "#" in row["sourceRule"], f"{operation}: missing source rule")
     require(row.get("surface") in SURFACES, f"{operation}: unclassified surface")
-    require(row.get("idempotency") in CLASSES, f"{operation}: unclassified idempotency")
+    delegated = row["profile"] == "delegated-invocation"
+    bootstrap = row["profile"] == "launch-bootstrap-only"
+    retry = row.get("idempotency")
+    require((delegated and retry == {"from": "admittedCapability.idempotency"}) or
+            (not delegated and isinstance(retry, str) and retry in CLASSES), f"{operation}: unclassified idempotency")
     derived = []
     for field, value in auth.items():
         if isinstance(value, dict):
+            if bootstrap:
+                require(field == "actorKinds" and value == {"from": "verifiedLaunchProfile.actorKinds"},
+                        f"{operation}: unsupported bootstrap expression")
+                derived.append(field)
+                continue
             descriptor_field = "operationId" if field == "capability" else field
             require(row["profile"] == "delegated-invocation" and field != "patEligible"
                     and value == {"from": "admittedCapability." + descriptor_field},
                     f"{operation}: ambiguous or unsupported derived {field}")
             derived.append(field)
-    if derived:
+    if derived and not bootstrap:
         require(set(derived) == FIELDS - {"patEligible"}, f"{operation}: partial delegated descriptor")
         require(row.get("delegation") == {"intersectOriginalActor": True, "requireCurrentGrant": True,
                 "denyHumanOnly": True, "requireLaunchRole": True}, f"{operation}: incomplete delegated authority binding")
@@ -144,13 +159,26 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
             and len(actors) == len(set(actors)), f"{operation}: ambiguous actor kinds")
     tools = set(actors) & TOOL_ACTORS
     profile_actors = {"human-owner": {"human"}, "product-handler": {"human", "product-handler"},
+                      "tool-delegation": {"human", "agent", "automation", "extension"},
                       "extension-peer": {"extension-child", "owning-parent"},
-                      "helper-parent": {"human", "helper-parent", "helper-child", "owning-parent"},
+                      "helper-parent": {"human", "helper-parent", "owning-parent"},
                       "operator": {"operator"}, "cf-service": {"service"},
                       "provider": {"provider"}, "one-use-auth": {"preauth"},
-                      "local-bootstrap": {"helper-parent", "helper-child", "extension-child", "owning-parent"}}
+                      "launch-bootstrap-only": set()}
     if row["profile"] in profile_actors:
         require(set(actors) <= profile_actors[row["profile"]], f"{operation}: profile identity mismatch")
+    profile_surfaces = {"human-owner": {"public", "in-process", "http-exception"},
+                        "tool-delegation": {"public", "in-process"}, "product-handler": {"in-process"},
+                        "extension-peer": {"private-helper"}, "helper-parent": {"private-helper"},
+                        "operator": {"operator"}, "cf-service": {"cf-internal"},
+                        "provider": {"http-exception"}, "one-use-auth": {"public", "http-exception"},
+                        "launch-bootstrap-only": {"private-helper"}, "delegated-invocation": {"private-helper"}}
+    require(row["surface"] in profile_surfaces[row["profile"]], f"{operation}: profile surface mismatch")
+    if row["scope"] in {"private-helper", "in-process"}:
+        require(row["surface"] == row["scope"], f"{operation}: scope surface mismatch")
+    if row["profile"] == "tool-delegation":
+        require(operation in tool_allowlist and auth["capability"] == operation,
+                f"{operation}: tool is not explicitly admitted")
     require(auth["capability"] is None or derived or row["profile"] == "tool-delegation",
             f"{operation}: capability outside tool binding")
     if row["surface"] == "public":
@@ -161,9 +189,10 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                 f"{operation}: operator boundary mismatch")
     if row["surface"] == "private-helper":
         require(row["scope"] == "private-helper" and row["profile"] in
-                {"extension-peer", "helper-parent", "local-bootstrap", "delegated-invocation"},
+                {"extension-peer", "helper-parent", "launch-bootstrap-only", "delegated-invocation"},
                 f"{operation}: helper boundary mismatch")
-    require(not (protected(operation) and (tools or "actorKinds" in derived)), f"{operation}: human-only tool reachability")
+    require(not (protected(operation) and (tools or ("actorKinds" in derived and not bootstrap))),
+            f"{operation}: human-only tool reachability")
     require(not tools or (operation in tool_allowlist and auth["capability"] == operation
             and row["profile"] == "tool-delegation"), f"{operation}: tool is not explicitly admitted")
     if auth["patEligible"]:
@@ -192,6 +221,15 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     if row["profile"] == "delegated-invocation":
         require(operation == "IExtensionHost.Invoke" and bool(derived) and auth["patEligible"] is False,
                 f"{operation}: delegated profile outside admitted Invoke")
+    if bootstrap:
+        expected = {"capability": None, "risk": "R1", "approval": "none", "stepUp": False,
+                    "localPresence": False, "egress": "none", "patEligible": False,
+                    "actorKinds": {"from": "verifiedLaunchProfile.actorKinds"}}
+        retry_classes = {"ILocalBootstrap.Challenge": "NI", "ILocalBootstrap.Confirm": "NI",
+                         "ILocalBootstrap.Renew": "IW"}
+        require(operation in retry_classes and auth == expected and retry == retry_classes[operation]
+                and row.get("launchRoles") == {"from": "verifiedLaunchProfile.callerRoles"}
+                and row.get("requireLaunchRole") is True, f"{operation}: incomplete bootstrap authority binding")
     return sorted(actors), sorted(derived)
 
 
@@ -226,6 +264,8 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
         require(isinstance(document.get("operations"), list), f"operation list required: {path}")
         for row in document["operations"]:
             require(isinstance(row, dict), f"operation row object required: {path}")
+            require(ROW_REQUIRED <= set(row) <= ROW_REQUIRED | ROW_OPTIONAL,
+                    f"missing or unknown operation export fields: {path}")
             operation = row.get("operationId")
             require(isinstance(operation, str), "operation ID required")
             require(operation in oracle, f"unclassified operation: {operation}")
