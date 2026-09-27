@@ -3,7 +3,7 @@
     "owner": "Contracts maintainers",
     "reviewer": "CON.12 author under maintainer authorization; independent exact-head peer review required before merge",
     "reviewedOn": "2026-09-27",
-    "baselineCommit": "42878c7b8d32fc2f6dce7f2bc359e337c6a3fa90",
+    "baselineCommit": "7eeaa3b407ca1d99f1320ecf9d1fb752c9c9ba21",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -11,15 +11,15 @@
       ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
       "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
       "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-      "Directory.Packages.props": "e5b916abbfaea2cceb4471a7b2861fbda6685f09a7c35445e3dcb10803fbb43c",
+      "Directory.Packages.props": "4a83ab07c4e26a69d5153e683d311fa667a1d40130f69358a59b512b55d5a8d1",
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "build.gradle.kts": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-      "eng/contract-packages.json": "6347d1372fb3f5e11759dcf7bf95fdd50d52262662e6d75b83adc0dcb0436630",
-      "eng/policy/contract-access.json": "7bfbf2a7a7ec9b6e8086261baa6509a57de5de592cc674b5df9d07e67eca1a78",
+      "eng/contract-packages.json": "06294fa4e7ca85e77ebc87cabb3fd8814fc7917c3fc8fadaaa532ce22ddae48a",
+      "eng/policy/contract-access.json": "cfe372f32129aa483b7d8e2ba147ee8b973808449843758f48e52ef0bfbeef39",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
@@ -29,7 +29,10 @@
       "eng/provenance/artifact-profiles/dokka-2-2-0-r7.json": "5b86329a7aa205353dfdb0fb75d924e50d2486e281dafb22fe90bf93012b03ad",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
       "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
-      "eng/provenance/records/con-12-bindings-r1.json": "4a5f67056d0d0362855fea37f1981e5d843f50d62f69f40eb92ccd498c1ef2d5",
+      "eng/provenance/records/con-12-bindings-r1.json": "b5613ad143c3b3d0c602a4d60769a8396646bbdea3261c827f84ae08363e7237",
+      "eng/provenance/records/con17-published-descriptors-r1.json": "b0f35abb8edcaa665d53663f5eaad3cd7825195fd93bbe093101e29452bed97c",
+      "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
+      "eng/provenance/records/contract-bindings-con16-r1.json": "369f1d77e97b6e7e1db9db65d94595925aff218c5179817b954e3a6a3c2c62ae",
       "eng/provenance/records/contract-bindings-r2.json": "95d2bde3b8d00c03061866838bc28b907bcec0e29a0ede996a42e79b7bb53221",
       "eng/provenance/records/contract-bindings-r3.json": "ba8adc87164b16804cad6525c50674d4f1b05da89d1d300a9b4f770576906878",
       "eng/provenance/records/contract-bindings-r4.json": "0918c490633e7205d66af8fe7bd825cb4f6db259c12b4ba33ee08aa4e55e57aa",
@@ -135,7 +138,7 @@
       "gradle/verification-metadata.xml": "ee91387d7538ba25bfcdb385f42d3ffaeaec1a1aefdc54a96e94fa19f95334e2",
       "gradle/wrapper/gradle-wrapper.properties": "45b09518a2f0ea326bc776066e735b94527d2a94002e3b27621c32cdaee7e3ce",
       "package-lock.json": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c",
-      "package.json": "52007cc17f64fc88ca650d2411db2ad832df702e5759d3e0d25144f25affc881",
+      "package.json": "4b32049d48407d1ac814c5661481506875b330e1b562fe94358c02ad20e3989f",
       "settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
       "settings.gradle.kts": "08e4e324a1fd3b548fced7c36945454823410fd7a7fbb95061375352668a7e64",
       "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "4d0a0dcdcebc57e2bb261b4e70ab8226ddfc853a405b5b28368cca1767380911",
@@ -173,7 +176,9 @@
       "src/public/ts/api-client/package.json": "898f6dd155206d058bd3b9ff73718fc5adaf9960db1b22719015c67d8437ecf8",
       "src/public/ts/contract-fixtures/package.json": "c593abc4f5179b38fc470cf034a993ba0e0d552e7d6bd224b770c87db3047128",
       "src/public/ts/proto/package.json": "ef1d092f9811439e7f9d5e232d437c7a886020b1fd68f1327b326e22fb6bfe5b",
-      "tests/StructureTests/StructureTests.csproj": "27b8786c8d1ad8806f5c5015a000542fa717bb23dda27989b09cac0a4b4f22fe",
+      "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
+      "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
+      "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
       "tests/StructureTests/packages.lock.json": "1fbee24fc31f60affa0f95616bad59428521335b5f5705de95986a8b580627eb",
       "tests/public/HelloClient/HelloClient.csproj": "fa65e07276f1b2209e9d96b95eaf5bcfe8b04472d8bf334d90d74e6e939c6f2a",
       "tests/public/HelloClient/packages.lock.json": "1592ed0d5c1bc731764993c0629fbc4954673001b4757800f0c7511ac1e462e7",
@@ -187,15 +192,15 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "02abe2417b8714c2bc1a0ec4e978b58ab3128c3483a7eaebf09760685c0930be"
     },
-    "maintenanceAssessment": "No dependency version or integrity changes. Five JSON schema registrations, conformance registration and exact access/provenance metadata preserve existing public/private package owners.",
+    "maintenanceAssessment": "Five closed schema profiles and additive package registrations. Dependency selection, versions and immutable integrity identities remain unchanged.",
     "checks": {
-      "compilation": "All npm workspaces compiled; 197 generated C#/TS codec cases passed. C# local isolated diagnostic SDK10.0.401; pinned CI remains required.",
-      "aot-trim": "Reflection-free source-generated JSON contexts retained; serialization policy passed; Native AOT gate remains required.",
-      "compatibility": "Existing seed schemas unchanged; closed additive profile roots and independent boundary vectors.",
-      "licence-provenance": "Immutable prior records retained; con-12-bindings-r1 supersedes complete prior generated closure without changing third-party attribution.",
-      "security-sbom": "No dependency selections changed. Required secret scan, CodeQL, dependency review and SBOM gates remain enabled.",
-      "runtime-performance-migration": "Offline validation only; no archive, broker, provider, activation or device runtime claim.",
-      "framework-runtime-posture": "Existing locked framework/SDK selections retained; no toolchain upgrade."
+      "compilation": "199 actual C#/TS codec cases passed; full pinned CI remains required.",
+      "aot-trim": "Reflection-free generated C# codecs passed isolated SDK10.0.401 diagnostic; pinned SDK10.0.400 Native AOT remains CI validation.",
+      "compatibility": "Closed additive extension, workflow, panel, policy and private configuration roots; 201 Node tests include actual codec roundtrips and independent bucket checks.",
+      "licence-provenance": "Append-only con-12-bindings-r1 preserves predecessor generator and source attribution with refreshed immutable snapshots.",
+      "security-sbom": "No new dependencies or access promotion. CI secret scan, CodeQL and SBOM remain required.",
+      "runtime-performance-migration": "Offline codec and symbolic lifecycle/activation fixtures only; no provider, installed consumer or runtime activation evidence asserted.",
+      "framework-runtime-posture": "No framework changes. SDK10.0.401 local diagnostic only; committed SDK10.0.400 remains authoritative."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
@@ -209,7 +214,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-23-retirement-r2.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-16-signed-formats-r1.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
@@ -413,8 +418,12 @@
     },
     "maven:com.google.code.gson:gson:2.14.0": {
       "integrity": {
-        "gson-2.14.0.jar": ["2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"],
-        "gson-2.14.0.pom": ["1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"]
+        "gson-2.14.0.jar": [
+          "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+        ],
+        "gson-2.14.0.pom": [
+          "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -507,8 +516,12 @@
     },
     "maven:com.squareup.moshi:moshi:1.15.2": {
       "integrity": {
-        "moshi-1.15.2.jar": ["767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"],
-        "moshi-1.15.2.module": ["d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"]
+        "moshi-1.15.2.jar": [
+          "767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"
+        ],
+        "moshi-1.15.2.module": [
+          "d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -539,7 +552,9 @@
     },
     "maven:com.squareup.okhttp3:okhttp:5.4.0": {
       "integrity": {
-        "okhttp-5.4.0.module": ["63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"]
+        "okhttp-5.4.0.module": [
+          "63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -552,7 +567,9 @@
     },
     "maven:com.squareup.okio:okio-jvm:3.17.0": {
       "integrity": {
-        "okio-jvm-3.17.0.jar": ["3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"],
+        "okio-jvm-3.17.0.jar": [
+          "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"
+        ],
         "okio-jvm-3.17.0.module": [
           "d4617d0df71f202e7299471848e625f4f36d7fa64d46c3503f70acf4821a45de"
         ]
@@ -568,7 +585,9 @@
     },
     "maven:com.squareup.okio:okio:3.17.0": {
       "integrity": {
-        "okio-3.17.0.module": ["3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"]
+        "okio-3.17.0.module": [
+          "3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -654,7 +673,9 @@
     },
     "maven:io.ktor:ktor-io:3.5.0": {
       "integrity": {
-        "ktor-io-3.5.0.module": ["cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"]
+        "ktor-io-3.5.0.module": [
+          "cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -700,8 +721,12 @@
     },
     "maven:org.codehaus.woodstox:stax2-api:4.2.1": {
       "integrity": {
-        "stax2-api-4.2.1.jar": ["678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"],
-        "stax2-api-4.2.1.pom": ["79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"]
+        "stax2-api-4.2.1.jar": [
+          "678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"
+        ],
+        "stax2-api-4.2.1.pom": [
+          "79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"
+        ]
       },
       "licence": "BSD-2-Clause",
       "evidence": [
@@ -847,7 +872,9 @@
         "abi-tools-2.3.21.jar": [
           "6761656205c3514050f68fde7c32b2beb47246786247dacfb279db432a70562b"
         ],
-        "abi-tools-2.3.21.pom": ["e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"]
+        "abi-tools-2.3.21.pom": [
+          "e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1790,7 +1817,9 @@
         "annotations-13.0.jar": [
           "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478"
         ],
-        "annotations-13.0.pom": ["965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"]
+        "annotations-13.0.pom": [
+          "965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1854,8 +1883,12 @@
     },
     "maven:org.jsoup:jsoup:1.16.1": {
       "integrity": {
-        "jsoup-1.16.1.jar": ["1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"],
-        "jsoup-1.16.1.pom": ["6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"]
+        "jsoup-1.16.1.jar": [
+          "1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"
+        ],
+        "jsoup-1.16.1.pom": [
+          "6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"
+        ]
       },
       "licence": "MIT",
       "evidence": [
@@ -1871,7 +1904,9 @@
         "slf4j-api-2.0.18.jar": [
           "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
         ],
-        "slf4j-api-2.0.18.pom": ["6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"]
+        "slf4j-api-2.0.18.pom": [
+          "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"
+        ]
       },
       "licence": "MIT",
       "evidence": [
@@ -2406,6 +2441,28 @@
         }
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
+    },
+    "nuget:arcforges.contracts.foundation@1.0.0-ci.113.1": {
+      "integrity": "k51yFjKnec92FJEfOM3/6YEhnbi1wfO4gztqjlhLumg7USTjVnA7ab7rE4X/H1cDb62Ny4c2ufn8Xi/CtBaZnA==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.foundation/1.0.0-ci.113.1/arcforges.contracts.foundation.nuspec",
+          "sha256": "7726a233f9ce81c4373a2ab9423c33d566b919bb2cb90d2b5577cf844bbbbfc4"
+        }
+      ],
+      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
+    },
+    "nuget:arcforges.contracts.publicapi@1.0.0-ci.113.1": {
+      "integrity": "1ai2jcqdFfKLHahN62N9dqkcSsAEbgK/K5uQi4LDIUFDGaT38/2KJYYykrb/YLO2UyUBpFjxJmTk++A+4mr8Uw==",
+      "licence": "Apache-2.0",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.publicapi/1.0.0-ci.113.1/arcforges.contracts.publicapi.nuspec",
+          "sha256": "ff556689167901646fc045bdf691fdd2c8b72b25cb848e9312ff384d0b0e7216"
+        }
+      ],
+      "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
     }
   }
 }
