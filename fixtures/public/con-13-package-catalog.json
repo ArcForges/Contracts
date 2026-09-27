@@ -123,6 +123,22 @@
     {
       "value": "1.2.3+01",
       "valid": true
+    },
+    {
+      "valid": true,
+      "value": "9007199254740993.0.0+build.001"
+    },
+    {
+      "valid": true,
+      "value": "1.2.3+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "valid": false,
+      "value": "1.2.3+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "valid": false,
+      "value": "1.2.3\n"
     }
   ],
   "integrityBase": {
@@ -188,6 +204,12 @@
       "value": {
         "licences/example.txt": "Apache-2.0"
       }
+    },
+    {
+      "valid": false,
+      "value": "1.2.3+build.1",
+      "field": "version",
+      "id": "build-metadata-is-part-of-exact-identity"
     }
   ],
   "boundaries": {
