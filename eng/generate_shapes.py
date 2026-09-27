@@ -2075,7 +2075,7 @@ CS_MANIFEST_RULES = r'''
         var grandfathered = new[] { "en-gb-oed", "i-ami", "i-bnn", "i-default", "i-enochian", "i-hak", "i-klingon", "i-lux", "i-mingo", "i-navajo", "i-pwn", "i-tao", "i-tay", "i-tsu", "sgn-be-fr", "sgn-be-nl", "sgn-ch-de", "art-lojban", "cel-gaulish", "no-bok", "no-nyn", "zh-guoyu", "zh-hakka", "zh-min", "zh-min-nan", "zh-xiang" };
         var normalized = value.ToLowerInvariant();
         if (global::System.Array.IndexOf(grandfathered, normalized) >= 0) return true;
-        if (global::System.Text.RegularExpressions.Regex.Match(value, grammar).Value != value) return false;
+        if (!Matches(value, grammar)) return false;
         var singleton = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
         var variants = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
         var extension = false;
