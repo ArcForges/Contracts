@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.extensions.v1.Contribution": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.Contribution",
+      "fields": {
+        "contributionId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "kind": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "titleKey": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "capability": {
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "pattern": {
+          "minLength": 1,
+          "maxUtf8Bytes": 2048
+        },
+        "schemaId": {
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        }
+      }
+    },
+    "arcforges.extensions.v1.FrozenContext": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.FrozenContext",
+      "fields": {
+        "sources": {
+          "maxItems": 32
+        },
+        "actor": {
+          "required": true
+        },
+        "profileVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "permissionsVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        }
+      }
+    },
+    "arcforges.extensions.v1.Invocation": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.Invocation",
+      "fields": {
+        "invocationId": {
+          "required": true
+        },
+        "commandId": {
+          "required": true
+        },
+        "capability": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "context": {
+          "required": true
+        },
+        "arguments": {
+          "required": true
+        },
+        "approvalId": {},
+        "leaseId": {},
+        "expectedRev": {},
+        "expectedNative": {}
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceHandshakeRequest": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "packageId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "packageVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        },
+        "protocolVersions": {
+          "maxItems": 32,
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+            "minLength": 1
+          },
+          "unique": true,
+          "minItems": 1
+        },
+        "installationId": {
+          "required": true
+        },
+        "nonce": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "contributions": {
+          "maxItems": 256
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceHandshakeResponse": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceHandshakeValue": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeValue",
+      "fields": {
+        "lease": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceInvokeRequest": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "invocation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceInvokeResponse": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceInvokeValue": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeValue",
+      "fields": {
+        "result": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceStopRequest": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        },
+        "reason": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceStopResponse": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceStopValue": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    }
+  }
+}

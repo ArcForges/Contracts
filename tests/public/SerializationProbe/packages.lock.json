@@ -44,7 +44,9 @@
       "arcforges.contracts.localrpc.platform": {
         "type": "Project",
         "dependencies": {
-          "Google.Protobuf": "[3.36.1, )"
+          "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
+          "Google.Protobuf": "[3.36.1, )",
+          "Grpc.Core.Api": "[2.84.0, )"
         }
       },
       "arcforges.contracts.localrpc.sandbox": {
@@ -92,6 +94,7 @@
         "type": "Project",
         "dependencies": {
           "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.0.0, )",
           "Google.Protobuf": "[3.36.1, )",
           "Grpc.Core.Api": "[2.84.0, )"
         }

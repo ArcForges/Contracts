@@ -74971,7 +74971,10 @@ export const publicFixtures = {
           "/arcforges.hello.v1.HelloService/SayHello"
         ],
         "arcforges.extensions.v1.ExtensionHostService": [
-          "/arcforges.extensions.v1.ExtensionHostService/RenewLease"
+          "/arcforges.extensions.v1.ExtensionHostService/Handshake",
+          "/arcforges.extensions.v1.ExtensionHostService/Invoke",
+          "/arcforges.extensions.v1.ExtensionHostService/RenewLease",
+          "/arcforges.extensions.v1.ExtensionHostService/Stop"
         ]
       }
     }

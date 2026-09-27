@@ -27,19 +27,258 @@ namespace ArcForges.Contracts.LocalRpc.Platform.V1 {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiphcmNmb3JnZXMvbG9jYWwvcGxhdGZvcm0vdjEvcGxhdGZvcm0ucHJvdG8S",
-            "G2FyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MSLWAQoKTG9jYWxDaHVuaxIZ",
-            "CgVieXRlcxgBIAEoDEgAUgVieXRlc4gBARIbCgZvZmZzZXQYAiABKARIAVIG",
-            "b2Zmc2V0iAEBEiQKC25leHRfb2Zmc2V0GAMgASgESAJSCm5leHRPZmZzZXSI",
-            "AQESFQoDZW9mGAQgASgISANSA2VvZogBARIbCgZzaGEyNTYYBSABKAlIBFIG",
-            "c2hhMjU2iAEBQggKBl9ieXRlc0IJCgdfb2Zmc2V0Qg4KDF9uZXh0X29mZnNl",
-            "dEIGCgRfZW9mQgkKB19zaGEyNTZCbQovaW8uZ2l0aHViLmFyY2Zvcmdlcy5j",
-            "b250cmFjdHMubG9jYWwucGxhdGZvcm0udjFCDVBsYXRmb3JtUHJvdG9QAaoC",
-            "KEFyY0Zvcmdlcy5Db250cmFjdHMuTG9jYWxScGMuUGxhdGZvcm0uVjFiBnBy",
-            "b3RvMw=="));
+            "G2FyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MRooYXJjZm9yZ2VzL2ZvdW5k",
+            "YXRpb24vdjEvZm91bmRhdGlvbi5wcm90byLWAQoKTG9jYWxDaHVuaxIZCgVi",
+            "eXRlcxgBIAEoDEgAUgVieXRlc4gBARIbCgZvZmZzZXQYAiABKARIAVIGb2Zm",
+            "c2V0iAEBEiQKC25leHRfb2Zmc2V0GAMgASgESAJSCm5leHRPZmZzZXSIAQES",
+            "FQoDZW9mGAQgASgISANSA2VvZogBARIbCgZzaGEyNTYYBSABKAlIBFIGc2hh",
+            "MjU2iAEBQggKBl9ieXRlc0IJCgdfb2Zmc2V0Qg4KDF9uZXh0X29mZnNldEIG",
+            "CgRfZW9mQgkKB19zaGEyNTYiqQEKDUxvY2FsRW5kcG9pbnQSIQoJdHJhbnNw",
+            "b3J0GAEgASgJSABSCXRyYW5zcG9ydIgBARIdCgdhZGRyZXNzGAIgASgJSAFS",
+            "B2FkZHJlc3OIAQESPAoLaW5zdGFuY2VfaWQYAyABKAsyGy5hcmNmb3JnZXMu",
+            "Zm91bmRhdGlvbi52MS5JZFIKaW5zdGFuY2VJZEIMCgpfdHJhbnNwb3J0QgoK",
+            "CF9hZGRyZXNzIuoEChBFbmRwb2ludE1hbmlmZXN0EioKDnNjaGVtYV92ZXJz",
+            "aW9uGAEgASgJSABSDXNjaGVtYVZlcnNpb26IAQESGgoGYXBwX2lkGAIgASgJ",
+            "SAFSBWFwcElkiAEBEkQKD2luc3RhbGxhdGlvbl9pZBgDIAEoCzIbLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLklkUg5pbnN0YWxsYXRpb25JZBI8CgtpbnN0",
+            "YW5jZV9pZBgEIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgpp",
+            "bnN0YW5jZUlkEiIKCnByb2Nlc3NfaWQYBSABKARIAlIJcHJvY2Vzc0lkiAEB",
+            "Ek4KEnByb2Nlc3Nfc3RhcnRlZF9hdBgGIAEoCzIgLmFyY2Zvcmdlcy5mb3Vu",
+            "ZGF0aW9uLnYxLkluc3RhbnRSEHByb2Nlc3NTdGFydGVkQXQSRgoIZW5kcG9p",
+            "bnQYByABKAsyKi5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuTG9jYWxF",
+            "bmRwb2ludFIIZW5kcG9pbnQSIgoKYnVpbGRfaGFzaBgIIAEoCUgDUglidWls",
+            "ZEhhc2iIAQESLwoRY29udHJhY3Rfc2V0X2hhc2gYCSABKAlIBFIPY29udHJh",
+            "Y3RTZXRIYXNoiAEBEicKD2NvbnRyYWN0X21ham9ycxgKIAMoDVIOY29udHJh",
+            "Y3RNYWpvcnNCEQoPX3NjaGVtYV92ZXJzaW9uQgkKB19hcHBfaWRCDQoLX3By",
+            "b2Nlc3NfaWRCDQoLX2J1aWxkX2hhc2hCFAoSX2NvbnRyYWN0X3NldF9oYXNo",
+            "IogDChNDb25uZWN0b3JEZWZpbml0aW9uEigKDWRlZmluaXRpb25faWQYASAB",
+            "KAlIAFIMZGVmaW5pdGlvbklkiAEBEiIKCnBhY2thZ2VfaWQYAiABKAlIAVIJ",
+            "cGFja2FnZUlkiAEBEiwKD3BhY2thZ2VfdmVyc2lvbhgDIAEoCUgCUg5wYWNr",
+            "YWdlVmVyc2lvbogBARIoCg1tYW5pZmVzdF9oYXNoGAQgASgJSANSDG1hbmlm",
+            "ZXN0SGFzaIgBARIgCglhdXRoX2tpbmQYBSABKAlIBFIIYXV0aEtpbmSIAQES",
+            "GAoHb3JpZ2lucxgGIAMoCVIHb3JpZ2lucxIWCgZzY29wZXMYByADKAlSBnNj",
+            "b3BlcxIiCgxjYXBhYmlsaXRpZXMYCCADKAlSDGNhcGFiaWxpdGllc0IQCg5f",
+            "ZGVmaW5pdGlvbl9pZEINCgtfcGFja2FnZV9pZEISChBfcGFja2FnZV92ZXJz",
+            "aW9uQhAKDl9tYW5pZmVzdF9oYXNoQgwKCl9hdXRoX2tpbmQimgMKE0Nvbm5l",
+            "Y3RvckNvbm5lY3Rpb24SQAoNY29ubmVjdGlvbl9pZBgBIAEoCzIbLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLklkUgxjb25uZWN0aW9uSWQSKAoNZGVmaW5p",
+            "dGlvbl9pZBgCIAEoCUgAUgxkZWZpbml0aW9uSWSIAQESFwoEbmFtZRgDIAEo",
+            "CUgBUgRuYW1liAEBEhkKBXN0YXRlGAQgASgJSAJSBXN0YXRliAEBEhYKBnNj",
+            "b3BlcxgFIAMoCVIGc2NvcGVzEj0KCHJldmlzaW9uGAYgASgLMiEuYXJjZm9y",
+            "Z2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb25SCHJldmlzaW9uEj8KCmV4cGly",
+            "ZXNfYXQYByABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50",
+            "UglleHBpcmVzQXQSGwoGcmVhc29uGAggASgJSANSBnJlYXNvbogBAUIQCg5f",
+            "ZGVmaW5pdGlvbl9pZEIHCgVfbmFtZUIICgZfc3RhdGVCCQoHX3JlYXNvbiKV",
+            "AgoSQ29ubmVjdG9yQ2hhbGxlbmdlEjQKB2Zsb3dfaWQYASABKAsyGy5hcmNm",
+            "b3JnZXMuZm91bmRhdGlvbi52MS5JZFIGZmxvd0lkEkAKDWNvbm5lY3Rpb25f",
+            "aWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIMY29ubmVj",
+            "dGlvbklkEjAKEWF1dGhvcml6YXRpb25fdXJsGAMgASgJSABSEGF1dGhvcml6",
+            "YXRpb25VcmyIAQESPwoKZXhwaXJlc19hdBgEIAEoCzIgLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLkluc3RhbnRSCWV4cGlyZXNBdEIUChJfYXV0aG9yaXph",
+            "dGlvbl91cmwibwoOQ29ubmVjdG9yUHJvb2YSKwoQY2FsbGJhY2tfcmVjZWlw",
+            "dBgBIAEoCUgAUg9jYWxsYmFja1JlY2VpcHQSJwoOcGVyc29uYWxfdG9rZW4Y",
+            "AiABKAlIAFINcGVyc29uYWxUb2tlbkIHCgVwcm9vZiKdAgolTG9jYWxCb290",
+            "c3RyYXBTZXJ2aWNlQ2hhbGxlbmdlUmVxdWVzdBI4CgRtZXRhGAEgASgLMiQu",
+            "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGFSBG1ldGESPAoL",
+            "aW5zdGFuY2VfaWQYCiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5J",
+            "ZFIKaW5zdGFuY2VJZBIhCgljaGFsbGVuZ2UYCyABKAxIAFIJY2hhbGxlbmdl",
+            "iAEBEkUKBmNhbGxlchgMIAEoCzItLmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9y",
+            "bS52MS5FbmRwb2ludE1hbmlmZXN0UgZjYWxsZXJCDAoKX2NoYWxsZW5nZUoE",
+            "CAIQCiKJAgomTG9jYWxCb290c3RyYXBTZXJ2aWNlQ2hhbGxlbmdlUmVzcG9u",
+            "c2USOQoEbWV0YRgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJl",
+            "c3BvbnNlTWV0YVIEbWV0YRJYCgV2YWx1ZRgCIAEoCzJALmFyY2Zvcmdlcy5s",
+            "b2NhbC5wbGF0Zm9ybS52MS5Mb2NhbEJvb3RzdHJhcFNlcnZpY2VDaGFsbGVu",
+            "Z2VWYWx1ZUgAUgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgE",
+            "EAoisgIKI0xvY2FsQm9vdHN0cmFwU2VydmljZUNoYWxsZW5nZVZhbHVlEj4K",
+            "DGNoYWxsZW5nZV9pZBgKIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
+            "LklkUgtjaGFsbGVuZ2VJZBIuChBzZXJ2ZXJfY2hhbGxlbmdlGAsgASgMSABS",
+            "D3NlcnZlckNoYWxsZW5nZYgBARI/CgpleHBpcmVzX2F0GAwgASgLMiAuYXJj",
+            "Zm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIJZXhwaXJlc0F0EkUKBnNl",
+            "cnZlchgNIAEoCzItLmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MS5FbmRw",
+            "b2ludE1hbmlmZXN0UgZzZXJ2ZXJCEwoRX3NlcnZlcl9jaGFsbGVuZ2UiygEK",
+            "I0xvY2FsQm9vdHN0cmFwU2VydmljZUNvbmZpcm1SZXF1ZXN0EjgKBG1ldGEY",
+            "ASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0YVIE",
+            "bWV0YRI+CgxjaGFsbGVuZ2VfaWQYCiABKAsyGy5hcmNmb3JnZXMuZm91bmRh",
+            "dGlvbi52MS5JZFILY2hhbGxlbmdlSWQSGQoFcHJvb2YYCyABKAxIAFIFcHJv",
+            "b2aIAQFCCAoGX3Byb29mSgQIAhAKIoUCCiRMb2NhbEJvb3RzdHJhcFNlcnZp",
+            "Y2VDb25maXJtUmVzcG9uc2USOQoEbWV0YRgBIAEoCzIlLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLlJlc3BvbnNlTWV0YVIEbWV0YRJWCgV2YWx1ZRgCIAEo",
+            "CzI+LmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MS5Mb2NhbEJvb3RzdHJh",
+            "cFNlcnZpY2VDb25maXJtVmFsdWVIAFIFdmFsdWUSOQoFZXJyb3IYAyABKAsy",
+            "IS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJvckgAUgVlcnJvckIJ",
+            "CgdvdXRjb21lSgQIBBAKIpcBCiFMb2NhbEJvb3RzdHJhcFNlcnZpY2VDb25m",
+            "aXJtVmFsdWUSIgoKcGVlcl9ub25jZRgKIAEoDEgAUglwZWVyTm9uY2WIAQES",
+            "PwoKZXhwaXJlc19hdBgLIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
+            "Lkluc3RhbnRSCWV4cGlyZXNBdEINCgtfcGVlcl9ub25jZSJjCiFMb2NhbEJv",
+            "b3RzdHJhcFNlcnZpY2VSZW5ld1JlcXVlc3QSOAoEbWV0YRgBIAEoCzIkLmFy",
+            "Y2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhUgRtZXRhSgQIAhAK",
+            "IoECCiJMb2NhbEJvb3RzdHJhcFNlcnZpY2VSZW5ld1Jlc3BvbnNlEjkKBG1l",
+            "dGEYASABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNwb25zZU1l",
+            "dGFSBG1ldGESVAoFdmFsdWUYAiABKAsyPC5hcmNmb3JnZXMubG9jYWwucGxh",
+            "dGZvcm0udjEuTG9jYWxCb290c3RyYXBTZXJ2aWNlUmVuZXdWYWx1ZUgAUgV2",
+            "YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYx",
+            "LkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgEEAoiYgofTG9jYWxC",
+            "b290c3RyYXBTZXJ2aWNlUmVuZXdWYWx1ZRI/CgpleHBpcmVzX2F0GAogASgL",
+            "MiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudFIJZXhwaXJlc0F0",
+            "IqgBCixDb25uZWN0b3JCcm9rZXJTZXJ2aWNlTGlzdERlZmluaXRpb25zUmVx",
+            "dWVzdBI4CgRtZXRhGAEgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEu",
+            "UmVxdWVzdE1ldGFSBG1ldGESOAoEcGFnZRgKIAEoCzIkLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLlBhZ2VSZXF1ZXN0UgRwYWdlSgQIAhAKIpcCCi1Db25u",
+            "ZWN0b3JCcm9rZXJTZXJ2aWNlTGlzdERlZmluaXRpb25zUmVzcG9uc2USOQoE",
+            "bWV0YRgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc3BvbnNl",
+            "TWV0YVIEbWV0YRJfCgV2YWx1ZRgCIAEoCzJHLmFyY2Zvcmdlcy5sb2NhbC5w",
+            "bGF0Zm9ybS52MS5Db25uZWN0b3JCcm9rZXJTZXJ2aWNlTGlzdERlZmluaXRp",
+            "b25zVmFsdWVIAFIFdmFsdWUSOQoFZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMu",
+            "Zm91bmRhdGlvbi52MS5BcmNFcnJvckgAUgVlcnJvckIJCgdvdXRjb21lSgQI",
+            "BBAKIqwBCipDb25uZWN0b3JCcm9rZXJTZXJ2aWNlTGlzdERlZmluaXRpb25z",
+            "VmFsdWUSRgoFaXRlbXMYCiADKAsyMC5hcmNmb3JnZXMubG9jYWwucGxhdGZv",
+            "cm0udjEuQ29ubmVjdG9yRGVmaW5pdGlvblIFaXRlbXMSNgoEcGFnZRgLIAEo",
+            "CzIiLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlBhZ2VTdGF0ZVIEcGFnZSKo",
+            "AQosQ29ubmVjdG9yQnJva2VyU2VydmljZUxpc3RDb25uZWN0aW9uc1JlcXVl",
+            "c3QSOAoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJl",
+            "cXVlc3RNZXRhUgRtZXRhEjgKBHBhZ2UYCiABKAsyJC5hcmNmb3JnZXMuZm91",
+            "bmRhdGlvbi52MS5QYWdlUmVxdWVzdFIEcGFnZUoECAIQCiKXAgotQ29ubmVj",
+            "dG9yQnJva2VyU2VydmljZUxpc3RDb25uZWN0aW9uc1Jlc3BvbnNlEjkKBG1l",
+            "dGEYASABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNwb25zZU1l",
+            "dGFSBG1ldGESXwoFdmFsdWUYAiABKAsyRy5hcmNmb3JnZXMubG9jYWwucGxh",
+            "dGZvcm0udjEuQ29ubmVjdG9yQnJva2VyU2VydmljZUxpc3RDb25uZWN0aW9u",
+            "c1ZhbHVlSABSBXZhbHVlEjkKBWVycm9yGAMgASgLMiEuYXJjZm9yZ2VzLmZv",
+            "dW5kYXRpb24udjEuQXJjRXJyb3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAQQ",
+            "CiKsAQoqQ29ubmVjdG9yQnJva2VyU2VydmljZUxpc3RDb25uZWN0aW9uc1Zh",
+            "bHVlEkYKBWl0ZW1zGAogAygLMjAuYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3Jt",
+            "LnYxLkNvbm5lY3RvckNvbm5lY3Rpb25SBWl0ZW1zEjYKBHBhZ2UYCyABKAsy",
+            "Ii5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5QYWdlU3RhdGVSBHBhZ2UijgIK",
+            "LENvbm5lY3RvckJyb2tlclNlcnZpY2VCZWdpbkNvbm5lY3Rpb25SZXF1ZXN0",
+            "EjgKBG1ldGEYASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1",
+            "ZXN0TWV0YVIEbWV0YRJACg1jb25uZWN0aW9uX2lkGAogASgLMhsuYXJjZm9y",
+            "Z2VzLmZvdW5kYXRpb24udjEuSWRSDGNvbm5lY3Rpb25JZBIoCg1kZWZpbml0",
+            "aW9uX2lkGAsgASgJSABSDGRlZmluaXRpb25JZIgBARIXCgRuYW1lGAwgASgJ",
+            "SAFSBG5hbWWIAQFCEAoOX2RlZmluaXRpb25faWRCBwoFX25hbWVKBAgCEAoi",
+            "lwIKLUNvbm5lY3RvckJyb2tlclNlcnZpY2VCZWdpbkNvbm5lY3Rpb25SZXNw",
+            "b25zZRI5CgRtZXRhGAEgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEu",
+            "UmVzcG9uc2VNZXRhUgRtZXRhEl8KBXZhbHVlGAIgASgLMkcuYXJjZm9yZ2Vz",
+            "LmxvY2FsLnBsYXRmb3JtLnYxLkNvbm5lY3RvckJyb2tlclNlcnZpY2VCZWdp",
+            "bkNvbm5lY3Rpb25WYWx1ZUgAUgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFy",
+            "Y2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291",
+            "dGNvbWVKBAgEEAoiewoqQ29ubmVjdG9yQnJva2VyU2VydmljZUJlZ2luQ29u",
+            "bmVjdGlvblZhbHVlEk0KCWNoYWxsZW5nZRgKIAEoCzIvLmFyY2Zvcmdlcy5s",
+            "b2NhbC5wbGF0Zm9ybS52MS5Db25uZWN0b3JDaGFsbGVuZ2VSCWNoYWxsZW5n",
+            "ZSLqAQovQ29ubmVjdG9yQnJva2VyU2VydmljZUNvbXBsZXRlQ29ubmVjdGlv",
+            "blJlcXVlc3QSOAoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9u",
+            "LnYxLlJlcXVlc3RNZXRhUgRtZXRhEjQKB2Zsb3dfaWQYCiABKAsyGy5hcmNm",
+            "b3JnZXMuZm91bmRhdGlvbi52MS5JZFIGZmxvd0lkEkEKBXByb29mGAsgASgL",
+            "MisuYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3JtLnYxLkNvbm5lY3RvclByb29m",
+            "UgVwcm9vZkoECAIQCiKdAgowQ29ubmVjdG9yQnJva2VyU2VydmljZUNvbXBs",
+            "ZXRlQ29ubmVjdGlvblJlc3BvbnNlEjkKBG1ldGEYASABKAsyJS5hcmNmb3Jn",
+            "ZXMuZm91bmRhdGlvbi52MS5SZXNwb25zZU1ldGFSBG1ldGESYgoFdmFsdWUY",
+            "AiABKAsySi5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuQ29ubmVjdG9y",
+            "QnJva2VyU2VydmljZUNvbXBsZXRlQ29ubmVjdGlvblZhbHVlSABSBXZhbHVl",
+            "EjkKBWVycm9yGAMgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQXJj",
+            "RXJyb3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAQQCiKBAQotQ29ubmVjdG9y",
+            "QnJva2VyU2VydmljZUNvbXBsZXRlQ29ubmVjdGlvblZhbHVlElAKCmNvbm5l",
+            "Y3Rpb24YCiABKAsyMC5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuQ29u",
+            "bmVjdG9yQ29ubmVjdGlvblIKY29ubmVjdGlvbiKuAQoqQ29ubmVjdG9yQnJv",
+            "a2VyU2VydmljZUdldENvbm5lY3Rpb25SZXF1ZXN0EjgKBG1ldGEYASABKAsy",
+            "JC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0YVIEbWV0YRJA",
+            "Cg1jb25uZWN0aW9uX2lkGAogASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24u",
+            "djEuSWRSDGNvbm5lY3Rpb25JZEoECAIQCiKTAgorQ29ubmVjdG9yQnJva2Vy",
+            "U2VydmljZUdldENvbm5lY3Rpb25SZXNwb25zZRI5CgRtZXRhGAEgASgLMiUu",
+            "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVzcG9uc2VNZXRhUgRtZXRhEl0K",
+            "BXZhbHVlGAIgASgLMkUuYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3JtLnYxLkNv",
+            "bm5lY3RvckJyb2tlclNlcnZpY2VHZXRDb25uZWN0aW9uVmFsdWVIAFIFdmFs",
+            "dWUSOQoFZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5B",
+            "cmNFcnJvckgAUgVlcnJvckIJCgdvdXRjb21lSgQIBBAKInwKKENvbm5lY3Rv",
+            "ckJyb2tlclNlcnZpY2VHZXRDb25uZWN0aW9uVmFsdWUSUAoKY29ubmVjdGlv",
+            "bhgKIAEoCzIwLmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MS5Db25uZWN0",
+            "b3JDb25uZWN0aW9uUgpjb25uZWN0aW9uIrEBCi1Db25uZWN0b3JCcm9rZXJT",
+            "ZXJ2aWNlUmV2b2tlQ29ubmVjdGlvblJlcXVlc3QSOAoEbWV0YRgBIAEoCzIk",
+            "LmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhUgRtZXRhEkAK",
+            "DWNvbm5lY3Rpb25faWQYCiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
+            "MS5JZFIMY29ubmVjdGlvbklkSgQIAhAKIpkCCi5Db25uZWN0b3JCcm9rZXJT",
+            "ZXJ2aWNlUmV2b2tlQ29ubmVjdGlvblJlc3BvbnNlEjkKBG1ldGEYASABKAsy",
+            "JS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNwb25zZU1ldGFSBG1ldGES",
+            "YAoFdmFsdWUYAiABKAsySC5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEu",
+            "Q29ubmVjdG9yQnJva2VyU2VydmljZVJldm9rZUNvbm5lY3Rpb25WYWx1ZUgA",
+            "UgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9u",
+            "LnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgEEAoifworQ29u",
+            "bmVjdG9yQnJva2VyU2VydmljZVJldm9rZUNvbm5lY3Rpb25WYWx1ZRJQCgpj",
+            "b25uZWN0aW9uGAogASgLMjAuYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3JtLnYx",
+            "LkNvbm5lY3RvckNvbm5lY3Rpb25SCmNvbm5lY3Rpb24yygMKFUxvY2FsQm9v",
+            "dHN0cmFwU2VydmljZRKUAQoJQ2hhbGxlbmdlEkIuYXJjZm9yZ2VzLmxvY2Fs",
+            "LnBsYXRmb3JtLnYxLkxvY2FsQm9vdHN0cmFwU2VydmljZUNoYWxsZW5nZVJl",
+            "cXVlc3QaQy5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuTG9jYWxCb290",
+            "c3RyYXBTZXJ2aWNlQ2hhbGxlbmdlUmVzcG9uc2USjgEKB0NvbmZpcm0SQC5h",
+            "cmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuTG9jYWxCb290c3RyYXBTZXJ2",
+            "aWNlQ29uZmlybVJlcXVlc3QaQS5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0u",
+            "djEuTG9jYWxCb290c3RyYXBTZXJ2aWNlQ29uZmlybVJlc3BvbnNlEogBCgVS",
+            "ZW5ldxI+LmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MS5Mb2NhbEJvb3Rz",
+            "dHJhcFNlcnZpY2VSZW5ld1JlcXVlc3QaPy5hcmNmb3JnZXMubG9jYWwucGxh",
+            "dGZvcm0udjEuTG9jYWxCb290c3RyYXBTZXJ2aWNlUmVuZXdSZXNwb25zZTKg",
+            "CAoWQ29ubmVjdG9yQnJva2VyU2VydmljZRKoAQoPTGlzdERlZmluaXRpb25z",
+            "EkkuYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3JtLnYxLkNvbm5lY3RvckJyb2tl",
+            "clNlcnZpY2VMaXN0RGVmaW5pdGlvbnNSZXF1ZXN0GkouYXJjZm9yZ2VzLmxv",
+            "Y2FsLnBsYXRmb3JtLnYxLkNvbm5lY3RvckJyb2tlclNlcnZpY2VMaXN0RGVm",
+            "aW5pdGlvbnNSZXNwb25zZRKoAQoPTGlzdENvbm5lY3Rpb25zEkkuYXJjZm9y",
+            "Z2VzLmxvY2FsLnBsYXRmb3JtLnYxLkNvbm5lY3RvckJyb2tlclNlcnZpY2VM",
+            "aXN0Q29ubmVjdGlvbnNSZXF1ZXN0GkouYXJjZm9yZ2VzLmxvY2FsLnBsYXRm",
+            "b3JtLnYxLkNvbm5lY3RvckJyb2tlclNlcnZpY2VMaXN0Q29ubmVjdGlvbnNS",
+            "ZXNwb25zZRKoAQoPQmVnaW5Db25uZWN0aW9uEkkuYXJjZm9yZ2VzLmxvY2Fs",
+            "LnBsYXRmb3JtLnYxLkNvbm5lY3RvckJyb2tlclNlcnZpY2VCZWdpbkNvbm5l",
+            "Y3Rpb25SZXF1ZXN0GkouYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3JtLnYxLkNv",
+            "bm5lY3RvckJyb2tlclNlcnZpY2VCZWdpbkNvbm5lY3Rpb25SZXNwb25zZRKx",
+            "AQoSQ29tcGxldGVDb25uZWN0aW9uEkwuYXJjZm9yZ2VzLmxvY2FsLnBsYXRm",
+            "b3JtLnYxLkNvbm5lY3RvckJyb2tlclNlcnZpY2VDb21wbGV0ZUNvbm5lY3Rp",
+            "b25SZXF1ZXN0Gk0uYXJjZm9yZ2VzLmxvY2FsLnBsYXRmb3JtLnYxLkNvbm5l",
+            "Y3RvckJyb2tlclNlcnZpY2VDb21wbGV0ZUNvbm5lY3Rpb25SZXNwb25zZRKi",
+            "AQoNR2V0Q29ubmVjdGlvbhJHLmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52",
+            "MS5Db25uZWN0b3JCcm9rZXJTZXJ2aWNlR2V0Q29ubmVjdGlvblJlcXVlc3Qa",
+            "SC5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuQ29ubmVjdG9yQnJva2Vy",
+            "U2VydmljZUdldENvbm5lY3Rpb25SZXNwb25zZRKrAQoQUmV2b2tlQ29ubmVj",
+            "dGlvbhJKLmFyY2Zvcmdlcy5sb2NhbC5wbGF0Zm9ybS52MS5Db25uZWN0b3JC",
+            "cm9rZXJTZXJ2aWNlUmV2b2tlQ29ubmVjdGlvblJlcXVlc3QaSy5hcmNmb3Jn",
+            "ZXMubG9jYWwucGxhdGZvcm0udjEuQ29ubmVjdG9yQnJva2VyU2VydmljZVJl",
+            "dm9rZUNvbm5lY3Rpb25SZXNwb25zZUJtCi9pby5naXRodWIuYXJjZm9yZ2Vz",
+            "LmNvbnRyYWN0cy5sb2NhbC5wbGF0Zm9ybS52MUINUGxhdGZvcm1Qcm90b1AB",
+            "qgIoQXJjRm9yZ2VzLkNvbnRyYWN0cy5Mb2NhbFJwYy5QbGF0Zm9ybS5WMWIG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk.Parser, new[]{ "Bytes", "Offset", "NextOffset", "Eof", "Sha256" }, new[]{ "Bytes", "Offset", "NextOffset", "Eof", "Sha256" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk.Parser, new[]{ "Bytes", "Offset", "NextOffset", "Eof", "Sha256" }, new[]{ "Bytes", "Offset", "NextOffset", "Eof", "Sha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint.Parser, new[]{ "Transport", "Address", "InstanceId" }, new[]{ "Transport", "Address" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest), global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest.Parser, new[]{ "SchemaVersion", "AppId", "InstallationId", "InstanceId", "ProcessId", "ProcessStartedAt", "Endpoint", "BuildHash", "ContractSetHash", "ContractMajors" }, new[]{ "SchemaVersion", "AppId", "ProcessId", "BuildHash", "ContractSetHash" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition.Parser, new[]{ "DefinitionId", "PackageId", "PackageVersion", "ManifestHash", "AuthKind", "Origins", "Scopes", "Capabilities" }, new[]{ "DefinitionId", "PackageId", "PackageVersion", "ManifestHash", "AuthKind" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection.Parser, new[]{ "ConnectionId", "DefinitionId", "Name", "State", "Scopes", "Revision", "ExpiresAt", "Reason" }, new[]{ "DefinitionId", "Name", "State", "Reason" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge.Parser, new[]{ "FlowId", "ConnectionId", "AuthorizationUrl", "ExpiresAt" }, new[]{ "AuthorizationUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof.Parser, new[]{ "CallbackReceipt", "PersonalToken" }, new[]{ "Proof" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeRequest.Parser, new[]{ "Meta", "InstanceId", "Challenge", "Caller" }, new[]{ "Challenge" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue.Parser, new[]{ "ChallengeId", "ServerChallenge", "ExpiresAt", "Server" }, new[]{ "ServerChallenge" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmRequest.Parser, new[]{ "Meta", "ChallengeId", "Proof" }, new[]{ "Proof" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue.Parser, new[]{ "PeerNonce", "ExpiresAt" }, new[]{ "PeerNonce" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewRequest.Parser, new[]{ "Meta" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue.Parser, new[]{ "ExpiresAt" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsRequest.Parser, new[]{ "Meta", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue.Parser, new[]{ "Items", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsRequest.Parser, new[]{ "Meta", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue.Parser, new[]{ "Items", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionRequest.Parser, new[]{ "Meta", "ConnectionId", "DefinitionId", "Name" }, new[]{ "DefinitionId", "Name" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue.Parser, new[]{ "Challenge" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionRequest.Parser, new[]{ "Meta", "FlowId", "Proof" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue.Parser, new[]{ "Connection" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionRequest.Parser, new[]{ "Meta", "ConnectionId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue.Parser, new[]{ "Connection" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionRequest), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionRequest.Parser, new[]{ "Meta", "ConnectionId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionResponse), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue), global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue.Parser, new[]{ "Connection" }, null, null, null, null)
           }));
     }
     #endregion
@@ -461,6 +700,10323 @@ namespace ArcForges.Contracts.LocalRpc.Platform.V1 {
           }
           case 42: {
             Sha256 = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// Private launch descriptors are descriptive only; verified process/stream ownership
+  /// and one-use HMAC secret establish identity. No discovery file or TCP fallback.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalEndpoint : pb::IMessage<LocalEndpoint>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalEndpoint> _parser = new pb::MessageParser<LocalEndpoint>(() => new LocalEndpoint());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalEndpoint> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalEndpoint() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalEndpoint(LocalEndpoint other) : this() {
+      transport_ = other.transport_;
+      address_ = other.address_;
+      instanceId_ = other.instanceId_ != null ? other.instanceId_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalEndpoint Clone() {
+      return new LocalEndpoint(this);
+    }
+
+    /// <summary>Field number for the "transport" field.</summary>
+    public const int TransportFieldNumber = 1;
+    private readonly static string TransportDefaultValue = "";
+
+    private string transport_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Transport {
+      get { return transport_ ?? TransportDefaultValue; }
+      set {
+        transport_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "transport" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasTransport {
+      get { return transport_ != null; }
+    }
+    /// <summary>Clears the value of the "transport" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearTransport() {
+      transport_ = null;
+    }
+
+    /// <summary>Field number for the "address" field.</summary>
+    public const int AddressFieldNumber = 2;
+    private readonly static string AddressDefaultValue = "";
+
+    private string address_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Address {
+      get { return address_ ?? AddressDefaultValue; }
+      set {
+        address_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "address" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasAddress {
+      get { return address_ != null; }
+    }
+    /// <summary>Clears the value of the "address" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearAddress() {
+      address_ = null;
+    }
+
+    /// <summary>Field number for the "instance_id" field.</summary>
+    public const int InstanceIdFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Id instanceId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id InstanceId {
+      get { return instanceId_; }
+      set {
+        instanceId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalEndpoint);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalEndpoint other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Transport != other.Transport) return false;
+      if (Address != other.Address) return false;
+      if (!object.Equals(InstanceId, other.InstanceId)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasTransport) hash ^= Transport.GetHashCode();
+      if (HasAddress) hash ^= Address.GetHashCode();
+      if (instanceId_ != null) hash ^= InstanceId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasTransport) {
+        output.WriteRawTag(10);
+        output.WriteString(Transport);
+      }
+      if (HasAddress) {
+        output.WriteRawTag(18);
+        output.WriteString(Address);
+      }
+      if (instanceId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(InstanceId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasTransport) {
+        output.WriteRawTag(10);
+        output.WriteString(Transport);
+      }
+      if (HasAddress) {
+        output.WriteRawTag(18);
+        output.WriteString(Address);
+      }
+      if (instanceId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(InstanceId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasTransport) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Transport);
+      }
+      if (HasAddress) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Address);
+      }
+      if (instanceId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InstanceId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalEndpoint other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasTransport) {
+        Transport = other.Transport;
+      }
+      if (other.HasAddress) {
+        Address = other.Address;
+      }
+      if (other.instanceId_ != null) {
+        if (instanceId_ == null) {
+          InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        InstanceId.MergeFrom(other.InstanceId);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Transport = input.ReadString();
+            break;
+          }
+          case 18: {
+            Address = input.ReadString();
+            break;
+          }
+          case 26: {
+            if (instanceId_ == null) {
+              InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstanceId);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Transport = input.ReadString();
+            break;
+          }
+          case 18: {
+            Address = input.ReadString();
+            break;
+          }
+          case 26: {
+            if (instanceId_ == null) {
+              InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstanceId);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class EndpointManifest : pb::IMessage<EndpointManifest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<EndpointManifest> _parser = new pb::MessageParser<EndpointManifest>(() => new EndpointManifest());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<EndpointManifest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public EndpointManifest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public EndpointManifest(EndpointManifest other) : this() {
+      _hasBits0 = other._hasBits0;
+      schemaVersion_ = other.schemaVersion_;
+      appId_ = other.appId_;
+      installationId_ = other.installationId_ != null ? other.installationId_.Clone() : null;
+      instanceId_ = other.instanceId_ != null ? other.instanceId_.Clone() : null;
+      processId_ = other.processId_;
+      processStartedAt_ = other.processStartedAt_ != null ? other.processStartedAt_.Clone() : null;
+      endpoint_ = other.endpoint_ != null ? other.endpoint_.Clone() : null;
+      buildHash_ = other.buildHash_;
+      contractSetHash_ = other.contractSetHash_;
+      contractMajors_ = other.contractMajors_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public EndpointManifest Clone() {
+      return new EndpointManifest(this);
+    }
+
+    /// <summary>Field number for the "schema_version" field.</summary>
+    public const int SchemaVersionFieldNumber = 1;
+    private readonly static string SchemaVersionDefaultValue = "";
+
+    private string schemaVersion_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string SchemaVersion {
+      get { return schemaVersion_ ?? SchemaVersionDefaultValue; }
+      set {
+        schemaVersion_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "schema_version" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasSchemaVersion {
+      get { return schemaVersion_ != null; }
+    }
+    /// <summary>Clears the value of the "schema_version" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearSchemaVersion() {
+      schemaVersion_ = null;
+    }
+
+    /// <summary>Field number for the "app_id" field.</summary>
+    public const int AppIdFieldNumber = 2;
+    private readonly static string AppIdDefaultValue = "";
+
+    private string appId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string AppId {
+      get { return appId_ ?? AppIdDefaultValue; }
+      set {
+        appId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "app_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasAppId {
+      get { return appId_ != null; }
+    }
+    /// <summary>Clears the value of the "app_id" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearAppId() {
+      appId_ = null;
+    }
+
+    /// <summary>Field number for the "installation_id" field.</summary>
+    public const int InstallationIdFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Id installationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id InstallationId {
+      get { return installationId_; }
+      set {
+        installationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "instance_id" field.</summary>
+    public const int InstanceIdFieldNumber = 4;
+    private global::ArcForges.Contracts.Foundation.V1.Id instanceId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id InstanceId {
+      get { return instanceId_; }
+      set {
+        instanceId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "process_id" field.</summary>
+    public const int ProcessIdFieldNumber = 5;
+    private readonly static ulong ProcessIdDefaultValue = 0UL;
+
+    private ulong processId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong ProcessId {
+      get { if ((_hasBits0 & 1) != 0) { return processId_; } else { return ProcessIdDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        processId_ = value;
+      }
+    }
+    /// <summary>Gets whether the "process_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasProcessId {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "process_id" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearProcessId() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "process_started_at" field.</summary>
+    public const int ProcessStartedAtFieldNumber = 6;
+    private global::ArcForges.Contracts.Foundation.V1.Instant processStartedAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ProcessStartedAt {
+      get { return processStartedAt_; }
+      set {
+        processStartedAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "endpoint" field.</summary>
+    public const int EndpointFieldNumber = 7;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint endpoint_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint Endpoint {
+      get { return endpoint_; }
+      set {
+        endpoint_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "build_hash" field.</summary>
+    public const int BuildHashFieldNumber = 8;
+    private readonly static string BuildHashDefaultValue = "";
+
+    private string buildHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string BuildHash {
+      get { return buildHash_ ?? BuildHashDefaultValue; }
+      set {
+        buildHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "build_hash" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasBuildHash {
+      get { return buildHash_ != null; }
+    }
+    /// <summary>Clears the value of the "build_hash" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearBuildHash() {
+      buildHash_ = null;
+    }
+
+    /// <summary>Field number for the "contract_set_hash" field.</summary>
+    public const int ContractSetHashFieldNumber = 9;
+    private readonly static string ContractSetHashDefaultValue = "";
+
+    private string contractSetHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ContractSetHash {
+      get { return contractSetHash_ ?? ContractSetHashDefaultValue; }
+      set {
+        contractSetHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "contract_set_hash" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasContractSetHash {
+      get { return contractSetHash_ != null; }
+    }
+    /// <summary>Clears the value of the "contract_set_hash" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearContractSetHash() {
+      contractSetHash_ = null;
+    }
+
+    /// <summary>Field number for the "contract_majors" field.</summary>
+    public const int ContractMajorsFieldNumber = 10;
+    private static readonly pb::FieldCodec<uint> _repeated_contractMajors_codec
+        = pb::FieldCodec.ForUInt32(82);
+    private readonly pbc::RepeatedField<uint> contractMajors_ = new pbc::RepeatedField<uint>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<uint> ContractMajors {
+      get { return contractMajors_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as EndpointManifest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(EndpointManifest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SchemaVersion != other.SchemaVersion) return false;
+      if (AppId != other.AppId) return false;
+      if (!object.Equals(InstallationId, other.InstallationId)) return false;
+      if (!object.Equals(InstanceId, other.InstanceId)) return false;
+      if (ProcessId != other.ProcessId) return false;
+      if (!object.Equals(ProcessStartedAt, other.ProcessStartedAt)) return false;
+      if (!object.Equals(Endpoint, other.Endpoint)) return false;
+      if (BuildHash != other.BuildHash) return false;
+      if (ContractSetHash != other.ContractSetHash) return false;
+      if(!contractMajors_.Equals(other.contractMajors_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasSchemaVersion) hash ^= SchemaVersion.GetHashCode();
+      if (HasAppId) hash ^= AppId.GetHashCode();
+      if (installationId_ != null) hash ^= InstallationId.GetHashCode();
+      if (instanceId_ != null) hash ^= InstanceId.GetHashCode();
+      if (HasProcessId) hash ^= ProcessId.GetHashCode();
+      if (processStartedAt_ != null) hash ^= ProcessStartedAt.GetHashCode();
+      if (endpoint_ != null) hash ^= Endpoint.GetHashCode();
+      if (HasBuildHash) hash ^= BuildHash.GetHashCode();
+      if (HasContractSetHash) hash ^= ContractSetHash.GetHashCode();
+      hash ^= contractMajors_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasSchemaVersion) {
+        output.WriteRawTag(10);
+        output.WriteString(SchemaVersion);
+      }
+      if (HasAppId) {
+        output.WriteRawTag(18);
+        output.WriteString(AppId);
+      }
+      if (installationId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(InstallationId);
+      }
+      if (instanceId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(InstanceId);
+      }
+      if (HasProcessId) {
+        output.WriteRawTag(40);
+        output.WriteUInt64(ProcessId);
+      }
+      if (processStartedAt_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(ProcessStartedAt);
+      }
+      if (endpoint_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(Endpoint);
+      }
+      if (HasBuildHash) {
+        output.WriteRawTag(66);
+        output.WriteString(BuildHash);
+      }
+      if (HasContractSetHash) {
+        output.WriteRawTag(74);
+        output.WriteString(ContractSetHash);
+      }
+      contractMajors_.WriteTo(output, _repeated_contractMajors_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasSchemaVersion) {
+        output.WriteRawTag(10);
+        output.WriteString(SchemaVersion);
+      }
+      if (HasAppId) {
+        output.WriteRawTag(18);
+        output.WriteString(AppId);
+      }
+      if (installationId_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(InstallationId);
+      }
+      if (instanceId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(InstanceId);
+      }
+      if (HasProcessId) {
+        output.WriteRawTag(40);
+        output.WriteUInt64(ProcessId);
+      }
+      if (processStartedAt_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(ProcessStartedAt);
+      }
+      if (endpoint_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(Endpoint);
+      }
+      if (HasBuildHash) {
+        output.WriteRawTag(66);
+        output.WriteString(BuildHash);
+      }
+      if (HasContractSetHash) {
+        output.WriteRawTag(74);
+        output.WriteString(ContractSetHash);
+      }
+      contractMajors_.WriteTo(ref output, _repeated_contractMajors_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasSchemaVersion) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SchemaVersion);
+      }
+      if (HasAppId) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AppId);
+      }
+      if (installationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InstallationId);
+      }
+      if (instanceId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InstanceId);
+      }
+      if (HasProcessId) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ProcessId);
+      }
+      if (processStartedAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ProcessStartedAt);
+      }
+      if (endpoint_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Endpoint);
+      }
+      if (HasBuildHash) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BuildHash);
+      }
+      if (HasContractSetHash) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContractSetHash);
+      }
+      size += contractMajors_.CalculateSize(_repeated_contractMajors_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(EndpointManifest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasSchemaVersion) {
+        SchemaVersion = other.SchemaVersion;
+      }
+      if (other.HasAppId) {
+        AppId = other.AppId;
+      }
+      if (other.installationId_ != null) {
+        if (installationId_ == null) {
+          InstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        InstallationId.MergeFrom(other.InstallationId);
+      }
+      if (other.instanceId_ != null) {
+        if (instanceId_ == null) {
+          InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        InstanceId.MergeFrom(other.InstanceId);
+      }
+      if (other.HasProcessId) {
+        ProcessId = other.ProcessId;
+      }
+      if (other.processStartedAt_ != null) {
+        if (processStartedAt_ == null) {
+          ProcessStartedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ProcessStartedAt.MergeFrom(other.ProcessStartedAt);
+      }
+      if (other.endpoint_ != null) {
+        if (endpoint_ == null) {
+          Endpoint = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint();
+        }
+        Endpoint.MergeFrom(other.Endpoint);
+      }
+      if (other.HasBuildHash) {
+        BuildHash = other.BuildHash;
+      }
+      if (other.HasContractSetHash) {
+        ContractSetHash = other.ContractSetHash;
+      }
+      contractMajors_.Add(other.contractMajors_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            SchemaVersion = input.ReadString();
+            break;
+          }
+          case 18: {
+            AppId = input.ReadString();
+            break;
+          }
+          case 26: {
+            if (installationId_ == null) {
+              InstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstallationId);
+            break;
+          }
+          case 34: {
+            if (instanceId_ == null) {
+              InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstanceId);
+            break;
+          }
+          case 40: {
+            ProcessId = input.ReadUInt64();
+            break;
+          }
+          case 50: {
+            if (processStartedAt_ == null) {
+              ProcessStartedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ProcessStartedAt);
+            break;
+          }
+          case 58: {
+            if (endpoint_ == null) {
+              Endpoint = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint();
+            }
+            input.ReadMessage(Endpoint);
+            break;
+          }
+          case 66: {
+            BuildHash = input.ReadString();
+            break;
+          }
+          case 74: {
+            ContractSetHash = input.ReadString();
+            break;
+          }
+          case 82:
+          case 80: {
+            contractMajors_.AddEntriesFrom(input, _repeated_contractMajors_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            SchemaVersion = input.ReadString();
+            break;
+          }
+          case 18: {
+            AppId = input.ReadString();
+            break;
+          }
+          case 26: {
+            if (installationId_ == null) {
+              InstallationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstallationId);
+            break;
+          }
+          case 34: {
+            if (instanceId_ == null) {
+              InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstanceId);
+            break;
+          }
+          case 40: {
+            ProcessId = input.ReadUInt64();
+            break;
+          }
+          case 50: {
+            if (processStartedAt_ == null) {
+              ProcessStartedAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ProcessStartedAt);
+            break;
+          }
+          case 58: {
+            if (endpoint_ == null) {
+              Endpoint = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint();
+            }
+            input.ReadMessage(Endpoint);
+            break;
+          }
+          case 66: {
+            BuildHash = input.ReadString();
+            break;
+          }
+          case 74: {
+            ContractSetHash = input.ReadString();
+            break;
+          }
+          case 82:
+          case 80: {
+            contractMajors_.AddEntriesFrom(ref input, _repeated_contractMajors_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// Public projections contain no tokens or secret references. The owning parent
+  /// verifies definition-hash-bound origins/scopes and current foreground consent.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorDefinition : pb::IMessage<ConnectorDefinition>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorDefinition> _parser = new pb::MessageParser<ConnectorDefinition>(() => new ConnectorDefinition());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorDefinition> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorDefinition() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorDefinition(ConnectorDefinition other) : this() {
+      definitionId_ = other.definitionId_;
+      packageId_ = other.packageId_;
+      packageVersion_ = other.packageVersion_;
+      manifestHash_ = other.manifestHash_;
+      authKind_ = other.authKind_;
+      origins_ = other.origins_.Clone();
+      scopes_ = other.scopes_.Clone();
+      capabilities_ = other.capabilities_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorDefinition Clone() {
+      return new ConnectorDefinition(this);
+    }
+
+    /// <summary>Field number for the "definition_id" field.</summary>
+    public const int DefinitionIdFieldNumber = 1;
+    private readonly static string DefinitionIdDefaultValue = "";
+
+    private string definitionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string DefinitionId {
+      get { return definitionId_ ?? DefinitionIdDefaultValue; }
+      set {
+        definitionId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "definition_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasDefinitionId {
+      get { return definitionId_ != null; }
+    }
+    /// <summary>Clears the value of the "definition_id" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearDefinitionId() {
+      definitionId_ = null;
+    }
+
+    /// <summary>Field number for the "package_id" field.</summary>
+    public const int PackageIdFieldNumber = 2;
+    private readonly static string PackageIdDefaultValue = "";
+
+    private string packageId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string PackageId {
+      get { return packageId_ ?? PackageIdDefaultValue; }
+      set {
+        packageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "package_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPackageId {
+      get { return packageId_ != null; }
+    }
+    /// <summary>Clears the value of the "package_id" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPackageId() {
+      packageId_ = null;
+    }
+
+    /// <summary>Field number for the "package_version" field.</summary>
+    public const int PackageVersionFieldNumber = 3;
+    private readonly static string PackageVersionDefaultValue = "";
+
+    private string packageVersion_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string PackageVersion {
+      get { return packageVersion_ ?? PackageVersionDefaultValue; }
+      set {
+        packageVersion_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "package_version" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPackageVersion {
+      get { return packageVersion_ != null; }
+    }
+    /// <summary>Clears the value of the "package_version" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPackageVersion() {
+      packageVersion_ = null;
+    }
+
+    /// <summary>Field number for the "manifest_hash" field.</summary>
+    public const int ManifestHashFieldNumber = 4;
+    private readonly static string ManifestHashDefaultValue = "";
+
+    private string manifestHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ManifestHash {
+      get { return manifestHash_ ?? ManifestHashDefaultValue; }
+      set {
+        manifestHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "manifest_hash" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasManifestHash {
+      get { return manifestHash_ != null; }
+    }
+    /// <summary>Clears the value of the "manifest_hash" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearManifestHash() {
+      manifestHash_ = null;
+    }
+
+    /// <summary>Field number for the "auth_kind" field.</summary>
+    public const int AuthKindFieldNumber = 5;
+    private readonly static string AuthKindDefaultValue = "";
+
+    private string authKind_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string AuthKind {
+      get { return authKind_ ?? AuthKindDefaultValue; }
+      set {
+        authKind_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "auth_kind" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasAuthKind {
+      get { return authKind_ != null; }
+    }
+    /// <summary>Clears the value of the "auth_kind" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearAuthKind() {
+      authKind_ = null;
+    }
+
+    /// <summary>Field number for the "origins" field.</summary>
+    public const int OriginsFieldNumber = 6;
+    private static readonly pb::FieldCodec<string> _repeated_origins_codec
+        = pb::FieldCodec.ForString(50);
+    private readonly pbc::RepeatedField<string> origins_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> Origins {
+      get { return origins_; }
+    }
+
+    /// <summary>Field number for the "scopes" field.</summary>
+    public const int ScopesFieldNumber = 7;
+    private static readonly pb::FieldCodec<string> _repeated_scopes_codec
+        = pb::FieldCodec.ForString(58);
+    private readonly pbc::RepeatedField<string> scopes_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> Scopes {
+      get { return scopes_; }
+    }
+
+    /// <summary>Field number for the "capabilities" field.</summary>
+    public const int CapabilitiesFieldNumber = 8;
+    private static readonly pb::FieldCodec<string> _repeated_capabilities_codec
+        = pb::FieldCodec.ForString(66);
+    private readonly pbc::RepeatedField<string> capabilities_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> Capabilities {
+      get { return capabilities_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorDefinition);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorDefinition other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DefinitionId != other.DefinitionId) return false;
+      if (PackageId != other.PackageId) return false;
+      if (PackageVersion != other.PackageVersion) return false;
+      if (ManifestHash != other.ManifestHash) return false;
+      if (AuthKind != other.AuthKind) return false;
+      if(!origins_.Equals(other.origins_)) return false;
+      if(!scopes_.Equals(other.scopes_)) return false;
+      if(!capabilities_.Equals(other.capabilities_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasDefinitionId) hash ^= DefinitionId.GetHashCode();
+      if (HasPackageId) hash ^= PackageId.GetHashCode();
+      if (HasPackageVersion) hash ^= PackageVersion.GetHashCode();
+      if (HasManifestHash) hash ^= ManifestHash.GetHashCode();
+      if (HasAuthKind) hash ^= AuthKind.GetHashCode();
+      hash ^= origins_.GetHashCode();
+      hash ^= scopes_.GetHashCode();
+      hash ^= capabilities_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasDefinitionId) {
+        output.WriteRawTag(10);
+        output.WriteString(DefinitionId);
+      }
+      if (HasPackageId) {
+        output.WriteRawTag(18);
+        output.WriteString(PackageId);
+      }
+      if (HasPackageVersion) {
+        output.WriteRawTag(26);
+        output.WriteString(PackageVersion);
+      }
+      if (HasManifestHash) {
+        output.WriteRawTag(34);
+        output.WriteString(ManifestHash);
+      }
+      if (HasAuthKind) {
+        output.WriteRawTag(42);
+        output.WriteString(AuthKind);
+      }
+      origins_.WriteTo(output, _repeated_origins_codec);
+      scopes_.WriteTo(output, _repeated_scopes_codec);
+      capabilities_.WriteTo(output, _repeated_capabilities_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasDefinitionId) {
+        output.WriteRawTag(10);
+        output.WriteString(DefinitionId);
+      }
+      if (HasPackageId) {
+        output.WriteRawTag(18);
+        output.WriteString(PackageId);
+      }
+      if (HasPackageVersion) {
+        output.WriteRawTag(26);
+        output.WriteString(PackageVersion);
+      }
+      if (HasManifestHash) {
+        output.WriteRawTag(34);
+        output.WriteString(ManifestHash);
+      }
+      if (HasAuthKind) {
+        output.WriteRawTag(42);
+        output.WriteString(AuthKind);
+      }
+      origins_.WriteTo(ref output, _repeated_origins_codec);
+      scopes_.WriteTo(ref output, _repeated_scopes_codec);
+      capabilities_.WriteTo(ref output, _repeated_capabilities_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasDefinitionId) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DefinitionId);
+      }
+      if (HasPackageId) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PackageId);
+      }
+      if (HasPackageVersion) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PackageVersion);
+      }
+      if (HasManifestHash) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ManifestHash);
+      }
+      if (HasAuthKind) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthKind);
+      }
+      size += origins_.CalculateSize(_repeated_origins_codec);
+      size += scopes_.CalculateSize(_repeated_scopes_codec);
+      size += capabilities_.CalculateSize(_repeated_capabilities_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorDefinition other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasDefinitionId) {
+        DefinitionId = other.DefinitionId;
+      }
+      if (other.HasPackageId) {
+        PackageId = other.PackageId;
+      }
+      if (other.HasPackageVersion) {
+        PackageVersion = other.PackageVersion;
+      }
+      if (other.HasManifestHash) {
+        ManifestHash = other.ManifestHash;
+      }
+      if (other.HasAuthKind) {
+        AuthKind = other.AuthKind;
+      }
+      origins_.Add(other.origins_);
+      scopes_.Add(other.scopes_);
+      capabilities_.Add(other.capabilities_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            DefinitionId = input.ReadString();
+            break;
+          }
+          case 18: {
+            PackageId = input.ReadString();
+            break;
+          }
+          case 26: {
+            PackageVersion = input.ReadString();
+            break;
+          }
+          case 34: {
+            ManifestHash = input.ReadString();
+            break;
+          }
+          case 42: {
+            AuthKind = input.ReadString();
+            break;
+          }
+          case 50: {
+            origins_.AddEntriesFrom(input, _repeated_origins_codec);
+            break;
+          }
+          case 58: {
+            scopes_.AddEntriesFrom(input, _repeated_scopes_codec);
+            break;
+          }
+          case 66: {
+            capabilities_.AddEntriesFrom(input, _repeated_capabilities_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            DefinitionId = input.ReadString();
+            break;
+          }
+          case 18: {
+            PackageId = input.ReadString();
+            break;
+          }
+          case 26: {
+            PackageVersion = input.ReadString();
+            break;
+          }
+          case 34: {
+            ManifestHash = input.ReadString();
+            break;
+          }
+          case 42: {
+            AuthKind = input.ReadString();
+            break;
+          }
+          case 50: {
+            origins_.AddEntriesFrom(ref input, _repeated_origins_codec);
+            break;
+          }
+          case 58: {
+            scopes_.AddEntriesFrom(ref input, _repeated_scopes_codec);
+            break;
+          }
+          case 66: {
+            capabilities_.AddEntriesFrom(ref input, _repeated_capabilities_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorConnection : pb::IMessage<ConnectorConnection>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorConnection> _parser = new pb::MessageParser<ConnectorConnection>(() => new ConnectorConnection());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorConnection> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorConnection() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorConnection(ConnectorConnection other) : this() {
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      definitionId_ = other.definitionId_;
+      name_ = other.name_;
+      state_ = other.state_;
+      scopes_ = other.scopes_.Clone();
+      revision_ = other.revision_ != null ? other.revision_.Clone() : null;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      reason_ = other.reason_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorConnection Clone() {
+      return new ConnectorConnection(this);
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "definition_id" field.</summary>
+    public const int DefinitionIdFieldNumber = 2;
+    private readonly static string DefinitionIdDefaultValue = "";
+
+    private string definitionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string DefinitionId {
+      get { return definitionId_ ?? DefinitionIdDefaultValue; }
+      set {
+        definitionId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "definition_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasDefinitionId {
+      get { return definitionId_ != null; }
+    }
+    /// <summary>Clears the value of the "definition_id" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearDefinitionId() {
+      definitionId_ = null;
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 3;
+    private readonly static string NameDefaultValue = "";
+
+    private string name_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_ ?? NameDefaultValue; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "name" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasName {
+      get { return name_ != null; }
+    }
+    /// <summary>Clears the value of the "name" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearName() {
+      name_ = null;
+    }
+
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 4;
+    private readonly static string StateDefaultValue = "";
+
+    private string state_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string State {
+      get { return state_ ?? StateDefaultValue; }
+      set {
+        state_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "state" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasState {
+      get { return state_ != null; }
+    }
+    /// <summary>Clears the value of the "state" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearState() {
+      state_ = null;
+    }
+
+    /// <summary>Field number for the "scopes" field.</summary>
+    public const int ScopesFieldNumber = 5;
+    private static readonly pb::FieldCodec<string> _repeated_scopes_codec
+        = pb::FieldCodec.ForString(42);
+    private readonly pbc::RepeatedField<string> scopes_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> Scopes {
+      get { return scopes_; }
+    }
+
+    /// <summary>Field number for the "revision" field.</summary>
+    public const int RevisionFieldNumber = 6;
+    private global::ArcForges.Contracts.Foundation.V1.Revision revision_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Revision Revision {
+      get { return revision_; }
+      set {
+        revision_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 7;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "reason" field.</summary>
+    public const int ReasonFieldNumber = 8;
+    private readonly static string ReasonDefaultValue = "";
+
+    private string reason_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Reason {
+      get { return reason_ ?? ReasonDefaultValue; }
+      set {
+        reason_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "reason" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasReason {
+      get { return reason_ != null; }
+    }
+    /// <summary>Clears the value of the "reason" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearReason() {
+      reason_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorConnection);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorConnection other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      if (DefinitionId != other.DefinitionId) return false;
+      if (Name != other.Name) return false;
+      if (State != other.State) return false;
+      if(!scopes_.Equals(other.scopes_)) return false;
+      if (!object.Equals(Revision, other.Revision)) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      if (Reason != other.Reason) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (HasDefinitionId) hash ^= DefinitionId.GetHashCode();
+      if (HasName) hash ^= Name.GetHashCode();
+      if (HasState) hash ^= State.GetHashCode();
+      hash ^= scopes_.GetHashCode();
+      if (revision_ != null) hash ^= Revision.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (HasReason) hash ^= Reason.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (connectionId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(ConnectionId);
+      }
+      if (HasDefinitionId) {
+        output.WriteRawTag(18);
+        output.WriteString(DefinitionId);
+      }
+      if (HasName) {
+        output.WriteRawTag(26);
+        output.WriteString(Name);
+      }
+      if (HasState) {
+        output.WriteRawTag(34);
+        output.WriteString(State);
+      }
+      scopes_.WriteTo(output, _repeated_scopes_codec);
+      if (revision_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(Revision);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (HasReason) {
+        output.WriteRawTag(66);
+        output.WriteString(Reason);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (connectionId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(ConnectionId);
+      }
+      if (HasDefinitionId) {
+        output.WriteRawTag(18);
+        output.WriteString(DefinitionId);
+      }
+      if (HasName) {
+        output.WriteRawTag(26);
+        output.WriteString(Name);
+      }
+      if (HasState) {
+        output.WriteRawTag(34);
+        output.WriteString(State);
+      }
+      scopes_.WriteTo(ref output, _repeated_scopes_codec);
+      if (revision_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(Revision);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (HasReason) {
+        output.WriteRawTag(66);
+        output.WriteString(Reason);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (HasDefinitionId) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DefinitionId);
+      }
+      if (HasName) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (HasState) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(State);
+      }
+      size += scopes_.CalculateSize(_repeated_scopes_codec);
+      if (revision_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Revision);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (HasReason) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Reason);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorConnection other) {
+      if (other == null) {
+        return;
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      if (other.HasDefinitionId) {
+        DefinitionId = other.DefinitionId;
+      }
+      if (other.HasName) {
+        Name = other.Name;
+      }
+      if (other.HasState) {
+        State = other.State;
+      }
+      scopes_.Add(other.scopes_);
+      if (other.revision_ != null) {
+        if (revision_ == null) {
+          Revision = new global::ArcForges.Contracts.Foundation.V1.Revision();
+        }
+        Revision.MergeFrom(other.Revision);
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      if (other.HasReason) {
+        Reason = other.Reason;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 18: {
+            DefinitionId = input.ReadString();
+            break;
+          }
+          case 26: {
+            Name = input.ReadString();
+            break;
+          }
+          case 34: {
+            State = input.ReadString();
+            break;
+          }
+          case 42: {
+            scopes_.AddEntriesFrom(input, _repeated_scopes_codec);
+            break;
+          }
+          case 50: {
+            if (revision_ == null) {
+              Revision = new global::ArcForges.Contracts.Foundation.V1.Revision();
+            }
+            input.ReadMessage(Revision);
+            break;
+          }
+          case 58: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 66: {
+            Reason = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 18: {
+            DefinitionId = input.ReadString();
+            break;
+          }
+          case 26: {
+            Name = input.ReadString();
+            break;
+          }
+          case 34: {
+            State = input.ReadString();
+            break;
+          }
+          case 42: {
+            scopes_.AddEntriesFrom(ref input, _repeated_scopes_codec);
+            break;
+          }
+          case 50: {
+            if (revision_ == null) {
+              Revision = new global::ArcForges.Contracts.Foundation.V1.Revision();
+            }
+            input.ReadMessage(Revision);
+            break;
+          }
+          case 58: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 66: {
+            Reason = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorChallenge : pb::IMessage<ConnectorChallenge>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorChallenge> _parser = new pb::MessageParser<ConnectorChallenge>(() => new ConnectorChallenge());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorChallenge> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorChallenge() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorChallenge(ConnectorChallenge other) : this() {
+      flowId_ = other.flowId_ != null ? other.flowId_.Clone() : null;
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      authorizationUrl_ = other.authorizationUrl_;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorChallenge Clone() {
+      return new ConnectorChallenge(this);
+    }
+
+    /// <summary>Field number for the "flow_id" field.</summary>
+    public const int FlowIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id flowId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id FlowId {
+      get { return flowId_; }
+      set {
+        flowId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 2;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "authorization_url" field.</summary>
+    public const int AuthorizationUrlFieldNumber = 3;
+    private readonly static string AuthorizationUrlDefaultValue = "";
+
+    private string authorizationUrl_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string AuthorizationUrl {
+      get { return authorizationUrl_ ?? AuthorizationUrlDefaultValue; }
+      set {
+        authorizationUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "authorization_url" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasAuthorizationUrl {
+      get { return authorizationUrl_ != null; }
+    }
+    /// <summary>Clears the value of the "authorization_url" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearAuthorizationUrl() {
+      authorizationUrl_ = null;
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 4;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorChallenge);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorChallenge other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(FlowId, other.FlowId)) return false;
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      if (AuthorizationUrl != other.AuthorizationUrl) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (flowId_ != null) hash ^= FlowId.GetHashCode();
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (HasAuthorizationUrl) hash ^= AuthorizationUrl.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (flowId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(FlowId);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(ConnectionId);
+      }
+      if (HasAuthorizationUrl) {
+        output.WriteRawTag(26);
+        output.WriteString(AuthorizationUrl);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (flowId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(FlowId);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(ConnectionId);
+      }
+      if (HasAuthorizationUrl) {
+        output.WriteRawTag(26);
+        output.WriteString(AuthorizationUrl);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (flowId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(FlowId);
+      }
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (HasAuthorizationUrl) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthorizationUrl);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorChallenge other) {
+      if (other == null) {
+        return;
+      }
+      if (other.flowId_ != null) {
+        if (flowId_ == null) {
+          FlowId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        FlowId.MergeFrom(other.FlowId);
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      if (other.HasAuthorizationUrl) {
+        AuthorizationUrl = other.AuthorizationUrl;
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (flowId_ == null) {
+              FlowId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(FlowId);
+            break;
+          }
+          case 18: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 26: {
+            AuthorizationUrl = input.ReadString();
+            break;
+          }
+          case 34: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (flowId_ == null) {
+              FlowId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(FlowId);
+            break;
+          }
+          case 18: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 26: {
+            AuthorizationUrl = input.ReadString();
+            break;
+          }
+          case 34: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// Secret input is delivered only to the owning secret boundary. Never log it,
+  /// include it in public projections, or persist it outside the encrypted store.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorProof : pb::IMessage<ConnectorProof>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorProof> _parser = new pb::MessageParser<ConnectorProof>(() => new ConnectorProof());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorProof> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorProof() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorProof(ConnectorProof other) : this() {
+      switch (other.ProofCase) {
+        case ProofOneofCase.CallbackReceipt:
+          CallbackReceipt = other.CallbackReceipt;
+          break;
+        case ProofOneofCase.PersonalToken:
+          PersonalToken = other.PersonalToken;
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorProof Clone() {
+      return new ConnectorProof(this);
+    }
+
+    /// <summary>Field number for the "callback_receipt" field.</summary>
+    public const int CallbackReceiptFieldNumber = 1;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string CallbackReceipt {
+      get { return HasCallbackReceipt ? (string) proof_ : ""; }
+      set {
+        proof_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        proofCase_ = ProofOneofCase.CallbackReceipt;
+      }
+    }
+    /// <summary>Gets whether the "callback_receipt" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasCallbackReceipt {
+      get { return proofCase_ == ProofOneofCase.CallbackReceipt; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "callback_receipt" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearCallbackReceipt() {
+      if (HasCallbackReceipt) {
+        ClearProof();
+      }
+    }
+
+    /// <summary>Field number for the "personal_token" field.</summary>
+    public const int PersonalTokenFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string PersonalToken {
+      get { return HasPersonalToken ? (string) proof_ : ""; }
+      set {
+        proof_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        proofCase_ = ProofOneofCase.PersonalToken;
+      }
+    }
+    /// <summary>Gets whether the "personal_token" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPersonalToken {
+      get { return proofCase_ == ProofOneofCase.PersonalToken; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "personal_token" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPersonalToken() {
+      if (HasPersonalToken) {
+        ClearProof();
+      }
+    }
+
+    private object proof_;
+    /// <summary>Enum of possible cases for the "proof" oneof.</summary>
+    public enum ProofOneofCase {
+      None = 0,
+      CallbackReceipt = 1,
+      PersonalToken = 2,
+    }
+    private ProofOneofCase proofCase_ = ProofOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ProofOneofCase ProofCase {
+      get { return proofCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearProof() {
+      proofCase_ = ProofOneofCase.None;
+      proof_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorProof);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorProof other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (CallbackReceipt != other.CallbackReceipt) return false;
+      if (PersonalToken != other.PersonalToken) return false;
+      if (ProofCase != other.ProofCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasCallbackReceipt) hash ^= CallbackReceipt.GetHashCode();
+      if (HasPersonalToken) hash ^= PersonalToken.GetHashCode();
+      hash ^= (int) proofCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasCallbackReceipt) {
+        output.WriteRawTag(10);
+        output.WriteString(CallbackReceipt);
+      }
+      if (HasPersonalToken) {
+        output.WriteRawTag(18);
+        output.WriteString(PersonalToken);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasCallbackReceipt) {
+        output.WriteRawTag(10);
+        output.WriteString(CallbackReceipt);
+      }
+      if (HasPersonalToken) {
+        output.WriteRawTag(18);
+        output.WriteString(PersonalToken);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasCallbackReceipt) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackReceipt);
+      }
+      if (HasPersonalToken) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PersonalToken);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorProof other) {
+      if (other == null) {
+        return;
+      }
+      switch (other.ProofCase) {
+        case ProofOneofCase.CallbackReceipt:
+          CallbackReceipt = other.CallbackReceipt;
+          break;
+        case ProofOneofCase.PersonalToken:
+          PersonalToken = other.PersonalToken;
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            CallbackReceipt = input.ReadString();
+            break;
+          }
+          case 18: {
+            PersonalToken = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            CallbackReceipt = input.ReadString();
+            break;
+          }
+          case 18: {
+            PersonalToken = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceChallengeRequest : pb::IMessage<LocalBootstrapServiceChallengeRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceChallengeRequest> _parser = new pb::MessageParser<LocalBootstrapServiceChallengeRequest>(() => new LocalBootstrapServiceChallengeRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceChallengeRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeRequest(LocalBootstrapServiceChallengeRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      instanceId_ = other.instanceId_ != null ? other.instanceId_.Clone() : null;
+      challenge_ = other.challenge_;
+      caller_ = other.caller_ != null ? other.caller_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeRequest Clone() {
+      return new LocalBootstrapServiceChallengeRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "instance_id" field.</summary>
+    public const int InstanceIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id instanceId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id InstanceId {
+      get { return instanceId_; }
+      set {
+        instanceId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "challenge" field.</summary>
+    public const int ChallengeFieldNumber = 11;
+    private readonly static pb::ByteString ChallengeDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString challenge_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Challenge {
+      get { return challenge_ ?? ChallengeDefaultValue; }
+      set {
+        challenge_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "challenge" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasChallenge {
+      get { return challenge_ != null; }
+    }
+    /// <summary>Clears the value of the "challenge" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearChallenge() {
+      challenge_ = null;
+    }
+
+    /// <summary>Field number for the "caller" field.</summary>
+    public const int CallerFieldNumber = 12;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest caller_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest Caller {
+      get { return caller_; }
+      set {
+        caller_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceChallengeRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceChallengeRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(InstanceId, other.InstanceId)) return false;
+      if (Challenge != other.Challenge) return false;
+      if (!object.Equals(Caller, other.Caller)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (instanceId_ != null) hash ^= InstanceId.GetHashCode();
+      if (HasChallenge) hash ^= Challenge.GetHashCode();
+      if (caller_ != null) hash ^= Caller.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (instanceId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(InstanceId);
+      }
+      if (HasChallenge) {
+        output.WriteRawTag(90);
+        output.WriteBytes(Challenge);
+      }
+      if (caller_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Caller);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (instanceId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(InstanceId);
+      }
+      if (HasChallenge) {
+        output.WriteRawTag(90);
+        output.WriteBytes(Challenge);
+      }
+      if (caller_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Caller);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (instanceId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InstanceId);
+      }
+      if (HasChallenge) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Challenge);
+      }
+      if (caller_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Caller);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceChallengeRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.instanceId_ != null) {
+        if (instanceId_ == null) {
+          InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        InstanceId.MergeFrom(other.InstanceId);
+      }
+      if (other.HasChallenge) {
+        Challenge = other.Challenge;
+      }
+      if (other.caller_ != null) {
+        if (caller_ == null) {
+          Caller = new global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest();
+        }
+        Caller.MergeFrom(other.Caller);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (instanceId_ == null) {
+              InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstanceId);
+            break;
+          }
+          case 90: {
+            Challenge = input.ReadBytes();
+            break;
+          }
+          case 98: {
+            if (caller_ == null) {
+              Caller = new global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest();
+            }
+            input.ReadMessage(Caller);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (instanceId_ == null) {
+              InstanceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(InstanceId);
+            break;
+          }
+          case 90: {
+            Challenge = input.ReadBytes();
+            break;
+          }
+          case 98: {
+            if (caller_ == null) {
+              Caller = new global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest();
+            }
+            input.ReadMessage(Caller);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceChallengeResponse : pb::IMessage<LocalBootstrapServiceChallengeResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceChallengeResponse> _parser = new pb::MessageParser<LocalBootstrapServiceChallengeResponse>(() => new LocalBootstrapServiceChallengeResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceChallengeResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeResponse(LocalBootstrapServiceChallengeResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeResponse Clone() {
+      return new LocalBootstrapServiceChallengeResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceChallengeResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceChallengeResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceChallengeResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceChallengeValue : pb::IMessage<LocalBootstrapServiceChallengeValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceChallengeValue> _parser = new pb::MessageParser<LocalBootstrapServiceChallengeValue>(() => new LocalBootstrapServiceChallengeValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceChallengeValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeValue(LocalBootstrapServiceChallengeValue other) : this() {
+      challengeId_ = other.challengeId_ != null ? other.challengeId_.Clone() : null;
+      serverChallenge_ = other.serverChallenge_;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      server_ = other.server_ != null ? other.server_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceChallengeValue Clone() {
+      return new LocalBootstrapServiceChallengeValue(this);
+    }
+
+    /// <summary>Field number for the "challenge_id" field.</summary>
+    public const int ChallengeIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id challengeId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ChallengeId {
+      get { return challengeId_; }
+      set {
+        challengeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "server_challenge" field.</summary>
+    public const int ServerChallengeFieldNumber = 11;
+    private readonly static pb::ByteString ServerChallengeDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString serverChallenge_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString ServerChallenge {
+      get { return serverChallenge_ ?? ServerChallengeDefaultValue; }
+      set {
+        serverChallenge_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "server_challenge" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasServerChallenge {
+      get { return serverChallenge_ != null; }
+    }
+    /// <summary>Clears the value of the "server_challenge" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearServerChallenge() {
+      serverChallenge_ = null;
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 12;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "server" field.</summary>
+    public const int ServerFieldNumber = 13;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest server_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest Server {
+      get { return server_; }
+      set {
+        server_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceChallengeValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceChallengeValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(ChallengeId, other.ChallengeId)) return false;
+      if (ServerChallenge != other.ServerChallenge) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      if (!object.Equals(Server, other.Server)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (challengeId_ != null) hash ^= ChallengeId.GetHashCode();
+      if (HasServerChallenge) hash ^= ServerChallenge.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (server_ != null) hash ^= Server.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (challengeId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ChallengeId);
+      }
+      if (HasServerChallenge) {
+        output.WriteRawTag(90);
+        output.WriteBytes(ServerChallenge);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (server_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(Server);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (challengeId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ChallengeId);
+      }
+      if (HasServerChallenge) {
+        output.WriteRawTag(90);
+        output.WriteBytes(ServerChallenge);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (server_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(Server);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (challengeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ChallengeId);
+      }
+      if (HasServerChallenge) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ServerChallenge);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (server_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Server);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceChallengeValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.challengeId_ != null) {
+        if (challengeId_ == null) {
+          ChallengeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ChallengeId.MergeFrom(other.ChallengeId);
+      }
+      if (other.HasServerChallenge) {
+        ServerChallenge = other.ServerChallenge;
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      if (other.server_ != null) {
+        if (server_ == null) {
+          Server = new global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest();
+        }
+        Server.MergeFrom(other.Server);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (challengeId_ == null) {
+              ChallengeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ChallengeId);
+            break;
+          }
+          case 90: {
+            ServerChallenge = input.ReadBytes();
+            break;
+          }
+          case 98: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 106: {
+            if (server_ == null) {
+              Server = new global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest();
+            }
+            input.ReadMessage(Server);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (challengeId_ == null) {
+              ChallengeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ChallengeId);
+            break;
+          }
+          case 90: {
+            ServerChallenge = input.ReadBytes();
+            break;
+          }
+          case 98: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 106: {
+            if (server_ == null) {
+              Server = new global::ArcForges.Contracts.LocalRpc.Platform.V1.EndpointManifest();
+            }
+            input.ReadMessage(Server);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceConfirmRequest : pb::IMessage<LocalBootstrapServiceConfirmRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceConfirmRequest> _parser = new pb::MessageParser<LocalBootstrapServiceConfirmRequest>(() => new LocalBootstrapServiceConfirmRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceConfirmRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[10]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmRequest(LocalBootstrapServiceConfirmRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      challengeId_ = other.challengeId_ != null ? other.challengeId_.Clone() : null;
+      proof_ = other.proof_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmRequest Clone() {
+      return new LocalBootstrapServiceConfirmRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "challenge_id" field.</summary>
+    public const int ChallengeIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id challengeId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ChallengeId {
+      get { return challengeId_; }
+      set {
+        challengeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "proof" field.</summary>
+    public const int ProofFieldNumber = 11;
+    private readonly static pb::ByteString ProofDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString proof_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString Proof {
+      get { return proof_ ?? ProofDefaultValue; }
+      set {
+        proof_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "proof" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasProof {
+      get { return proof_ != null; }
+    }
+    /// <summary>Clears the value of the "proof" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearProof() {
+      proof_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceConfirmRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceConfirmRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ChallengeId, other.ChallengeId)) return false;
+      if (Proof != other.Proof) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (challengeId_ != null) hash ^= ChallengeId.GetHashCode();
+      if (HasProof) hash ^= Proof.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (challengeId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ChallengeId);
+      }
+      if (HasProof) {
+        output.WriteRawTag(90);
+        output.WriteBytes(Proof);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (challengeId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ChallengeId);
+      }
+      if (HasProof) {
+        output.WriteRawTag(90);
+        output.WriteBytes(Proof);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (challengeId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ChallengeId);
+      }
+      if (HasProof) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Proof);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceConfirmRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.challengeId_ != null) {
+        if (challengeId_ == null) {
+          ChallengeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ChallengeId.MergeFrom(other.ChallengeId);
+      }
+      if (other.HasProof) {
+        Proof = other.Proof;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (challengeId_ == null) {
+              ChallengeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ChallengeId);
+            break;
+          }
+          case 90: {
+            Proof = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (challengeId_ == null) {
+              ChallengeId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ChallengeId);
+            break;
+          }
+          case 90: {
+            Proof = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceConfirmResponse : pb::IMessage<LocalBootstrapServiceConfirmResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceConfirmResponse> _parser = new pb::MessageParser<LocalBootstrapServiceConfirmResponse>(() => new LocalBootstrapServiceConfirmResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceConfirmResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[11]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmResponse(LocalBootstrapServiceConfirmResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmResponse Clone() {
+      return new LocalBootstrapServiceConfirmResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceConfirmResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceConfirmResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceConfirmResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceConfirmValue : pb::IMessage<LocalBootstrapServiceConfirmValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceConfirmValue> _parser = new pb::MessageParser<LocalBootstrapServiceConfirmValue>(() => new LocalBootstrapServiceConfirmValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceConfirmValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmValue(LocalBootstrapServiceConfirmValue other) : this() {
+      peerNonce_ = other.peerNonce_;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceConfirmValue Clone() {
+      return new LocalBootstrapServiceConfirmValue(this);
+    }
+
+    /// <summary>Field number for the "peer_nonce" field.</summary>
+    public const int PeerNonceFieldNumber = 10;
+    private readonly static pb::ByteString PeerNonceDefaultValue = pb::ByteString.Empty;
+
+    private pb::ByteString peerNonce_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString PeerNonce {
+      get { return peerNonce_ ?? PeerNonceDefaultValue; }
+      set {
+        peerNonce_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "peer_nonce" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPeerNonce {
+      get { return peerNonce_ != null; }
+    }
+    /// <summary>Clears the value of the "peer_nonce" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPeerNonce() {
+      peerNonce_ = null;
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceConfirmValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceConfirmValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (PeerNonce != other.PeerNonce) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasPeerNonce) hash ^= PeerNonce.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasPeerNonce) {
+        output.WriteRawTag(82);
+        output.WriteBytes(PeerNonce);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasPeerNonce) {
+        output.WriteRawTag(82);
+        output.WriteBytes(PeerNonce);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasPeerNonce) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(PeerNonce);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceConfirmValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasPeerNonce) {
+        PeerNonce = other.PeerNonce;
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            PeerNonce = input.ReadBytes();
+            break;
+          }
+          case 90: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            PeerNonce = input.ReadBytes();
+            break;
+          }
+          case 90: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceRenewRequest : pb::IMessage<LocalBootstrapServiceRenewRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceRenewRequest> _parser = new pb::MessageParser<LocalBootstrapServiceRenewRequest>(() => new LocalBootstrapServiceRenewRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceRenewRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewRequest(LocalBootstrapServiceRenewRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewRequest Clone() {
+      return new LocalBootstrapServiceRenewRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceRenewRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceRenewRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceRenewRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceRenewResponse : pb::IMessage<LocalBootstrapServiceRenewResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceRenewResponse> _parser = new pb::MessageParser<LocalBootstrapServiceRenewResponse>(() => new LocalBootstrapServiceRenewResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceRenewResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[14]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewResponse(LocalBootstrapServiceRenewResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewResponse Clone() {
+      return new LocalBootstrapServiceRenewResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceRenewResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceRenewResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceRenewResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class LocalBootstrapServiceRenewValue : pb::IMessage<LocalBootstrapServiceRenewValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LocalBootstrapServiceRenewValue> _parser = new pb::MessageParser<LocalBootstrapServiceRenewValue>(() => new LocalBootstrapServiceRenewValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LocalBootstrapServiceRenewValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewValue(LocalBootstrapServiceRenewValue other) : this() {
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LocalBootstrapServiceRenewValue Clone() {
+      return new LocalBootstrapServiceRenewValue(this);
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LocalBootstrapServiceRenewValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LocalBootstrapServiceRenewValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (expiresAt_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (expiresAt_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LocalBootstrapServiceRenewValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceListDefinitionsRequest : pb::IMessage<ConnectorBrokerServiceListDefinitionsRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceListDefinitionsRequest> _parser = new pb::MessageParser<ConnectorBrokerServiceListDefinitionsRequest>(() => new ConnectorBrokerServiceListDefinitionsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceListDefinitionsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[16]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsRequest(ConnectorBrokerServiceListDefinitionsRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsRequest Clone() {
+      return new ConnectorBrokerServiceListDefinitionsRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.PageRequest page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageRequest Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceListDefinitionsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceListDefinitionsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceListDefinitionsRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceListDefinitionsResponse : pb::IMessage<ConnectorBrokerServiceListDefinitionsResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceListDefinitionsResponse> _parser = new pb::MessageParser<ConnectorBrokerServiceListDefinitionsResponse>(() => new ConnectorBrokerServiceListDefinitionsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceListDefinitionsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[17]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsResponse(ConnectorBrokerServiceListDefinitionsResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsResponse Clone() {
+      return new ConnectorBrokerServiceListDefinitionsResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceListDefinitionsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceListDefinitionsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceListDefinitionsResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceListDefinitionsValue : pb::IMessage<ConnectorBrokerServiceListDefinitionsValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceListDefinitionsValue> _parser = new pb::MessageParser<ConnectorBrokerServiceListDefinitionsValue>(() => new ConnectorBrokerServiceListDefinitionsValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceListDefinitionsValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[18]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsValue(ConnectorBrokerServiceListDefinitionsValue other) : this() {
+      items_ = other.items_.Clone();
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListDefinitionsValue Clone() {
+      return new ConnectorBrokerServiceListDefinitionsValue(this);
+    }
+
+    /// <summary>Field number for the "items" field.</summary>
+    public const int ItemsFieldNumber = 10;
+    private static readonly pb::FieldCodec<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(82, global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition.Parser);
+    private readonly pbc::RepeatedField<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition> items_ = new pbc::RepeatedField<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorDefinition> Items {
+      get { return items_; }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.PageState page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageState Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceListDefinitionsValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceListDefinitionsValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!items_.Equals(other.items_)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= items_.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      items_.WriteTo(output, _repeated_items_codec);
+      if (page_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      items_.WriteTo(ref output, _repeated_items_codec);
+      if (page_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += items_.CalculateSize(_repeated_items_codec);
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceListDefinitionsValue other) {
+      if (other == null) {
+        return;
+      }
+      items_.Add(other.items_);
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            items_.AddEntriesFrom(input, _repeated_items_codec);
+            break;
+          }
+          case 90: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            items_.AddEntriesFrom(ref input, _repeated_items_codec);
+            break;
+          }
+          case 90: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceListConnectionsRequest : pb::IMessage<ConnectorBrokerServiceListConnectionsRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceListConnectionsRequest> _parser = new pb::MessageParser<ConnectorBrokerServiceListConnectionsRequest>(() => new ConnectorBrokerServiceListConnectionsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceListConnectionsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[19]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsRequest(ConnectorBrokerServiceListConnectionsRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsRequest Clone() {
+      return new ConnectorBrokerServiceListConnectionsRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.PageRequest page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageRequest Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceListConnectionsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceListConnectionsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceListConnectionsRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceListConnectionsResponse : pb::IMessage<ConnectorBrokerServiceListConnectionsResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceListConnectionsResponse> _parser = new pb::MessageParser<ConnectorBrokerServiceListConnectionsResponse>(() => new ConnectorBrokerServiceListConnectionsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceListConnectionsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[20]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsResponse(ConnectorBrokerServiceListConnectionsResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsResponse Clone() {
+      return new ConnectorBrokerServiceListConnectionsResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceListConnectionsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceListConnectionsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceListConnectionsResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceListConnectionsValue : pb::IMessage<ConnectorBrokerServiceListConnectionsValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceListConnectionsValue> _parser = new pb::MessageParser<ConnectorBrokerServiceListConnectionsValue>(() => new ConnectorBrokerServiceListConnectionsValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceListConnectionsValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[21]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsValue(ConnectorBrokerServiceListConnectionsValue other) : this() {
+      items_ = other.items_.Clone();
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceListConnectionsValue Clone() {
+      return new ConnectorBrokerServiceListConnectionsValue(this);
+    }
+
+    /// <summary>Field number for the "items" field.</summary>
+    public const int ItemsFieldNumber = 10;
+    private static readonly pb::FieldCodec<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(82, global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection.Parser);
+    private readonly pbc::RepeatedField<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection> items_ = new pbc::RepeatedField<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection> Items {
+      get { return items_; }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.PageState page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageState Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceListConnectionsValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceListConnectionsValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!items_.Equals(other.items_)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= items_.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      items_.WriteTo(output, _repeated_items_codec);
+      if (page_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      items_.WriteTo(ref output, _repeated_items_codec);
+      if (page_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += items_.CalculateSize(_repeated_items_codec);
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceListConnectionsValue other) {
+      if (other == null) {
+        return;
+      }
+      items_.Add(other.items_);
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            items_.AddEntriesFrom(input, _repeated_items_codec);
+            break;
+          }
+          case 90: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            items_.AddEntriesFrom(ref input, _repeated_items_codec);
+            break;
+          }
+          case 90: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceBeginConnectionRequest : pb::IMessage<ConnectorBrokerServiceBeginConnectionRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceBeginConnectionRequest> _parser = new pb::MessageParser<ConnectorBrokerServiceBeginConnectionRequest>(() => new ConnectorBrokerServiceBeginConnectionRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceBeginConnectionRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[22]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionRequest(ConnectorBrokerServiceBeginConnectionRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      definitionId_ = other.definitionId_;
+      name_ = other.name_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionRequest Clone() {
+      return new ConnectorBrokerServiceBeginConnectionRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "definition_id" field.</summary>
+    public const int DefinitionIdFieldNumber = 11;
+    private readonly static string DefinitionIdDefaultValue = "";
+
+    private string definitionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string DefinitionId {
+      get { return definitionId_ ?? DefinitionIdDefaultValue; }
+      set {
+        definitionId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "definition_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasDefinitionId {
+      get { return definitionId_ != null; }
+    }
+    /// <summary>Clears the value of the "definition_id" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearDefinitionId() {
+      definitionId_ = null;
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 12;
+    private readonly static string NameDefaultValue = "";
+
+    private string name_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_ ?? NameDefaultValue; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "name" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasName {
+      get { return name_ != null; }
+    }
+    /// <summary>Clears the value of the "name" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearName() {
+      name_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceBeginConnectionRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceBeginConnectionRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      if (DefinitionId != other.DefinitionId) return false;
+      if (Name != other.Name) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (HasDefinitionId) hash ^= DefinitionId.GetHashCode();
+      if (HasName) hash ^= Name.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConnectionId);
+      }
+      if (HasDefinitionId) {
+        output.WriteRawTag(90);
+        output.WriteString(DefinitionId);
+      }
+      if (HasName) {
+        output.WriteRawTag(98);
+        output.WriteString(Name);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConnectionId);
+      }
+      if (HasDefinitionId) {
+        output.WriteRawTag(90);
+        output.WriteString(DefinitionId);
+      }
+      if (HasName) {
+        output.WriteRawTag(98);
+        output.WriteString(Name);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (HasDefinitionId) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DefinitionId);
+      }
+      if (HasName) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceBeginConnectionRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      if (other.HasDefinitionId) {
+        DefinitionId = other.DefinitionId;
+      }
+      if (other.HasName) {
+        Name = other.Name;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 90: {
+            DefinitionId = input.ReadString();
+            break;
+          }
+          case 98: {
+            Name = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+          case 90: {
+            DefinitionId = input.ReadString();
+            break;
+          }
+          case 98: {
+            Name = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceBeginConnectionResponse : pb::IMessage<ConnectorBrokerServiceBeginConnectionResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceBeginConnectionResponse> _parser = new pb::MessageParser<ConnectorBrokerServiceBeginConnectionResponse>(() => new ConnectorBrokerServiceBeginConnectionResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceBeginConnectionResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[23]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionResponse(ConnectorBrokerServiceBeginConnectionResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionResponse Clone() {
+      return new ConnectorBrokerServiceBeginConnectionResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceBeginConnectionResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceBeginConnectionResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceBeginConnectionResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceBeginConnectionValue : pb::IMessage<ConnectorBrokerServiceBeginConnectionValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceBeginConnectionValue> _parser = new pb::MessageParser<ConnectorBrokerServiceBeginConnectionValue>(() => new ConnectorBrokerServiceBeginConnectionValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceBeginConnectionValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[24]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionValue(ConnectorBrokerServiceBeginConnectionValue other) : this() {
+      challenge_ = other.challenge_ != null ? other.challenge_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceBeginConnectionValue Clone() {
+      return new ConnectorBrokerServiceBeginConnectionValue(this);
+    }
+
+    /// <summary>Field number for the "challenge" field.</summary>
+    public const int ChallengeFieldNumber = 10;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge challenge_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge Challenge {
+      get { return challenge_; }
+      set {
+        challenge_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceBeginConnectionValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceBeginConnectionValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Challenge, other.Challenge)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (challenge_ != null) hash ^= Challenge.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (challenge_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Challenge);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (challenge_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Challenge);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (challenge_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Challenge);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceBeginConnectionValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.challenge_ != null) {
+        if (challenge_ == null) {
+          Challenge = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge();
+        }
+        Challenge.MergeFrom(other.Challenge);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (challenge_ == null) {
+              Challenge = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge();
+            }
+            input.ReadMessage(Challenge);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (challenge_ == null) {
+              Challenge = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorChallenge();
+            }
+            input.ReadMessage(Challenge);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceCompleteConnectionRequest : pb::IMessage<ConnectorBrokerServiceCompleteConnectionRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceCompleteConnectionRequest> _parser = new pb::MessageParser<ConnectorBrokerServiceCompleteConnectionRequest>(() => new ConnectorBrokerServiceCompleteConnectionRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceCompleteConnectionRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[25]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionRequest(ConnectorBrokerServiceCompleteConnectionRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      flowId_ = other.flowId_ != null ? other.flowId_.Clone() : null;
+      proof_ = other.proof_ != null ? other.proof_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionRequest Clone() {
+      return new ConnectorBrokerServiceCompleteConnectionRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "flow_id" field.</summary>
+    public const int FlowIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id flowId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id FlowId {
+      get { return flowId_; }
+      set {
+        flowId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "proof" field.</summary>
+    public const int ProofFieldNumber = 11;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof proof_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof Proof {
+      get { return proof_; }
+      set {
+        proof_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceCompleteConnectionRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceCompleteConnectionRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(FlowId, other.FlowId)) return false;
+      if (!object.Equals(Proof, other.Proof)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (flowId_ != null) hash ^= FlowId.GetHashCode();
+      if (proof_ != null) hash ^= Proof.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (flowId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(FlowId);
+      }
+      if (proof_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Proof);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (flowId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(FlowId);
+      }
+      if (proof_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Proof);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (flowId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(FlowId);
+      }
+      if (proof_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Proof);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceCompleteConnectionRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.flowId_ != null) {
+        if (flowId_ == null) {
+          FlowId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        FlowId.MergeFrom(other.FlowId);
+      }
+      if (other.proof_ != null) {
+        if (proof_ == null) {
+          Proof = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof();
+        }
+        Proof.MergeFrom(other.Proof);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (flowId_ == null) {
+              FlowId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(FlowId);
+            break;
+          }
+          case 90: {
+            if (proof_ == null) {
+              Proof = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof();
+            }
+            input.ReadMessage(Proof);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (flowId_ == null) {
+              FlowId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(FlowId);
+            break;
+          }
+          case 90: {
+            if (proof_ == null) {
+              Proof = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorProof();
+            }
+            input.ReadMessage(Proof);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceCompleteConnectionResponse : pb::IMessage<ConnectorBrokerServiceCompleteConnectionResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceCompleteConnectionResponse> _parser = new pb::MessageParser<ConnectorBrokerServiceCompleteConnectionResponse>(() => new ConnectorBrokerServiceCompleteConnectionResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceCompleteConnectionResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[26]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionResponse(ConnectorBrokerServiceCompleteConnectionResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionResponse Clone() {
+      return new ConnectorBrokerServiceCompleteConnectionResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceCompleteConnectionResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceCompleteConnectionResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceCompleteConnectionResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceCompleteConnectionValue : pb::IMessage<ConnectorBrokerServiceCompleteConnectionValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceCompleteConnectionValue> _parser = new pb::MessageParser<ConnectorBrokerServiceCompleteConnectionValue>(() => new ConnectorBrokerServiceCompleteConnectionValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceCompleteConnectionValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[27]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionValue(ConnectorBrokerServiceCompleteConnectionValue other) : this() {
+      connection_ = other.connection_ != null ? other.connection_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceCompleteConnectionValue Clone() {
+      return new ConnectorBrokerServiceCompleteConnectionValue(this);
+    }
+
+    /// <summary>Field number for the "connection" field.</summary>
+    public const int ConnectionFieldNumber = 10;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection connection_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection Connection {
+      get { return connection_; }
+      set {
+        connection_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceCompleteConnectionValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceCompleteConnectionValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Connection, other.Connection)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (connection_ != null) hash ^= Connection.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (connection_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Connection);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (connection_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Connection);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (connection_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Connection);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceCompleteConnectionValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.connection_ != null) {
+        if (connection_ == null) {
+          Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+        }
+        Connection.MergeFrom(other.Connection);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (connection_ == null) {
+              Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+            }
+            input.ReadMessage(Connection);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (connection_ == null) {
+              Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+            }
+            input.ReadMessage(Connection);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceGetConnectionRequest : pb::IMessage<ConnectorBrokerServiceGetConnectionRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceGetConnectionRequest> _parser = new pb::MessageParser<ConnectorBrokerServiceGetConnectionRequest>(() => new ConnectorBrokerServiceGetConnectionRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceGetConnectionRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[28]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionRequest(ConnectorBrokerServiceGetConnectionRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionRequest Clone() {
+      return new ConnectorBrokerServiceGetConnectionRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceGetConnectionRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceGetConnectionRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConnectionId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConnectionId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceGetConnectionRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceGetConnectionResponse : pb::IMessage<ConnectorBrokerServiceGetConnectionResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceGetConnectionResponse> _parser = new pb::MessageParser<ConnectorBrokerServiceGetConnectionResponse>(() => new ConnectorBrokerServiceGetConnectionResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceGetConnectionResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[29]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionResponse(ConnectorBrokerServiceGetConnectionResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionResponse Clone() {
+      return new ConnectorBrokerServiceGetConnectionResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceGetConnectionResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceGetConnectionResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceGetConnectionResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceGetConnectionValue : pb::IMessage<ConnectorBrokerServiceGetConnectionValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceGetConnectionValue> _parser = new pb::MessageParser<ConnectorBrokerServiceGetConnectionValue>(() => new ConnectorBrokerServiceGetConnectionValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceGetConnectionValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[30]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionValue(ConnectorBrokerServiceGetConnectionValue other) : this() {
+      connection_ = other.connection_ != null ? other.connection_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceGetConnectionValue Clone() {
+      return new ConnectorBrokerServiceGetConnectionValue(this);
+    }
+
+    /// <summary>Field number for the "connection" field.</summary>
+    public const int ConnectionFieldNumber = 10;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection connection_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection Connection {
+      get { return connection_; }
+      set {
+        connection_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceGetConnectionValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceGetConnectionValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Connection, other.Connection)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (connection_ != null) hash ^= Connection.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (connection_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Connection);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (connection_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Connection);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (connection_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Connection);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceGetConnectionValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.connection_ != null) {
+        if (connection_ == null) {
+          Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+        }
+        Connection.MergeFrom(other.Connection);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (connection_ == null) {
+              Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+            }
+            input.ReadMessage(Connection);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (connection_ == null) {
+              Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+            }
+            input.ReadMessage(Connection);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceRevokeConnectionRequest : pb::IMessage<ConnectorBrokerServiceRevokeConnectionRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceRevokeConnectionRequest> _parser = new pb::MessageParser<ConnectorBrokerServiceRevokeConnectionRequest>(() => new ConnectorBrokerServiceRevokeConnectionRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceRevokeConnectionRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[31]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionRequest(ConnectorBrokerServiceRevokeConnectionRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      connectionId_ = other.connectionId_ != null ? other.connectionId_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionRequest Clone() {
+      return new ConnectorBrokerServiceRevokeConnectionRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "connection_id" field.</summary>
+    public const int ConnectionIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id connectionId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConnectionId {
+      get { return connectionId_; }
+      set {
+        connectionId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceRevokeConnectionRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceRevokeConnectionRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ConnectionId, other.ConnectionId)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (connectionId_ != null) hash ^= ConnectionId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConnectionId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (connectionId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConnectionId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (connectionId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConnectionId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceRevokeConnectionRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.connectionId_ != null) {
+        if (connectionId_ == null) {
+          ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConnectionId.MergeFrom(other.ConnectionId);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (connectionId_ == null) {
+              ConnectionId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConnectionId);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceRevokeConnectionResponse : pb::IMessage<ConnectorBrokerServiceRevokeConnectionResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceRevokeConnectionResponse> _parser = new pb::MessageParser<ConnectorBrokerServiceRevokeConnectionResponse>(() => new ConnectorBrokerServiceRevokeConnectionResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceRevokeConnectionResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[32]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionResponse(ConnectorBrokerServiceRevokeConnectionResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionResponse Clone() {
+      return new ConnectorBrokerServiceRevokeConnectionResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceRevokeConnectionResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceRevokeConnectionResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceRevokeConnectionResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ConnectorBrokerServiceRevokeConnectionValue : pb::IMessage<ConnectorBrokerServiceRevokeConnectionValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ConnectorBrokerServiceRevokeConnectionValue> _parser = new pb::MessageParser<ConnectorBrokerServiceRevokeConnectionValue>(() => new ConnectorBrokerServiceRevokeConnectionValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ConnectorBrokerServiceRevokeConnectionValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor.MessageTypes[33]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionValue(ConnectorBrokerServiceRevokeConnectionValue other) : this() {
+      connection_ = other.connection_ != null ? other.connection_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ConnectorBrokerServiceRevokeConnectionValue Clone() {
+      return new ConnectorBrokerServiceRevokeConnectionValue(this);
+    }
+
+    /// <summary>Field number for the "connection" field.</summary>
+    public const int ConnectionFieldNumber = 10;
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection connection_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection Connection {
+      get { return connection_; }
+      set {
+        connection_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ConnectorBrokerServiceRevokeConnectionValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ConnectorBrokerServiceRevokeConnectionValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Connection, other.Connection)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (connection_ != null) hash ^= Connection.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (connection_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Connection);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (connection_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Connection);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (connection_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Connection);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ConnectorBrokerServiceRevokeConnectionValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.connection_ != null) {
+        if (connection_ == null) {
+          Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+        }
+        Connection.MergeFrom(other.Connection);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (connection_ == null) {
+              Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+            }
+            input.ReadMessage(Connection);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (connection_ == null) {
+              Connection = new global::ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorConnection();
+            }
+            input.ReadMessage(Connection);
             break;
           }
         }
