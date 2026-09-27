@@ -221,7 +221,9 @@
           "required": true,
           "maxUtf8Bytes": 65536
         },
-        "boxes": {}
+        "boxes": {
+          "maxItems": 1024
+        }
       }
     },
     "arcforges.local.sandbox.v1.SandboxBufferAck": {

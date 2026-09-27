@@ -58,6 +58,11 @@ public static class SandboxProfile
         return true;
     }
 
+    /// <summary>Applies the 64 KiB bound to the complete encoded extraction response, including its envelope.</summary>
+    public static bool IsValid(ContentSandboxServiceExtractPdfTextResponse value) =>
+        Shape.IsValid(value) && value.CalculateSize() <= 65536 &&
+        (value.Value is null || IsValid(value.Value.Text));
+
     private static bool CompleteUtf16(string value)
     {
         for (int i = 0; i < value.Length; i++)
