@@ -237,6 +237,7 @@ class DependencyAdmission(unittest.TestCase):
         current = 'eb06d2aaa28fe2df9b67638826c1f79fc7c9186be605160c2c8b48cfec9cd914'
         latest = '044f72f24c1e3def8f062b13f1cb4623c81d04f4dfaeab0936d8e15c2f8729ad'
         merged = 'ef5c0d7def7947ad7c7467eb15da29d4358cfff641659dbd571ba9b8f99aa8d7'
+        formatted = 'a620fa8949c0792ec676ae3556b5c276e0c1f8b1aac846aa3b5ac4b09e339802'
         historic = json.loads(subprocess.check_output(['git', 'show', '970cf59fa53fb3d398d617555a832db8edef5146:' + receipt], cwd=ROOT))
         # The retained intermediate receipt refers to pre-rebase 1691927; its public
         # access blob was independently byte-verified in Design87/Plan55 review.
@@ -244,7 +245,8 @@ class DependencyAdmission(unittest.TestCase):
         for revision, expected in [('b6a000496703829801fcff0b269cfe59200c408a', middle),
                                    ('a222f72df9221f0f92279b702a7132c905b23949', current),
                                    ('b771db98b4ae518f96161f8fba81f191276692f0', latest),
-                                   ('509cf357551a3bec377aea0f1f165c444e6b3c65', merged)]:
+                                   ('509cf357551a3bec377aea0f1f165c444e6b3c65', merged),
+                                   ('f2ec7aa84b03827f2986fdcccf213fbd076a256f', formatted)]:
             source = subprocess.check_output(['git', 'show', revision + ':' + access], cwd=ROOT)
             self.assertEqual(hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(), expected)
         other_keys = ['eng/provenance/records/dokka-combokeys-licence-r1.json',
@@ -256,8 +258,8 @@ class DependencyAdmission(unittest.TestCase):
             digest = hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest()
             self.assertEqual(historic['review']['inputHashes'][key], digest)
             other.append((key, digest))
-        expected_rows = [[(access, middle), (access, current), (access, latest), (access, merged)],
-                         [(access, old), (access, middle), (access, current), (access, latest), (access, merged), *other]]
+        expected_rows = [[(access, middle), (access, current), (access, latest), (access, merged), (access, formatted)],
+                         [(access, old), (access, middle), (access, current), (access, latest), (access, merged), (access, formatted), *other]]
         for allow, target, rows in zip(allowances, ['eng/policy/dependency-policy.json', receipt], expected_rows, strict=True):
             self.assertEqual(allow['targetRules'], ['generic-api-key'])
             self.assertEqual(allow['condition'], 'AND')
@@ -515,7 +517,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 2, 6, 4, 8])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 2, 6, 5, 9])
 
 
 if __name__ == '__main__':
