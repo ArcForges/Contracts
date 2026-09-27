@@ -67,6 +67,7 @@ var catalogues = new Dictionary<string, IReadOnlyList<ServiceDescriptor>>(String
     ["ArcForges.Contracts.PublicApi"] = ArcForges.Contracts.PublicApi.ContractServices.All,
     ["ArcForges.Sdk.Contracts"] = ArcForges.Sdk.Contracts.ContractServices.All,
     ["ArcForges.Contracts.LocalRpc.Platform"] = ArcForges.Contracts.LocalRpc.Platform.ContractServices.All,
+    ["ArcForges.Contracts.LocalRpc.Sandbox"] = ArcForges.Contracts.LocalRpc.Sandbox.ContractServices.All,
 };
 foreach (var package in services.GetProperty("csharp").EnumerateObject())
 {

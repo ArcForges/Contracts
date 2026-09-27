@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
+  "sourceCommit": "84f9811ea04f87a85ce94f496c390144d912c617",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -17,12 +17,12 @@
     {
       "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
       "access": "internal",
-      "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6"
+      "sha256": "519bd579aa83cfaa00e05d981c8d646524bddb8c27be22e67573c190e5762800"
     },
     {
       "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
       "access": "internal",
-      "sha256": "f97dbd60a9bc471bfc58f0cc8998b40e3fef4ddb8b10dbea8906e89fafe02574"
+      "sha256": "2276569cf048bc33f84f6e8d4114fdb4ffdf520fd25e0fb67b37c3ab8d25f5ba"
     },
     {
       "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
@@ -42,7 +42,7 @@
     {
       "path": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public",
-      "sha256": "675025c66cca55cf3771c0a4aadc6731501119f406bf5337001b8c8fb29a3703"
+      "sha256": "188c3667e1887926efd0df3bd3cb3574a2d8573ee0271171c7f96622d5dc8642"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -73,50 +73,8 @@
       "access": "public"
     },
     {
-      "name": "arcforges.extensions.v1.Contribution",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
       "name": "arcforges.extensions.v1.ExtensionHostService",
       "kind": "service",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceHandshakeRequest",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceHandshakeResponse",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceHandshakeValue",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceInvokeRequest",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceInvokeResponse",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceInvokeValue",
-      "kind": "message",
       "file": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public"
     },
@@ -139,37 +97,7 @@
       "access": "public"
     },
     {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceStopRequest",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceStopResponse",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.ExtensionHostServiceStopValue",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
       "name": "arcforges.extensions.v1.ExtensionLease",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.FrozenContext",
-      "kind": "message",
-      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
-      "access": "public"
-    },
-    {
-      "name": "arcforges.extensions.v1.Invocation",
       "kind": "message",
       "file": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public"
@@ -511,223 +439,361 @@
       "access": "internal"
     },
     {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerService",
-      "kind": "service",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorChallenge",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorConnection",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorDefinition",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.ConnectorProof",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.EndpointManifest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapService",
-      "kind": "service",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceChallengeRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceChallengeResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceChallengeValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceConfirmRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceConfirmResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceConfirmValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewRequest",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewResponse",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
-      "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewValue",
-      "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
-      "access": "internal"
-    },
-    {
       "name": "arcforges.local.platform.v1.LocalChunk",
       "kind": "message",
       "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
       "access": "internal"
     },
     {
-      "name": "arcforges.local.platform.v1.LocalEndpoint",
+      "name": "arcforges.local.sandbox.v1.ContentSandboxService",
+      "kind": "service",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferRequest",
       "kind": "message",
-      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxBufferAck",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxBufferDescriptor",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxImageChannel",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxImageInfo",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
       "access": "internal"
     },
     {
       "name": "arcforges.local.sandbox.v1.SandboxLimits",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxPdfPage",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxPdfText",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxRegion",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxSession",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxSlotGrant",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxTag",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.sandbox.v1.SandboxTextBox",
       "kind": "message",
       "file": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
       "access": "internal"
@@ -1342,89 +1408,8 @@
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/Platform.cs",
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
-      "types": [
-        "PlatformReflection",
-        "LocalChunk",
-        "LocalEndpoint",
-        "EndpointManifest",
-        "ConnectorDefinition",
-        "ConnectorConnection",
-        "ConnectorChallenge",
-        "ConnectorProof",
-        "proof_",
-        "ProofOneofCase",
-        "LocalBootstrapServiceChallengeRequest",
-        "LocalBootstrapServiceChallengeResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "LocalBootstrapServiceChallengeValue",
-        "LocalBootstrapServiceConfirmRequest",
-        "LocalBootstrapServiceConfirmResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "LocalBootstrapServiceConfirmValue",
-        "LocalBootstrapServiceRenewRequest",
-        "LocalBootstrapServiceRenewResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "LocalBootstrapServiceRenewValue",
-        "ConnectorBrokerServiceListDefinitionsRequest",
-        "ConnectorBrokerServiceListDefinitionsResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ConnectorBrokerServiceListDefinitionsValue",
-        "ConnectorBrokerServiceListConnectionsRequest",
-        "ConnectorBrokerServiceListConnectionsResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ConnectorBrokerServiceListConnectionsValue",
-        "ConnectorBrokerServiceBeginConnectionRequest",
-        "ConnectorBrokerServiceBeginConnectionResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ConnectorBrokerServiceBeginConnectionValue",
-        "ConnectorBrokerServiceCompleteConnectionRequest",
-        "ConnectorBrokerServiceCompleteConnectionResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ConnectorBrokerServiceCompleteConnectionValue",
-        "ConnectorBrokerServiceGetConnectionRequest",
-        "ConnectorBrokerServiceGetConnectionResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ConnectorBrokerServiceGetConnectionValue",
-        "ConnectorBrokerServiceRevokeConnectionRequest",
-        "ConnectorBrokerServiceRevokeConnectionResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ConnectorBrokerServiceRevokeConnectionValue"
-      ],
-      "sha256": "2b4f72271af73cd4bc15a5e4092f93e07b2e9492dc58afe1cbf6f88e7263a533",
-      "kind": "generated"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/PlatformGrpc.cs",
-      "package": "ArcForges.Contracts.LocalRpc.Platform",
-      "access": "internal",
-      "types": [
-        "LocalBootstrapService",
-        "__Helper_MessageCache",
-        "LocalBootstrapServiceBase",
-        "LocalBootstrapServiceClient",
-        "ConnectorBrokerService",
-        "__Helper_MessageCache",
-        "ConnectorBrokerServiceBase",
-        "ConnectorBrokerServiceClient"
-      ],
-      "sha256": "2d488540963668729ab83dac0a90d39fd51dbb89d56cae1407048a8da094604e",
-      "kind": "generated"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Services/ContractServices.g.cs",
-      "package": "ArcForges.Contracts.LocalRpc.Platform",
-      "access": "internal",
-      "types": ["ContractServices"],
-      "sha256": "0c004985e983b5fcc4b58a66d6d3f63f277ae8ff66965d608d76fa075eb22572",
+      "types": ["PlatformReflection", "LocalChunk"],
+      "sha256": "22d31db7bb514b215d5aa20e6cd230aed7ede730d303bca9670d90a3f05a56f1",
       "kind": "generated"
     },
     {
@@ -1432,15 +1417,126 @@
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "81e13c72b24b7aa6600947493af6af7bb71bb34796bfcc84d576ee8fea0e804a",
+      "sha256": "e891a89ecc2d704d3e4e91b5b2f8c8358f59afd9669bc01eb119b4cb78e6405b",
       "kind": "generated"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Proto/Sandbox.cs",
       "package": "ArcForges.Contracts.LocalRpc.Sandbox",
       "access": "internal",
-      "types": ["SandboxReflection", "SandboxLimits"],
-      "sha256": "bd1bf0afbdc8fe7ef1890e13760705b3713a13b7de0230c01b7b1e43ea0e7269",
+      "types": [
+        "SandboxReflection",
+        "SandboxLimits",
+        "SandboxInput",
+        "SandboxSlotGrant",
+        "SandboxSession",
+        "SandboxTag",
+        "SandboxRegion",
+        "SandboxImageChannel",
+        "SandboxImageInfo",
+        "SandboxPdfPage",
+        "SandboxTextBox",
+        "SandboxPdfText",
+        "SandboxBufferAck",
+        "SandboxBufferDescriptor",
+        "ContentSandboxServiceOpenSessionRequest",
+        "ContentSandboxServiceOpenSessionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceOpenSessionValue",
+        "ContentSandboxServiceRenewSessionRequest",
+        "ContentSandboxServiceRenewSessionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceRenewSessionValue",
+        "ContentSandboxServiceGrantSlotRequest",
+        "ContentSandboxServiceGrantSlotResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceGrantSlotValue",
+        "ContentSandboxServiceAckBufferRequest",
+        "ContentSandboxServiceAckBufferResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceAckBufferValue",
+        "ContentSandboxServiceOpenImageRequest",
+        "ContentSandboxServiceOpenImageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceOpenImageValue",
+        "ContentSandboxServiceGetImageInfoRequest",
+        "ContentSandboxServiceGetImageInfoResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceGetImageInfoValue",
+        "ContentSandboxServiceReadImageTileRequest",
+        "ContentSandboxServiceReadImageTileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceReadImageTileValue",
+        "ContentSandboxServiceCloseImageRequest",
+        "ContentSandboxServiceCloseImageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceCloseImageValue",
+        "ContentSandboxServiceOpenPdfRequest",
+        "ContentSandboxServiceOpenPdfResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceOpenPdfValue",
+        "ContentSandboxServiceGetPdfPageRequest",
+        "ContentSandboxServiceGetPdfPageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceGetPdfPageValue",
+        "ContentSandboxServiceExtractPdfTextRequest",
+        "ContentSandboxServiceExtractPdfTextResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceExtractPdfTextValue",
+        "ContentSandboxServiceRenderPdfTileRequest",
+        "ContentSandboxServiceRenderPdfTileResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceRenderPdfTileValue",
+        "ContentSandboxServiceClosePdfRequest",
+        "ContentSandboxServiceClosePdfResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceClosePdfValue",
+        "ContentSandboxServiceCancelSessionRequest",
+        "ContentSandboxServiceCancelSessionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceCancelSessionValue",
+        "ContentSandboxServiceCloseSessionRequest",
+        "ContentSandboxServiceCloseSessionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContentSandboxServiceCloseSessionValue"
+      ],
+      "sha256": "ec28d37b07a0d4fc2f0964601607c434f732ffdc6920eef50cc4127c7712b541",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Proto/SandboxGrpc.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "access": "internal",
+      "types": [
+        "ContentSandboxService",
+        "__Helper_MessageCache",
+        "ContentSandboxServiceBase",
+        "ContentSandboxServiceClient"
+      ],
+      "sha256": "48467c75b700ae04f7e077182c1dfee956cca150970f26658e5208c7a4689135",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Services/ContractServices.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "access": "internal",
+      "types": ["ContractServices"],
+      "sha256": "03b2b987e1393d59baba0a0c1168cee66352b16ce0fac41aaf25e7171971c97a",
       "kind": "generated"
     },
     {
@@ -1448,8 +1544,16 @@
       "package": "ArcForges.Contracts.LocalRpc.Sandbox",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "4e233d99e0cb8ec38a8a1646abf8e491d3920024db4f5c7a389f75874214341a",
+      "sha256": "da234955a36a3ccadc1b9fa6850316b025c4547bf375b82754c59d63a1a53548",
       "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/SandboxProfile.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Sandbox",
+      "access": "internal",
+      "types": ["ContentSandboxPolicy", "EndpointRole", "SandboxProfile"],
+      "sha256": "7a3b075fdb3505b4eab6e8787f25f234978475f35bcb877f5f4eb104f42630e6",
+      "kind": "authored"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/Proto/Scope.cs",
@@ -2102,7 +2206,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "54adcbc348c3fb9a7a35a70a0ad48146d98e79c3868c3365c2a811f26f07a7f2",
+      "sha256": "ea623ae7660c45c74d7b10309f2bcff7241a5fb4d6f7730e170f411df7c2eb06",
       "kind": "generated"
     },
     {
@@ -2132,29 +2236,9 @@
         "ExtensionHostServiceRenewLeaseResponse",
         "outcome_",
         "OutcomeOneofCase",
-        "ExtensionHostServiceRenewLeaseValue",
-        "Contribution",
-        "FrozenContext",
-        "Invocation",
-        "precondition_",
-        "PreconditionOneofCase",
-        "ExtensionHostServiceHandshakeRequest",
-        "ExtensionHostServiceHandshakeResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ExtensionHostServiceHandshakeValue",
-        "ExtensionHostServiceInvokeRequest",
-        "ExtensionHostServiceInvokeResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ExtensionHostServiceInvokeValue",
-        "ExtensionHostServiceStopRequest",
-        "ExtensionHostServiceStopResponse",
-        "outcome_",
-        "OutcomeOneofCase",
-        "ExtensionHostServiceStopValue"
+        "ExtensionHostServiceRenewLeaseValue"
       ],
-      "sha256": "43fab39d309834a6745afecf14373e5f395cfcc69039c10adaaf66e88670d556",
+      "sha256": "79e3c1de76e534df603d721b9da1a8cdcb0f8b4737d4c776b469d90c2937c447",
       "kind": "generated"
     },
     {
@@ -2167,7 +2251,7 @@
         "ExtensionHostServiceBase",
         "ExtensionHostServiceClient"
       ],
-      "sha256": "919a0e6507b5e6f4eece2e9b25d04f5cd7417c8349e2bd92b011bcab6a14c474",
+      "sha256": "b9d73d5c8d06bebfdb00a3fc52ec7abf9c809700e32207240ee552fcc917473c",
       "kind": "generated"
     },
     {
@@ -5438,7 +5522,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "2bdfc483b30e1f17e3dd60d123ffdcef737f62f07a98f81bff3f4debc3d10cb3",
+      "sha256": "1e1149b7e2e4bd55e48c030aceb273fb053380fd4419a0ff0aea8f9cc2dd1527",
       "kind": "generated"
     },
     {
@@ -5745,7 +5829,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "53f5c721b8731cce293fe6f4d9ea07df6f8fe5d55872a2ce5ec28f4ef5f6b564"
+      "sha256": "e8e16b108ca1dda3e22251de7c2dd1f667b6821ea5c62c4498ea3f4d2057a11c"
     },
     {
       "path": "gradle.properties",
@@ -5765,11 +5849,15 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95"
+      "sha256": "107aa6bfaac6dc3ce8bc3df4621e8ad112baa711286a03e7f6760bedc2d05ab3"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
       "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117"
+    },
+    {
+      "path": "internal/proto/constraints/con-04-content-sandbox.json",
+      "sha256": "88fc4ce159f686a263f3cf87598e51b6ebea5667002aabcb525ee7c548747977"
     },
     {
       "path": "internal/proto/constraints/operator-baseline.json",
@@ -5778,10 +5866,6 @@
     {
       "path": "internal/proto/constraints/platform-baseline.json",
       "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a"
-    },
-    {
-      "path": "internal/proto/constraints/platform.json",
-      "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2"
     },
     {
       "path": "internal/proto/constraints/sandbox-baseline.json",
@@ -5829,7 +5913,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200"
+      "sha256": "1ed8dbf334210b87fcaacc3b72ba00539e4d6fab0ca53eabcc5183d363424577"
     },
     {
       "path": "public/proto/constraints/events-baseline.json",
@@ -5838,10 +5922,6 @@
     {
       "path": "public/proto/constraints/extensions-baseline.json",
       "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e"
-    },
-    {
-      "path": "public/proto/constraints/extensions.json",
-      "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae"
     },
     {
       "path": "public/proto/constraints/foundation-baseline.json",
@@ -5881,19 +5961,19 @@
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
-      "sha256": "07aea46af64a73384a6e393a9a42d5f78579b833517131f47b7897277ab4a5a6"
+      "sha256": "07d07fa1db0b0d39d8ce92819270b28cf825ba5e41f7a952f81439eed4b5f24b"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json",
-      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
+      "sha256": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj",
-      "sha256": "f7385e84978291ea74162ed555ddbfa81ea44926d0b2cbb584039a97e5d27869"
+      "sha256": "01fd7df18b072d733a2171860952dea1c774e89f1f9602ece4da3c36eb646f20"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/packages.lock.json",
-      "sha256": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e"
+      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
@@ -5925,7 +6005,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Cli/packages.lock.json",
-      "sha256": "b82fce1d2e52e143a0c83b6807b7207a720dd70479ff61fa95f9325bbfbbc3f3"
+      "sha256": "953b0fd0a6201157ff334804b5bbadf6d6de0c212416c200ff8873e3db1cc449"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
@@ -5957,7 +6037,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json",
-      "sha256": "0c7b05824fdd61702898b2d3c3297d40f19fde0a10ffcc9851920620c4168296"
+      "sha256": "8f1549cd1c68627821ac23754b1c09a9ad164956097ee7e7f8bd8e59e0a974dc"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
@@ -5965,15 +6045,15 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json",
-      "sha256": "4a90644c21c833eda8fa5d74e2e850860a34605c026f3983114149f162a4e38a"
+      "sha256": "89318d08cf51665d2f4a44ad801b47cbf06a59ea73df828aecaea01b8dc94512"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
-      "sha256": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d"
+      "sha256": "3fa1d4a377776b1d659628471bf5a238eb85933a5517258dd5471dbc7ecea49f"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json",
-      "sha256": "0490ab15d029c97f1015d0483d419737a7963c4d7be002247d917eac684f74ce"
+      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
     },
     {
       "path": "src/public/kotlin/contract-fixtures/build.gradle.kts",
