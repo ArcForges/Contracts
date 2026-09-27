@@ -854,7 +854,5 @@
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/PlatformGrpc.cs": "contract-bindings-con05-r1",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Services/ContractServices.g.cs": "contract-bindings-con05-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r8"
-  ]
+  "artifacts": ["dokka-documentation-resources-r8"]
 }

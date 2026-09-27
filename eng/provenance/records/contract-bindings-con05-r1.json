@@ -3,7 +3,7 @@
   "id": "contract-bindings-con05-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "970cf59fa53fb3d398d617555a832db8edef5146",
+  "sourceCommit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -1961,7 +1961,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "970cf59fa53fb3d398d617555a832db8edef5146",
+        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2011,7 +2011,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "970cf59fa53fb3d398d617555a832db8edef5146",
+        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2031,7 +2031,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "970cf59fa53fb3d398d617555a832db8edef5146",
+        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
         "paths": [
           "eng/generate_fixtures.py"
         ],
@@ -2053,7 +2053,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "970cf59fa53fb3d398d617555a832db8edef5146",
+        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2119,7 +2119,7 @@
           },
           {
             "path": "fixtures/internal/con-05-extension-connector-bootstrap.json",
-            "sha256": "03d6c53fe4d96ef84d21142136e4754eaa0aa6aec717fe240c65f3a3058a81b5",
+            "sha256": "bea95aa3351a9d73558ee9d39b13eda69b5ff20aee3c0235e106f3ef5cba626d",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2189,7 +2189,7 @@
           },
           {
             "path": "internal/proto/constraints.json",
-            "sha256": "477c4bfaf3fa240f552d615db3ebffc7dbba3334d2e8963756ee52e77bd82155",
+            "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2209,7 +2209,7 @@
           },
           {
             "path": "internal/proto/constraints/platform.json",
-            "sha256": "35287a9174b69333d61e12501cf661f4a4546b51a777f7fc8b91c95eb9bb9ee1",
+            "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2264,7 +2264,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "9e558da7ca3055ac852f1837aa5402d544942c8c87c64bf774663a1702ebe0d9",
+            "sha256": "8fb6ccb8233504efe2793b51a52ef2d8f024ad0ae161652b47c21b59be525511",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2279,7 +2279,7 @@
           },
           {
             "path": "public/proto/constraints/extensions.json",
-            "sha256": "3fc1b9d778abe7c199e9a5137e3d7da344657eb98a263aff07c82f0fbdf6bf4e",
+            "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2301,7 +2301,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "970cf59fa53fb3d398d617555a832db8edef5146",
+        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2367,7 +2367,7 @@
           },
           {
             "path": "fixtures/internal/con-05-extension-connector-bootstrap.json",
-            "sha256": "03d6c53fe4d96ef84d21142136e4754eaa0aa6aec717fe240c65f3a3058a81b5",
+            "sha256": "bea95aa3351a9d73558ee9d39b13eda69b5ff20aee3c0235e106f3ef5cba626d",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2437,7 +2437,7 @@
           },
           {
             "path": "internal/proto/constraints.json",
-            "sha256": "477c4bfaf3fa240f552d615db3ebffc7dbba3334d2e8963756ee52e77bd82155",
+            "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2457,7 +2457,7 @@
           },
           {
             "path": "internal/proto/constraints/platform.json",
-            "sha256": "35287a9174b69333d61e12501cf661f4a4546b51a777f7fc8b91c95eb9bb9ee1",
+            "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2512,7 +2512,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "9e558da7ca3055ac852f1837aa5402d544942c8c87c64bf774663a1702ebe0d9",
+            "sha256": "8fb6ccb8233504efe2793b51a52ef2d8f024ad0ae161652b47c21b59be525511",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2527,7 +2527,7 @@
           },
           {
             "path": "public/proto/constraints/extensions.json",
-            "sha256": "3fc1b9d778abe7c199e9a5137e3d7da344657eb98a263aff07c82f0fbdf6bf4e",
+            "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2557,7 +2557,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Official CON.01 loader generation succeeded. Generated C# StructureTests build passed with zero warnings/errors using existing SDK10.0.401 diagnostic adapter preserving ILLink/ILCompiler10.0.11; CON.05 envelopes/oneofs/roundtrips, 86 inherited shape cases, 339 foundation cases and canonical hash vectors passed. Seven offline CON.05 groups passed. Retained pinned10.0.400 CI remains required. No broker/OS authorization, secret custody or live connector runtime proof is claimed.",
-    "baselineCommit": "970cf59fa53fb3d398d617555a832db8edef5146",
+    "baselineCommit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
     "reconciliation": false
   },
   "supersedes": "contract-bindings-con16-r1",
