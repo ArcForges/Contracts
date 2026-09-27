@@ -168,14 +168,15 @@ class DependencyAdmission(unittest.TestCase):
         # the scanned historical receipt remains in the task ancestry after rebase.
         old = json.loads(subprocess.check_output(['git', 'show', 'edbcf96c6684e31b9eceb880576813286fc0a01d:' + receipt], cwd=ROOT))
         self.assertEqual(old['review']['inputHashes'][access], historical)
-        hashes = json.loads((ROOT / receipt).read_text())['review']['inputHashes']
+        hashes = json.loads(subprocess.check_output(['git', 'show', 'a353a1f24d1b04e5e7e44edec3b10ac23ca10e19:' + receipt], cwd=ROOT))['review']['inputHashes']
         other = ['eng/provenance/records/dokka-combokeys-licence-r1.json',
                  'eng/provenance/records/dokka-object-keys-licence-r1.json',
                  'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
         rows = [[(access, digest) for _, digest in sources],
                 [(access, historical)] + [(access, digest) for _, digest in sources] + [(key, hashes[key]) for key in other]]
         for key in other:
-            self.assertEqual(hashlib.sha256((ROOT / key).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), hashes[key])
+            source = subprocess.check_output(['git', 'show', 'a353a1f24d1b04e5e7e44edec3b10ac23ca10e19:' + key], cwd=ROOT)
+            self.assertEqual(hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(), hashes[key])
         for group, path, expected in zip(groups, ['eng/policy/dependency-policy.json', receipt], rows, strict=True):
             self.assertEqual(group['targetRules'], ['generic-api-key'])
             self.assertEqual(group['condition'], 'AND')
