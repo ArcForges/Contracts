@@ -19,9 +19,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "extension-child"
-        ]
+        "actorKinds": ["extension-child"]
       }
     },
     {
@@ -85,9 +83,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "owning-parent"
-        ]
+        "actorKinds": ["owning-parent"]
       }
     },
     {
@@ -189,13 +185,9 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       },
-      "launchRoles": [
-        "owning-parent"
-      ],
+      "launchRoles": ["owning-parent"],
       "requireLaunchRole": true
     },
     {
@@ -216,13 +208,9 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       },
-      "launchRoles": [
-        "owning-parent"
-      ],
+      "launchRoles": ["owning-parent"],
       "requireLaunchRole": true
     },
     {
@@ -243,13 +231,9 @@
         "localPresence": false,
         "egress": "definition-hash-bound-provider-origins-scopes",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       },
-      "launchRoles": [
-        "owning-parent"
-      ],
+      "launchRoles": ["owning-parent"],
       "requireLaunchRole": true
     },
     {
@@ -270,13 +254,9 @@
         "localPresence": false,
         "egress": "definition-hash-bound-provider-origins-scopes",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       },
-      "launchRoles": [
-        "owning-parent"
-      ],
+      "launchRoles": ["owning-parent"],
       "requireLaunchRole": true
     },
     {
@@ -297,13 +277,9 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       },
-      "launchRoles": [
-        "owning-parent"
-      ],
+      "launchRoles": ["owning-parent"],
       "requireLaunchRole": true
     },
     {
@@ -324,13 +300,9 @@
         "localPresence": false,
         "egress": "definition-hash-bound-existing-provider-revocation",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       },
-      "launchRoles": [
-        "owning-parent"
-      ],
+      "launchRoles": ["owning-parent"],
       "requireLaunchRole": true
     }
   ]

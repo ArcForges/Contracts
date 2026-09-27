@@ -371,15 +371,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": true
@@ -404,15 +398,9 @@
         "proofKind": "personalToken",
         "authKind": "personalToken",
         "origin": null,
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": true
@@ -437,15 +425,9 @@
         "proofKind": "personalToken",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -470,15 +452,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -503,15 +479,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -536,15 +506,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -569,15 +533,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -602,15 +560,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -635,15 +587,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -668,15 +614,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -701,15 +641,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -734,15 +668,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -767,15 +695,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -800,15 +722,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://evil.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -833,16 +749,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read",
-          "write"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read", "write"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -867,15 +776,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -900,15 +803,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": false
       },
       "valid": false
@@ -933,15 +830,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": true
@@ -966,15 +857,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -999,15 +884,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": true
@@ -1032,15 +911,9 @@
         "proofKind": "callbackReceipt",
         "authKind": "oauth2",
         "origin": "https://provider.example",
-        "allowedOrigins": [
-          "https://provider.example"
-        ],
-        "scopes": [
-          "read"
-        ],
-        "allowedScopes": [
-          "read"
-        ],
+        "allowedOrigins": ["https://provider.example"],
+        "scopes": ["read"],
+        "allowedScopes": ["read"],
         "parentAlive": true
       },
       "valid": false
@@ -1109,17 +982,8 @@
     }
   ],
   "services": {
-    "arcforges.extensions.v1.ExtensionHostService": [
-      "Handshake",
-      "Invoke",
-      "RenewLease",
-      "Stop"
-    ],
-    "arcforges.local.platform.v1.LocalBootstrapService": [
-      "Challenge",
-      "Confirm",
-      "Renew"
-    ],
+    "arcforges.extensions.v1.ExtensionHostService": ["Handshake", "Invoke", "RenewLease", "Stop"],
+    "arcforges.local.platform.v1.LocalBootstrapService": ["Challenge", "Confirm", "Renew"],
     "arcforges.local.platform.v1.ConnectorBrokerService": [
       "ListDefinitions",
       "ListConnections",

@@ -127,9 +127,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.extensions.v1.ExtensionHostServiceHandshakeValue": {
       "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeValue",
@@ -159,9 +157,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.extensions.v1.ExtensionHostServiceInvokeValue": {
       "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeValue",
@@ -196,9 +192,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.extensions.v1.ExtensionHostServiceStopValue": {
       "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopValue",

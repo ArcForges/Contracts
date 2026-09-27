@@ -21,9 +21,7 @@
           "maxUtf8Bytes": 262144
         }
       },
-      "oneofRequired": [
-        "context"
-      ]
+      "oneofRequired": ["context"]
     },
     "arcforges.local.platform.v1.LocalChunk": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk",
@@ -46,9 +44,7 @@
           "pattern": "^[0-9a-f]{64}$"
         }
       },
-      "rules": [
-        "chunkOffsets"
-      ]
+      "rules": ["chunkOffsets"]
     },
     "arcforges.local.platform.v1.LocalEndpoint": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalEndpoint",
@@ -57,10 +53,7 @@
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
           "minLength": 1,
-          "enumValues": [
-            "pipe",
-            "uds"
-          ]
+          "enumValues": ["pipe", "uds"]
         },
         "address": {
           "required": true,
@@ -151,11 +144,7 @@
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
           "minLength": 1,
-          "enumValues": [
-            "none",
-            "oauth2",
-            "personalToken"
-          ]
+          "enumValues": ["none", "oauth2", "personalToken"]
         },
         "origins": {
           "maxItems": 32,
@@ -260,9 +249,7 @@
           "maxUtf8Bytes": 8192
         }
       },
-      "oneofRequired": [
-        "proof"
-      ]
+      "oneofRequired": ["proof"]
     },
     "arcforges.local.platform.v1.LocalBootstrapServiceChallengeRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeRequest",
@@ -291,9 +278,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.LocalBootstrapServiceChallengeValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceChallengeValue",
@@ -337,9 +322,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.LocalBootstrapServiceConfirmValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceConfirmValue",
@@ -370,9 +353,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.LocalBootstrapServiceRenewValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalBootstrapServiceRenewValue",
@@ -402,9 +383,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListDefinitionsValue",
@@ -437,9 +416,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceListConnectionsValue",
@@ -482,9 +459,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceBeginConnectionValue",
@@ -517,9 +492,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceCompleteConnectionValue",
@@ -549,9 +522,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceGetConnectionValue",
@@ -581,9 +552,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.ConnectorBrokerServiceRevokeConnectionValue",
