@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.sandbox.v1.SandboxLimits": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxLimits",
+      "fields": {
+        "maxInputBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxMemoryBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxOutputBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxWidth": {
+          "required": true,
+          "min": 1
+        },
+        "maxHeight": {
+          "required": true,
+          "min": 1
+        },
+        "maxItems": {
+          "required": true,
+          "min": 1
+        },
+        "timeoutMs": {
+          "required": true,
+          "min": 1
+        }
+      }
+    }
+  }
+}

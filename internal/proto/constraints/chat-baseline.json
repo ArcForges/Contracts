@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    }
+  }
+}

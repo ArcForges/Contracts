@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.operator.v1.OperatorCallContext": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCallContext",
+      "fields": {
+        "caseId": {},
+        "incidentId": {},
+        "purpose": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 262144
+        }
+      },
+      "oneofRequired": [
+        "context"
+      ]
+    }
+  }
+}
