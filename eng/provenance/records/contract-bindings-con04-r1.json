@@ -3,7 +3,7 @@
   "id": "contract-bindings-con04-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
+  "sourceCommit": "88ef69351969dbeada9fb252ee7789c75b1abaee",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -1965,7 +1965,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
+        "commit": "88ef69351969dbeada9fb252ee7789c75b1abaee",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2018,7 +2018,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
+        "commit": "88ef69351969dbeada9fb252ee7789c75b1abaee",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2148,7 +2148,7 @@
           },
           {
             "path": "internal/proto/constraints.json",
-            "sha256": "cadf977a5ff7753195de00f9b9d9a3de19e70c74e587a66582ec9bd2e272830b",
+            "sha256": "107aa6bfaac6dc3ce8bc3df4621e8ad112baa711286a03e7f6760bedc2d05ab3",
             "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
           },
           {
@@ -2263,7 +2263,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "CON04 adds the internal ContentSandbox service and descriptor-derived bounded validation; official generation and StructureTests passed. Existing third-party generator identities and immutable history are preserved. No external product code or licence change.",
-    "baselineCommit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
+    "baselineCommit": "88ef69351969dbeada9fb252ee7789c75b1abaee",
     "reconciliation": false
   },
   "supersedes": "contract-bindings-con16-r1",
