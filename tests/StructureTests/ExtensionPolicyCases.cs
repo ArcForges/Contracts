@@ -15,9 +15,15 @@ internal static class ExtensionPolicyCases
     public static void Run(string root)
     {
         using var fixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/public/con-12-extension-policy.json")));
+        using var privateFixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/internal/con-12-configuration.json")));
+        var publicCases = fixture.RootElement.GetProperty("codecCases").EnumerateArray().ToArray();
+        var privateCases = privateFixture.RootElement.GetProperty("codecCases").EnumerateArray().ToArray();
+        if (publicCases.Any(item => item.GetProperty("schema").GetString() == "ConfigurationDocument")
+            || privateCases.Any(item => item.GetProperty("schema").GetString() != "ConfigurationDocument"))
+            throw new InvalidOperationException("Public/private extension-policy fixture boundary is invalid.");
         var seen = new HashSet<string>(StringComparer.Ordinal);
         var count = 0;
-        foreach (var item in fixture.RootElement.GetProperty("codecCases").EnumerateArray())
+        foreach (var item in publicCases.Concat(privateCases))
         {
             var id = item.GetProperty("id").GetString()!;
             var schema = item.GetProperty("schema").GetString()!;
@@ -72,3 +78,4 @@ internal static class ExtensionPolicyCases
             throw new InvalidOperationException($"Extension/policy case {id}: generated serialization is not stable.");
     }
 }
+

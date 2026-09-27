@@ -21,6 +21,10 @@ import {
 const fixture = JSON.parse(
   readFileSync(new URL("../../fixtures/public/con-12-extension-policy.json", import.meta.url)),
 );
+const privateFixture = JSON.parse(
+  readFileSync(new URL("../../fixtures/internal/con-12-configuration.json", import.meta.url)),
+);
+const codecCases = [...fixture.codecCases, ...privateFixture.codecCases];
 const codecs = {
   ExtensionManifest: {
     parse: tryParseExtensionManifestJson,
@@ -43,13 +47,16 @@ const codecs = {
 
 test("extension/policy independent vectors exercise every generated root", () => {
   assert.ok(Array.isArray(fixture.codecCases));
+  assert.ok(Array.isArray(privateFixture.codecCases));
+  assert.ok(fixture.codecCases.every((row) => row.schema !== "ConfigurationDocument"));
+  assert.ok(privateFixture.codecCases.every((row) => row.schema === "ConfigurationDocument"));
   assert.deepEqual(
-    [...new Set(fixture.codecCases.map((row) => row.schema))].sort(),
+    [...new Set(codecCases.map((row) => row.schema))].sort(),
     Object.keys(codecs).sort(),
   );
 });
 
-for (const row of fixture.codecCases) {
+for (const row of codecCases) {
   test(`extension/policy codec: ${row.id}`, () => {
     const codec = codecs[row.schema];
     assert.ok(codec, `Unknown schema ${row.schema}`);
