@@ -63,7 +63,7 @@
       "valid": false
     },
     {
-      "value": "bücher.example.com",
+      "value": "b\u00c3\u00bccher.example.com",
       "valid": false
     },
     {
@@ -210,6 +210,14 @@
       "value": "1.2.3+build.1",
       "field": "version",
       "id": "build-metadata-is-part-of-exact-identity"
+    },
+    {
+      "id": "licence-path-case-mismatch",
+      "field": "archiveLicences",
+      "valid": false,
+      "value": {
+        "LICENCES/EXAMPLE.TXT": "MIT"
+      }
     }
   ],
   "boundaries": {

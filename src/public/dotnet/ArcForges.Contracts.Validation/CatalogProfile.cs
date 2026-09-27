@@ -58,9 +58,10 @@ public static class CatalogProfile
             return false;
         // Root licence/NOTICE and full payload provenance remain archive-owner responsibilities.
         // This compares every manifest-referenced licence, including content paths; extra archive files do not grant trust.
+        var exactArchiveLicences = new Dictionary<string, string>(archiveLicences, StringComparer.Ordinal);
         foreach (var (path, licence) in manifestLicences)
             if (string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(licence)
-                || !archiveLicences.TryGetValue(path, out var actual) || actual != licence) return false;
+                || !exactArchiveLicences.TryGetValue(path, out var actual) || actual != licence) return false;
         return true;
     }
 

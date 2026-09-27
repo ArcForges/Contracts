@@ -45,6 +45,10 @@ internal static class CatalogCases
             Require(CatalogProfile.MatchesSubmission(request, Text("packageId"), Text("version"), Text("manifestHash"), Text("archiveDigest"), ulong.Parse(Text("archiveBytes"), System.Globalization.CultureInfo.InvariantCulture), manifestLicences, archiveLicences) == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
         var noCommand = request.Clone(); noCommand.Meta.CommandId = null;
+        Require(!CatalogProfile.MatchesSubmission(request, request.PackageId, request.Version, request.ManifestHash,
+            request.Archive.ContentHash, request.Archive.Blob.SizeBytes,
+            new Dictionary<string, string>(StringComparer.Ordinal) { ["licences/a.txt"] = "MIT" },
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { ["LICENCES/A.TXT"] = "MIT" }), "archive paths stay ordinal regardless of caller comparer");
         Require(!CatalogProfile.IsRequest(noCommand), "mutation command required");
         var wrongRevision = request.Clone(); wrongRevision.Meta.ExpectedRev.Value = 1;
         Require(!CatalogProfile.IsRequest(wrongRevision), "new submission absent root revision");
