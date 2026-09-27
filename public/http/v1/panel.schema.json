@@ -1,0 +1,963 @@
+{
+  "title": "DeclarativePanel",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "panel.v1"
+    },
+    "inputSchemaId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PanelControl"
+      },
+      "minItems": 0,
+      "maxItems": 1000
+    }
+  },
+  "required": ["schemaVersion", "controls"],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0; contracts08 section 2. Shape validity does not authorize operations or establish external schema/property bindings.",
+  "x-arcforges-max-bytes": 4194304,
+  "$defs": {
+    "PanelValueRef": {
+      "title": "PanelValueRef",
+      "type": "object",
+      "properties": {
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        }
+      },
+      "required": ["property"],
+      "additionalProperties": false
+    },
+    "PanelArgument": {
+      "title": "PanelArgument",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "valueRef": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["name", "valueRef"],
+      "additionalProperties": false
+    },
+    "PanelComparison": {
+      "title": "PanelComparison",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+        },
+        "left": {
+          "$ref": "#/$defs/PanelValueRef"
+        },
+        "right": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["operator", "left", "right"],
+      "additionalProperties": false
+    },
+    "PanelExists": {
+      "title": "PanelExists",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "const": "exists"
+        },
+        "value": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["operator", "value"],
+      "additionalProperties": false
+    },
+    "PanelAll": {
+      "title": "PanelAll",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "const": "all"
+        },
+        "predicates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PanelPredicate"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": ["operator", "predicates"],
+      "additionalProperties": false
+    },
+    "PanelAny": {
+      "title": "PanelAny",
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "const": "any"
+        },
+        "predicates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PanelPredicate"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": ["operator", "predicates"],
+      "additionalProperties": false
+    },
+    "PanelPredicate": {
+      "title": "PanelPredicate",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PanelComparison"
+        },
+        {
+          "$ref": "#/$defs/PanelExists"
+        },
+        {
+          "$ref": "#/$defs/PanelAll"
+        },
+        {
+          "$ref": "#/$defs/PanelAny"
+        }
+      ]
+    },
+    "PanelColumnControl": {
+      "title": "PanelColumnControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "column"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "description": "Stable IDs of controls in this panel; only containers declare children."
+        }
+      },
+      "required": ["id", "kind", "children"],
+      "additionalProperties": false
+    },
+    "PanelRowControl": {
+      "title": "PanelRowControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "row"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "description": "Stable IDs of controls in this panel; only containers declare children."
+        }
+      },
+      "required": ["id", "kind", "children"],
+      "additionalProperties": false
+    },
+    "PanelSectionControl": {
+      "title": "PanelSectionControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "section"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "description": "Stable IDs of controls in this panel; only containers declare children."
+        }
+      },
+      "required": ["id", "kind", "children"],
+      "additionalProperties": false
+    },
+    "PanelTextControl": {
+      "title": "PanelTextControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "text"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "text": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        }
+      },
+      "required": ["id", "kind", "text"],
+      "additionalProperties": false
+    },
+    "PanelTextInputControl": {
+      "title": "PanelTextInputControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "textInput"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["id", "kind", "binding"],
+      "additionalProperties": false
+    },
+    "PanelNumberInputControl": {
+      "title": "PanelNumberInputControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "numberInput"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["id", "kind", "binding"],
+      "additionalProperties": false
+    },
+    "PanelToggleControl": {
+      "title": "PanelToggleControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "toggle"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["id", "kind", "binding"],
+      "additionalProperties": false
+    },
+    "PanelSelectControl": {
+      "title": "PanelSelectControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "select"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        },
+        "optionsBinding": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["id", "kind", "binding", "optionsBinding"],
+      "additionalProperties": false
+    },
+    "PanelButtonControl": {
+      "title": "PanelButtonControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "button"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PanelArgument"
+          },
+          "minItems": 0,
+          "maxItems": 64
+        }
+      },
+      "required": ["id", "kind", "operationId", "arguments"],
+      "additionalProperties": false
+    },
+    "PanelListControl": {
+      "title": "PanelListControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "list"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        },
+        "pageSize": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        }
+      },
+      "required": ["id", "kind", "binding", "pageSize"],
+      "additionalProperties": false
+    },
+    "PanelTableControl": {
+      "title": "PanelTableControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "table"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        },
+        "pageSize": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        }
+      },
+      "required": ["id", "kind", "binding", "pageSize"],
+      "additionalProperties": false
+    },
+    "PanelResourceLinkControl": {
+      "title": "PanelResourceLinkControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "resourceLink"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["id", "kind", "binding"],
+      "additionalProperties": false
+    },
+    "PanelPreviewControl": {
+      "title": "PanelPreviewControl",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "preview"
+        },
+        "label": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "help": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9-]*$",
+            "maxLength": 255
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minProperties": 1,
+          "maxProperties": 16
+        },
+        "visible": {
+          "$ref": "#/$defs/PanelPredicate"
+        },
+        "binding": {
+          "$ref": "#/$defs/PanelValueRef"
+        }
+      },
+      "required": ["id", "kind", "binding"],
+      "additionalProperties": false
+    },
+    "PanelControl": {
+      "title": "PanelControl",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PanelColumnControl"
+        },
+        {
+          "$ref": "#/$defs/PanelRowControl"
+        },
+        {
+          "$ref": "#/$defs/PanelSectionControl"
+        },
+        {
+          "$ref": "#/$defs/PanelTextControl"
+        },
+        {
+          "$ref": "#/$defs/PanelTextInputControl"
+        },
+        {
+          "$ref": "#/$defs/PanelNumberInputControl"
+        },
+        {
+          "$ref": "#/$defs/PanelToggleControl"
+        },
+        {
+          "$ref": "#/$defs/PanelSelectControl"
+        },
+        {
+          "$ref": "#/$defs/PanelButtonControl"
+        },
+        {
+          "$ref": "#/$defs/PanelListControl"
+        },
+        {
+          "$ref": "#/$defs/PanelTableControl"
+        },
+        {
+          "$ref": "#/$defs/PanelResourceLinkControl"
+        },
+        {
+          "$ref": "#/$defs/PanelPreviewControl"
+        }
+      ]
+    }
+  },
+  "x-arcforges-rules": ["panelTree"],
+  "x-arcforges-schema-version": "1"
+}

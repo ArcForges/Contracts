@@ -2,6 +2,64 @@
   "schemaVersion": "proto-constraints.v1",
   "license": "Apache-2.0",
   "messages": {
+    "arcforges.events.v1.EntitlementChanged": {
+      "csharpType": "ArcForges.Contracts.Events.V1.EntitlementChanged",
+      "fields": {
+        "entitlementVersion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionLease": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionLease",
+      "fields": {
+        "leaseId": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "renewAfterSeconds": {
+          "required": true,
+          "enumValues": [10]
+        },
+        "negotiatedContracts": {
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseValue",
+      "fields": {
+        "lease": {
+          "required": true
+        }
+      }
+    },
     "arcforges.foundation.v1.Id": {
       "csharpType": "ArcForges.Contracts.Foundation.V1.Id",
       "fields": {
@@ -236,64 +294,6 @@
         "native": {}
       }
     },
-    "arcforges.events.v1.EntitlementChanged": {
-      "csharpType": "ArcForges.Contracts.Events.V1.EntitlementChanged",
-      "fields": {
-        "entitlementVersion": {
-          "required": true
-        }
-      }
-    },
-    "arcforges.extensions.v1.ExtensionLease": {
-      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionLease",
-      "fields": {
-        "leaseId": {
-          "required": true
-        },
-        "expiresAt": {
-          "required": true
-        },
-        "renewAfterSeconds": {
-          "required": true,
-          "enumValues": [10]
-        },
-        "negotiatedContracts": {
-          "items": {
-            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
-          }
-        }
-      }
-    },
-    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest": {
-      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest",
-      "fields": {
-        "meta": {
-          "required": true
-        },
-        "leaseId": {
-          "required": true
-        }
-      }
-    },
-    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse": {
-      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse",
-      "fields": {
-        "meta": {
-          "required": true
-        },
-        "value": {},
-        "error": {}
-      },
-      "oneofRequired": ["outcome"]
-    },
-    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue": {
-      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseValue",
-      "fields": {
-        "lease": {
-          "required": true
-        }
-      }
-    },
     "arcforges.foundation.v1.ActorChain": {
       "csharpType": "ArcForges.Contracts.Foundation.V1.ActorChain",
       "fields": {
@@ -309,6 +309,681 @@
         },
         "delegationId": {},
         "deviceId": {}
+      }
+    },
+    "arcforges.foundation.v1.ArtifactRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ArtifactRef",
+      "fields": {
+        "artifactId": {
+          "required": true
+        },
+        "kind": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "owner": {
+          "required": true
+        },
+        "resource": {},
+        "jobId": {},
+        "origin": {},
+        "producingTaskId": {},
+        "producingRunId": {},
+        "actor": {
+          "required": true
+        },
+        "createdAt": {
+          "required": true
+        },
+        "availability": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "provenance": {
+          "items": {}
+        }
+      }
+    },
+    "arcforges.foundation.v1.BlobRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.BlobRef",
+      "fields": {
+        "blobId": {
+          "required": true
+        },
+        "contentHash": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sizeBytes": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.foundation.v1.ByteRange": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ByteRange",
+      "fields": {
+        "offset": {
+          "required": true
+        },
+        "length": {
+          "required": true,
+          "min": 1
+        }
+      },
+      "rules": ["byteRange"]
+    },
+    "arcforges.foundation.v1.ContentOrigin": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ContentOrigin",
+      "fields": {
+        "profile": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["arcforges.content-origin.v1"]
+        },
+        "originId": {
+          "required": true
+        },
+        "contentUnitId": {
+          "required": true
+        },
+        "kinds": {
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+            "enumValues": ["aiGenerated", "aiManipulated", "nonAi", "unknown"]
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "unique": true
+        },
+        "payloadSha256": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "producerKind": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["model", "human", "deterministic", "import"]
+        },
+        "createdAt": {},
+        "parentOriginIds": {
+          "items": {},
+          "maxItems": 32
+        },
+        "omittedParentCount": {
+          "required": true,
+          "max": 2147483647
+        }
+      },
+      "rules": ["contentOrigin"]
+    },
+    "arcforges.foundation.v1.MediaRange": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.MediaRange",
+      "fields": {
+        "start": {
+          "required": true
+        },
+        "duration": {
+          "required": true
+        }
+      },
+      "rules": ["mediaRange"]
+    },
+    "arcforges.foundation.v1.MediaTime": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.MediaTime",
+      "fields": {
+        "ticks": {
+          "required": true
+        },
+        "rate": {
+          "required": true
+        }
+      },
+      "rules": ["mediaTime"]
+    },
+    "arcforges.foundation.v1.PageRequest": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.PageRequest",
+      "fields": {
+        "cursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "limit": {
+          "min": 1
+        }
+      }
+    },
+    "arcforges.foundation.v1.PageState": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.PageState",
+      "fields": {
+        "nextCursor": {
+          "maxUtf8Bytes": 4096
+        },
+        "hasMore": {
+          "required": true
+        }
+      },
+      "rules": ["pageState"]
+    },
+    "arcforges.foundation.v1.Rational": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.Rational",
+      "fields": {
+        "numerator": {
+          "required": true
+        },
+        "denominator": {
+          "required": true,
+          "min": 1
+        }
+      },
+      "rules": ["reducedRational"]
+    },
+    "arcforges.foundation.v1.ResourceRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ResourceRef",
+      "fields": {
+        "realmId": {
+          "required": true
+        },
+        "workspaceId": {},
+        "ownerAppId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceKind": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceId": {
+          "required": true
+        },
+        "displayHint": {
+          "maxLength": 256
+        },
+        "availability": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        },
+        "holdingDeviceId": {}
+      }
+    },
+    "arcforges.foundation.v1.ResourceVersionRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ResourceVersionRef",
+      "fields": {
+        "resource": {
+          "required": true
+        },
+        "cloud": {},
+        "native": {},
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "blob": {}
+      },
+      "oneofRequired": ["revision"],
+      "rules": ["resourceVersionRef"]
+    },
+    "arcforges.foundation.v1.TimeRangeUtc": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.TimeRangeUtc",
+      "fields": {
+        "from": {
+          "required": true
+        },
+        "until": {
+          "required": true
+        }
+      },
+      "rules": ["timeRangeUtc"]
+    },
+    "arcforges.foundation.v1.OperationBinding": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.OperationBinding",
+      "fields": {
+        "operationId": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "protocol": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6]
+        },
+        "service": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "method": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "contractMajor": {
+          "required": true,
+          "min": 1
+        }
+      }
+    },
+    "arcforges.foundation.v1.CancelSupport": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.CancelSupport",
+      "fields": {
+        "accepted": {
+          "required": true
+        },
+        "beforeDispatchOnly": {
+          "required": true
+        },
+        "statusOperation": {
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        }
+      }
+    },
+    "arcforges.foundation.v1.CapabilityLimits": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.CapabilityLimits",
+      "fields": {
+        "maxInputBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxOutputBytes": {
+          "required": true,
+          "min": 1
+        },
+        "maxDurationMs": {
+          "required": true,
+          "min": 1
+        },
+        "maxConcurrency": {
+          "required": true,
+          "min": 1
+        },
+        "maxContextItems": {
+          "required": true,
+          "min": 1,
+          "max": 64
+        }
+      }
+    },
+    "arcforges.foundation.v1.CapabilityDescriptor": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.CapabilityDescriptor",
+      "fields": {
+        "key": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "version": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "requestSchema": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "responseSchema": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "risk": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "locality": {
+          "required": true,
+          "enumValues": [1, 2]
+        },
+        "idempotency": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "statusOperation": {
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "reads": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true
+        },
+        "writes": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true
+        },
+        "exclusive": {
+          "required": true
+        },
+        "egress": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "approval": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "binding": {
+          "required": true
+        },
+        "execution": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        },
+        "effect": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "retry": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "cancel": {
+          "required": true
+        },
+        "preview": {},
+        "compensation": {},
+        "checkpoint": {
+          "required": true
+        },
+        "limits": {
+          "required": true
+        },
+        "acceptedContext": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true
+        }
+      },
+      "rules": ["capabilityDescriptor"]
+    },
+    "arcforges.foundation.v1.ActionDescriptor": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ActionDescriptor",
+      "fields": {
+        "key": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "titleKey": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "descriptionKey": {
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "acceptedContext": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true,
+          "maxItems": 200
+        },
+        "capabilities": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true,
+          "maxItems": 200,
+          "minItems": 1
+        },
+        "availabilityRule": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        }
+      }
+    },
+    "arcforges.foundation.v1.ContractVersion": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ContractVersion",
+      "fields": {
+        "key": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "version": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[0-9A-Za-z.+-]+$"
+        }
+      },
+      "rules": ["contractVersion"]
+    },
+    "arcforges.foundation.v1.ContractCompatibility": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.ContractCompatibility",
+      "fields": {
+        "contract": {
+          "required": true
+        },
+        "minReadable": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[0-9A-Za-z.+-]+$"
+        },
+        "minWritable": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[0-9A-Za-z.+-]+$"
+        }
+      },
+      "rules": ["contractCompatibility"]
+    },
+    "arcforges.foundation.v1.FeatureSet": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.FeatureSet",
+      "fields": {
+        "features": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true,
+          "maxItems": 200
+        }
+      }
+    },
+    "arcforges.foundation.v1.CompatibilityDescriptor": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.CompatibilityDescriptor",
+      "fields": {
+        "foundation": {
+          "required": true
+        },
+        "contracts": {
+          "items": {},
+          "maxItems": 200
+        },
+        "capabilities": {
+          "items": {},
+          "maxItems": 200
+        },
+        "features": {
+          "required": true
+        }
+      },
+      "rules": ["compatibilityDescriptor"]
+    },
+    "arcforges.foundation.v1.InstanceReadiness": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.InstanceReadiness",
+      "fields": {
+        "acceptsWork": {
+          "required": true
+        },
+        "reasons": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "maxItems": 200
+        }
+      }
+    },
+    "arcforges.foundation.v1.HealthSnapshot": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.HealthSnapshot",
+      "fields": {
+        "instanceId": {
+          "required": true
+        },
+        "observedAt": {
+          "required": true
+        },
+        "health": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "readiness": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.foundation.v1.EncodedBodyRef": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.EncodedBodyRef",
+      "fields": {
+        "resource": {
+          "required": true
+        },
+        "messageType": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "descriptorHash": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "byteLength": {
+          "required": true,
+          "min": 0,
+          "max": 67108864
+        },
+        "snapshotToken": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 4096
+        },
+        "expiresAt": {
+          "required": true
+        }
+      },
+      "rules": ["encodedBodyRef"]
+    },
+    "arcforges.publicapi.v1.ContextProvider": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ContextProvider",
+      "fields": {
+        "key": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "appId": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "titleKey": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "contextKinds": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]+$"
+          },
+          "unique": true,
+          "maxItems": 200
+        },
+        "maxItems": {
+          "required": true,
+          "min": 1,
+          "max": 200
+        },
+        "maxBytes": {
+          "required": true,
+          "min": 1,
+          "max": 262144
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ContextDescriptor": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ContextDescriptor",
+      "fields": {
+        "key": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "provider": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "kind": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "titleKey": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "context": {
+          "required": true
+        },
+        "observedAt": {
+          "required": true
+        }
       }
     },
     "arcforges.publicapi.v1.AgentProfile": {
@@ -377,39 +1052,6 @@
       },
       "rules": ["alignmentSpec"]
     },
-    "arcforges.foundation.v1.ArtifactRef": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.ArtifactRef",
-      "fields": {
-        "artifactId": {
-          "required": true
-        },
-        "kind": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
-        },
-        "owner": {
-          "required": true
-        },
-        "resource": {},
-        "jobId": {},
-        "origin": {},
-        "producingTaskId": {},
-        "producingRunId": {},
-        "actor": {
-          "required": true
-        },
-        "createdAt": {
-          "required": true
-        },
-        "availability": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
-        },
-        "provenance": {
-          "items": {}
-        }
-      }
-    },
     "arcforges.publicapi.v1.AutomationSpec": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationSpec",
       "fields": {
@@ -472,34 +1114,6 @@
         },
         "nextOccurrence": {}
       }
-    },
-    "arcforges.foundation.v1.BlobRef": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.BlobRef",
-      "fields": {
-        "blobId": {
-          "required": true
-        },
-        "contentHash": {
-          "required": true,
-          "pattern": "^[0-9a-f]{64}$"
-        },
-        "sizeBytes": {
-          "required": true
-        }
-      }
-    },
-    "arcforges.foundation.v1.ByteRange": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.ByteRange",
-      "fields": {
-        "offset": {
-          "required": true
-        },
-        "length": {
-          "required": true,
-          "min": 1
-        }
-      },
-      "rules": ["byteRange"]
     },
     "arcforges.publicapi.v1.Calibration": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.Calibration",
@@ -628,50 +1242,6 @@
         }
       },
       "rules": ["checksumSpec"]
-    },
-    "arcforges.foundation.v1.ContentOrigin": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.ContentOrigin",
-      "fields": {
-        "profile": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": ["arcforges.content-origin.v1"]
-        },
-        "originId": {
-          "required": true
-        },
-        "contentUnitId": {
-          "required": true
-        },
-        "kinds": {
-          "items": {
-            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-            "enumValues": ["aiGenerated", "aiManipulated", "nonAi", "unknown"]
-          },
-          "minItems": 1,
-          "maxItems": 4,
-          "unique": true
-        },
-        "payloadSha256": {
-          "required": true,
-          "pattern": "^[0-9a-f]{64}$"
-        },
-        "producerKind": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": ["model", "human", "deterministic", "import"]
-        },
-        "createdAt": {},
-        "parentOriginIds": {
-          "items": {},
-          "maxItems": 32
-        },
-        "omittedParentCount": {
-          "required": true,
-          "max": 2147483647
-        }
-      },
-      "rules": ["contentOrigin"]
     },
     "arcforges.publicapi.v1.ContextRef": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ContextRef",
@@ -1168,30 +1738,6 @@
       },
       "rules": ["measurementWindow"]
     },
-    "arcforges.foundation.v1.MediaRange": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.MediaRange",
-      "fields": {
-        "start": {
-          "required": true
-        },
-        "duration": {
-          "required": true
-        }
-      },
-      "rules": ["mediaRange"]
-    },
-    "arcforges.foundation.v1.MediaTime": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.MediaTime",
-      "fields": {
-        "ticks": {
-          "required": true
-        },
-        "rate": {
-          "required": true
-        }
-      },
-      "rules": ["mediaTime"]
-    },
     "arcforges.publicapi.v1.MemoryRecord": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MemoryRecord",
       "fields": {
@@ -1296,29 +1842,6 @@
       },
       "oneofRequired": ["value"]
     },
-    "arcforges.foundation.v1.PageRequest": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.PageRequest",
-      "fields": {
-        "cursor": {
-          "maxUtf8Bytes": 4096
-        },
-        "limit": {
-          "min": 1
-        }
-      }
-    },
-    "arcforges.foundation.v1.PageState": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.PageState",
-      "fields": {
-        "nextCursor": {
-          "maxUtf8Bytes": 4096
-        },
-        "hasMore": {
-          "required": true
-        }
-      },
-      "rules": ["pageState"]
-    },
     "arcforges.publicapi.v1.PreferenceRecord": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.PreferenceRecord",
       "fields": {
@@ -1337,63 +1860,6 @@
           "required": true
         }
       }
-    },
-    "arcforges.foundation.v1.Rational": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.Rational",
-      "fields": {
-        "numerator": {
-          "required": true
-        },
-        "denominator": {
-          "required": true,
-          "min": 1
-        }
-      },
-      "rules": ["reducedRational"]
-    },
-    "arcforges.foundation.v1.ResourceRef": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.ResourceRef",
-      "fields": {
-        "realmId": {
-          "required": true
-        },
-        "workspaceId": {},
-        "ownerAppId": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
-        },
-        "resourceKind": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
-        },
-        "resourceId": {
-          "required": true
-        },
-        "displayHint": {
-          "maxLength": 256
-        },
-        "availability": {
-          "required": true,
-          "enumValues": [1, 2, 3, 4, 5]
-        },
-        "holdingDeviceId": {}
-      }
-    },
-    "arcforges.foundation.v1.ResourceVersionRef": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.ResourceVersionRef",
-      "fields": {
-        "resource": {
-          "required": true
-        },
-        "cloud": {},
-        "native": {},
-        "contentHash": {
-          "pattern": "^[0-9a-f]{64}$"
-        },
-        "blob": {}
-      },
-      "oneofRequired": ["revision"],
-      "rules": ["resourceVersionRef"]
     },
     "arcforges.publicapi.v1.SampleRange": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.SampleRange",
@@ -1707,18 +2173,6 @@
         }
       },
       "rules": ["taskSnapshot"]
-    },
-    "arcforges.foundation.v1.TimeRangeUtc": {
-      "csharpType": "ArcForges.Contracts.Foundation.V1.TimeRangeUtc",
-      "fields": {
-        "from": {
-          "required": true
-        },
-        "until": {
-          "required": true
-        }
-      },
-      "rules": ["timeRangeUtc"]
     },
     "arcforges.publicapi.v1.ToolProposal": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ToolProposal",

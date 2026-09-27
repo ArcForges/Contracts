@@ -18,11 +18,16 @@
       "sourceRoot": "src/public/dotnet/ArcForges.Contracts.PublicApi",
       "proto": [
         "public/proto/arcforges/hello/v1/hello.proto",
-        "public/proto/arcforges/publicapi/v1/content.proto"
+        "public/proto/arcforges/publicapi/v1/content.proto",
+        "public/proto/arcforges/publicapi/v1/descriptors.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
-      "jsonSchemas": ["public/http/v1/schema.json", "public/http/v1/signed-formats.schema.json"]
+      "jsonSchemas": [
+        "public/http/v1/schema.json",
+        "public/http/v1/signed-formats.schema.json",
+        "public/http/v1/policy-body.schema.json"
+      ]
     },
     {
       "id": "ArcForges.Contracts.Events",
@@ -42,7 +47,12 @@
       "proto": ["public/proto/arcforges/extensions/v1/extensions.proto"],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "extensions.binpb",
-      "jsonSchemas": ["public/http/v1/inventory.schema.json"]
+      "jsonSchemas": [
+        "public/http/v1/inventory.schema.json",
+        "public/http/v1/manifest.schema.json",
+        "public/http/v1/workflow.schema.json",
+        "public/http/v1/panel.schema.json"
+      ]
     },
     {
       "id": "ArcForges.Contracts.Validation",
@@ -127,7 +137,10 @@
       "proto": ["internal/proto/arcforges/operator/v1/operator.proto"],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "operator.binpb",
-      "jsonSchemas": ["internal/ai-http/v1/schema.json"]
+      "jsonSchemas": [
+        "internal/ai-http/v1/schema.json",
+        "internal/ai-http/v1/configuration.schema.json"
+      ]
     },
     {
       "id": "@arcforges/proto",
@@ -138,7 +151,8 @@
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/foundation/v1/foundation.proto",
         "public/proto/arcforges/events/v1/events.proto",
-        "public/proto/arcforges/publicapi/v1/content.proto"
+        "public/proto/arcforges/publicapi/v1/content.proto",
+        "public/proto/arcforges/publicapi/v1/descriptors.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -155,7 +169,11 @@
       "jsonSchemas": [
         "public/http/v1/schema.json",
         "public/http/v1/inventory.schema.json",
-        "public/http/v1/signed-formats.schema.json"
+        "public/http/v1/signed-formats.schema.json",
+        "public/http/v1/manifest.schema.json",
+        "public/http/v1/workflow.schema.json",
+        "public/http/v1/panel.schema.json",
+        "public/http/v1/policy-body.schema.json"
       ]
     },
     {
@@ -176,7 +194,10 @@
       "proto": [],
       "dependencies": [],
       "descriptor": "contracts.binpb",
-      "jsonSchemas": ["internal/ai-http/v1/schema.json"]
+      "jsonSchemas": [
+        "internal/ai-http/v1/schema.json",
+        "internal/ai-http/v1/configuration.schema.json"
+      ]
     },
     {
       "id": "@arcforges/operator-client",
@@ -197,7 +218,8 @@
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/foundation/v1/foundation.proto",
         "public/proto/arcforges/events/v1/events.proto",
-        "public/proto/arcforges/publicapi/v1/content.proto"
+        "public/proto/arcforges/publicapi/v1/content.proto",
+        "public/proto/arcforges/publicapi/v1/descriptors.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",

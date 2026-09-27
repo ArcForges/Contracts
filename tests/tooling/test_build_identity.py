@@ -17,6 +17,82 @@ import build_identity as identity
 from contracts import ARTIFACTS, ROOT, sha256, write_json
 
 
+class MultiSourceContractIdentityTests(unittest.TestCase):
+    def setUp(self):
+        self.folder = tempfile.TemporaryDirectory()
+        self.addCleanup(self.folder.cleanup)
+        self.root = Path(self.folder.name)
+        self.catalog = json.loads((ROOT / "eng/version-sources.json").read_text())
+        self.catalog["axes"]["ContractSet"] = {"kind": "contracts", "sources": ["a.proto"]}
+        self.catalog["axes"]["ExtensionProtocolVersion"] = {
+            "kind": "declarations", "absence": "not-applicable", "reason": "Offline mechanism fixture."}
+        for name in ["a.proto", "b.proto"]:
+            (self.root / name).write_text("package example.v1;\n// " + name + "\n")
+
+    def axes(self, paths):
+        self.catalog["axes"]["ContractSet"]["sources"] = paths
+        return identity.axes({}, [], b"descriptor", self.root, self.catalog)
+
+    def test_same_namespace_preserves_singleton_and_all_sorted_sources(self):
+        single = self.axes(["a.proto"])
+        original = single["ContractSet"]["values"][0]
+        self.assertEqual(set(original), {"subject", "version", "source", "descriptorSha256"})
+        combined = self.axes(["b.proto", "a.proto"])
+        self.assertEqual(combined, self.axes(["a.proto", "b.proto"]))
+        value, = combined["ContractSet"]["values"]
+        self.assertEqual(set(value), {"subject", "version", "sources", "descriptorSha256"})
+        self.assertEqual((value["subject"], value["version"]), ("example", "1"))
+        self.assertEqual([item["path"] for item in value["sources"]], ["a.proto", "b.proto"])
+        self.assertEqual(value["sources"][0], original["source"])
+        for name in ["a.proto", "b.proto"]:
+            path = self.root / name
+            before = path.read_text()
+            path.write_text(before + "// changed\n")
+            changed = self.axes(["a.proto", "b.proto"])
+            self.assertEqual([axis for axis in identity.AXES if changed[axis] != combined[axis]], ["ContractSet"])
+            path.write_text(before)
+
+    def test_conflicting_major_duplicate_and_missing_source_are_refused(self):
+        with self.assertRaisesRegex(ValueError, "Duplicate protobuf source evidence path"):
+            self.axes(["a.proto", "a.proto"])
+        (self.root / "b.proto").write_text("package example.v2;\n")
+        with self.assertRaisesRegex(ValueError, "Conflicting protobuf namespace version"):
+            self.axes(["a.proto", "b.proto"])
+        with self.assertRaises(FileNotFoundError):
+            self.axes(["missing.proto"])
+
+    def test_json_and_other_axis_duplicate_subjects_are_not_grouped(self):
+        for name in ["a.json", "b.json"]:
+            (self.root / name).write_text(json.dumps({"title": "same", "x-arcforges-schema-version": "1"}))
+        with self.assertRaisesRegex(ValueError, "Duplicate subject"):
+            self.axes(["a.json", "b.json"])
+        (self.root / "versions.json").write_text(json.dumps({"versions": [
+            {"subject": "capability", "version": "1"}, {"subject": "capability", "version": "1"}]}))
+        self.catalog["axes"]["CapabilityVersion"] = {"kind": "declarations", "sources": ["versions.json"]}
+        with self.assertRaisesRegex(ValueError, "Duplicate subject"):
+            self.axes(["a.proto"])
+
+    def test_complete_report_rejects_missing_reordered_changed_or_fabricated_evidence(self):
+        package = {"name": "ArcForges.Contracts.PublicApi", "version": "1.0.0-ci.1.1"}
+        build = identity.build(environment={})
+        descriptor = b"independent-descriptor-fixture"
+        report = identity.report(package, [], descriptor, build)
+        sbom = {"metadata": {"component": package}, "components": []}
+        identity.verify_report(json.dumps(report).encode(), sbom, descriptor, {"build": build})
+        for mutate in [lambda row: row["sources"].pop(),
+                       lambda row: row["sources"].reverse(),
+                       lambda row: row["sources"][0].update(sha256="0" * 64),
+                       lambda row: row["sources"].append(copy.deepcopy(row["sources"][0])),
+                       lambda row: row.update(source=copy.deepcopy(row["sources"][0])),
+                       lambda row: row.update(descriptorSha256="0" * 64)]:
+            changed = copy.deepcopy(report)
+            row = next(value for value in changed["axes"]["ContractSet"]["values"]
+                       if value["subject"] == "arcforges.publicapi")
+            mutate(row)
+            with self.assertRaisesRegex(ValueError, "build identity or independent version axes"):
+                identity.verify_report(json.dumps(changed).encode(), sbom, descriptor, {"build": build})
+
+
 class BuildIdentityTests(unittest.TestCase):
     def test_nuget_central_pins_are_published_but_private_build_tools_are_not(self):
         from packaging_tools import nuget_direct_dependencies
