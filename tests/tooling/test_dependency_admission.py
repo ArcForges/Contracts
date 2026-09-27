@@ -322,6 +322,33 @@ class DependencyAdmission(unittest.TestCase):
                     self.assertIsNone(re.fullmatch(pattern, bad))
 
 
+    def test_con13_observed_hash_exceptions_are_narrow(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        groups = [row for row in config['allowlists'] if row['description'].startswith('CON13 observed')]
+        self.assertEqual(len(groups), 2)
+        keys = ['eng/policy/contract-access.json', 'eng/provenance/records/dokka-combokeys-licence-r1.json', 'eng/provenance/records/dokka-object-keys-licence-r1.json', 'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
+        digests = ['35563026049706b6a119191ce3679a7ebb918a228aee5267b0fdf84c6764d996', '75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41', '55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096', '986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c']
+        rows = list(zip(keys, digests, strict=True))
+        for key, expected in rows:
+            source = subprocess.check_output(['git', 'show', '1acce905a742a92598180916a86dbdbc9354214e:' + key], cwd=ROOT)
+            self.assertEqual(hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(), expected)
+        targets = ['eng/policy/dependency-policy.json', 'eng/policy/dependency-reviews/con-13-r1.json']
+        for group, path, bindings in zip(groups, targets, [rows[:1], rows], strict=True):
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], ['^' + re.escape(path) + '$'])
+            self.assertEqual(len(group['regexes']), len(bindings))
+            for wrong in [path + '.backup', 'secrets.json', 'eng/policy/dependency-reviews/other.json']:
+                self.assertIsNone(re.fullmatch(group['paths'][0], wrong))
+            for pattern, (key, digest) in zip(group['regexes'], bindings, strict=True):
+                line = f'  "{key}": "{digest}",'
+                self.assertIsNotNone(re.fullmatch(pattern, line))
+                for wrong in [line.replace(digest, '0' * 64), line.replace(key, 'api_key'),
+                              line + ' "token": "synthetic-secret"', '"token": "synthetic-secret" ' + line,
+                              line.replace(digest, 'ghp_synthetic_credential')]:
+                    self.assertIsNone(re.fullmatch(pattern, wrong))
+
     def setUp(self):
         self.policy = json.loads((ROOT / POLICY).read_text())
         self.graph = inventory(ROOT)
@@ -412,7 +439,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 34)
+        self.assertEqual(len(config['allowlists']), 36)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -562,7 +589,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 2, 6, 4, 8, 6, 10])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4])
 
 
 if __name__ == '__main__':
