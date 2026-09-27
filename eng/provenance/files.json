@@ -386,7 +386,11 @@
     "tests/tooling/test_publication_completion.py",
     "tests/tooling/test_release_guards.py",
     "tests/tooling/test_secret_history_scope.py",
-    "tests/tooling/test_serialization_policy.py"
+    "tests/tooling/test_serialization_policy.py",
+    "public/http/v1/signed-formats.schema.json",
+    "fixtures/public/con-16-signed-formats.json",
+    "tests/tooling/test_signed_formats.py",
+    "docs/con-16-signed-formats.md"
   ],
   "reused": {
     "LICENSE": "canonical-apache-licence-r1",

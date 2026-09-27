@@ -9,10 +9,7 @@
       "algorithm": "Ed25519",
       "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
       "realmId": "12345678-1234-4234-8234-123456789abc",
-      "channels": [
-        "stable",
-        "direct"
-      ],
+      "channels": ["stable", "direct"],
       "notBefore": "2026-09-01T00:00:00Z",
       "notAfter": "2027-09-01T00:00:00Z",
       "fixtureOnly": true
@@ -190,16 +187,9 @@
         "apiOrigin": "https://api.example.org",
         "accountOrigin": "https://account.example.org",
         "objectOrigin": "https://objects.example.org",
-        "supportedContractMajors": [
-          1
-        ],
-        "nativeClientRedirects": [
-          "arcforges-scope://auth/callback"
-        ],
-        "authMethods": [
-          "passkey",
-          "email"
-        ],
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
         "passkeyRpId": "example.org",
         "signingKeys": [
           {
@@ -500,16 +490,9 @@
         "apiOrigin": "https://api.example.org",
         "accountOrigin": "https://account.example.org",
         "objectOrigin": "https://objects.example.org",
-        "supportedContractMajors": [
-          1
-        ],
-        "nativeClientRedirects": [
-          "arcforges-scope://auth/callback"
-        ],
-        "authMethods": [
-          "passkey",
-          "email"
-        ],
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
         "passkeyRpId": "example.org",
         "signingKeys": [
           {
@@ -538,16 +521,9 @@
         "apiOrigin": "https://other.example.org",
         "accountOrigin": "https://account.example.org",
         "objectOrigin": "https://objects.example.org",
-        "supportedContractMajors": [
-          1
-        ],
-        "nativeClientRedirects": [
-          "arcforges-scope://auth/callback"
-        ],
-        "authMethods": [
-          "passkey",
-          "email"
-        ],
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
         "passkeyRpId": "example.org",
         "signingKeys": [
           {
@@ -576,16 +552,9 @@
         "apiOrigin": "https://api.example.org",
         "accountOrigin": "https://account.example.org",
         "objectOrigin": "https://objects.example.org",
-        "supportedContractMajors": [
-          1
-        ],
-        "nativeClientRedirects": [
-          "arcforges-scope://auth/callback"
-        ],
-        "authMethods": [
-          "passkey",
-          "email"
-        ],
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
         "passkeyRpId": "example.org",
         "signingKeys": [
           {
@@ -684,17 +653,13 @@
     {
       "id": "valid-index-shards",
       "document": "catalog-index-root",
-      "shards": [
-        "catalog-index"
-      ],
+      "shards": ["catalog-index"],
       "expected": "accepted"
     },
     {
       "id": "valid-revocation-shards",
       "document": "catalog-revocations-root",
-      "shards": [
-        "catalog-revocations"
-      ],
+      "shards": ["catalog-revocations"],
       "expected": "accepted"
     },
     {
@@ -740,21 +705,14 @@
     {
       "id": "revoked-trust-key",
       "document": "catalog-index",
-      "revokedKeyIds": [
-        "con16-fixture-ed25519"
-      ],
+      "revokedKeyIds": ["con16-fixture-ed25519"],
       "expected": "revoked-key"
     },
     {
       "id": "body-tamper",
       "document": "catalog-index",
       "mutation": {
-        "path": [
-          "body",
-          "entries",
-          0,
-          "version"
-        ],
+        "path": ["body", "entries", 0, "version"],
         "value": "1.2.4"
       },
       "expected": "body-hash"
@@ -763,9 +721,7 @@
       "id": "signature-tamper",
       "document": "catalog-index",
       "mutation": {
-        "path": [
-          "signature"
-        ],
+        "path": ["signature"],
         "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
       },
       "expected": "signature"
@@ -773,9 +729,7 @@
     {
       "id": "mixed-shard",
       "document": "catalog-index-root",
-      "shards": [
-        "wrong-channel-signed"
-      ],
+      "shards": ["wrong-channel-signed"],
       "expected": "shard-hash"
     },
     {
@@ -796,10 +750,7 @@
       "id": "uint64-overflow",
       "document": "android-update",
       "mutation": {
-        "path": [
-          "body",
-          "versionCode"
-        ],
+        "path": ["body", "versionCode"],
         "value": "18446744073709551616"
       },
       "expected": "shape"
@@ -808,10 +759,7 @@
       "id": "uint64-number-forbidden",
       "document": "android-update",
       "mutation": {
-        "path": [
-          "body",
-          "versionCode"
-        ],
+        "path": ["body", "versionCode"],
         "value": 100
       },
       "expected": "shape"
@@ -820,9 +768,7 @@
       "id": "leading-zero-revision",
       "document": "catalog-index",
       "mutation": {
-        "path": [
-          "revision"
-        ],
+        "path": ["revision"],
         "value": "01"
       },
       "expected": "shape"
@@ -831,9 +777,7 @@
       "id": "unknown-property",
       "document": "catalog-index",
       "mutation": {
-        "path": [
-          "extra"
-        ],
+        "path": ["extra"],
         "value": true
       },
       "expected": "shape"
@@ -842,12 +786,7 @@
       "id": "invalid-semver-numeric-prerelease",
       "document": "catalog-index",
       "mutation": {
-        "path": [
-          "body",
-          "entries",
-          0,
-          "version"
-        ],
+        "path": ["body", "entries", 0, "version"],
         "value": "1.0.0-01"
       },
       "expected": "shape"
@@ -856,12 +795,7 @@
       "id": "credential-in-url",
       "document": "catalog-index",
       "mutation": {
-        "path": [
-          "body",
-          "entries",
-          0,
-          "archiveHttpsUrl"
-        ],
+        "path": ["body", "entries", 0, "archiveHttpsUrl"],
         "value": "https://user:secret@example.org/file"
       },
       "expected": "shape"
@@ -870,9 +804,7 @@
       "id": "insecure-origin",
       "document": "realm",
       "mutation": {
-        "path": [
-          "apiOrigin"
-        ],
+        "path": ["apiOrigin"],
         "value": "http://api.example.org"
       },
       "expected": "shape"
@@ -892,9 +824,7 @@
     {
       "id": "mixed-shard-even-with-matching-hash",
       "document": "mixed-shard-root-signed",
-      "shards": [
-        "wrong-channel-signed"
-      ],
+      "shards": ["wrong-channel-signed"],
       "expected": "shard-binding"
     },
     {
@@ -926,9 +856,7 @@
       "id": "empty-dns-label",
       "document": "realm",
       "mutation": {
-        "path": [
-          "apiOrigin"
-        ],
+        "path": ["apiOrigin"],
         "value": "https://."
       },
       "expected": "shape"
@@ -937,9 +865,7 @@
       "id": "out-of-range-port",
       "document": "realm",
       "mutation": {
-        "path": [
-          "apiOrigin"
-        ],
+        "path": ["apiOrigin"],
         "value": "https://api.example.org:99999"
       },
       "expected": "shape"
