@@ -110,7 +110,7 @@ class JsonShapes:
                 raise ValueError("Unions require a title and at least two alternatives")
             for child in node["oneOf"]:
                 target = self.resolve(child)
-                if target.get("type") not in {"object", "string"} or not target.get("title"):
+                if target.get("type") not in {"object", "string"} or string_map(target) or not target.get("title"):
                     raise ValueError("Union alternatives must be titled closed objects or strings")
                 self.visit(child)
         elif node.get("type") == "object":

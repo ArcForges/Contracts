@@ -71,6 +71,15 @@ class JsonShapeUnions(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "close additionalProperties"):
             JsonShapes(schema, "Example").generate()
 
+    def test_map_union_alternative_refused(self):
+        schema = sample()
+        schema["$defs"]["Labels"] = {"title": "Labels", "type": "object",
+                                    "propertyNames": {"type": "string", "pattern": "^[a-z]+$"},
+                                    "additionalProperties": {"type": "string"}, "maxProperties": 16}
+        schema["$defs"]["Body"]["oneOf"].append({"$ref": "#/$defs/Labels"})
+        with self.assertRaisesRegex(ValueError, "Union alternatives"):
+            JsonShapes(schema, "Example").generate()
+
     def test_unimplemented_union_constraint_refused(self):
         schema = sample()
         schema["$defs"]["Body"]["not"] = {"const": "x"}
