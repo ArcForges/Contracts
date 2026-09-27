@@ -110,8 +110,8 @@ class JsonShapes:
                 raise ValueError("Unions require a title and at least two alternatives")
             for child in node["oneOf"]:
                 target = self.resolve(child)
-                if target.get("type") != "object" or not target.get("title"):
-                    raise ValueError("Union alternatives must be titled closed objects")
+                if target.get("type") not in {"object", "string"} or not target.get("title"):
+                    raise ValueError("Union alternatives must be titled closed objects or strings")
                 self.visit(child)
         elif node.get("type") == "object":
             if string_map(node):
@@ -177,16 +177,16 @@ class JsonShapes:
             done.add(name)
             if "oneOf" in node:
                 unions[name] = node
-                branches = [self.typename(child, False, name + "Alternative") for child in node["oneOf"]]
-                if len(set(branches)) != len(branches):
+                branches = [(self.branch_name(child), self.typename(child, False, name + "Alternative")) for child in node["oneOf"]]
+                if len({label for label, _ in branches}) != len(branches):
                     raise ValueError(f"Duplicate union branch type in {name}")
                 model_cs.append(f"/// <summary>Generated closed {html.escape(name)} union.</summary>\n"
                                 f"[global::System.Text.Json.Serialization.JsonConverter(typeof({name}Converter))]\n"
                                 f"public abstract record {name};")
-                for branch in branches:
+                for branch, payload_type in branches:
                     model_cs.append(f"/// <summary>Typed {html.escape(branch)} alternative; its Value is serialized directly.</summary>\n"
-                                    f"public sealed record {name}{branch}({branch} Value) : {name};")
-                model_ts.append(f"export type {name} = " + " | ".join(branches) + ";\n")
+                                    f"public sealed record {name}{branch}({payload_type} Value) : {name};")
+                model_ts.append(f"export type {name} = " + " | ".join(payload_type for _, payload_type in branches) + ";\n")
                 continue
             model_cs.append(f"/// <summary>Generated closed {html.escape(name)} JSON record.</summary>\npublic sealed record {name}\n{{")
             model_ts.append(f"export interface {name} {{")
@@ -213,7 +213,7 @@ class JsonShapes:
             generated_symbols.append(self.title + "UnionChecks")
         for name, node in unions.items():
             generated_symbols.append(name + "Converter")
-            generated_symbols.extend(name + self.typename(child, False, name + "Alternative") for child in node["oneOf"])
+            generated_symbols.extend(name + self.branch_name(child) for child in node["oneOf"])
         for symbol in generated_symbols:
             if symbol in self.cs_symbols:
                 raise ValueError(f"Generated C# symbol collides with authored model: {symbol}")
@@ -224,6 +224,8 @@ class JsonShapes:
         cs += f"\n/// <summary>Compile-time JSON metadata for the {html.escape(self.title)} schema and its record dependencies.</summary>\n"
         cs += CS_CONTEXT_OPTIONS
         cs += "\n".join(f"[global::System.Text.Json.Serialization.JsonSerializable(typeof({name}))]" for name in sorted(done))
+        if any(self.resolve(child).get("type") == "string" for union in unions.values() for child in union["oneOf"]):
+            cs += "\n[global::System.Text.Json.Serialization.JsonSerializable(typeof(string))]"
         cs += f"\npublic partial class {self.title}JsonContext : global::System.Text.Json.Serialization.JsonSerializerContext {{ }}\n\n"
         if unions:
             cs += f"internal static class {self.title}UnionChecks\n{{\n"
@@ -249,17 +251,21 @@ class JsonShapes:
                  "        var value = document.RootElement;", "        var matched = 0;", f"        {name}? result = null;"]
         branches = []
         for child in node["oneOf"]:
-            branch = self.typename(child, False, name + "Alternative")
-            branches.append(branch)
+            branch = self.branch_name(child)
+            metadata = "String" if self.resolve(child).get("type") == "string" else self.typename(child, False, name + "Alternative")
+            branches.append((branch, metadata))
             lines += [f"        if ({self.title}UnionChecks.Check{self.visit(child)}(value))", "        {",
-                      "            matched++;", f"            result = new {name}{branch}(global::System.Text.Json.JsonSerializer.Deserialize(value, {self.title}JsonContext.Default.{branch})!);", "        }"]
+                      "            matched++;", f"            result = new {name}{branch}(global::System.Text.Json.JsonSerializer.Deserialize(value, {self.title}JsonContext.Default.{metadata})!);", "        }"]
         lines += ["        if (matched != 1 || result is null) throw new global::System.Text.Json.JsonException(\"Expected exactly one closed union alternative\");",
                   "        return result;", "    }", f"    public override void Write(global::System.Text.Json.Utf8JsonWriter writer, {name} value, global::System.Text.Json.JsonSerializerOptions options)",
                   "    {", "        switch (value)", "        {"]
-        for branch in branches:
-            lines.append(f"            case {name}{branch} item: global::System.Text.Json.JsonSerializer.Serialize(writer, item.Value, {self.title}JsonContext.Default.{branch}); break;")
+        for branch, metadata in branches:
+            lines.append(f"            case {name}{branch} item: global::System.Text.Json.JsonSerializer.Serialize(writer, item.Value, {self.title}JsonContext.Default.{metadata}); break;")
         lines += ["            default: throw new global::System.Text.Json.JsonException(\"Unknown union alternative\");", "        }", "    }", "}\n"]
         return "\n".join(lines)
+
+    def branch_name(self, node: dict) -> str:
+        return node["$ref"].split("/")[-1] if "$ref" in node else node["title"]
 
     def max_bytes(self) -> int:
         value = self.schema.get("x-arcforges-max-bytes")
@@ -281,10 +287,13 @@ class JsonShapes:
         for name in models:
             node = self.models[name]
             if "oneOf" in node:
-                lines.append(f"function order{name}(value: {name}): Record<string, unknown> {{")
+                lines.append(f"function order{name}(value: {name}): unknown {{")
                 for child in node["oneOf"]:
-                    branch = self.typename(child, True, name + "Alternative")
-                    lines.append(f"  if (check{self.visit(child)}(value)) return order{branch}(value as {branch});")
+                    if self.resolve(child).get("type") == "string":
+                        lines.append(f"  if (check{self.visit(child)}(value)) return value;")
+                    else:
+                        branch = self.typename(child, True, name + "Alternative")
+                        lines.append(f"  if (check{self.visit(child)}(value)) return order{branch}(value as {branch});")
                 lines.append("  throw new TypeError('Invalid closed union');\n}")
                 continue
             lines.append(f"function order{name}(value: {name}): Record<string, unknown> {{\n  const out: Record<string, unknown> = {{}};")

@@ -56,6 +56,15 @@ class JsonShapeUnions(unittest.TestCase):
         self.assertIn(" != 1) return false;", checks)
         self.assertNotIn("JsonPolymorphic", models)
 
+    def test_string_object_union_keeps_wire_scalar_and_typed_model(self):
+        schema = sample()
+        schema["$defs"]["StableTarget"] = {"title": "StableTarget", "type": "string", "pattern": "^id-[a-z]+$"}
+        schema["$defs"]["Body"]["oneOf"].append({"$ref": "#/$defs/StableTarget"})
+        models, _, ts = JsonShapes(schema, "Example").generate()
+        self.assertIn("public sealed record BodyStableTarget(string Value) : Body;", models)
+        self.assertIn("EnvelopeJsonContext.Default.String", models)
+        self.assertIn("export type Body = Entries | Shards | string;", ts)
+
     def test_open_alternative_refused(self):
         schema = sample()
         schema["$defs"]["Entries"]["additionalProperties"] = True
@@ -140,6 +149,8 @@ class JsonShapeUnions(unittest.TestCase):
     @unittest.skipUnless(shutil.which("node"), "Existing pinned Node runtime required for generated TypeScript diagnostic")
     def test_generated_typescript_executes_closed_shapes_and_rejects_cycles(self):
         envelope = sample()
+        envelope["$defs"]["StableTarget"] = {"title": "StableTarget", "type": "string", "pattern": "^id-[a-z]+$"}
+        envelope["$defs"]["Body"]["oneOf"].append({"$ref": "#/$defs/StableTarget"})
         envelope["properties"]["labels"] = {"type": "object", "propertyNames": {"type": "string", "pattern": "^[A-Za-z-]+$"},
                                               "additionalProperties": {"type": "string", "maxLength": 5}, "maxProperties": 2}
         envelope["properties"]["maps"] = {"type": "array", "maxItems": 3, "items": copy.deepcopy(envelope["properties"]["labels"])}
@@ -157,6 +168,8 @@ import * as tree from "./Tree.ts";
 const valid = {body: {entries: ["one"]}, labels: {en: "Hello"}, maps: [{fr: "Salut"}]};
 assert.equal(envelope.isEnvelope(valid), true);
 assert.deepEqual(envelope.tryParseEnvelopeJson(envelope.serializeEnvelopeJson(valid)), {ok: true, value: valid});
+assert.deepEqual(envelope.tryParseEnvelopeJson(envelope.serializeEnvelopeJson({body:"id-alice"})), {ok: true, value: {body:"id-alice"}});
+assert.equal(envelope.isEnvelope({body:"invalid"}), false);
 for (const value of [{body:{}}, {body:{entries:[],shards:[]}}, {body:{entries:[],unknown:true}},
                      {body:{entries:[]},labels:{"not a locale":"Hi"}}, {body:{entries:[]},labels:{en:"Too long"}},
                      {body:{entries:[]},labels:{en:"Hi",de:"Hi",fr:"Hi"}}]) assert.equal(envelope.isEnvelope(value), false);
