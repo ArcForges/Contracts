@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "3cdd1311e56eb0e8c18e2bd635a56e30b724ffb3",
+  "sourceCommit": "671f816ddc9e1a3a75782842234f2e899c3de01a",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -1298,7 +1298,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "ce1d737b4bfce0eb930490adf390e8d9fc204f9446fc3a20b5f0d9c613353a45",
+      "sha256": "09c11327a9bbc42d8ca166570741cbeaaf37c3e6a0766108324bf6925a1c585f",
       "kind": "generated"
     },
     {
@@ -3791,7 +3791,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "05f780ec7c1f14ced1b2a9d36ec71693bf357166a89d5b55acf9bf08dd994a90",
+      "sha256": "629ae43b5ba560b0f6322f46deebda5a181753bea649637b8a2021e5da15a212",
       "kind": "generated"
     },
     {
@@ -3948,7 +3948,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "6195f24a846bf6b2318f2eef8a309130cadb3217ea66ab0c0e48784fc4287d5c",
+      "sha256": "5fe6e144d6babe4194717e5e47d01a99073ccf68dd3d04654d23463caf488f58",
       "kind": "generated"
     },
     {
@@ -4057,7 +4057,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "129d128c21aba6aeefed4e384bf3567043a51bd5ea89fe3c44177685f28e16e3"
+      "sha256": "9567c392329f5db7cdcace051e9c7806c7b7ae163bd6d2ed3fff734a5e1a9569"
     },
     {
       "path": "gradle.properties",
@@ -4073,7 +4073,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "21d1f2695bc1aeb442c33804ee49e4708ba67630eba819dd680acd3b6260ce91"
+      "sha256": "92fe9ee7c97d6dee8f79e4c98e61fb16f3acb0a291e15a53c20af22f4c00b6ea"
     },
     {
       "path": "package-lock.json",
@@ -4093,7 +4093,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "6d1cea9b1e18ead3ab3484b83bf95e5e0c1d6ca0063658684d24288039b87db7"
+      "sha256": "69b5e9a861d5e2e914bbfd1817dc15481965868ab719564308c99b77845a4f2f"
     },
     {
       "path": "public/proto/value-boundaries.json",
