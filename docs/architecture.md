@@ -3,11 +3,11 @@
 ## Authored source and generated output
 
 The authored proto trees, JSON schemas and constraint sidecars own the wire and
-validation shapes. `eng/contract-packages.json` defines all 22 current outputs:
-14 NuGet, five npm and three Maven packages. The initial source slices are fixed by the
+validation shapes. `eng/contract-packages.json` defines all 20 current outputs:
+12 NuGet, five npm and three Maven packages. The initial source slices are fixed by the
 [WP03.00 structure profile](https://github.com/ArcForges/ArcForges-Design/blob/26f15ebf6278e8cd42c2b2396e82c326513e1078/docs/assurance/wp03-00-contract-structure-profile.md).
 The [WP03.01 foundation profile](https://github.com/ArcForges/ArcForges-Design/blob/5e202ff10f3c218d9e159029579ca535c641169b/docs/assurance/wp03-01-foundation-contract-profile.md)
-adds the complete selected foundation, Notes query, Scope measurement and recursive
+adds the complete selected foundation, Scope measurement and recursive
 owner-body message closure. [This step's evidence record](wp03-01-foundation.md)
 separates implemented source from validation and publication status. The
 [WP03.02 serialization posture profile](https://github.com/ArcForges/ArcForges-Design/blob/212825003ed712200e585445301473233404f597/docs/assurance/wp03-02-serialization-posture-profile.md)
@@ -15,8 +15,8 @@ fixes the codec, limit, registration and AOT rules below. The remaining
 production operation catalogue and later semantic gates are not complete.
 
 Each NuGet project owns real generated contracts or validation/client/tool code.
-Foundation and Events are reusable public contracts. The six LocalRpc owners
-(Platform, Sandbox, Chat, Notes, Scope and Slate) and CloudInternal have explicit
+Foundation and Events are reusable public contracts. The four LocalRpc owners
+(Platform, Sandbox, Chat and Scope) and CloudInternal have explicit
 internal access boundaries. All authored packages remain Apache-2.0; access and
 licensing are independent properties. The compiled-descriptor/access gate checks
 actual project, npm and Gradle dependencies against the catalog and rejects public
@@ -41,7 +41,7 @@ caller owns transport, session, authentication and lifecycle.
 
 `eng/foundation-inventory.json` binds the selected seeds and complete recursive
 closure to authored fields, tags, presence, oneofs, enums and owners. The current
-closure has 148 messages: 32 in Foundation and 116 in PublicApi, including all 16
+closure has 89 messages: 31 in Foundation and 58 in PublicApi, including all 10
 `AggregateBody` branches. Completeness is checked from field dependencies rather
 than inferred from these counts. Stable common values, errors, origin and resource
 references stay in `arcforges.foundation.v1`; domain projections live in
@@ -50,22 +50,21 @@ Foundation does not import those domain projections.
 
 Generated `ContractShapeValidation.IsValid` overloads and TypeScript `is<Type>`
 functions validate current wire/profile shape. They check required presence,
-oneofs, exact scalar bounds and self-contained Notes, content-origin and measurement
+oneofs, exact scalar bounds and self-contained content-origin and measurement
 relationships. Measurement thresholds carry their selected channel identity;
-result levels/fractions cannot be confused across channels. Rich text keeps exact
-UTF-16 boundaries and stable run/atom identities. These checks do not issue cursors,
-authorize a resource, retrieve bytes, query a database, evaluate Notes filters or
+result levels/fractions cannot be confused across channels. Retired text models and their
+owner-specific semantics are excluded. These checks do not issue cursors,
+authorize a resource, retrieve bytes, query a database or
 compute measurements. A valid reference does not establish ownership or availability.
 
-`public/proto/value-boundaries.json` defines 69 separate ID domains. Generated C#
+`public/proto/value-boundaries.json` defines 47 separate ID domains. Generated C#
 record structs under `ArcForges.Contracts.Foundation.Values` and
 `ArcForges.Contracts.PublicApi.Values`, and exported TypeScript ID brands, prevent
 accidental domain interchange. Shared value adapters preserve canonical UUID byte
-order, int64/uint64 precision, distinct Cloud/native/local tokens, opaque cursor
+order, int64/uint64 precision, distinct Cloud/native tokens, opaque cursor
 bounds, exact decimal coefficient/scale and checked rational time conversion.
 The generated protobuf messages remain the sole wire representation. Shared decimals
-preserve declared scale; `ExactDecimal.FromNotes` / `notesDecimal` additionally
-reject trailing fractional zeroes. No adapter grants permission or implements an owner.
+preserve declared scale. No adapter grants permission or implements an owner.
 
 Compatible reads can retain unknown protobuf fields and unsupported profile keys.
 C# `ReadProjection<T>` and TypeScript `readProjection` report whether current-profile
@@ -207,3 +206,7 @@ retains complete operations, scope/stream/history and three-language client
 conformance; .06/.07/.90 retain their full compatibility/signing/stage gates.
 Android device behavior, authentication, browser CORS, live Cloud/provider behavior
 and commercial acceptance remain with their designated owners.
+
+## Canonical naming distribution
+
+The existing npm `@arcforges/proto` and NuGet `ArcForges.Contracts.Validation` packages carry `tools/naming/eng/check_naming.py` and its adjacent `eng/policy/product-names.json` authority. Invoke the scanner with an explicit `--repository OWNER=PATH`. It requires only Python standard-library modules and Git, and performs no network access or runtime installation. Candidate publication binds these exact source bytes to the normal immutable package version. CON.23 retires Notes/Slate records and fields under P2-019/P2-020; the inventory reserves their names and tags while retaining the historical published baseline.

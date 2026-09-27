@@ -35,17 +35,6 @@ public interface ContextSelectorOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.ByteRange getByteRange();
 
   /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   * @return Whether the notes field is set.
-   */
-  boolean hasNotes();
-  /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   * @return The notes.
-   */
-  io.github.arcforges.contracts.publicapi.v1.NotesSelection getNotes();
-
-  /**
    * <code>.arcforges.publicapi.v1.ScopeSelection scope = 4 [json_name = "scope"];</code>
    * @return Whether the scope field is set.
    */
@@ -55,17 +44,6 @@ public interface ContextSelectorOrBuilder extends
    * @return The scope.
    */
   io.github.arcforges.contracts.publicapi.v1.ScopeSelection getScope();
-
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   * @return Whether the slate field is set.
-   */
-  boolean hasSlate();
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   * @return The slate.
-   */
-  io.github.arcforges.contracts.publicapi.v1.SlateSelection getSlate();
 
   public io.github.arcforges.contracts.publicapi.v1.ContextSelector.SelectionCase getSelectionCase();
 }

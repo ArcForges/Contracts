@@ -85,33 +85,6 @@ public object EventTriggerKt {
 
     public val EventTriggerKt.Dsl.sourceOrNull: io.github.arcforges.contracts.foundation.v1.AggregateRef?
       get() = _builder.sourceOrNull
-
-    /**
-     * `.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];`
-     */
-    public var predicate: io.github.arcforges.contracts.publicapi.v1.NotesFilter
-      @kotlin.jvm.JvmName("getPredicate")
-        get() = _builder.predicate
-      @kotlin.jvm.JvmName("setPredicate")
-        set(value) {
-        _builder.predicate = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];`
-     */
-    public fun clearPredicate() {
-      _builder.clearPredicate()
-    }
-    /**
-     * `.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];`
-     * @return Whether the predicate field is set.
-     */
-    public fun hasPredicate(): kotlin.Boolean {
-      return _builder.hasPredicate()
-    }
-
-    public val EventTriggerKt.Dsl.predicateOrNull: io.github.arcforges.contracts.publicapi.v1.NotesFilter?
-      get() = _builder.predicateOrNull
   }
 }
 public inline fun io.github.arcforges.contracts.publicapi.v1.EventTrigger.copy(block: `io.github.arcforges.contracts.publicapi.v1`.EventTriggerKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.EventTrigger =
@@ -119,6 +92,3 @@ public inline fun io.github.arcforges.contracts.publicapi.v1.EventTrigger.copy(b
 
 public val io.github.arcforges.contracts.publicapi.v1.EventTriggerOrBuilder.sourceOrNull: io.github.arcforges.contracts.foundation.v1.AggregateRef?
   get() = if (hasSource()) getSource() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.EventTriggerOrBuilder.predicateOrNull: io.github.arcforges.contracts.publicapi.v1.NotesFilter?
-  get() = if (hasPredicate()) getPredicate() else null

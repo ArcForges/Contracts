@@ -15,13 +15,11 @@
     "Id",
     "Instant",
     "LimitFailure",
-    "LocalNotesVersion",
     "MeasurementRequest",
     "MeasurementResult",
     "MediaRange",
     "MediaTime",
     "NativeContentRev",
-    "NotesQuery",
     "PageRequest",
     "PageState",
     "Rational",
@@ -207,16 +205,6 @@
       "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
       "fields": [
         {
-          "tag": 1,
-          "name": "notes",
-          "type": "NotesDocument",
-          "cardinality": "required",
-          "wireType": "NotesDocument",
-          "protoName": "notes",
-          "oneof": "body",
-          "presence": "oneof"
-        },
-        {
           "tag": 2,
           "name": "chat",
           "type": "ConversationBody",
@@ -233,56 +221,6 @@
           "cardinality": "required",
           "wireType": "ScopeMetadata",
           "protoName": "scope_metadata",
-          "oneof": "body",
-          "presence": "oneof"
-        },
-        {
-          "tag": 4,
-          "name": "slateMetadata",
-          "type": "SlateMetadata",
-          "cardinality": "required",
-          "wireType": "SlateMetadata",
-          "protoName": "slate_metadata",
-          "oneof": "body",
-          "presence": "oneof"
-        },
-        {
-          "tag": 5,
-          "name": "notebook",
-          "type": "NotebookBody",
-          "cardinality": "required",
-          "wireType": "NotebookBody",
-          "protoName": "notebook",
-          "oneof": "body",
-          "presence": "oneof"
-        },
-        {
-          "tag": 6,
-          "name": "propertyDefinition",
-          "type": "PropertyDefinition",
-          "cardinality": "required",
-          "wireType": "PropertyDefinition",
-          "protoName": "property_definition",
-          "oneof": "body",
-          "presence": "oneof"
-        },
-        {
-          "tag": 7,
-          "name": "savedView",
-          "type": "SavedViewRecord",
-          "cardinality": "required",
-          "wireType": "SavedViewRecord",
-          "protoName": "saved_view",
-          "oneof": "body",
-          "presence": "oneof"
-        },
-        {
-          "tag": 8,
-          "name": "tag",
-          "type": "TagRecord",
-          "cardinality": "required",
-          "wireType": "TagRecord",
-          "protoName": "tag",
           "oneof": "body",
           "presence": "oneof"
         },
@@ -373,7 +311,16 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateBody.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AggregateBodyKt.kt"
-      }
+      },
+      "reservedTags": [1, 4, 5, 6, 7, 8],
+      "reservedNames": [
+        "notebook",
+        "notes",
+        "property_definition",
+        "saved_view",
+        "slate_metadata",
+        "tag"
+      ]
     },
     {
       "name": "AggregateRef",
@@ -994,276 +941,6 @@
       }
     },
     {
-      "name": "Block",
-      "protobufType": "arcforges.publicapi.v1.Block",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "blockId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "block_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "parentId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "parent_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "orderKey",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "order_key",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "body",
-          "type": "BlockBody",
-          "cardinality": "required",
-          "wireType": "BlockBody",
-          "protoName": "body",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 7,
-          "name": "properties",
-          "type": "BlockProperties",
-          "cardinality": "?",
-          "wireType": "BlockProperties",
-          "protoName": "properties",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["block"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Block.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BlockKt.kt"
-      }
-    },
-    {
-      "name": "BlockBody",
-      "protobufType": "arcforges.publicapi.v1.BlockBody",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "text",
-          "type": "RichText",
-          "cardinality": "required",
-          "wireType": "RichText",
-          "protoName": "text",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 2,
-          "name": "code",
-          "type": "CodeBlock",
-          "cardinality": "required",
-          "wireType": "CodeBlock",
-          "protoName": "code",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 3,
-          "name": "resource",
-          "type": "ResourceRef",
-          "cardinality": "required",
-          "wireType": "ResourceRef",
-          "protoName": "resource",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 4,
-          "name": "link",
-          "type": "LinkSpec",
-          "cardinality": "required",
-          "wireType": "LinkSpec",
-          "protoName": "link",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 5,
-          "name": "table",
-          "type": "TableBlock",
-          "cardinality": "required",
-          "wireType": "TableBlock",
-          "protoName": "table",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 6,
-          "name": "math",
-          "type": "MathContent",
-          "cardinality": "required",
-          "wireType": "MathContent",
-          "protoName": "math",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 7,
-          "name": "empty",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "empty",
-          "oneof": "content",
-          "presence": "oneof"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockBody.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BlockBodyKt.kt"
-      }
-    },
-    {
-      "name": "BlockProperties",
-      "protobufType": "arcforges.publicapi.v1.BlockProperties",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "headingLevel",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "heading_level",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "checked",
-          "type": "bool",
-          "cardinality": "?",
-          "wireType": "bool",
-          "protoName": "checked",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "calloutKind",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "callout_kind",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 9,
-          "name": "listStyle",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "list_style",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 10,
-          "name": "altText",
-          "type": "string",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "alt_text",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 11,
-          "name": "imageLayout",
-          "type": "ImageLayout",
-          "cardinality": "?",
-          "wireType": "ImageLayout",
-          "protoName": "image_layout",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 12,
-          "name": "attachmentPresentation",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "attachment_presentation",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 13,
-          "name": "embedRenderMode",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "embed_render_mode",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockProperties.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BlockPropertiesKt.kt"
-      },
-      "reservedTags": [2, 5, 6, 7, 8],
-      "reservedNames": ["list_start", "collapsed", "caption", "pdf_page", "target_block_id"]
-    },
-    {
       "name": "ByteRange",
       "protobufType": "arcforges.foundation.v1.ByteRange",
       "owner": "ArcForges.Contracts.Foundation",
@@ -1692,108 +1369,6 @@
       }
     },
     {
-      "name": "CodeBlock",
-      "protobufType": "arcforges.publicapi.v1.CodeBlock",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "text",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "text",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "language",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "language",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "wrap",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "wrap",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CodeBlock.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CodeBlockKt.kt"
-      }
-    },
-    {
-      "name": "ColourConfiguration",
-      "protobufType": "arcforges.publicapi.v1.ColourConfiguration",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "workingSpace",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "working_space",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "displaySpace",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "display_space",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "ocioConfig",
-          "type": "ResourceVersionRef",
-          "cardinality": "?",
-          "wireType": "ResourceVersionRef",
-          "protoName": "ocio_config",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "inputAssignments",
-          "type": "MediaColourAssignment",
-          "cardinality": "[]",
-          "wireType": "MediaColourAssignment",
-          "protoName": "input_assignments",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ColourConfiguration.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ColourConfigurationKt.kt"
-      }
-    },
-    {
       "name": "ContentOrigin",
       "protobufType": "arcforges.foundation.v1.ContentOrigin",
       "owner": "ArcForges.Contracts.Foundation",
@@ -2023,32 +1598,12 @@
           "presence": "oneof"
         },
         {
-          "tag": 3,
-          "name": "notes",
-          "type": "NotesSelection",
-          "cardinality": "required",
-          "wireType": "NotesSelection",
-          "protoName": "notes",
-          "oneof": "selection",
-          "presence": "oneof"
-        },
-        {
           "tag": 4,
           "name": "scope",
           "type": "ScopeSelection",
           "cardinality": "required",
           "wireType": "ScopeSelection",
           "protoName": "scope",
-          "oneof": "selection",
-          "presence": "oneof"
-        },
-        {
-          "tag": 5,
-          "name": "slate",
-          "type": "SlateSelection",
-          "cardinality": "required",
-          "wireType": "SlateSelection",
-          "protoName": "slate",
           "oneof": "selection",
           "presence": "oneof"
         }
@@ -2059,7 +1614,9 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextSelector.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextSelectorKt.kt"
-      }
+      },
+      "reservedTags": [3, 5],
+      "reservedNames": ["notes", "slate"]
     },
     {
       "name": "ControlProgress",
@@ -2428,168 +1985,6 @@
       }
     },
     {
-      "name": "EffectParameter",
-      "protobufType": "arcforges.publicapi.v1.EffectParameter",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "name",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "decimal",
-          "type": "Decimal",
-          "cardinality": "required",
-          "wireType": "Decimal",
-          "protoName": "decimal",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 3,
-          "name": "boolean",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "boolean",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 4,
-          "name": "text",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "text",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 5,
-          "name": "keyframes",
-          "type": "KeyframeList",
-          "cardinality": "required",
-          "wireType": "KeyframeList",
-          "protoName": "keyframes",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 6,
-          "name": "rational",
-          "type": "Rational",
-          "cardinality": "required",
-          "wireType": "Rational",
-          "protoName": "rational",
-          "oneof": "value",
-          "presence": "oneof"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EffectParameter.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EffectParameterKt.kt"
-      }
-    },
-    {
-      "name": "EffectSpec",
-      "protobufType": "arcforges.publicapi.v1.EffectSpec",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "parameters",
-          "type": "EffectParameter",
-          "cardinality": "[]",
-          "wireType": "EffectParameter",
-          "protoName": "parameters",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 3,
-          "name": "instanceId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "instance_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "definitionVersion",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "definition_version",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "scope",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "scope",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "enabled",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "enabled",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 7,
-          "name": "retainedDefinition",
-          "type": "Bytes",
-          "cardinality": "?",
-          "wireType": "bytes",
-          "protoName": "retained_definition",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EffectSpec.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EffectSpecKt.kt"
-      }
-    },
-    {
       "name": "EphemeralSelection",
       "protobufType": "arcforges.publicapi.v1.EphemeralSelection",
       "owner": "ArcForges.Contracts.PublicApi",
@@ -2727,16 +2122,6 @@
           "protoName": "source",
           "oneof": null,
           "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "predicate",
-          "type": "NotesFilter",
-          "cardinality": "?",
-          "wireType": "NotesFilter",
-          "protoName": "predicate",
-          "oneof": null,
-          "presence": "optional"
         }
       ],
       "rules": [],
@@ -2745,7 +2130,9 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EventTrigger.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EventTriggerKt.kt"
-      }
+      },
+      "reservedTags": [3],
+      "reservedNames": ["predicate"]
     },
     {
       "name": "FamilyResult",
@@ -2831,128 +2218,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FamilyResult.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FamilyResultKt.kt"
-      }
-    },
-    {
-      "name": "FilterGroup",
-      "protobufType": "arcforges.publicapi.v1.FilterGroup",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "operator",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "operator",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "children",
-          "type": "NotesFilter",
-          "cardinality": "[]",
-          "wireType": "NotesFilter",
-          "protoName": "children",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": ["filterGroup"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FilterGroup.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FilterGroupKt.kt"
-      }
-    },
-    {
-      "name": "FolderView",
-      "protobufType": "arcforges.publicapi.v1.FolderView",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "folderId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "folder_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "parentId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "parent_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "orderKey",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "order_key",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "trashedAt",
-          "type": "Instant",
-          "cardinality": "?",
-          "wireType": "Instant",
-          "protoName": "trashed_at",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 7,
-          "name": "notebookRev",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "notebook_rev",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FolderView.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FolderViewKt.kt"
       }
     },
     {
@@ -3148,52 +2413,6 @@
       }
     },
     {
-      "name": "GeneratedSource",
-      "protobufType": "arcforges.publicapi.v1.GeneratedSource",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "parameters",
-          "type": "EffectParameter",
-          "cardinality": "[]",
-          "wireType": "EffectParameter",
-          "protoName": "parameters",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 3,
-          "name": "text",
-          "type": "TimedText",
-          "cardinality": "?",
-          "wireType": "TimedText",
-          "protoName": "text",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["generatedSource"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/GeneratedSource.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/GeneratedSourceKt.kt"
-      }
-    },
-    {
       "name": "Id",
       "protobufType": "arcforges.foundation.v1.Id",
       "owner": "ArcForges.Contracts.Foundation",
@@ -3217,144 +2436,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Id.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/IdKt.kt"
-      }
-    },
-    {
-      "name": "IdList",
-      "protobufType": "arcforges.publicapi.v1.IdList",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "items",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "items",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/IdList.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/IdListKt.kt"
-      }
-    },
-    {
-      "name": "ImageLayout",
-      "protobufType": "arcforges.publicapi.v1.ImageLayout",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "widthRatio",
-          "type": "double",
-          "cardinality": "required",
-          "wireType": "double",
-          "protoName": "width_ratio",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "alignment",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "alignment",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ImageLayout.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ImageLayoutKt.kt"
-      }
-    },
-    {
-      "name": "InlineAtom",
-      "protobufType": "arcforges.publicapi.v1.InlineAtom",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "offset",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "offset",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "mention",
-          "type": "LinkSpec",
-          "cardinality": "required",
-          "wireType": "LinkSpec",
-          "protoName": "mention",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 3,
-          "name": "math",
-          "type": "MathContent",
-          "cardinality": "required",
-          "wireType": "MathContent",
-          "protoName": "math",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 4,
-          "name": "footnote",
-          "type": "LinkSpec",
-          "cardinality": "required",
-          "wireType": "LinkSpec",
-          "protoName": "footnote",
-          "oneof": "content",
-          "presence": "oneof"
-        },
-        {
-          "tag": 5,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 6,
-          "name": "inlineId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "inline_id",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/InlineAtom.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/InlineAtomKt.kt"
       }
     },
     {
@@ -3391,108 +2472,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Instant.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/InstantKt.kt"
-      }
-    },
-    {
-      "name": "Keyframe",
-      "protobufType": "arcforges.publicapi.v1.Keyframe",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "time",
-          "type": "MediaTime",
-          "cardinality": "required",
-          "wireType": "MediaTime",
-          "protoName": "time",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "value",
-          "type": "Decimal",
-          "cardinality": "required",
-          "wireType": "Decimal",
-          "protoName": "value",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "interpolation",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "interpolation",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "inTangent",
-          "type": "Rational",
-          "cardinality": "?",
-          "wireType": "Rational",
-          "protoName": "in_tangent",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "outTangent",
-          "type": "Rational",
-          "cardinality": "?",
-          "wireType": "Rational",
-          "protoName": "out_tangent",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 6,
-          "name": "scope",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "scope",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Keyframe.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/KeyframeKt.kt"
-      }
-    },
-    {
-      "name": "KeyframeList",
-      "protobufType": "arcforges.publicapi.v1.KeyframeList",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "items",
-          "type": "Keyframe",
-          "cardinality": "[]",
-          "wireType": "Keyframe",
-          "protoName": "items",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KeyframeList.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/KeyframeListKt.kt"
       }
     },
     {
@@ -3549,220 +2528,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LimitFailure.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/LimitFailureKt.kt"
-      }
-    },
-    {
-      "name": "LinkSpec",
-      "protobufType": "arcforges.publicapi.v1.LinkSpec",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "targetId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "target_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "url",
-          "type": "string",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "url",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "label",
-          "type": "string",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "label",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["linkSpec"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/LinkSpec.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/LinkSpecKt.kt"
-      }
-    },
-    {
-      "name": "LocalNotesVersion",
-      "protobufType": "arcforges.foundation.v1.LocalNotesVersion",
-      "owner": "ArcForges.Contracts.Foundation",
-      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "ackedRev",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "acked_rev",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "headLocalSeq",
-          "type": "uint64",
-          "cardinality": "required",
-          "wireType": "uint64",
-          "protoName": "head_local_seq",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LocalNotesVersion.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/LocalNotesVersionKt.kt"
-      }
-    },
-    {
-      "name": "MarkerView",
-      "protobufType": "arcforges.publicapi.v1.MarkerView",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "markerId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "marker_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "sequenceId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "sequence_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "range",
-          "type": "MediaRange",
-          "cardinality": "required",
-          "wireType": "MediaRange",
-          "protoName": "range",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "label",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "label",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 6,
-          "name": "clipId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "clip_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 7,
-          "name": "anchor",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "anchor",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MarkerView.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MarkerViewKt.kt"
-      }
-    },
-    {
-      "name": "MathContent",
-      "protobufType": "arcforges.publicapi.v1.MathContent",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "tex",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "tex",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "display",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "display",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MathContent.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MathContentKt.kt"
       }
     },
     {
@@ -4292,118 +3057,6 @@
       }
     },
     {
-      "name": "MediaBin",
-      "protobufType": "arcforges.publicapi.v1.MediaBin",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "binId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "bin_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "parentId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "parent_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "mediaIds",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "media_ids",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 5,
-          "name": "sequenceIds",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "sequence_ids",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 6,
-          "name": "order",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "order",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaBin.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaBinKt.kt"
-      }
-    },
-    {
-      "name": "MediaColourAssignment",
-      "protobufType": "arcforges.publicapi.v1.MediaColourAssignment",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "mediaId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "media_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "inputSpace",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "input_space",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaColourAssignment.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaColourAssignmentKt.kt"
-      }
-    },
-    {
       "name": "MediaRange",
       "protobufType": "arcforges.foundation.v1.MediaRange",
       "owner": "ArcForges.Contracts.Foundation",
@@ -4440,72 +3093,6 @@
       }
     },
     {
-      "name": "MediaStream",
-      "protobufType": "arcforges.publicapi.v1.MediaStream",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "index",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "index",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "codec",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "codec",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "rate",
-          "type": "Rational",
-          "cardinality": "?",
-          "wireType": "Rational",
-          "protoName": "rate",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "channels",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "channels",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaStream.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaStreamKt.kt"
-      }
-    },
-    {
       "name": "MediaTime",
       "protobufType": "arcforges.foundation.v1.MediaTime",
       "owner": "ArcForges.Contracts.Foundation",
@@ -4539,72 +3126,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/MediaTime.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/MediaTimeKt.kt"
-      }
-    },
-    {
-      "name": "MediaView",
-      "protobufType": "arcforges.publicapi.v1.MediaView",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "mediaId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "media_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "source",
-          "type": "ResourceRef",
-          "cardinality": "?",
-          "wireType": "ResourceRef",
-          "protoName": "source",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "availability",
-          "type": "ResourceAvailability",
-          "cardinality": "required",
-          "wireType": "ResourceAvailability",
-          "protoName": "availability",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "duration",
-          "type": "MediaTime",
-          "cardinality": "?",
-          "wireType": "MediaTime",
-          "protoName": "duration",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "streams",
-          "type": "MediaStream",
-          "cardinality": "[]",
-          "wireType": "MediaStream",
-          "protoName": "streams",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaView.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaViewKt.kt"
       }
     },
     {
@@ -5040,640 +3561,6 @@
       }
     },
     {
-      "name": "NotebookBody",
-      "protobufType": "arcforges.publicapi.v1.NotebookBody",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "notebook",
-          "type": "NotebookView",
-          "cardinality": "required",
-          "wireType": "NotebookView",
-          "protoName": "notebook",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "folders",
-          "type": "FolderView",
-          "cardinality": "[]",
-          "wireType": "FolderView",
-          "protoName": "folders",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 3,
-          "name": "documentOrder",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "document_order",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotebookBody.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotebookBodyKt.kt"
-      }
-    },
-    {
-      "name": "NotebookView",
-      "protobufType": "arcforges.publicapi.v1.NotebookView",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "revision",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "revision",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "trashedAt",
-          "type": "Instant",
-          "cardinality": "?",
-          "wireType": "Instant",
-          "protoName": "trashed_at",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotebookView.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotebookViewKt.kt"
-      }
-    },
-    {
-      "name": "NotesDocument",
-      "protobufType": "arcforges.publicapi.v1.NotesDocument",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "documentId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "document_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "folderId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "folder_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "title",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "title",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "blocks",
-          "type": "Block",
-          "cardinality": "[]",
-          "wireType": "Block",
-          "protoName": "blocks",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 6,
-          "name": "properties",
-          "type": "PropertyValue",
-          "cardinality": "[]",
-          "wireType": "PropertyValue",
-          "protoName": "properties",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 7,
-          "name": "tags",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "tags",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 8,
-          "name": "links",
-          "type": "LinkSpec",
-          "cardinality": "[]",
-          "wireType": "LinkSpec",
-          "protoName": "links",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 9,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["notesDocument"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesDocument.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesDocumentKt.kt"
-      }
-    },
-    {
-      "name": "NotesFilter",
-      "protobufType": "arcforges.publicapi.v1.NotesFilter",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "group",
-          "type": "FilterGroup",
-          "cardinality": "required",
-          "wireType": "FilterGroup",
-          "protoName": "group",
-          "oneof": "expression",
-          "presence": "oneof"
-        },
-        {
-          "tag": 2,
-          "name": "predicate",
-          "type": "ScalarPredicate",
-          "cardinality": "required",
-          "wireType": "ScalarPredicate",
-          "protoName": "predicate",
-          "oneof": "expression",
-          "presence": "oneof"
-        }
-      ],
-      "rules": ["notesFilter"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesFilter.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesFilterKt.kt"
-      }
-    },
-    {
-      "name": "NotesQuery",
-      "protobufType": "arcforges.publicapi.v1.NotesQuery",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "profile",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "profile",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "savedViewId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "saved_view_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "savedViewRev",
-          "type": "Revision",
-          "cardinality": "?",
-          "wireType": "Revision",
-          "protoName": "saved_view_rev",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "filter",
-          "type": "NotesFilter",
-          "cardinality": "?",
-          "wireType": "NotesFilter",
-          "protoName": "filter",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 6,
-          "name": "sorts",
-          "type": "NotesSort",
-          "cardinality": "[]",
-          "wireType": "NotesSort",
-          "protoName": "sorts",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 7,
-          "name": "projection",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "projection",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 8,
-          "name": "page",
-          "type": "PageRequest",
-          "cardinality": "required",
-          "wireType": "PageRequest",
-          "protoName": "page",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 9,
-          "name": "datasetToken",
-          "type": "Cursor",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "dataset_token",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 10,
-          "name": "definitionVersions",
-          "type": "PropertyDefinitionVersion",
-          "cardinality": "[]",
-          "wireType": "PropertyDefinitionVersion",
-          "protoName": "definition_versions",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 11,
-          "name": "selectors",
-          "type": "NotesSelectors",
-          "cardinality": "?",
-          "wireType": "NotesSelectors",
-          "protoName": "selectors",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["notesQuery"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesQuery.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesQueryKt.kt"
-      }
-    },
-    {
-      "name": "NotesSelection",
-      "protobufType": "arcforges.publicapi.v1.NotesSelection",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "documentId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "document_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "anchor",
-          "type": "NotesTextPosition",
-          "cardinality": "required",
-          "wireType": "NotesTextPosition",
-          "protoName": "anchor",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "focus",
-          "type": "NotesTextPosition",
-          "cardinality": "required",
-          "wireType": "NotesTextPosition",
-          "protoName": "focus",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "localVersion",
-          "type": "LocalNotesVersion",
-          "cardinality": "?",
-          "wireType": "LocalNotesVersion",
-          "protoName": "local_version",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "cloudRevision",
-          "type": "Revision",
-          "cardinality": "?",
-          "wireType": "Revision",
-          "protoName": "cloud_revision",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["notesSelection"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSelection.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesSelectionKt.kt"
-      }
-    },
-    {
-      "name": "NotesSelectors",
-      "protobufType": "arcforges.publicapi.v1.NotesSelectors",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "documentId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "document_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 2,
-          "name": "folderId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "folder_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "tagIds",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "tag_ids",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 4,
-          "name": "text",
-          "type": "string",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "text",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "blockKinds",
-          "type": "Key",
-          "cardinality": "[]",
-          "wireType": "string",
-          "protoName": "block_kinds",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 6,
-          "name": "hasAttachment",
-          "type": "Bool",
-          "cardinality": "?",
-          "wireType": "bool",
-          "protoName": "has_attachment",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 7,
-          "name": "modified",
-          "type": "TimeRangeUtc",
-          "cardinality": "?",
-          "wireType": "TimeRangeUtc",
-          "protoName": "modified",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 8,
-          "name": "linkedTo",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "linked_to",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["notesSelectors"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSelectors.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesSelectorsKt.kt"
-      }
-    },
-    {
-      "name": "NotesSort",
-      "protobufType": "arcforges.publicapi.v1.NotesSort",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "propertyId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "property_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "descending",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "descending",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSort.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesSortKt.kt"
-      }
-    },
-    {
-      "name": "NotesTextPosition",
-      "protobufType": "arcforges.publicapi.v1.NotesTextPosition",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "blockId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "block_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "inlineId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "inline_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "offsetUtf16",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "offset_utf16",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "affinity",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "affinity",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "cellId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "cell_id",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesTextPosition.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesTextPositionKt.kt"
-      }
-    },
-    {
       "name": "PageRequest",
       "protobufType": "arcforges.foundation.v1.PageRequest",
       "owner": "ArcForges.Contracts.Foundation",
@@ -5802,306 +3689,6 @@
       }
     },
     {
-      "name": "ProcessingEdge",
-      "protobufType": "arcforges.publicapi.v1.ProcessingEdge",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "sourceNodeId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "source_node_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "sourcePort",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "source_port",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "targetNodeId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "target_node_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "targetPort",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "target_port",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ProcessingEdge.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ProcessingEdgeKt.kt"
-      }
-    },
-    {
-      "name": "ProcessingGraph",
-      "protobufType": "arcforges.publicapi.v1.ProcessingGraph",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "nodes",
-          "type": "EffectSpec",
-          "cardinality": "[]",
-          "wireType": "EffectSpec",
-          "protoName": "nodes",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 2,
-          "name": "edges",
-          "type": "ProcessingEdge",
-          "cardinality": "[]",
-          "wireType": "ProcessingEdge",
-          "protoName": "edges",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 3,
-          "name": "outputNodeId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "output_node_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "profile",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "profile",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ProcessingGraph.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ProcessingGraphKt.kt"
-      }
-    },
-    {
-      "name": "PropertyDefinition",
-      "protobufType": "arcforges.publicapi.v1.PropertyDefinition",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "propertyId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "property_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "type",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "type",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "profile",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "profile",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "semanticRevision",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "semantic_revision",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 7,
-          "name": "revision",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "revision",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 8,
-          "name": "options",
-          "type": "SelectOption",
-          "cardinality": "[]",
-          "wireType": "SelectOption",
-          "protoName": "options",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 9,
-          "name": "numberScale",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "number_scale",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 10,
-          "name": "trashedAt",
-          "type": "Instant",
-          "cardinality": "?",
-          "wireType": "Instant",
-          "protoName": "trashed_at",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["propertyDefinition"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyDefinition.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionKt.kt"
-      }
-    },
-    {
-      "name": "PropertyDefinitionVersion",
-      "protobufType": "arcforges.publicapi.v1.PropertyDefinitionVersion",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "propertyId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "property_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "semanticRevision",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "semantic_revision",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionVersion.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionVersionKt.kt"
-      }
-    },
-    {
-      "name": "PropertyValue",
-      "protobufType": "arcforges.publicapi.v1.PropertyValue",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "propertyId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "property_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "value",
-          "type": "ScalarValue",
-          "cardinality": "required",
-          "wireType": "ScalarValue",
-          "protoName": "value",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyValue.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PropertyValueKt.kt"
-      }
-    },
-    {
       "name": "Rational",
       "protobufType": "arcforges.foundation.v1.Rational",
       "owner": "ArcForges.Contracts.Foundation",
@@ -6184,152 +3771,6 @@
       }
     },
     {
-      "name": "RenderPreset",
-      "protobufType": "arcforges.publicapi.v1.RenderPreset",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "container",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "container",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "videoCodec",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "video_codec",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "audioCodec",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "audio_codec",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 4,
-          "name": "width",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "width",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "height",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "height",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 6,
-          "name": "rate",
-          "type": "Rational",
-          "cardinality": "?",
-          "wireType": "Rational",
-          "protoName": "rate",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 7,
-          "name": "colourSpace",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "colour_space",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 8,
-          "name": "sampleRate",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "sample_rate",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 9,
-          "name": "channelLayout",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "channel_layout",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 10,
-          "name": "profile",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "profile",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 11,
-          "name": "audioBitrate",
-          "type": "uint32",
-          "cardinality": "?",
-          "wireType": "uint32",
-          "protoName": "audio_bitrate",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 12,
-          "name": "videoBitrate",
-          "type": "uint64",
-          "cardinality": "?",
-          "wireType": "uint64",
-          "protoName": "video_bitrate",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 13,
-          "name": "subtitleMode",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "subtitle_mode",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RenderPreset.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RenderPresetKt.kt"
-      }
-    },
-    {
       "name": "RequestMeta",
       "protobufType": "arcforges.foundation.v1.RequestMeta",
       "owner": "ArcForges.Contracts.Foundation",
@@ -6377,16 +3818,6 @@
           "presence": "optional"
         },
         {
-          "tag": 5,
-          "name": "expectedLocal",
-          "type": "LocalNotesVersion",
-          "cardinality": "?",
-          "wireType": "LocalNotesVersion",
-          "protoName": "expected_local",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
           "tag": 6,
           "name": "expectedNative",
           "type": "NativeContentRev",
@@ -6423,7 +3854,9 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMeta.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RequestMetaKt.kt"
-      }
+      },
+      "reservedTags": [5],
+      "reservedNames": ["expected_local"]
     },
     {
       "name": "ResourceRef",
@@ -6559,16 +3992,6 @@
           "presence": "oneof"
         },
         {
-          "tag": 4,
-          "name": "local",
-          "type": "LocalNotesVersion",
-          "cardinality": "required",
-          "wireType": "LocalNotesVersion",
-          "protoName": "local",
-          "oneof": "revision",
-          "presence": "oneof"
-        },
-        {
           "tag": 5,
           "name": "contentHash",
           "type": "Hash",
@@ -6595,7 +4018,9 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResourceVersionRef.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ResourceVersionRefKt.kt"
-      }
+      },
+      "reservedTags": [4],
+      "reservedNames": ["local"]
     },
     {
       "name": "ResponseMeta",
@@ -6661,78 +4086,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResponseMeta.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ResponseMetaKt.kt"
-      }
-    },
-    {
-      "name": "RetimeCurve",
-      "protobufType": "arcforges.publicapi.v1.RetimeCurve",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "points",
-          "type": "RetimePoint",
-          "cardinality": "[]",
-          "wireType": "RetimePoint",
-          "protoName": "points",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 2,
-          "name": "profile",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "profile",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RetimeCurve.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RetimeCurveKt.kt"
-      }
-    },
-    {
-      "name": "RetimePoint",
-      "protobufType": "arcforges.publicapi.v1.RetimePoint",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "timelineOffset",
-          "type": "MediaTime",
-          "cardinality": "required",
-          "wireType": "MediaTime",
-          "protoName": "timeline_offset",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "sourceOffset",
-          "type": "MediaTime",
-          "cardinality": "required",
-          "wireType": "MediaTime",
-          "protoName": "source_offset",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RetimePoint.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RetimePointKt.kt"
       }
     },
     {
@@ -6854,62 +4207,6 @@
       }
     },
     {
-      "name": "RichText",
-      "protobufType": "arcforges.publicapi.v1.RichText",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "text",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "text",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "spans",
-          "type": "TextSpan",
-          "cardinality": "[]",
-          "wireType": "TextSpan",
-          "protoName": "spans",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 3,
-          "name": "atoms",
-          "type": "InlineAtom",
-          "cardinality": "[]",
-          "wireType": "InlineAtom",
-          "protoName": "atoms",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 4,
-          "name": "runs",
-          "type": "TextRunSegment",
-          "cardinality": "[]",
-          "wireType": "TextRunSegment",
-          "protoName": "runs",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": ["richText"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RichText.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RichTextKt.kt"
-      }
-    },
-    {
       "name": "SampleRange",
       "protobufType": "arcforges.publicapi.v1.SampleRange",
       "owner": "ArcForges.Contracts.PublicApi",
@@ -6943,244 +4240,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SampleRange.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SampleRangeKt.kt"
-      }
-    },
-    {
-      "name": "SavedViewRecord",
-      "protobufType": "arcforges.publicapi.v1.SavedViewRecord",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "viewId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "view_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "layout",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "layout",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "query",
-          "type": "NotesQuery",
-          "cardinality": "required",
-          "wireType": "NotesQuery",
-          "protoName": "query",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "revision",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "revision",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 7,
-          "name": "trashedAt",
-          "type": "Instant",
-          "cardinality": "?",
-          "wireType": "Instant",
-          "protoName": "trashed_at",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": ["savedView"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SavedViewRecord.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SavedViewRecordKt.kt"
-      }
-    },
-    {
-      "name": "ScalarPredicate",
-      "protobufType": "arcforges.publicapi.v1.ScalarPredicate",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "propertyId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "property_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "operator",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "operator",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "operands",
-          "type": "ScalarValue",
-          "cardinality": "[]",
-          "wireType": "ScalarValue",
-          "protoName": "operands",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": ["scalarPredicate"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScalarPredicate.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScalarPredicateKt.kt"
-      }
-    },
-    {
-      "name": "ScalarValue",
-      "protobufType": "arcforges.publicapi.v1.ScalarValue",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "null",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "null",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 2,
-          "name": "text",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "text",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 3,
-          "name": "boolean",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "boolean",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 4,
-          "name": "number",
-          "type": "Decimal",
-          "cardinality": "required",
-          "wireType": "Decimal",
-          "protoName": "number",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 5,
-          "name": "date",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "date",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 6,
-          "name": "select",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "select",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 7,
-          "name": "multiSelect",
-          "type": "IdList",
-          "cardinality": "required",
-          "wireType": "IdList",
-          "protoName": "multi_select",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 8,
-          "name": "dateTime",
-          "type": "Instant",
-          "cardinality": "required",
-          "wireType": "Instant",
-          "protoName": "date_time",
-          "oneof": "value",
-          "presence": "oneof"
-        },
-        {
-          "tag": 9,
-          "name": "url",
-          "type": "string",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "url",
-          "oneof": "value",
-          "presence": "oneof"
-        }
-      ],
-      "rules": ["scalarValue"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScalarValue.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScalarValueKt.kt"
       }
     },
     {
@@ -7726,52 +4785,6 @@
       }
     },
     {
-      "name": "SelectOption",
-      "protobufType": "arcforges.publicapi.v1.SelectOption",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "optionId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "option_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "label",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "label",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "order",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "order",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SelectOption.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SelectOptionKt.kt"
-      }
-    },
-    {
       "name": "SelectedSample",
       "protobufType": "arcforges.publicapi.v1.SelectedSample",
       "owner": "ArcForges.Contracts.PublicApi",
@@ -7845,132 +4858,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SelectedSample.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SelectedSampleKt.kt"
-      }
-    },
-    {
-      "name": "SequenceView",
-      "protobufType": "arcforges.publicapi.v1.SequenceView",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "sequenceId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "sequence_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "projectId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "project_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "revision",
-          "type": "NativeContentRev",
-          "cardinality": "required",
-          "wireType": "NativeContentRev",
-          "protoName": "revision",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "duration",
-          "type": "MediaTime",
-          "cardinality": "required",
-          "wireType": "MediaTime",
-          "protoName": "duration",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "videoRate",
-          "type": "Rational",
-          "cardinality": "required",
-          "wireType": "Rational",
-          "protoName": "video_rate",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 7,
-          "name": "sampleRate",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "sample_rate",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 8,
-          "name": "width",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "width",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 9,
-          "name": "height",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "height",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 10,
-          "name": "channelLayout",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "channel_layout",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 11,
-          "name": "colour",
-          "type": "ColourConfiguration",
-          "cardinality": "required",
-          "wireType": "ColourConfiguration",
-          "protoName": "colour",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SequenceView.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SequenceViewKt.kt"
       }
     },
     {
@@ -8060,198 +4947,6 @@
       }
     },
     {
-      "name": "SlateMetadata",
-      "protobufType": "arcforges.publicapi.v1.SlateMetadata",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "projectId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "project_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "sequences",
-          "type": "SequenceView",
-          "cardinality": "[]",
-          "wireType": "SequenceView",
-          "protoName": "sequences",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 4,
-          "name": "media",
-          "type": "MediaView",
-          "cardinality": "[]",
-          "wireType": "MediaView",
-          "protoName": "media",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 5,
-          "name": "timelines",
-          "type": "TimelineView",
-          "cardinality": "[]",
-          "wireType": "TimelineView",
-          "protoName": "timelines",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 6,
-          "name": "bins",
-          "type": "MediaBin",
-          "cardinality": "[]",
-          "wireType": "MediaBin",
-          "protoName": "bins",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 7,
-          "name": "presets",
-          "type": "RenderPreset",
-          "cardinality": "[]",
-          "wireType": "RenderPreset",
-          "protoName": "presets",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 8,
-          "name": "transcripts",
-          "type": "ResourceVersionRef",
-          "cardinality": "[]",
-          "wireType": "ResourceVersionRef",
-          "protoName": "transcripts",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 9,
-          "name": "smallAssets",
-          "type": "ResourceVersionRef",
-          "cardinality": "[]",
-          "wireType": "ResourceVersionRef",
-          "protoName": "small_assets",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 10,
-          "name": "contentRev",
-          "type": "NativeContentRev",
-          "cardinality": "required",
-          "wireType": "NativeContentRev",
-          "protoName": "content_rev",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 11,
-          "name": "profile",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "profile",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SlateMetadata.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SlateMetadataKt.kt"
-      }
-    },
-    {
-      "name": "SlateSelection",
-      "protobufType": "arcforges.publicapi.v1.SlateSelection",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "projectId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "project_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "sequenceId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "sequence_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "range",
-          "type": "MediaRange",
-          "cardinality": "required",
-          "wireType": "MediaRange",
-          "protoName": "range",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "items",
-          "type": "Id",
-          "cardinality": "[]",
-          "wireType": "Id",
-          "protoName": "items",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 5,
-          "name": "revision",
-          "type": "NativeContentRev",
-          "cardinality": "required",
-          "wireType": "NativeContentRev",
-          "protoName": "revision",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SlateSelection.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SlateSelectionKt.kt"
-      }
-    },
-    {
       "name": "SourceConsentRef",
       "protobufType": "arcforges.publicapi.v1.SourceConsentRef",
       "owner": "ArcForges.Contracts.PublicApi",
@@ -8335,16 +5030,6 @@
           "presence": "optional"
         },
         {
-          "tag": 4,
-          "name": "local",
-          "type": "LocalNotesVersion",
-          "cardinality": "?",
-          "wireType": "LocalNotesVersion",
-          "protoName": "local",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
           "tag": 5,
           "name": "native",
           "type": "NativeContentRev",
@@ -8361,7 +5046,9 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailure.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/StateFailureKt.kt"
-      }
+      },
+      "reservedTags": [4],
+      "reservedNames": ["local"]
     },
     {
       "name": "StructuredValue",
@@ -8477,180 +5164,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/StructuredValue.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/StructuredValueKt.kt"
-      }
-    },
-    {
-      "name": "TableBlock",
-      "protobufType": "arcforges.publicapi.v1.TableBlock",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "rows",
-          "type": "TableRow",
-          "cardinality": "[]",
-          "wireType": "TableRow",
-          "protoName": "rows",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": ["tableBlock"],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableBlock.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TableBlockKt.kt"
-      }
-    },
-    {
-      "name": "TableCell",
-      "protobufType": "arcforges.publicapi.v1.TableCell",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "cellId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "cell_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "content",
-          "type": "RichText",
-          "cardinality": "required",
-          "wireType": "RichText",
-          "protoName": "content",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableCell.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TableCellKt.kt"
-      }
-    },
-    {
-      "name": "TableRow",
-      "protobufType": "arcforges.publicapi.v1.TableRow",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "rowId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "row_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "cells",
-          "type": "TableCell",
-          "cardinality": "[]",
-          "wireType": "TableCell",
-          "protoName": "cells",
-          "oneof": null,
-          "presence": "repeated"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableRow.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TableRowKt.kt"
-      }
-    },
-    {
-      "name": "TagRecord",
-      "protobufType": "arcforges.publicapi.v1.TagRecord",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "tagId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "tag_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "notebookId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "notebook_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "colour",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "colour",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "revision",
-          "type": "Revision",
-          "cardinality": "required",
-          "wireType": "Revision",
-          "protoName": "revision",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "trashedAt",
-          "type": "Instant",
-          "cardinality": "?",
-          "wireType": "Instant",
-          "protoName": "trashed_at",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TagRecord.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TagRecordKt.kt"
       }
     },
     {
@@ -8810,118 +5323,6 @@
       }
     },
     {
-      "name": "TextRunSegment",
-      "protobufType": "arcforges.publicapi.v1.TextRunSegment",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "runId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "run_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "from",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "from",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "until",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "until",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TextRunSegment.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TextRunSegmentKt.kt"
-      }
-    },
-    {
-      "name": "TextSpan",
-      "protobufType": "arcforges.publicapi.v1.TextSpan",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "from",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "from",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "until",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "until",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "marks",
-          "type": "Key",
-          "cardinality": "[]",
-          "wireType": "string",
-          "protoName": "marks",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 4,
-          "name": "link",
-          "type": "LinkSpec",
-          "cardinality": "?",
-          "wireType": "LinkSpec",
-          "protoName": "link",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TextSpan.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TextSpanKt.kt"
-      }
-    },
-    {
       "name": "TimeRangeUtc",
       "protobufType": "arcforges.foundation.v1.TimeRangeUtc",
       "owner": "ArcForges.Contracts.Foundation",
@@ -8955,450 +5356,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TimeRangeUtc.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/TimeRangeUtcKt.kt"
-      }
-    },
-    {
-      "name": "TimedText",
-      "protobufType": "arcforges.publicapi.v1.TimedText",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "text",
-          "type": "Text",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "text",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "language",
-          "type": "Key",
-          "cardinality": "?",
-          "wireType": "string",
-          "protoName": "language",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "fontFamily",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "font_family",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "fontAsset",
-          "type": "ResourceVersionRef",
-          "cardinality": "?",
-          "wireType": "ResourceVersionRef",
-          "protoName": "font_asset",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "size",
-          "type": "Decimal",
-          "cardinality": "required",
-          "wireType": "Decimal",
-          "protoName": "size",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "colour",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "colour",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 7,
-          "name": "alignment",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "alignment",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 8,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimedText.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimedTextKt.kt"
-      }
-    },
-    {
-      "name": "TimelineClip",
-      "protobufType": "arcforges.publicapi.v1.TimelineClip",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "clipId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "clip_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "mediaId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "media_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 3,
-          "name": "timeline",
-          "type": "MediaRange",
-          "cardinality": "required",
-          "wireType": "MediaRange",
-          "protoName": "timeline",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "source",
-          "type": "MediaRange",
-          "cardinality": "?",
-          "wireType": "MediaRange",
-          "protoName": "source",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 5,
-          "name": "playbackRate",
-          "type": "Rational",
-          "cardinality": "required",
-          "wireType": "Rational",
-          "protoName": "playback_rate",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "effects",
-          "type": "EffectSpec",
-          "cardinality": "[]",
-          "wireType": "EffectSpec",
-          "protoName": "effects",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 7,
-          "name": "origin",
-          "type": "ContentOrigin",
-          "cardinality": "?",
-          "wireType": "ContentOrigin",
-          "protoName": "origin",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 8,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 9,
-          "name": "enabled",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "enabled",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 10,
-          "name": "nestedSequenceId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "nested_sequence_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 11,
-          "name": "generated",
-          "type": "GeneratedSource",
-          "cardinality": "?",
-          "wireType": "GeneratedSource",
-          "protoName": "generated",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 12,
-          "name": "text",
-          "type": "TimedText",
-          "cardinality": "?",
-          "wireType": "TimedText",
-          "protoName": "text",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 13,
-          "name": "graph",
-          "type": "ProcessingGraph",
-          "cardinality": "required",
-          "wireType": "ProcessingGraph",
-          "protoName": "graph",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 14,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 15,
-          "name": "linkGroupId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "link_group_id",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 16,
-          "name": "retime",
-          "type": "RetimeCurve",
-          "cardinality": "?",
-          "wireType": "RetimeCurve",
-          "protoName": "retime",
-          "oneof": null,
-          "presence": "optional"
-        },
-        {
-          "tag": 17,
-          "name": "groupId",
-          "type": "Id",
-          "cardinality": "?",
-          "wireType": "Id",
-          "protoName": "group_id",
-          "oneof": null,
-          "presence": "optional"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineClip.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimelineClipKt.kt"
-      }
-    },
-    {
-      "name": "TimelineTrack",
-      "protobufType": "arcforges.publicapi.v1.TimelineTrack",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "trackId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "track_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "order",
-          "type": "uint32",
-          "cardinality": "required",
-          "wireType": "uint32",
-          "protoName": "order",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "clips",
-          "type": "TimelineClip",
-          "cardinality": "[]",
-          "wireType": "TimelineClip",
-          "protoName": "clips",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 5,
-          "name": "transitions",
-          "type": "TransitionSpec",
-          "cardinality": "[]",
-          "wireType": "TransitionSpec",
-          "protoName": "transitions",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 6,
-          "name": "enabled",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "enabled",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 7,
-          "name": "name",
-          "type": "Name",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "name",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 8,
-          "name": "locked",
-          "type": "bool",
-          "cardinality": "required",
-          "wireType": "bool",
-          "protoName": "locked",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 9,
-          "name": "graph",
-          "type": "ProcessingGraph",
-          "cardinality": "required",
-          "wireType": "ProcessingGraph",
-          "protoName": "graph",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineTrack.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimelineTrackKt.kt"
-      }
-    },
-    {
-      "name": "TimelineView",
-      "protobufType": "arcforges.publicapi.v1.TimelineView",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "sequence",
-          "type": "SequenceView",
-          "cardinality": "required",
-          "wireType": "SequenceView",
-          "protoName": "sequence",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "tracks",
-          "type": "TimelineTrack",
-          "cardinality": "[]",
-          "wireType": "TimelineTrack",
-          "protoName": "tracks",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 3,
-          "name": "markers",
-          "type": "MarkerView",
-          "cardinality": "[]",
-          "wireType": "MarkerView",
-          "protoName": "markers",
-          "oneof": null,
-          "presence": "repeated"
-        },
-        {
-          "tag": 4,
-          "name": "graph",
-          "type": "ProcessingGraph",
-          "cardinality": "required",
-          "wireType": "ProcessingGraph",
-          "protoName": "graph",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineView.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimelineViewKt.kt"
       }
     },
     {
@@ -9521,82 +5478,6 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ToolResult.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ToolResultKt.kt"
-      }
-    },
-    {
-      "name": "TransitionSpec",
-      "protobufType": "arcforges.publicapi.v1.TransitionSpec",
-      "owner": "ArcForges.Contracts.PublicApi",
-      "source": "public/proto/arcforges/publicapi/v1/content.proto",
-      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
-      "fields": [
-        {
-          "tag": 1,
-          "name": "transitionId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "transition_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 2,
-          "name": "leftClipId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "left_clip_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 3,
-          "name": "rightClipId",
-          "type": "Id",
-          "cardinality": "required",
-          "wireType": "Id",
-          "protoName": "right_clip_id",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 4,
-          "name": "kind",
-          "type": "Key",
-          "cardinality": "required",
-          "wireType": "string",
-          "protoName": "kind",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 5,
-          "name": "inOffset",
-          "type": "MediaTime",
-          "cardinality": "required",
-          "wireType": "MediaTime",
-          "protoName": "in_offset",
-          "oneof": null,
-          "presence": "required"
-        },
-        {
-          "tag": 6,
-          "name": "outOffset",
-          "type": "MediaTime",
-          "cardinality": "required",
-          "wireType": "MediaTime",
-          "protoName": "out_offset",
-          "oneof": null,
-          "presence": "required"
-        }
-      ],
-      "rules": [],
-      "outputs": {
-        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransitionSpec.java",
-        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransitionSpecKt.kt"
       }
     },
     {
@@ -10289,5 +6170,167 @@
         }
       ]
     }
-  ]
+  ],
+  "retirement": {
+    "authority": "P2-019/P2-020; registry04 retired message names",
+    "messages": [
+      "AudioChunk",
+      "Block",
+      "BlockBody",
+      "BlockEdit",
+      "BlockMove",
+      "BlockProperties",
+      "CheckpointView",
+      "ClassificationMap",
+      "ClipPlacement",
+      "CodeBlock",
+      "ColourConfiguration",
+      "DocumentProjection",
+      "DocumentRef",
+      "DocumentView",
+      "EffectParameter",
+      "EffectSpec",
+      "FidelityEntry",
+      "FilterGroup",
+      "FolderView",
+      "GeneratedSource",
+      "IdList",
+      "ImageLayout",
+      "InlineAtom",
+      "Keyframe",
+      "KeyframeList",
+      "LinkSpec",
+      "LocalNotesVersion",
+      "LocalRootVersion",
+      "MarkerView",
+      "MathContent",
+      "MediaBin",
+      "MediaColourAssignment",
+      "MediaRelink",
+      "MediaStream",
+      "MediaView",
+      "NotebookBody",
+      "NotebookView",
+      "NotesCommand",
+      "NotesDataset",
+      "NotesDocument",
+      "NotesFilter",
+      "NotesMovePreview",
+      "NotesQuery",
+      "NotesSelection",
+      "NotesSelectors",
+      "NotesSort",
+      "NotesTableAction",
+      "NotesTextPosition",
+      "OptionMove",
+      "OtioExportRequest",
+      "OtioFidelityReport",
+      "OtioImportRequest",
+      "ProcessingEdge",
+      "ProcessingGraph",
+      "PropertyDefinition",
+      "PropertyDefinitionVersion",
+      "PropertyMove",
+      "PropertyValue",
+      "RenderPreset",
+      "RenderRequest",
+      "RetimeCurve",
+      "RetimePoint",
+      "RevisionView",
+      "RichText",
+      "SandboxFrame",
+      "SandboxMediaInfo",
+      "SandboxOutput",
+      "SandboxReadResult",
+      "SandboxStreamInfo",
+      "SavedViewRecord",
+      "ScalarPredicate",
+      "ScalarValue",
+      "SelectOption",
+      "SequenceView",
+      "SlateMetadata",
+      "SlateProject",
+      "SlateSelection",
+      "SubtitleInterchange",
+      "TableBlock",
+      "TableCell",
+      "TableRow",
+      "TagMove",
+      "TagRecord",
+      "TextRunSegment",
+      "TextSpan",
+      "TimedText",
+      "TimelineClip",
+      "TimelineCommand",
+      "TimelineEdit",
+      "TimelineTrack",
+      "TimelineView",
+      "TranscriptRecord",
+      "TranscriptSegment",
+      "TranscriptionRequest",
+      "TransitionSpec"
+    ],
+    "fields": {
+      "RequestMeta": [
+        {
+          "name": "expected_local",
+          "tag": 5
+        }
+      ],
+      "StateFailure": [
+        {
+          "name": "local",
+          "tag": 4
+        }
+      ],
+      "ResourceVersionRef": [
+        {
+          "name": "local",
+          "tag": 4
+        }
+      ],
+      "AggregateBody": [
+        {
+          "name": "notes",
+          "tag": 1
+        },
+        {
+          "name": "slate_metadata",
+          "tag": 4
+        },
+        {
+          "name": "notebook",
+          "tag": 5
+        },
+        {
+          "name": "property_definition",
+          "tag": 6
+        },
+        {
+          "name": "saved_view",
+          "tag": 7
+        },
+        {
+          "name": "tag",
+          "tag": 8
+        }
+      ],
+      "ContextSelector": [
+        {
+          "name": "notes",
+          "tag": 3
+        },
+        {
+          "name": "slate",
+          "tag": 5
+        }
+      ],
+      "EventTrigger": [
+        {
+          "name": "predicate",
+          "tag": 3
+        }
+      ]
+    }
+  }
 }

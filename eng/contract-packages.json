@@ -110,16 +110,6 @@
       "jsonSchemas": []
     },
     {
-      "id": "ArcForges.Contracts.LocalRpc.Notes",
-      "kind": "nuget",
-      "access": "internal",
-      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes",
-      "proto": ["internal/proto/arcforges/local/notes/v1/notes.proto"],
-      "dependencies": ["ArcForges.Contracts.Foundation"],
-      "descriptor": "local-notes.binpb",
-      "jsonSchemas": []
-    },
-    {
       "id": "ArcForges.Contracts.LocalRpc.Scope",
       "kind": "nuget",
       "access": "internal",
@@ -127,16 +117,6 @@
       "proto": ["internal/proto/arcforges/local/scope/v1/scope.proto"],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "local-scope.binpb",
-      "jsonSchemas": []
-    },
-    {
-      "id": "ArcForges.Contracts.LocalRpc.Slate",
-      "kind": "nuget",
-      "access": "internal",
-      "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate",
-      "proto": ["internal/proto/arcforges/local/slate/v1/slate.proto"],
-      "dependencies": ["ArcForges.Contracts.Foundation"],
-      "descriptor": "local-slate.binpb",
       "jsonSchemas": []
     },
     {

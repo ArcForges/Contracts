@@ -10,7 +10,7 @@ import {
   decodeContract,
   encodeContract,
   IdSchema,
-  NotesFilterSchema,
+  StructuredValueSchema,
   wireLimits,
 } from "@arcforges/proto";
 import {
@@ -32,7 +32,7 @@ const fixture = JSON.parse(
 const targets = {
   "arcforges.foundation.v1.Id": IdSchema,
   "arcforges.foundation.v1.ArcError": ArcErrorSchema,
-  "arcforges.publicapi.v1.NotesFilter": NotesFilterSchema,
+  "arcforges.publicapi.v1.StructuredValue": StructuredValueSchema,
 };
 const codecs = {
   PartReceipt: { tryParse: tryParsePartReceiptJson, serialize: serializePartReceiptJson },

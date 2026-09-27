@@ -140,33 +140,6 @@ public object RequestMetaKt {
       get() = _builder.workspaceIdOrNull
 
     /**
-     * `.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];`
-     */
-    public var expectedLocal: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion
-      @kotlin.jvm.JvmName("getExpectedLocal")
-        get() = _builder.expectedLocal
-      @kotlin.jvm.JvmName("setExpectedLocal")
-        set(value) {
-        _builder.expectedLocal = value
-      }
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];`
-     */
-    public fun clearExpectedLocal() {
-      _builder.clearExpectedLocal()
-    }
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];`
-     * @return Whether the expectedLocal field is set.
-     */
-    public fun hasExpectedLocal(): kotlin.Boolean {
-      return _builder.hasExpectedLocal()
-    }
-
-    public val RequestMetaKt.Dsl.expectedLocalOrNull: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion?
-      get() = _builder.expectedLocalOrNull
-
-    /**
      * `.arcforges.foundation.v1.NativeContentRev expected_native = 6 [json_name = "expectedNative"];`
      */
     public var expectedNative: io.github.arcforges.contracts.foundation.v1.NativeContentRev
@@ -259,9 +232,6 @@ public val io.github.arcforges.contracts.foundation.v1.RequestMetaOrBuilder.corr
 
 public val io.github.arcforges.contracts.foundation.v1.RequestMetaOrBuilder.workspaceIdOrNull: io.github.arcforges.contracts.foundation.v1.Id?
   get() = if (hasWorkspaceId()) getWorkspaceId() else null
-
-public val io.github.arcforges.contracts.foundation.v1.RequestMetaOrBuilder.expectedLocalOrNull: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion?
-  get() = if (hasExpectedLocal()) getExpectedLocal() else null
 
 public val io.github.arcforges.contracts.foundation.v1.RequestMetaOrBuilder.expectedNativeOrNull: io.github.arcforges.contracts.foundation.v1.NativeContentRev?
   get() = if (hasExpectedNative()) getExpectedNative() else null

@@ -39,15 +39,4 @@ public interface EventTriggerOrBuilder extends
    * @return The source.
    */
   io.github.arcforges.contracts.foundation.v1.AggregateRef getSource();
-
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   * @return Whether the predicate field is set.
-   */
-  boolean hasPredicate();
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   * @return The predicate.
-   */
-  io.github.arcforges.contracts.publicapi.v1.NotesFilter getPredicate();
 }

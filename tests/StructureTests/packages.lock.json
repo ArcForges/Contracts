@@ -35,13 +35,6 @@
           "Google.Protobuf": "[3.36.1, )"
         }
       },
-      "arcforges.contracts.localrpc.notes": {
-        "type": "Project",
-        "dependencies": {
-          "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
-          "Google.Protobuf": "[3.36.1, )"
-        }
-      },
       "arcforges.contracts.localrpc.platform": {
         "type": "Project",
         "dependencies": {
@@ -55,13 +48,6 @@
         }
       },
       "arcforges.contracts.localrpc.scope": {
-        "type": "Project",
-        "dependencies": {
-          "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
-          "Google.Protobuf": "[3.36.1, )"
-        }
-      },
-      "arcforges.contracts.localrpc.slate": {
         "type": "Project",
         "dependencies": {
           "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",

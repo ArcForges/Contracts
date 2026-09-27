@@ -11,10 +11,46 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
-from check_naming import POLICY_PATH, declaration_hash, load_policy, scan_repository, validate_policy
+from check_naming import POLICY_PATH, declaration_hash, load_policy, occurrences, scan_repository, validate_policy
 
 
 class NamingPolicyTests(unittest.TestCase):
+    def test_package_naming_assets_are_complete_and_exact(self):
+        from packaging_tools import NAMING_PACKAGES, stage_naming, verify_naming
+        for identity in NAMING_PACKAGES:
+            with tempfile.TemporaryDirectory(prefix='naming-package-') as directory:
+                root = Path(directory)
+                row = {'id': identity}
+                stage_naming(root, row)
+                files = {p.relative_to(root).as_posix(): p.read_bytes() for p in root.rglob('*') if p.is_file()}
+                self.assertEqual(len(files), 2)
+                verify_naming(files, row)
+                for name in files:
+                    changed = dict(files)
+                    changed[name] += b'\n# changed\n'
+                    with self.assertRaises(ValueError):
+                        verify_naming(changed, row)
+                    del changed[name]
+                    with self.assertRaises(ValueError):
+                        verify_naming(changed, row)
+
+    def test_exact_technical_identities_do_not_admit_product_alias_variants(self):
+        names = ['Arc' + 'Image']
+        for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
+            for technical in ('Arc' + 'ImageNative', 'arc' + 'image-abi'):
+                self.assertEqual(list(occurrences(technical.encode(encoding), names)), [])
+                self.assertTrue(list(occurrences((technical + 'Extra').encode(encoding), names)))
+        self.assertTrue(list(occurrences(('Arc' + 'Image').encode(), names)))
+
+    def test_packaged_scanner_validates_exact_source_authority(self):
+        self.write('eng/policy/product-names.json', json.dumps(self.policy).encode())
+        self.assertEqual(self.scan()['status'], 'pass')
+        changed = deepcopy(self.policy)
+        changed['design']['rule'] = 'P2-999'
+        self.write('eng/policy/product-names.json', json.dumps(changed).encode())
+        with self.assertRaisesRegex(ValueError, 'differs from packaged policy'):
+            self.scan()
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix='naming-git-')
         self.addCleanup(self.temporary.cleanup)
@@ -52,7 +88,7 @@ class NamingPolicyTests(unittest.TestCase):
         return validate_policy(policy)
 
     def test_current_identity_set_and_no_unnecessary_exceptions(self):
-        self.assertEqual({p['id'] for p in self.policy['products']}, {'arcnotes', 'arcscope', 'arcslate', 'companion'})
+        self.assertEqual({p['id'] for p in self.policy['products']}, {'arcscope', 'companion'})
         self.assertEqual({(e['repository'], e['path']) for e in self.policy['provenanceExceptions']},
                          {('DesktopPlatform', 'artifacts/evidence/traceability/feature-trace-bridge.json'),
                           ('DesktopPlatform', 'eng/provenance/reference-inputs.json')})
@@ -173,12 +209,12 @@ class NamingPolicyTests(unittest.TestCase):
     def test_wrong_owner_missing_namespace_and_lost_migration_fail(self):
         for key, value in [('owners', ['Cloud']), ('namespaces', ['Unowned']), ('legacyApplicationIds', [])]:
             policy = deepcopy(self.policy)
-            policy['products'][3][key] = value
+            policy['products'][1][key] = value
             with self.subTest(key=key), self.assertRaises(ValueError):
                 validate_policy(policy)
 
     def test_copied_policy_path_is_not_a_second_authority(self):
-        self.write('eng/policy/product-names.json', POLICY_PATH.read_bytes())
+        self.write('copied/eng/policy/product-names.json', POLICY_PATH.read_bytes())
         self.assertEqual(self.scan()['status'], 'fail')
 
     def test_legacy_artifact_exception_cannot_expand(self):

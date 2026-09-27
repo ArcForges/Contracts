@@ -74,25 +74,6 @@
       "value": {}
     },
     {
-      "id": "notes-result",
-      "target": "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue",
-      "valid": true,
-      "value": {
-        "version": {
-          "ackedRev": {
-            "value": "1"
-          },
-          "headLocalSeq": "0"
-        }
-      }
-    },
-    {
-      "id": "notes-missing-result",
-      "target": "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue",
-      "valid": false,
-      "value": {}
-    },
-    {
       "id": "scope-result",
       "target": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue",
       "valid": true,
@@ -105,22 +86,6 @@
     {
       "id": "scope-missing-result",
       "target": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue",
-      "valid": false,
-      "value": {}
-    },
-    {
-      "id": "slate-result",
-      "target": "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue",
-      "valid": true,
-      "value": {
-        "revision": {
-          "value": "0"
-        }
-      }
-    },
-    {
-      "id": "slate-missing-result",
-      "target": "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue",
       "valid": false,
       "value": {}
     },

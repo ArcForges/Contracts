@@ -58,17 +58,6 @@ public interface StateFailureOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.AggregateRef getResource();
 
   /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   * @return Whether the local field is set.
-   */
-  boolean hasLocal();
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   * @return The local.
-   */
-  io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getLocal();
-
-  /**
    * <code>.arcforges.foundation.v1.NativeContentRev native = 5 [json_name = "native"];</code>
    * @return Whether the native field is set.
    */

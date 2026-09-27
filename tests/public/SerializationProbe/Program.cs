@@ -39,7 +39,7 @@ foreach (var item in fixture.RootElement.GetProperty("binary").EnumerateArray())
     {
         "arcforges.foundation.v1.Id" => Binary.Run(ArcForges.Contracts.Foundation.V1.Id.Parser, item),
         "arcforges.foundation.v1.ArcError" => Binary.Run(ArcForges.Contracts.Foundation.V1.ArcError.Parser, item),
-        "arcforges.publicapi.v1.NotesFilter" => Binary.Run(ArcForges.Contracts.PublicApi.V1.NotesFilter.Parser, item),
+        "arcforges.publicapi.v1.StructuredValue" => Binary.Run(ArcForges.Contracts.PublicApi.V1.StructuredValue.Parser, item),
         _ => "unknown target " + target,
     };
     Require(outcome.Length == 0, "binary " + item.GetProperty("id").GetString() + ": " + outcome);
@@ -92,9 +92,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor,
-    ArcForges.Contracts.LocalRpc.Notes.V1.NotesReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Scope.V1.ScopeReflection.Descriptor,
-    ArcForges.Contracts.LocalRpc.Slate.V1.SlateReflection.Descriptor,
     ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReflection.Descriptor,
 ];
 var serviceCount = 0;

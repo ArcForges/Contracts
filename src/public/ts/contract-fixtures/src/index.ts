@@ -39,17 +39,6 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "LocalNotesVersion-valid",
-        "target": "arcforges.foundation.v1.LocalNotesVersion",
-        "valid": true,
-        "value": {
-          "ackedRev": {
-            "value": "0"
-          },
-          "headLocalSeq": "18446744073709551615"
-        }
-      },
-      {
         "id": "NativeContentRev-valid",
         "target": "arcforges.foundation.v1.NativeContentRev",
         "valid": true,
@@ -117,7 +106,7 @@ export const publicFixtures = {
         "target": "arcforges.foundation.v1.ApplicationScope",
         "valid": true,
         "value": {
-          "productId": "arcnotes"
+          "productId": "arcscope"
         }
       },
       {
@@ -229,14 +218,6 @@ export const publicFixtures = {
         "valid": false,
         "value": {
           "value": "-1"
-        }
-      },
-      {
-        "id": "LocalNotesVersion-missing-token",
-        "target": "arcforges.foundation.v1.LocalNotesVersion",
-        "valid": false,
-        "value": {
-          "headLocalSeq": "0"
         }
       },
       {
@@ -869,13 +850,29 @@ export const publicFixtures = {
             }
           ]
         }
+      },
+      {
+        "id": "ApplicationScope-retired-arcnotes",
+        "target": "arcforges.foundation.v1.ApplicationScope",
+        "valid": false,
+        "value": {
+          "productId": "arcnotes"
+        }
+      },
+      {
+        "id": "ApplicationScope-retired-arcslate",
+        "target": "arcforges.foundation.v1.ApplicationScope",
+        "valid": false,
+        "value": {
+          "productId": "arcslate"
+        }
       }
     ]
   },
   "wp03-01.json": {
     "schemaVersion": "wp03-01-fixtures.v1",
     "license": "Apache-2.0",
-    "authority": "Design registry04, annex10, content-origin.v1, notes.scalar.v1 and scope.measurement.v1 at 5e202ff10f3c218d9e159029579ca535c641169b",
+    "authority": "Design registry04, annex10, content-origin.v1 and scope.measurement.v1; retained WP03.01 vectors under approved CON.23 retirement (P2-019/P2-020).",
     "oracle": "Independently authored examples and rejection expectations. References are fixture composition only; no production schema or validator generates expected outcomes.",
     "samples": {
       "$Id2": {
@@ -904,12 +901,6 @@ export const publicFixtures = {
       },
       "Revision": {
         "value": "9007199254740993"
-      },
-      "LocalNotesVersion": {
-        "ackedRev": {
-          "value": "0"
-        },
-        "headLocalSeq": "18446744073709551615"
       },
       "NativeContentRev": {
         "value": "18446744073709551615"
@@ -985,7 +976,7 @@ export const publicFixtures = {
         "hasMore": true
       },
       "ApplicationScope": {
-        "productId": "arcnotes",
+        "productId": "arcscope",
         "installationId": {
           "$ref": "Id"
         }
@@ -1077,9 +1068,6 @@ export const publicFixtures = {
         "reason": "dependency.unavailable",
         "resource": {
           "$ref": "AggregateRef"
-        },
-        "local": {
-          "$ref": "LocalNotesVersion"
         }
       },
       "ContentOrigin": {
@@ -1113,7 +1101,7 @@ export const publicFixtures = {
         "workspaceId": {
           "$ref": "$Id2"
         },
-        "ownerAppId": "arcnotes",
+        "ownerAppId": "arcscope",
         "resourceKind": "attachment",
         "resourceId": {
           "$ref": "Id"
@@ -1194,30 +1182,6 @@ export const publicFixtures = {
       "ContextSelector": {
         "whole": true
       },
-      "NotesTextPosition": {
-        "blockId": {
-          "$ref": "Id"
-        },
-        "inlineId": {
-          "$ref": "$Id2"
-        },
-        "offsetUtf16": 0,
-        "affinity": "before"
-      },
-      "NotesSelection": {
-        "documentId": {
-          "$ref": "Id"
-        },
-        "anchor": {
-          "$ref": "NotesTextPosition"
-        },
-        "focus": {
-          "$ref": "NotesTextPosition"
-        },
-        "cloudRevision": {
-          "$ref": "Revision"
-        }
-      },
       "ScopeSelection": {
         "sessionId": {
           "$ref": "Id"
@@ -1233,25 +1197,6 @@ export const publicFixtures = {
         "range": {
           "$ref": "MediaRange"
         },
-        "revision": {
-          "$ref": "NativeContentRev"
-        }
-      },
-      "SlateSelection": {
-        "projectId": {
-          "$ref": "Id"
-        },
-        "sequenceId": {
-          "$ref": "$Id2"
-        },
-        "range": {
-          "$ref": "MediaRange"
-        },
-        "items": [
-          {
-            "$ref": "Id"
-          }
-        ],
         "revision": {
           "$ref": "NativeContentRev"
         }
@@ -1510,345 +1455,6 @@ export const publicFixtures = {
           "$ref": "Revision"
         }
       },
-      "RichText": {
-        "text": "A\u4e2d\ud83d\ude00",
-        "spans": [
-          {
-            "from": 0,
-            "until": 4,
-            "marks": [
-              "bold"
-            ]
-          }
-        ],
-        "atoms": [],
-        "runs": [
-          {
-            "runId": {
-              "$ref": "Id"
-            },
-            "from": 0,
-            "until": 4
-          }
-        ]
-      },
-      "TextSpan": {
-        "from": 0,
-        "until": 4,
-        "marks": [
-          "bold"
-        ]
-      },
-      "TextRunSegment": {
-        "runId": {
-          "$ref": "Id"
-        },
-        "from": 0,
-        "until": 4
-      },
-      "InlineAtom": {
-        "offset": 0,
-        "math": {
-          "tex": "x^2",
-          "display": false
-        },
-        "inlineId": {
-          "$ref": "Id"
-        }
-      },
-      "MathContent": {
-        "tex": "x^2",
-        "display": true
-      },
-      "CodeBlock": {
-        "text": "const x = 1;",
-        "language": "javascript",
-        "wrap": false
-      },
-      "TableCell": {
-        "cellId": {
-          "$ref": "Id"
-        },
-        "content": {
-          "$ref": "RichText"
-        }
-      },
-      "TableRow": {
-        "rowId": {
-          "$ref": "Id"
-        },
-        "cells": [
-          {
-            "$ref": "TableCell"
-          }
-        ]
-      },
-      "TableBlock": {
-        "rows": [
-          {
-            "$ref": "TableRow"
-          }
-        ]
-      },
-      "ImageLayout": {
-        "widthRatio": 1,
-        "alignment": "center"
-      },
-      "LinkSpec": {
-        "kind": "internal",
-        "targetId": {
-          "$ref": "$Id2"
-        },
-        "label": "Referenced document"
-      },
-      "BlockBody": {
-        "text": {
-          "$ref": "RichText"
-        }
-      },
-      "BlockProperties": {
-        "headingLevel": 2
-      },
-      "Block": {
-        "blockId": {
-          "$ref": "Id"
-        },
-        "orderKey": "a",
-        "kind": "heading",
-        "body": {
-          "$ref": "BlockBody"
-        },
-        "origin": {
-          "$ref": "ContentOrigin"
-        },
-        "properties": {
-          "$ref": "BlockProperties"
-        }
-      },
-      "ScalarValue": {
-        "number": {
-          "$ref": "Decimal"
-        }
-      },
-      "IdList": {
-        "items": [
-          {
-            "$ref": "Id"
-          },
-          {
-            "$ref": "$Id2"
-          }
-        ]
-      },
-      "PropertyValue": {
-        "propertyId": {
-          "$ref": "Id"
-        },
-        "value": {
-          "$ref": "ScalarValue"
-        }
-      },
-      "ScalarPredicate": {
-        "propertyId": {
-          "$ref": "Id"
-        },
-        "operator": "eq",
-        "operands": [
-          {
-            "$ref": "ScalarValue"
-          }
-        ]
-      },
-      "NotesFilter": {
-        "predicate": {
-          "$ref": "ScalarPredicate"
-        }
-      },
-      "FilterGroup": {
-        "operator": "not",
-        "children": [
-          {
-            "$ref": "NotesFilter"
-          }
-        ]
-      },
-      "NotesSort": {
-        "propertyId": {
-          "$ref": "Id"
-        },
-        "descending": true
-      },
-      "PropertyDefinitionVersion": {
-        "propertyId": {
-          "$ref": "Id"
-        },
-        "semanticRevision": {
-          "$ref": "Revision"
-        }
-      },
-      "NotesSelectors": {
-        "documentId": {
-          "$ref": "Id"
-        },
-        "tagIds": [],
-        "text": "A\u4e2d\ud83d\ude00",
-        "blockKinds": [
-          "heading"
-        ],
-        "hasAttachment": false,
-        "modified": {
-          "$ref": "TimeRangeUtc"
-        }
-      },
-      "NotesQuery": {
-        "profile": "notes.scalar.v1",
-        "notebookId": {
-          "$ref": "Id"
-        },
-        "filter": {
-          "$ref": "NotesFilter"
-        },
-        "sorts": [
-          {
-            "$ref": "NotesSort"
-          }
-        ],
-        "projection": [
-          {
-            "$ref": "Id"
-          }
-        ],
-        "page": {
-          "limit": 100
-        },
-        "definitionVersions": [
-          {
-            "$ref": "PropertyDefinitionVersion"
-          }
-        ],
-        "selectors": {
-          "$ref": "NotesSelectors"
-        }
-      },
-      "NotesDocument": {
-        "documentId": {
-          "$ref": "Id"
-        },
-        "notebookId": {
-          "$ref": "$Id2"
-        },
-        "title": "Fixture document",
-        "blocks": [
-          {
-            "$ref": "Block"
-          }
-        ],
-        "properties": [
-          {
-            "$ref": "PropertyValue"
-          }
-        ],
-        "tags": [],
-        "links": [
-          {
-            "$ref": "LinkSpec"
-          }
-        ],
-        "origin": {
-          "$ref": "ContentOrigin"
-        }
-      },
-      "NotebookView": {
-        "notebookId": {
-          "$ref": "$Id2"
-        },
-        "name": "Notebook",
-        "revision": {
-          "$ref": "Revision"
-        }
-      },
-      "FolderView": {
-        "folderId": {
-          "$ref": "Id"
-        },
-        "notebookId": {
-          "$ref": "$Id2"
-        },
-        "name": "Folder",
-        "orderKey": "a",
-        "notebookRev": {
-          "$ref": "Revision"
-        }
-      },
-      "NotebookBody": {
-        "notebook": {
-          "$ref": "NotebookView"
-        },
-        "folders": [
-          {
-            "$ref": "FolderView"
-          }
-        ],
-        "documentOrder": [
-          {
-            "$ref": "Id"
-          }
-        ]
-      },
-      "SelectOption": {
-        "optionId": {
-          "$ref": "Id"
-        },
-        "label": "Option",
-        "order": 0
-      },
-      "PropertyDefinition": {
-        "propertyId": {
-          "$ref": "Id"
-        },
-        "notebookId": {
-          "$ref": "$Id2"
-        },
-        "name": "Value",
-        "type": "number",
-        "profile": "notes.scalar.v1",
-        "semanticRevision": {
-          "$ref": "Revision"
-        },
-        "revision": {
-          "$ref": "Revision"
-        },
-        "options": [],
-        "numberScale": 9
-      },
-      "SavedViewRecord": {
-        "viewId": {
-          "$ref": "Id"
-        },
-        "notebookId": {
-          "$ref": "Id"
-        },
-        "name": "View",
-        "layout": "table",
-        "query": {
-          "$ref": "NotesQuery"
-        },
-        "revision": {
-          "$ref": "Revision"
-        }
-      },
-      "TagRecord": {
-        "tagId": {
-          "$ref": "Id"
-        },
-        "notebookId": {
-          "$ref": "$Id2"
-        },
-        "name": "Tag",
-        "revision": {
-          "$ref": "Revision"
-        }
-      },
       "SkillRecord": {
         "skillId": {
           "$ref": "Id"
@@ -1892,7 +1498,7 @@ export const publicFixtures = {
         "preferenceId": {
           "$ref": "Id"
         },
-        "ownerAppId": "arcnotes",
+        "ownerAppId": "arcscope",
         "values": [],
         "revision": {
           "$ref": "Revision"
@@ -2246,333 +1852,15 @@ export const publicFixtures = {
           }
         ]
       },
-      "ColourConfiguration": {
-        "workingSpace": "Rec709",
-        "displaySpace": "sRGB",
-        "inputAssignments": []
-      },
-      "MediaColourAssignment": {
-        "mediaId": {
-          "$ref": "Id"
-        },
-        "inputSpace": "Rec709"
-      },
-      "SequenceView": {
-        "sequenceId": {
-          "$ref": "Id"
-        },
-        "projectId": {
-          "$ref": "$Id2"
-        },
-        "name": "Sequence",
-        "revision": {
-          "$ref": "NativeContentRev"
-        },
-        "duration": {
-          "$ref": "$MediaEnd"
-        },
-        "videoRate": {
-          "numerator": "30",
-          "denominator": "1"
-        },
-        "sampleRate": 48000,
-        "width": 1920,
-        "height": 1080,
-        "channelLayout": "stereo",
-        "colour": {
-          "$ref": "ColourConfiguration"
-        }
-      },
-      "MediaStream": {
-        "index": 0,
-        "kind": "video",
-        "codec": "h264",
-        "rate": {
-          "numerator": "30",
-          "denominator": "1"
-        }
-      },
-      "MediaView": {
-        "mediaId": {
-          "$ref": "Id"
-        },
-        "source": {
-          "$ref": "ResourceRef"
-        },
-        "availability": 1,
-        "duration": {
-          "$ref": "$MediaEnd"
-        },
-        "streams": [
-          {
-            "$ref": "MediaStream"
-          }
-        ]
-      },
-      "MediaBin": {
-        "binId": {
-          "$ref": "Id"
-        },
-        "name": "Bin",
-        "mediaIds": [
-          {
-            "$ref": "Id"
-          }
-        ],
-        "sequenceIds": [
-          {
-            "$ref": "Id"
-          }
-        ],
-        "order": 0
-      },
-      "ProcessingGraph": {
-        "nodes": [],
-        "edges": [],
-        "profile": "slate.graph.v1"
-      },
-      "ProcessingEdge": {
-        "sourceNodeId": {
-          "$ref": "Id"
-        },
-        "sourcePort": "video",
-        "targetNodeId": {
-          "$ref": "$Id2"
-        },
-        "targetPort": "video"
-      },
-      "EffectParameter": {
-        "name": "opacity",
-        "decimal": {
-          "value": "1"
-        }
-      },
-      "EffectSpec": {
-        "kind": "opacity",
-        "parameters": [
-          {
-            "$ref": "EffectParameter"
-          }
-        ],
-        "instanceId": {
-          "$ref": "Id"
-        },
-        "definitionVersion": "1",
-        "scope": "clipLocal",
-        "enabled": true
-      },
-      "Keyframe": {
-        "time": {
-          "$ref": "MediaTime"
-        },
-        "value": {
-          "value": "1"
-        },
-        "interpolation": "linear",
-        "scope": "clipLocal"
-      },
-      "KeyframeList": {
-        "items": [
-          {
-            "$ref": "Keyframe"
-          }
-        ]
-      },
-      "RetimePoint": {
-        "timelineOffset": {
-          "$ref": "MediaTime"
-        },
-        "sourceOffset": {
-          "$ref": "MediaTime"
-        }
-      },
-      "RetimeCurve": {
-        "points": [
-          {
-            "$ref": "RetimePoint"
-          },
-          {
-            "timelineOffset": {
-              "$ref": "$MediaEnd"
-            },
-            "sourceOffset": {
-              "$ref": "$MediaEnd"
-            }
-          }
-        ],
-        "profile": "slate.retime.v1"
-      },
-      "TimedText": {
-        "text": "Title",
-        "fontFamily": "NotoSans",
-        "size": {
-          "value": "24"
-        },
-        "colour": "white",
-        "alignment": "center"
-      },
-      "GeneratedSource": {
-        "kind": "title",
-        "parameters": [],
-        "text": {
-          "$ref": "TimedText"
-        }
-      },
-      "TimelineClip": {
-        "clipId": {
-          "$ref": "Id"
-        },
-        "timeline": {
-          "$ref": "MediaRange"
-        },
-        "playbackRate": {
-          "numerator": "1",
-          "denominator": "1"
-        },
-        "effects": [],
-        "kind": "gap",
-        "enabled": true,
-        "graph": {
-          "$ref": "ProcessingGraph"
-        },
-        "name": "Gap"
-      },
-      "TransitionSpec": {
-        "transitionId": {
-          "$ref": "Id"
-        },
-        "leftClipId": {
-          "$ref": "Id"
-        },
-        "rightClipId": {
-          "$ref": "$Id2"
-        },
-        "kind": "dissolve",
-        "inOffset": {
-          "$ref": "MediaTime"
-        },
-        "outOffset": {
-          "$ref": "MediaTime"
-        }
-      },
-      "TimelineTrack": {
-        "trackId": {
-          "$ref": "Id"
-        },
-        "kind": "video",
-        "order": 0,
-        "clips": [
-          {
-            "$ref": "TimelineClip"
-          }
-        ],
-        "transitions": [],
-        "enabled": true,
-        "name": "Video",
-        "locked": false,
-        "graph": {
-          "$ref": "ProcessingGraph"
-        }
-      },
-      "MarkerView": {
-        "markerId": {
-          "$ref": "Id"
-        },
-        "sequenceId": {
-          "$ref": "Id"
-        },
-        "range": {
-          "$ref": "MediaRange"
-        },
-        "label": "Marker",
-        "anchor": "sequence"
-      },
-      "TimelineView": {
-        "sequence": {
-          "$ref": "SequenceView"
-        },
-        "tracks": [
-          {
-            "$ref": "TimelineTrack"
-          }
-        ],
-        "markers": [
-          {
-            "$ref": "MarkerView"
-          }
-        ],
-        "graph": {
-          "$ref": "ProcessingGraph"
-        }
-      },
-      "RenderPreset": {
-        "container": "mp4",
-        "videoCodec": "h264",
-        "audioCodec": "aac",
-        "width": 1920,
-        "height": 1080,
-        "rate": {
-          "numerator": "30",
-          "denominator": "1"
-        },
-        "colourSpace": "Rec709",
-        "sampleRate": 48000,
-        "channelLayout": "stereo",
-        "profile": "slate.render.v1",
-        "subtitleMode": "none"
-      },
-      "SlateMetadata": {
-        "projectId": {
-          "$ref": "$Id2"
-        },
-        "name": "Project",
-        "sequences": [
-          {
-            "$ref": "SequenceView"
-          }
-        ],
-        "media": [
-          {
-            "$ref": "MediaView"
-          }
-        ],
-        "timelines": [
-          {
-            "$ref": "TimelineView"
-          }
-        ],
-        "bins": [
-          {
-            "$ref": "MediaBin"
-          }
-        ],
-        "presets": [
-          {
-            "$ref": "RenderPreset"
-          }
-        ],
-        "transcripts": [],
-        "smallAssets": [],
-        "contentRev": {
-          "$ref": "NativeContentRev"
-        },
-        "profile": "slate.project.v1"
-      },
       "AggregateBody": {
-        "notes": {
-          "$ref": "NotesDocument"
+        "scopeMetadata": {
+          "$ref": "ScopeMetadata"
         }
       }
     },
     "aggregateVariants": {
-      "notes": "NotesDocument",
       "chat": "ConversationBody",
       "scopeMetadata": "ScopeMetadata",
-      "slateMetadata": "SlateMetadata",
-      "notebook": "NotebookBody",
-      "propertyDefinition": "PropertyDefinition",
-      "savedView": "SavedViewRecord",
-      "tag": "TagRecord",
       "agentProfile": "AgentProfile",
       "skill": "SkillRecord",
       "chatProject": "ChatProjectRecord",
@@ -2650,24 +1938,6 @@ export const publicFixtures = {
         "sample": "BlobRef"
       },
       {
-        "id": "Block-complete",
-        "target": "Block",
-        "valid": true,
-        "sample": "Block"
-      },
-      {
-        "id": "BlockBody-complete",
-        "target": "BlockBody",
-        "valid": true,
-        "sample": "BlockBody"
-      },
-      {
-        "id": "BlockProperties-complete",
-        "target": "BlockProperties",
-        "valid": true,
-        "sample": "BlockProperties"
-      },
-      {
         "id": "ByteRange-complete",
         "target": "ByteRange",
         "valid": true,
@@ -2714,18 +1984,6 @@ export const publicFixtures = {
         "target": "ChecksumSpec",
         "valid": true,
         "sample": "ChecksumSpec"
-      },
-      {
-        "id": "CodeBlock-complete",
-        "target": "CodeBlock",
-        "valid": true,
-        "sample": "CodeBlock"
-      },
-      {
-        "id": "ColourConfiguration-complete",
-        "target": "ColourConfiguration",
-        "valid": true,
-        "sample": "ColourConfiguration"
       },
       {
         "id": "ContentOrigin-complete",
@@ -2782,18 +2040,6 @@ export const publicFixtures = {
         "sample": "Decimal"
       },
       {
-        "id": "EffectParameter-complete",
-        "target": "EffectParameter",
-        "valid": true,
-        "sample": "EffectParameter"
-      },
-      {
-        "id": "EffectSpec-complete",
-        "target": "EffectSpec",
-        "valid": true,
-        "sample": "EffectSpec"
-      },
-      {
         "id": "EphemeralSelection-complete",
         "target": "EphemeralSelection",
         "valid": true,
@@ -2818,18 +2064,6 @@ export const publicFixtures = {
         "sample": "FamilyResult"
       },
       {
-        "id": "FilterGroup-complete",
-        "target": "FilterGroup",
-        "valid": true,
-        "sample": "FilterGroup"
-      },
-      {
-        "id": "FolderView-complete",
-        "target": "FolderView",
-        "valid": true,
-        "sample": "FolderView"
-      },
-      {
         "id": "FrameConfiguration-complete",
         "target": "FrameConfiguration",
         "valid": true,
@@ -2842,34 +2076,10 @@ export const publicFixtures = {
         "sample": "FrameField"
       },
       {
-        "id": "GeneratedSource-complete",
-        "target": "GeneratedSource",
-        "valid": true,
-        "sample": "GeneratedSource"
-      },
-      {
         "id": "Id-complete",
         "target": "Id",
         "valid": true,
         "sample": "Id"
-      },
-      {
-        "id": "IdList-complete",
-        "target": "IdList",
-        "valid": true,
-        "sample": "IdList"
-      },
-      {
-        "id": "ImageLayout-complete",
-        "target": "ImageLayout",
-        "valid": true,
-        "sample": "ImageLayout"
-      },
-      {
-        "id": "InlineAtom-complete",
-        "target": "InlineAtom",
-        "valid": true,
-        "sample": "InlineAtom"
       },
       {
         "id": "Instant-complete",
@@ -2878,46 +2088,10 @@ export const publicFixtures = {
         "sample": "Instant"
       },
       {
-        "id": "Keyframe-complete",
-        "target": "Keyframe",
-        "valid": true,
-        "sample": "Keyframe"
-      },
-      {
-        "id": "KeyframeList-complete",
-        "target": "KeyframeList",
-        "valid": true,
-        "sample": "KeyframeList"
-      },
-      {
         "id": "LimitFailure-complete",
         "target": "LimitFailure",
         "valid": true,
         "sample": "LimitFailure"
-      },
-      {
-        "id": "LinkSpec-complete",
-        "target": "LinkSpec",
-        "valid": true,
-        "sample": "LinkSpec"
-      },
-      {
-        "id": "LocalNotesVersion-complete",
-        "target": "LocalNotesVersion",
-        "valid": true,
-        "sample": "LocalNotesVersion"
-      },
-      {
-        "id": "MarkerView-complete",
-        "target": "MarkerView",
-        "valid": true,
-        "sample": "MarkerView"
-      },
-      {
-        "id": "MathContent-complete",
-        "target": "MathContent",
-        "valid": true,
-        "sample": "MathContent"
       },
       {
         "id": "MeasurementRequest-complete",
@@ -2956,40 +2130,16 @@ export const publicFixtures = {
         "sample": "MeasurementWindow"
       },
       {
-        "id": "MediaBin-complete",
-        "target": "MediaBin",
-        "valid": true,
-        "sample": "MediaBin"
-      },
-      {
-        "id": "MediaColourAssignment-complete",
-        "target": "MediaColourAssignment",
-        "valid": true,
-        "sample": "MediaColourAssignment"
-      },
-      {
         "id": "MediaRange-complete",
         "target": "MediaRange",
         "valid": true,
         "sample": "MediaRange"
       },
       {
-        "id": "MediaStream-complete",
-        "target": "MediaStream",
-        "valid": true,
-        "sample": "MediaStream"
-      },
-      {
         "id": "MediaTime-complete",
         "target": "MediaTime",
         "valid": true,
         "sample": "MediaTime"
-      },
-      {
-        "id": "MediaView-complete",
-        "target": "MediaView",
-        "valid": true,
-        "sample": "MediaView"
       },
       {
         "id": "MemoryRecord-complete",
@@ -3034,60 +2184,6 @@ export const publicFixtures = {
         "sample": "NativeContentRev"
       },
       {
-        "id": "NotebookBody-complete",
-        "target": "NotebookBody",
-        "valid": true,
-        "sample": "NotebookBody"
-      },
-      {
-        "id": "NotebookView-complete",
-        "target": "NotebookView",
-        "valid": true,
-        "sample": "NotebookView"
-      },
-      {
-        "id": "NotesDocument-complete",
-        "target": "NotesDocument",
-        "valid": true,
-        "sample": "NotesDocument"
-      },
-      {
-        "id": "NotesFilter-complete",
-        "target": "NotesFilter",
-        "valid": true,
-        "sample": "NotesFilter"
-      },
-      {
-        "id": "NotesQuery-complete",
-        "target": "NotesQuery",
-        "valid": true,
-        "sample": "NotesQuery"
-      },
-      {
-        "id": "NotesSelection-complete",
-        "target": "NotesSelection",
-        "valid": true,
-        "sample": "NotesSelection"
-      },
-      {
-        "id": "NotesSelectors-complete",
-        "target": "NotesSelectors",
-        "valid": true,
-        "sample": "NotesSelectors"
-      },
-      {
-        "id": "NotesSort-complete",
-        "target": "NotesSort",
-        "valid": true,
-        "sample": "NotesSort"
-      },
-      {
-        "id": "NotesTextPosition-complete",
-        "target": "NotesTextPosition",
-        "valid": true,
-        "sample": "NotesTextPosition"
-      },
-      {
         "id": "PageRequest-complete",
         "target": "PageRequest",
         "valid": true,
@@ -3106,36 +2202,6 @@ export const publicFixtures = {
         "sample": "PreferenceRecord"
       },
       {
-        "id": "ProcessingEdge-complete",
-        "target": "ProcessingEdge",
-        "valid": true,
-        "sample": "ProcessingEdge"
-      },
-      {
-        "id": "ProcessingGraph-complete",
-        "target": "ProcessingGraph",
-        "valid": true,
-        "sample": "ProcessingGraph"
-      },
-      {
-        "id": "PropertyDefinition-complete",
-        "target": "PropertyDefinition",
-        "valid": true,
-        "sample": "PropertyDefinition"
-      },
-      {
-        "id": "PropertyDefinitionVersion-complete",
-        "target": "PropertyDefinitionVersion",
-        "valid": true,
-        "sample": "PropertyDefinitionVersion"
-      },
-      {
-        "id": "PropertyValue-complete",
-        "target": "PropertyValue",
-        "valid": true,
-        "sample": "PropertyValue"
-      },
-      {
         "id": "Rational-complete",
         "target": "Rational",
         "valid": true,
@@ -3146,12 +2212,6 @@ export const publicFixtures = {
         "target": "Receipt",
         "valid": true,
         "sample": "Receipt"
-      },
-      {
-        "id": "RenderPreset-complete",
-        "target": "RenderPreset",
-        "valid": true,
-        "sample": "RenderPreset"
       },
       {
         "id": "RequestMeta-complete",
@@ -3178,18 +2238,6 @@ export const publicFixtures = {
         "sample": "ResponseMeta"
       },
       {
-        "id": "RetimeCurve-complete",
-        "target": "RetimeCurve",
-        "valid": true,
-        "sample": "RetimeCurve"
-      },
-      {
-        "id": "RetimePoint-complete",
-        "target": "RetimePoint",
-        "valid": true,
-        "sample": "RetimePoint"
-      },
-      {
         "id": "RetryAdvice-complete",
         "target": "RetryAdvice",
         "valid": true,
@@ -3208,34 +2256,10 @@ export const publicFixtures = {
         "sample": "RevisionConflict"
       },
       {
-        "id": "RichText-complete",
-        "target": "RichText",
-        "valid": true,
-        "sample": "RichText"
-      },
-      {
         "id": "SampleRange-complete",
         "target": "SampleRange",
         "valid": true,
         "sample": "SampleRange"
-      },
-      {
-        "id": "SavedViewRecord-complete",
-        "target": "SavedViewRecord",
-        "valid": true,
-        "sample": "SavedViewRecord"
-      },
-      {
-        "id": "ScalarPredicate-complete",
-        "target": "ScalarPredicate",
-        "valid": true,
-        "sample": "ScalarPredicate"
-      },
-      {
-        "id": "ScalarValue-complete",
-        "target": "ScalarValue",
-        "valid": true,
-        "sample": "ScalarValue"
       },
       {
         "id": "ScheduleSpec-complete",
@@ -3280,40 +2304,16 @@ export const publicFixtures = {
         "sample": "ScopeTime"
       },
       {
-        "id": "SelectOption-complete",
-        "target": "SelectOption",
-        "valid": true,
-        "sample": "SelectOption"
-      },
-      {
         "id": "SelectedSample-complete",
         "target": "SelectedSample",
         "valid": true,
         "sample": "SelectedSample"
       },
       {
-        "id": "SequenceView-complete",
-        "target": "SequenceView",
-        "valid": true,
-        "sample": "SequenceView"
-      },
-      {
         "id": "SkillRecord-complete",
         "target": "SkillRecord",
         "valid": true,
         "sample": "SkillRecord"
-      },
-      {
-        "id": "SlateMetadata-complete",
-        "target": "SlateMetadata",
-        "valid": true,
-        "sample": "SlateMetadata"
-      },
-      {
-        "id": "SlateSelection-complete",
-        "target": "SlateSelection",
-        "valid": true,
-        "sample": "SlateSelection"
       },
       {
         "id": "SourceConsentRef-complete",
@@ -3334,76 +2334,16 @@ export const publicFixtures = {
         "sample": "StructuredValue"
       },
       {
-        "id": "TableBlock-complete",
-        "target": "TableBlock",
-        "valid": true,
-        "sample": "TableBlock"
-      },
-      {
-        "id": "TableCell-complete",
-        "target": "TableCell",
-        "valid": true,
-        "sample": "TableCell"
-      },
-      {
-        "id": "TableRow-complete",
-        "target": "TableRow",
-        "valid": true,
-        "sample": "TableRow"
-      },
-      {
-        "id": "TagRecord-complete",
-        "target": "TagRecord",
-        "valid": true,
-        "sample": "TagRecord"
-      },
-      {
         "id": "TaskSnapshot-complete",
         "target": "TaskSnapshot",
         "valid": true,
         "sample": "TaskSnapshot"
       },
       {
-        "id": "TextRunSegment-complete",
-        "target": "TextRunSegment",
-        "valid": true,
-        "sample": "TextRunSegment"
-      },
-      {
-        "id": "TextSpan-complete",
-        "target": "TextSpan",
-        "valid": true,
-        "sample": "TextSpan"
-      },
-      {
         "id": "TimeRangeUtc-complete",
         "target": "TimeRangeUtc",
         "valid": true,
         "sample": "TimeRangeUtc"
-      },
-      {
-        "id": "TimedText-complete",
-        "target": "TimedText",
-        "valid": true,
-        "sample": "TimedText"
-      },
-      {
-        "id": "TimelineClip-complete",
-        "target": "TimelineClip",
-        "valid": true,
-        "sample": "TimelineClip"
-      },
-      {
-        "id": "TimelineTrack-complete",
-        "target": "TimelineTrack",
-        "valid": true,
-        "sample": "TimelineTrack"
-      },
-      {
-        "id": "TimelineView-complete",
-        "target": "TimelineView",
-        "valid": true,
-        "sample": "TimelineView"
       },
       {
         "id": "ToolProposal-complete",
@@ -3416,12 +2356,6 @@ export const publicFixtures = {
         "target": "ToolResult",
         "valid": true,
         "sample": "ToolResult"
-      },
-      {
-        "id": "TransitionSpec-complete",
-        "target": "TransitionSpec",
-        "valid": true,
-        "sample": "TransitionSpec"
       },
       {
         "id": "TriggerConfiguration-complete",
@@ -3472,16 +2406,6 @@ export const publicFixtures = {
         "sample": "VersionedRef"
       },
       {
-        "id": "aggregate-notes",
-        "target": "AggregateBody",
-        "valid": true,
-        "value": {
-          "notes": {
-            "$ref": "NotesDocument"
-          }
-        }
-      },
-      {
         "id": "aggregate-chat",
         "target": "AggregateBody",
         "valid": true,
@@ -3498,56 +2422,6 @@ export const publicFixtures = {
         "value": {
           "scopeMetadata": {
             "$ref": "ScopeMetadata"
-          }
-        }
-      },
-      {
-        "id": "aggregate-slateMetadata",
-        "target": "AggregateBody",
-        "valid": true,
-        "value": {
-          "slateMetadata": {
-            "$ref": "SlateMetadata"
-          }
-        }
-      },
-      {
-        "id": "aggregate-notebook",
-        "target": "AggregateBody",
-        "valid": true,
-        "value": {
-          "notebook": {
-            "$ref": "NotebookBody"
-          }
-        }
-      },
-      {
-        "id": "aggregate-propertyDefinition",
-        "target": "AggregateBody",
-        "valid": true,
-        "value": {
-          "propertyDefinition": {
-            "$ref": "PropertyDefinition"
-          }
-        }
-      },
-      {
-        "id": "aggregate-savedView",
-        "target": "AggregateBody",
-        "valid": true,
-        "value": {
-          "savedView": {
-            "$ref": "SavedViewRecord"
-          }
-        }
-      },
-      {
-        "id": "aggregate-tag",
-        "target": "AggregateBody",
-        "valid": true,
-        "value": {
-          "tag": {
-            "$ref": "TagRecord"
           }
         }
       },
@@ -5136,16 +4010,6 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "noncanonical-decimal-1.0",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "number": {
-            "value": "1.0"
-          }
-        }
-      },
-      {
         "id": "noncanonical-decimal-0.0000000001",
         "target": "Decimal",
         "valid": false,
@@ -5249,17 +4113,6 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "two-revision-kinds",
-        "target": "RequestMeta",
-        "valid": false,
-        "sample": "RequestMeta",
-        "set": {
-          "expectedLocal": {
-            "$ref": "LocalNotesVersion"
-          }
-        }
-      },
-      {
         "id": "error-unknown-category",
         "target": "ArcError",
         "valid": false,
@@ -5294,21 +4147,6 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "oneof-missing",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {}
-      },
-      {
-        "id": "oneof-two-variants",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "text": "x",
-          "boolean": false
-        }
-      },
-      {
         "id": "ErrorDetails-missing-oneof",
         "target": "ErrorDetails",
         "valid": false,
@@ -5323,18 +4161,6 @@ export const publicFixtures = {
       {
         "id": "AggregateBody-missing-oneof",
         "target": "AggregateBody",
-        "valid": false,
-        "value": {}
-      },
-      {
-        "id": "BlockBody-missing-oneof",
-        "target": "BlockBody",
-        "valid": false,
-        "value": {}
-      },
-      {
-        "id": "NotesFilter-missing-oneof",
-        "target": "NotesFilter",
         "valid": false,
         "value": {}
       },
@@ -5452,721 +4278,6 @@ export const publicFixtures = {
         "sample": "ContentOrigin",
         "set": {
           "omittedParentCount": -1
-        }
-      },
-      {
-        "id": "scalar-null",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "null": true
-        }
-      },
-      {
-        "id": "scalar-text",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "text": ""
-        }
-      },
-      {
-        "id": "scalar-boolean",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "boolean": false
-        }
-      },
-      {
-        "id": "scalar-number",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "number": {
-            "value": "0"
-          }
-        }
-      },
-      {
-        "id": "scalar-date",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "date": "2026-01-01"
-        }
-      },
-      {
-        "id": "scalar-select",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "select": {
-            "$ref": "Id"
-          }
-        }
-      },
-      {
-        "id": "scalar-multiSelect",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "multiSelect": {
-            "items": []
-          }
-        }
-      },
-      {
-        "id": "scalar-dateTime",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "dateTime": {
-            "unixSeconds": "1767225600",
-            "nanos": 0
-          }
-        }
-      },
-      {
-        "id": "scalar-url",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "url": "https://example.invalid/unchanged"
-        }
-      },
-      {
-        "id": "scalar-null-false",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "null": false
-        }
-      },
-      {
-        "id": "scalar-invalid-date",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "date": "2025-02-29"
-        }
-      },
-      {
-        "id": "scalar-instant-sub100ns",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "dateTime": {
-            "unixSeconds": "0",
-            "nanos": 1
-          }
-        }
-      },
-      {
-        "id": "scalar-unsorted-set",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "multiSelect": {
-            "items": [
-              {
-                "$ref": "$Id2"
-              },
-              {
-                "$ref": "Id"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "id": "scalar-duplicate-set",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "multiSelect": {
-            "items": [
-              {
-                "$ref": "Id"
-              },
-              {
-                "$ref": "Id"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "id": "filter-not-unary",
-        "target": "FilterGroup",
-        "valid": false,
-        "sample": "FilterGroup",
-        "set": {
-          "children": [
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            }
-          ]
-        }
-      },
-      {
-        "id": "filter-empty-any",
-        "target": "FilterGroup",
-        "valid": false,
-        "value": {
-          "operator": "any",
-          "children": []
-        }
-      },
-      {
-        "id": "filter-and-alias",
-        "target": "FilterGroup",
-        "valid": false,
-        "sample": "FilterGroup",
-        "set": {
-          "operator": "and"
-        }
-      },
-      {
-        "id": "filter-child-limit",
-        "target": "FilterGroup",
-        "valid": false,
-        "value": {
-          "operator": "all",
-          "children": [
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            },
-            {
-              "$ref": "NotesFilter"
-            }
-          ]
-        }
-      },
-      {
-        "id": "predicate-null-literal",
-        "target": "ScalarPredicate",
-        "valid": false,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operands": [
-            {
-              "null": true
-            }
-          ]
-        }
-      },
-      {
-        "id": "predicate-in-empty",
-        "target": "ScalarPredicate",
-        "valid": false,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "in",
-          "operands": []
-        }
-      },
-      {
-        "id": "predicate-in-mixed-kinds",
-        "target": "ScalarPredicate",
-        "valid": false,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "in",
-          "operands": [
-            {
-              "text": "a"
-            },
-            {
-              "boolean": false
-            }
-          ]
-        }
-      },
-      {
-        "id": "predicate-isMissing",
-        "target": "ScalarPredicate",
-        "valid": true,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "isMissing",
-          "operands": []
-        }
-      },
-      {
-        "id": "predicate-isMissing-operand",
-        "target": "ScalarPredicate",
-        "valid": false,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "isMissing"
-        }
-      },
-      {
-        "id": "predicate-hasAll-elements",
-        "target": "ScalarPredicate",
-        "valid": true,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "hasAll",
-          "operands": [
-            {
-              "select": {
-                "$ref": "Id"
-              }
-            },
-            {
-              "select": {
-                "$ref": "$Id2"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "id": "predicate-hasAll-set-wrapper",
-        "target": "ScalarPredicate",
-        "valid": false,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "hasAll",
-          "operands": [
-            {
-              "multiSelect": {
-                "$ref": "IdList"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "id": "query-future-profile",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "profile": "notes.scalar.v2"
-        }
-      },
-      {
-        "id": "query-missing-definition-binding",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "definitionVersions": []
-        }
-      },
-      {
-        "id": "query-view-without-revision",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "savedViewId": {
-            "$ref": "Id"
-          }
-        }
-      },
-      {
-        "id": "query-nine-sorts",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "sorts": [
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            },
-            {
-              "$ref": "NotesSort"
-            }
-          ]
-        }
-      },
-      {
-        "id": "query-65-projections",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "projection": [
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            },
-            {
-              "$ref": "Id"
-            }
-          ]
-        }
-      },
-      {
-        "id": "query-null-filter",
-        "target": "NotesQuery",
-        "valid": true,
-        "sample": "NotesQuery",
-        "remove": [
-          "filter"
-        ]
-      },
-      {
-        "id": "definition-options-on-number",
-        "target": "PropertyDefinition",
-        "valid": false,
-        "sample": "PropertyDefinition",
-        "set": {
-          "options": [
-            {
-              "$ref": "SelectOption"
-            }
-          ]
-        }
-      },
-      {
-        "id": "definition-invalid-scale",
-        "target": "PropertyDefinition",
-        "valid": false,
-        "sample": "PropertyDefinition",
-        "set": {
-          "numberScale": 10
-        }
-      },
-      {
-        "id": "saved-view-page-cursor",
-        "target": "SavedViewRecord",
-        "valid": false,
-        "sample": "SavedViewRecord",
-        "set": {
-          "query.page.cursor": "cursor"
-        }
-      },
-      {
-        "id": "saved-view-dataset",
-        "target": "SavedViewRecord",
-        "valid": false,
-        "sample": "SavedViewRecord",
-        "set": {
-          "query.datasetToken": "dataset"
-        }
-      },
-      {
-        "id": "saved-view-self-reference",
-        "target": "SavedViewRecord",
-        "valid": false,
-        "sample": "SavedViewRecord",
-        "set": {
-          "query.savedViewId": {
-            "$ref": "Id"
-          },
-          "query.savedViewRev": {
-            "$ref": "Revision"
-          }
         }
       },
       {
@@ -6416,488 +4527,6 @@ export const publicFixtures = {
               "unit": "1"
             }
           ]
-        }
-      },
-      {
-        "id": "query-depth-nine",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "filter": {
-            "group": {
-              "operator": "not",
-              "children": [
-                {
-                  "group": {
-                    "operator": "not",
-                    "children": [
-                      {
-                        "group": {
-                          "operator": "not",
-                          "children": [
-                            {
-                              "group": {
-                                "operator": "not",
-                                "children": [
-                                  {
-                                    "group": {
-                                      "operator": "not",
-                                      "children": [
-                                        {
-                                          "group": {
-                                            "operator": "not",
-                                            "children": [
-                                              {
-                                                "group": {
-                                                  "operator": "not",
-                                                  "children": [
-                                                    {
-                                                      "group": {
-                                                        "operator": "not",
-                                                        "children": [
-                                                          {
-                                                            "$ref": "NotesFilter"
-                                                          }
-                                                        ]
-                                                      }
-                                                    }
-                                                  ]
-                                                }
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      {
-        "id": "query-node129",
-        "target": "NotesQuery",
-        "valid": false,
-        "sample": "NotesQuery",
-        "set": {
-          "filter": {
-            "group": {
-              "operator": "all",
-              "children": [
-                {
-                  "group": {
-                    "operator": "any",
-                    "children": [
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "group": {
-                    "operator": "any",
-                    "children": [
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "group": {
-                    "operator": "any",
-                    "children": [
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "group": {
-                    "operator": "any",
-                    "children": [
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      },
-                      {
-                        "$ref": "NotesFilter"
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
         }
       },
       {
@@ -8149,32 +5778,12 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "decimal-trailing-LF",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "number": {
-            "value": "1\n"
-          }
-        }
-      },
-      {
         "id": "key-trailing-LF",
         "target": "ApplicationScope",
         "valid": false,
         "sample": "ApplicationScope",
         "set": {
-          "productId": "arcnotes\n"
-        }
-      },
-      {
-        "id": "decimal-trailing-CR",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "number": {
-            "value": "1\r"
-          }
+          "productId": "arcscope\n"
         }
       },
       {
@@ -8183,17 +5792,7 @@ export const publicFixtures = {
         "valid": false,
         "sample": "ApplicationScope",
         "set": {
-          "productId": "arcnotes\r"
-        }
-      },
-      {
-        "id": "decimal-trailing-LS",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "number": {
-            "value": "1\u2028"
-          }
+          "productId": "arcscope\r"
         }
       },
       {
@@ -8202,7 +5801,7 @@ export const publicFixtures = {
         "valid": false,
         "sample": "ApplicationScope",
         "set": {
-          "productId": "arcnotes\u2028"
+          "productId": "arcscope\u2028"
         }
       },
       {
@@ -8552,110 +6151,6 @@ export const publicFixtures = {
         "sample": "ContentOrigin",
         "set": {
           "omittedParentCount": 3
-        }
-      },
-      {
-        "id": "notes-vector-text-eq",
-        "target": "ScalarPredicate",
-        "valid": true,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operands": [
-            {
-              "text": "A"
-            }
-          ]
-        }
-      },
-      {
-        "id": "notes-vector-text-ne",
-        "target": "ScalarPredicate",
-        "valid": true,
-        "sample": "ScalarPredicate",
-        "set": {
-          "operator": "ne",
-          "operands": [
-            {
-              "text": "A"
-            }
-          ]
-        }
-      },
-      {
-        "id": "notes-vector-not-eq",
-        "target": "NotesFilter",
-        "valid": true,
-        "value": {
-          "group": {
-            "operator": "not",
-            "children": [
-              {
-                "predicate": {
-                  "propertyId": {
-                    "$ref": "Id"
-                  },
-                  "operator": "eq",
-                  "operands": [
-                    {
-                      "text": "A"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      },
-      {
-        "id": "notes-vector-zero-present",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "number": {
-            "value": "0"
-          }
-        }
-      },
-      {
-        "id": "notes-vector-utc-instant",
-        "target": "ScalarValue",
-        "valid": true,
-        "value": {
-          "dateTime": {
-            "unixSeconds": "1767225600",
-            "nanos": 0
-          }
-        }
-      },
-      {
-        "id": "richtext-surrogate-split",
-        "target": "RichText",
-        "valid": false,
-        "sample": "RichText",
-        "set": {
-          "runs.0.until": 3,
-          "spans.0.until": 3
-        }
-      },
-      {
-        "id": "richtext-uncovered-suffix",
-        "target": "RichText",
-        "valid": false,
-        "sample": "RichText",
-        "set": {
-          "runs.0.until": 2,
-          "spans.0.until": 2
-        }
-      },
-      {
-        "id": "richtext-empty-stable-run",
-        "target": "RichText",
-        "valid": true,
-        "sample": "RichText",
-        "set": {
-          "text": "",
-          "spans": [],
-          "runs.0.until": 0
         }
       },
       {
@@ -9112,82 +6607,6 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "link-url-trailing-newline",
-        "target": "LinkSpec",
-        "valid": false,
-        "value": {
-          "kind": "external",
-          "url": "https://example.test\n",
-          "label": "External link"
-        }
-      },
-      {
-        "id": "date-trailing-newline",
-        "target": "ScalarValue",
-        "valid": false,
-        "value": {
-          "date": "2026-01-01\n"
-        }
-      },
-      {
-        "id": "union-BlockBody-code",
-        "target": "BlockBody",
-        "valid": true,
-        "value": {
-          "code": {
-            "$ref": "CodeBlock"
-          }
-        }
-      },
-      {
-        "id": "union-BlockBody-resource",
-        "target": "BlockBody",
-        "valid": true,
-        "value": {
-          "resource": {
-            "$ref": "ResourceRef"
-          }
-        }
-      },
-      {
-        "id": "union-BlockBody-link",
-        "target": "BlockBody",
-        "valid": true,
-        "value": {
-          "link": {
-            "$ref": "LinkSpec"
-          }
-        }
-      },
-      {
-        "id": "union-BlockBody-table",
-        "target": "BlockBody",
-        "valid": true,
-        "value": {
-          "table": {
-            "$ref": "TableBlock"
-          }
-        }
-      },
-      {
-        "id": "union-BlockBody-math",
-        "target": "BlockBody",
-        "valid": true,
-        "value": {
-          "math": {
-            "$ref": "MathContent"
-          }
-        }
-      },
-      {
-        "id": "union-BlockBody-empty",
-        "target": "BlockBody",
-        "valid": true,
-        "value": {
-          "empty": true
-        }
-      },
-      {
         "id": "union-ContextSelector-byteRange",
         "target": "ContextSelector",
         "valid": true,
@@ -9198,100 +6617,12 @@ export const publicFixtures = {
         }
       },
       {
-        "id": "union-ContextSelector-notes",
-        "target": "ContextSelector",
-        "valid": true,
-        "value": {
-          "notes": {
-            "$ref": "NotesSelection"
-          }
-        }
-      },
-      {
         "id": "union-ContextSelector-scope",
         "target": "ContextSelector",
         "valid": true,
         "value": {
           "scope": {
             "$ref": "ScopeSelection"
-          }
-        }
-      },
-      {
-        "id": "union-ContextSelector-slate",
-        "target": "ContextSelector",
-        "valid": true,
-        "value": {
-          "slate": {
-            "$ref": "SlateSelection"
-          }
-        }
-      },
-      {
-        "id": "union-EffectParameter-boolean",
-        "target": "EffectParameter",
-        "valid": true,
-        "value": {
-          "name": "parameter",
-          "boolean": false
-        }
-      },
-      {
-        "id": "union-EffectParameter-text",
-        "target": "EffectParameter",
-        "valid": true,
-        "value": {
-          "name": "parameter",
-          "text": "Normal"
-        }
-      },
-      {
-        "id": "union-EffectParameter-keyframes",
-        "target": "EffectParameter",
-        "valid": true,
-        "value": {
-          "name": "parameter",
-          "keyframes": {
-            "$ref": "KeyframeList"
-          }
-        }
-      },
-      {
-        "id": "union-EffectParameter-rational",
-        "target": "EffectParameter",
-        "valid": true,
-        "value": {
-          "name": "parameter",
-          "rational": {
-            "$ref": "Rational"
-          }
-        }
-      },
-      {
-        "id": "union-InlineAtom-mention",
-        "target": "InlineAtom",
-        "valid": true,
-        "value": {
-          "offset": 0,
-          "inlineId": {
-            "$ref": "Id"
-          },
-          "mention": {
-            "$ref": "LinkSpec"
-          }
-        }
-      },
-      {
-        "id": "union-InlineAtom-footnote",
-        "target": "InlineAtom",
-        "valid": true,
-        "value": {
-          "offset": 0,
-          "inlineId": {
-            "$ref": "Id"
-          },
-          "footnote": {
-            "$ref": "LinkSpec"
           }
         }
       },
@@ -9402,23 +6733,6 @@ export const publicFixtures = {
           },
           "native": {
             "$ref": "NativeContentRev"
-          }
-        }
-      },
-      {
-        "id": "union-ResourceVersionRef-local",
-        "target": "ResourceVersionRef",
-        "valid": true,
-        "value": {
-          "resource": {
-            "$ref": "ResourceRef"
-          },
-          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
-          "blob": {
-            "$ref": "BlobRef"
-          },
-          "local": {
-            "$ref": "LocalNotesVersion"
           }
         }
       },
@@ -9573,19 +6887,19 @@ export const publicFixtures = {
       },
       {
         "id": "oneof-false-present",
-        "target": "ScalarValue",
+        "target": "StructuredValue",
         "value": {
           "boolean": false
         },
-        "hex": "1800"
+        "hex": "1000"
       },
       {
         "id": "oneof-empty-string-present",
-        "target": "ScalarValue",
+        "target": "StructuredValue",
         "value": {
           "text": ""
         },
-        "hex": "1200"
+        "hex": "2a00"
       },
       {
         "id": "signed-zigzag-minimum",
@@ -9665,7 +6979,6 @@ export const publicFixtures = {
       "Id",
       "Instant",
       "LimitFailure",
-      "LocalNotesVersion",
       "MediaRange",
       "MediaTime",
       "NativeContentRev",
@@ -9914,82 +7227,6 @@ export const publicFixtures = {
         ],
         "expectedMeaning": "Known AI kinds survive copy/edit/export; deterministic statistics retain nonAi; mixed-report union retains both; legacy has unknown and no fabricated time. Owner publication failure remains staged, never falsely complete.",
         "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
-      },
-      {
-        "id": "notes-order-and-missing",
-        "profile": "notes.scalar.v1",
-        "input": {
-          "documentIds": [
-            "D1",
-            "D2",
-            "D3",
-            "D4"
-          ],
-          "textValues": [
-            null,
-            "",
-            "A",
-            "a"
-          ],
-          "ascending": [
-            "D2",
-            "D3",
-            "D4",
-            "D1"
-          ],
-          "neA": [
-            "D2",
-            "D4"
-          ],
-          "notEqA": [
-            "D1",
-            "D2",
-            "D4"
-          ],
-          "numbers": [
-            "0",
-            "2",
-            "10"
-          ],
-          "equalInstants": [
-            "2026-01-01T01:00:00+01:00",
-            "2026-01-01T00:00:00Z"
-          ]
-        },
-        "expectedCaseIds": [
-          "notes-vector-text-eq",
-          "notes-vector-text-ne",
-          "notes-vector-not-eq",
-          "notes-vector-zero-present",
-          "notes-vector-utc-instant"
-        ],
-        "expectedMeaning": "Missing differs from empty,false,zero; ordinal case-sensitive strings; exact numeric order; IDs ascending final tie-break even descending sort; offset inputs identify same UTC instant.",
-        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
-      },
-      {
-        "id": "notes-owner-projections",
-        "profile": "notes.scalar.v1",
-        "input": {
-          "cases": [
-            "label rename stability",
-            "type-change refusal",
-            "referenced option removal",
-            "invalid definition",
-            "AST bounds",
-            "dataset mutation requires restart",
-            "partial hydration remains partial"
-          ]
-        },
-        "expectedCaseIds": [
-          "query-missing-definition-binding",
-          "query-depth-nine",
-          "query-node129",
-          "query-nine-sorts",
-          "query-65-projections",
-          "catalogue-conflict.revision_mismatch"
-        ],
-        "expectedMeaning": "Schema rejection and restart error shapes are tested; actual authorization, query evaluation, hydration and transactional refusal remain product owners.",
-        "evidenceBoundary": "Independent codec/validator fixture; owner engine/persistence/publication execution remains pending."
       }
     ]
   },
@@ -10208,10 +7445,10 @@ export const publicFixtures = {
         "limit": "unaryMessage",
         "construct": {
           "kind": "nested",
-          "target": "arcforges.publicapi.v1.NotesFilter",
+          "target": "arcforges.publicapi.v1.StructuredValue",
           "fields": [
-            1,
-            2
+            8,
+            1
           ],
           "levels": 1
         },
@@ -10223,10 +7460,10 @@ export const publicFixtures = {
         "limit": "unaryMessage",
         "construct": {
           "kind": "nested",
-          "target": "arcforges.publicapi.v1.NotesFilter",
+          "target": "arcforges.publicapi.v1.StructuredValue",
           "fields": [
-            1,
-            2
+            8,
+            1
           ],
           "levels": 99
         },
@@ -10238,10 +7475,10 @@ export const publicFixtures = {
         "limit": "unaryMessage",
         "construct": {
           "kind": "nested",
-          "target": "arcforges.publicapi.v1.NotesFilter",
+          "target": "arcforges.publicapi.v1.StructuredValue",
           "fields": [
-            1,
-            2
+            8,
+            1
           ],
           "levels": 100
         },
@@ -10253,10 +7490,10 @@ export const publicFixtures = {
         "limit": "unaryMessage",
         "construct": {
           "kind": "nested",
-          "target": "arcforges.publicapi.v1.NotesFilter",
+          "target": "arcforges.publicapi.v1.StructuredValue",
           "fields": [
-            1,
-            2
+            8,
+            1
           ],
           "levels": 101
         },
@@ -10268,10 +7505,10 @@ export const publicFixtures = {
         "limit": "unaryMessage",
         "construct": {
           "kind": "nested",
-          "target": "arcforges.publicapi.v1.NotesFilter",
+          "target": "arcforges.publicapi.v1.StructuredValue",
           "fields": [
-            1,
-            2
+            8,
+            1
           ],
           "levels": 150
         },

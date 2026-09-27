@@ -28,6 +28,12 @@ EXTRA_SEEDS = set("PageRequest PageState Rational MediaTime MediaRange ByteRange
 SCALARS = set("string bytes int32 int64 sint32 sint64 uint32 uint64 fixed32 fixed64 sfixed32 sfixed64 double float bool".split())
 ALIASES = {name: "string" for name in "Name Text Email SecretText Key CountryCode Cursor ReasonCode Hash ModelId".split()}
 ALIASES.update(Bytes="bytes", Int32="int32", Int64="int64", UInt64="uint64", Bool="bool")
+
+# Exact approved pre-business retirement; never infer deletions from the mutable inventory.
+RETIRED_MESSAGES = {'SavedViewRecord', 'TimelineTrack', 'NotesTextPosition', 'MediaStream', 'FilterGroup', 'NotesDataset', 'SandboxOutput', 'RevisionView', 'BlockEdit', 'NotesSelectors', 'PropertyDefinition', 'TextRunSegment', 'ColourConfiguration', 'ProcessingGraph', 'TimelineEdit', 'NotesQuery', 'MarkerView', 'MediaView', 'BlockMove', 'ScalarPredicate', 'PropertyValue', 'SandboxFrame', 'RenderPreset', 'RichText', 'EffectSpec', 'ScalarValue', 'GeneratedSource', 'OtioExportRequest', 'NotesMovePreview', 'SandboxMediaInfo', 'TableRow', 'TagMove', 'MathContent', 'NotesCommand', 'ImageLayout', 'TableBlock', 'TagRecord', 'BlockProperties', 'OptionMove', 'TimedText', 'InlineAtom', 'TranscriptRecord', 'RetimePoint', 'LocalNotesVersion', 'TimelineClip', 'TimelineCommand', 'SelectOption', 'SlateProject', 'SlateSelection', 'KeyframeList', 'DocumentRef', 'NotesDocument', 'FolderView', 'TableCell', 'TimelineView', 'OtioImportRequest', 'NotebookBody', 'NotesSort', 'SlateMetadata', 'SequenceView', 'SandboxReadResult', 'OtioFidelityReport', 'TransitionSpec', 'MediaBin', 'RenderRequest', 'PropertyDefinitionVersion', 'NotesFilter', 'NotebookView', 'AudioChunk', 'ClassificationMap', 'TextSpan', 'FidelityEntry', 'MediaColourAssignment', 'CodeBlock', 'ClipPlacement', 'TranscriptSegment', 'PropertyMove', 'EffectParameter', 'RetimeCurve', 'IdList', 'ProcessingEdge', 'NotesSelection', 'BlockBody', 'CheckpointView', 'SandboxStreamInfo', 'SubtitleInterchange', 'LinkSpec', 'DocumentView', 'Keyframe', 'NotesTableAction', 'TranscriptionRequest', 'LocalRootVersion', 'Block', 'DocumentProjection', 'MediaRelink'}
+RETIRED_FIELDS = {'RequestMeta': [{'name': 'expected_local', 'tag': 5}], 'StateFailure': [{'name': 'local', 'tag': 4}], 'ResourceVersionRef': [{'name': 'local', 'tag': 4}], 'AggregateBody': [{'name': 'notes', 'tag': 1}, {'name': 'slate_metadata', 'tag': 4}, {'name': 'notebook', 'tag': 5}, {'name': 'property_definition', 'tag': 6}, {'name': 'saved_view', 'tag': 7}, {'name': 'tag', 'tag': 8}], 'ContextSelector': [{'name': 'notes', 'tag': 3}, {'name': 'slate', 'tag': 5}], 'EventTrigger': [{'name': 'predicate', 'tag': 3}]}
+
+RETIRED_ID_DOMAINS = {'EffectInstanceId', 'TimelineGroupId', 'TableRowId', 'TransitionId', 'TimelineLinkGroupId', 'MediaAssetId', 'InlineId', 'TrackId', 'SelectOptionId', 'FolderId', 'DocumentId', 'SlateProjectId', 'TableCellId', 'ViewId', 'TimelineItemId', 'TimelineMarkerId', 'TextRunId', 'PropertyDefId', 'BlockId', 'MediaBinId', 'SequenceId', 'NotebookId'}
 TOKEN = re.compile(r'\s+|//[^\n]*|/\*[\s\S]*?\*/|"(?:\\.|[^"\\])*"|[A-Za-z_][A-Za-z_0-9]*|-?[0-9]+|[{}\[\];=,.]')
 NAME = re.compile(r"[A-Za-z_][A-Za-z_0-9]*\Z")
 
@@ -238,8 +244,14 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
             require(name not in all_enums, f"Duplicate enum ownership: {name}")
             all_enums[name] = (path, definition)
     require(set(records) == set(all_messages), "Selected message inventory differs from authored schemas")
+    require(not RETIRED_MESSAGES.intersection(all_messages), "Retired message name reused")
+    require(inventory.get("retirement", {}).get("messages") == sorted(RETIRED_MESSAGES), "Retirement name reservation changed")
+    require(inventory["retirement"].get("fields") == RETIRED_FIELDS, "Retirement field reservation changed")
+    for name, retired_fields in RETIRED_FIELDS.items():
+        current = all_messages[name][1]
+        require(all(field["tag"] in current["reservedTags"] and field["name"] in current["reservedNames"] for field in retired_fields), f"{name}: missing approved retirement reservation")
     require(set(enums) == set(all_enums), "Selected enum inventory differs from authored schemas")
-    seeds = set(old["messages"]) | EXTRA_SEEDS
+    seeds = (set(old["messages"]) | EXTRA_SEEDS) - RETIRED_MESSAGES
     require(set(inventory["seeds"]) == seeds and len(inventory["seeds"]) == len(seeds), "Selected seed closure changed")
     edges: dict[str, set[str]] = {}
     used_enums: set[str] = set()
@@ -308,9 +320,13 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
     require(visited == set(records) and used_enums == set(enums), "Unreachable extra or missing selected type")
     for name, previous in old["messages"].items():
         current = schemas[FOUNDATION]["messages"].get(name)
+        if name in RETIRED_MESSAGES:
+            require(current is None, f"Retired Foundation record restored: {name}")
+            continue
         require(current, f"Published Foundation record removed: {name}")
         current_fields = {field["tag"]: field for field in current["fields"]}
-        require(all(current_fields.get(field["tag"]) == field for field in previous["fields"]), f"Published Foundation field changed or reused: {name}")
+        removed = {field["tag"]: field["name"] for field in RETIRED_FIELDS.get(name, [])}
+        require(all((field["tag"] in removed and field["name"] == removed[field["tag"]] and field["tag"] in current["reservedTags"] and field["name"] in current["reservedNames"]) or current_fields.get(field["tag"]) == field for field in previous["fields"]), f"Published Foundation field changed or reused: {name}")
     for name, previous in old["enums"].items():
         current = schemas[FOUNDATION]["enums"].get(name, [])
         require(all(value in current for value in previous), f"Published Foundation enum removed or renumbered: {name}")
@@ -319,7 +335,7 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
     require(set(domains) == {"Foundation", "PublicApi"}, "Unexpected identifier owner")
     flat = [name for names in domains.values() for name in names]
     require(len(set(flat)) == len(flat) and all(re.fullmatch(r"[A-Z][A-Za-z0-9]*Id", name) for name in flat), "Duplicate/invalid identity domain")
-    require({k: sorted(v) for k, v in domains.items()} == {k: sorted(v) for k, v in baseline["identifierDomains"].items()}, "Selected identifier domain missing, unreviewed or moved")
+    require({k: sorted(v) for k, v in domains.items()} == {k: sorted(set(v) - RETIRED_ID_DOMAINS) for k, v in baseline["identifierDomains"].items()}, "Selected identifier domain missing, unreviewed or moved")
     return len(records), len(flat)
 
 
@@ -348,7 +364,7 @@ def check(root: Path = ROOT, generated: bool = False, self_test: bool = False) -
         changed[CONTENT]["messages"]["MeasurementValue"]["fields"][2]["oneof"] = None
         cases.append(("oneof presence loss", inventory, changed, constraints, values))
         changed = deepcopy(inventory)
-        changed["records"] = [r for r in changed["records"] if r["name"] != "TextRunSegment"]
+        changed["records"] = [r for r in changed["records"] if r["name"] != "MeasurementSource"]
         cases.append(("missing owner dependency", changed, schemas, constraints, values))
         changed = deepcopy(schemas)
         changed[CONTENT]["imports"].append("arcforges/local/notes/v1/notes.proto")
@@ -360,15 +376,24 @@ def check(root: Path = ROOT, generated: bool = False, self_test: bool = False) -
         changed["messages"]["arcforges.foundation.v1.Id"]["fields"]["value"].pop("required")
         cases.append(("required field validator removal", inventory, schemas, changed, values))
         changed = deepcopy(values)
-        changed["identifiers"]["PublicApi"].remove("TextRunId")
-        cases.append(("text/execution run identity collapse", inventory, schemas, constraints, changed))
+        changed["identifiers"]["PublicApi"].remove("ScopeProjectId")
+        cases.append(("retained identity domain removal", inventory, schemas, constraints, changed))
+        changed = deepcopy(schemas)
+        changed[FOUNDATION]["messages"]["RequestMeta"]["reservedTags"].remove(5)
+        cases.append(("retired field tag reservation removed", inventory, changed, constraints, values))
+        changed = deepcopy(schemas)
+        changed[FOUNDATION]["messages"]["RequestMeta"]["reservedNames"].remove("expected_local")
+        cases.append(("retired field name reservation removed", inventory, changed, constraints, values))
+        changed = deepcopy(inventory)
+        changed["retirement"]["messages"].remove("NotesFilter")
+        cases.append(("retired message name released", changed, schemas, constraints, values))
         for label, selected, authored, rules, identities in cases:
             try:
                 check_model(selected, authored, rules, identities, baseline)
             except ValueError:
                 continue
             raise ValueError(f"Negative policy case passed: {label}")
-    print(f"Foundation inventory: {counts[0]} selected messages, {counts[1]} ID domains, published baseline and closure passed" + ("; 8 negative cases passed" if self_test else ""))
+    print(f"Foundation inventory: {counts[0]} selected messages, {counts[1]} ID domains, published baseline and closure passed" + (f"; {len(cases)} negative cases passed" if self_test else ""))
 
 
 def main() -> int:

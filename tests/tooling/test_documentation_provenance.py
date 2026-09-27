@@ -3,6 +3,7 @@
 
 import copy
 import json
+import re
 from pathlib import Path
 import sys
 import unittest
@@ -73,14 +74,27 @@ class DocumentationAdmissionTests(unittest.TestCase):
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
-            self.assertEqual(current["modules"][module]["publicApi"], previous["modules"][module]["publicApi"],
-                             "Suppressing inherited runtime methods must preserve every declared public API marker")
+            from check_foundation import RETIRED_MESSAGES, RETIRED_FIELDS
+            slug = lambda name: '-' + re.sub(r'(?<!^)([A-Z])', r'-\1', name).lower()
+            expected = {}
+            for name, markers in previous["modules"][module]["publicApi"].items():
+                if any('/' + slug(record) + '/' in name for record in RETIRED_MESSAGES):
+                    continue
+                retired_markers = set()
+                for record, fields in RETIRED_FIELDS.items():
+                    if '/' + slug(record) + '/' in name:
+                        for field in fields:
+                            suffix = ''.join(word.title() for word in field['name'].split('_'))
+                            retired_markers.update('anchor-label="' + prefix + suffix + '"' for prefix in ('get', 'has'))
+                expected[name] = [marker for marker in markers if marker not in retired_markers]
+            self.assertEqual(current["modules"][module]["publicApi"], expected,
+                             "Only explicitly retired message/field markers may be removed")
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
         self.assertTrue(any("foundation.v1" in name for name in proto_pages))
         self.assertTrue(any("events.v1" in name for name in proto_pages))
         self.assertTrue(any("publicapi.v1/-aggregate-body/" in name for name in proto_pages))
-        self.assertTrue(any("publicapi.v1/-notes-query/" in name for name in proto_pages))
+        self.assertFalse(any("publicapi.v1/-notes-query/" in name for name in proto_pages))
         self.assertTrue(any("publicapi.v1/-measurement-result/" in name for name in proto_pages))
 
     def test_distinct_npm_names_cannot_share_a_normalized_record_id(self):

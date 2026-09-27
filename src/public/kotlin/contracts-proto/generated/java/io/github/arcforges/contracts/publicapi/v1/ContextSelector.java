@@ -28,9 +28,7 @@ public  final class ContextSelector extends
       implements com.google.protobuf.AbstractMessageLite.InternalOneOfEnum {
     WHOLE(1),
     BYTE_RANGE(2),
-    NOTES(3),
     SCOPE(4),
-    SLATE(5),
     SELECTION_NOT_SET(0);
     private final int value;
     private SelectionCase(int value) {
@@ -48,9 +46,7 @@ public  final class ContextSelector extends
       switch (value) {
         case 1: return WHOLE;
         case 2: return BYTE_RANGE;
-        case 3: return NOTES;
         case 4: return SCOPE;
-        case 5: return SLATE;
         case 0: return SELECTION_NOT_SET;
         default: return null;
       }
@@ -162,58 +158,6 @@ public  final class ContextSelector extends
     }
   }
 
-  public static final int NOTES_FIELD_NUMBER = 3;
-  /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   */
-  @java.lang.Override
-  public boolean hasNotes() {
-    return selectionCase_ == 3;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   */
-  @java.lang.Override
-  public io.github.arcforges.contracts.publicapi.v1.NotesSelection getNotes() {
-    if (selectionCase_ == 3) {
-       return (io.github.arcforges.contracts.publicapi.v1.NotesSelection) selection_;
-    }
-    return io.github.arcforges.contracts.publicapi.v1.NotesSelection.getDefaultInstance();
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void setNotes(io.github.arcforges.contracts.publicapi.v1.NotesSelection value) {
-    value.getClass();  // minimal bytecode null check
-    selection_ = value;
-    selectionCase_ = 3;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void mergeNotes(io.github.arcforges.contracts.publicapi.v1.NotesSelection value) {
-    value.getClass();  // minimal bytecode null check
-    if (selectionCase_ == 3 &&
-        selection_ != io.github.arcforges.contracts.publicapi.v1.NotesSelection.getDefaultInstance()) {
-      selection_ = io.github.arcforges.contracts.publicapi.v1.NotesSelection.newBuilder((io.github.arcforges.contracts.publicapi.v1.NotesSelection) selection_)
-          .mergeFrom(value).buildPartial();
-    } else {
-      selection_ = value;
-    }
-    selectionCase_ = 3;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-   */
-  private void clearNotes() {
-    if (selectionCase_ == 3) {
-      selectionCase_ = 0;
-      selection_ = null;
-    }
-  }
-
   public static final int SCOPE_FIELD_NUMBER = 4;
   /**
    * <code>.arcforges.publicapi.v1.ScopeSelection scope = 4 [json_name = "scope"];</code>
@@ -261,58 +205,6 @@ public  final class ContextSelector extends
    */
   private void clearScope() {
     if (selectionCase_ == 4) {
-      selectionCase_ = 0;
-      selection_ = null;
-    }
-  }
-
-  public static final int SLATE_FIELD_NUMBER = 5;
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   */
-  @java.lang.Override
-  public boolean hasSlate() {
-    return selectionCase_ == 5;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   */
-  @java.lang.Override
-  public io.github.arcforges.contracts.publicapi.v1.SlateSelection getSlate() {
-    if (selectionCase_ == 5) {
-       return (io.github.arcforges.contracts.publicapi.v1.SlateSelection) selection_;
-    }
-    return io.github.arcforges.contracts.publicapi.v1.SlateSelection.getDefaultInstance();
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void setSlate(io.github.arcforges.contracts.publicapi.v1.SlateSelection value) {
-    value.getClass();  // minimal bytecode null check
-    selection_ = value;
-    selectionCase_ = 5;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void mergeSlate(io.github.arcforges.contracts.publicapi.v1.SlateSelection value) {
-    value.getClass();  // minimal bytecode null check
-    if (selectionCase_ == 5 &&
-        selection_ != io.github.arcforges.contracts.publicapi.v1.SlateSelection.getDefaultInstance()) {
-      selection_ = io.github.arcforges.contracts.publicapi.v1.SlateSelection.newBuilder((io.github.arcforges.contracts.publicapi.v1.SlateSelection) selection_)
-          .mergeFrom(value).buildPartial();
-    } else {
-      selection_ = value;
-    }
-    selectionCase_ = 5;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-   */
-  private void clearSlate() {
-    if (selectionCase_ == 5) {
       selectionCase_ = 0;
       selection_ = null;
     }
@@ -516,54 +408,6 @@ public  final class ContextSelector extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-     */
-    @java.lang.Override
-    public boolean hasNotes() {
-      return instance.hasNotes();
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-     */
-    @java.lang.Override
-    public io.github.arcforges.contracts.publicapi.v1.NotesSelection getNotes() {
-      return instance.getNotes();
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-     */
-    public Builder setNotes(io.github.arcforges.contracts.publicapi.v1.NotesSelection value) {
-      copyOnWrite();
-      instance.setNotes(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-     */
-    public Builder setNotes(
-        io.github.arcforges.contracts.publicapi.v1.NotesSelection.Builder builderForValue) {
-      copyOnWrite();
-      instance.setNotes(builderForValue.build());
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-     */
-    public Builder mergeNotes(io.github.arcforges.contracts.publicapi.v1.NotesSelection value) {
-      copyOnWrite();
-      instance.mergeNotes(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];</code>
-     */
-    public Builder clearNotes() {
-      copyOnWrite();
-      instance.clearNotes();
-      return this;
-    }
-
-    /**
      * <code>.arcforges.publicapi.v1.ScopeSelection scope = 4 [json_name = "scope"];</code>
      */
     @java.lang.Override
@@ -611,54 +455,6 @@ public  final class ContextSelector extends
       return this;
     }
 
-    /**
-     * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-     */
-    @java.lang.Override
-    public boolean hasSlate() {
-      return instance.hasSlate();
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-     */
-    @java.lang.Override
-    public io.github.arcforges.contracts.publicapi.v1.SlateSelection getSlate() {
-      return instance.getSlate();
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-     */
-    public Builder setSlate(io.github.arcforges.contracts.publicapi.v1.SlateSelection value) {
-      copyOnWrite();
-      instance.setSlate(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-     */
-    public Builder setSlate(
-        io.github.arcforges.contracts.publicapi.v1.SlateSelection.Builder builderForValue) {
-      copyOnWrite();
-      instance.setSlate(builderForValue.build());
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-     */
-    public Builder mergeSlate(io.github.arcforges.contracts.publicapi.v1.SlateSelection value) {
-      copyOnWrite();
-      instance.mergeSlate(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];</code>
-     */
-    public Builder clearSlate() {
-      copyOnWrite();
-      instance.clearSlate();
-      return this;
-    }
-
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.ContextSelector)
   }
   @java.lang.Override
@@ -678,13 +474,11 @@ public  final class ContextSelector extends
             "selection_",
             "selectionCase_",
             io.github.arcforges.contracts.foundation.v1.ByteRange.class,
-            io.github.arcforges.contracts.publicapi.v1.NotesSelection.class,
             io.github.arcforges.contracts.publicapi.v1.ScopeSelection.class,
-            io.github.arcforges.contracts.publicapi.v1.SlateSelection.class,
           };
           java.lang.String info =
-              "\u0000\u0005\u0001\u0000\u0001\u0005\u0005\u0000\u0000\u0000\u0001:\u0000\u0002<" +
-              "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000";
+              "\u0000\u0003\u0001\u0000\u0001\u0004\u0003\u0000\u0000\u0000\u0001:\u0000\u0002<" +
+              "\u0000\u0004<\u0000";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

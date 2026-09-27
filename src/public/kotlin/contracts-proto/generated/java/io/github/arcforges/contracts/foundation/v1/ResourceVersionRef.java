@@ -30,7 +30,6 @@ public  final class ResourceVersionRef extends
       implements com.google.protobuf.AbstractMessageLite.InternalOneOfEnum {
     CLOUD(2),
     NATIVE(3),
-    LOCAL(4),
     REVISION_NOT_SET(0);
     private final int value;
     private RevisionCase(int value) {
@@ -48,7 +47,6 @@ public  final class ResourceVersionRef extends
       switch (value) {
         case 2: return CLOUD;
         case 3: return NATIVE;
-        case 4: return LOCAL;
         case 0: return REVISION_NOT_SET;
         default: return null;
       }
@@ -321,58 +319,6 @@ public  final class ResourceVersionRef extends
    */
   private void clearNative() {
     if (revisionCase_ == 3) {
-      revisionCase_ = 0;
-      revision_ = null;
-    }
-  }
-
-  public static final int LOCAL_FIELD_NUMBER = 4;
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.Override
-  public boolean hasLocal() {
-    return revisionCase_ == 4;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.Override
-  public io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getLocal() {
-    if (revisionCase_ == 4) {
-       return (io.github.arcforges.contracts.foundation.v1.LocalNotesVersion) revision_;
-    }
-    return io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.getDefaultInstance();
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void setLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-    value.getClass();  // minimal bytecode null check
-    revision_ = value;
-    revisionCase_ = 4;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void mergeLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-    value.getClass();  // minimal bytecode null check
-    if (revisionCase_ == 4 &&
-        revision_ != io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.getDefaultInstance()) {
-      revision_ = io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.newBuilder((io.github.arcforges.contracts.foundation.v1.LocalNotesVersion) revision_)
-          .mergeFrom(value).buildPartial();
-    } else {
-      revision_ = value;
-    }
-    revisionCase_ = 4;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  private void clearLocal() {
-    if (revisionCase_ == 4) {
       revisionCase_ = 0;
       revision_ = null;
     }
@@ -738,54 +684,6 @@ public  final class ResourceVersionRef extends
       return this;
     }
 
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    @java.lang.Override
-    public boolean hasLocal() {
-      return instance.hasLocal();
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    @java.lang.Override
-    public io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getLocal() {
-      return instance.getLocal();
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder setLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-      copyOnWrite();
-      instance.setLocal(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder setLocal(
-        io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.Builder builderForValue) {
-      copyOnWrite();
-      instance.setLocal(builderForValue.build());
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder mergeLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-      copyOnWrite();
-      instance.mergeLocal(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder clearLocal() {
-      copyOnWrite();
-      instance.clearLocal();
-      return this;
-    }
-
     // @@protoc_insertion_point(builder_scope:arcforges.foundation.v1.ResourceVersionRef)
   }
   @java.lang.Override
@@ -808,13 +706,12 @@ public  final class ResourceVersionRef extends
             "resource_",
             io.github.arcforges.contracts.foundation.v1.Revision.class,
             io.github.arcforges.contracts.foundation.v1.NativeContentRev.class,
-            io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.class,
             "contentHash_",
             "blob_",
           };
           java.lang.String info =
-              "\u0000\u0006\u0001\u0001\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
-              "<\u0000\u0003<\u0000\u0004<\u0000\u0005\u1208\u0001\u0006\u1009\u0002";
+              "\u0000\u0005\u0001\u0001\u0001\u0006\u0005\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+              "<\u0000\u0003<\u0000\u0005\u1208\u0001\u0006\u1009\u0002";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

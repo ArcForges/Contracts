@@ -8,7 +8,7 @@ using Google.Protobuf;
 using F = ArcForges.Contracts.Foundation.V1;
 using P = ArcForges.Contracts.PublicApi.V1;
 using V = ArcForges.Contracts.Foundation.Values;
-using DocumentId = ArcForges.Contracts.PublicApi.Values.DocumentId;
+using ScopeProjectId = ArcForges.Contracts.PublicApi.Values.ScopeProjectId;
 using ResourceId = ArcForges.Contracts.Foundation.Values.ResourceId;
 using Validation = ArcForges.Contracts.Validation.ContractShapeValidation;
 
@@ -20,7 +20,6 @@ internal static class FoundationCases
         var bytes = File.ReadAllBytes(path);
         var fixture = JsonNode.Parse(bytes)!.AsObject();
         var samples = fixture["samples"]!.AsObject();
-        Require(samples["RichText"]!["text"]!.GetValue<string>() == "A\u4e2d\ud83d\ude00", "The registry UTF-16 oracle must survive fixture encoding.");
         var cases = fixture["cases"]!.AsArray();
         var errors = new List<string>();
         var ids = new HashSet<string>(StringComparer.Ordinal);
@@ -45,7 +44,7 @@ internal static class FoundationCases
         }
         Require(errors.Count == 0, "Independent foundation fixture failures:\n" + string.Join("\n", errors));
         Require(names.SetEquals(samples.Select(p => p.Key).Where(n => !n.StartsWith('$'))), "Every selected record needs a valid semantic round trip.");
-        Require(fixture["aggregateVariants"]!.AsObject().Count == 16, "All owner-body branches must remain covered.");
+        Require(fixture["aggregateVariants"]!.AsObject().Count == 10, "All owner-body branches must remain covered.");
         Require(fixture["errorCategories"]!.AsObject().Count == 45, "All initial error codes must remain covered.");
         foreach (var node in fixture["profileScenarios"]!.AsArray())
         {
@@ -73,7 +72,7 @@ internal static class FoundationCases
             var document = new JsonObject { ["fixtureDigest"] = Convert.ToHexStringLower(SHA256.HashData(bytes)), ["cases"] = output };
             File.WriteAllText(Path.Combine(directory, "csharp.json"), document.ToJsonString());
         }
-        Console.WriteLine($"Validated {cases.Count} independent C# foundation cases, {names.Count} records, 16 owner bodies, 45 error categories and {fixture["wireVectors"]!.AsArray().Count} binary oracles.");
+        Console.WriteLine($"Validated {cases.Count} independent C# foundation cases, {names.Count} records, 10 owner bodies, 45 error categories and {fixture["wireVectors"]!.AsArray().Count} binary oracles.");
     }
 
     public static void VerifyExchange(string root)
@@ -188,9 +187,6 @@ internal static class FoundationCases
         "AutomationSpec" => Check<P.AutomationSpec>(json, binary, Validation.IsValid),
         "AutomationView" => Check<P.AutomationView>(json, binary, Validation.IsValid),
         "BlobRef" => Check<F.BlobRef>(json, binary, Validation.IsValid),
-        "Block" => Check<P.Block>(json, binary, Validation.IsValid),
-        "BlockBody" => Check<P.BlockBody>(json, binary, Validation.IsValid),
-        "BlockProperties" => Check<P.BlockProperties>(json, binary, Validation.IsValid),
         "ByteRange" => Check<F.ByteRange>(json, binary, Validation.IsValid),
         "Calibration" => Check<P.Calibration>(json, binary, Validation.IsValid),
         "CapabilityArguments" => Check<P.CapabilityArguments>(json, binary, Validation.IsValid),
@@ -199,8 +195,6 @@ internal static class FoundationCases
         "ChannelDefinition" => Check<P.ChannelDefinition>(json, binary, Validation.IsValid),
         "ChatProjectRecord" => Check<P.ChatProjectRecord>(json, binary, Validation.IsValid),
         "ChecksumSpec" => Check<P.ChecksumSpec>(json, binary, Validation.IsValid),
-        "CodeBlock" => Check<P.CodeBlock>(json, binary, Validation.IsValid),
-        "ColourConfiguration" => Check<P.ColourConfiguration>(json, binary, Validation.IsValid),
         "ContentOrigin" => Check<F.ContentOrigin>(json, binary, Validation.IsValid),
         "ContextRef" => Check<P.ContextRef>(json, binary, Validation.IsValid),
         "ContextSelector" => Check<P.ContextSelector>(json, binary, Validation.IsValid),
@@ -210,41 +204,23 @@ internal static class FoundationCases
         "CursorResult" => Check<P.CursorResult>(json, binary, Validation.IsValid),
         "CursorSpec" => Check<P.CursorSpec>(json, binary, Validation.IsValid),
         "Decimal" => Check<F.Decimal>(json, binary, Validation.IsValid),
-        "EffectParameter" => Check<P.EffectParameter>(json, binary, Validation.IsValid),
-        "EffectSpec" => Check<P.EffectSpec>(json, binary, Validation.IsValid),
         "EphemeralSelection" => Check<P.EphemeralSelection>(json, binary, Validation.IsValid),
         "ErrorDetails" => Check<F.ErrorDetails>(json, binary, Validation.IsValid),
         "EventTrigger" => Check<P.EventTrigger>(json, binary, Validation.IsValid),
         "FamilyResult" => Check<P.FamilyResult>(json, binary, Validation.IsValid),
-        "FilterGroup" => Check<P.FilterGroup>(json, binary, Validation.IsValid),
-        "FolderView" => Check<P.FolderView>(json, binary, Validation.IsValid),
         "FrameConfiguration" => Check<P.FrameConfiguration>(json, binary, Validation.IsValid),
         "FrameField" => Check<P.FrameField>(json, binary, Validation.IsValid),
-        "GeneratedSource" => Check<P.GeneratedSource>(json, binary, Validation.IsValid),
         "Id" => Check<F.Id>(json, binary, Validation.IsValid),
-        "IdList" => Check<P.IdList>(json, binary, Validation.IsValid),
-        "ImageLayout" => Check<P.ImageLayout>(json, binary, Validation.IsValid),
-        "InlineAtom" => Check<P.InlineAtom>(json, binary, Validation.IsValid),
         "Instant" => Check<F.Instant>(json, binary, Validation.IsValid),
-        "Keyframe" => Check<P.Keyframe>(json, binary, Validation.IsValid),
-        "KeyframeList" => Check<P.KeyframeList>(json, binary, Validation.IsValid),
         "LimitFailure" => Check<F.LimitFailure>(json, binary, Validation.IsValid),
-        "LinkSpec" => Check<P.LinkSpec>(json, binary, Validation.IsValid),
-        "LocalNotesVersion" => Check<F.LocalNotesVersion>(json, binary, Validation.IsValid),
-        "MarkerView" => Check<P.MarkerView>(json, binary, Validation.IsValid),
-        "MathContent" => Check<P.MathContent>(json, binary, Validation.IsValid),
         "MeasurementRequest" => Check<P.MeasurementRequest>(json, binary, Validation.IsValid),
         "MeasurementResult" => Check<P.MeasurementResult>(json, binary, Validation.IsValid),
         "MeasurementSource" => Check<P.MeasurementSource>(json, binary, Validation.IsValid),
         "MeasurementThreshold" => Check<P.MeasurementThreshold>(json, binary, Validation.IsValid),
         "MeasurementValue" => Check<P.MeasurementValue>(json, binary, Validation.IsValid),
         "MeasurementWindow" => Check<P.MeasurementWindow>(json, binary, Validation.IsValid),
-        "MediaBin" => Check<P.MediaBin>(json, binary, Validation.IsValid),
-        "MediaColourAssignment" => Check<P.MediaColourAssignment>(json, binary, Validation.IsValid),
         "MediaRange" => Check<F.MediaRange>(json, binary, Validation.IsValid),
-        "MediaStream" => Check<P.MediaStream>(json, binary, Validation.IsValid),
         "MediaTime" => Check<F.MediaTime>(json, binary, Validation.IsValid),
-        "MediaView" => Check<P.MediaView>(json, binary, Validation.IsValid),
         "MemoryRecord" => Check<P.MemoryRecord>(json, binary, Validation.IsValid),
         "MessageDraft" => Check<P.MessageDraft>(json, binary, Validation.IsValid),
         "MessagePart" => Check<P.MessagePart>(json, binary, Validation.IsValid),
@@ -252,40 +228,19 @@ internal static class FoundationCases
         "MetadataEntry" => Check<P.MetadataEntry>(json, binary, Validation.IsValid),
         "MetadataScalar" => Check<P.MetadataScalar>(json, binary, Validation.IsValid),
         "NativeContentRev" => Check<F.NativeContentRev>(json, binary, Validation.IsValid),
-        "NotebookBody" => Check<P.NotebookBody>(json, binary, Validation.IsValid),
-        "NotebookView" => Check<P.NotebookView>(json, binary, Validation.IsValid),
-        "NotesDocument" => Check<P.NotesDocument>(json, binary, Validation.IsValid),
-        "NotesFilter" => Check<P.NotesFilter>(json, binary, Validation.IsValid),
-        "NotesQuery" => Check<P.NotesQuery>(json, binary, Validation.IsValid),
-        "NotesSelection" => Check<P.NotesSelection>(json, binary, Validation.IsValid),
-        "NotesSelectors" => Check<P.NotesSelectors>(json, binary, Validation.IsValid),
-        "NotesSort" => Check<P.NotesSort>(json, binary, Validation.IsValid),
-        "NotesTextPosition" => Check<P.NotesTextPosition>(json, binary, Validation.IsValid),
         "PageRequest" => Check<F.PageRequest>(json, binary, Validation.IsValid),
         "PageState" => Check<F.PageState>(json, binary, Validation.IsValid),
         "PreferenceRecord" => Check<P.PreferenceRecord>(json, binary, Validation.IsValid),
-        "ProcessingEdge" => Check<P.ProcessingEdge>(json, binary, Validation.IsValid),
-        "ProcessingGraph" => Check<P.ProcessingGraph>(json, binary, Validation.IsValid),
-        "PropertyDefinition" => Check<P.PropertyDefinition>(json, binary, Validation.IsValid),
-        "PropertyDefinitionVersion" => Check<P.PropertyDefinitionVersion>(json, binary, Validation.IsValid),
-        "PropertyValue" => Check<P.PropertyValue>(json, binary, Validation.IsValid),
         "Rational" => Check<F.Rational>(json, binary, Validation.IsValid),
         "Receipt" => Check<F.Receipt>(json, binary, Validation.IsValid),
-        "RenderPreset" => Check<P.RenderPreset>(json, binary, Validation.IsValid),
         "RequestMeta" => Check<F.RequestMeta>(json, binary, Validation.IsValid),
         "ResourceRef" => Check<F.ResourceRef>(json, binary, Validation.IsValid),
         "ResourceVersionRef" => Check<F.ResourceVersionRef>(json, binary, Validation.IsValid),
         "ResponseMeta" => Check<F.ResponseMeta>(json, binary, Validation.IsValid),
-        "RetimeCurve" => Check<P.RetimeCurve>(json, binary, Validation.IsValid),
-        "RetimePoint" => Check<P.RetimePoint>(json, binary, Validation.IsValid),
         "RetryAdvice" => Check<F.RetryAdvice>(json, binary, Validation.IsValid),
         "Revision" => Check<F.Revision>(json, binary, Validation.IsValid),
         "RevisionConflict" => Check<F.RevisionConflict>(json, binary, Validation.IsValid),
-        "RichText" => Check<P.RichText>(json, binary, Validation.IsValid),
         "SampleRange" => Check<P.SampleRange>(json, binary, Validation.IsValid),
-        "SavedViewRecord" => Check<P.SavedViewRecord>(json, binary, Validation.IsValid),
-        "ScalarPredicate" => Check<P.ScalarPredicate>(json, binary, Validation.IsValid),
-        "ScalarValue" => Check<P.ScalarValue>(json, binary, Validation.IsValid),
         "ScheduleSpec" => Check<P.ScheduleSpec>(json, binary, Validation.IsValid),
         "ScopeAnnotation" => Check<P.ScopeAnnotation>(json, binary, Validation.IsValid),
         "ScopeConfiguration" => Check<P.ScopeConfiguration>(json, binary, Validation.IsValid),
@@ -293,30 +248,15 @@ internal static class FoundationCases
         "ScopeMetadata" => Check<P.ScopeMetadata>(json, binary, Validation.IsValid),
         "ScopeSelection" => Check<P.ScopeSelection>(json, binary, Validation.IsValid),
         "ScopeTime" => Check<P.ScopeTime>(json, binary, Validation.IsValid),
-        "SelectOption" => Check<P.SelectOption>(json, binary, Validation.IsValid),
         "SelectedSample" => Check<P.SelectedSample>(json, binary, Validation.IsValid),
-        "SequenceView" => Check<P.SequenceView>(json, binary, Validation.IsValid),
         "SkillRecord" => Check<P.SkillRecord>(json, binary, Validation.IsValid),
-        "SlateMetadata" => Check<P.SlateMetadata>(json, binary, Validation.IsValid),
-        "SlateSelection" => Check<P.SlateSelection>(json, binary, Validation.IsValid),
         "SourceConsentRef" => Check<P.SourceConsentRef>(json, binary, Validation.IsValid),
         "StateFailure" => Check<F.StateFailure>(json, binary, Validation.IsValid),
         "StructuredValue" => Check<P.StructuredValue>(json, binary, Validation.IsValid),
-        "TableBlock" => Check<P.TableBlock>(json, binary, Validation.IsValid),
-        "TableCell" => Check<P.TableCell>(json, binary, Validation.IsValid),
-        "TableRow" => Check<P.TableRow>(json, binary, Validation.IsValid),
-        "TagRecord" => Check<P.TagRecord>(json, binary, Validation.IsValid),
         "TaskSnapshot" => Check<P.TaskSnapshot>(json, binary, Validation.IsValid),
-        "TextRunSegment" => Check<P.TextRunSegment>(json, binary, Validation.IsValid),
-        "TextSpan" => Check<P.TextSpan>(json, binary, Validation.IsValid),
         "TimeRangeUtc" => Check<F.TimeRangeUtc>(json, binary, Validation.IsValid),
-        "TimedText" => Check<P.TimedText>(json, binary, Validation.IsValid),
-        "TimelineClip" => Check<P.TimelineClip>(json, binary, Validation.IsValid),
-        "TimelineTrack" => Check<P.TimelineTrack>(json, binary, Validation.IsValid),
-        "TimelineView" => Check<P.TimelineView>(json, binary, Validation.IsValid),
         "ToolProposal" => Check<P.ToolProposal>(json, binary, Validation.IsValid),
         "ToolResult" => Check<P.ToolResult>(json, binary, Validation.IsValid),
-        "TransitionSpec" => Check<P.TransitionSpec>(json, binary, Validation.IsValid),
         "TriggerConfiguration" => Check<P.TriggerConfiguration>(json, binary, Validation.IsValid),
         "TriggerSpec" => Check<P.TriggerSpec>(json, binary, Validation.IsValid),
         "TurnInput" => Check<P.TurnInput>(json, binary, Validation.IsValid),
@@ -344,19 +284,19 @@ internal static class FoundationCases
     private static void BoundaryValues()
     {
         var uuid = Guid.Parse("00112233-4455-6677-8899-aabbccddeeff");
-        var domain = new DocumentId(uuid);
+        var domain = new ScopeProjectId(uuid);
         Require(Convert.ToHexStringLower(domain.ToWire().Value.Span) == "00112233445566778899aabbccddeeff", "Canonical UUID network order.");
-        Require(DocumentId.FromWire(domain.ToWire()) == domain, "Domain identity round trip.");
-        Require(typeof(DocumentId) != typeof(ResourceId), "Identifier domains must remain distinct types.");
-        Require(!typeof(DocumentId).GetMethods().Any(m => m.Name == "op_Implicit"), "Document identity must have no implicit conversion.");
+        Require(ScopeProjectId.FromWire(domain.ToWire()) == domain, "Domain identity round trip.");
+        Require(typeof(ScopeProjectId) != typeof(ResourceId), "Identifier domains must remain distinct types.");
+        Require(!typeof(ScopeProjectId).GetMethods().Any(m => m.Name == "op_Implicit"), "Project identity must have no implicit conversion.");
         var mutable = Convert.FromHexString("00112233445566778899aabbccddeeff");
         var wire = new F.Id { Value = ByteString.CopyFrom(mutable) };
-        var safe = DocumentId.FromWire(wire);
+        var safe = ScopeProjectId.FromWire(wire);
         mutable[0] = 255;
         wire.Value = ByteString.CopyFrom(new byte[16]);
         Require(safe == domain, "Identity conversion cannot retain mutable external state.");
-        Throws<ArgumentException>(() => new DocumentId(Guid.Empty));
-        Throws<ArgumentException>(() => default(DocumentId).ToWire());
+        Throws<ArgumentException>(() => new ScopeProjectId(Guid.Empty));
+        Throws<ArgumentException>(() => default(ScopeProjectId).ToWire());
         Throws<ArgumentException>(() => V.UuidBoundary.FromWire(new F.Id()));
         Require(V.ExactInteger.ParseInt64("-9223372036854775808") == long.MinValue, "Signed minimum.");
         Require(V.ExactInteger.ParseInt64("9223372036854775807") == long.MaxValue, "Signed maximum.");
@@ -368,14 +308,12 @@ internal static class FoundationCases
         Throws<InvalidOperationException>(() => default(V.CloudRevision).ToWire());
         Require(V.CloudRevision.NewRootPrecondition().HasValue && V.CloudRevision.NewRootPrecondition().Value == 0, "Explicit new-root zero.");
         Require(new V.NativeRevision(ulong.MaxValue).ToWire().Value == ulong.MaxValue, "Exact native token.");
-        var local = new V.LocalNotesToken(0, ulong.MaxValue);
-        Require(V.LocalNotesToken.FromWire(local.ToWire()) == local, "Local pending sequence survives.");
         Require(V.DeliverySequence.Parse("18446744073709551615").Value == ulong.MaxValue, "Exact delivery sequence.");
-        var decimalValue = V.ExactDecimal.FromNotes("-0.000000001");
+        var decimalValue = new V.ExactDecimal("-0.000000001");
         Require(decimalValue.Coefficient == BigInteger.MinusOne && decimalValue.Scale == 9, "Exact coefficient/scale.");
         Require(V.ExactDecimal.FromCoefficient(BigInteger.One, 9).ToWire().Value == "0.000000001", "Ninth decimal place.");
         Require(new V.ExactDecimal("1.00").Scale == 2, "Shared decimals preserve declared scale.");
-        foreach (var text in new[] { "1.0", "-0", "+1", "1e3", "0.0000000001", "1\n", "1\r", "1\u2028" }) Throws<FormatException>(() => V.ExactDecimal.FromNotes(text));
+        foreach (var text in new[] { "-0", "+1", "1e3", "0.0000000001", "1\n", "1\r", "1\u2028" }) Throws<FormatException>(() => new V.ExactDecimal(text));
         Throws<InvalidOperationException>(() => default(V.ExactDecimal).ToWire());
         Require(new V.OpaqueCursor(string.Concat(Enumerable.Repeat("😀", 1024))).Value.Length == 2048, "Cursor uses byte bounds.");
         Throws<ArgumentOutOfRangeException>(() => new V.OpaqueCursor(string.Concat(Enumerable.Repeat("😀", 1025))));

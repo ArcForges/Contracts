@@ -45,11 +45,25 @@ def no_duplicate_keys(pairs):
 
 def occurrences(data, names):
     """Scan raw bytes, including binary/UTF-16 resources, without discarding errors."""
+    admitted = []
+    for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
+        for token in ('Arc' + 'ImageNative', 'arc' + 'image-abi'):
+            encoded = token.encode(encoding)
+            width = 1 if encoding == 'utf-8' else 2
+            for found in re.finditer(re.escape(encoded), data):
+                start, end = found.span()
+                before = data[max(0, start - width):start].decode(encoding, errors='ignore')
+                after = data[end:end + width].decode(encoding, errors='ignore')
+                if not re.search(r'[A-Za-z0-9_]', before + after):
+                    admitted.append((start, end))
     for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
         tokens = {name.encode(encoding).lower(): name for name in names}
         pattern = re.compile(b'|'.join(re.escape(t) for t in sorted(tokens, key=len, reverse=True)),
                              re.IGNORECASE)
         for match in pattern.finditer(data):
+            # Opposite-endian byte matches may overlap the same admitted token.
+            if any(start <= match.start() and match.end() <= end for start, end in admitted):
+                continue
             yield {'name': tokens[match[0].lower()], 'encoding': encoding,
                    'offset': match.start(), 'end': match.end()}
 
@@ -64,14 +78,14 @@ def validate_policy(policy):
     require(re.fullmatch('[0-9a-f]{40}', policy['design']['commit']) is not None, 'invalid Design commit')
     require(re.fullmatch(r'P2-\d{3}', policy['design']['rule']) is not None, 'invalid Design rule')
     strings(policy['repositories'], 'repositories')
-    require(set(policy['repositories']) == {'DesktopPlatform', 'Contracts', 'ArcNotes', 'ArcScope',
-            'ArcSlate', 'Cloud', 'AI', 'Web', 'Mobile'}, 'incorrect repository set')
-    require(isinstance(policy['products'], list) and len(policy['products']) == 4, 'four wire identities required')
+    require(set(policy['repositories']) == {'DesktopPlatform', 'Contracts', 'ArcScope',
+            'Cloud', 'AI', 'Web', 'Mobile'}, 'incorrect repository set')
+    require(isinstance(policy['products'], list) and len(policy['products']) == 2, 'two wire identities required')
     product_ids, installed, associations, namespaces = [], [], [], []
     for product in policy['products']:
         fields(product, 'id displayName kind owners namespaces applicationIds legacyApplicationIds fileAssociations', 'product')
         product_ids.append(product['id'])
-        expected_display = {'arcnotes': 'ArcNotes', 'arcscope': 'ArcScope', 'arcslate': 'ArcSlate', 'companion': 'ArcChat'}
+        expected_display = {'arcscope': 'ArcScope', 'companion': 'ArcChat'}
         require(isinstance(product['id'], str) and product['id'] in expected_display, 'unknown ProductId')
         require(product['displayName'] == expected_display[product['id']], 'incorrect canonical display name')
         require(isinstance(product['displayName'], str) and product['displayName'], 'missing display name')
@@ -106,20 +120,20 @@ def validate_policy(policy):
             require(association['appleTypeId'] == 'com.arcforges.' + product['id'] + '.project', 'invalid type ID')
             require(association['formatOwner'] == ('WP33/WP35' if product['id'] == 'arcscope' else 'WP36/WP39'), 'invalid format owner')
             associations.append(association['extension'])
-    require(set(product_ids) == {'arcnotes', 'arcscope', 'arcslate', 'companion'}, 'incorrect ProductId set')
+    require(set(product_ids) == {'arcscope', 'companion'}, 'incorrect ProductId set')
     strings(installed, 'installed identities'); strings(associations, 'association identities')
     strings(namespaces, 'reserved namespaces')
     require(policy['features'] == [{'id': 'assistant', 'displayName': 'ArcChat', 'owner': 'DesktopPlatform',
             'namespaces': ['ArcForges.Assistant'], 'fileAssociations': []}], 'invalid embedded feature')
     require(policy['webOutputs'] == ['site', 'account', 'chat', 'operations'], 'invalid Web outputs')
-    require(policy['retiredProductIds'] == ['arcchat', 'arcchat-mobile', 'mobile', 'web'], 'invalid retired IDs')
+    require(policy['retiredProductIds'] == ['arcnotes', 'arcslate', 'arcchat', 'arcchat-mobile', 'mobile', 'web'], 'invalid retired IDs')
     require(policy['providers'] == [{'name': 'Paddle', 'role': 'merchant-of-record'},
             {'name': 'Payoneer', 'role': 'payout-only'}], 'incorrect provider roles')
     require(isinstance(policy['forbiddenNames'], list) and len(policy['forbiddenNames']) == 6, 'incomplete forbidden set')
     names = []
     # Components make the guard's expected vocabulary testable without exempting its source.
     dispositions = {'Arc' + suffix: ('excluded', None) for suffix in ('Canvas', 'Music', 'Image')}
-    dispositions.update({'Arc' + 'Video': ('direction-only', 'arcslate'),
+    dispositions.update({'Arc' + 'Video': ('excluded', None),
                          'Arc' + 'VideoFoundation': ('reference-only', None),
                          'Waf' + 'fo': ('provider-replaced', 'Paddle')})
     for item in policy['forbiddenNames']:
@@ -272,9 +286,11 @@ def scan_repository(root, repository, policy, policy_path=POLICY_PATH):
         except OSError:
             findings.append({'path': path, 'kind': 'unreadable inventory file'}); continue
         inventory_hash.update(path.encode() + b'\0' + hashlib.sha256(data).digest())
-        if target.resolve() == policy_path.resolve():
+        canonical_source = repository == 'Contracts' and path == 'eng/policy/product-names.json'
+        if target.resolve() == policy_path.resolve() or canonical_source:
             # Reparse these exact bytes: the policy itself never receives a blanket exemption.
-            validate_policy(json.loads(data.decode('utf-8'), object_pairs_hook=no_duplicate_keys))
+            source_policy = validate_policy(json.loads(data.decode('utf-8'), object_pairs_hook=no_duplicate_keys))
+            require(source_policy == policy, 'source naming authority differs from packaged policy')
             continue
         if path in declarations:
             try:

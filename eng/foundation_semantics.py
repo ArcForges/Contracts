@@ -29,21 +29,8 @@ cs_rules = {
         if (value.Code is "entitlement.capacity_exhausted" or "capacity.rate_limited" or "capacity.busy" && (int)value.Retry.Mode != 3) return false;
         if (NoRetryCode(value.Code) && (int)value.Retry.Mode != 1) return false;
         if ((int)value.Effect == 3 && (int)value.Retry.Mode == 3) return false;""",
-    "scalarValue": "if (!ScalarSemantics(value)) return false;",
-    "scalarPredicate": "if (!PredicateSemantics(value)) return false;",
-    "notesFilter": "if (!FilterBounds(value)) return false;",
-    "filterGroup": "if (value.Operator == \"not\" ? value.Children.Count != 1 : value.Operator is not (\"all\" or \"any\") || value.Children.Count is < 1 or > 32) return false;",
-    "notesQuery": "if (!QuerySemantics(value)) return false;",
-    "propertyDefinition": "if (!DefinitionSemantics(value)) return false;",
-    "savedView": "if (value.Query.Page.HasCursor || value.Query.HasDatasetToken || value.Query.SavedViewId is not null || value.Query.SavedViewRev is not null || !value.NotebookId.Value.Equals(value.Query.NotebookId.Value)) return false;",
-    "notesSelectors": "if (!UniqueIds(value.TagIds.Select(x => x.Value)) || value.BlockKinds.Distinct(global::System.StringComparer.Ordinal).Count() != value.BlockKinds.Count) return false;",
-    "notesSelection": "if ((value.LocalVersion is null) == (value.CloudRevision is null) || value.CloudRevision is { Value: <= 0 }) return false;",
     "structuredValue": "if (!StructuredBounds(value)) return false;",
     "valueRecord": "if (!OrderedKeys(value.Entries.Select(x => x.Name))) return false;",
-    "tableBlock": "if (!TableSemantics(value)) return false;",
-    "richText": "if (!RichTextSemantics(value)) return false;",
-    "block": "if (!BlockSemantics(value)) return false;",
-    "notesDocument": "if (!DocumentSemantics(value)) return false;",
     "taskSnapshot": "if (((int)value.State == 3) != ((int)value.ReasonFacet != 1) || value.CompletedSteps > value.TotalSteps) return false;",
     "contextSelector": "if ((int)value.SelectionCase == 1 && !value.Whole) return false;",
     "contextRef": "if (value.Revision is { Value: <= 0 }) return false;",
@@ -63,8 +50,6 @@ cs_rules = {
     "measurementRequest": "if (!MeasurementRequestSemantics(value)) return false;",
     "measurementResult": "if (!MeasurementResultSemantics(value)) return false;",
     "pageState": "if (value.HasMore && (!value.HasNextCursor || value.NextCursor.Length == 0)) return false;",
-    "linkSpec": "if ((value.TargetId is null) == !value.HasUrl || (value.HasUrl && !SafeLink(value.Url))) return false;",
-    "generatedSource": "if ((value.Kind == \"title\") != (value.Text is not null) || (value.Kind == \"title\" && value.Parameters.Count != 0)) return false;",
     "sampleRange": "if (value.From > ulong.MaxValue - value.Count) return false;",
 }
 
@@ -79,21 +64,8 @@ ts_rules = {
     "resourceVersionRef": "if (!resourceVersionSemantics(value)) return false;",
     "retryAdvice": "if ((value.mode === 3) !== (value.retryAt !== undefined) || (value.mode === 4) !== (value.reconciliationOperation !== undefined)) return false;",
     "arcError": "if (!errorSemantics(value)) return false;",
-    "scalarValue": "if (!scalarSemantics(value)) return false;",
-    "scalarPredicate": "if (!predicateSemantics(value)) return false;",
-    "notesFilter": "if (!filterBounds(value)) return false;",
-    "filterGroup": "if (value.operator === 'not' ? (value.children as unknown[]).length !== 1 : !['all','any'].includes(value.operator as string) || (value.children as unknown[]).length < 1 || (value.children as unknown[]).length > 32) return false;",
-    "notesQuery": "if (!querySemantics(value) || toBinary(NotesQuerySchema, value as never).length > 65536) return false;",
-    "propertyDefinition": "if (!definitionSemantics(value)) return false;",
-    "savedView": "if (!savedViewSemantics(value)) return false;",
-    "notesSelectors": "if (!uniqueIds((value.tagIds ?? []) as Profile[]) || new Set((value.blockKinds ?? []) as string[]).size !== ((value.blockKinds ?? []) as string[]).length) return false;",
-    "notesSelection": "if ((value.localVersion === undefined) === (value.cloudRevision === undefined) || (value.cloudRevision !== undefined && (value.cloudRevision as Profile).value <= 0n)) return false;",
     "structuredValue": "if (!structuredBounds(value)) return false;",
     "valueRecord": "if (!orderedKeys(((value.entries ?? []) as Profile[]).map(v => v.name as string))) return false;",
-    "tableBlock": "if (!tableSemantics(value)) return false;",
-    "richText": "if (!richTextSemantics(value)) return false;",
-    "block": "if (!blockSemantics(value)) return false;",
-    "notesDocument": "if (!documentSemantics(value)) return false;",
     "taskSnapshot": "if ((value.state === 3) !== (value.reasonFacet !== 1) || (value.completedSteps as number) > (value.totalSteps as number)) return false;",
     "contextSelector": "if ((value.selection as Profile).case === 'whole' && (value.selection as Profile).value !== true) return false;",
     "contextRef": "if (value.revision !== undefined && (value.revision as Profile).value <= 0n) return false;",
@@ -113,20 +85,16 @@ ts_rules = {
     "measurementRequest": "if (!measurementRequestSemantics(value)) return false;",
     "measurementResult": "if (!measurementResultSemantics(value)) return false;",
     "pageState": "if (value.hasMore === true && (typeof value.nextCursor !== 'string' || value.nextCursor.length === 0)) return false;",
-    "linkSpec": "if ((value.targetId === undefined) === (value.url === undefined) || (value.url !== undefined && !safeLink(value.url as string))) return false;",
-    "generatedSource": "if ((value.kind === 'title') !== (value.text !== undefined) || (value.kind === 'title' && ((value.parameters ?? []) as unknown[]).length !== 0)) return false;",
     "sampleRange": "if ((value.from as bigint) + (value.count as bigint) > 18446744073709551615n) return false;",
 }
 
 
 def ts_imports(names: set[str]) -> str:
     lines = []
-    if "arcforges.foundation.v1.ContentOrigin" in names or "arcforges.publicapi.v1.NotesQuery" in names:
+    if "arcforges.foundation.v1.ContentOrigin" in names:
         lines.append('import { toBinary } from "@bufbuild/protobuf";')
     if "arcforges.foundation.v1.ContentOrigin" in names:
         lines.append('import { ContentOriginSchema } from "../../gen/arcforges/foundation/v1/foundation_pb.js";')
-    if "arcforges.publicapi.v1.NotesQuery" in names:
-        lines.append('import { NotesQuerySchema } from "../../gen/arcforges/publicapi/v1/content_pb.js";')
     return "\n".join(lines) + ("\n" if lines else "")
 
 
@@ -204,71 +172,11 @@ COMMON_CS_HELPERS = r'''
 
 
 CS_HELPERS = r'''
-    private static bool ScalarSemantics(P.ScalarValue value)
-    {
-        switch ((int)value.ValueCase)
-        {
-            case 1: return value.Null;
-            case 4: return !value.Number.Value.Contains('.') || !value.Number.Value.EndsWith('0');
-            case 5: return value.Date.Length == 10 && global::System.DateOnly.TryParseExact(value.Date, "yyyy-MM-dd", global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.None, out _);
-            case 7: return value.MultiSelect.Items.Count <= 100 && OrderedIds(value.MultiSelect.Items.Select(x => x.Value));
-            case 8: return value.DateTime.Nanos % 100 == 0;
-            default: return true;
-        }
-    }
-    private static bool PredicateSemantics(P.ScalarPredicate value)
-    {
-        if (value.Operator is "isMissing" or "isPresent") return value.Operands.Count == 0;
-        var membership = value.Operator is "in" or "hasAny" or "hasAll";
-        if (membership ? value.Operands.Count is < 1 or > 100 : value.Operands.Count != 1) return false;
-        var kind = (int)value.Operands[0].ValueCase;
-        if (kind == 1 || value.Operands.Any(x => (int)x.ValueCase != kind)) return false;
-        if (value.Operands.Any(x => ((int)x.ValueCase == 2 && ScalarLength(x.Text) > 4096) || ((int)x.ValueCase == 9 && ScalarLength(x.Url) > 4096))) return false;
-        if (value.Operator is "hasAny" or "hasAll") return kind == 6;
-        if (value.Operator is "contains" or "startsWith" or "endsWith") return kind is 2 or 9;
-        if (value.Operator is "eq" or "ne") return true;
-        return kind != 7 && value.Operator is ("lt" or "le" or "gt" or "ge" or "in");
-    }
-    private static bool FilterBounds(P.NotesFilter root)
-    {
-        var pending = new global::System.Collections.Generic.Stack<(P.NotesFilter Node, int Depth)>();
-        pending.Push((root, 1));
-        var count = 0;
-        while (pending.TryPop(out var next))
-        {
-            if (++count > 128 || next.Depth > 8) return false;
-            if ((int)next.Node.ExpressionCase == 1)
-                foreach (var child in next.Node.Group.Children) pending.Push((child, next.Depth + 1));
-        }
-        return true;
-    }
-    private static bool QuerySemantics(P.NotesQuery value)
-    {
-        if (value.CalculateSize() > 65536 || (value.SavedViewId is null) != (value.SavedViewRev is null) || value.SavedViewRev is { Value: <= 0 }) return false;
-        if (!UniqueIds(value.Projection.Select(x => x.Value)) || !UniqueIds(value.Sorts.Select(x => x.PropertyId.Value)) || !UniqueIds(value.DefinitionVersions.Select(x => x.PropertyId.Value))) return false;
-        var definitions = value.DefinitionVersions.Select(x => IdKey(x.PropertyId.Value)).ToHashSet(global::System.StringComparer.Ordinal);
-        if (value.DefinitionVersions.Any(x => x.SemanticRevision.Value <= 0) || value.Projection.Any(x => !definitions.Contains(IdKey(x.Value))) || value.Sorts.Any(x => !definitions.Contains(IdKey(x.PropertyId.Value)))) return false;
-        if (value.Filter is not null)
-        {
-            var pending = new global::System.Collections.Generic.Stack<P.NotesFilter>();
-            pending.Push(value.Filter);
-            var count = 0;
-            while (pending.TryPop(out var filter))
-            {
-                if (++count > 128) return false;
-                if ((int)filter.ExpressionCase == 2 && !definitions.Contains(IdKey(filter.Predicate.PropertyId.Value))) return false;
-                if ((int)filter.ExpressionCase == 1) foreach (var child in filter.Group.Children) pending.Push(child);
-            }
-        }
-        return true;
-    }
-    private static bool DefinitionSemantics(P.PropertyDefinition value)
-    {
-        if (value.SemanticRevision.Value <= 0 || value.Revision.Value <= 0) return false;
-        if (value.HasNumberScale && value.Type != "number") return false;
-        if (value.Type is not ("select" or "multiSelect") && value.Options.Count != 0) return false;
-        return UniqueIds(value.Options.Select(x => x.OptionId.Value)) && value.Options.Select(x => x.Order).Distinct().Count() == value.Options.Count;
-    }
+
+
+
+
+
     private static bool StructuredBounds(P.StructuredValue root)
     {
         var pending = new global::System.Collections.Generic.Stack<(P.StructuredValue Node, int Depth)>();
@@ -282,76 +190,11 @@ CS_HELPERS = r'''
         }
         return true;
     }
-    private static bool TableSemantics(P.TableBlock value)
-    {
-        if (value.Rows.Count == 0) return false;
-        var width = value.Rows[0].Cells.Count;
-        return width is >= 1 and <= 50 && value.Rows.All(x => x.Cells.Count == width) && UniqueIds(value.Rows.Select(x => x.RowId.Value)) && UniqueIds(value.Rows.SelectMany(x => x.Cells).Select(x => x.CellId.Value));
-    }
-    private static bool Boundary(string text, uint offset) => offset <= text.Length && (offset == 0 || offset == text.Length || !char.IsLowSurrogate(text[(int)offset]));
-    private static bool RichTextSemantics(P.RichText value)
-    {
-        if (!value.Text.IsNormalized(global::System.Text.NormalizationForm.FormC)) return false;
-        var length = (uint)value.Text.Length;
-        if (length == 0) return value.Runs.Count == 1 && value.Runs[0].From == 0 && value.Runs[0].Until == 0 && value.Atoms.Count == 0 && value.Spans.Count == 0;
-        if (!UniqueIds(value.Runs.Select(x => x.RunId.Value).Concat(value.Atoms.Select(x => x.InlineId.Value)))) return false;
-        var intervals = new global::System.Collections.Generic.List<(uint From, uint Until)>();
-        foreach (var run in value.Runs)
-        {
-            if (run.From >= run.Until || !Boundary(value.Text, run.From) || !Boundary(value.Text, run.Until)) return false;
-            if (value.Text.AsSpan((int)run.From, (int)(run.Until - run.From)).Contains('\uFFFC')) return false;
-            intervals.Add((run.From, run.Until));
-        }
-        foreach (var atom in value.Atoms)
-        {
-            if (atom.Offset >= length || value.Text[(int)atom.Offset] != '\uFFFC' || ((int)atom.ContentCase == 3 && atom.Math.Display)) return false;
-            intervals.Add((atom.Offset, atom.Offset + 1));
-        }
-        intervals.Sort((a, b) => a.From.CompareTo(b.From));
-        uint end = 0;
-        foreach (var interval in intervals)
-        {
-            if (interval.From != end) return false;
-            end = interval.Until;
-        }
-        if (end != length) return false;
-        uint spanEnd = 0;
-        foreach (var span in value.Spans)
-        {
-            if (span.From >= span.Until || span.From < spanEnd || !Boundary(value.Text, span.From) || !Boundary(value.Text, span.Until) || span.Marks.Distinct(global::System.StringComparer.Ordinal).Count() != span.Marks.Count) return false;
-            spanEnd = span.Until;
-        }
-        return true;
-    }
-    private static bool BlockSemantics(P.Block value)
-    {
-        var body = (int)value.Body.ContentCase;
-        var expected = value.Kind switch { "paragraph" or "heading" or "list" or "quote" or "callout" or "toggle" => 1, "code" => 2, "image" or "attachment" => 3, "embed" => 4, "table" => 5, "math" => 6, "divider" => 7, _ => 0 };
-        if (expected == 0 || body != expected || (body == 7 && !value.Body.Empty) || (body == 6 && !value.Body.Math.Display)) return false;
-        var p = value.Properties;
-        if (p is null) return value.Kind is not ("heading" or "list" or "callout" or "image" or "attachment" or "embed");
-        if (p.HasHeadingLevel != (value.Kind == "heading") || p.HasListStyle != (value.Kind == "list") || p.HasCalloutKind != (value.Kind == "callout") || p.HasAltText != (value.Kind == "image") || (p.ImageLayout is not null) != (value.Kind == "image") || p.HasAttachmentPresentation != (value.Kind == "attachment") || p.HasEmbedRenderMode != (value.Kind == "embed")) return false;
-        return p.HasChecked == (value.Kind == "list" && p.ListStyle == "checklist");
-    }
-    private static bool DocumentSemantics(P.NotesDocument value)
-    {
-        if (!UniqueIds(value.Blocks.Select(x => x.BlockId.Value)) || !UniqueIds(value.Properties.Select(x => x.PropertyId.Value)) || !UniqueIds(value.Tags.Select(x => x.Value))) return false;
-        var blocks = value.Blocks.ToDictionary(x => IdKey(x.BlockId.Value), global::System.StringComparer.Ordinal);
-        var positions = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
-        foreach (var block in value.Blocks)
-        {
-            if (!positions.Add((block.ParentId is null ? "root" : IdKey(block.ParentId.Value)) + ":" + block.OrderKey)) return false;
-            var seen = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal) { IdKey(block.BlockId.Value) };
-            var parent = block.ParentId;
-            while (parent is not null)
-            {
-                var id = IdKey(parent.Value);
-                if (!seen.Add(id) || !blocks.TryGetValue(id, out var parentBlock)) return false;
-                parent = parentBlock.ParentId;
-            }
-        }
-        return true;
-    }
+
+
+
+
+
 '''.replace("P.", "global::ArcForges.Contracts.PublicApi.V1.")
 
 CS_HELPERS += r'''
@@ -629,70 +472,13 @@ function errorSemantics(value: Profile): boolean {
   if (noRetryCodes.has(value.code) && value.retry.mode !== 1) return false;
   return !(value.effect === 3 && value.retry.mode === 3);
 }
-function validDate(value: string): boolean {
-  if (/^\d{4}-\d{2}-\d{2}$/.exec(value)?.[0] !== value) return false;
-  const year = Number(value.slice(0,4)), month = Number(value.slice(5,7)), day = Number(value.slice(8,10));
-  if (year < 1 || month < 1 || month > 12) return false;
-  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
-  return day >= 1 && day <= [31,leap ? 29 : 28,31,30,31,30,31,31,30,31,30,31][month - 1]!;
-}
-function scalarSemantics(value: Profile): boolean {
-  const scalar = value.value as Profile;
-  switch (scalar.case) {
-    case 'null': return scalar.value === true;
-    case 'number': return !scalar.value.value.includes('.') || !scalar.value.value.endsWith('0');
-    case 'date': return validDate(scalar.value);
-    case 'multiSelect': return (scalar.value.items ?? []).length <= 100 && orderedIds(scalar.value.items ?? []);
-    case 'dateTime': return scalar.value.nanos % 100 === 0;
-    default: return true;
-  }
-}
-function predicateSemantics(value: Profile): boolean {
-  const operands = (value.operands ?? []) as Profile[];
-  if (['isMissing','isPresent'].includes(value.operator)) return operands.length === 0;
-  const membership = ['in','hasAny','hasAll'].includes(value.operator);
-  if (membership ? operands.length < 1 || operands.length > 100 : operands.length !== 1) return false;
-  const kind = operands[0]!.value.case;
-  if (kind === 'null' || operands.some(v => v.value.case !== kind)) return false;
-  if (operands.some(v => ['text','url'].includes(v.value.case) && [...v.value.value as string].length > 4096)) return false;
-  if (['hasAny','hasAll'].includes(value.operator)) return kind === 'select';
-  if (['contains','startsWith','endsWith'].includes(value.operator)) return ['text','url'].includes(kind);
-  if (['eq','ne'].includes(value.operator)) return true;
-  return kind !== 'multiSelect' && ['lt','le','gt','ge','in'].includes(value.operator);
-}
-function filterBounds(root: Profile): boolean {
-  const pending: [Profile, number][] = [[root, 1]];
-  let count = 0;
-  while (pending.length) {
-    const [node, depth] = pending.pop()!;
-    if (++count > 128 || depth > 8) return false;
-    if (node.expression.case === 'group') for (const child of node.expression.value.children ?? []) pending.push([child, depth + 1]);
-  }
-  return true;
-}
-function querySemantics(value: Profile): boolean {
-  if ((value.savedViewId === undefined) !== (value.savedViewRev === undefined) || (value.savedViewRev !== undefined && value.savedViewRev.value <= 0n)) return false;
-  const projection = (value.projection ?? []) as Profile[], sorts = (value.sorts ?? []) as Profile[], versions = (value.definitionVersions ?? []) as Profile[];
-  if (!uniqueIds(projection) || !uniqueIds(sorts.map(v => v.propertyId)) || !uniqueIds(versions.map(v => v.propertyId))) return false;
-  const definitions = new Set(versions.map(v => idKey(v.propertyId)));
-  if (versions.some(v => v.semanticRevision.value <= 0n) || projection.some(v => !definitions.has(idKey(v))) || sorts.some(v => !definitions.has(idKey(v.propertyId)))) return false;
-  const pending = value.filter === undefined ? [] : [value.filter as Profile];
-  let count = 0;
-  while (pending.length) {
-    const node = pending.pop()!;
-    if (++count > 128) return false;
-    if (node.expression.case === 'predicate' && !definitions.has(idKey(node.expression.value.propertyId))) return false;
-    if (node.expression.case === 'group') pending.push(...node.expression.value.children ?? []);
-  }
-  return true;
-}
-function definitionSemantics(value: Profile): boolean {
-  const options = (value.options ?? []) as Profile[];
-  return value.semanticRevision.value > 0n && value.revision.value > 0n && (value.numberScale === undefined || value.type === 'number') && (['select','multiSelect'].includes(value.type) || options.length === 0) && uniqueIds(options.map(v => v.optionId)) && new Set(options.map(v => v.order)).size === options.length;
-}
-function savedViewSemantics(value: Profile): boolean {
-  return value.query.page.cursor === undefined && value.query.datasetToken === undefined && value.query.savedViewId === undefined && value.query.savedViewRev === undefined && idKey(value.notebookId) === idKey(value.query.notebookId);
-}
+
+
+
+
+
+
+
 function structuredBounds(root: Profile): boolean {
   const pending: [Profile, number][] = [[root,1]];
   while (pending.length) {
@@ -704,65 +490,11 @@ function structuredBounds(root: Profile): boolean {
   }
   return true;
 }
-function tableSemantics(value: Profile): boolean {
-  const rows = (value.rows ?? []) as Profile[];
-  if (!rows.length) return false;
-  const width = (rows[0]!.cells ?? []).length;
-  return width >= 1 && width <= 50 && rows.every(v => (v.cells ?? []).length === width) && uniqueIds(rows.map(v => v.rowId)) && uniqueIds(rows.flatMap(v => (v.cells ?? []).map((c: Profile) => c.cellId)));
-}
-function boundary(text: string, offset: number): boolean { return offset <= text.length && (offset === 0 || offset === text.length || text.charCodeAt(offset) < 0xdc00 || text.charCodeAt(offset) > 0xdfff); }
-function richTextSemantics(value: Profile): boolean {
-  const text = value.text as string, runs = (value.runs ?? []) as Profile[], atoms = (value.atoms ?? []) as Profile[], spans = (value.spans ?? []) as Profile[];
-  if (text.normalize('NFC') !== text) return false;
-  if (!text.length) return runs.length === 1 && runs[0]!.from === 0 && runs[0]!.until === 0 && atoms.length === 0 && spans.length === 0;
-  if (!uniqueIds([...runs.map(v => v.runId), ...atoms.map(v => v.inlineId)])) return false;
-  const intervals: [number, number][] = [];
-  for (const run of runs) {
-    if (run.from >= run.until || !boundary(text, run.from) || !boundary(text, run.until) || text.slice(run.from, run.until).includes('\uFFFC')) return false;
-    intervals.push([run.from, run.until]);
-  }
-  for (const atom of atoms) {
-    if (atom.offset >= text.length || text[atom.offset] !== '\uFFFC' || (atom.content.case === 'math' && atom.content.value.display)) return false;
-    intervals.push([atom.offset, atom.offset + 1]);
-  }
-  intervals.sort((a,b) => a[0] - b[0]);
-  let end = 0;
-  for (const interval of intervals) { if (interval[0] !== end) return false; end = interval[1]; }
-  if (end !== text.length) return false;
-  let spanEnd = 0;
-  for (const span of spans) {
-    if (span.from >= span.until || span.from < spanEnd || !boundary(text, span.from) || !boundary(text, span.until) || new Set(span.marks ?? []).size !== (span.marks ?? []).length) return false;
-    spanEnd = span.until;
-  }
-  return true;
-}
-function blockSemantics(value: Profile): boolean {
-  const expected: Record<string, string> = {paragraph:'text',heading:'text',list:'text',quote:'text',callout:'text',toggle:'text',code:'code',image:'resource',attachment:'resource',embed:'link',table:'table',math:'math',divider:'empty'};
-  const body = value.body.content;
-  if (expected[value.kind] === undefined || body.case !== expected[value.kind] || (body.case === 'empty' && body.value !== true) || (body.case === 'math' && body.value.display !== true)) return false;
-  const p = value.properties as Profile | undefined;
-  if (p === undefined) return !['heading','list','callout','image','attachment','embed'].includes(value.kind);
-  if ((p.headingLevel !== undefined) !== (value.kind === 'heading') || (p.listStyle !== undefined) !== (value.kind === 'list') || (p.calloutKind !== undefined) !== (value.kind === 'callout') || (p.altText !== undefined) !== (value.kind === 'image') || (p.imageLayout !== undefined) !== (value.kind === 'image') || (p.attachmentPresentation !== undefined) !== (value.kind === 'attachment') || (p.embedRenderMode !== undefined) !== (value.kind === 'embed')) return false;
-  return (p.checked !== undefined) === (value.kind === 'list' && p.listStyle === 'checklist');
-}
-function documentSemantics(value: Profile): boolean {
-  const rows = (value.blocks ?? []) as Profile[], properties = (value.properties ?? []) as Profile[];
-  if (!uniqueIds(rows.map(v => v.blockId)) || !uniqueIds(properties.map(v => v.propertyId)) || !uniqueIds(value.tags ?? [])) return false;
-  const blocks = new Map(rows.map(v => [idKey(v.blockId), v])), positions = new Set<string>();
-  for (const block of rows) {
-    const position = (block.parentId === undefined ? 'root' : idKey(block.parentId)) + ':' + block.orderKey;
-    if (positions.has(position)) return false;
-    positions.add(position);
-    const seen = new Set([idKey(block.blockId)]);
-    let parent = block.parentId as Profile | undefined;
-    while (parent !== undefined) {
-      const key = idKey(parent), parentBlock = blocks.get(key);
-      if (seen.has(key) || parentBlock === undefined) return false;
-      seen.add(key); parent = parentBlock.parentId;
-    }
-  }
-  return true;
-}
+
+
+
+
+
 function compareScopeTime(a: Profile, b: Profile): number {
   const left = (a.ticks as bigint) * (a.rate.denominator as bigint) * (b.rate.numerator as bigint);
   const right = (b.ticks as bigint) * (b.rate.denominator as bigint) * (a.rate.numerator as bigint);

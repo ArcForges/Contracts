@@ -175,6 +175,26 @@ def metadata(directory: Path, graph: tuple[list[dict], list[dict]], release: str
                    read_json(directory / "build-identity.json"))
 
 
+NAMING_PACKAGES = {"@arcforges/proto", "ArcForges.Contracts.Validation"}
+NAMING_FILES = ("eng/check_naming.py", "eng/policy/product-names.json")
+
+
+def stage_naming(directory: Path, row: dict) -> None:
+    """Ship one source-owned scanner and authority through existing packages."""
+    if row["id"] in NAMING_PACKAGES:
+        for relative in NAMING_FILES:
+            target = directory / "tools/naming" / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+
+
+def verify_naming(files: dict[str, bytes], row: dict) -> None:
+    if row["id"] in NAMING_PACKAGES:
+        for relative in NAMING_FILES:
+            if files.get("tools/naming/" + relative) != (ROOT / relative).read_bytes():
+                raise ValueError("Canonical naming scanner or policy missing or changed")
+
+
 def pack(release: str) -> None:
     from dependency_admission import audit
     from release_channels import stable
@@ -201,6 +221,7 @@ def pack(release: str) -> None:
             nuget_metadata = stage / row["id"]
             metadata(nuget_metadata, nuget_graph(release, row), release, commit, dirty)
             stage_schemas(nuget_metadata, row)
+            stage_naming(nuget_metadata, row)
             if row["id"] == "ArcForges.Cli":
                 stage_tool_licences(nuget_metadata, row)
             project = ROOT / row["sourceRoot"] / (row["id"] + ".csproj")
@@ -218,8 +239,11 @@ def pack(release: str) -> None:
             shutil.copyfile(ROOT / "src/public/LICENSE", target / "LICENSE")
             metadata(target, npm_graph(project, release), release, commit, dirty)
             stage_schemas(target, row)
+            stage_naming(target, row)
             package["version"] = release
             package["files"] = sorted(set(package["files"]) | {"build-identity.json", "schemas", "contracts.binpb"})
+            if row["id"] in NAMING_PACKAGES:
+                package["files"].append("tools/naming")
             package["exports"]["./build-identity"] = "./build-identity.json"
             package.pop("scripts", None)
             for dependency in row["dependencies"]:
@@ -304,6 +328,7 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         row = package_row(entry["id"])
         descriptor = (directory / row["descriptor"]).read_bytes()
         files = archive_files(path)
+        verify_naming(files, row)
         for required in ["LICENSE", "NOTICE", "README.md", "sbom.cdx.json", "source.json", "build-identity.json"]:
             if not files.get(required):
                 raise ValueError(f"{name} is missing {required}")

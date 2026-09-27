@@ -107,33 +107,6 @@ public object StateFailureKt {
       get() = _builder.resourceOrNull
 
     /**
-     * `.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];`
-     */
-    public var local: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion
-      @kotlin.jvm.JvmName("getLocal")
-        get() = _builder.local
-      @kotlin.jvm.JvmName("setLocal")
-        set(value) {
-        _builder.local = value
-      }
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];`
-     */
-    public fun clearLocal() {
-      _builder.clearLocal()
-    }
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];`
-     * @return Whether the local field is set.
-     */
-    public fun hasLocal(): kotlin.Boolean {
-      return _builder.hasLocal()
-    }
-
-    public val StateFailureKt.Dsl.localOrNull: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion?
-      get() = _builder.localOrNull
-
-    /**
      * `.arcforges.foundation.v1.NativeContentRev native = 5 [json_name = "native"];`
      */
     public var native: io.github.arcforges.contracts.foundation.v1.NativeContentRev
@@ -166,9 +139,6 @@ public inline fun io.github.arcforges.contracts.foundation.v1.StateFailure.copy(
 
 public val io.github.arcforges.contracts.foundation.v1.StateFailureOrBuilder.resourceOrNull: io.github.arcforges.contracts.foundation.v1.AggregateRef?
   get() = if (hasResource()) getResource() else null
-
-public val io.github.arcforges.contracts.foundation.v1.StateFailureOrBuilder.localOrNull: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion?
-  get() = if (hasLocal()) getLocal() else null
 
 public val io.github.arcforges.contracts.foundation.v1.StateFailureOrBuilder.nativeOrNull: io.github.arcforges.contracts.foundation.v1.NativeContentRev?
   get() = if (hasNative()) getNative() else null

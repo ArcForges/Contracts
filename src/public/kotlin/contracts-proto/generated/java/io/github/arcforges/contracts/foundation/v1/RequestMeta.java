@@ -211,54 +211,6 @@ public  final class RequestMeta extends
     bitField0_ = (bitField0_ & ~0x00000008);
   }
 
-  public static final int EXPECTED_LOCAL_FIELD_NUMBER = 5;
-  private io.github.arcforges.contracts.foundation.v1.LocalNotesVersion expectedLocal_;
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   */
-  @java.lang.Override
-  public boolean hasExpectedLocal() {
-    return ((bitField0_ & 0x00000010) != 0);
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   */
-  @java.lang.Override
-  public io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getExpectedLocal() {
-    return expectedLocal_ == null ? io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.getDefaultInstance() : expectedLocal_;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void setExpectedLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-    value.getClass();  // minimal bytecode null check
-    expectedLocal_ = value;
-    bitField0_ |= 0x00000010;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   */
-  @java.lang.SuppressWarnings({"ReferenceEquality", "ReturnValueIgnored"})
-  private void mergeExpectedLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-    value.getClass();  // minimal bytecode null check
-    if (expectedLocal_ != null &&
-        expectedLocal_ != io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.getDefaultInstance()) {
-      expectedLocal_ =
-        io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.newBuilder(expectedLocal_).mergeFrom(value).buildPartial();
-    } else {
-      expectedLocal_ = value;
-    }
-    bitField0_ |= 0x00000010;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   */
-  private void clearExpectedLocal() {
-    expectedLocal_ = null;
-    bitField0_ = (bitField0_ & ~0x00000010);
-  }
-
   public static final int EXPECTED_NATIVE_FIELD_NUMBER = 6;
   private io.github.arcforges.contracts.foundation.v1.NativeContentRev expectedNative_;
   /**
@@ -266,7 +218,7 @@ public  final class RequestMeta extends
    */
   @java.lang.Override
   public boolean hasExpectedNative() {
-    return ((bitField0_ & 0x00000020) != 0);
+    return ((bitField0_ & 0x00000010) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.NativeContentRev expected_native = 6 [json_name = "expectedNative"];</code>
@@ -282,7 +234,7 @@ public  final class RequestMeta extends
   private void setExpectedNative(io.github.arcforges.contracts.foundation.v1.NativeContentRev value) {
     value.getClass();  // minimal bytecode null check
     expectedNative_ = value;
-    bitField0_ |= 0x00000020;
+    bitField0_ |= 0x00000010;
   }
   /**
    * <code>.arcforges.foundation.v1.NativeContentRev expected_native = 6 [json_name = "expectedNative"];</code>
@@ -297,14 +249,14 @@ public  final class RequestMeta extends
     } else {
       expectedNative_ = value;
     }
-    bitField0_ |= 0x00000020;
+    bitField0_ |= 0x00000010;
   }
   /**
    * <code>.arcforges.foundation.v1.NativeContentRev expected_native = 6 [json_name = "expectedNative"];</code>
    */
   private void clearExpectedNative() {
     expectedNative_ = null;
-    bitField0_ = (bitField0_ & ~0x00000020);
+    bitField0_ = (bitField0_ & ~0x00000010);
   }
 
   public static final int RECOVERY_GENERATION_FIELD_NUMBER = 7;
@@ -315,7 +267,7 @@ public  final class RequestMeta extends
    */
   @java.lang.Override
   public boolean hasRecoveryGeneration() {
-    return ((bitField0_ & 0x00000040) != 0);
+    return ((bitField0_ & 0x00000020) != 0);
   }
   /**
    * <code>optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];</code>
@@ -330,14 +282,14 @@ public  final class RequestMeta extends
    * @param value The recoveryGeneration to set.
    */
   private void setRecoveryGeneration(long value) {
-    bitField0_ |= 0x00000040;
+    bitField0_ |= 0x00000020;
     recoveryGeneration_ = value;
   }
   /**
    * <code>optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];</code>
    */
   private void clearRecoveryGeneration() {
-    bitField0_ = (bitField0_ & ~0x00000040);
+    bitField0_ = (bitField0_ & ~0x00000020);
     recoveryGeneration_ = 0L;
   }
 
@@ -348,7 +300,7 @@ public  final class RequestMeta extends
    */
   @java.lang.Override
   public boolean hasApplicationScope() {
-    return ((bitField0_ & 0x00000080) != 0);
+    return ((bitField0_ & 0x00000040) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.ApplicationScope application_scope = 8 [json_name = "applicationScope"];</code>
@@ -364,7 +316,7 @@ public  final class RequestMeta extends
   private void setApplicationScope(io.github.arcforges.contracts.foundation.v1.ApplicationScope value) {
     value.getClass();  // minimal bytecode null check
     applicationScope_ = value;
-    bitField0_ |= 0x00000080;
+    bitField0_ |= 0x00000040;
   }
   /**
    * <code>.arcforges.foundation.v1.ApplicationScope application_scope = 8 [json_name = "applicationScope"];</code>
@@ -379,14 +331,14 @@ public  final class RequestMeta extends
     } else {
       applicationScope_ = value;
     }
-    bitField0_ |= 0x00000080;
+    bitField0_ |= 0x00000040;
   }
   /**
    * <code>.arcforges.foundation.v1.ApplicationScope application_scope = 8 [json_name = "applicationScope"];</code>
    */
   private void clearApplicationScope() {
     applicationScope_ = null;
-    bitField0_ = (bitField0_ & ~0x00000080);
+    bitField0_ = (bitField0_ & ~0x00000040);
   }
 
   public static io.github.arcforges.contracts.foundation.v1.RequestMeta parseFrom(
@@ -675,53 +627,6 @@ public  final class RequestMeta extends
     }
 
     /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-     */
-    @java.lang.Override
-    public boolean hasExpectedLocal() {
-      return instance.hasExpectedLocal();
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-     */
-    @java.lang.Override
-    public io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getExpectedLocal() {
-      return instance.getExpectedLocal();
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-     */
-    public Builder setExpectedLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-      copyOnWrite();
-      instance.setExpectedLocal(value);
-      return this;
-      }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-     */
-    public Builder setExpectedLocal(
-        io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.Builder builderForValue) {
-      copyOnWrite();
-      instance.setExpectedLocal(builderForValue.build());
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-     */
-    public Builder mergeExpectedLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-      copyOnWrite();
-      instance.mergeExpectedLocal(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-     */
-    public Builder clearExpectedLocal() {  copyOnWrite();
-      instance.clearExpectedLocal();
-      return this;
-    }
-
-    /**
      * <code>.arcforges.foundation.v1.NativeContentRev expected_native = 6 [json_name = "expectedNative"];</code>
      */
     @java.lang.Override
@@ -872,15 +777,14 @@ public  final class RequestMeta extends
             "expectedRev_",
             "correlationId_",
             "workspaceId_",
-            "expectedLocal_",
             "expectedNative_",
             "recoveryGeneration_",
             "applicationScope_",
           };
           java.lang.String info =
-              "\u0000\b\u0000\u0001\u0001\b\b\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u1009\u0001" +
-              "\u0003\u1009\u0002\u0004\u1009\u0003\u0005\u1009\u0004\u0006\u1009\u0005\u0007\u1003" +
-              "\u0006\b\u1009\u0007";
+              "\u0000\u0007\u0000\u0001\u0001\b\u0007\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+              "\u1009\u0001\u0003\u1009\u0002\u0004\u1009\u0003\u0006\u1009\u0004\u0007\u1003\u0005" +
+              "\b\u1009\u0006";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {
