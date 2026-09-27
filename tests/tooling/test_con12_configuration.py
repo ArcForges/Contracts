@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / 'internal/ai-http/v1/configuration.schema.json'
 # Owner merges the independent vectors into this admitted aggregate fixture path.
-FIXTURE = ROOT / 'fixtures/public/con-12-extension-policy.json'
+FIXTURE = ROOT / 'fixtures/internal/con-12-configuration.json'
 
 
 def shape(value, node, schema):
