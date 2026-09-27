@@ -201,7 +201,7 @@
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
-      "jsonSchemas": []
+      "jsonSchemas": ["public/http/v1/signed-formats.schema.json"]
     },
     {
       "id": "io.github.arcforges:contracts-connect-client",
