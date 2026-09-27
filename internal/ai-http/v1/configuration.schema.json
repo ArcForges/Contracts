@@ -316,7 +316,8 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         },
         "interval": {
           "type": "string",
@@ -510,31 +511,36 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         },
         "outputPerMillion": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         },
         "requestPrice": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         },
         "imagePrice": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         },
         "audioPerSecond": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         },
         "effectiveAt": {
           "type": "string",
@@ -568,7 +574,8 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$"
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
         }
       },
       "required": ["currency", "amount"],

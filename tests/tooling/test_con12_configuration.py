@@ -37,6 +37,7 @@ def shape(value, node, schema):
     elif kind == 'string':
         if not isinstance(value, str) or not node.get('minLength', 0) <= len(value) <= node.get('maxLength', 10**6): return False
         if 'pattern' in node and re.search(node['pattern'], value) is None: return False
+        if 'canonicalDecimal' in node.get('x-arcforges-rules', []) and (len(value.replace('.', '').lstrip('0')) > 28 or len(value.partition('.')[2]) > 9): return False
         if 'uint64String' in node.get('x-arcforges-rules', []) and int(value) > 2**64 - 1: return False
         if 'nonzeroUuid' in node.get('x-arcforges-rules', []) and value == '00000000-0000-0000-0000-000000000000': return False
     elif kind == 'integer':
@@ -90,7 +91,7 @@ def static_configuration(value):
         if 'customerTariffId' in model:
             tariff = tariffs.get(model['customerTariffId'])
             if tariff is None or tariff['modelId'] != model['modelId']: return False
-        elif model['purpose'] == 'customerInference': return False
+        elif model['purpose'] == 'customerInference' and model['enabled']: return False
         if 'image' in model['inputKinds'] and ('imagePrice' not in price or ('customerTariffId' in model and 'imageMicrounits' not in tariffs[model['customerTariffId']])): return False
         if 'audio' in model['inputKinds'] and ('audioPerSecond' not in price or ('customerTariffId' in model and 'audioMicrounitsPerSecond' not in tariffs[model['customerTariffId']])): return False
     try:
