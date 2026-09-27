@@ -16,7 +16,7 @@ from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coord
 class DependencyAdmission(unittest.TestCase):
     def test_shard_receipt_exceptions_are_exact_public_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
-        rows = [row for row in config['allowlists'] if row['description'].startswith('CON.01 ')]
+        rows = [row for row in config['allowlists'] if row['description'].startswith('CON.01 exact')]
         self.assertEqual(len(rows), 2)
         receipt_path = 'eng/policy/dependency-reviews/con-01-shards-r1.json'
         receipt = json.loads((ROOT / receipt_path).read_text())['review']['inputHashes']
@@ -41,6 +41,31 @@ class DependencyAdmission(unittest.TestCase):
                 self.assertIsNotNone(re.fullmatch(pattern, f' "{key}": "{digest}",'))
                 self.assertIsNone(re.fullmatch(pattern, f' "{key}": "' + '0' * 64 + '",'))
                 self.assertIsNone(re.fullmatch(pattern, f' "unrelated-key": "{digest}",'))
+
+    def test_shard_successor_exceptions_match_current_sources(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        rows = [row for row in config['allowlists'] if row['description'].startswith('CON.01 r2')]
+        self.assertEqual(len(rows), 2)
+        receipt_path = 'eng/policy/dependency-reviews/con-01-shards-r2.json'
+        inputs = json.loads((ROOT / receipt_path).read_text())['review']['inputHashes']
+        sources = ['eng/policy/contract-access.json', 'eng/provenance/records/dokka-combokeys-licence-r1.json',
+                   'eng/provenance/records/dokka-object-keys-licence-r1.json',
+                   'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
+        for row, filename, keys in zip(rows, ['eng/policy/dependency-policy.json', receipt_path],
+                                       [sources[:1], sources], strict=True):
+            self.assertEqual(row['targetRules'], ['generic-api-key'])
+            self.assertEqual(row['condition'], 'AND')
+            self.assertEqual(row['regexTarget'], 'line')
+            self.assertEqual(row['paths'], ['^' + re.escape(filename) + '$'])
+            self.assertIsNone(re.fullmatch(row['paths'][0], filename + '.backup'))
+            self.assertEqual(len(row['regexes']), len(keys))
+            for pattern, key in zip(row['regexes'], keys, strict=True):
+                digest = inputs[key]
+                self.assertEqual(hashlib.sha256((ROOT / key).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), digest)
+                self.assertIsNotNone(re.fullmatch(pattern, f' "{key}": "{digest}",'))
+                for bad in [f' "{key}": "' + '0' * 64 + '",', f' "unrelated-key": "{digest}",',
+                            f' "{key}": "ghp_actual_credential",', f' "{key}": "{digest}", "token": "extra"']:
+                    self.assertIsNone(re.fullmatch(pattern, bad))
 
     def test_retirement_hash_exceptions_match_only_observed_exact_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
@@ -184,7 +209,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 21)
+        self.assertEqual(len(config['allowlists']), 23)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -334,7 +359,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4])
 
 
 if __name__ == '__main__':
