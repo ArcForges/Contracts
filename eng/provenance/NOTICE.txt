@@ -9,8 +9,8 @@ Notice scope: source
 Apache License, Version 2.0, January 2004; preserve the complete terms.
 The complete Apache-2.0 terms remain in LICENSE and the four public export copies.
 
-con02-descriptor-bindings-r1
-Source: https://github.com/ArcForges/Contracts @ f7b8ffebdbe476e419b227ad1b60a26287582e17
+con-12-bindings-r1
+Source: https://github.com/ArcForges/Contracts @ 1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
