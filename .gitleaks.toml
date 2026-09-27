@@ -429,3 +429,26 @@ regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"9de84aa03629c593bad2d795db15f7edb83c5f01cb37b2cb1aca012c67660cbf",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"145298928cd567802b7e8504f75b765270f95539fe9f12d2d65405b4d6c8dc92",?\s*$''',
 ]
+
+[[allowlists]]
+description = "CON.01 exact demonstrated public SHA-256 rows from CI36343044901"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = ['''^eng/policy/dependency\-policy\.json$''']
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"ae780c10100b800f8cd36429b0917c2e79c242271d56966d16aa9da1d2eee5ab",?\s*$''',
+]
+
+[[allowlists]]
+description = "CON.01 exact demonstrated public SHA-256 rows from CI36343044901"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = ['''^eng/policy/dependency\-reviews/con\-01\-shards\-r1\.json$''']
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"ae780c10100b800f8cd36429b0917c2e79c242271d56966d16aa9da1d2eee5ab",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]
