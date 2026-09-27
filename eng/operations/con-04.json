@@ -1,0 +1,321 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "IContentSandbox.OpenSession",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/OpenSession",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.RenewSession",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/RenewSession",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.GrantSlot",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/GrantSlot",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.AckBuffer",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/AckBuffer",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.OpenImage",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/OpenImage",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.GetImageInfo",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/GetImageInfo",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.ReadImageTile",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/ReadImageTile",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.CloseImage",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/CloseImage",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.OpenPdf",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/OpenPdf",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.GetPdfPage",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/GetPdfPage",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.ExtractPdfText",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/ExtractPdfText",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.RenderPdfTile",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/RenderPdfTile",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.ClosePdf",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/ClosePdf",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.CancelSession",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/CancelSession",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    },
+    {
+      "operationId": "IContentSandbox.CloseSession",
+      "binding": "arcforges.local.sandbox.v1.ContentSandboxService/CloseSession",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#5-helper-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "parent-provisioned-slot",
+        "patEligible": false,
+        "actorKinds": ["helper-parent"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "content-sandbox-fixtures.v1",
+  "license": "Apache-2.0",
+  "evidenceClass": "offline-contract-policy-not-runtime-containment",
+  "service": "arcforges.local.sandbox.v1.ContentSandboxService",
+  "methods": [
+    "OpenSession",
+    "RenewSession",
+    "GrantSlot",
+    "AckBuffer",
+    "OpenImage",
+    "GetImageInfo",
+    "ReadImageTile",
+    "CloseImage",
+    "OpenPdf",
+    "GetPdfPage",
+    "ExtractPdfText",
+    "RenderPdfTile",
+    "ClosePdf",
+    "CancelSession",
+    "CloseSession"
+  ],
+  "retiredMethods": [
+    "ProbeMedia",
+    "OpenMediaReader",
+    "ReadMediaFrame",
+    "SeekMedia",
+    "CopyVideoFrame",
+    "CopyAudioFrame",
+    "CloseFrame",
+    "CloseReader",
+    "ReadOtio",
+    "WriteOtio",
+    "OtioReadChunk"
+  ],
+  "bindings": [
+    {
+      "id": "parent-to-child",
+      "caller": "Parent",
+      "receiver": "Sandbox",
+      "parentAlive": true,
+      "sameApplication": true,
+      "valid": true
+    },
+    {
+      "id": "reverse-direction",
+      "caller": "Sandbox",
+      "receiver": "Parent",
+      "parentAlive": true,
+      "sameApplication": true,
+      "valid": false
+    },
+    {
+      "id": "product-server-registration",
+      "caller": "Parent",
+      "receiver": "Product",
+      "parentAlive": true,
+      "sameApplication": true,
+      "valid": false
+    },
+    {
+      "id": "extension-impersonation",
+      "caller": "Extension",
+      "receiver": "Sandbox",
+      "parentAlive": true,
+      "sameApplication": true,
+      "valid": false
+    },
+    {
+      "id": "connector-impersonation",
+      "caller": "Connector",
+      "receiver": "Sandbox",
+      "parentAlive": true,
+      "sameApplication": true,
+      "valid": false
+    },
+    {
+      "id": "parent-death",
+      "caller": "Parent",
+      "receiver": "Sandbox",
+      "parentAlive": false,
+      "sameApplication": true,
+      "valid": false
+    },
+    {
+      "id": "cross-product-registration",
+      "caller": "Parent",
+      "receiver": "Sandbox",
+      "parentAlive": true,
+      "sameApplication": false,
+      "valid": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "slot-zero-valid",
+      "target": "slot",
+      "valid": true,
+      "value": { "slotId": 0, "sequence": "1", "capacity": "67108864" }
+    },
+    {
+      "id": "fourth-slot-refused",
+      "target": "slot",
+      "valid": false,
+      "value": { "slotId": 3, "sequence": "1", "capacity": "64" }
+    },
+    {
+      "id": "slot-zero-sequence-refused",
+      "target": "slot",
+      "valid": false,
+      "value": { "slotId": 0, "sequence": "0", "capacity": "64" }
+    },
+    {
+      "id": "slot-over-budget",
+      "target": "slot",
+      "valid": false,
+      "value": { "slotId": 0, "sequence": "1", "capacity": "67108865" }
+    },
+    {
+      "id": "slot-missing-presence",
+      "target": "slot",
+      "valid": false,
+      "value": { "sequence": "1", "capacity": "64" }
+    },
+    {
+      "id": "pdf-page-valid",
+      "target": "page",
+      "valid": true,
+      "value": { "pageIndex": 0, "rotation": 90, "widthPoints": 612, "heightPoints": 792 }
+    },
+    {
+      "id": "pdf-page-invalid-rotation",
+      "target": "page",
+      "valid": false,
+      "value": { "pageIndex": 0, "rotation": 45, "widthPoints": 612, "heightPoints": 792 }
+    },
+    {
+      "id": "pdf-page-zero-geometry",
+      "target": "page",
+      "valid": false,
+      "value": { "pageIndex": 0, "rotation": 0, "widthPoints": 0, "heightPoints": 792 }
+    },
+    {
+      "id": "pdf-page-nonfinite",
+      "target": "page",
+      "valid": false,
+      "value": { "pageIndex": 0, "rotation": 0, "widthPoints": "NaN", "heightPoints": 792 }
+    },
+    {
+      "id": "text-paginated-valid",
+      "target": "text",
+      "valid": true,
+      "value": {
+        "pageIndex": 0,
+        "start": 0,
+        "next": 3,
+        "text": "a😀",
+        "boxes": [{ "start": 1, "length": 2, "x": 0, "y": 0, "width": 2, "height": 2 }]
+      }
+    },
+    {
+      "id": "text-split-surrogate",
+      "target": "text",
+      "valid": false,
+      "value": {
+        "pageIndex": 0,
+        "start": 0,
+        "next": 3,
+        "text": "a😀",
+        "boxes": [{ "start": 1, "length": 1, "x": 0, "y": 0, "width": 2, "height": 2 }]
+      }
+    },
+    {
+      "id": "text-no-progress",
+      "target": "text",
+      "valid": false,
+      "value": { "pageIndex": 0, "start": 5, "next": 5, "text": "", "boxes": [] }
+    },
+    {
+      "id": "text-skipped-position",
+      "target": "text",
+      "valid": false,
+      "value": { "pageIndex": 0, "start": 5, "next": 9, "text": "a", "boxes": [] }
+    },
+    {
+      "id": "text-box-outside-chunk",
+      "target": "text",
+      "valid": false,
+      "value": {
+        "pageIndex": 0,
+        "start": 5,
+        "text": "abc",
+        "boxes": [{ "start": 4, "length": 1, "x": 0, "y": 0, "width": 2, "height": 2 }]
+      }
+    },
+    {
+      "id": "text-terminal-empty",
+      "target": "text",
+      "valid": true,
+      "value": { "pageIndex": 0, "start": 0, "text": "", "boxes": [] }
+    },
+    {
+      "id": "region-valid",
+      "target": "region",
+      "valid": true,
+      "value": {
+        "x": 0,
+        "y": 0,
+        "width": 2,
+        "height": 2,
+        "firstSample": "0",
+        "sampleCount": "0",
+        "rowStride": "8"
+      }
+    },
+    {
+      "id": "region-retired-audio-fields",
+      "target": "region",
+      "valid": false,
+      "value": {
+        "x": 0,
+        "y": 0,
+        "width": 2,
+        "height": 2,
+        "firstSample": "1",
+        "sampleCount": "2",
+        "rowStride": "8"
+      }
+    }
+  ]
+}
