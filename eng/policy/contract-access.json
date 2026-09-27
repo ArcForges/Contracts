@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "b323a494a9a4ab83832050fb52488407d8f51264",
+  "sourceCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -3799,7 +3799,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "629ae43b5ba560b0f6322f46deebda5a181753bea649637b8a2021e5da15a212",
+      "sha256": "d6103a6836787faa59945c3106708e29b871548cfa31d297086e3808ad55a10d",
       "kind": "generated"
     },
     {

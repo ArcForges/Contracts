@@ -137,7 +137,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Reuse exact first-party Apache-2.0 descriptor bytes from the published baseline required by CON.17. Preserve original generator attribution. No retired contract is reintroduced as a production export.",
-    "baselineCommit": "b323a494a9a4ab83832050fb52488407d8f51264",
+    "baselineCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
     "reconciliation": false
   },
   "supersedes": null,

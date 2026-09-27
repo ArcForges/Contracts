@@ -3,7 +3,7 @@
   "id": "con17-semantic-export-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "b323a494a9a4ab83832050fb52488407d8f51264",
+  "sourceCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -1712,7 +1712,7 @@
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "629ae43b5ba560b0f6322f46deebda5a181753bea649637b8a2021e5da15a212",
+      "sha256": "d6103a6836787faa59945c3106708e29b871548cfa31d297086e3808ad55a10d",
       "normalization": "lf"
     },
     {
@@ -1925,7 +1925,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "b323a494a9a4ab83832050fb52488407d8f51264",
+        "commit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2095,7 +2095,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Only the generator-owned proto export barrel adds the first-party semantic hash module. No package identity, upstream generator or licence boundary changes; original generated provenance remains linked through supersedes.",
-    "baselineCommit": "b323a494a9a4ab83832050fb52488407d8f51264",
+    "baselineCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
     "reconciliation": false
   },
   "supersedes": "contract-bindings-r6",
