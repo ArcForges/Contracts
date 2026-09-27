@@ -697,4 +697,3 @@ regexes = [
   '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-context\-provider/has\-key\.html":\s*"67e236e2caa658878370e82dc1bf96ac8fa6f6f4da952b87dc1ea749ca0919f4",?\s*$''',
   '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.publicapi\.v1/\-context\-provider/has\-title\-key\.html":\s*"0ada0aa1621a2c03e4e2f148e7b42bd7861814d710e59604cf80738010389ae1",?\s*$''',
 ]
-
