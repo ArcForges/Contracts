@@ -15,6 +15,7 @@ def shape(value, node, schema):
         return shape(value, schema["$defs"][node["$ref"].split("/")[-1]], schema)
     if "oneOf" in node:
         return sum(shape(value, branch, schema) for branch in node["oneOf"]) == 1
+    if "x-arcforges-max-bytes" in node and len(json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8")) > node["x-arcforges-max-bytes"]: return False
     kind = node.get("type")
     if kind == "object":
         if not isinstance(value, dict) or not set(node["required"]).issubset(value) or set(value) - set(node["properties"]): return False
@@ -126,6 +127,10 @@ class PolicyBodyVectors(unittest.TestCase):
                     node = {"op": "equal", "field": "product", "value": "arcscope"}
                     for _ in range(recipe["count"]): node = {"op": "not", "term": node}
                     body["rules"][0]["target"] = node
+                elif recipe["kind"] == "oversized-body":
+                    rule = copy.deepcopy(body["rules"][0])
+                    rule["value"]["reason"] = "x" * 2048
+                    body["rules"] = [dict(rule, ruleId=f"oversized-{i}", priority=i) for i in range(1000)]
                 elif recipe["kind"] == "wide-predicate":
                     leaf = {"op": "equal", "field": "product", "value": "arcscope"}
                     body["rules"][0]["target"] = {"op": "all", "terms": [{"op":"any", "terms":[leaf]*64}]*2}
@@ -142,6 +147,7 @@ class PolicyBodyVectors(unittest.TestCase):
             for allocation in (0, 10000): self.assertEqual(result < allocation, allocation == 10000)
 
 if __name__ == "__main__": unittest.main()
+
 
 
 
