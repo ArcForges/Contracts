@@ -3,7 +3,7 @@
   "id": "contract-bindings-con05-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+  "sourceCommit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -1961,7 +1961,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2011,7 +2011,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2031,7 +2031,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
         "paths": [
           "eng/generate_fixtures.py"
         ],
@@ -2053,7 +2053,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2154,7 +2154,7 @@
           },
           {
             "path": "fixtures/public/wp03-02.json",
-            "sha256": "fe8a4635ce9578207ef549efc91962d87c1a8cb23fb56fdb8bddd6f8ee095787",
+            "sha256": "4fac996195d49fa9b9c5669ae9e27d6f627bebf1252a3628b9fc1e5498ebcfa5",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2301,7 +2301,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2402,7 +2402,7 @@
           },
           {
             "path": "fixtures/public/wp03-02.json",
-            "sha256": "fe8a4635ce9578207ef549efc91962d87c1a8cb23fb56fdb8bddd6f8ee095787",
+            "sha256": "4fac996195d49fa9b9c5669ae9e27d6f627bebf1252a3628b9fc1e5498ebcfa5",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2557,7 +2557,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Official CON.01 loader generation succeeded. Generated C# StructureTests build passed with zero warnings/errors using existing SDK10.0.401 diagnostic adapter preserving ILLink/ILCompiler10.0.11; CON.05 envelopes/oneofs/roundtrips, 86 inherited shape cases, 339 foundation cases and canonical hash vectors passed. Seven offline CON.05 groups passed. Retained pinned10.0.400 CI remains required. No broker/OS authorization, secret custody or live connector runtime proof is claimed.",
-    "baselineCommit": "c5dbbe567c2f6a904c872aa106898aa3063ad4b1",
+    "baselineCommit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
     "reconciliation": false
   },
   "supersedes": "contract-bindings-con16-r1",
