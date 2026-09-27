@@ -4,7 +4,7 @@
     "net10.0": {
       "ArcForges.Contracts.PublicApi": {
         "type": "Direct",
-        "requested": "[1.0.0-ci.113.1, 1.0.0-ci.113.1]",
+        "requested": "[1.0.0-ci.113.1, )",
         "resolved": "1.0.0-ci.113.1",
         "contentHash": "1ai2jcqdFfKLHahN62N9dqkcSsAEbgK/K5uQi4LDIUFDGaT38/2KJYYykrb/YLO2UyUBpFjxJmTk++A+4mr8Uw==",
         "dependencies": {
