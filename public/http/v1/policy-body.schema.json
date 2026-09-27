@@ -1,0 +1,1353 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "title": "PolicyBody",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "policy.body.v1"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "parentVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "issuedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+    },
+    "expiresAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PolicyRule"
+      },
+      "minItems": 0,
+      "maxItems": 1000
+    },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PolicyExperiment"
+      },
+      "minItems": 0,
+      "maxItems": 32
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "version",
+    "issuedAt",
+    "expiresAt",
+    "rules",
+    "experiments",
+    "reason"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "PolicyAll": {
+      "title": "PolicyAll",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "all"
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PolicyPredicate"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": ["op", "terms"],
+      "additionalProperties": false
+    },
+    "PolicyAny": {
+      "title": "PolicyAny",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "any"
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PolicyPredicate"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": ["op", "terms"],
+      "additionalProperties": false
+    },
+    "PolicyNot": {
+      "title": "PolicyNot",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "not"
+        },
+        "term": {
+          "$ref": "#/$defs/PolicyPredicate"
+        }
+      },
+      "required": ["op", "term"],
+      "additionalProperties": false
+    },
+    "PolicyEqualText": {
+      "title": "PolicyEqualText",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "equal"
+        },
+        "field": {
+          "type": "string",
+          "enum": [
+            "realmId",
+            "workspaceId",
+            "userId",
+            "installationId",
+            "product",
+            "platform",
+            "appVersion"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": ["op", "field", "value"],
+      "additionalProperties": false
+    },
+    "PolicyEqualMajor": {
+      "title": "PolicyEqualMajor",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "equal"
+        },
+        "field": {
+          "type": "string",
+          "const": "contractsMajor"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        }
+      },
+      "required": ["op", "field", "value"],
+      "additionalProperties": false
+    },
+    "PolicyInText": {
+      "title": "PolicyInText",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "in"
+        },
+        "field": {
+          "type": "string",
+          "enum": [
+            "realmId",
+            "workspaceId",
+            "userId",
+            "installationId",
+            "product",
+            "platform",
+            "appVersion"
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      },
+      "required": ["op", "field", "values"],
+      "additionalProperties": false
+    },
+    "PolicyInMajor": {
+      "title": "PolicyInMajor",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "in"
+        },
+        "field": {
+          "type": "string",
+          "const": "contractsMajor"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4294967295
+          },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      },
+      "required": ["op", "field", "values"],
+      "additionalProperties": false
+    },
+    "PolicyVersionAtLeast": {
+      "title": "PolicyVersionAtLeast",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "versionAtLeast"
+        },
+        "field": {
+          "type": "string",
+          "const": "appVersion"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\\.(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+        }
+      },
+      "required": ["op", "field", "version"],
+      "additionalProperties": false
+    },
+    "PolicyPercent": {
+      "title": "PolicyPercent",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "percent"
+        },
+        "subject": {
+          "type": "string",
+          "enum": ["user", "workspace", "installation"]
+        },
+        "salt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "allocation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "required": ["op", "subject", "salt", "allocation"],
+      "additionalProperties": false
+    },
+    "PolicyPredicate": {
+      "title": "PolicyPredicate",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PolicyAll"
+        },
+        {
+          "$ref": "#/$defs/PolicyAny"
+        },
+        {
+          "$ref": "#/$defs/PolicyNot"
+        },
+        {
+          "$ref": "#/$defs/PolicyEqualText"
+        },
+        {
+          "$ref": "#/$defs/PolicyEqualMajor"
+        },
+        {
+          "$ref": "#/$defs/PolicyInText"
+        },
+        {
+          "$ref": "#/$defs/PolicyInMajor"
+        },
+        {
+          "$ref": "#/$defs/PolicyVersionAtLeast"
+        },
+        {
+          "$ref": "#/$defs/PolicyPercent"
+        }
+      ]
+    },
+    "PolicyTarget": {
+      "title": "PolicyTarget",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PolicyStableTarget"
+        },
+        {
+          "$ref": "#/$defs/PolicyPredicate"
+        }
+      ]
+    },
+    "PolicyStop": {
+      "title": "PolicyStop",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["BlockNew", "DrainExisting", "StopAtSafePoint", "ReadOnly"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "until": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      },
+      "required": ["mode", "reason", "effectiveAt", "until"],
+      "additionalProperties": false
+    },
+    "PolicyRevokedVersion": {
+      "title": "PolicyRevokedVersion",
+      "type": "object",
+      "properties": {
+        "packageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\\.(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": ["packageId", "version", "hash", "reason"],
+      "additionalProperties": false
+    },
+    "PolicyMinimumContracts": {
+      "title": "PolicyMinimumContracts",
+      "type": "object",
+      "properties": {
+        "publicMajor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "localMajor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "minimumRelease": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\\.(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+        }
+      },
+      "required": ["publicMajor", "localMajor", "minimumRelease"],
+      "additionalProperties": false
+    },
+    "PolicyMinimumApp": {
+      "title": "PolicyMinimumApp",
+      "type": "object",
+      "properties": {
+        "product": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "minimumVersionName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\\.(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "minimumVersionCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["product", "platform", "minimumVersionName"],
+      "additionalProperties": false
+    },
+    "PolicyStopRule": {
+      "title": "PolicyStopRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["cloud.ai.stop", "cloud.tools.stop", "cloud.upload.stop", "cloud.sync.stop"]
+        },
+        "value": {
+          "$ref": "#/$defs/PolicyStop"
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "workspace"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyRevocationsRule": {
+      "title": "PolicyRevocationsRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["extension.revokedVersions"]
+        },
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PolicyRevokedVersion"
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyMinimumContractsRule": {
+      "title": "PolicyMinimumContractsRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["client.minimumContracts"]
+        },
+        "value": {
+          "$ref": "#/$defs/PolicyMinimumContracts"
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyMinimumAppRule": {
+      "title": "PolicyMinimumAppRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["client.minimumApp"]
+        },
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PolicyMinimumApp"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyCacheRule": {
+      "title": "PolicyCacheRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["mobile.cacheBytes"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1048576,
+          "maximum": 536870912
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "user", "installation"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyPollRule": {
+      "title": "PolicyPollRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["client.pollIntervalMs"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "installation"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyTraceSampleRule": {
+      "title": "PolicyTraceSampleRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["telemetry.traceSamplePpm"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyTraceBufferRule": {
+      "title": "PolicyTraceBufferRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["telemetry.traceBufferBytes"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1048576,
+          "maximum": 16777216
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["installation"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyModelCallsRule": {
+      "title": "PolicyModelCallsRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["ai.maxModelCalls"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "workspace"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyToolCallsRule": {
+      "title": "PolicyToolCallsRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["ai.maxToolCalls"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "workspace"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyParallelToolsRule": {
+      "title": "PolicyParallelToolsRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["ai.maxParallelTools"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "workspace"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyActiveTimeRule": {
+      "title": "PolicyActiveTimeRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["ai.maxActiveMilliseconds"]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 3600000
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "workspace"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicySearchRule": {
+      "title": "PolicySearchRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["search.webEnabled"]
+        },
+        "value": {
+          "type": "boolean"
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["realm", "workspace", "user"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyDensityRule": {
+      "title": "PolicyDensityRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["ui.density"]
+        },
+        "value": {
+          "type": "string",
+          "enum": ["comfortable", "compact"]
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["user", "installation"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyHomeSummaryRule": {
+      "title": "PolicyHomeSummaryRule",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "key": {
+          "type": "string",
+          "enum": ["mobile.homeSummary"]
+        },
+        "value": {
+          "type": "string",
+          "enum": ["expanded", "compact"]
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["user", "installation"]
+        },
+        "target": {
+          "$ref": "#/$defs/PolicyTarget"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["ruleId", "key", "value", "scope", "target", "priority"],
+      "additionalProperties": false
+    },
+    "PolicyRule": {
+      "title": "PolicyRule",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PolicyStopRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyRevocationsRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyMinimumContractsRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyMinimumAppRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyCacheRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyPollRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyTraceSampleRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyTraceBufferRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyModelCallsRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyToolCallsRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyParallelToolsRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyActiveTimeRule"
+        },
+        {
+          "$ref": "#/$defs/PolicySearchRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyDensityRule"
+        },
+        {
+          "$ref": "#/$defs/PolicyHomeSummaryRule"
+        }
+      ]
+    },
+    "PolicyPresentation": {
+      "title": "PolicyPresentation",
+      "type": "object",
+      "properties": {
+        "ui.density": {
+          "type": "string",
+          "enum": ["comfortable", "compact"]
+        },
+        "mobile.homeSummary": {
+          "type": "string",
+          "enum": ["expanded", "compact"]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "PolicyVariant": {
+      "title": "PolicyVariant",
+      "type": "object",
+      "properties": {
+        "variantId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "allocation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "values": {
+          "$ref": "#/$defs/PolicyPresentation"
+        }
+      },
+      "required": ["variantId", "allocation", "values"],
+      "additionalProperties": false
+    },
+    "PolicyExperiment": {
+      "title": "PolicyExperiment",
+      "type": "object",
+      "properties": {
+        "experimentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "hypothesis": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "subject": {
+          "type": "string",
+          "enum": ["user", "workspace", "installation"]
+        },
+        "eligibility": {
+          "$ref": "#/$defs/PolicyPredicate"
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PolicyVariant"
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "allocation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "startsAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "endsAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "successMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "exitCriteria": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "exclusionGroup": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "holdoutBasisPoints": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "experimentId",
+        "version",
+        "hypothesis",
+        "subject",
+        "eligibility",
+        "variants",
+        "allocation",
+        "startsAt",
+        "endsAt",
+        "successMetrics",
+        "exitCriteria",
+        "holdoutBasisPoints"
+      ],
+      "additionalProperties": false
+    },
+    "PolicyStableTarget": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "x-arcforges-rules": ["nonzeroUuid"],
+      "title": "PolicyStableTarget"
+    }
+  },
+  "x-arcforges-max-bytes": 1048576,
+  "x-arcforges-schema-version": "1",
+  "x-arcforges-rules": ["policyBody"]
+}
