@@ -708,6 +708,7 @@ regexTarget = "line"
 paths = ['''^eng/policy/dependency\-policy\.json$''']
 regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"cfe372f32129aa483b7d8e2ba147ee8b973808449843758f48e52ef0bfbeef39",?\s*$''',
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"f91320260c81e4d6bac5abcf1b479cafa5b51bdbaa2e12a6b3e7978e588f2511",?\s*$''',
 ]
 
 [[allowlists]]
@@ -718,6 +719,7 @@ regexTarget = "line"
 paths = ['''^eng/policy/dependency\-reviews/con\-12\-profiles\-r1\.json$''']
 regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"cfe372f32129aa483b7d8e2ba147ee8b973808449843758f48e52ef0bfbeef39",?\s*$''',
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"f91320260c81e4d6bac5abcf1b479cafa5b51bdbaa2e12a6b3e7978e588f2511",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"7bfbf2a7a7ec9b6e8086261baa6509a57de5de592cc674b5df9d07e67eca1a78",?\s*$''',
   '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
   '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
