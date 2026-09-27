@@ -3,11 +3,17 @@
   "id": "contract-bindings-con05-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
+  "sourceCommit": "74306e39a4eef26173fecbbab9173134b9831dba",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
+    "eng/foundation_semantics.py",
     "eng/generate_fixtures.py",
+    "eng/generate_shapes.py",
+    "eng/generate_values.py",
+    "eng/kotlin_tools.py",
+    "eng/package_catalog.py",
+    "fixtures/internal/con-04-content-sandbox.json",
     "fixtures/internal/con-05-extension-connector-bootstrap.json",
     "fixtures/internal/con-12-configuration.json",
     "fixtures/internal/wp03-00.json",
@@ -29,6 +35,7 @@
     "internal/proto/arcforges/operator/v1/operator.proto",
     "internal/proto/constraints.json",
     "internal/proto/constraints/chat-baseline.json",
+    "internal/proto/constraints/con-04-content-sandbox.json",
     "internal/proto/constraints/operator-baseline.json",
     "internal/proto/constraints/platform-baseline.json",
     "internal/proto/constraints/platform.json",
@@ -139,12 +146,22 @@
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Proto/Sandbox.cs",
-      "sha256": "bd1bf0afbdc8fe7ef1890e13760705b3713a13b7de0230c01b7b1e43ea0e7269",
+      "sha256": "ec28d37b07a0d4fc2f0964601607c434f732ffdc6920eef50cc4127c7712b541",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Proto/SandboxGrpc.cs",
+      "sha256": "48467c75b700ae04f7e077182c1dfee956cca150970f26658e5208c7a4689135",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Services/ContractServices.g.cs",
+      "sha256": "03b2b987e1393d59baba0a0c1168cee66352b16ce0fac41aaf25e7171971c97a",
       "normalization": "lf"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Shapes/ProtoValidation.g.cs",
-      "sha256": "4e233d99e0cb8ec38a8a1646abf8e491d3920024db4f5c7a389f75874214341a",
+      "sha256": "da234955a36a3ccadc1b9fa6850316b025c4547bf375b82754c59d63a1a53548",
       "normalization": "lf"
     },
     {
@@ -2307,22 +2324,18 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
+        "commit": "74306e39a4eef26173fecbbab9173134b9831dba",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
           "eng/generate_fixtures.py",
           "eng/generate_shapes.py",
           "eng/generate_values.py",
-          "eng/kotlin_tools.py"
+          "eng/kotlin_tools.py",
+          "eng/package_catalog.py"
         ],
         "spdx": "Apache-2.0",
         "evidence": [
-          {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
           {
             "path": "eng/contracts.py",
             "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
@@ -2352,89 +2365,10 @@
             "path": "eng/kotlin_tools.py",
             "sha256": "219ff48ab12c421b63942047d16e61c6282ee6fa1af69c4148337be8e52d3325",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          }
-        ]
-      },
-      {
-        "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
-        "paths": [
-          "eng/contracts.py"
-        ],
-        "spdx": "Apache-2.0",
-        "evidence": [
-          {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
-            "path": "eng/contracts.py",
-            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          }
-        ]
-      },
-      {
-        "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
-        "paths": [
-          "eng/generate_fixtures.py"
-        ],
-        "spdx": "Apache-2.0",
-        "evidence": [
-          {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/generate_fixtures.py",
-            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          }
-        ]
-      },
-      {
-        "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
-        "paths": [
-          "eng/contracts.py",
-          "eng/generate_shapes.py",
-          "eng/foundation_semantics.py",
-          "eng/generate_fixtures.py",
-          "eng/kotlin_tools.py"
-        ],
-        "spdx": "Apache-2.0",
-        "evidence": [
-          {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/contracts.py",
-            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/foundation_semantics.py",
-            "sha256": "04c3cd27f699b249aac25a5b1b03510f833e66e6a84199abd72619121916bd59",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/generate_fixtures.py",
-            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/generate_shapes.py",
-            "sha256": "6420dfdc07519e4dd3fcd4ea3d22c25d0e5a7f81ab24e1880c9679b467c0da71",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/kotlin_tools.py",
-            "sha256": "219ff48ab12c421b63942047d16e61c6282ee6fa1af69c4148337be8e52d3325",
+            "path": "eng/package_catalog.py",
+            "sha256": "d045214fa515fbe9f5f9e7ed2b9a4ad566524b7e53ed93292c35af6edac4bd6b",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           }
         ]
@@ -2443,603 +2377,12 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
+        "commit": "74306e39a4eef26173fecbbab9173134b9831dba",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
           "eng/generate_fixtures.py",
-          "fixtures/internal/con-05-extension-connector-bootstrap.json",
-          "fixtures/internal/con-12-configuration.json",
-          "fixtures/internal/wp03-00.json",
-          "fixtures/public/con-12-extension-policy.json",
-          "fixtures/public/con-16-signed-formats.json",
-          "fixtures/public/con-17-compat-hash.json",
-          "fixtures/public/hello.json",
-          "fixtures/public/wp03-00.json",
-          "fixtures/public/wp03-01.json",
-          "fixtures/public/wp03-02.json",
-          "internal/ai-http/v1/configuration.schema.json",
-          "internal/ai-http/v1/schema.json",
-          "internal/proto/arcforges/local/chat/v1/chat.proto",
-          "internal/proto/arcforges/local/platform/v1/platform.proto",
-          "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
-          "internal/proto/arcforges/local/scope/v1/scope.proto",
-          "internal/proto/arcforges/operator/v1/operator.proto",
-          "internal/proto/constraints.json",
-          "internal/proto/constraints/chat-baseline.json",
-          "internal/proto/constraints/operator-baseline.json",
-          "internal/proto/constraints/platform-baseline.json",
-          "internal/proto/constraints/platform.json",
-          "internal/proto/constraints/sandbox-baseline.json",
-          "internal/proto/constraints/scope-baseline.json",
-          "public/http/v1/inventory.schema.json",
-          "public/http/v1/manifest.schema.json",
-          "public/http/v1/panel.schema.json",
-          "public/http/v1/policy-body.schema.json",
-          "public/http/v1/schema.json",
-          "public/http/v1/signed-formats.schema.json",
-          "public/http/v1/workflow.schema.json",
-          "public/proto/arcforges/events/v1/events.proto",
-          "public/proto/arcforges/extensions/v1/extensions.proto",
-          "public/proto/arcforges/foundation/v1/foundation.proto",
-          "public/proto/arcforges/hello/v1/hello.proto",
-          "public/proto/arcforges/publicapi/v1/content.proto",
-          "public/proto/constraints.json",
-          "public/proto/constraints/events-baseline.json",
-          "public/proto/constraints/extensions-baseline.json",
-          "public/proto/constraints/extensions.json",
-          "public/proto/constraints/foundation-baseline.json",
-          "public/proto/constraints/foundation-descriptors.json",
-          "public/proto/constraints/publicapi-baseline.json",
-          "public/proto/value-boundaries.json"
-        ],
-        "spdx": "Apache-2.0",
-        "evidence": [
-          {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/contract-packages.json",
-            "sha256": "53f5c721b8731cce293fe6f4d9ea07df6f8fe5d55872a2ce5ec28f4ef5f6b564",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/contracts.py",
-            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/generate_fixtures.py",
-            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/internal/con-05-extension-connector-bootstrap.json",
-            "sha256": "bea95aa3351a9d73558ee9d39b13eda69b5ff20aee3c0235e106f3ef5cba626d",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/internal/con-12-configuration.json",
-            "sha256": "090d8ea1bc452154a13b6525510600c542f99c8dc2acb0926e059b9f523b92bc",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/internal/wp03-00.json",
-            "sha256": "165a82cf362ff2b05a220724e042915769f467697261035d71bb0c6ffce5fe96",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-12-extension-policy.json",
-            "sha256": "645fa316847c69272f1a2f2177285e8ad434a1b06e31b1c52859105fccabe174",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-16-signed-formats.json",
-            "sha256": "c4f5da613be1adec783d7ba9a12217f55a93705e22c180a02c043c1662ee310c",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-17-compat-hash.json",
-            "sha256": "61272b4e1bb12f83eadc4b60384c2734918e1814db829b02d9a127ef532d43b4",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/hello.json",
-            "sha256": "5e1fe5f94dfad301514a341b1f52f5a113943dc1837c7c4f817caaa4ea886b4e",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/wp03-00.json",
-            "sha256": "919b5585f9c403648dbe797e71a4da4d3dbd85eecd5dede2b3f5f9b948ec6a69",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/wp03-01.json",
-            "sha256": "38919422eaa333bf94ce3b98264ec811f6ccff8c8e3e9ac9efe2bd10c3f2b886",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/wp03-02.json",
-            "sha256": "4fac996195d49fa9b9c5669ae9e27d6f627bebf1252a3628b9fc1e5498ebcfa5",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/ai-http/v1/configuration.schema.json",
-            "sha256": "4c021409496cf2aa57beb2f7b004fd3041bc5bb8768a06f5e2eef6511a371e41",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/ai-http/v1/schema.json",
-            "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
-            "sha256": "3e9c76af5aefc63c78d21609e09d7106cf809f8e271d2382c3f0c15cdb4cd519",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
-            "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
-            "sha256": "f97dbd60a9bc471bfc58f0cc8998b40e3fef4ddb8b10dbea8906e89fafe02574",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
-            "sha256": "027b0f72e1d1285fa3b2fcc13130400f8e8f0e801601485fef63e7a102b014c4",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/operator/v1/operator.proto",
-            "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints.json",
-            "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/chat-baseline.json",
-            "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/operator-baseline.json",
-            "sha256": "d874f39980cf62d2bf5f146679175c7a87b06bce90ff0c319a44240725957edd",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/platform-baseline.json",
-            "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/platform.json",
-            "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/sandbox-baseline.json",
-            "sha256": "a95f4cd0ec774ffe5954165357c621241dae4593851e97b023322e879c6277af",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/scope-baseline.json",
-            "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/inventory.schema.json",
-            "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/manifest.schema.json",
-            "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/panel.schema.json",
-            "sha256": "e47e3fcad128918ca888c7f2a61ac03876ab50467a46b7597cda5cce53de21ce",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/policy-body.schema.json",
-            "sha256": "62509c5a2f104b4d84fcbee28a0bf41946e49a89a3c5baf1e609700e05f24f68",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/schema.json",
-            "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/signed-formats.schema.json",
-            "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/workflow.schema.json",
-            "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/events/v1/events.proto",
-            "sha256": "ea0ac740c06bbb5b81724b4a7e601110424cabc4940b07e579cf97d852880f43",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/extensions/v1/extensions.proto",
-            "sha256": "675025c66cca55cf3771c0a4aadc6731501119f406bf5337001b8c8fb29a3703",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/foundation/v1/foundation.proto",
-            "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/hello/v1/hello.proto",
-            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/publicapi/v1/content.proto",
-            "sha256": "15acce6e5618843a24115f8e5ddf64aba5e4fb60ca55dcb926a1900dc46d078f",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints.json",
-            "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/events-baseline.json",
-            "sha256": "346d458859cf734650911cd0875b85925f4bd1c5c6335b5ba53f7f914ba6c311",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/extensions-baseline.json",
-            "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/extensions.json",
-            "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/foundation-baseline.json",
-            "sha256": "99c0d68fa83c3722e45b58a2158a108c63c18e62f13a76da173dba9d4c9235a9",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/foundation-descriptors.json",
-            "sha256": "d9814a41ab37da37f9c387f52891929d839d7109e0d0540f5a322a3abdf00427",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/publicapi-baseline.json",
-            "sha256": "0c4d1d95926ee51fdc649f7552d151b669fcdfecc2111a09e3ec3a63a7731e50",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/value-boundaries.json",
-            "sha256": "b4d7eaa24ec864c69426fa5d679cf1e2d4536b8ed720e4371fb4a3ee94bc5111",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          }
-        ]
-      },
-      {
-        "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
-        "paths": [
-          "eng/contract-packages.json",
-          "eng/contracts.py",
-          "eng/generate_fixtures.py",
-          "fixtures/internal/con-05-extension-connector-bootstrap.json",
-          "fixtures/internal/con-12-configuration.json",
-          "fixtures/internal/wp03-00.json",
-          "fixtures/public/con-12-extension-policy.json",
-          "fixtures/public/con-16-signed-formats.json",
-          "fixtures/public/con-17-compat-hash.json",
-          "fixtures/public/hello.json",
-          "fixtures/public/wp03-00.json",
-          "fixtures/public/wp03-01.json",
-          "fixtures/public/wp03-02.json",
-          "internal/ai-http/v1/configuration.schema.json",
-          "internal/ai-http/v1/schema.json",
-          "internal/proto/arcforges/local/chat/v1/chat.proto",
-          "internal/proto/arcforges/local/platform/v1/platform.proto",
-          "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
-          "internal/proto/arcforges/local/scope/v1/scope.proto",
-          "internal/proto/arcforges/operator/v1/operator.proto",
-          "internal/proto/constraints.json",
-          "internal/proto/constraints/chat-baseline.json",
-          "internal/proto/constraints/operator-baseline.json",
-          "internal/proto/constraints/platform-baseline.json",
-          "internal/proto/constraints/platform.json",
-          "internal/proto/constraints/sandbox-baseline.json",
-          "internal/proto/constraints/scope-baseline.json",
-          "public/http/v1/inventory.schema.json",
-          "public/http/v1/manifest.schema.json",
-          "public/http/v1/panel.schema.json",
-          "public/http/v1/policy-body.schema.json",
-          "public/http/v1/schema.json",
-          "public/http/v1/signed-formats.schema.json",
-          "public/http/v1/workflow.schema.json",
-          "public/proto/arcforges/events/v1/events.proto",
-          "public/proto/arcforges/extensions/v1/extensions.proto",
-          "public/proto/arcforges/foundation/v1/foundation.proto",
-          "public/proto/arcforges/hello/v1/hello.proto",
-          "public/proto/arcforges/publicapi/v1/content.proto",
-          "public/proto/constraints.json",
-          "public/proto/constraints/events-baseline.json",
-          "public/proto/constraints/extensions-baseline.json",
-          "public/proto/constraints/extensions.json",
-          "public/proto/constraints/foundation-baseline.json",
-          "public/proto/constraints/foundation-descriptors.json",
-          "public/proto/constraints/publicapi-baseline.json",
-          "public/proto/value-boundaries.json"
-        ],
-        "spdx": "Apache-2.0",
-        "evidence": [
-          {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/contract-packages.json",
-            "sha256": "53f5c721b8731cce293fe6f4d9ea07df6f8fe5d55872a2ce5ec28f4ef5f6b564",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/contracts.py",
-            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "eng/generate_fixtures.py",
-            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/internal/con-05-extension-connector-bootstrap.json",
-            "sha256": "bea95aa3351a9d73558ee9d39b13eda69b5ff20aee3c0235e106f3ef5cba626d",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/internal/con-12-configuration.json",
-            "sha256": "090d8ea1bc452154a13b6525510600c542f99c8dc2acb0926e059b9f523b92bc",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/internal/wp03-00.json",
-            "sha256": "165a82cf362ff2b05a220724e042915769f467697261035d71bb0c6ffce5fe96",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-12-extension-policy.json",
-            "sha256": "645fa316847c69272f1a2f2177285e8ad434a1b06e31b1c52859105fccabe174",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-16-signed-formats.json",
-            "sha256": "c4f5da613be1adec783d7ba9a12217f55a93705e22c180a02c043c1662ee310c",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-17-compat-hash.json",
-            "sha256": "61272b4e1bb12f83eadc4b60384c2734918e1814db829b02d9a127ef532d43b4",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/hello.json",
-            "sha256": "5e1fe5f94dfad301514a341b1f52f5a113943dc1837c7c4f817caaa4ea886b4e",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/wp03-00.json",
-            "sha256": "919b5585f9c403648dbe797e71a4da4d3dbd85eecd5dede2b3f5f9b948ec6a69",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/wp03-01.json",
-            "sha256": "38919422eaa333bf94ce3b98264ec811f6ccff8c8e3e9ac9efe2bd10c3f2b886",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "fixtures/public/wp03-02.json",
-            "sha256": "4fac996195d49fa9b9c5669ae9e27d6f627bebf1252a3628b9fc1e5498ebcfa5",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/ai-http/v1/configuration.schema.json",
-            "sha256": "4c021409496cf2aa57beb2f7b004fd3041bc5bb8768a06f5e2eef6511a371e41",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/ai-http/v1/schema.json",
-            "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
-            "sha256": "3e9c76af5aefc63c78d21609e09d7106cf809f8e271d2382c3f0c15cdb4cd519",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
-            "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
-            "sha256": "f97dbd60a9bc471bfc58f0cc8998b40e3fef4ddb8b10dbea8906e89fafe02574",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
-            "sha256": "027b0f72e1d1285fa3b2fcc13130400f8e8f0e801601485fef63e7a102b014c4",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/operator/v1/operator.proto",
-            "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints.json",
-            "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/chat-baseline.json",
-            "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/operator-baseline.json",
-            "sha256": "d874f39980cf62d2bf5f146679175c7a87b06bce90ff0c319a44240725957edd",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/platform-baseline.json",
-            "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/platform.json",
-            "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/sandbox-baseline.json",
-            "sha256": "a95f4cd0ec774ffe5954165357c621241dae4593851e97b023322e879c6277af",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "internal/proto/constraints/scope-baseline.json",
-            "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/inventory.schema.json",
-            "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/manifest.schema.json",
-            "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/panel.schema.json",
-            "sha256": "e47e3fcad128918ca888c7f2a61ac03876ab50467a46b7597cda5cce53de21ce",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/policy-body.schema.json",
-            "sha256": "62509c5a2f104b4d84fcbee28a0bf41946e49a89a3c5baf1e609700e05f24f68",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/schema.json",
-            "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/signed-formats.schema.json",
-            "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/http/v1/workflow.schema.json",
-            "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/events/v1/events.proto",
-            "sha256": "ea0ac740c06bbb5b81724b4a7e601110424cabc4940b07e579cf97d852880f43",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/extensions/v1/extensions.proto",
-            "sha256": "675025c66cca55cf3771c0a4aadc6731501119f406bf5337001b8c8fb29a3703",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/foundation/v1/foundation.proto",
-            "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/hello/v1/hello.proto",
-            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/arcforges/publicapi/v1/content.proto",
-            "sha256": "15acce6e5618843a24115f8e5ddf64aba5e4fb60ca55dcb926a1900dc46d078f",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints.json",
-            "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/events-baseline.json",
-            "sha256": "346d458859cf734650911cd0875b85925f4bd1c5c6335b5ba53f7f914ba6c311",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/extensions-baseline.json",
-            "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/extensions.json",
-            "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/foundation-baseline.json",
-            "sha256": "99c0d68fa83c3722e45b58a2158a108c63c18e62f13a76da173dba9d4c9235a9",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/foundation-descriptors.json",
-            "sha256": "d9814a41ab37da37f9c387f52891929d839d7109e0d0540f5a322a3abdf00427",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/constraints/publicapi-baseline.json",
-            "sha256": "0c4d1d95926ee51fdc649f7552d151b669fcdfecc2111a09e3ec3a63a7731e50",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
-            "path": "public/proto/value-boundaries.json",
-            "sha256": "b4d7eaa24ec864c69426fa5d679cf1e2d4536b8ed720e4371fb4a3ee94bc5111",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          }
-        ]
-      },
-      {
-        "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
-        "paths": [
-          "eng/contract-packages.json",
-          "eng/contracts.py",
-          "eng/generate_fixtures.py",
+          "fixtures/internal/con-04-content-sandbox.json",
           "fixtures/internal/con-05-extension-connector-bootstrap.json",
           "fixtures/internal/con-12-configuration.json",
           "fixtures/internal/wp03-00.json",
@@ -3061,6 +2404,7 @@
           "internal/proto/arcforges/operator/v1/operator.proto",
           "internal/proto/constraints.json",
           "internal/proto/constraints/chat-baseline.json",
+          "internal/proto/constraints/con-04-content-sandbox.json",
           "internal/proto/constraints/operator-baseline.json",
           "internal/proto/constraints/platform-baseline.json",
           "internal/proto/constraints/platform.json",
@@ -3091,13 +2435,8 @@
         "spdx": "Apache-2.0",
         "evidence": [
           {
-            "path": "LICENSE",
-            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
-          },
-          {
             "path": "eng/contract-packages.json",
-            "sha256": "53f5c721b8731cce293fe6f4d9ea07df6f8fe5d55872a2ce5ec28f4ef5f6b564",
+            "sha256": "c5c6d5962be81fd334f9763eff110e9d1b9b197dc72f7873e9dadcebfb86e9c5",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -3108,6 +2447,11 @@
           {
             "path": "eng/generate_fixtures.py",
             "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
+            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
+          },
+          {
+            "path": "fixtures/internal/con-04-content-sandbox.json",
+            "sha256": "1236e801853115ae8d2c93145dfb9db965687247ecf1eeeddbe45ea771accd05",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -3192,7 +2536,7 @@
           },
           {
             "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
-            "sha256": "f97dbd60a9bc471bfc58f0cc8998b40e3fef4ddb8b10dbea8906e89fafe02574",
+            "sha256": "2276569cf048bc33f84f6e8d4114fdb4ffdf520fd25e0fb67b37c3ab8d25f5ba",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -3207,12 +2551,17 @@
           },
           {
             "path": "internal/proto/constraints.json",
-            "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95",
+            "sha256": "2b43d38896b66f81748cbfc491886144f6a1e2f5974b335f9347274dc36c3cb0",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
             "path": "internal/proto/constraints/chat-baseline.json",
             "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117",
+            "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints/con-04-content-sandbox.json",
+            "sha256": "88fc4ce159f686a263f3cf87598e51b6ebea5667002aabcb525ee7c548747977",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -3357,9 +2706,9 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Official CON.01 loader generation succeeded. Generated C# StructureTests build passed with zero warnings/errors using existing SDK10.0.401 diagnostic adapter preserving ILLink/ILCompiler10.0.11; CON.05 envelopes/oneofs/roundtrips, 86 inherited shape cases, 339 foundation cases and canonical hash vectors passed. Seven offline CON.05 groups passed. Retained pinned10.0.400 CI remains required. No broker/OS authorization, secret custody or live connector runtime proof is claimed.",
-    "baselineCommit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
+    "baselineCommit": "74306e39a4eef26173fecbbab9173134b9831dba",
     "reconciliation": false
   },
-  "supersedes": "con-12-bindings-r1",
+  "supersedes": "contract-bindings-con04-r1",
   "artifactTargets": []
 }
