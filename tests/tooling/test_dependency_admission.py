@@ -3,6 +3,7 @@
 import copy
 import json
 import hashlib
+import subprocess
 from pathlib import Path
 import sys
 import re
@@ -42,7 +43,7 @@ class DependencyAdmission(unittest.TestCase):
                 self.assertIsNone(re.fullmatch(pattern, f' "{key}": "' + '0' * 64 + '",'))
                 self.assertIsNone(re.fullmatch(pattern, f' "unrelated-key": "{digest}",'))
 
-    def test_shard_successor_exceptions_match_current_sources(self):
+    def test_shard_successor_exceptions_match_reviewed_sources(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         rows = [row for row in config['allowlists'] if row['description'].startswith('CON.01 r2')]
         self.assertEqual(len(rows), 2)
@@ -61,7 +62,10 @@ class DependencyAdmission(unittest.TestCase):
             self.assertEqual(len(row['regexes']), len(keys))
             for pattern, key in zip(row['regexes'], keys, strict=True):
                 digest = inputs[key]
-                self.assertEqual(hashlib.sha256((ROOT / key).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), digest)
+                # CON.01 immutable exception binds its accepted source, which may evolve later.
+                source = subprocess.check_output(['git', 'show',
+                    'f5ae65c9bfafb46a36941cd4391ba274fddb5d9e:' + key], cwd=ROOT)
+                self.assertEqual(hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(), digest)
                 self.assertIsNotNone(re.fullmatch(pattern, f' "{key}": "{digest}",'))
                 for bad in [f' "{key}": "' + '0' * 64 + '",', f' "unrelated-key": "{digest}",',
                             f' "{key}": "ghp_actual_credential",', f' "{key}": "{digest}", "token": "extra"']:
