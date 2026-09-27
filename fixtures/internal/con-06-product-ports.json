@@ -1,0 +1,526 @@
+{
+  "schemaVersion": "con06-independent-cases.v1",
+  "license": "Apache-2.0",
+  "authority": [
+    "registry04 in-process product/interface table",
+    "architecture26 DecoderOptions canonical profile",
+    "registry04 TurnOptions, SourceConsentSpec and LocalHint"
+  ],
+  "coverage": "Offline generated shape/descriptor checks only; no authorization, consent consumption, capture timing or transport execution proof.",
+  "ports": {
+    "Platform": {
+      "ICapabilityProvider": [
+        "Describe",
+        "EvaluateAvailability",
+        "Invoke"
+      ],
+      "IContextProvider": [
+        "DescribeContextKinds",
+        "ProvideContext"
+      ],
+      "IArtifactHandler": [
+        "DescribeArtifactKinds",
+        "Resolve",
+        "RenderPreview",
+        "Open"
+      ],
+      "IResourceAccess": [
+        "GetMetadata",
+        "OpenRead",
+        "Release",
+        "ReadChunk"
+      ],
+      "IProductLifecycle": [
+        "GetState",
+        "PrepareForShutdown",
+        "GetJob"
+      ],
+      "IDeepLinkTarget": [
+        "HandleDeepLink"
+      ],
+      "ILocalEvents": [
+        "Poll"
+      ]
+    },
+    "Chat": {
+      "IChatOperations": [
+        "ListConversations",
+        "GetConversation",
+        "CreateConversation",
+        "AppendUserMessage",
+        "StartAgentTurn",
+        "SubmitApproval",
+        "OpenArtifact"
+      ]
+    },
+    "Scope": {
+      "IScopeOperations": [
+        "ListSessions",
+        "GetSession",
+        "ListCaptures",
+        "GetConfigurationSnapshot",
+        "RunMeasurement",
+        "RunAnalysis",
+        "CompareSessions",
+        "CreateAnnotation",
+        "CreateFinding",
+        "GenerateReport",
+        "StartCapture",
+        "StopCapture",
+        "GetStructuredContext"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "decoder-uart",
+      "domain": "decoder",
+      "case": "uart",
+      "valid": true
+    },
+    {
+      "id": "decoder-uart-boundaries",
+      "domain": "decoder",
+      "case": "uart-boundaries",
+      "valid": true
+    },
+    {
+      "id": "decoder-i2c",
+      "domain": "decoder",
+      "case": "i2c",
+      "valid": true
+    },
+    {
+      "id": "decoder-i2c-ten-bit",
+      "domain": "decoder",
+      "case": "i2c-ten-bit",
+      "valid": true
+    },
+    {
+      "id": "decoder-spi",
+      "domain": "decoder",
+      "case": "spi",
+      "valid": true
+    },
+    {
+      "id": "decoder-spi-miso",
+      "domain": "decoder",
+      "case": "spi-miso",
+      "valid": true
+    },
+    {
+      "id": "decoder-spi-active-options",
+      "domain": "decoder",
+      "case": "spi-active-options",
+      "valid": true
+    },
+    {
+      "id": "decoder-wrong-case",
+      "domain": "decoder",
+      "case": "wrong-case",
+      "valid": false
+    },
+    {
+      "id": "decoder-unknown",
+      "domain": "decoder",
+      "case": "unknown",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-no-baud",
+      "domain": "decoder",
+      "case": "uart-no-baud",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-four-bits",
+      "domain": "decoder",
+      "case": "uart-four-bits",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-ten-bits",
+      "domain": "decoder",
+      "case": "uart-ten-bits",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-two-channels",
+      "domain": "decoder",
+      "case": "uart-two-channels",
+      "valid": false
+    },
+    {
+      "id": "decoder-i2c-baud",
+      "domain": "decoder",
+      "case": "i2c-baud",
+      "valid": false
+    },
+    {
+      "id": "decoder-i2c-one-channel",
+      "domain": "decoder",
+      "case": "i2c-one-channel",
+      "valid": false
+    },
+    {
+      "id": "decoder-spi-two-channels",
+      "domain": "decoder",
+      "case": "spi-two-channels",
+      "valid": false
+    },
+    {
+      "id": "decoder-spi-five-channels",
+      "domain": "decoder",
+      "case": "spi-five-channels",
+      "valid": false
+    },
+    {
+      "id": "decoder-spi-inactive-parity",
+      "domain": "decoder",
+      "case": "spi-inactive-parity",
+      "valid": false
+    },
+    {
+      "id": "decoder-spi-inactive-stop",
+      "domain": "decoder",
+      "case": "spi-inactive-stop",
+      "valid": false
+    },
+    {
+      "id": "decoder-i2c-inactive-bit",
+      "domain": "decoder",
+      "case": "i2c-inactive-bit",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-inactive-mode",
+      "domain": "decoder",
+      "case": "uart-inactive-mode",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-inactive-order",
+      "domain": "decoder",
+      "case": "uart-inactive-order",
+      "valid": false
+    },
+    {
+      "id": "decoder-uart-inactive-cs",
+      "domain": "decoder",
+      "case": "uart-inactive-cs",
+      "valid": false
+    },
+    {
+      "id": "decoder-spi-inactive-address",
+      "domain": "decoder",
+      "case": "spi-inactive-address",
+      "valid": false
+    },
+    {
+      "id": "decoder-i2c-inactive-idle",
+      "domain": "decoder",
+      "case": "i2c-inactive-idle",
+      "valid": false
+    },
+    {
+      "id": "decoder-zero-timeout",
+      "domain": "decoder",
+      "case": "zero-timeout",
+      "valid": false
+    },
+    {
+      "id": "decoder-negative-timeout",
+      "domain": "decoder",
+      "case": "negative-timeout",
+      "valid": false
+    },
+    {
+      "id": "decoder-missing-timeout",
+      "domain": "decoder",
+      "case": "missing-timeout",
+      "valid": false
+    },
+    {
+      "id": "decoder-missing-active-bit",
+      "domain": "decoder",
+      "case": "missing-active-bit",
+      "valid": false
+    },
+    {
+      "id": "decoder-unknown-parity",
+      "domain": "decoder",
+      "case": "unknown-parity",
+      "valid": false
+    },
+    {
+      "id": "decoder-invalid-channel",
+      "domain": "decoder",
+      "case": "invalid-channel",
+      "valid": false
+    },
+    {
+      "id": "turn-agent",
+      "domain": "turn",
+      "case": "agent",
+      "valid": true
+    },
+    {
+      "id": "turn-ordinary",
+      "domain": "turn",
+      "case": "ordinary",
+      "valid": true
+    },
+    {
+      "id": "turn-temporary",
+      "domain": "turn",
+      "case": "temporary",
+      "valid": true
+    },
+    {
+      "id": "turn-agent-no-task",
+      "domain": "turn",
+      "case": "agent-no-task",
+      "valid": false
+    },
+    {
+      "id": "turn-agent-with-turn",
+      "domain": "turn",
+      "case": "agent-with-turn",
+      "valid": false
+    },
+    {
+      "id": "turn-ordinary-with-task",
+      "domain": "turn",
+      "case": "ordinary-with-task",
+      "valid": false
+    },
+    {
+      "id": "turn-ordinary-no-turn",
+      "domain": "turn",
+      "case": "ordinary-no-turn",
+      "valid": false
+    },
+    {
+      "id": "turn-unknown-mode",
+      "domain": "turn",
+      "case": "unknown-mode",
+      "valid": false
+    },
+    {
+      "id": "turn-missing-profile",
+      "domain": "turn",
+      "case": "missing-profile",
+      "valid": false
+    },
+    {
+      "id": "turn-missing-search-selection",
+      "domain": "turn",
+      "case": "missing-search-selection",
+      "valid": false
+    },
+    {
+      "id": "consent-turnContext",
+      "domain": "consent",
+      "case": "turnContext",
+      "valid": true
+    },
+    {
+      "id": "consent-webSearch",
+      "domain": "consent",
+      "case": "webSearch",
+      "valid": true
+    },
+    {
+      "id": "consent-attachment",
+      "domain": "consent",
+      "case": "attachment",
+      "valid": true
+    },
+    {
+      "id": "consent-temporary-false",
+      "domain": "consent",
+      "case": "temporary-false",
+      "valid": true
+    },
+    {
+      "id": "consent-temporary-true",
+      "domain": "consent",
+      "case": "temporary-true",
+      "valid": true
+    },
+    {
+      "id": "consent-64-sources",
+      "domain": "consent",
+      "case": "64-sources",
+      "valid": true
+    },
+    {
+      "id": "consent-webSearch-no-hash",
+      "domain": "consent",
+      "case": "webSearch-no-hash",
+      "valid": false
+    },
+    {
+      "id": "consent-wrong-case",
+      "domain": "consent",
+      "case": "wrong-case",
+      "valid": false
+    },
+    {
+      "id": "consent-transcription",
+      "domain": "consent",
+      "case": "transcription",
+      "valid": false
+    },
+    {
+      "id": "consent-zero-budget",
+      "domain": "consent",
+      "case": "zero-budget",
+      "valid": false
+    },
+    {
+      "id": "consent-missing-policy",
+      "domain": "consent",
+      "case": "missing-policy",
+      "valid": false
+    },
+    {
+      "id": "consent-searchable-false",
+      "domain": "consent",
+      "case": "searchable-false",
+      "valid": false
+    },
+    {
+      "id": "consent-cloud-index-false",
+      "domain": "consent",
+      "case": "cloud-index-false",
+      "valid": false
+    },
+    {
+      "id": "consent-bad-hash",
+      "domain": "consent",
+      "case": "bad-hash",
+      "valid": false
+    },
+    {
+      "id": "consent-65-sources",
+      "domain": "consent",
+      "case": "65-sources",
+      "valid": false
+    },
+    {
+      "id": "hint-resource",
+      "domain": "hint",
+      "case": "resource",
+      "valid": true
+    },
+    {
+      "id": "hint-job",
+      "domain": "hint",
+      "case": "job",
+      "valid": true
+    },
+    {
+      "id": "hint-context",
+      "domain": "hint",
+      "case": "context",
+      "valid": true
+    },
+    {
+      "id": "hint-health",
+      "domain": "hint",
+      "case": "health",
+      "valid": true
+    },
+    {
+      "id": "hint-capabilities",
+      "domain": "hint",
+      "case": "capabilities",
+      "valid": true
+    },
+    {
+      "id": "hint-resource-missing",
+      "domain": "hint",
+      "case": "resource-missing",
+      "valid": false
+    },
+    {
+      "id": "hint-resource-with-job",
+      "domain": "hint",
+      "case": "resource-with-job",
+      "valid": false
+    },
+    {
+      "id": "hint-job-missing",
+      "domain": "hint",
+      "case": "job-missing",
+      "valid": false
+    },
+    {
+      "id": "hint-context-with-resource",
+      "domain": "hint",
+      "case": "context-with-resource",
+      "valid": false
+    },
+    {
+      "id": "hint-unknown-kind",
+      "domain": "hint",
+      "case": "unknown-kind",
+      "valid": false
+    },
+    {
+      "id": "hint-missing-sequence",
+      "domain": "hint",
+      "case": "missing-sequence",
+      "valid": false
+    },
+    {
+      "id": "chunk-one-byte",
+      "domain": "chunk",
+      "case": "one-byte",
+      "valid": true
+    },
+    {
+      "id": "chunk-64-kib",
+      "domain": "chunk",
+      "case": "64-kib",
+      "valid": true
+    },
+    {
+      "id": "chunk-last-address",
+      "domain": "chunk",
+      "case": "last-address",
+      "valid": true
+    },
+    {
+      "id": "chunk-zero-length",
+      "domain": "chunk",
+      "case": "zero-length",
+      "valid": false
+    },
+    {
+      "id": "chunk-oversize",
+      "domain": "chunk",
+      "case": "oversize",
+      "valid": false
+    },
+    {
+      "id": "chunk-overflow",
+      "domain": "chunk",
+      "case": "overflow",
+      "valid": false
+    },
+    {
+      "id": "chunk-missing-transfer",
+      "domain": "chunk",
+      "case": "missing-transfer",
+      "valid": false
+    },
+    {
+      "id": "chunk-missing-offset",
+      "domain": "chunk",
+      "case": "missing-offset",
+      "valid": false
+    }
+  ]
+}

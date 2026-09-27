@@ -2408,6 +2408,64 @@ function checkAlignmentSpec(input: unknown, context: ValidationContext): boolean
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isApprovalView(input: unknown): boolean { return checkApprovalView(input, {active: new Set<object>(), depth: 0}); }
+function checkApprovalView(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.approvalId === undefined) return false;
+  if (value.approvalId !== undefined) {
+    const fieldValue = value.approvalId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.taskId === undefined) return false;
+  if (value.taskId !== undefined) {
+    const fieldValue = value.taskId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.proposalHash === undefined) return false;
+  if (value.proposalHash !== undefined) {
+    const fieldValue = value.proposalHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.risk === undefined) return false;
+  if (value.risk !== undefined) {
+    const fieldValue = value.risk;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "pending" && fieldValue !== "approved" && fieldValue !== "rejected" && fieldValue !== "expired" && fieldValue !== "withdrawn") return false;
+  }
+  if (value.expiresAt === undefined) return false;
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.context === undefined) return false;
+  if (value.context !== undefined) {
+    const fieldValue = value.context;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkContextRef(item, context)) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isAutomationSpec(input: unknown): boolean { return checkAutomationSpec(input, {active: new Set<object>(), depth: 0}); }
 function checkAutomationSpec(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -2522,6 +2580,45 @@ function checkAutomationView(input: unknown, context: ValidationContext): boolea
   }
   if (value.nextOccurrence !== undefined) {
     const fieldValue = value.nextOccurrence;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isAvailability(input: unknown): boolean { return checkAvailability(input, {active: new Set<object>(), depth: 0}); }
+function checkAvailability(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.capability === undefined) return false;
+  if (value.capability !== undefined) {
+    const fieldValue = value.capability;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.allowed === undefined) return false;
+  if (value.allowed !== undefined) {
+    const fieldValue = value.allowed;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.reasons === undefined) return false;
+  if (value.reasons !== undefined) {
+    const fieldValue = value.reasons;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.recoveryAt !== undefined) {
+    const fieldValue = value.recoveryAt;
     if (!checkInstant(fieldValue, context)) return false;
   }
   return true;
@@ -2763,6 +2860,49 @@ function checkChecksumSpec(input: unknown, context: ValidationContext): boolean 
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isContextContribution(input: unknown): boolean { return checkContextContribution(input, {active: new Set<object>(), depth: 0}); }
+function checkContextContribution(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.sources === undefined) return false;
+  if (value.sources !== undefined) {
+    const fieldValue = value.sources;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkContextRef(item, context)) return false;
+    }
+  }
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkContextItem(item, context)) return false;
+    }
+  }
+  if (value.truncated === undefined) return false;
+  if (value.truncated !== undefined) {
+    const fieldValue = value.truncated;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.reasons === undefined) return false;
+  if (value.reasons !== undefined) {
+    const fieldValue = value.reasons;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isContextDescriptor(input: unknown): boolean { return checkContextDescriptor(input, {active: new Set<object>(), depth: 0}); }
 function checkContextDescriptor(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -2815,6 +2955,32 @@ function checkContextDescriptor(input: unknown, context: ValidationContext): boo
     const fieldValue = value.observedAt;
     if (!checkInstant(fieldValue, context)) return false;
   }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isContextItem(input: unknown): boolean { return checkContextItem(input, {active: new Set<object>(), depth: 0}); }
+function checkContextItem(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.source === undefined) return false;
+  if (value.source !== undefined) {
+    const fieldValue = value.source;
+    if (!checkContextRef(fieldValue, context)) return false;
+  }
+  if ((value.projection as {case?: string} | undefined)?.case === "text") {
+    const fieldValue = (value.projection as {value: unknown}).value;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 262144) return false;
+  }
+  if ((value.projection as {case?: string} | undefined)?.case === "measurement") {
+    const fieldValue = (value.projection as {value: unknown}).value;
+    if (!checkMeasurementResult(fieldValue, context)) return false;
+  }
+  if (value.projection === undefined || typeof value.projection !== 'object' || value.projection === null) return false;
+  if ((value.projection as {case?: string}).case !== "text" && (value.projection as {case?: string}).case !== "measurement") return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -2927,6 +3093,45 @@ function checkContextRef(input: unknown, context: ValidationContext): boolean {
     if (!checkSourceConsentRef(fieldValue, context)) return false;
   }
   if (value.revision !== undefined && (value.revision as Profile).value <= 0n) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isContextRequest(input: unknown): boolean { return checkContextRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkContextRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.selector === undefined) return false;
+  if (value.selector !== undefined) {
+    const fieldValue = value.selector;
+    if (!checkContextRef(fieldValue, context)) return false;
+  }
+  if (value.maxItems === undefined) return false;
+  if (value.maxItems !== undefined) {
+    const fieldValue = value.maxItems;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 200) return false;
+  }
+  if (value.maxBytes === undefined) return false;
+  if (value.maxBytes !== undefined) {
+    const fieldValue = value.maxBytes;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 262144) return false;
+  }
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -3363,6 +3568,60 @@ function checkFrameField(input: unknown, context: ValidationContext): boolean {
   if (value.required === undefined) return false;
   if (value.required !== undefined) {
     const fieldValue = value.required;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isKnowledgePolicy(input: unknown): boolean { return checkKnowledgePolicy(input, {active: new Set<object>(), depth: 0}); }
+function checkKnowledgePolicy(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.searchable === undefined) return false;
+  if (value.searchable !== undefined) {
+    const fieldValue = value.searchable;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.cloudIndexAllowed === undefined) return false;
+  if (value.cloudIndexAllowed !== undefined) {
+    const fieldValue = value.cloudIndexAllowed;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.aiRetrievalAllowed === undefined) return false;
+  if (value.aiRetrievalAllowed !== undefined) {
+    const fieldValue = value.aiRetrievalAllowed;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.managedAiProcessingAllowed === undefined) return false;
+  if (value.managedAiProcessingAllowed !== undefined) {
+    const fieldValue = value.managedAiProcessingAllowed;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isKnowledgePolicyPatch(input: unknown): boolean { return checkKnowledgePolicyPatch(input, {active: new Set<object>(), depth: 0}); }
+function checkKnowledgePolicyPatch(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.searchable !== undefined) {
+    const fieldValue = value.searchable;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.cloudIndexAllowed !== undefined) {
+    const fieldValue = value.cloudIndexAllowed;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.aiRetrievalAllowed !== undefined) {
+    const fieldValue = value.aiRetrievalAllowed;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.managedAiProcessingAllowed !== undefined) {
+    const fieldValue = value.managedAiProcessingAllowed;
     if (typeof fieldValue !== "boolean") return false;
   }
   return true;
@@ -3957,6 +4216,76 @@ function checkPreferenceRecord(input: unknown, context: ValidationContext): bool
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isPreviewRequest(input: unknown): boolean { return checkPreviewRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkPreviewRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.maxWidth === undefined) return false;
+  if (value.maxWidth !== undefined) {
+    const fieldValue = value.maxWidth;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 4096) return false;
+  }
+  if (value.maxHeight === undefined) return false;
+  if (value.maxHeight !== undefined) {
+    const fieldValue = value.maxHeight;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 4096) return false;
+  }
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isResourceMetadata(input: unknown): boolean { return checkResourceMetadata(input, {active: new Set<object>(), depth: 0}); }
+function checkResourceMetadata(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.resource === undefined) return false;
+  if (value.resource !== undefined) {
+    const fieldValue = value.resource;
+    if (!checkResourceRef(fieldValue, context)) return false;
+  }
+  if (value.version !== undefined) {
+    const fieldValue = value.version;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.blob !== undefined) {
+    const fieldValue = value.blob;
+    if (!checkBlobRef(fieldValue, context)) return false;
+  }
+  if (value.mediaType !== undefined) {
+    const fieldValue = value.mediaType;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+  }
+  if (value.transferState !== undefined) {
+    const fieldValue = value.transferState;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "queued" && fieldValue !== "validating" && fieldValue !== "waitingConsent" && fieldValue !== "importing" && fieldValue !== "succeeded" && fieldValue !== "partiallySucceeded" && fieldValue !== "failed" && fieldValue !== "canceled") return false;
+  }
+  if (value.origin !== undefined) {
+    const fieldValue = value.origin;
+    if (!checkContentOrigin(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isSampleRange(input: unknown): boolean { return checkSampleRange(input, {active: new Set<object>(), depth: 0}); }
 function checkSampleRange(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -4435,6 +4764,107 @@ function checkSourceConsentRef(input: unknown, context: ValidationContext): bool
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isSourceConsentSpec(input: unknown): boolean { return checkSourceConsentSpec(input, {active: new Set<object>(), depth: 0}); }
+function checkSourceConsentSpec(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.operationId === undefined) return false;
+  if (value.operationId !== undefined) {
+    const fieldValue = value.operationId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.purpose === undefined) return false;
+  if (value.purpose !== undefined) {
+    const fieldValue = value.purpose;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "turnContext" && fieldValue !== "webSearch" && fieldValue !== "attachment") return false;
+  }
+  if (value.sources === undefined) return false;
+  if (value.sources !== undefined) {
+    const fieldValue = value.sources;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 64) return false;
+    for (const item of fieldValue) {
+    if (!checkVersionedRef(item, context)) return false;
+    }
+  }
+  if (value.maxBytes === undefined) return false;
+  if (value.maxBytes !== undefined) {
+    const fieldValue = value.maxBytes;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.policyRevision === undefined) return false;
+  if (value.policyRevision !== undefined) {
+    const fieldValue = value.policyRevision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.override !== undefined) {
+    const fieldValue = value.override;
+    if (!checkKnowledgePolicyPatch(fieldValue, context)) return false;
+  }
+  if (value.queryHash !== undefined) {
+    const fieldValue = value.queryHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.override !== undefined && ((value.override as Record<string, unknown>).searchable !== undefined || (value.override as Record<string, unknown>).cloudIndexAllowed !== undefined) || value.purpose === "webSearch" && value.queryHash === undefined) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSourcePolicyView(input: unknown): boolean { return checkSourcePolicyView(input, {active: new Set<object>(), depth: 0}); }
+function checkSourcePolicyView(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.target === undefined) return false;
+  if (value.target !== undefined) {
+    const fieldValue = value.target;
+    if (!checkAggregateRef(fieldValue, context)) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.local === undefined) return false;
+  if (value.local !== undefined) {
+    const fieldValue = value.local;
+    if (!checkKnowledgePolicyPatch(fieldValue, context)) return false;
+  }
+  if (value.effective === undefined) return false;
+  if (value.effective !== undefined) {
+    const fieldValue = value.effective;
+    if (!checkKnowledgePolicy(fieldValue, context)) return false;
+  }
+  if (value.governingDenials === undefined) return false;
+  if (value.governingDenials !== undefined) {
+    const fieldValue = value.governingDenials;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ([...item].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]+$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.inheritedFrom !== undefined) {
+    const fieldValue = value.inheritedFrom;
+    if (!checkAggregateRef(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isStructuredValue(input: unknown): boolean { return checkStructuredValue(input, {active: new Set<object>(), depth: 0}); }
 function checkStructuredValue(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -4759,6 +5189,62 @@ function checkTurnInput(input: unknown, context: ValidationContext): boolean {
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
   }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isTurnOptions(input: unknown): boolean { return checkTurnOptions(input, {active: new Set<object>(), depth: 0}); }
+function checkTurnOptions(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.taskId !== undefined) {
+    const fieldValue = value.taskId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.profileId === undefined) return false;
+  if (value.profileId !== undefined) {
+    const fieldValue = value.profileId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.maxBudget !== undefined) {
+    const fieldValue = value.maxBudget;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.mode === undefined) return false;
+  if (value.mode !== undefined) {
+    const fieldValue = value.mode;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3) return false;
+  }
+  if (value.turnId !== undefined) {
+    const fieldValue = value.turnId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.modelId !== undefined) {
+    const fieldValue = value.modelId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+    if ((new RegExp("^([A-Za-z0-9._:/-]{1,128}|@cf/[a-z0-9._-]+/[a-zA-Z0-9._/-]+)$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.targetDeviceId !== undefined) {
+    const fieldValue = value.targetDeviceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.allowWebSearch === undefined) return false;
+  if (value.allowWebSearch !== undefined) {
+    const fieldValue = value.allowWebSearch;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.compactionRequested === undefined) return false;
+  if (value.compactionRequested !== undefined) {
+    const fieldValue = value.compactionRequested;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.mode === 2 ? value.taskId === undefined || value.turnId !== undefined : value.turnId === undefined || value.taskId !== undefined) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }

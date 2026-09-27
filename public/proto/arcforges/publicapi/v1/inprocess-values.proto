@@ -1,0 +1,134 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "InprocessValuesProto";
+
+// Canonical shared values from registry04. These records register no service,
+// authorize no access, and do not substitute for the owner's permission checks.
+enum ChatMode {
+  CHAT_MODE_UNSPECIFIED = 0;
+  CHAT_MODE_ORDINARY = 1;
+  CHAT_MODE_AGENT = 2;
+  CHAT_MODE_TEMPORARY = 3;
+}
+
+enum ApprovalDecision {
+  APPROVAL_DECISION_UNSPECIFIED = 0;
+  APPROVAL_DECISION_APPROVE = 1;
+  APPROVAL_DECISION_REJECT = 2;
+}
+
+message ContextRequest {
+  optional string kind = 1 [json_name = "kind"];
+  ContextRef selector = 2 [json_name = "selector"];
+  // Callers select defaults 50/65536; explicit budgets may only narrow caps.
+  optional uint32 max_items = 3 [json_name = "maxItems"];
+  optional uint32 max_bytes = 4 [json_name = "maxBytes"];
+}
+
+message ContextContribution {
+  repeated ContextRef sources = 1 [json_name = "sources"];
+  repeated ContextItem items = 2 [json_name = "items"];
+  optional bool truncated = 3 [json_name = "truncated"];
+  repeated string reasons = 4 [json_name = "reasons"];
+}
+
+message ContextItem {
+  ContextRef source = 1 [json_name = "source"];
+  oneof projection {
+    string text = 2 [json_name = "text"];
+    MeasurementResult measurement = 3 [json_name = "measurement"];
+  }
+  reserved 4;
+  reserved "timeline";
+}
+
+// Availability is preflight evidence, never a reservation or authorization token.
+message Availability {
+  optional string capability = 1 [json_name = "capability"];
+  optional bool allowed = 2 [json_name = "allowed"];
+  repeated string reasons = 3 [json_name = "reasons"];
+  arcforges.foundation.v1.Instant recovery_at = 4 [json_name = "recoveryAt"];
+}
+
+message PreviewRequest {
+  optional uint32 max_width = 1 [json_name = "maxWidth"];
+  optional uint32 max_height = 2 [json_name = "maxHeight"];
+  optional uint32 page = 3 [json_name = "page"];
+}
+
+message ResourceMetadata {
+  arcforges.foundation.v1.ResourceRef resource = 1 [json_name = "resource"];
+  arcforges.foundation.v1.ResourceVersionRef version = 2 [json_name = "version"];
+  arcforges.foundation.v1.BlobRef blob = 3 [json_name = "blob"];
+  optional string media_type = 4 [json_name = "mediaType"];
+  optional string transfer_state = 5 [json_name = "transferState"];
+  arcforges.foundation.v1.ContentOrigin origin = 6 [json_name = "origin"];
+}
+
+message ApprovalView {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
+  arcforges.foundation.v1.Id task_id = 2 [json_name = "taskId"];
+  optional string proposal_hash = 3 [json_name = "proposalHash"];
+  optional string risk = 4 [json_name = "risk"];
+  optional string state = 5 [json_name = "state"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  repeated ContextRef context = 7 [json_name = "context"];
+}
+
+message TurnOptions {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  arcforges.foundation.v1.Id profile_id = 2 [json_name = "profileId"];
+  optional uint64 max_budget = 3 [json_name = "maxBudget"];
+  optional ChatMode mode = 4 [json_name = "mode"];
+  arcforges.foundation.v1.Id turn_id = 5 [json_name = "turnId"];
+  optional string model_id = 6 [json_name = "modelId"];
+  arcforges.foundation.v1.Id target_device_id = 7 [json_name = "targetDeviceId"];
+  optional bool allow_web_search = 8 [json_name = "allowWebSearch"];
+  optional bool compaction_requested = 9 [json_name = "compactionRequested"];
+}
+
+// These permissions are independent; synchronization consent remains separate.
+message KnowledgePolicy {
+  optional bool searchable = 1 [json_name = "searchable"];
+  optional bool cloud_index_allowed = 2 [json_name = "cloudIndexAllowed"];
+  optional bool ai_retrieval_allowed = 3 [json_name = "aiRetrievalAllowed"];
+  optional bool managed_ai_processing_allowed = 4 [json_name = "managedAiProcessingAllowed"];
+}
+
+// Absence inherits. Explicit false is a real policy selection, not absence.
+message KnowledgePolicyPatch {
+  optional bool searchable = 1 [json_name = "searchable"];
+  optional bool cloud_index_allowed = 2 [json_name = "cloudIndexAllowed"];
+  optional bool ai_retrieval_allowed = 3 [json_name = "aiRetrievalAllowed"];
+  optional bool managed_ai_processing_allowed = 4 [json_name = "managedAiProcessingAllowed"];
+}
+
+message SourcePolicyView {
+  arcforges.foundation.v1.AggregateRef target = 1 [json_name = "target"];
+  arcforges.foundation.v1.Revision revision = 2 [json_name = "revision"];
+  KnowledgePolicyPatch local = 3 [json_name = "local"];
+  KnowledgePolicy effective = 4 [json_name = "effective"];
+  repeated string governing_denials = 5 [json_name = "governingDenials"];
+  arcforges.foundation.v1.AggregateRef inherited_from = 6 [json_name = "inheritedFrom"];
+}
+
+// A shape-valid selection still needs owner authorization, exact scope hashing,
+// expiry and one-use validation. Temporary overrides cannot enroll an index.
+message SourceConsentSpec {
+  arcforges.foundation.v1.Id operation_id = 1 [json_name = "operationId"];
+  optional string purpose = 2 [json_name = "purpose"];
+  repeated arcforges.foundation.v1.VersionedRef sources = 3 [json_name = "sources"];
+  optional uint64 max_bytes = 4 [json_name = "maxBytes"];
+  arcforges.foundation.v1.Revision policy_revision = 5 [json_name = "policyRevision"];
+  KnowledgePolicyPatch override = 6 [json_name = "override"];
+  optional string query_hash = 7 [json_name = "queryHash"];
+}

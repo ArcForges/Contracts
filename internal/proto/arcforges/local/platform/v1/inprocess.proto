@@ -1,0 +1,421 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.local.platform.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+import "arcforges/extensions/v1/extensions.proto";
+import "arcforges/local/platform/v1/platform.proto";
+
+option csharp_namespace = "ArcForges.Contracts.LocalRpc.Platform.V1";
+option java_package = "io.github.arcforges.contracts.local.platform.v1";
+option java_multiple_files = true;
+option java_outer_classname = "InprocessProto";
+
+// Typed in-process records only. No product gRPC service or listener is registered.
+
+enum OpenIntent {
+  OPEN_INTENT_UNSPECIFIED = 0;
+  OPEN_INTENT_VIEW = 1;
+  OPEN_INTENT_EDIT = 2;
+  OPEN_INTENT_REVEAL = 3;
+}
+
+message LocalTransferTicket {
+  arcforges.foundation.v1.Id transfer_id = 1 [json_name = "transferId"];
+  arcforges.local.platform.v1.LocalEndpoint endpoint = 2 [json_name = "endpoint"];
+  arcforges.foundation.v1.ResourceVersionRef resource = 3 [json_name = "resource"];
+  arcforges.foundation.v1.ByteRange allowed_range = 4 [json_name = "allowedRange"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  optional bytes nonce = 6 [json_name = "nonce"];
+}
+
+message ProductJobRef {
+  arcforges.foundation.v1.Id job_id = 1 [json_name = "jobId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional string state = 3 [json_name = "state"];
+  arcforges.foundation.v1.Id owner_instance_id = 4 [json_name = "ownerInstanceId"];
+  optional uint32 progress = 5 [json_name = "progress"];
+  arcforges.foundation.v1.ArtifactRef artifact = 6 [json_name = "artifact"];
+  optional string reason = 7 [json_name = "reason"];
+}
+
+message ProductState {
+  arcforges.foundation.v1.Id instance_id = 1 [json_name = "instanceId"];
+  optional string state = 2 [json_name = "state"];
+  repeated arcforges.foundation.v1.AggregateRef dirty_roots = 3 [json_name = "dirtyRoots"];
+  repeated arcforges.local.platform.v1.ProductJobRef jobs = 4 [json_name = "jobs"];
+}
+
+message LocalHint {
+  optional uint64 sequence = 1 [json_name = "sequence"];
+  optional string kind = 2 [json_name = "kind"];
+  arcforges.foundation.v1.Id instance_id = 3 [json_name = "instanceId"];
+  arcforges.foundation.v1.Id resource_id = 4 [json_name = "resourceId"];
+  arcforges.foundation.v1.Id job_id = 5 [json_name = "jobId"];
+}
+
+message CapabilityProviderServiceDescribeRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+}
+
+message CapabilityProviderServiceDescribeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CapabilityProviderServiceDescribeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CapabilityProviderServiceDescribeValue {
+  repeated arcforges.foundation.v1.CapabilityDescriptor capabilities = 10 [json_name = "capabilities"];
+}
+
+message CapabilityProviderServiceEvaluateAvailabilityRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  optional string action = 10 [json_name = "action"];
+  arcforges.extensions.v1.FrozenContext context = 11 [json_name = "context"];
+}
+
+message CapabilityProviderServiceEvaluateAvailabilityResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CapabilityProviderServiceEvaluateAvailabilityValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CapabilityProviderServiceEvaluateAvailabilityValue {
+  arcforges.publicapi.v1.Availability availability = 10 [json_name = "availability"];
+}
+
+message CapabilityProviderServiceInvokeRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.extensions.v1.Invocation invocation = 10 [json_name = "invocation"];
+}
+
+message CapabilityProviderServiceInvokeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CapabilityProviderServiceInvokeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CapabilityProviderServiceInvokeValue {
+  arcforges.publicapi.v1.ToolResult result = 10 [json_name = "result"];
+}
+
+message ContextProviderServiceDescribeContextKindsRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+}
+
+message ContextProviderServiceDescribeContextKindsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContextProviderServiceDescribeContextKindsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ContextProviderServiceDescribeContextKindsValue {
+  repeated string kinds = 10 [json_name = "kinds"];
+}
+
+message ContextProviderServiceProvideContextRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.publicapi.v1.ContextRequest request = 10 [json_name = "request"];
+}
+
+message ContextProviderServiceProvideContextResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ContextProviderServiceProvideContextValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ContextProviderServiceProvideContextValue {
+  arcforges.publicapi.v1.ContextContribution contribution = 10 [json_name = "contribution"];
+}
+
+message ArtifactHandlerServiceDescribeArtifactKindsRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+}
+
+message ArtifactHandlerServiceDescribeArtifactKindsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ArtifactHandlerServiceDescribeArtifactKindsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ArtifactHandlerServiceDescribeArtifactKindsValue {
+  repeated string kinds = 10 [json_name = "kinds"];
+}
+
+message ArtifactHandlerServiceResolveRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.ArtifactRef artifact = 10 [json_name = "artifact"];
+}
+
+message ArtifactHandlerServiceResolveResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ArtifactHandlerServiceResolveValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ArtifactHandlerServiceResolveValue {
+  arcforges.foundation.v1.ArtifactRef artifact = 10 [json_name = "artifact"];
+}
+
+message ArtifactHandlerServiceRenderPreviewRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.ArtifactRef artifact = 10 [json_name = "artifact"];
+  arcforges.publicapi.v1.PreviewRequest request = 11 [json_name = "request"];
+}
+
+message ArtifactHandlerServiceRenderPreviewResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ArtifactHandlerServiceRenderPreviewValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ArtifactHandlerServiceRenderPreviewValue {
+  arcforges.foundation.v1.ResourceRef preview = 10 [json_name = "preview"];
+}
+
+message ArtifactHandlerServiceOpenRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.ArtifactRef artifact = 10 [json_name = "artifact"];
+  optional arcforges.local.platform.v1.OpenIntent intent = 11 [json_name = "intent"];
+}
+
+message ArtifactHandlerServiceOpenResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ArtifactHandlerServiceOpenValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ArtifactHandlerServiceOpenValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ResourceAccessServiceGetMetadataRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id resource_id = 10 [json_name = "resourceId"];
+}
+
+message ResourceAccessServiceGetMetadataResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceAccessServiceGetMetadataValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ResourceAccessServiceGetMetadataValue {
+  arcforges.publicapi.v1.ResourceMetadata metadata = 10 [json_name = "metadata"];
+}
+
+message ResourceAccessServiceOpenReadRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id resource_id = 10 [json_name = "resourceId"];
+  arcforges.foundation.v1.ByteRange range = 11 [json_name = "range"];
+  arcforges.foundation.v1.ResourceVersionRef version = 12 [json_name = "version"];
+}
+
+message ResourceAccessServiceOpenReadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceAccessServiceOpenReadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ResourceAccessServiceOpenReadValue {
+  arcforges.local.platform.v1.LocalTransferTicket channel = 10 [json_name = "channel"];
+}
+
+message ResourceAccessServiceReleaseRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id resource_id = 10 [json_name = "resourceId"];
+  arcforges.foundation.v1.AggregateRef referrer = 11 [json_name = "referrer"];
+}
+
+message ResourceAccessServiceReleaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceAccessServiceReleaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ResourceAccessServiceReleaseValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ResourceAccessServiceReadChunkRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id transfer_id = 10 [json_name = "transferId"];
+  optional uint64 offset = 11 [json_name = "offset"];
+  optional uint64 length = 12 [json_name = "length"];
+}
+
+message ResourceAccessServiceReadChunkResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceAccessServiceReadChunkValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ResourceAccessServiceReadChunkValue {
+  arcforges.local.platform.v1.LocalChunk chunk = 10 [json_name = "chunk"];
+}
+
+message ProductLifecycleServiceGetStateRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+}
+
+message ProductLifecycleServiceGetStateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ProductLifecycleServiceGetStateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ProductLifecycleServiceGetStateValue {
+  arcforges.local.platform.v1.ProductState state = 10 [json_name = "state"];
+}
+
+message ProductLifecycleServicePrepareForShutdownRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  optional string reason = 10 [json_name = "reason"];
+}
+
+message ProductLifecycleServicePrepareForShutdownResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ProductLifecycleServicePrepareForShutdownValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ProductLifecycleServicePrepareForShutdownValue {
+  optional bool ready = 10 [json_name = "ready"];
+  repeated string reasons = 11 [json_name = "reasons"];
+}
+
+message ProductLifecycleServiceGetJobRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id job_id = 10 [json_name = "jobId"];
+}
+
+message ProductLifecycleServiceGetJobResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ProductLifecycleServiceGetJobValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ProductLifecycleServiceGetJobValue {
+  arcforges.local.platform.v1.ProductJobRef job = 10 [json_name = "job"];
+}
+
+message DeepLinkTargetServiceHandleDeepLinkRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  optional string link = 10 [json_name = "link"];
+}
+
+message DeepLinkTargetServiceHandleDeepLinkResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeepLinkTargetServiceHandleDeepLinkValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeepLinkTargetServiceHandleDeepLinkValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message LocalEventsServicePollRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  optional string cursor = 10 [json_name = "cursor"];
+  optional uint32 limit = 11 [json_name = "limit"];
+}
+
+message LocalEventsServicePollResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    LocalEventsServicePollValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message LocalEventsServicePollValue {
+  repeated arcforges.local.platform.v1.LocalHint events = 10 [json_name = "events"];
+  optional string cursor = 11 [json_name = "cursor"];
+  optional bool reset_required = 12 [json_name = "resetRequired"];
+}

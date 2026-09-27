@@ -4,6 +4,9 @@ syntax = "proto3";
 package arcforges.local.scope.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+import "arcforges/local/platform/v1/inprocess.proto";
 
 option csharp_namespace = "ArcForges.Contracts.LocalRpc.Scope.V1";
 option java_package = "io.github.arcforges.contracts.local.scope.v1";
@@ -13,4 +16,394 @@ option java_outer_classname = "ScopeProto";
 // Complete in-process operation result; no product RPC service is registered.
 message ScopeOperationsServiceCreateFindingValue {
   arcforges.foundation.v1.NativeContentRev revision = 10 [json_name = "revision"];
+}
+
+// Private acquisition and analysis inputs; no service or listener declaration.
+
+message ScopeSession {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional string name = 2 [json_name = "name"];
+  arcforges.foundation.v1.NativeContentRev revision = 3 [json_name = "revision"];
+  arcforges.publicapi.v1.ScopeConfiguration configuration = 4 [json_name = "configuration"];
+  repeated arcforges.publicapi.v1.CaptureMetadata captures = 5 [json_name = "captures"];
+}
+
+message CaptureView {
+  arcforges.foundation.v1.Id capture_id = 1 [json_name = "captureId"];
+  arcforges.foundation.v1.Id session_id = 2 [json_name = "sessionId"];
+  optional string state = 3 [json_name = "state"];
+  optional uint64 sample_count = 4 [json_name = "sampleCount"];
+  arcforges.publicapi.v1.ScopeConfiguration configuration = 5 [json_name = "configuration"];
+  arcforges.foundation.v1.ResourceRef resource = 6 [json_name = "resource"];
+}
+
+message AnalysisRequest {
+  arcforges.publicapi.v1.MeasurementRequest measurement = 1 [json_name = "measurement"];
+  optional string analysis_kind = 2 [json_name = "analysisKind"];
+  oneof options {
+    SpectrumOptions spectrum = 3 [json_name = "spectrum"];
+    CorrelationOptions correlation = 4 [json_name = "correlation"];
+    ThresholdOptions threshold = 5 [json_name = "threshold"];
+    EventPatternOptions pattern = 6 [json_name = "pattern"];
+    DecoderOptions decode = 7 [json_name = "decode"];
+  }
+}
+
+message CompareRequest {
+  arcforges.publicapi.v1.MeasurementRequest left = 1 [json_name = "left"];
+  arcforges.publicapi.v1.MeasurementRequest right = 2 [json_name = "right"];
+}
+
+message ReportRequest {
+  repeated arcforges.foundation.v1.ResourceVersionRef sources = 1 [json_name = "sources"];
+  optional string format = 2 [json_name = "format"];
+  optional string title = 3 [json_name = "title"];
+}
+
+message CaptureRequest {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional string device_id = 2 [json_name = "deviceId"];
+  arcforges.publicapi.v1.ScopeConfiguration configuration = 3 [json_name = "configuration"];
+  optional uint64 max_samples = 4 [json_name = "maxSamples"];
+  AcquisitionSource source = 5 [json_name = "source"];
+}
+
+message AcquisitionSource {
+  optional string kind = 1 [json_name = "kind"];
+  optional string device_id = 2 [json_name = "deviceId"];
+  SerialSource serial = 3 [json_name = "serial"];
+  SourceEndpoint endpoint = 4 [json_name = "endpoint"];
+  arcforges.foundation.v1.ResourceVersionRef file = 5 [json_name = "file"];
+  UsbSource usb = 6 [json_name = "usb"];
+}
+
+message SerialSource {
+  optional uint32 baud = 1 [json_name = "baud"];
+  optional uint32 data_bits = 2 [json_name = "dataBits"];
+  optional string parity = 3 [json_name = "parity"];
+  optional uint32 stop_bits = 4 [json_name = "stopBits"];
+  optional string flow_control = 5 [json_name = "flowControl"];
+}
+
+message SourceEndpoint {
+  optional string host = 1 [json_name = "host"];
+  optional uint32 port = 2 [json_name = "port"];
+  optional string bind_address = 3 [json_name = "bindAddress"];
+  optional bool tls = 4 [json_name = "tls"];
+}
+
+message UsbSource {
+  optional uint32 vendor_id = 1 [json_name = "vendorId"];
+  optional uint32 product_id = 2 [json_name = "productId"];
+  optional string serial = 3 [json_name = "serial"];
+  optional uint32 interface_number = 4 [json_name = "interfaceNumber"];
+  optional uint32 endpoint = 5 [json_name = "endpoint"];
+  optional string transfer_kind = 6 [json_name = "transferKind"];
+  optional uint32 timeout_ms = 7 [json_name = "timeoutMs"];
+}
+
+message SpectrumOptions {
+  optional uint32 size = 1 [json_name = "size"];
+  arcforges.foundation.v1.Rational resample_rate = 2 [json_name = "resampleRate"];
+  optional string profile = 3 [json_name = "profile"];
+}
+
+message CorrelationOptions {
+  arcforges.publicapi.v1.MeasurementRequest right = 1 [json_name = "right"];
+  optional uint64 maximum_lag = 2 [json_name = "maximumLag"];
+  optional string profile = 3 [json_name = "profile"];
+}
+
+message ThresholdOptions {
+  optional string relation = 1 [json_name = "relation"];
+  optional double threshold = 2 [json_name = "threshold"];
+  arcforges.publicapi.v1.ScopeTime minimum_duration = 3 [json_name = "minimumDuration"];
+}
+
+message EventPatternOptions {
+  repeated arcforges.foundation.v1.Id channels = 1 [json_name = "channels"];
+  repeated string edges = 2 [json_name = "edges"];
+  arcforges.publicapi.v1.ScopeTime maximum_interval = 3 [json_name = "maximumInterval"];
+  optional uint32 count = 4 [json_name = "count"];
+}
+
+message DecoderOptions {
+  optional string kind = 1 [json_name = "kind"];
+  repeated arcforges.foundation.v1.Id channels = 2 [json_name = "channels"];
+  optional uint32 baud = 3 [json_name = "baud"];
+  optional uint32 bits = 4 [json_name = "bits"];
+  optional string parity = 5 [json_name = "parity"];
+  optional uint32 stop_bits = 6 [json_name = "stopBits"];
+  optional uint32 mode = 7 [json_name = "mode"];
+  optional bool msb_first = 8 [json_name = "msbFirst"];
+  optional bool active_low = 9 [json_name = "activeLow"];
+  arcforges.publicapi.v1.ScopeTime timeout = 10 [json_name = "timeout"];
+  optional uint32 address_bits = 11 [json_name = "addressBits"];
+  optional bool idle_high = 12 [json_name = "idleHigh"];
+}
+
+message ScopeOperationsServiceListSessionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message ScopeOperationsServiceListSessionsValue {
+  repeated ScopeSession items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ScopeOperationsServiceListSessionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceListSessionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceGetSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+}
+
+message ScopeOperationsServiceGetSessionValue {
+  ScopeSession session = 10 [json_name = "session"];
+}
+
+message ScopeOperationsServiceGetSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceGetSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceListCapturesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+
+message ScopeOperationsServiceListCapturesValue {
+  repeated CaptureView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ScopeOperationsServiceListCapturesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceListCapturesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceGetConfigurationSnapshotRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+}
+
+message ScopeOperationsServiceGetConfigurationSnapshotValue {
+  arcforges.publicapi.v1.ScopeConfiguration configuration = 10 [json_name = "configuration"];
+}
+
+message ScopeOperationsServiceGetConfigurationSnapshotResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceGetConfigurationSnapshotValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceRunMeasurementRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.MeasurementRequest request = 10 [json_name = "request"];
+}
+
+message ScopeOperationsServiceRunMeasurementValue {
+  arcforges.publicapi.v1.MeasurementResult measurement = 10 [json_name = "measurement"];
+}
+
+message ScopeOperationsServiceRunMeasurementResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceRunMeasurementValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceRunAnalysisRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  AnalysisRequest request = 10 [json_name = "request"];
+}
+
+message ScopeOperationsServiceRunAnalysisValue {
+  arcforges.local.platform.v1.ProductJobRef job = 10 [json_name = "job"];
+}
+
+message ScopeOperationsServiceRunAnalysisResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceRunAnalysisValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceCompareSessionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  CompareRequest request = 10 [json_name = "request"];
+}
+
+message ScopeOperationsServiceCompareSessionsValue {
+  arcforges.foundation.v1.ArtifactRef comparison = 10 [json_name = "comparison"];
+}
+
+message ScopeOperationsServiceCompareSessionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceCompareSessionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceCreateAnnotationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id annotation_id = 10 [json_name = "annotationId"];
+  arcforges.foundation.v1.Id session_id = 11 [json_name = "sessionId"];
+  arcforges.publicapi.v1.SampleRange range = 12 [json_name = "range"];
+  optional string text = 13 [json_name = "text"];
+}
+
+message ScopeOperationsServiceCreateAnnotationValue {
+  arcforges.foundation.v1.NativeContentRev revision = 10 [json_name = "revision"];
+}
+
+message ScopeOperationsServiceCreateAnnotationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceCreateAnnotationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceCreateFindingRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id finding_id = 10 [json_name = "findingId"];
+  arcforges.foundation.v1.Id session_id = 11 [json_name = "sessionId"];
+  arcforges.foundation.v1.ResourceRef result = 12 [json_name = "result"];
+  optional string text = 13 [json_name = "text"];
+}
+
+message ScopeOperationsServiceCreateFindingResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceCreateFindingValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceGenerateReportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ReportRequest request = 10 [json_name = "request"];
+}
+
+message ScopeOperationsServiceGenerateReportValue {
+  arcforges.foundation.v1.ArtifactRef artifact = 10 [json_name = "artifact"];
+}
+
+message ScopeOperationsServiceGenerateReportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceGenerateReportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceStartCaptureRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id capture_id = 10 [json_name = "captureId"];
+  CaptureRequest request = 11 [json_name = "request"];
+}
+
+message ScopeOperationsServiceStartCaptureValue {
+  CaptureView capture = 10 [json_name = "capture"];
+}
+
+message ScopeOperationsServiceStartCaptureResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceStartCaptureValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceStopCaptureRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id capture_id = 10 [json_name = "captureId"];
+}
+
+message ScopeOperationsServiceStopCaptureValue {
+  CaptureView capture = 10 [json_name = "capture"];
+}
+
+message ScopeOperationsServiceStopCaptureResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceStopCaptureValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ScopeOperationsServiceGetStructuredContextRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.ContextRequest request = 10 [json_name = "request"];
+}
+
+message ScopeOperationsServiceGetStructuredContextValue {
+  arcforges.publicapi.v1.ContextContribution contribution = 10 [json_name = "contribution"];
+}
+
+message ScopeOperationsServiceGetStructuredContextResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ScopeOperationsServiceGetStructuredContextValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
 }

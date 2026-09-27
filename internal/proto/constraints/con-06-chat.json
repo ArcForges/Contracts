@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.chat.v1.ChatOperationsServiceListConversationsRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceListConversationsResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceListConversationsValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue",
+      "fields": {
+        "items": {
+          "items": {}
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceGetConversationRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "branchId": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceGetConversationResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceGetConversationValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        },
+        "messages": {
+          "items": {}
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "title": {
+          "required": true,
+          "maxLength": 256
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "messageId": {
+          "required": true
+        },
+        "draft": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        },
+        "pending": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "input": {
+          "required": true
+        },
+        "options": {
+          "required": true
+        }
+      },
+      "rules": [
+        "con06StartAgentTurn"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "approvalId": {
+          "required": true
+        },
+        "decision": {
+          "required": true,
+          "enumValues": [
+            1,
+            2
+          ]
+        },
+        "proposalHash": {
+          "required": true,
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue",
+      "fields": {
+        "approval": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactRequest": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "artifact": {
+          "required": true
+        },
+        "intent": {
+          "required": true,
+          "enumValues": [
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    },
+    "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactResponse": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": [
+        "outcome"
+      ]
+    }
+  }
+}
