@@ -93,6 +93,7 @@ jobs:
             artifacts/evidence/documentation-provenance.json
             artifacts/evidence/contract-access.json
             artifacts/evidence/serialization-policy.json
+            artifacts/evidence/operation-reachability.json
             artifacts/evidence/serialization-probe-linux-x64.json
             build/reports/licence-boundary.json
           if-no-files-found: error
