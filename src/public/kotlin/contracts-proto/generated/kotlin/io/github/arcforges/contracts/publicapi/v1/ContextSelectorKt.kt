@@ -84,30 +84,6 @@ public object ContextSelectorKt {
     }
 
     /**
-     * `.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];`
-     */
-    public var notes: io.github.arcforges.contracts.publicapi.v1.NotesSelection
-      @kotlin.jvm.JvmName("getNotes")
-        get() = _builder.notes
-      @kotlin.jvm.JvmName("setNotes")
-        set(value) {
-        _builder.notes = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];`
-     */
-    public fun clearNotes() {
-      _builder.clearNotes()
-    }
-    /**
-     * `.arcforges.publicapi.v1.NotesSelection notes = 3 [json_name = "notes"];`
-     * @return Whether the notes field is set.
-     */
-    public fun hasNotes(): kotlin.Boolean {
-      return _builder.hasNotes()
-    }
-
-    /**
      * `.arcforges.publicapi.v1.ScopeSelection scope = 4 [json_name = "scope"];`
      */
     public var scope: io.github.arcforges.contracts.publicapi.v1.ScopeSelection
@@ -130,30 +106,6 @@ public object ContextSelectorKt {
     public fun hasScope(): kotlin.Boolean {
       return _builder.hasScope()
     }
-
-    /**
-     * `.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];`
-     */
-    public var slate: io.github.arcforges.contracts.publicapi.v1.SlateSelection
-      @kotlin.jvm.JvmName("getSlate")
-        get() = _builder.slate
-      @kotlin.jvm.JvmName("setSlate")
-        set(value) {
-        _builder.slate = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];`
-     */
-    public fun clearSlate() {
-      _builder.clearSlate()
-    }
-    /**
-     * `.arcforges.publicapi.v1.SlateSelection slate = 5 [json_name = "slate"];`
-     * @return Whether the slate field is set.
-     */
-    public fun hasSlate(): kotlin.Boolean {
-      return _builder.hasSlate()
-    }
     public val selectionCase: io.github.arcforges.contracts.publicapi.v1.ContextSelector.SelectionCase
     @kotlin.jvm.JvmName("getSelectionCase")
       get() = _builder.selectionCase
@@ -169,11 +121,5 @@ public inline fun io.github.arcforges.contracts.publicapi.v1.ContextSelector.cop
 public val io.github.arcforges.contracts.publicapi.v1.ContextSelectorOrBuilder.byteRangeOrNull: io.github.arcforges.contracts.foundation.v1.ByteRange?
   get() = if (hasByteRange()) getByteRange() else null
 
-public val io.github.arcforges.contracts.publicapi.v1.ContextSelectorOrBuilder.notesOrNull: io.github.arcforges.contracts.publicapi.v1.NotesSelection?
-  get() = if (hasNotes()) getNotes() else null
-
 public val io.github.arcforges.contracts.publicapi.v1.ContextSelectorOrBuilder.scopeOrNull: io.github.arcforges.contracts.publicapi.v1.ScopeSelection?
   get() = if (hasScope()) getScope() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.ContextSelectorOrBuilder.slateOrNull: io.github.arcforges.contracts.publicapi.v1.SlateSelection?
-  get() = if (hasSlate()) getSlate() else null

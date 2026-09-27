@@ -125,70 +125,13 @@ function errorSemantics(value: Profile): boolean {
   if (noRetryCodes.has(value.code) && value.retry.mode !== 1) return false;
   return !(value.effect === 3 && value.retry.mode === 3);
 }
-function validDate(value: string): boolean {
-  if (/^\d{4}-\d{2}-\d{2}$/.exec(value)?.[0] !== value) return false;
-  const year = Number(value.slice(0,4)), month = Number(value.slice(5,7)), day = Number(value.slice(8,10));
-  if (year < 1 || month < 1 || month > 12) return false;
-  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
-  return day >= 1 && day <= [31,leap ? 29 : 28,31,30,31,30,31,31,30,31,30,31][month - 1]!;
-}
-function scalarSemantics(value: Profile): boolean {
-  const scalar = value.value as Profile;
-  switch (scalar.case) {
-    case 'null': return scalar.value === true;
-    case 'number': return !scalar.value.value.includes('.') || !scalar.value.value.endsWith('0');
-    case 'date': return validDate(scalar.value);
-    case 'multiSelect': return (scalar.value.items ?? []).length <= 100 && orderedIds(scalar.value.items ?? []);
-    case 'dateTime': return scalar.value.nanos % 100 === 0;
-    default: return true;
-  }
-}
-function predicateSemantics(value: Profile): boolean {
-  const operands = (value.operands ?? []) as Profile[];
-  if (['isMissing','isPresent'].includes(value.operator)) return operands.length === 0;
-  const membership = ['in','hasAny','hasAll'].includes(value.operator);
-  if (membership ? operands.length < 1 || operands.length > 100 : operands.length !== 1) return false;
-  const kind = operands[0]!.value.case;
-  if (kind === 'null' || operands.some(v => v.value.case !== kind)) return false;
-  if (operands.some(v => ['text','url'].includes(v.value.case) && [...v.value.value as string].length > 4096)) return false;
-  if (['hasAny','hasAll'].includes(value.operator)) return kind === 'select';
-  if (['contains','startsWith','endsWith'].includes(value.operator)) return ['text','url'].includes(kind);
-  if (['eq','ne'].includes(value.operator)) return true;
-  return kind !== 'multiSelect' && ['lt','le','gt','ge','in'].includes(value.operator);
-}
-function filterBounds(root: Profile): boolean {
-  const pending: [Profile, number][] = [[root, 1]];
-  let count = 0;
-  while (pending.length) {
-    const [node, depth] = pending.pop()!;
-    if (++count > 128 || depth > 8) return false;
-    if (node.expression.case === 'group') for (const child of node.expression.value.children ?? []) pending.push([child, depth + 1]);
-  }
-  return true;
-}
-function querySemantics(value: Profile): boolean {
-  if ((value.savedViewId === undefined) !== (value.savedViewRev === undefined) || (value.savedViewRev !== undefined && value.savedViewRev.value <= 0n)) return false;
-  const projection = (value.projection ?? []) as Profile[], sorts = (value.sorts ?? []) as Profile[], versions = (value.definitionVersions ?? []) as Profile[];
-  if (!uniqueIds(projection) || !uniqueIds(sorts.map(v => v.propertyId)) || !uniqueIds(versions.map(v => v.propertyId))) return false;
-  const definitions = new Set(versions.map(v => idKey(v.propertyId)));
-  if (versions.some(v => v.semanticRevision.value <= 0n) || projection.some(v => !definitions.has(idKey(v))) || sorts.some(v => !definitions.has(idKey(v.propertyId)))) return false;
-  const pending = value.filter === undefined ? [] : [value.filter as Profile];
-  let count = 0;
-  while (pending.length) {
-    const node = pending.pop()!;
-    if (++count > 128) return false;
-    if (node.expression.case === 'predicate' && !definitions.has(idKey(node.expression.value.propertyId))) return false;
-    if (node.expression.case === 'group') pending.push(...node.expression.value.children ?? []);
-  }
-  return true;
-}
-function definitionSemantics(value: Profile): boolean {
-  const options = (value.options ?? []) as Profile[];
-  return value.semanticRevision.value > 0n && value.revision.value > 0n && (value.numberScale === undefined || value.type === 'number') && (['select','multiSelect'].includes(value.type) || options.length === 0) && uniqueIds(options.map(v => v.optionId)) && new Set(options.map(v => v.order)).size === options.length;
-}
-function savedViewSemantics(value: Profile): boolean {
-  return value.query.page.cursor === undefined && value.query.datasetToken === undefined && value.query.savedViewId === undefined && value.query.savedViewRev === undefined && idKey(value.notebookId) === idKey(value.query.notebookId);
-}
+
+
+
+
+
+
+
 function structuredBounds(root: Profile): boolean {
   const pending: [Profile, number][] = [[root,1]];
   while (pending.length) {
@@ -200,65 +143,11 @@ function structuredBounds(root: Profile): boolean {
   }
   return true;
 }
-function tableSemantics(value: Profile): boolean {
-  const rows = (value.rows ?? []) as Profile[];
-  if (!rows.length) return false;
-  const width = (rows[0]!.cells ?? []).length;
-  return width >= 1 && width <= 50 && rows.every(v => (v.cells ?? []).length === width) && uniqueIds(rows.map(v => v.rowId)) && uniqueIds(rows.flatMap(v => (v.cells ?? []).map((c: Profile) => c.cellId)));
-}
-function boundary(text: string, offset: number): boolean { return offset <= text.length && (offset === 0 || offset === text.length || text.charCodeAt(offset) < 0xdc00 || text.charCodeAt(offset) > 0xdfff); }
-function richTextSemantics(value: Profile): boolean {
-  const text = value.text as string, runs = (value.runs ?? []) as Profile[], atoms = (value.atoms ?? []) as Profile[], spans = (value.spans ?? []) as Profile[];
-  if (text.normalize('NFC') !== text) return false;
-  if (!text.length) return runs.length === 1 && runs[0]!.from === 0 && runs[0]!.until === 0 && atoms.length === 0 && spans.length === 0;
-  if (!uniqueIds([...runs.map(v => v.runId), ...atoms.map(v => v.inlineId)])) return false;
-  const intervals: [number, number][] = [];
-  for (const run of runs) {
-    if (run.from >= run.until || !boundary(text, run.from) || !boundary(text, run.until) || text.slice(run.from, run.until).includes('\uFFFC')) return false;
-    intervals.push([run.from, run.until]);
-  }
-  for (const atom of atoms) {
-    if (atom.offset >= text.length || text[atom.offset] !== '\uFFFC' || (atom.content.case === 'math' && atom.content.value.display)) return false;
-    intervals.push([atom.offset, atom.offset + 1]);
-  }
-  intervals.sort((a,b) => a[0] - b[0]);
-  let end = 0;
-  for (const interval of intervals) { if (interval[0] !== end) return false; end = interval[1]; }
-  if (end !== text.length) return false;
-  let spanEnd = 0;
-  for (const span of spans) {
-    if (span.from >= span.until || span.from < spanEnd || !boundary(text, span.from) || !boundary(text, span.until) || new Set(span.marks ?? []).size !== (span.marks ?? []).length) return false;
-    spanEnd = span.until;
-  }
-  return true;
-}
-function blockSemantics(value: Profile): boolean {
-  const expected: Record<string, string> = {paragraph:'text',heading:'text',list:'text',quote:'text',callout:'text',toggle:'text',code:'code',image:'resource',attachment:'resource',embed:'link',table:'table',math:'math',divider:'empty'};
-  const body = value.body.content;
-  if (expected[value.kind] === undefined || body.case !== expected[value.kind] || (body.case === 'empty' && body.value !== true) || (body.case === 'math' && body.value.display !== true)) return false;
-  const p = value.properties as Profile | undefined;
-  if (p === undefined) return !['heading','list','callout','image','attachment','embed'].includes(value.kind);
-  if ((p.headingLevel !== undefined) !== (value.kind === 'heading') || (p.listStyle !== undefined) !== (value.kind === 'list') || (p.calloutKind !== undefined) !== (value.kind === 'callout') || (p.altText !== undefined) !== (value.kind === 'image') || (p.imageLayout !== undefined) !== (value.kind === 'image') || (p.attachmentPresentation !== undefined) !== (value.kind === 'attachment') || (p.embedRenderMode !== undefined) !== (value.kind === 'embed')) return false;
-  return (p.checked !== undefined) === (value.kind === 'list' && p.listStyle === 'checklist');
-}
-function documentSemantics(value: Profile): boolean {
-  const rows = (value.blocks ?? []) as Profile[], properties = (value.properties ?? []) as Profile[];
-  if (!uniqueIds(rows.map(v => v.blockId)) || !uniqueIds(properties.map(v => v.propertyId)) || !uniqueIds(value.tags ?? [])) return false;
-  const blocks = new Map(rows.map(v => [idKey(v.blockId), v])), positions = new Set<string>();
-  for (const block of rows) {
-    const position = (block.parentId === undefined ? 'root' : idKey(block.parentId)) + ':' + block.orderKey;
-    if (positions.has(position)) return false;
-    positions.add(position);
-    const seen = new Set([idKey(block.blockId)]);
-    let parent = block.parentId as Profile | undefined;
-    while (parent !== undefined) {
-      const key = idKey(parent), parentBlock = blocks.get(key);
-      if (seen.has(key) || parentBlock === undefined) return false;
-      seen.add(key); parent = parentBlock.parentId;
-    }
-  }
-  return true;
-}
+
+
+
+
+
 function compareScopeTime(a: Profile, b: Profile): number {
   const left = (a.ticks as bigint) * (a.rate.denominator as bigint) * (b.rate.numerator as bigint);
   const right = (b.ticks as bigint) * (b.rate.denominator as bigint) * (a.rate.numerator as bigint);

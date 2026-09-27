@@ -73,16 +73,5 @@ public interface ResourceVersionRefOrBuilder extends
    */
   io.github.arcforges.contracts.foundation.v1.NativeContentRev getNative();
 
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   * @return Whether the local field is set.
-   */
-  boolean hasLocal();
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   * @return The local.
-   */
-  io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getLocal();
-
   public io.github.arcforges.contracts.foundation.v1.ResourceVersionRef.RevisionCase getRevisionCase();
 }

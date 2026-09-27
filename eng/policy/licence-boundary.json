@@ -29,10 +29,6 @@
       "kind": "msbuild"
     },
     {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/ArcForges.Contracts.LocalRpc.Notes.csproj",
-      "kind": "msbuild"
-    },
-    {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
       "kind": "msbuild"
     },
@@ -42,10 +38,6 @@
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
-      "kind": "msbuild"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/ArcForges.Contracts.LocalRpc.Slate.csproj",
       "kind": "msbuild"
     },
     {

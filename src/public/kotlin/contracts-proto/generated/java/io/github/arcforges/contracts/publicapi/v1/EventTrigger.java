@@ -128,54 +128,6 @@ public  final class EventTrigger extends
     bitField0_ = (bitField0_ & ~0x00000002);
   }
 
-  public static final int PREDICATE_FIELD_NUMBER = 3;
-  private io.github.arcforges.contracts.publicapi.v1.NotesFilter predicate_;
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   */
-  @java.lang.Override
-  public boolean hasPredicate() {
-    return ((bitField0_ & 0x00000004) != 0);
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   */
-  @java.lang.Override
-  public io.github.arcforges.contracts.publicapi.v1.NotesFilter getPredicate() {
-    return predicate_ == null ? io.github.arcforges.contracts.publicapi.v1.NotesFilter.getDefaultInstance() : predicate_;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void setPredicate(io.github.arcforges.contracts.publicapi.v1.NotesFilter value) {
-    value.getClass();  // minimal bytecode null check
-    predicate_ = value;
-    bitField0_ |= 0x00000004;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   */
-  @java.lang.SuppressWarnings({"ReferenceEquality", "ReturnValueIgnored"})
-  private void mergePredicate(io.github.arcforges.contracts.publicapi.v1.NotesFilter value) {
-    value.getClass();  // minimal bytecode null check
-    if (predicate_ != null &&
-        predicate_ != io.github.arcforges.contracts.publicapi.v1.NotesFilter.getDefaultInstance()) {
-      predicate_ =
-        io.github.arcforges.contracts.publicapi.v1.NotesFilter.newBuilder(predicate_).mergeFrom(value).buildPartial();
-    } else {
-      predicate_ = value;
-    }
-    bitField0_ |= 0x00000004;
-  }
-  /**
-   * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-   */
-  private void clearPredicate() {
-    predicate_ = null;
-    bitField0_ = (bitField0_ & ~0x00000004);
-  }
-
   public static io.github.arcforges.contracts.publicapi.v1.EventTrigger parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -381,53 +333,6 @@ public  final class EventTrigger extends
       return this;
     }
 
-    /**
-     * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-     */
-    @java.lang.Override
-    public boolean hasPredicate() {
-      return instance.hasPredicate();
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-     */
-    @java.lang.Override
-    public io.github.arcforges.contracts.publicapi.v1.NotesFilter getPredicate() {
-      return instance.getPredicate();
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-     */
-    public Builder setPredicate(io.github.arcforges.contracts.publicapi.v1.NotesFilter value) {
-      copyOnWrite();
-      instance.setPredicate(value);
-      return this;
-      }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-     */
-    public Builder setPredicate(
-        io.github.arcforges.contracts.publicapi.v1.NotesFilter.Builder builderForValue) {
-      copyOnWrite();
-      instance.setPredicate(builderForValue.build());
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-     */
-    public Builder mergePredicate(io.github.arcforges.contracts.publicapi.v1.NotesFilter value) {
-      copyOnWrite();
-      instance.mergePredicate(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.publicapi.v1.NotesFilter predicate = 3 [json_name = "predicate"];</code>
-     */
-    public Builder clearPredicate() {  copyOnWrite();
-      instance.clearPredicate();
-      return this;
-    }
-
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.EventTrigger)
   }
   @java.lang.Override
@@ -447,11 +352,10 @@ public  final class EventTrigger extends
             "bitField0_",
             "kind_",
             "source_",
-            "predicate_",
           };
           java.lang.String info =
-              "\u0000\u0003\u0000\u0001\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u1208\u0000\u0002" +
-              "\u1009\u0001\u0003\u1009\u0002";
+              "\u0000\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u1208\u0000\u0002" +
+              "\u1009\u0001";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

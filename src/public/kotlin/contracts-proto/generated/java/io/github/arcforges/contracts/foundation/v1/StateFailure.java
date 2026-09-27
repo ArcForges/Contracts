@@ -181,54 +181,6 @@ public  final class StateFailure extends
     bitField0_ = (bitField0_ & ~0x00000004);
   }
 
-  public static final int LOCAL_FIELD_NUMBER = 4;
-  private io.github.arcforges.contracts.foundation.v1.LocalNotesVersion local_;
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.Override
-  public boolean hasLocal() {
-    return ((bitField0_ & 0x00000008) != 0);
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.Override
-  public io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getLocal() {
-    return local_ == null ? io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.getDefaultInstance() : local_;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.SuppressWarnings("ReturnValueIgnored")
-  private void setLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-    value.getClass();  // minimal bytecode null check
-    local_ = value;
-    bitField0_ |= 0x00000008;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  @java.lang.SuppressWarnings({"ReferenceEquality", "ReturnValueIgnored"})
-  private void mergeLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-    value.getClass();  // minimal bytecode null check
-    if (local_ != null &&
-        local_ != io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.getDefaultInstance()) {
-      local_ =
-        io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.newBuilder(local_).mergeFrom(value).buildPartial();
-    } else {
-      local_ = value;
-    }
-    bitField0_ |= 0x00000008;
-  }
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-   */
-  private void clearLocal() {
-    local_ = null;
-    bitField0_ = (bitField0_ & ~0x00000008);
-  }
-
   public static final int NATIVE_FIELD_NUMBER = 5;
   private io.github.arcforges.contracts.foundation.v1.NativeContentRev native_;
   /**
@@ -236,7 +188,7 @@ public  final class StateFailure extends
    */
   @java.lang.Override
   public boolean hasNative() {
-    return ((bitField0_ & 0x00000010) != 0);
+    return ((bitField0_ & 0x00000008) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.NativeContentRev native = 5 [json_name = "native"];</code>
@@ -252,7 +204,7 @@ public  final class StateFailure extends
   private void setNative(io.github.arcforges.contracts.foundation.v1.NativeContentRev value) {
     value.getClass();  // minimal bytecode null check
     native_ = value;
-    bitField0_ |= 0x00000010;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.foundation.v1.NativeContentRev native = 5 [json_name = "native"];</code>
@@ -267,14 +219,14 @@ public  final class StateFailure extends
     } else {
       native_ = value;
     }
-    bitField0_ |= 0x00000010;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.foundation.v1.NativeContentRev native = 5 [json_name = "native"];</code>
    */
   private void clearNative() {
     native_ = null;
-    bitField0_ = (bitField0_ & ~0x00000010);
+    bitField0_ = (bitField0_ & ~0x00000008);
   }
 
   public static io.github.arcforges.contracts.foundation.v1.StateFailure parseFrom(
@@ -536,53 +488,6 @@ public  final class StateFailure extends
     }
 
     /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    @java.lang.Override
-    public boolean hasLocal() {
-      return instance.hasLocal();
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    @java.lang.Override
-    public io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getLocal() {
-      return instance.getLocal();
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder setLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-      copyOnWrite();
-      instance.setLocal(value);
-      return this;
-      }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder setLocal(
-        io.github.arcforges.contracts.foundation.v1.LocalNotesVersion.Builder builderForValue) {
-      copyOnWrite();
-      instance.setLocal(builderForValue.build());
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder mergeLocal(io.github.arcforges.contracts.foundation.v1.LocalNotesVersion value) {
-      copyOnWrite();
-      instance.mergeLocal(value);
-      return this;
-    }
-    /**
-     * <code>.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];</code>
-     */
-    public Builder clearLocal() {  copyOnWrite();
-      instance.clearLocal();
-      return this;
-    }
-
-    /**
      * <code>.arcforges.foundation.v1.NativeContentRev native = 5 [json_name = "native"];</code>
      */
     @java.lang.Override
@@ -649,12 +554,11 @@ public  final class StateFailure extends
             "state_",
             "reason_",
             "resource_",
-            "local_",
             "native_",
           };
           java.lang.String info =
-              "\u0000\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0000\u0000\u0001\u1208\u0000\u0002" +
-              "\u1208\u0001\u0003\u1009\u0002\u0004\u1009\u0003\u0005\u1009\u0004";
+              "\u0000\u0004\u0000\u0001\u0001\u0005\u0004\u0000\u0000\u0000\u0001\u1208\u0000\u0002" +
+              "\u1208\u0001\u0003\u1009\u0002\u0005\u1009\u0003";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

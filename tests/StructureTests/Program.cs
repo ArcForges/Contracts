@@ -112,7 +112,6 @@ static bool Check(string target, JsonElement value) => target switch
     "CommitReceipt" => ArcForges.Contracts.CloudInternal.Http.V1.CommitReceiptJson.IsValid(value),
     "arcforges.foundation.v1.Id" => Proto<Id>(value, Validation.IsValid),
     "arcforges.foundation.v1.Revision" => Proto<Revision>(value, Validation.IsValid),
-    "arcforges.foundation.v1.LocalNotesVersion" => Proto<LocalNotesVersion>(value, Validation.IsValid),
     "arcforges.foundation.v1.NativeContentRev" => Proto<NativeContentRev>(value, Validation.IsValid),
     "arcforges.foundation.v1.Instant" => Proto<Instant>(value, Validation.IsValid),
     "arcforges.foundation.v1.Decimal" => Proto<ArcForges.Contracts.Foundation.V1.Decimal>(value, Validation.IsValid),
@@ -137,9 +136,7 @@ static bool Check(string target, JsonElement value) => target switch
     "arcforges.local.platform.v1.LocalChunk" => Proto<ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk>(value, ArcForges.Contracts.LocalRpc.Platform.Shapes.ContractShapeValidation.IsValid),
     "arcforges.local.sandbox.v1.SandboxLimits" => Proto<ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxLimits>(value, ArcForges.Contracts.LocalRpc.Sandbox.Shapes.ContractShapeValidation.IsValid),
     "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue" => Proto<ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue>(value, ArcForges.Contracts.LocalRpc.Chat.Shapes.ContractShapeValidation.IsValid),
-    "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue" => Proto<ArcForges.Contracts.LocalRpc.Notes.V1.NotesOperationsServiceTrashDocumentValue>(value, ArcForges.Contracts.LocalRpc.Notes.Shapes.ContractShapeValidation.IsValid),
     "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue" => Proto<ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateFindingValue>(value, ArcForges.Contracts.LocalRpc.Scope.Shapes.ContractShapeValidation.IsValid),
-    "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue" => Proto<ArcForges.Contracts.LocalRpc.Slate.V1.SlateOperationsServiceApplyTimelineEditsValue>(value, ArcForges.Contracts.LocalRpc.Slate.Shapes.ContractShapeValidation.IsValid),
     "arcforges.operator.v1.OperatorCallContext" => Proto<ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCallContext>(value, ArcForges.Contracts.CloudInternal.Shapes.ContractShapeValidation.IsValid),
     _ => throw new InvalidOperationException("No explicit fixture dispatch for " + target),
 };

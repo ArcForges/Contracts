@@ -160,30 +160,6 @@ public object ResourceVersionRefKt {
     public fun hasNative(): kotlin.Boolean {
       return _builder.hasNative()
     }
-
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];`
-     */
-    public var local: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion
-      @kotlin.jvm.JvmName("getLocal")
-        get() = _builder.local
-      @kotlin.jvm.JvmName("setLocal")
-        set(value) {
-        _builder.local = value
-      }
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];`
-     */
-    public fun clearLocal() {
-      _builder.clearLocal()
-    }
-    /**
-     * `.arcforges.foundation.v1.LocalNotesVersion local = 4 [json_name = "local"];`
-     * @return Whether the local field is set.
-     */
-    public fun hasLocal(): kotlin.Boolean {
-      return _builder.hasLocal()
-    }
     public val revisionCase: io.github.arcforges.contracts.foundation.v1.ResourceVersionRef.RevisionCase
     @kotlin.jvm.JvmName("getRevisionCase")
       get() = _builder.revisionCase
@@ -207,6 +183,3 @@ public val io.github.arcforges.contracts.foundation.v1.ResourceVersionRefOrBuild
 
 public val io.github.arcforges.contracts.foundation.v1.ResourceVersionRefOrBuilder.nativeOrNull: io.github.arcforges.contracts.foundation.v1.NativeContentRev?
   get() = if (hasNative()) getNative() else null
-
-public val io.github.arcforges.contracts.foundation.v1.ResourceVersionRefOrBuilder.localOrNull: io.github.arcforges.contracts.foundation.v1.LocalNotesVersion?
-  get() = if (hasLocal()) getLocal() else null

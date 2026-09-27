@@ -36,30 +36,6 @@ public object AggregateBodyKt {
     internal fun _build(): io.github.arcforges.contracts.publicapi.v1.AggregateBody = _builder.build()
 
     /**
-     * `.arcforges.publicapi.v1.NotesDocument notes = 1 [json_name = "notes"];`
-     */
-    public var notes: io.github.arcforges.contracts.publicapi.v1.NotesDocument
-      @kotlin.jvm.JvmName("getNotes")
-        get() = _builder.notes
-      @kotlin.jvm.JvmName("setNotes")
-        set(value) {
-        _builder.notes = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.NotesDocument notes = 1 [json_name = "notes"];`
-     */
-    public fun clearNotes() {
-      _builder.clearNotes()
-    }
-    /**
-     * `.arcforges.publicapi.v1.NotesDocument notes = 1 [json_name = "notes"];`
-     * @return Whether the notes field is set.
-     */
-    public fun hasNotes(): kotlin.Boolean {
-      return _builder.hasNotes()
-    }
-
-    /**
      * `.arcforges.publicapi.v1.ConversationBody chat = 2 [json_name = "chat"];`
      */
     public var chat: io.github.arcforges.contracts.publicapi.v1.ConversationBody
@@ -105,126 +81,6 @@ public object AggregateBodyKt {
      */
     public fun hasScopeMetadata(): kotlin.Boolean {
       return _builder.hasScopeMetadata()
-    }
-
-    /**
-     * `.arcforges.publicapi.v1.SlateMetadata slate_metadata = 4 [json_name = "slateMetadata"];`
-     */
-    public var slateMetadata: io.github.arcforges.contracts.publicapi.v1.SlateMetadata
-      @kotlin.jvm.JvmName("getSlateMetadata")
-        get() = _builder.slateMetadata
-      @kotlin.jvm.JvmName("setSlateMetadata")
-        set(value) {
-        _builder.slateMetadata = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.SlateMetadata slate_metadata = 4 [json_name = "slateMetadata"];`
-     */
-    public fun clearSlateMetadata() {
-      _builder.clearSlateMetadata()
-    }
-    /**
-     * `.arcforges.publicapi.v1.SlateMetadata slate_metadata = 4 [json_name = "slateMetadata"];`
-     * @return Whether the slateMetadata field is set.
-     */
-    public fun hasSlateMetadata(): kotlin.Boolean {
-      return _builder.hasSlateMetadata()
-    }
-
-    /**
-     * `.arcforges.publicapi.v1.NotebookBody notebook = 5 [json_name = "notebook"];`
-     */
-    public var notebook: io.github.arcforges.contracts.publicapi.v1.NotebookBody
-      @kotlin.jvm.JvmName("getNotebook")
-        get() = _builder.notebook
-      @kotlin.jvm.JvmName("setNotebook")
-        set(value) {
-        _builder.notebook = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.NotebookBody notebook = 5 [json_name = "notebook"];`
-     */
-    public fun clearNotebook() {
-      _builder.clearNotebook()
-    }
-    /**
-     * `.arcforges.publicapi.v1.NotebookBody notebook = 5 [json_name = "notebook"];`
-     * @return Whether the notebook field is set.
-     */
-    public fun hasNotebook(): kotlin.Boolean {
-      return _builder.hasNotebook()
-    }
-
-    /**
-     * `.arcforges.publicapi.v1.PropertyDefinition property_definition = 6 [json_name = "propertyDefinition"];`
-     */
-    public var propertyDefinition: io.github.arcforges.contracts.publicapi.v1.PropertyDefinition
-      @kotlin.jvm.JvmName("getPropertyDefinition")
-        get() = _builder.propertyDefinition
-      @kotlin.jvm.JvmName("setPropertyDefinition")
-        set(value) {
-        _builder.propertyDefinition = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.PropertyDefinition property_definition = 6 [json_name = "propertyDefinition"];`
-     */
-    public fun clearPropertyDefinition() {
-      _builder.clearPropertyDefinition()
-    }
-    /**
-     * `.arcforges.publicapi.v1.PropertyDefinition property_definition = 6 [json_name = "propertyDefinition"];`
-     * @return Whether the propertyDefinition field is set.
-     */
-    public fun hasPropertyDefinition(): kotlin.Boolean {
-      return _builder.hasPropertyDefinition()
-    }
-
-    /**
-     * `.arcforges.publicapi.v1.SavedViewRecord saved_view = 7 [json_name = "savedView"];`
-     */
-    public var savedView: io.github.arcforges.contracts.publicapi.v1.SavedViewRecord
-      @kotlin.jvm.JvmName("getSavedView")
-        get() = _builder.savedView
-      @kotlin.jvm.JvmName("setSavedView")
-        set(value) {
-        _builder.savedView = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.SavedViewRecord saved_view = 7 [json_name = "savedView"];`
-     */
-    public fun clearSavedView() {
-      _builder.clearSavedView()
-    }
-    /**
-     * `.arcforges.publicapi.v1.SavedViewRecord saved_view = 7 [json_name = "savedView"];`
-     * @return Whether the savedView field is set.
-     */
-    public fun hasSavedView(): kotlin.Boolean {
-      return _builder.hasSavedView()
-    }
-
-    /**
-     * `.arcforges.publicapi.v1.TagRecord tag = 8 [json_name = "tag"];`
-     */
-    public var tag: io.github.arcforges.contracts.publicapi.v1.TagRecord
-      @kotlin.jvm.JvmName("getTag")
-        get() = _builder.tag
-      @kotlin.jvm.JvmName("setTag")
-        set(value) {
-        _builder.tag = value
-      }
-    /**
-     * `.arcforges.publicapi.v1.TagRecord tag = 8 [json_name = "tag"];`
-     */
-    public fun clearTag() {
-      _builder.clearTag()
-    }
-    /**
-     * `.arcforges.publicapi.v1.TagRecord tag = 8 [json_name = "tag"];`
-     * @return Whether the tag field is set.
-     */
-    public fun hasTag(): kotlin.Boolean {
-      return _builder.hasTag()
     }
 
     /**
@@ -430,29 +286,11 @@ public object AggregateBodyKt {
 public inline fun io.github.arcforges.contracts.publicapi.v1.AggregateBody.copy(block: `io.github.arcforges.contracts.publicapi.v1`.AggregateBodyKt.Dsl.() -> kotlin.Unit): io.github.arcforges.contracts.publicapi.v1.AggregateBody =
   `io.github.arcforges.contracts.publicapi.v1`.AggregateBodyKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
-public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.notesOrNull: io.github.arcforges.contracts.publicapi.v1.NotesDocument?
-  get() = if (hasNotes()) getNotes() else null
-
 public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.chatOrNull: io.github.arcforges.contracts.publicapi.v1.ConversationBody?
   get() = if (hasChat()) getChat() else null
 
 public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.scopeMetadataOrNull: io.github.arcforges.contracts.publicapi.v1.ScopeMetadata?
   get() = if (hasScopeMetadata()) getScopeMetadata() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.slateMetadataOrNull: io.github.arcforges.contracts.publicapi.v1.SlateMetadata?
-  get() = if (hasSlateMetadata()) getSlateMetadata() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.notebookOrNull: io.github.arcforges.contracts.publicapi.v1.NotebookBody?
-  get() = if (hasNotebook()) getNotebook() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.propertyDefinitionOrNull: io.github.arcforges.contracts.publicapi.v1.PropertyDefinition?
-  get() = if (hasPropertyDefinition()) getPropertyDefinition() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.savedViewOrNull: io.github.arcforges.contracts.publicapi.v1.SavedViewRecord?
-  get() = if (hasSavedView()) getSavedView() else null
-
-public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.tagOrNull: io.github.arcforges.contracts.publicapi.v1.TagRecord?
-  get() = if (hasTag()) getTag() else null
 
 public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.agentProfileOrNull: io.github.arcforges.contracts.publicapi.v1.AgentProfile?
   get() = if (hasAgentProfile()) getAgentProfile() else null

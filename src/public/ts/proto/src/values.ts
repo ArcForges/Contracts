@@ -4,13 +4,11 @@ import type { DescMessage, MessageShape } from "@bufbuild/protobuf";
 import {
   RevisionSchema,
   NativeContentRevSchema,
-  LocalNotesVersionSchema,
   DecimalSchema,
 } from "./gen/arcforges/foundation/v1/foundation_pb.js";
 import type {
   Revision,
   NativeContentRev,
-  LocalNotesVersion,
   Decimal,
 } from "./gen/arcforges/foundation/v1/foundation_pb.js";
 export * from "./values/gen/identifiers.js";
@@ -22,10 +20,6 @@ export type NativeRevision = Branded<bigint, "NativeRevision">;
 export type DeliverySequence = Branded<bigint, "DeliverySequence">;
 export type OpaqueCursor = Branded<string, "OpaqueCursor">;
 export type ExactDecimal = Branded<string, "ExactDecimal">;
-export type LocalNotesToken = Readonly<{
-  acknowledgedRevision: bigint;
-  headLocalSequence: bigint;
-}> & { readonly [valueBrand]: "LocalNotesToken" };
 const i64min = -9223372036854775808n;
 const i64max = 9223372036854775807n;
 const u64max = 18446744073709551615n;
@@ -75,31 +69,6 @@ export function nativeRevisionToWire(value: NativeRevision): NativeContentRev {
 export function deliverySequence(value: bigint): DeliverySequence {
   return unsigned(value) as DeliverySequence;
 }
-export function localNotesToken(
-  acknowledgedRevision: bigint,
-  headLocalSequence: bigint,
-): LocalNotesToken {
-  if (
-    typeof acknowledgedRevision !== "bigint" ||
-    acknowledgedRevision < 0n ||
-    acknowledgedRevision > i64max
-  )
-    throw new RangeError("Invalid acknowledged revision");
-  return Object.freeze({
-    acknowledgedRevision,
-    headLocalSequence: unsigned(headLocalSequence),
-  }) as LocalNotesToken;
-}
-export function localNotesFromWire(value: LocalNotesVersion): LocalNotesToken {
-  return localNotesToken(value.ackedRev?.value!, value.headLocalSeq!);
-}
-export function localNotesToWire(value: LocalNotesToken): LocalNotesVersion {
-  const checked = localNotesToken(value.acknowledgedRevision, value.headLocalSequence);
-  return create(LocalNotesVersionSchema, {
-    ackedRev: create(RevisionSchema, { value: checked.acknowledgedRevision }),
-    headLocalSeq: checked.headLocalSequence,
-  });
-}
 export function opaqueCursor(value: string): OpaqueCursor {
   if (typeof value !== "string" || !validUnicode(value))
     throw new TypeError("Invalid cursor Unicode");
@@ -120,11 +89,6 @@ export function exactDecimal(value: string): ExactDecimal {
   )
     throw new TypeError("Invalid exact decimal");
   return value as ExactDecimal;
-}
-export function notesDecimal(value: string): ExactDecimal {
-  const result = exactDecimal(value);
-  if (value.includes(".") && value.endsWith("0")) throw new TypeError("Noncanonical Notes decimal");
-  return result;
 }
 export function decimalFromWire(value: Decimal): ExactDecimal {
   return exactDecimal(value.value!);

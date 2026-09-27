@@ -213,8 +213,8 @@
       "limit": "unaryMessage",
       "construct": {
         "kind": "nested",
-        "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [1, 2],
+        "target": "arcforges.publicapi.v1.StructuredValue",
+        "fields": [8, 1],
         "levels": 1
       },
       "expect": "accept"
@@ -225,8 +225,8 @@
       "limit": "unaryMessage",
       "construct": {
         "kind": "nested",
-        "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [1, 2],
+        "target": "arcforges.publicapi.v1.StructuredValue",
+        "fields": [8, 1],
         "levels": 99
       },
       "expect": "accept"
@@ -237,8 +237,8 @@
       "limit": "unaryMessage",
       "construct": {
         "kind": "nested",
-        "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [1, 2],
+        "target": "arcforges.publicapi.v1.StructuredValue",
+        "fields": [8, 1],
         "levels": 100
       },
       "expect": "accept"
@@ -249,8 +249,8 @@
       "limit": "unaryMessage",
       "construct": {
         "kind": "nested",
-        "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [1, 2],
+        "target": "arcforges.publicapi.v1.StructuredValue",
+        "fields": [8, 1],
         "levels": 101
       },
       "expect": "tooDeep"
@@ -261,8 +261,8 @@
       "limit": "unaryMessage",
       "construct": {
         "kind": "nested",
-        "target": "arcforges.publicapi.v1.NotesFilter",
-        "fields": [1, 2],
+        "target": "arcforges.publicapi.v1.StructuredValue",
+        "fields": [8, 1],
         "levels": 150
       },
       "expect": "tooDeep"

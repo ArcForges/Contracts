@@ -83,25 +83,6 @@ public readonly record struct DeliverySequence(ulong Value)
     public override string ToString() => Value.ToString(CultureInfo.InvariantCulture);
 }
 
-/// <summary>Composite local Notes token preserves both acknowledgement and pending-local sequence.</summary>
-public readonly record struct LocalNotesToken
-{
-    /// <summary>Constructs a composite token; zero acknowledgement explicitly means no acknowledged root.</summary>
-    public LocalNotesToken(long acknowledgedRevision, ulong headLocalSequence)
-    {
-        if (acknowledgedRevision < 0) throw new ArgumentOutOfRangeException(nameof(acknowledgedRevision));
-        AcknowledgedRevision = acknowledgedRevision; HeadLocalSequence = headLocalSequence;
-    }
-    /// <summary>Exact acknowledged revision, including explicit new-root zero.</summary>
-    public long AcknowledgedRevision { get; }
-    /// <summary>Exact local pending sequence.</summary>
-    public ulong HeadLocalSequence { get; }
-    /// <summary>Reads both present token components.</summary>
-    public static LocalNotesToken FromWire(LocalNotesVersion value) => value is { AckedRev.HasValue: true, HasHeadLocalSeq: true } ? new(value.AckedRev.Value, value.HeadLocalSeq) : throw new ArgumentException("Missing local version component.", nameof(value));
-    /// <summary>Writes the composite without discarding pending state.</summary>
-    public LocalNotesVersion ToWire() => new() { AckedRev = new Revision { Value = AcknowledgedRevision }, HeadLocalSeq = HeadLocalSequence };
-}
-
 /// <summary>Opaque bounded cursor; possession confers no authority and does not establish validity.</summary>
 public readonly record struct OpaqueCursor
 {
@@ -122,7 +103,7 @@ public readonly record struct OpaqueCursor
 /// <summary>Exact canonical coefficient/scale boundary with no binary floating-point conversion.</summary>
 public readonly record struct ExactDecimal
 {
-    /// <summary>Parses the shared decimal bound; Notes requires the stricter FromNotes conversion.</summary>
+    /// <summary>Parses the shared exact decimal bound and preserves declared scale.</summary>
     public ExactDecimal(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -140,13 +121,7 @@ public readonly record struct ExactDecimal
     public BigInteger Coefficient => BigInteger.Parse(ToWire().Value.Replace(".", "", StringComparison.Ordinal), CultureInfo.InvariantCulture);
     /// <summary>Declared scale preserved from the wire.</summary>
     public int Scale => ToWire().Value.IndexOf('.') is var index && index >= 0 ? Value.Length - index - 1 : 0;
-    /// <summary>Parses Notes canonical form, additionally refusing trailing fractional zeros.</summary>
-    public static ExactDecimal FromNotes(string value)
-    {
-        var result = new ExactDecimal(value);
-        if (value.Contains('.') && value.EndsWith('0')) throw new FormatException("Noncanonical Notes decimal.");
-        return result;
-    }
+
     /// <summary>Reads the present generated shared decimal.</summary>
     public static ExactDecimal FromWire(V1.Decimal value) => value is { HasValue: true } ? new(value.Value) : throw new ArgumentException("Missing decimal.", nameof(value));
     /// <summary>Writes exact text and refuses an uninitialized struct.</summary>

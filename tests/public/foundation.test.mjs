@@ -16,11 +16,6 @@ const fixtureDigest = createHash("sha256").update(fixtureBytes).digest("hex");
 const foundationNames = new Set(fixture.foundationTypes);
 const selectedNames = Object.keys(fixture.samples).filter((name) => !name.startsWith("$"));
 const output = [];
-assert.equal(
-  fixture.samples.RichText.text,
-  "A\u4e2d\ud83d\ude00",
-  "The registry UTF-16 oracle must survive fixture encoding",
-);
 
 function expand(value, stack = []) {
   if (Array.isArray(value)) return value.map((item) => expand(item, stack));
@@ -118,7 +113,7 @@ const inventory = JSON.parse(
 assertFoundationCoverage(inventory, output);
 assert.equal(
   Object.keys(fixture.aggregateVariants).length,
-  16,
+  10,
   "All owner-body variants remain covered",
 );
 assert.equal(
@@ -184,14 +179,18 @@ assert.equal(
 
 // Independent value-boundary oracles, including malformed language-boundary input.
 const canonicalId = "00112233-4455-6677-8899-aabbccddeeff";
-const documentId = values.parseId("DocumentId", canonicalId);
-const documentWire = values.idToWire("DocumentId", documentId);
+const documentId = values.parseId("ScopeProjectId", canonicalId);
+const documentWire = values.idToWire("ScopeProjectId", documentId);
 assert.equal(Buffer.from(documentWire.value).toString("hex"), "00112233445566778899aabbccddeeff");
 documentWire.value[0] = 255;
-assert.equal(values.idToWire("DocumentId", documentId).value[0], 0, "Wire output owns its bytes");
+assert.equal(
+  values.idToWire("ScopeProjectId", documentId).value[0],
+  0,
+  "Wire output owns its bytes",
+);
 assert.equal(
   values.idFromWire(
-    "DocumentId",
+    "ScopeProjectId",
     fromJson(foundation.IdSchema, { value: "ABEiM0RVZneImaq7zN3u/w==" }),
   ),
   canonicalId,
@@ -206,7 +205,7 @@ for (const text of [
     "00000000-0000-0000-0000-000000000000" + suffix,
   ]),
 ])
-  assert.throws(() => values.parseId("DocumentId", text));
+  assert.throws(() => values.parseId("ScopeProjectId", text));
 assert.equal(values.parseInt64("-9223372036854775808"), -9223372036854775808n);
 assert.equal(values.parseInt64("9223372036854775807"), 9223372036854775807n);
 assert.equal(values.parseUInt64("18446744073709551615"), 18446744073709551615n);
@@ -225,20 +224,14 @@ assert.equal(
   values.nativeRevisionToWire(values.nativeRevision(18446744073709551615n)).value,
   18446744073709551615n,
 );
-assert.deepEqual(
-  values.localNotesFromWire(
-    values.localNotesToWire(values.localNotesToken(0n, 18446744073709551615n)),
-  ),
-  { acknowledgedRevision: 0n, headLocalSequence: 18446744073709551615n },
-);
-assert.deepEqual(values.decimalParts(values.notesDecimal("-0.000000001")), {
+assert.deepEqual(values.decimalParts(values.exactDecimal("-0.000000001")), {
   coefficient: -1n,
   scale: 9,
 });
 assert.equal(values.decimalFromCoefficient(1n, 9), "0.000000001");
 assert.equal(values.exactDecimal("1.00"), "1.00", "Shared exact decimal preserves declared scale");
-for (const text of ["1.0", "-0", "+1", "1e3", "0.0000000001", "1\n", "1\r", "1\u2028"])
-  assert.throws(() => values.notesDecimal(text));
+for (const text of ["-0", "+1", "1e3", "0.0000000001", "1\n", "1\r", "1\u2028"])
+  assert.throws(() => values.exactDecimal(text));
 assert.equal(values.opaqueCursor("😀".repeat(1024)).length, 2048);
 assert.throws(() => values.opaqueCursor("😀".repeat(1025)));
 assert.throws(() => values.opaqueCursor("\ud800"));
@@ -320,5 +313,5 @@ if (process.argv.includes("--exchange")) {
   );
 }
 console.log(
-  `Validated ${fixture.cases.length} independent foundation cases, ${selectedNames.length} records, 16 owner bodies, 45 error categories and ${fixture.wireVectors.length} binary oracles.`,
+  `Validated ${fixture.cases.length} independent foundation cases, ${selectedNames.length} records, 10 owner bodies, 45 error categories and ${fixture.wireVectors.length} binary oracles.`,
 );

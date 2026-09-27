@@ -66,24 +66,8 @@
         }
       }
     },
-    "arcforges.local.notes.v1.NotesOperationsServiceTrashDocumentValue": {
-      "csharpType": "ArcForges.Contracts.LocalRpc.Notes.V1.NotesOperationsServiceTrashDocumentValue",
-      "fields": {
-        "version": {
-          "required": true
-        }
-      }
-    },
     "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateFindingValue",
-      "fields": {
-        "revision": {
-          "required": true
-        }
-      }
-    },
-    "arcforges.local.slate.v1.SlateOperationsServiceApplyTimelineEditsValue": {
-      "csharpType": "ArcForges.Contracts.LocalRpc.Slate.V1.SlateOperationsServiceApplyTimelineEditsValue",
       "fields": {
         "revision": {
           "required": true

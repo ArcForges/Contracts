@@ -91,7 +91,7 @@ ts_rules = {
 
 def ts_imports(names: set[str]) -> str:
     lines = []
-    if "arcforges.foundation.v1.ContentOrigin" in names or "arcforges.publicapi.v1.NotesQuery" in names:
+    if "arcforges.foundation.v1.ContentOrigin" in names:
         lines.append('import { toBinary } from "@bufbuild/protobuf";')
     if "arcforges.foundation.v1.ContentOrigin" in names:
         lines.append('import { ContentOriginSchema } from "../../gen/arcforges/foundation/v1/foundation_pb.js";')

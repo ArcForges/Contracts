@@ -57,17 +57,6 @@ public interface RequestMetaOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.Id getWorkspaceId();
 
   /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   * @return Whether the expectedLocal field is set.
-   */
-  boolean hasExpectedLocal();
-  /**
-   * <code>.arcforges.foundation.v1.LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];</code>
-   * @return The expectedLocal.
-   */
-  io.github.arcforges.contracts.foundation.v1.LocalNotesVersion getExpectedLocal();
-
-  /**
    * <code>.arcforges.foundation.v1.NativeContentRev expected_native = 6 [json_name = "expectedNative"];</code>
    * @return Whether the expectedNative field is set.
    */

@@ -13,17 +13,6 @@ public interface AggregateBodyOrBuilder extends
     com.google.protobuf.MessageLiteOrBuilder {
 
   /**
-   * <code>.arcforges.publicapi.v1.NotesDocument notes = 1 [json_name = "notes"];</code>
-   * @return Whether the notes field is set.
-   */
-  boolean hasNotes();
-  /**
-   * <code>.arcforges.publicapi.v1.NotesDocument notes = 1 [json_name = "notes"];</code>
-   * @return The notes.
-   */
-  io.github.arcforges.contracts.publicapi.v1.NotesDocument getNotes();
-
-  /**
    * <code>.arcforges.publicapi.v1.ConversationBody chat = 2 [json_name = "chat"];</code>
    * @return Whether the chat field is set.
    */
@@ -44,61 +33,6 @@ public interface AggregateBodyOrBuilder extends
    * @return The scopeMetadata.
    */
   io.github.arcforges.contracts.publicapi.v1.ScopeMetadata getScopeMetadata();
-
-  /**
-   * <code>.arcforges.publicapi.v1.SlateMetadata slate_metadata = 4 [json_name = "slateMetadata"];</code>
-   * @return Whether the slateMetadata field is set.
-   */
-  boolean hasSlateMetadata();
-  /**
-   * <code>.arcforges.publicapi.v1.SlateMetadata slate_metadata = 4 [json_name = "slateMetadata"];</code>
-   * @return The slateMetadata.
-   */
-  io.github.arcforges.contracts.publicapi.v1.SlateMetadata getSlateMetadata();
-
-  /**
-   * <code>.arcforges.publicapi.v1.NotebookBody notebook = 5 [json_name = "notebook"];</code>
-   * @return Whether the notebook field is set.
-   */
-  boolean hasNotebook();
-  /**
-   * <code>.arcforges.publicapi.v1.NotebookBody notebook = 5 [json_name = "notebook"];</code>
-   * @return The notebook.
-   */
-  io.github.arcforges.contracts.publicapi.v1.NotebookBody getNotebook();
-
-  /**
-   * <code>.arcforges.publicapi.v1.PropertyDefinition property_definition = 6 [json_name = "propertyDefinition"];</code>
-   * @return Whether the propertyDefinition field is set.
-   */
-  boolean hasPropertyDefinition();
-  /**
-   * <code>.arcforges.publicapi.v1.PropertyDefinition property_definition = 6 [json_name = "propertyDefinition"];</code>
-   * @return The propertyDefinition.
-   */
-  io.github.arcforges.contracts.publicapi.v1.PropertyDefinition getPropertyDefinition();
-
-  /**
-   * <code>.arcforges.publicapi.v1.SavedViewRecord saved_view = 7 [json_name = "savedView"];</code>
-   * @return Whether the savedView field is set.
-   */
-  boolean hasSavedView();
-  /**
-   * <code>.arcforges.publicapi.v1.SavedViewRecord saved_view = 7 [json_name = "savedView"];</code>
-   * @return The savedView.
-   */
-  io.github.arcforges.contracts.publicapi.v1.SavedViewRecord getSavedView();
-
-  /**
-   * <code>.arcforges.publicapi.v1.TagRecord tag = 8 [json_name = "tag"];</code>
-   * @return Whether the tag field is set.
-   */
-  boolean hasTag();
-  /**
-   * <code>.arcforges.publicapi.v1.TagRecord tag = 8 [json_name = "tag"];</code>
-   * @return The tag.
-   */
-  io.github.arcforges.contracts.publicapi.v1.TagRecord getTag();
 
   /**
    * <code>.arcforges.publicapi.v1.AgentProfile agent_profile = 9 [json_name = "agentProfile"];</code>

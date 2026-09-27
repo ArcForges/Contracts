@@ -50,6 +50,19 @@ def occurrences(data, names):
         pattern = re.compile(b'|'.join(re.escape(t) for t in sorted(tokens, key=len, reverse=True)),
                              re.IGNORECASE)
         for match in pattern.finditer(data):
+            # These exact technical identities are not retired product aliases.
+            technical = False
+            for token in ('Arc' + 'ImageNative', 'arc' + 'image-abi'):
+                encoded = token.encode(encoding)
+                start, end = match.start(), match.start() + len(encoded)
+                width = 1 if encoding == 'utf-8' else 2
+                before = data[max(0, start - width):start].decode(encoding, errors='ignore')
+                after = data[end:end + width].decode(encoding, errors='ignore')
+                if data[start:end] == encoded and not re.search(r'[A-Za-z0-9_]', before + after):
+                    technical = True
+                    break
+            if technical:
+                continue
             yield {'name': tokens[match[0].lower()], 'encoding': encoding,
                    'offset': match.start(), 'end': match.end()}
 
@@ -64,14 +77,14 @@ def validate_policy(policy):
     require(re.fullmatch('[0-9a-f]{40}', policy['design']['commit']) is not None, 'invalid Design commit')
     require(re.fullmatch(r'P2-\d{3}', policy['design']['rule']) is not None, 'invalid Design rule')
     strings(policy['repositories'], 'repositories')
-    require(set(policy['repositories']) == {'DesktopPlatform', 'Contracts', 'ArcNotes', 'ArcScope',
-            'ArcSlate', 'Cloud', 'AI', 'Web', 'Mobile'}, 'incorrect repository set')
-    require(isinstance(policy['products'], list) and len(policy['products']) == 4, 'four wire identities required')
+    require(set(policy['repositories']) == {'DesktopPlatform', 'Contracts', 'ArcScope',
+            'Cloud', 'AI', 'Web', 'Mobile'}, 'incorrect repository set')
+    require(isinstance(policy['products'], list) and len(policy['products']) == 2, 'two wire identities required')
     product_ids, installed, associations, namespaces = [], [], [], []
     for product in policy['products']:
         fields(product, 'id displayName kind owners namespaces applicationIds legacyApplicationIds fileAssociations', 'product')
         product_ids.append(product['id'])
-        expected_display = {'arcnotes': 'ArcNotes', 'arcscope': 'ArcScope', 'arcslate': 'ArcSlate', 'companion': 'ArcChat'}
+        expected_display = {'arcscope': 'ArcScope', 'companion': 'ArcChat'}
         require(isinstance(product['id'], str) and product['id'] in expected_display, 'unknown ProductId')
         require(product['displayName'] == expected_display[product['id']], 'incorrect canonical display name')
         require(isinstance(product['displayName'], str) and product['displayName'], 'missing display name')
@@ -106,20 +119,20 @@ def validate_policy(policy):
             require(association['appleTypeId'] == 'com.arcforges.' + product['id'] + '.project', 'invalid type ID')
             require(association['formatOwner'] == ('WP33/WP35' if product['id'] == 'arcscope' else 'WP36/WP39'), 'invalid format owner')
             associations.append(association['extension'])
-    require(set(product_ids) == {'arcnotes', 'arcscope', 'arcslate', 'companion'}, 'incorrect ProductId set')
+    require(set(product_ids) == {'arcscope', 'companion'}, 'incorrect ProductId set')
     strings(installed, 'installed identities'); strings(associations, 'association identities')
     strings(namespaces, 'reserved namespaces')
     require(policy['features'] == [{'id': 'assistant', 'displayName': 'ArcChat', 'owner': 'DesktopPlatform',
             'namespaces': ['ArcForges.Assistant'], 'fileAssociations': []}], 'invalid embedded feature')
     require(policy['webOutputs'] == ['site', 'account', 'chat', 'operations'], 'invalid Web outputs')
-    require(policy['retiredProductIds'] == ['arcchat', 'arcchat-mobile', 'mobile', 'web'], 'invalid retired IDs')
+    require(policy['retiredProductIds'] == ['arcnotes', 'arcslate', 'arcchat', 'arcchat-mobile', 'mobile', 'web'], 'invalid retired IDs')
     require(policy['providers'] == [{'name': 'Paddle', 'role': 'merchant-of-record'},
             {'name': 'Payoneer', 'role': 'payout-only'}], 'incorrect provider roles')
     require(isinstance(policy['forbiddenNames'], list) and len(policy['forbiddenNames']) == 6, 'incomplete forbidden set')
     names = []
     # Components make the guard's expected vocabulary testable without exempting its source.
     dispositions = {'Arc' + suffix: ('excluded', None) for suffix in ('Canvas', 'Music', 'Image')}
-    dispositions.update({'Arc' + 'Video': ('direction-only', 'arcslate'),
+    dispositions.update({'Arc' + 'Video': ('excluded', None),
                          'Arc' + 'VideoFoundation': ('reference-only', None),
                          'Waf' + 'fo': ('provider-replaced', 'Paddle')})
     for item in policy['forbiddenNames']:

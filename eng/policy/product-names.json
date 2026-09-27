@@ -3,31 +3,11 @@
   "license": "Apache-2.0",
   "design": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "5322d698a1b650a52a5a139d986dd85b00b48581",
-    "rule": "P2-016"
+    "commit": "7aa84e69ad6808461b34181de261fab03bede076",
+    "rule": "P2-019"
   },
-  "repositories": [
-    "DesktopPlatform",
-    "Contracts",
-    "ArcNotes",
-    "ArcScope",
-    "ArcSlate",
-    "Cloud",
-    "AI",
-    "Web",
-    "Mobile"
-  ],
+  "repositories": ["DesktopPlatform", "Contracts", "ArcScope", "Cloud", "AI", "Web", "Mobile"],
   "products": [
-    {
-      "id": "arcnotes",
-      "displayName": "ArcNotes",
-      "kind": "desktop",
-      "owners": ["ArcNotes"],
-      "namespaces": ["ArcNotes", "ArcForges.ArcNotes"],
-      "applicationIds": ["com.arcforges.arcnotes"],
-      "legacyApplicationIds": [],
-      "fileAssociations": []
-    },
     {
       "id": "arcscope",
       "displayName": "ArcScope",
@@ -43,25 +23,6 @@
           "appleTypeId": "com.arcforges.arcscope.project",
           "state": "reserved",
           "formatOwner": "WP33/WP35",
-          "registrationOwner": "WP53"
-        }
-      ]
-    },
-    {
-      "id": "arcslate",
-      "displayName": "ArcSlate",
-      "kind": "desktop",
-      "owners": ["ArcSlate"],
-      "namespaces": ["ArcSlate", "ArcForges.ArcSlate"],
-      "applicationIds": ["com.arcforges.arcslate"],
-      "legacyApplicationIds": [],
-      "fileAssociations": [
-        {
-          "extension": ".arcslate",
-          "windowsProgId": "ArcForges.ArcSlate.Project",
-          "appleTypeId": "com.arcforges.arcslate.project",
-          "state": "reserved",
-          "formatOwner": "WP36/WP39",
           "registrationOwner": "WP53"
         }
       ]
@@ -93,7 +54,7 @@
     }
   ],
   "webOutputs": ["site", "account", "chat", "operations"],
-  "retiredProductIds": ["arcchat", "arcchat-mobile", "mobile", "web"],
+  "retiredProductIds": ["arcnotes", "arcslate", "arcchat", "arcchat-mobile", "mobile", "web"],
   "providers": [
     {
       "name": "Paddle",
@@ -125,9 +86,9 @@
     },
     {
       "name": "ArcVideo",
-      "disposition": "direction-only",
-      "target": "arcslate",
-      "note": "Retained product direction only; no model, identity or migration alias."
+      "disposition": "excluded",
+      "target": null,
+      "note": "Obsolete product; no current direction or runtime alias."
     },
     {
       "name": "ArcVideoFoundation",
@@ -163,9 +124,9 @@
     {
       "repository": "DesktopPlatform",
       "path": "eng/policy/glossary-terms.json",
-      "designCommit": "5322d698a1b650a52a5a139d986dd85b00b48581",
-      "sourceSha256": "fa60f160fe6c28685cd904f590f8d74ed1ead03295e4b9e42023f2a8f2b09a88",
-      "declarationSha256": "64113ef84e6d1f081fa6658757a10823eada778291c14bf40d9f0740009dbc98"
+      "designCommit": "7aa84e69ad6808461b34181de261fab03bede076",
+      "sourceSha256": "9041df86987324c25446dc3a5cfbfbabd6b6df1ea20381135a8caf84f98e44d4",
+      "declarationSha256": "bdbdfcdc7e77fec492890159747cfffe4996181090af8818322064ae897ee023"
     }
   ]
 }

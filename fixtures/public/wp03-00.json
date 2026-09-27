@@ -19,17 +19,6 @@
       }
     },
     {
-      "id": "LocalNotesVersion-valid",
-      "target": "arcforges.foundation.v1.LocalNotesVersion",
-      "valid": true,
-      "value": {
-        "ackedRev": {
-          "value": "0"
-        },
-        "headLocalSeq": "18446744073709551615"
-      }
-    },
-    {
       "id": "NativeContentRev-valid",
       "target": "arcforges.foundation.v1.NativeContentRev",
       "valid": true,
@@ -209,14 +198,6 @@
       "valid": false,
       "value": {
         "value": "-1"
-      }
-    },
-    {
-      "id": "LocalNotesVersion-missing-token",
-      "target": "arcforges.foundation.v1.LocalNotesVersion",
-      "valid": false,
-      "value": {
-        "headLocalSeq": "0"
       }
     },
     {

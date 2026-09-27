@@ -17,15 +17,15 @@ operation registries and the package-level gates are open delivery tasks in the
 [contracts lane](https://github.com/ArcForges/ArcForges-Design-B/blob/f8dff2d0144c7db020d35711d606334639dd078b/docs/planning/delivery/lanes/contracts.md). The exact producer inventory is
 [`eng/contract-packages.json`](eng/contract-packages.json).
 
-| Package family                                                                             | Contents                                                                                          |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| `ArcForges.Contracts.Foundation`, `.PublicApi`, `.Events`, `.Validation`                   | Shared wire records, retained Hello and public HTTP definitions, event hints and shape validators |
-| `ArcForges.Contracts.LocalRpc.Platform`, `.Sandbox`, `.Chat`, `.Notes`, `.Scope`, `.Slate` | Private helper and in-process product result records; no product listener                         |
-| `ArcForges.Contracts.CloudInternal`                                                        | Private HTTP and separately partitioned operator records                                          |
-| `ArcForges.Sdk.Contracts`, `ArcForges.Sdk.Client`, `ArcForges.Cli`                         | Public extension protocol, caller-owned transport composition and offline inventory validation    |
-| `@arcforges/proto`, `@arcforges/api-client`, `@arcforges/contract-fixtures`                | Public ESM messages/descriptors, gRPC-Web composition/HTTP definitions and independent fixtures   |
-| `@arcforges/ai-internal`, `@arcforges/operator-client`                                     | Separate private AI/Cloud HTTP and Operations-only bindings                                       |
-| `io.github.arcforges:contracts-proto`, `:contracts-connect-client`, `:contract-fixtures`   | Public Java/Kotlin lite messages, Connect-Kotlin client and fixture resources                     |
+| Package family                                                                           | Contents                                                                                          |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `ArcForges.Contracts.Foundation`, `.PublicApi`, `.Events`, `.Validation`                 | Shared wire records, retained Hello and public HTTP definitions, event hints and shape validators |
+| `ArcForges.Contracts.LocalRpc.Platform`, `.Sandbox`, `.Chat`, `.Scope`                   | Private helper and in-process product result records; no product listener                         |
+| `ArcForges.Contracts.CloudInternal`                                                      | Private HTTP and separately partitioned operator records                                          |
+| `ArcForges.Sdk.Contracts`, `ArcForges.Sdk.Client`, `ArcForges.Cli`                       | Public extension protocol, caller-owned transport composition and offline inventory validation    |
+| `@arcforges/proto`, `@arcforges/api-client`, `@arcforges/contract-fixtures`              | Public ESM messages/descriptors, gRPC-Web composition/HTTP definitions and independent fixtures   |
+| `@arcforges/ai-internal`, `@arcforges/operator-client`                                   | Separate private AI/Cloud HTTP and Operations-only bindings                                       |
+| `io.github.arcforges:contracts-proto`, `:contracts-connect-client`, `:contract-fixtures` | Public Java/Kotlin lite messages, Connect-Kotlin client and fixture resources                     |
 
 Android uses `contracts-connect-client` with binary gRPC-Web for Worker ingress.
 The native-grpc-only `contracts-client` is retired from new publications; existing

@@ -706,7 +706,7 @@ def proto_cs(name: str, messages: dict) -> str:
         "nonzeroId": "if (!Nonzero(value.Value)) return false;",
         "canonicalDecimal": "if (!CanonicalDecimal(value.Value)) return false;",
         "committedRevision": "if (value.Revision is not { Value: > 0 }) return false;",
-        "exclusiveRevision": "if ((value.ExpectedRev is null ? 0 : 1) + (value.ExpectedLocal is null ? 0 : 1) + (value.ExpectedNative is null ? 0 : 1) > 1) return false;",
+        "exclusiveRevision": "if ((value.ExpectedRev is null ? 0 : 1) + (value.ExpectedNative is null ? 0 : 1) > 1) return false;",
         "chunkOffsets": "if (value.Offset > ulong.MaxValue - (ulong)value.Bytes.Length || value.NextOffset != value.Offset + (ulong)value.Bytes.Length) return false;",
         **cs_rules,
     }
@@ -797,7 +797,7 @@ def proto_ts(name: str, messages: dict) -> str:
         "nonzeroId": "if (!(value.value as Uint8Array).some(v => v !== 0)) return false;",
         "canonicalDecimal": "if (!canonicalDecimal(value.value as string)) return false;",
         "committedRevision": "if ((value.revision as {value: bigint}).value <= 0n) return false;",
-        "exclusiveRevision": "if ([value.expectedRev, value.expectedLocal, value.expectedNative].filter(v => v !== undefined).length > 1) return false;",
+        "exclusiveRevision": "if ([value.expectedRev, value.expectedNative].filter(v => v !== undefined).length > 1) return false;",
         "chunkOffsets": "if ((value.offset as bigint) + BigInt((value.bytes as Uint8Array).length) > 18446744073709551615n || value.nextOffset !== (value.offset as bigint) + BigInt((value.bytes as Uint8Array).length)) return false;",
         **ts_rules,
     }
