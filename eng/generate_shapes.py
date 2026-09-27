@@ -33,7 +33,7 @@ def schema_roots(schema: dict) -> list[dict]:
     """Expand an authored root bundle without introducing a wire wrapper."""
     if "oneOf" not in schema:
         return [schema]
-    allowed = {"$schema", "$id", "$comment", "title", "description", "$defs", "oneOf"}
+    allowed = {"$schema", "$id", "$comment", "title", "description", "$defs", "oneOf", "x-arcforges-schema-version"}
     if schema.keys() - allowed:
         raise ValueError("Root schema bundle cannot contain additional constraints")
     definitions = schema.get("$defs", {})
@@ -189,13 +189,20 @@ class JsonShapes:
                 continue
             model_cs.append(f"/// <summary>Generated closed {html.escape(name)} JSON record.</summary>\npublic sealed record {name}\n{{")
             model_ts.append(f"export interface {name} {{")
+            members: set[str] = set()
             for prop, child in node["properties"].items():
                 required = prop in node.get("required", [])
                 cstype = self.typename(child, False, name + pascal(prop))
                 tstype = self.typename(child, True, name + pascal(prop))
+                member = pascal(prop)
+                if member == name:
+                    member += "Value"
+                if member in members:
+                    raise ValueError(f"Colliding generated C# property name in {name}: {member}")
+                members.add(member)
                 model_cs.append(f"    /// <summary>{'Required' if required else 'Optional'} {html.escape(prop)} field from the authored {html.escape(name)} schema.</summary>\n"
                                 f"    [global::System.Text.Json.Serialization.JsonPropertyName({literal(prop)})]\n"
-                                f"    public {'required ' if required else ''}{cstype}{'' if required else '?'} {pascal(prop)} {{ get; init; }}")
+                                f"    public {'required ' if required else ''}{cstype}{'' if required else '?'} {member} {{ get; init; }}")
                 model_ts.append(f"  {prop}{'' if required else '?'}: {tstype};")
             model_cs.append("}\n")
             model_ts.append("}\n")

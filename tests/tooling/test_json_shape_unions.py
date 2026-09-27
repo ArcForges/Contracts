@@ -2,7 +2,10 @@
 """Closed union/root-bundle compiler negatives, without transport or owner runtime."""
 import copy
 import json
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 import unittest
 
@@ -123,6 +126,37 @@ class JsonShapeUnions(unittest.TestCase):
         self.assertIn("property.Value, depth + 1", checks)
         self.assertIn("item, depth + 1", ts)
         self.assertLess(ts.index("if (!isTree(value))"), ts.index("JSON.stringify(orderTree(value))"))
+
+    @unittest.skipUnless(shutil.which("node"), "Existing pinned Node runtime required for generated TypeScript diagnostic")
+    def test_generated_typescript_executes_closed_shapes_and_rejects_cycles(self):
+        envelope = sample()
+        envelope["properties"]["labels"] = {"type": "object", "propertyNames": {"type": "string", "pattern": "^[A-Za-z-]+$"},
+                                              "additionalProperties": {"type": "string", "maxLength": 5}, "maxProperties": 2}
+        tree = record("Tree", {"node": {"$ref": "#/$defs/Node"}})
+        tree["x-arcforges-max-bytes"] = 1024
+        tree["$defs"] = {"Node": record("Node", {"children": {"type": "array", "maxItems": 3, "items": {"$ref": "#/$defs/Node"}}})}
+        with tempfile.TemporaryDirectory(prefix="arcforges-json-unit-") as directory:
+            folder = Path(directory)
+            for schema in [envelope, tree]:
+                (folder / (schema["title"] + ".ts")).write_text(JsonShapes(schema, "Example").generate()[2], encoding="utf-8")
+            runner = folder / "run.mjs"
+            runner.write_text('''import assert from "node:assert/strict";
+import * as envelope from "./Envelope.ts";
+import * as tree from "./Tree.ts";
+const valid = {body: {entries: ["one"]}, labels: {en: "Hello"}};
+assert.equal(envelope.isEnvelope(valid), true);
+assert.deepEqual(envelope.tryParseEnvelopeJson(envelope.serializeEnvelopeJson(valid)), {ok: true, value: valid});
+for (const value of [{body:{}}, {body:{entries:[],shards:[]}}, {body:{entries:[],unknown:true}},
+                     {body:{entries:[]},labels:{"not a locale":"Hi"}}, {body:{entries:[]},labels:{en:"Too long"}},
+                     {body:{entries:[]},labels:{en:"Hi",de:"Hi",fr:"Hi"}}]) assert.equal(envelope.isEnvelope(value), false);
+assert.equal(envelope.tryParseEnvelopeJson('{"body":{"entries":[],"entries":[]}}').ok, false);
+assert.equal(tree.isTree({node:{children:[]}}), true);
+const cycle = {children:[]}; cycle.children.push(cycle);
+assert.equal(tree.isTree({node:cycle}), false);
+assert.throws(() => tree.serializeTreeJson({node:cycle}), error => error.failure === "invalid");
+''', encoding="utf-8")
+            result = subprocess.run([shutil.which("node"), "--experimental-transform-types", str(runner)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
