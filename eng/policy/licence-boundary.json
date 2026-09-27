@@ -101,6 +101,10 @@
       "kind": "npm"
     },
     {
+      "path": "tests/StructureTests/PreviousClient/PreviousClient.csproj",
+      "kind": "msbuild"
+    },
+    {
       "path": "tests/StructureTests/StructureTests.csproj",
       "kind": "msbuild"
     },
