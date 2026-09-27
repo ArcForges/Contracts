@@ -2663,8 +2663,10 @@ public static class PolicyBodyJson
                 return (selectedScope + "Id", values);
             }
             var op = target.GetProperty("op").GetString();
-            if (op == "equal") values.Add(target.GetProperty("value").GetString()!);
-            else if (op == "in") foreach (var item in target.GetProperty("values").EnumerateArray()) values.Add(item.GetString()!);
+            static string Scalar(global::System.Text.Json.JsonElement item) => item.ValueKind == global::System.Text.Json.JsonValueKind.String
+                ? item.GetString()! : item.GetInt64().ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+            if (op == "equal") values.Add(Scalar(target.GetProperty("value")));
+            else if (op == "in") foreach (var item in target.GetProperty("values").EnumerateArray()) values.Add(Scalar(item));
             else return (null, values);
             return (target.GetProperty("field").GetString(), values);
         }
