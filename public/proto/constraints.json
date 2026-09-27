@@ -2,6 +2,382 @@
   "schemaVersion": "proto-constraints.v1",
   "license": "Apache-2.0",
   "messages": {
+    "arcforges.catalog.v1.PublisherView": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.PublisherView",
+      "fields": {
+        "publisherId": {
+          "required": true
+        },
+        "domain": {
+          "required": true,
+          "maxLength": 256
+        },
+        "state": {
+          "required": true,
+          "maxLength": 128,
+          "enumValues": ["pending", "verified", "suspended"]
+        },
+        "dnsName": {
+          "required": true,
+          "maxLength": 256
+        },
+        "challenge": {
+          "pattern": "^arcforges=[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+        },
+        "expiresAt": {},
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogPackageView": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogPackageView",
+      "fields": {
+        "packageId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        },
+        "publisherId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "summary": {
+          "required": true,
+          "maxUtf8Bytes": 4096
+        },
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "enumValues": ["skill", "template", "workflow", "mcp", "connector", "extension"]
+        },
+        "latestVersion": {
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogVersionView": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogVersionView",
+      "fields": {
+        "packageId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        },
+        "version": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "archive": {
+          "required": true
+        },
+        "digest": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "manifestHash": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "state": {
+          "required": true,
+          "maxLength": 128,
+          "enumValues": ["submitted", "reviewing", "published", "rejected", "revoked"]
+        },
+        "publishedAt": {},
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogSubmissionView": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogSubmissionView",
+      "fields": {
+        "submissionId": {
+          "required": true
+        },
+        "version": {
+          "required": true
+        },
+        "reason": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceSearchRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceSearchRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "query": {
+          "required": true,
+          "maxLength": 256
+        },
+        "kind": {
+          "maxLength": 128,
+          "enumValues": ["skill", "template", "workflow", "mcp", "connector", "extension"]
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceSearchValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceSearchValue",
+      "fields": {
+        "items": {
+          "maxItems": 100
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceSearchResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceSearchResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.catalog.v1.CatalogServiceGetPackageRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceGetPackageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "packageId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceGetPackageValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceGetPackageValue",
+      "fields": {
+        "package": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceGetPackageResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceGetPackageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.catalog.v1.CatalogServiceListVersionsRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceListVersionsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "packageId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceListVersionsValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceListVersionsValue",
+      "fields": {
+        "items": {
+          "maxItems": 100
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceListVersionsResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceListVersionsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.catalog.v1.CatalogServiceRegisterPublisherRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceRegisterPublisherRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "publisherId": {
+          "required": true
+        },
+        "domain": {
+          "required": true,
+          "maxLength": 256
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceRegisterPublisherValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceRegisterPublisherValue",
+      "fields": {
+        "publisher": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceRegisterPublisherResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceRegisterPublisherResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.catalog.v1.CatalogServiceVerifyPublisherRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceVerifyPublisherRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "publisherId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceVerifyPublisherValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceVerifyPublisherValue",
+      "fields": {
+        "publisher": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceVerifyPublisherResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceVerifyPublisherResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.catalog.v1.CatalogServiceSubmitVersionRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceSubmitVersionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "submissionId": {
+          "required": true
+        },
+        "publisherId": {
+          "required": true
+        },
+        "packageId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$"
+        },
+        "version": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "archive": {
+          "required": true
+        },
+        "manifestHash": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceSubmitVersionValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceSubmitVersionValue",
+      "fields": {
+        "submission": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceSubmitVersionResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceSubmitVersionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.catalog.v1.CatalogServiceGetSubmissionRequest": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceGetSubmissionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "submissionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceGetSubmissionValue": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceGetSubmissionValue",
+      "fields": {
+        "submission": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.catalog.v1.CatalogServiceGetSubmissionResponse": {
+      "csharpType": "ArcForges.Contracts.Catalog.V1.CatalogServiceGetSubmissionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
     "arcforges.events.v1.EntitlementChanged": {
       "csharpType": "ArcForges.Contracts.Events.V1.EntitlementChanged",
       "fields": {

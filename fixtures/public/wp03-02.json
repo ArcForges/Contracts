@@ -819,14 +819,26 @@
   ],
   "services": {
     "csharp": {
-      "ArcForges.Contracts.PublicApi": ["arcforges.hello.v1.HelloService"],
+      "ArcForges.Contracts.PublicApi": [
+        "arcforges.hello.v1.HelloService",
+        "arcforges.catalog.v1.CatalogService"
+      ],
       "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"]
     },
     "typescript": {
-      "@arcforges/proto": ["arcforges.hello.v1.HelloService"]
+      "@arcforges/proto": ["arcforges.hello.v1.HelloService", "arcforges.catalog.v1.CatalogService"]
     },
     "methods": {
       "arcforges.hello.v1.HelloService": ["/arcforges.hello.v1.HelloService/SayHello"],
+      "arcforges.catalog.v1.CatalogService": [
+        "/arcforges.catalog.v1.CatalogService/Search",
+        "/arcforges.catalog.v1.CatalogService/GetPackage",
+        "/arcforges.catalog.v1.CatalogService/ListVersions",
+        "/arcforges.catalog.v1.CatalogService/RegisterPublisher",
+        "/arcforges.catalog.v1.CatalogService/VerifyPublisher",
+        "/arcforges.catalog.v1.CatalogService/SubmitVersion",
+        "/arcforges.catalog.v1.CatalogService/GetSubmission"
+      ],
       "arcforges.extensions.v1.ExtensionHostService": [
         "/arcforges.extensions.v1.ExtensionHostService/RenewLease"
       ]

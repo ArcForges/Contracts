@@ -11,5 +11,6 @@ public static class ContractServices
     public static global::System.Collections.Generic.IReadOnlyList<global::Google.Protobuf.Reflection.ServiceDescriptor> All { get; } =
     [
         global::ArcForges.Contracts.Hello.V1.HelloService.Descriptor,
+        global::ArcForges.Contracts.Catalog.V1.CatalogService.Descriptor,
     ];
 }
