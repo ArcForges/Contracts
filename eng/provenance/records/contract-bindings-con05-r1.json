@@ -3,7 +3,7 @@
   "id": "contract-bindings-con05-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+  "sourceCommit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -2307,7 +2307,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2357,7 +2357,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2377,7 +2377,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/generate_fixtures.py"
         ],
@@ -2397,7 +2397,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/contracts.py",
           "eng/generate_shapes.py",
@@ -2443,7 +2443,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2697,7 +2697,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "7fb4e98c2005d6d29a71dae4b56008d47273f78ef1e143a0788008a5ebe96fd1",
+            "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -2739,7 +2739,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2993,7 +2993,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "7fb4e98c2005d6d29a71dae4b56008d47273f78ef1e143a0788008a5ebe96fd1",
+            "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -3035,7 +3035,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+        "commit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -3307,7 +3307,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "7fb4e98c2005d6d29a71dae4b56008d47273f78ef1e143a0788008a5ebe96fd1",
+            "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200",
             "finding": "Exact Apache-2.0 authored schema, shard, fixture or generator input at the bound CON.05 source snapshot."
           },
           {
@@ -3357,7 +3357,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Official CON.01 loader generation succeeded. Generated C# StructureTests build passed with zero warnings/errors using existing SDK10.0.401 diagnostic adapter preserving ILLink/ILCompiler10.0.11; CON.05 envelopes/oneofs/roundtrips, 86 inherited shape cases, 339 foundation cases and canonical hash vectors passed. Seven offline CON.05 groups passed. Retained pinned10.0.400 CI remains required. No broker/OS authorization, secret custody or live connector runtime proof is claimed.",
-    "baselineCommit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
+    "baselineCommit": "dd7f756854077df22eaa3c334ebbdf3113c0f99b",
     "reconciliation": false
   },
   "supersedes": "con-12-bindings-r1",

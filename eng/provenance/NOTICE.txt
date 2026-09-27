@@ -21,7 +21,7 @@ Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
 contract-bindings-con05-r1
-Source: https://github.com/ArcForges/Contracts @ 38a81017d078b5c646d6ef79d8d44e7f1d81c514
+Source: https://github.com/ArcForges/Contracts @ dd7f756854077df22eaa3c334ebbdf3113c0f99b
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
