@@ -3,7 +3,7 @@
   "id": "con02-descriptor-bindings-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "b95c800c52e03aa4e18a127e8b8fc674c8386885",
+  "sourceCommit": "76ce0c8b7409b90b6ce4709b70e76c8c38d01c35",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -2803,7 +2803,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "b95c800c52e03aa4e18a127e8b8fc674c8386885",
+        "commit": "76ce0c8b7409b90b6ce4709b70e76c8c38d01c35",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -3015,7 +3015,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "eaae4c715a25d5f37f13ef6113e18638abb4cf675dc8d1a303cdef1c3c50e570",
+            "sha256": "1ed8dbf334210b87fcaacc3b72ba00539e4d6fab0ca53eabcc5183d363424577",
             "finding": "Exact current Apache-2.0 schema, constraint shard or fixture consumed by formal CON02 generation."
           },
           {
@@ -3060,7 +3060,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Append fourteen descriptor records and five closed enums with CSharp/TypeScript/Java/Kotlin bindings, shape validators and independent exported fixtures. Preserve all predecessor records and third-party generator attribution; no dependency or licence changes.",
-    "baselineCommit": "b95c800c52e03aa4e18a127e8b8fc674c8386885",
+    "baselineCommit": "76ce0c8b7409b90b6ce4709b70e76c8c38d01c35",
     "reconciliation": false
   },
   "supersedes": "contract-bindings-con16-r1",

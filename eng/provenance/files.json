@@ -907,7 +907,5 @@
     "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/DescriptorsProtoKt.proto.kt": "con02-descriptor-bindings-r1",
     "src/public/ts/proto/src/gen/arcforges/publicapi/v1/descriptors_pb.ts": "con02-descriptor-bindings-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r9"
-  ]
+  "artifacts": ["dokka-documentation-resources-r9"]
 }
