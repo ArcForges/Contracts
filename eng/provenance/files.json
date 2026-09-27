@@ -82,6 +82,7 @@
     "eng/policy/contract-access-reviews/wp01-01.json",
     "eng/policy/contract-access.json",
     "eng/policy/dependency-policy.json",
+    "eng/policy/dependency-reviews/con-01-shards-r1.json",
     "eng/policy/dependency-reviews/con-23-retirement-r1.json",
     "eng/policy/dependency-reviews/con-23-retirement-r2.json",
     "eng/policy/dependency-reviews/con17-previous-client-113-1.json",

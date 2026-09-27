@@ -246,7 +246,7 @@ def merge_constraint_shards(check: bool = False) -> None:
         current = (json.loads(aggregate.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
                    if aggregate.is_file() else None)
         # Preserve the accepted snapshot bytes when only source layout changes.
-        if current != merged:
+        if json.dumps(current, sort_keys=True) != json.dumps(merged, sort_keys=True):
             if check:
                 raise ValueError("Stale merged constraint snapshot: " + str(aggregate))
             write_json(aggregate, merged)

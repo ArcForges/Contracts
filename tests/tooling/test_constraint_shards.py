@@ -55,6 +55,18 @@ class ConstraintShards(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Duplicate constraint message"):
             contracts.merge_constraint_shards()
 
+    def test_json_scalar_types_cannot_compare_equal(self):
+        for old, new in ((True, 1), (1, True), (1, 1.0), (1.0, 1)):
+            with self.subTest(old=repr(old), new=repr(new)):
+                self.shard("public", "base", {"owner.v1.Base": {"fields": {"value": {"minimum": old}}}})
+                contracts.merge_constraint_shards()
+                self.shard("public", "base", {"owner.v1.Base": {"fields": {"value": {"minimum": new}}}})
+                with self.assertRaisesRegex(ValueError, "Stale merged"):
+                    contracts.merge_constraint_shards(check=True)
+                contracts.merge_constraint_shards()
+                value = json.loads((self.root / "public/proto/constraints.json").read_text())["messages"]["owner.v1.Base"]["fields"]["value"]["minimum"]
+                self.assertIs(type(value), type(new))
+
     def test_duplicate_nested_field_key_rejected(self):
         path = self.shard("public", "bad", {})
         path.write_text('{"schemaVersion":"proto-constraints.v1","license":"Apache-2.0",'
