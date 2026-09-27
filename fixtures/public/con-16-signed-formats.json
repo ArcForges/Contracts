@@ -425,6 +425,103 @@
       "canonicalDocument": "{\"body\":{\"entries\":[]},\"bodyHash\":\"d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740994\",\"schemaVersion\":\"catalog-revocations.v1\",\"signature\":\"Df0s_J5Ovku8-unpgXzVjoMqlrTZ_NVXMTxo6vyHpWhotz2k5TQiOEjyv5bcTPTiOj2RDX4OFxhOLs3eFgFDDQ\"}",
       "documentSha256": "ba433b39f35c6a99b7a95153eb87a5a1720a1bf544c4bd54374f29b2a2e41674",
       "canonicalBody": "{\"entries\":[]}"
+    },
+    {
+      "id": "mixed-shard-root-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "6c363aa84b35311173ede6ff1af7ac9b80aeabc3395fceaae4798315adae8e45",
+        "body": {
+          "shards": [
+            {
+              "url": "https://downloads.example.org/catalog/v1/9007199254740993/0.json",
+              "count": 1,
+              "sha256": "d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7"
+            }
+          ]
+        },
+        "signature": "sRPQrMroAcYZ5yJEWMYkUDXXLP7290__SqRPqKL1k89EkA6CYxhy7q-NjWLCsTOrYt8kSvhJUgwMjdyCNG3wBw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"6c363aa84b35311173ede6ff1af7ac9b80aeabc3395fceaae4798315adae8e45\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"6c363aa84b35311173ede6ff1af7ac9b80aeabc3395fceaae4798315adae8e45\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"sRPQrMroAcYZ5yJEWMYkUDXXLP7290__SqRPqKL1k89EkA6CYxhy7q-NjWLCsTOrYt8kSvhJUgwMjdyCNG3wBw\"}",
+      "documentSha256": "0fbb0f971f1b1b755bdb223082d9dd4239e0639ee03a17226212ed6cf71550f7",
+      "canonicalBody": "{\"shards\":[{\"count\":1,\"sha256\":\"d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]}"
+    },
+    {
+      "id": "android-overlong-expiry-signed",
+      "value": {
+        "schemaVersion": "android-update.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "direct",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-05T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341",
+        "body": {
+          "packageId": "com.arcforges.mobile",
+          "channel": "direct",
+          "versionName": "1.2.3",
+          "versionCode": "18446744073709551615",
+          "minSdk": 26,
+          "minSupportedVersionCode": "9007199254740993",
+          "apkUrl": "https://downloads.example.org/android/app.apk",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "size": "9007199254740993",
+          "signingCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "releaseNotesUrl": "https://downloads.example.org/android/notes",
+          "publishedAt": "2026-09-27T00:00:00Z"
+        },
+        "signature": "5mbNM_nWKPeHdM4eNBNwpKkawA8TNP6w4Dp0W6lmpWGzrXfDLUTCBLV3OGjyCy8D7rW9D7KlcAEOZOD67UoxBA"
+      },
+      "canonicalUnsigned": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341\",\"channel\":\"direct\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\"}",
+      "canonicalDocument": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341\",\"channel\":\"direct\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\",\"signature\":\"5mbNM_nWKPeHdM4eNBNwpKkawA8TNP6w4Dp0W6lmpWGzrXfDLUTCBLV3OGjyCy8D7rW9D7KlcAEOZOD67UoxBA\"}",
+      "documentSha256": "be35a116c081b2eb313d9a07693cb863f1ad9c96573eb9e6343e585d05fec6dc",
+      "canonicalBody": "{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"}"
+    },
+    {
+      "id": "realm-overlong-expiry-signed",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://api.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [
+          1
+        ],
+        "nativeClientRedirects": [
+          "arcforges-scope://auth/callback"
+        ],
+        "authMethods": [
+          "passkey",
+          "email"
+        ],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-05T00:00:00Z",
+        "signature": "MDQhIew20XKyPYu0RNfZw9EbjloOyGWBD5ILoy4SU0i-r2qIZL5K20H7IQNwTDdlwm1k725IpYrl-hVo9DzdDA"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"MDQhIew20XKyPYu0RNfZw9EbjloOyGWBD5ILoy4SU0i-r2qIZL5K20H7IQNwTDdlwm1k725IpYrl-hVo9DzdDA\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "88e54b097334d9582c6065b3b779638f855bac468b4df2dbe29aece573b531e3"
     }
   ],
   "cases": [
@@ -645,6 +742,41 @@
       "document": "android-update",
       "installedCertificateSha256": "6666666666666666666666666666666666666666666666666666666666666666",
       "expected": "certificate"
+    },
+    {
+      "id": "mixed-shard-even-with-matching-hash",
+      "document": "mixed-shard-root-signed",
+      "shards": [
+        "wrong-channel-signed"
+      ],
+      "expected": "shard-binding"
+    },
+    {
+      "id": "android-expiry-over-seven-days",
+      "document": "android-overlong-expiry-signed",
+      "expected": "expiry-window"
+    },
+    {
+      "id": "realm-expiry-over-seven-days",
+      "document": "realm-overlong-expiry-signed",
+      "expected": "expiry-window"
+    }
+  ],
+  "malformedJson": [
+    {
+      "id": "duplicate-property",
+      "json": "{\"schemaVersion\":\"catalog-index.v1\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "expected": "syntax"
+    },
+    {
+      "id": "trailing-data",
+      "json": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MSHqL1TvldA8vIh3ySn5XYUfXFAC-5NCllYHJylcAHBknBEfOicKAeWDb4EA9R2LZkovIaBusrHIq5ObDrvxBw\"} {}",
+      "expected": "syntax"
+    },
+    {
+      "id": "truncated",
+      "json": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MSHqL1TvldA8vIh3ySn5XYUfXFAC-5NCllYHJylcAHBknBEfOicKAeWDb4EA9R2LZkovIaBusrHIq5ObDrvxBw\"",
+      "expected": "syntax"
     }
   ]
 }
