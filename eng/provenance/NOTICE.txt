@@ -9,10 +9,10 @@ Notice scope: source
 Apache License, Version 2.0, January 2004; preserve the complete terms.
 The complete Apache-2.0 terms remain in LICENSE and the four public export copies.
 
-con-12-bindings-r1
-Source: https://github.com/ArcForges/Contracts @ 1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0
+con17-published-descriptors-r1
+Source: https://github.com/ArcForges/Contracts @ b10b2f6f316bf0c007e00632c5442fc102ebbe6e
 Material licence: Apache-2.0
-Notice scope: packages
+Notice scope: source
 Copyright 2026 ArcForges contributors.
 Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
@@ -20,10 +20,10 @@ Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
-con17-published-descriptors-r1
-Source: https://github.com/ArcForges/Contracts @ b10b2f6f316bf0c007e00632c5442fc102ebbe6e
+contract-bindings-con05-r1
+Source: https://github.com/ArcForges/Contracts @ 38a81017d078b5c646d6ef79d8d44e7f1d81c514
 Material licence: Apache-2.0
-Notice scope: source
+Notice scope: packages
 Copyright 2026 ArcForges contributors.
 Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.

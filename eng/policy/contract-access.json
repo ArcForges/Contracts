@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "4dfaebd33118f5405e1bbbcc5ef92ae21177f650",
+  "sourceCommit": "38a81017d078b5c646d6ef79d8d44e7f1d81c514",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -17,7 +17,7 @@
     {
       "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
       "access": "internal",
-      "sha256": "519bd579aa83cfaa00e05d981c8d646524bddb8c27be22e67573c190e5762800"
+      "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6"
     },
     {
       "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
@@ -42,7 +42,7 @@
     {
       "path": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public",
-      "sha256": "188c3667e1887926efd0df3bd3cb3574a2d8573ee0271171c7f96622d5dc8642"
+      "sha256": "675025c66cca55cf3771c0a4aadc6731501119f406bf5337001b8c8fb29a3703"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -73,8 +73,50 @@
       "access": "public"
     },
     {
+      "name": "arcforges.extensions.v1.Contribution",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.extensions.v1.ExtensionHostService",
       "kind": "service",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceHandshakeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceHandshakeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceHandshakeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceInvokeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceInvokeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceInvokeValue",
+      "kind": "message",
       "file": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public"
     },
@@ -97,7 +139,37 @@
       "access": "public"
     },
     {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceStopRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceStopResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ExtensionHostServiceStopValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.extensions.v1.ExtensionLease",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.FrozenContext",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.Invocation",
       "kind": "message",
       "file": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public"
@@ -439,7 +511,217 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerService",
+      "kind": "service",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceBeginConnectionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceCompleteConnectionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceGetConnectionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListConnectionsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceListDefinitionsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorBrokerServiceRevokeConnectionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorChallenge",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorConnection",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorDefinition",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ConnectorProof",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.EndpointManifest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapService",
+      "kind": "service",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceChallengeRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceChallengeResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceChallengeValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceConfirmRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceConfirmResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceConfirmValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.local.platform.v1.LocalChunk",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalEndpoint",
       "kind": "message",
       "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
       "access": "internal"
@@ -987,6 +1269,52 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ConfigurationDocument.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "ConfigurationDocument",
+        "ConfigurationBackup",
+        "ConfigurationCommerce",
+        "ConfigurationCustomerTariff",
+        "ConfigurationEmail",
+        "ConfigurationEntitlementProfile",
+        "ConfigurationFunding",
+        "ConfigurationIdentity",
+        "ConfigurationIdentityProvider",
+        "ConfigurationLaunchCapacity",
+        "ConfigurationModel",
+        "ConfigurationMoney",
+        "ConfigurationObjects",
+        "ConfigurationObservability",
+        "ConfigurationOffer",
+        "ConfigurationOperatorIdentity",
+        "ConfigurationOrigins",
+        "ConfigurationPolicy",
+        "ConfigurationPostmark",
+        "ConfigurationPush",
+        "ConfigurationRelease",
+        "ConfigurationSearch",
+        "ConfigurationSecretRef",
+        "ConfigurationServiceKey",
+        "ConfigurationSes",
+        "ConfigurationStatus",
+        "ConfigurationStatusComponents",
+        "ConfigurationSupplierPrice",
+        "ConfigurationDocumentJsonContext"
+      ],
+      "sha256": "59e9415e11392e7fa4fa6ee88c6882abc27c84d7fc8801614bc773c380b5a4b6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ConfigurationDocumentValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ConfigurationDocumentJson"],
+      "sha256": "21488011e8c48be189aa73eb3fcb9f76d6fd12b1ac61321dde6a7d031ee7d2a7",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ProtoValidation.g.cs",
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
@@ -1014,8 +1342,89 @@
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/Platform.cs",
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
-      "types": ["PlatformReflection", "LocalChunk"],
-      "sha256": "22d31db7bb514b215d5aa20e6cd230aed7ede730d303bca9670d90a3f05a56f1",
+      "types": [
+        "PlatformReflection",
+        "LocalChunk",
+        "LocalEndpoint",
+        "EndpointManifest",
+        "ConnectorDefinition",
+        "ConnectorConnection",
+        "ConnectorChallenge",
+        "ConnectorProof",
+        "proof_",
+        "ProofOneofCase",
+        "LocalBootstrapServiceChallengeRequest",
+        "LocalBootstrapServiceChallengeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "LocalBootstrapServiceChallengeValue",
+        "LocalBootstrapServiceConfirmRequest",
+        "LocalBootstrapServiceConfirmResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "LocalBootstrapServiceConfirmValue",
+        "LocalBootstrapServiceRenewRequest",
+        "LocalBootstrapServiceRenewResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "LocalBootstrapServiceRenewValue",
+        "ConnectorBrokerServiceListDefinitionsRequest",
+        "ConnectorBrokerServiceListDefinitionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorBrokerServiceListDefinitionsValue",
+        "ConnectorBrokerServiceListConnectionsRequest",
+        "ConnectorBrokerServiceListConnectionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorBrokerServiceListConnectionsValue",
+        "ConnectorBrokerServiceBeginConnectionRequest",
+        "ConnectorBrokerServiceBeginConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorBrokerServiceBeginConnectionValue",
+        "ConnectorBrokerServiceCompleteConnectionRequest",
+        "ConnectorBrokerServiceCompleteConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorBrokerServiceCompleteConnectionValue",
+        "ConnectorBrokerServiceGetConnectionRequest",
+        "ConnectorBrokerServiceGetConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorBrokerServiceGetConnectionValue",
+        "ConnectorBrokerServiceRevokeConnectionRequest",
+        "ConnectorBrokerServiceRevokeConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorBrokerServiceRevokeConnectionValue"
+      ],
+      "sha256": "2b4f72271af73cd4bc15a5e4092f93e07b2e9492dc58afe1cbf6f88e7263a533",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/PlatformGrpc.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal",
+      "types": [
+        "LocalBootstrapService",
+        "__Helper_MessageCache",
+        "LocalBootstrapServiceBase",
+        "LocalBootstrapServiceClient",
+        "ConnectorBrokerService",
+        "__Helper_MessageCache",
+        "ConnectorBrokerServiceBase",
+        "ConnectorBrokerServiceClient"
+      ],
+      "sha256": "2d488540963668729ab83dac0a90d39fd51dbb89d56cae1407048a8da094604e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Services/ContractServices.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal",
+      "types": ["ContractServices"],
+      "sha256": "0c004985e983b5fcc4b58a66d6d3f63f277ae8ff66965d608d76fa075eb22572",
       "kind": "generated"
     },
     {
@@ -1023,7 +1432,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "e891a89ecc2d704d3e4e91b5b2f8c8358f59afd9669bc01eb119b4cb78e6405b",
+      "sha256": "81e13c72b24b7aa6600947493af6af7bb71bb34796bfcc84d576ee8fea0e804a",
       "kind": "generated"
     },
     {
@@ -1086,6 +1495,46 @@
         "StrictJsonReader"
       ],
       "sha256": "242ff9d688b460806ddff00bc3a3371d1160952d04d3dd4ac15292ecc6143401",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ConfigurationDocument.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "ConfigurationDocument",
+        "ConfigurationBackup",
+        "ConfigurationCommerce",
+        "ConfigurationCustomerTariff",
+        "ConfigurationEmail",
+        "ConfigurationEntitlementProfile",
+        "ConfigurationFunding",
+        "ConfigurationIdentity",
+        "ConfigurationIdentityProvider",
+        "ConfigurationLaunchCapacity",
+        "ConfigurationModel",
+        "ConfigurationMoney",
+        "ConfigurationObjects",
+        "ConfigurationObservability",
+        "ConfigurationOffer",
+        "ConfigurationOperatorIdentity",
+        "ConfigurationOrigins",
+        "ConfigurationPolicy",
+        "ConfigurationPostmark",
+        "ConfigurationPush",
+        "ConfigurationRelease",
+        "ConfigurationSearch",
+        "ConfigurationSecretRef",
+        "ConfigurationServiceKey",
+        "ConfigurationSes",
+        "ConfigurationStatus",
+        "ConfigurationStatusComponents",
+        "ConfigurationSupplierPrice",
+        "StrictJsonResult",
+        "StrictJsonReader",
+        "ConfigurationNode"
+      ],
+      "sha256": "21c8db63a6e9e75a443b00fd0da599303146e5d84c9e93d77d31e1bb77c8fbbc",
       "kind": "generated"
     },
     {
@@ -1437,6 +1886,89 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PolicyBody.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "PolicyBody",
+        "PolicyExperiment",
+        "PolicyPredicate",
+        "PolicyPredicatePolicyAll",
+        "PolicyPredicatePolicyAny",
+        "PolicyPredicatePolicyNot",
+        "PolicyPredicatePolicyEqualText",
+        "PolicyPredicatePolicyEqualMajor",
+        "PolicyPredicatePolicyInText",
+        "PolicyPredicatePolicyInMajor",
+        "PolicyPredicatePolicyVersionAtLeast",
+        "PolicyPredicatePolicyPercent",
+        "PolicyAll",
+        "PolicyAny",
+        "PolicyEqualMajor",
+        "PolicyEqualText",
+        "PolicyInMajor",
+        "PolicyInText",
+        "PolicyNot",
+        "PolicyPercent",
+        "PolicyRule",
+        "PolicyRulePolicyStopRule",
+        "PolicyRulePolicyRevocationsRule",
+        "PolicyRulePolicyMinimumContractsRule",
+        "PolicyRulePolicyMinimumAppRule",
+        "PolicyRulePolicyCacheRule",
+        "PolicyRulePolicyPollRule",
+        "PolicyRulePolicyTraceSampleRule",
+        "PolicyRulePolicyTraceBufferRule",
+        "PolicyRulePolicyModelCallsRule",
+        "PolicyRulePolicyToolCallsRule",
+        "PolicyRulePolicyParallelToolsRule",
+        "PolicyRulePolicyActiveTimeRule",
+        "PolicyRulePolicySearchRule",
+        "PolicyRulePolicyDensityRule",
+        "PolicyRulePolicyHomeSummaryRule",
+        "PolicyActiveTimeRule",
+        "PolicyCacheRule",
+        "PolicyDensityRule",
+        "PolicyHomeSummaryRule",
+        "PolicyMinimumAppRule",
+        "PolicyMinimumApp",
+        "PolicyMinimumContractsRule",
+        "PolicyMinimumContracts",
+        "PolicyModelCallsRule",
+        "PolicyParallelToolsRule",
+        "PolicyPollRule",
+        "PolicyRevocationsRule",
+        "PolicyRevokedVersion",
+        "PolicySearchRule",
+        "PolicyStopRule",
+        "PolicyStop",
+        "PolicyTarget",
+        "PolicyTargetPolicyStableTarget",
+        "PolicyTargetPolicyAll",
+        "PolicyTargetPolicyAny",
+        "PolicyTargetPolicyNot",
+        "PolicyTargetPolicyEqualText",
+        "PolicyTargetPolicyEqualMajor",
+        "PolicyTargetPolicyInText",
+        "PolicyTargetPolicyInMajor",
+        "PolicyTargetPolicyVersionAtLeast",
+        "PolicyTargetPolicyPercent",
+        "PolicyToolCallsRule",
+        "PolicyTraceBufferRule",
+        "PolicyTraceSampleRule",
+        "PolicyVariant",
+        "PolicyPresentation",
+        "PolicyVersionAtLeast",
+        "PolicyBodyJsonContext",
+        "PolicyBodyUnionChecks",
+        "PolicyPredicateConverter",
+        "PolicyRuleConverter",
+        "PolicyTargetConverter"
+      ],
+      "sha256": "434bc10cfdeb0e1d4bdf3b68217c3e2a0d6559adae9bfa19acacd9c1a52d77a7",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/RealmDescriptor.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -1518,6 +2050,30 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/DeclarativePanelValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["DeclarativePanelJson"],
+      "sha256": "cb6e5393a4025349d1305e9a613d568c2bf587016e69ec04c01a05f4ed4d6a2e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ExtensionManifestValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["ExtensionManifestJson"],
+      "sha256": "2888c390339224d28ad0b4e49b9d09a40b09f3169650b24e643bdb07fc386b46",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ExtensionWorkflowValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["ExtensionWorkflowJson"],
+      "sha256": "8f4e35538da489d33996250dcf20be398515e3ee69d3ba8e81394d89ffabac40",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PackageInventoryValidator.g.cs",
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
@@ -1534,11 +2090,19 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PolicyBodyValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["PolicyBodyJson"],
+      "sha256": "377e821451d7b3bf3c33c6fadd67c49f68cd12c750325f0cd0327c4d9e5f2a0e",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ProtoValidation.g.cs",
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "ea623ae7660c45c74d7b10309f2bcff7241a5fb4d6f7730e170f411df7c2eb06",
+      "sha256": "54adcbc348c3fb9a7a35a70a0ad48146d98e79c3868c3365c2a811f26f07a7f2",
       "kind": "generated"
     },
     {
@@ -1568,9 +2132,29 @@
         "ExtensionHostServiceRenewLeaseResponse",
         "outcome_",
         "OutcomeOneofCase",
-        "ExtensionHostServiceRenewLeaseValue"
+        "ExtensionHostServiceRenewLeaseValue",
+        "Contribution",
+        "FrozenContext",
+        "Invocation",
+        "precondition_",
+        "PreconditionOneofCase",
+        "ExtensionHostServiceHandshakeRequest",
+        "ExtensionHostServiceHandshakeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ExtensionHostServiceHandshakeValue",
+        "ExtensionHostServiceInvokeRequest",
+        "ExtensionHostServiceInvokeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ExtensionHostServiceInvokeValue",
+        "ExtensionHostServiceStopRequest",
+        "ExtensionHostServiceStopResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ExtensionHostServiceStopValue"
       ],
-      "sha256": "79e3c1de76e534df603d721b9da1a8cdcb0f8b4737d4c776b469d90c2937c447",
+      "sha256": "43fab39d309834a6745afecf14373e5f395cfcc69039c10adaaf66e88670d556",
       "kind": "generated"
     },
     {
@@ -1583,7 +2167,7 @@
         "ExtensionHostServiceBase",
         "ExtensionHostServiceClient"
       ],
-      "sha256": "b9d73d5c8d06bebfdb00a3fc52ec7abf9c809700e32207240ee552fcc917473c",
+      "sha256": "919a0e6507b5e6f4eece2e9b25d04f5cd7417c8349e2bd92b011bcab6a14c474",
       "kind": "generated"
     },
     {
@@ -1592,6 +2176,198 @@
       "access": "public",
       "types": ["ContractServices"],
       "sha256": "f00b657422ef45db617c4c89e55bd129392d0602be82ba102b344b96a2fb1722",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/DeclarativePanel.g.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": [
+        "DeclarativePanel",
+        "PanelControl",
+        "PanelControlPanelColumnControl",
+        "PanelControlPanelRowControl",
+        "PanelControlPanelSectionControl",
+        "PanelControlPanelTextControl",
+        "PanelControlPanelTextInputControl",
+        "PanelControlPanelNumberInputControl",
+        "PanelControlPanelToggleControl",
+        "PanelControlPanelSelectControl",
+        "PanelControlPanelButtonControl",
+        "PanelControlPanelListControl",
+        "PanelControlPanelTableControl",
+        "PanelControlPanelResourceLinkControl",
+        "PanelControlPanelPreviewControl",
+        "PanelButtonControl",
+        "PanelArgument",
+        "PanelColumnControl",
+        "PanelListControl",
+        "PanelNumberInputControl",
+        "PanelPredicate",
+        "PanelPredicatePanelComparison",
+        "PanelPredicatePanelExists",
+        "PanelPredicatePanelAll",
+        "PanelPredicatePanelAny",
+        "PanelAll",
+        "PanelAny",
+        "PanelComparison",
+        "PanelExists",
+        "PanelPreviewControl",
+        "PanelResourceLinkControl",
+        "PanelRowControl",
+        "PanelSectionControl",
+        "PanelSelectControl",
+        "PanelTableControl",
+        "PanelTextControl",
+        "PanelTextInputControl",
+        "PanelToggleControl",
+        "PanelValueRef",
+        "DeclarativePanelJsonContext",
+        "DeclarativePanelUnionChecks",
+        "PanelControlConverter",
+        "PanelPredicateConverter"
+      ],
+      "sha256": "db8a4f3c814045860e6da77c156d95c5d3fc82a2f4ee4b85293a37636ef07ddc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/ExtensionManifest.g.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": [
+        "ExtensionManifest",
+        "ManifestContractRange",
+        "ManifestContribution",
+        "ManifestContributionManifestSkillContribution",
+        "ManifestContributionManifestTemplateContribution",
+        "ManifestContributionManifestWorkflowContribution",
+        "ManifestContributionManifestMcpContribution",
+        "ManifestContributionManifestConnectorContribution",
+        "ManifestContributionManifestExtensionContribution",
+        "ManifestConnectorContribution",
+        "ManifestConnectorBody",
+        "ManifestCallLimits",
+        "ManifestCapabilityBinding",
+        "ManifestDependency",
+        "ManifestExecutable",
+        "ManifestExtensionContribution",
+        "ManifestExtensionBody",
+        "ManifestContent",
+        "ManifestExtensionPoint",
+        "ManifestMcpContribution",
+        "ManifestMcpBody",
+        "ManifestMcpBodyManifestMcpStdioBody",
+        "ManifestMcpBodyManifestMcpHttpBody",
+        "ManifestMcpHttpBody",
+        "ManifestMcpStdioBody",
+        "ManifestPermission",
+        "ManifestPermissionManifestCapabilityPermission",
+        "ManifestPermissionManifestResourcePermission",
+        "ManifestPermissionManifestNetworkPermission",
+        "ManifestPermissionManifestBackgroundPermission",
+        "ManifestBackgroundPermission",
+        "ManifestCapabilityPermission",
+        "ManifestNetworkPermission",
+        "ManifestPlatform",
+        "ManifestPrivateState",
+        "ManifestMigrationRange",
+        "ManifestResource",
+        "ManifestResourcePermission",
+        "ManifestSecretInput",
+        "ManifestSkillContribution",
+        "ManifestSkillBody",
+        "ManifestTemplateContribution",
+        "ManifestTemplateBody",
+        "ManifestParameter",
+        "ManifestTypedValue",
+        "ManifestTypedValueManifestTextValue",
+        "ManifestTypedValueManifestBoolValue",
+        "ManifestTypedValueManifestInt64Value",
+        "ManifestTypedValueManifestDecimalValue",
+        "ManifestTypedValueManifestEnumValue",
+        "ManifestTypedValueManifestResourceRefValue",
+        "ManifestBoolValue",
+        "ManifestDecimalValue",
+        "ManifestEnumValue",
+        "ManifestInt64Value",
+        "ManifestResourceRefValue",
+        "ManifestResourceRef",
+        "ManifestTextValue",
+        "ManifestVersionRange",
+        "ManifestWorkflowContribution",
+        "ManifestWorkflowBody",
+        "ExtensionManifestJsonContext",
+        "ExtensionManifestUnionChecks",
+        "ManifestContributionConverter",
+        "ManifestMcpBodyConverter",
+        "ManifestPermissionConverter",
+        "ManifestTypedValueConverter"
+      ],
+      "sha256": "1a413f89fa2fcc1acfda473bc3562790f3005c0c2c5df59a6fcfe91952580bdd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/ExtensionWorkflow.g.cs",
+      "package": "ArcForges.Sdk.Contracts",
+      "access": "public",
+      "types": [
+        "ExtensionWorkflow",
+        "WorkflowInput",
+        "WorkflowLimits",
+        "WorkflowNode",
+        "WorkflowNodeWorkflowConstantNode",
+        "WorkflowNodeWorkflowInputNode",
+        "WorkflowNodeWorkflowSelectNode",
+        "WorkflowNodeWorkflowCapabilityNode",
+        "WorkflowNodeWorkflowConditionNode",
+        "WorkflowNodeWorkflowForeachNode",
+        "WorkflowNodeWorkflowOutputNode",
+        "WorkflowCapabilityNode",
+        "WorkflowArgument",
+        "WorkflowConditionNode",
+        "WorkflowConstantNode",
+        "WorkflowForeachNode",
+        "WorkflowInputNode",
+        "WorkflowOperand",
+        "WorkflowOperandWorkflowLiteralOperand",
+        "WorkflowOperandWorkflowReferenceOperand",
+        "WorkflowLiteralOperand",
+        "WorkflowOutput",
+        "WorkflowOutputNode",
+        "WorkflowPredicate",
+        "WorkflowPredicateWorkflowComparison",
+        "WorkflowPredicateWorkflowExists",
+        "WorkflowPredicateWorkflowAll",
+        "WorkflowPredicateWorkflowAny",
+        "WorkflowAll",
+        "WorkflowAny",
+        "WorkflowComparison",
+        "WorkflowExists",
+        "WorkflowReferenceOperand",
+        "WorkflowSelectNode",
+        "WorkflowTypedValue",
+        "WorkflowTypedValueWorkflowTextValue",
+        "WorkflowTypedValueWorkflowBoolValue",
+        "WorkflowTypedValueWorkflowInt64Value",
+        "WorkflowTypedValueWorkflowDecimalValue",
+        "WorkflowTypedValueWorkflowEnumValue",
+        "WorkflowTypedValueWorkflowResourceRefValue",
+        "WorkflowBoolValue",
+        "WorkflowDecimalValue",
+        "WorkflowEnumValue",
+        "WorkflowInt64Value",
+        "WorkflowResourceRefValue",
+        "WorkflowResourceRef",
+        "WorkflowTextValue",
+        "WorkflowValueRef",
+        "ExtensionWorkflowJsonContext",
+        "ExtensionWorkflowUnionChecks",
+        "WorkflowNodeConverter",
+        "WorkflowOperandConverter",
+        "WorkflowPredicateConverter",
+        "WorkflowTypedValueConverter"
+      ],
+      "sha256": "713aa48c96599ddc99a1a668f15fd30271595437c7a2e32a0e3cf741315bf8ee",
       "kind": "generated"
     },
     {
@@ -2387,22 +3163,6 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionedRef", "Builder"],
-      "sha256": "3131061fa28e11f5494dff299b495e81ead0906695b117d55bfbe51856fdca75",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRefOrBuilder.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionedRefOrBuilder"],
-      "sha256": "1bbe39ad30027c20fcf206af6c9482802c9bc96adac899f83e6e2b9ba1b72465",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailure.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -2416,6 +3176,22 @@
       "access": "public",
       "types": ["VersionFailureOrBuilder"],
       "sha256": "657056a0bc0688efae70618ba0a541f0fd65782da26b597eb2b8700ce045192f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionedRef", "Builder"],
+      "sha256": "3131061fa28e11f5494dff299b495e81ead0906695b117d55bfbe51856fdca75",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRefOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionedRefOrBuilder"],
+      "sha256": "1bbe39ad30027c20fcf206af6c9482802c9bc96adac899f83e6e2b9ba1b72465",
       "kind": "generated"
     },
     {
@@ -3841,19 +4617,19 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionedRefKt", "Dsl"],
-      "sha256": "5cfa97b24ceb9d067fbd6781f398e3c48d075ea0dd25dc4f12ff1956bf550e09",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionFailureKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["VersionFailureKt", "Dsl"],
       "sha256": "386340e2635090263d6dacda90bfe8334a923f2eb6a745d3d86bd39d54d867c1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionedRefKt", "Dsl"],
+      "sha256": "5cfa97b24ceb9d067fbd6781f398e3c48d075ea0dd25dc4f12ff1956bf550e09",
       "kind": "generated"
     },
     {
@@ -4459,6 +5235,135 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/ts/api-client/src/shapes/gen/DeclarativePanel.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [
+        "DeclarativePanel",
+        "PanelControl",
+        "PanelButtonControl",
+        "PanelArgument",
+        "PanelColumnControl",
+        "PanelListControl",
+        "PanelNumberInputControl",
+        "PanelPredicate",
+        "PanelAll",
+        "PanelAny",
+        "PanelComparison",
+        "PanelExists",
+        "PanelPreviewControl",
+        "PanelResourceLinkControl",
+        "PanelRowControl",
+        "PanelSectionControl",
+        "PanelSelectControl",
+        "PanelTableControl",
+        "PanelTextControl",
+        "PanelTextInputControl",
+        "PanelToggleControl",
+        "PanelValueRef",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "2cd99e735dd6e776609be263a7d9b61b0db54176ca1c4e891c72ec58a278dc95",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/ExtensionManifest.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [
+        "ExtensionManifest",
+        "ManifestContractRange",
+        "ManifestContribution",
+        "ManifestConnectorContribution",
+        "ManifestConnectorBody",
+        "ManifestCallLimits",
+        "ManifestCapabilityBinding",
+        "ManifestDependency",
+        "ManifestExecutable",
+        "ManifestExtensionContribution",
+        "ManifestExtensionBody",
+        "ManifestContent",
+        "ManifestExtensionPoint",
+        "ManifestMcpContribution",
+        "ManifestMcpBody",
+        "ManifestMcpHttpBody",
+        "ManifestMcpStdioBody",
+        "ManifestPermission",
+        "ManifestBackgroundPermission",
+        "ManifestCapabilityPermission",
+        "ManifestNetworkPermission",
+        "ManifestPlatform",
+        "ManifestPrivateState",
+        "ManifestMigrationRange",
+        "ManifestResource",
+        "ManifestResourcePermission",
+        "ManifestSecretInput",
+        "ManifestSkillContribution",
+        "ManifestSkillBody",
+        "ManifestTemplateContribution",
+        "ManifestTemplateBody",
+        "ManifestParameter",
+        "ManifestTypedValue",
+        "ManifestBoolValue",
+        "ManifestDecimalValue",
+        "ManifestEnumValue",
+        "ManifestInt64Value",
+        "ManifestResourceRefValue",
+        "ManifestResourceRef",
+        "ManifestTextValue",
+        "ManifestVersionRange",
+        "ManifestWorkflowContribution",
+        "ManifestWorkflowBody",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "7f995c5e9ad725ce2959a3ee52a4c0677e62ddf8918a21a311bf18ece7e37f2a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/ExtensionWorkflow.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [
+        "ExtensionWorkflow",
+        "WorkflowInput",
+        "WorkflowLimits",
+        "WorkflowNode",
+        "WorkflowCapabilityNode",
+        "WorkflowArgument",
+        "WorkflowConditionNode",
+        "WorkflowConstantNode",
+        "WorkflowForeachNode",
+        "WorkflowInputNode",
+        "WorkflowOperand",
+        "WorkflowLiteralOperand",
+        "WorkflowOutput",
+        "WorkflowOutputNode",
+        "WorkflowPredicate",
+        "WorkflowAll",
+        "WorkflowAny",
+        "WorkflowComparison",
+        "WorkflowExists",
+        "WorkflowReferenceOperand",
+        "WorkflowSelectNode",
+        "WorkflowTypedValue",
+        "WorkflowBoolValue",
+        "WorkflowDecimalValue",
+        "WorkflowEnumValue",
+        "WorkflowInt64Value",
+        "WorkflowResourceRefValue",
+        "WorkflowResourceRef",
+        "WorkflowTextValue",
+        "WorkflowValueRef",
+        "StrictJsonResult",
+        "StrictJsonReader",
+        "WorkflowRuleObject"
+      ],
+      "sha256": "805f596791a78b27ae4eed2374c02f4c0c999b37e75c865d9e0a77654d1929c8",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/api-client/src/shapes/gen/PackageInventory.ts",
       "package": "@arcforges/api-client",
       "access": "public",
@@ -4475,6 +5380,52 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/ts/api-client/src/shapes/gen/PolicyBody.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [
+        "PolicyBody",
+        "PolicyExperiment",
+        "PolicyPredicate",
+        "PolicyAll",
+        "PolicyAny",
+        "PolicyEqualMajor",
+        "PolicyEqualText",
+        "PolicyInMajor",
+        "PolicyInText",
+        "PolicyNot",
+        "PolicyPercent",
+        "PolicyRule",
+        "PolicyActiveTimeRule",
+        "PolicyCacheRule",
+        "PolicyDensityRule",
+        "PolicyHomeSummaryRule",
+        "PolicyMinimumAppRule",
+        "PolicyMinimumApp",
+        "PolicyMinimumContractsRule",
+        "PolicyMinimumContracts",
+        "PolicyModelCallsRule",
+        "PolicyParallelToolsRule",
+        "PolicyPollRule",
+        "PolicyRevocationsRule",
+        "PolicyRevokedVersion",
+        "PolicySearchRule",
+        "PolicyStopRule",
+        "PolicyStop",
+        "PolicyTarget",
+        "PolicyToolCallsRule",
+        "PolicyTraceBufferRule",
+        "PolicyTraceSampleRule",
+        "PolicyVariant",
+        "PolicyPresentation",
+        "PolicyVersionAtLeast",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "5f34cb6c18a130423002ec45da063e3a237fcf0bf42201cee83d65b2360e3e5b",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/api-client/src/shapes/gen/RealmDescriptor.ts",
       "package": "@arcforges/api-client",
       "access": "public",
@@ -4487,7 +5438,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "1e1149b7e2e4bd55e48c030aceb273fb053380fd4419a0ff0aea8f9cc2dd1527",
+      "sha256": "2bdfc483b30e1f17e3dd60d123ffdcef737f62f07a98f81bff3f4debc3d10cb3",
       "kind": "generated"
     },
     {
@@ -4769,581 +5720,9 @@
       "types": ["WireLimit", "ContractSerializationFailure", "ContractSerializationError"],
       "sha256": "f1ec30cb721bef8b617bc3c82dd75a2b068e3443421374866b52bee09aca9d56",
       "kind": "authored"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ConfigurationDocument.g.cs",
-      "package": "ArcForges.Contracts.CloudInternal",
-      "access": "internal",
-      "types": [
-        "ConfigurationDocument",
-        "ConfigurationBackup",
-        "ConfigurationCommerce",
-        "ConfigurationCustomerTariff",
-        "ConfigurationEmail",
-        "ConfigurationEntitlementProfile",
-        "ConfigurationFunding",
-        "ConfigurationIdentity",
-        "ConfigurationIdentityProvider",
-        "ConfigurationLaunchCapacity",
-        "ConfigurationModel",
-        "ConfigurationMoney",
-        "ConfigurationObjects",
-        "ConfigurationObservability",
-        "ConfigurationOffer",
-        "ConfigurationOperatorIdentity",
-        "ConfigurationOrigins",
-        "ConfigurationPolicy",
-        "ConfigurationPostmark",
-        "ConfigurationPush",
-        "ConfigurationRelease",
-        "ConfigurationSearch",
-        "ConfigurationSecretRef",
-        "ConfigurationServiceKey",
-        "ConfigurationSes",
-        "ConfigurationStatus",
-        "ConfigurationStatusComponents",
-        "ConfigurationSupplierPrice",
-        "ConfigurationDocumentJsonContext"
-      ],
-      "sha256": "59e9415e11392e7fa4fa6ee88c6882abc27c84d7fc8801614bc773c380b5a4b6",
-      "kind": "generated"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ConfigurationDocumentValidator.g.cs",
-      "package": "ArcForges.Contracts.CloudInternal",
-      "access": "internal",
-      "types": ["ConfigurationDocumentJson"],
-      "sha256": "21488011e8c48be189aa73eb3fcb9f76d6fd12b1ac61321dde6a7d031ee7d2a7",
-      "kind": "generated"
-    },
-    {
-      "path": "src/internal/ts/ai-internal/src/shapes/gen/ConfigurationDocument.ts",
-      "package": "@arcforges/ai-internal",
-      "access": "internal",
-      "types": [
-        "ConfigurationDocument",
-        "ConfigurationBackup",
-        "ConfigurationCommerce",
-        "ConfigurationCustomerTariff",
-        "ConfigurationEmail",
-        "ConfigurationEntitlementProfile",
-        "ConfigurationFunding",
-        "ConfigurationIdentity",
-        "ConfigurationIdentityProvider",
-        "ConfigurationLaunchCapacity",
-        "ConfigurationModel",
-        "ConfigurationMoney",
-        "ConfigurationObjects",
-        "ConfigurationObservability",
-        "ConfigurationOffer",
-        "ConfigurationOperatorIdentity",
-        "ConfigurationOrigins",
-        "ConfigurationPolicy",
-        "ConfigurationPostmark",
-        "ConfigurationPush",
-        "ConfigurationRelease",
-        "ConfigurationSearch",
-        "ConfigurationSecretRef",
-        "ConfigurationServiceKey",
-        "ConfigurationSes",
-        "ConfigurationStatus",
-        "ConfigurationStatusComponents",
-        "ConfigurationSupplierPrice",
-        "StrictJsonResult",
-        "StrictJsonReader",
-        "ConfigurationNode"
-      ],
-      "sha256": "21c8db63a6e9e75a443b00fd0da599303146e5d84c9e93d77d31e1bb77c8fbbc",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PolicyBody.g.cs",
-      "package": "ArcForges.Contracts.PublicApi",
-      "access": "public",
-      "types": [
-        "PolicyBody",
-        "PolicyExperiment",
-        "PolicyPredicate",
-        "PolicyPredicatePolicyAll",
-        "PolicyPredicatePolicyAny",
-        "PolicyPredicatePolicyNot",
-        "PolicyPredicatePolicyEqualText",
-        "PolicyPredicatePolicyEqualMajor",
-        "PolicyPredicatePolicyInText",
-        "PolicyPredicatePolicyInMajor",
-        "PolicyPredicatePolicyVersionAtLeast",
-        "PolicyPredicatePolicyPercent",
-        "PolicyAll",
-        "PolicyAny",
-        "PolicyEqualMajor",
-        "PolicyEqualText",
-        "PolicyInMajor",
-        "PolicyInText",
-        "PolicyNot",
-        "PolicyPercent",
-        "PolicyRule",
-        "PolicyRulePolicyStopRule",
-        "PolicyRulePolicyRevocationsRule",
-        "PolicyRulePolicyMinimumContractsRule",
-        "PolicyRulePolicyMinimumAppRule",
-        "PolicyRulePolicyCacheRule",
-        "PolicyRulePolicyPollRule",
-        "PolicyRulePolicyTraceSampleRule",
-        "PolicyRulePolicyTraceBufferRule",
-        "PolicyRulePolicyModelCallsRule",
-        "PolicyRulePolicyToolCallsRule",
-        "PolicyRulePolicyParallelToolsRule",
-        "PolicyRulePolicyActiveTimeRule",
-        "PolicyRulePolicySearchRule",
-        "PolicyRulePolicyDensityRule",
-        "PolicyRulePolicyHomeSummaryRule",
-        "PolicyActiveTimeRule",
-        "PolicyCacheRule",
-        "PolicyDensityRule",
-        "PolicyHomeSummaryRule",
-        "PolicyMinimumAppRule",
-        "PolicyMinimumApp",
-        "PolicyMinimumContractsRule",
-        "PolicyMinimumContracts",
-        "PolicyModelCallsRule",
-        "PolicyParallelToolsRule",
-        "PolicyPollRule",
-        "PolicyRevocationsRule",
-        "PolicyRevokedVersion",
-        "PolicySearchRule",
-        "PolicyStopRule",
-        "PolicyStop",
-        "PolicyTarget",
-        "PolicyTargetPolicyStableTarget",
-        "PolicyTargetPolicyAll",
-        "PolicyTargetPolicyAny",
-        "PolicyTargetPolicyNot",
-        "PolicyTargetPolicyEqualText",
-        "PolicyTargetPolicyEqualMajor",
-        "PolicyTargetPolicyInText",
-        "PolicyTargetPolicyInMajor",
-        "PolicyTargetPolicyVersionAtLeast",
-        "PolicyTargetPolicyPercent",
-        "PolicyToolCallsRule",
-        "PolicyTraceBufferRule",
-        "PolicyTraceSampleRule",
-        "PolicyVariant",
-        "PolicyPresentation",
-        "PolicyVersionAtLeast",
-        "PolicyBodyJsonContext",
-        "PolicyBodyUnionChecks",
-        "PolicyPredicateConverter",
-        "PolicyRuleConverter",
-        "PolicyTargetConverter"
-      ],
-      "sha256": "434bc10cfdeb0e1d4bdf3b68217c3e2a0d6559adae9bfa19acacd9c1a52d77a7",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/DeclarativePanelValidator.g.cs",
-      "package": "ArcForges.Contracts.Validation",
-      "access": "public",
-      "types": ["DeclarativePanelJson"],
-      "sha256": "cb6e5393a4025349d1305e9a613d568c2bf587016e69ec04c01a05f4ed4d6a2e",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ExtensionManifestValidator.g.cs",
-      "package": "ArcForges.Contracts.Validation",
-      "access": "public",
-      "types": ["ExtensionManifestJson"],
-      "sha256": "2888c390339224d28ad0b4e49b9d09a40b09f3169650b24e643bdb07fc386b46",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ExtensionWorkflowValidator.g.cs",
-      "package": "ArcForges.Contracts.Validation",
-      "access": "public",
-      "types": ["ExtensionWorkflowJson"],
-      "sha256": "8f4e35538da489d33996250dcf20be398515e3ee69d3ba8e81394d89ffabac40",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PolicyBodyValidator.g.cs",
-      "package": "ArcForges.Contracts.Validation",
-      "access": "public",
-      "types": ["PolicyBodyJson"],
-      "sha256": "377e821451d7b3bf3c33c6fadd67c49f68cd12c750325f0cd0327c4d9e5f2a0e",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/DeclarativePanel.g.cs",
-      "package": "ArcForges.Sdk.Contracts",
-      "access": "public",
-      "types": [
-        "DeclarativePanel",
-        "PanelControl",
-        "PanelControlPanelColumnControl",
-        "PanelControlPanelRowControl",
-        "PanelControlPanelSectionControl",
-        "PanelControlPanelTextControl",
-        "PanelControlPanelTextInputControl",
-        "PanelControlPanelNumberInputControl",
-        "PanelControlPanelToggleControl",
-        "PanelControlPanelSelectControl",
-        "PanelControlPanelButtonControl",
-        "PanelControlPanelListControl",
-        "PanelControlPanelTableControl",
-        "PanelControlPanelResourceLinkControl",
-        "PanelControlPanelPreviewControl",
-        "PanelButtonControl",
-        "PanelArgument",
-        "PanelColumnControl",
-        "PanelListControl",
-        "PanelNumberInputControl",
-        "PanelPredicate",
-        "PanelPredicatePanelComparison",
-        "PanelPredicatePanelExists",
-        "PanelPredicatePanelAll",
-        "PanelPredicatePanelAny",
-        "PanelAll",
-        "PanelAny",
-        "PanelComparison",
-        "PanelExists",
-        "PanelPreviewControl",
-        "PanelResourceLinkControl",
-        "PanelRowControl",
-        "PanelSectionControl",
-        "PanelSelectControl",
-        "PanelTableControl",
-        "PanelTextControl",
-        "PanelTextInputControl",
-        "PanelToggleControl",
-        "PanelValueRef",
-        "DeclarativePanelJsonContext",
-        "DeclarativePanelUnionChecks",
-        "PanelControlConverter",
-        "PanelPredicateConverter"
-      ],
-      "sha256": "db8a4f3c814045860e6da77c156d95c5d3fc82a2f4ee4b85293a37636ef07ddc",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/ExtensionManifest.g.cs",
-      "package": "ArcForges.Sdk.Contracts",
-      "access": "public",
-      "types": [
-        "ExtensionManifest",
-        "ManifestContractRange",
-        "ManifestContribution",
-        "ManifestContributionManifestSkillContribution",
-        "ManifestContributionManifestTemplateContribution",
-        "ManifestContributionManifestWorkflowContribution",
-        "ManifestContributionManifestMcpContribution",
-        "ManifestContributionManifestConnectorContribution",
-        "ManifestContributionManifestExtensionContribution",
-        "ManifestConnectorContribution",
-        "ManifestConnectorBody",
-        "ManifestCallLimits",
-        "ManifestCapabilityBinding",
-        "ManifestDependency",
-        "ManifestExecutable",
-        "ManifestExtensionContribution",
-        "ManifestExtensionBody",
-        "ManifestContent",
-        "ManifestExtensionPoint",
-        "ManifestMcpContribution",
-        "ManifestMcpBody",
-        "ManifestMcpBodyManifestMcpStdioBody",
-        "ManifestMcpBodyManifestMcpHttpBody",
-        "ManifestMcpHttpBody",
-        "ManifestMcpStdioBody",
-        "ManifestPermission",
-        "ManifestPermissionManifestCapabilityPermission",
-        "ManifestPermissionManifestResourcePermission",
-        "ManifestPermissionManifestNetworkPermission",
-        "ManifestPermissionManifestBackgroundPermission",
-        "ManifestBackgroundPermission",
-        "ManifestCapabilityPermission",
-        "ManifestNetworkPermission",
-        "ManifestPlatform",
-        "ManifestPrivateState",
-        "ManifestMigrationRange",
-        "ManifestResource",
-        "ManifestResourcePermission",
-        "ManifestSecretInput",
-        "ManifestSkillContribution",
-        "ManifestSkillBody",
-        "ManifestTemplateContribution",
-        "ManifestTemplateBody",
-        "ManifestParameter",
-        "ManifestTypedValue",
-        "ManifestTypedValueManifestTextValue",
-        "ManifestTypedValueManifestBoolValue",
-        "ManifestTypedValueManifestInt64Value",
-        "ManifestTypedValueManifestDecimalValue",
-        "ManifestTypedValueManifestEnumValue",
-        "ManifestTypedValueManifestResourceRefValue",
-        "ManifestBoolValue",
-        "ManifestDecimalValue",
-        "ManifestEnumValue",
-        "ManifestInt64Value",
-        "ManifestResourceRefValue",
-        "ManifestResourceRef",
-        "ManifestTextValue",
-        "ManifestVersionRange",
-        "ManifestWorkflowContribution",
-        "ManifestWorkflowBody",
-        "ExtensionManifestJsonContext",
-        "ExtensionManifestUnionChecks",
-        "ManifestContributionConverter",
-        "ManifestMcpBodyConverter",
-        "ManifestPermissionConverter",
-        "ManifestTypedValueConverter"
-      ],
-      "sha256": "1a413f89fa2fcc1acfda473bc3562790f3005c0c2c5df59a6fcfe91952580bdd",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Shapes/ExtensionWorkflow.g.cs",
-      "package": "ArcForges.Sdk.Contracts",
-      "access": "public",
-      "types": [
-        "ExtensionWorkflow",
-        "WorkflowInput",
-        "WorkflowLimits",
-        "WorkflowNode",
-        "WorkflowNodeWorkflowConstantNode",
-        "WorkflowNodeWorkflowInputNode",
-        "WorkflowNodeWorkflowSelectNode",
-        "WorkflowNodeWorkflowCapabilityNode",
-        "WorkflowNodeWorkflowConditionNode",
-        "WorkflowNodeWorkflowForeachNode",
-        "WorkflowNodeWorkflowOutputNode",
-        "WorkflowCapabilityNode",
-        "WorkflowArgument",
-        "WorkflowConditionNode",
-        "WorkflowConstantNode",
-        "WorkflowForeachNode",
-        "WorkflowInputNode",
-        "WorkflowOperand",
-        "WorkflowOperandWorkflowLiteralOperand",
-        "WorkflowOperandWorkflowReferenceOperand",
-        "WorkflowLiteralOperand",
-        "WorkflowOutput",
-        "WorkflowOutputNode",
-        "WorkflowPredicate",
-        "WorkflowPredicateWorkflowComparison",
-        "WorkflowPredicateWorkflowExists",
-        "WorkflowPredicateWorkflowAll",
-        "WorkflowPredicateWorkflowAny",
-        "WorkflowAll",
-        "WorkflowAny",
-        "WorkflowComparison",
-        "WorkflowExists",
-        "WorkflowReferenceOperand",
-        "WorkflowSelectNode",
-        "WorkflowTypedValue",
-        "WorkflowTypedValueWorkflowTextValue",
-        "WorkflowTypedValueWorkflowBoolValue",
-        "WorkflowTypedValueWorkflowInt64Value",
-        "WorkflowTypedValueWorkflowDecimalValue",
-        "WorkflowTypedValueWorkflowEnumValue",
-        "WorkflowTypedValueWorkflowResourceRefValue",
-        "WorkflowBoolValue",
-        "WorkflowDecimalValue",
-        "WorkflowEnumValue",
-        "WorkflowInt64Value",
-        "WorkflowResourceRefValue",
-        "WorkflowResourceRef",
-        "WorkflowTextValue",
-        "WorkflowValueRef",
-        "ExtensionWorkflowJsonContext",
-        "ExtensionWorkflowUnionChecks",
-        "WorkflowNodeConverter",
-        "WorkflowOperandConverter",
-        "WorkflowPredicateConverter",
-        "WorkflowTypedValueConverter"
-      ],
-      "sha256": "713aa48c96599ddc99a1a668f15fd30271595437c7a2e32a0e3cf741315bf8ee",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/ts/api-client/src/shapes/gen/DeclarativePanel.ts",
-      "package": "@arcforges/api-client",
-      "access": "public",
-      "types": [
-        "DeclarativePanel",
-        "PanelControl",
-        "PanelButtonControl",
-        "PanelArgument",
-        "PanelColumnControl",
-        "PanelListControl",
-        "PanelNumberInputControl",
-        "PanelPredicate",
-        "PanelAll",
-        "PanelAny",
-        "PanelComparison",
-        "PanelExists",
-        "PanelPreviewControl",
-        "PanelResourceLinkControl",
-        "PanelRowControl",
-        "PanelSectionControl",
-        "PanelSelectControl",
-        "PanelTableControl",
-        "PanelTextControl",
-        "PanelTextInputControl",
-        "PanelToggleControl",
-        "PanelValueRef",
-        "StrictJsonResult",
-        "StrictJsonReader"
-      ],
-      "sha256": "2cd99e735dd6e776609be263a7d9b61b0db54176ca1c4e891c72ec58a278dc95",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/ts/api-client/src/shapes/gen/ExtensionManifest.ts",
-      "package": "@arcforges/api-client",
-      "access": "public",
-      "types": [
-        "ExtensionManifest",
-        "ManifestContractRange",
-        "ManifestContribution",
-        "ManifestConnectorContribution",
-        "ManifestConnectorBody",
-        "ManifestCallLimits",
-        "ManifestCapabilityBinding",
-        "ManifestDependency",
-        "ManifestExecutable",
-        "ManifestExtensionContribution",
-        "ManifestExtensionBody",
-        "ManifestContent",
-        "ManifestExtensionPoint",
-        "ManifestMcpContribution",
-        "ManifestMcpBody",
-        "ManifestMcpHttpBody",
-        "ManifestMcpStdioBody",
-        "ManifestPermission",
-        "ManifestBackgroundPermission",
-        "ManifestCapabilityPermission",
-        "ManifestNetworkPermission",
-        "ManifestPlatform",
-        "ManifestPrivateState",
-        "ManifestMigrationRange",
-        "ManifestResource",
-        "ManifestResourcePermission",
-        "ManifestSecretInput",
-        "ManifestSkillContribution",
-        "ManifestSkillBody",
-        "ManifestTemplateContribution",
-        "ManifestTemplateBody",
-        "ManifestParameter",
-        "ManifestTypedValue",
-        "ManifestBoolValue",
-        "ManifestDecimalValue",
-        "ManifestEnumValue",
-        "ManifestInt64Value",
-        "ManifestResourceRefValue",
-        "ManifestResourceRef",
-        "ManifestTextValue",
-        "ManifestVersionRange",
-        "ManifestWorkflowContribution",
-        "ManifestWorkflowBody",
-        "StrictJsonResult",
-        "StrictJsonReader"
-      ],
-      "sha256": "7f995c5e9ad725ce2959a3ee52a4c0677e62ddf8918a21a311bf18ece7e37f2a",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/ts/api-client/src/shapes/gen/ExtensionWorkflow.ts",
-      "package": "@arcforges/api-client",
-      "access": "public",
-      "types": [
-        "ExtensionWorkflow",
-        "WorkflowInput",
-        "WorkflowLimits",
-        "WorkflowNode",
-        "WorkflowCapabilityNode",
-        "WorkflowArgument",
-        "WorkflowConditionNode",
-        "WorkflowConstantNode",
-        "WorkflowForeachNode",
-        "WorkflowInputNode",
-        "WorkflowOperand",
-        "WorkflowLiteralOperand",
-        "WorkflowOutput",
-        "WorkflowOutputNode",
-        "WorkflowPredicate",
-        "WorkflowAll",
-        "WorkflowAny",
-        "WorkflowComparison",
-        "WorkflowExists",
-        "WorkflowReferenceOperand",
-        "WorkflowSelectNode",
-        "WorkflowTypedValue",
-        "WorkflowBoolValue",
-        "WorkflowDecimalValue",
-        "WorkflowEnumValue",
-        "WorkflowInt64Value",
-        "WorkflowResourceRefValue",
-        "WorkflowResourceRef",
-        "WorkflowTextValue",
-        "WorkflowValueRef",
-        "StrictJsonResult",
-        "StrictJsonReader",
-        "WorkflowRuleObject"
-      ],
-      "sha256": "805f596791a78b27ae4eed2374c02f4c0c999b37e75c865d9e0a77654d1929c8",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/ts/api-client/src/shapes/gen/PolicyBody.ts",
-      "package": "@arcforges/api-client",
-      "access": "public",
-      "types": [
-        "PolicyBody",
-        "PolicyExperiment",
-        "PolicyPredicate",
-        "PolicyAll",
-        "PolicyAny",
-        "PolicyEqualMajor",
-        "PolicyEqualText",
-        "PolicyInMajor",
-        "PolicyInText",
-        "PolicyNot",
-        "PolicyPercent",
-        "PolicyRule",
-        "PolicyActiveTimeRule",
-        "PolicyCacheRule",
-        "PolicyDensityRule",
-        "PolicyHomeSummaryRule",
-        "PolicyMinimumAppRule",
-        "PolicyMinimumApp",
-        "PolicyMinimumContractsRule",
-        "PolicyMinimumContracts",
-        "PolicyModelCallsRule",
-        "PolicyParallelToolsRule",
-        "PolicyPollRule",
-        "PolicyRevocationsRule",
-        "PolicyRevokedVersion",
-        "PolicySearchRule",
-        "PolicyStopRule",
-        "PolicyStop",
-        "PolicyTarget",
-        "PolicyToolCallsRule",
-        "PolicyTraceBufferRule",
-        "PolicyTraceSampleRule",
-        "PolicyVariant",
-        "PolicyPresentation",
-        "PolicyVersionAtLeast",
-        "StrictJsonResult",
-        "StrictJsonReader"
-      ],
-      "sha256": "5f34cb6c18a130423002ec45da063e3a237fcf0bf42201cee83d65b2360e3e5b",
-      "kind": "generated"
     }
   ],
   "buildInputs": [
-    {
-      "path": "build.gradle.kts",
-      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
-    },
     {
       "path": "Directory.Build.props",
       "sha256": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b"
@@ -5357,8 +5736,16 @@
       "sha256": "4a83ab07c4e26a69d5153e683d311fa667a1d40130f69358a59b512b55d5a8d1"
     },
     {
+      "path": "NuGet.config",
+      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
+    },
+    {
+      "path": "build.gradle.kts",
+      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
+    },
+    {
       "path": "eng/contract-packages.json",
-      "sha256": "35513ffd9c8278d73cddb5e0ecc513a490c047b5e982fa98e1fe7fe6073c53d1"
+      "sha256": "53f5c721b8731cce293fe6f4d9ea07df6f8fe5d55872a2ce5ec28f4ef5f6b564"
     },
     {
       "path": "gradle.properties",
@@ -5369,12 +5756,16 @@
       "sha256": "d364782770de0424c8ec20b7853dda625db91b4a7b5d3c34fbd7fbf16d622c14"
     },
     {
+      "path": "internal/ai-http/v1/configuration.schema.json",
+      "sha256": "4c021409496cf2aa57beb2f7b004fd3041bc5bb8768a06f5e2eef6511a371e41"
+    },
+    {
       "path": "internal/ai-http/v1/schema.json",
       "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831"
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "92fe9ee7c97d6dee8f79e4c98e61fb16f3acb0a291e15a53c20af22f4c00b6ea"
+      "sha256": "af95fcd4e32e6f57bf52eced653b4eddacb4d1af4d97c442393275a9ab841a95"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -5389,16 +5780,16 @@
       "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a"
     },
     {
+      "path": "internal/proto/constraints/platform.json",
+      "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2"
+    },
+    {
       "path": "internal/proto/constraints/sandbox-baseline.json",
       "sha256": "a95f4cd0ec774ffe5954165357c621241dae4593851e97b023322e879c6277af"
     },
     {
       "path": "internal/proto/constraints/scope-baseline.json",
       "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe"
-    },
-    {
-      "path": "NuGet.config",
-      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
     },
     {
       "path": "package-lock.json",
@@ -5413,6 +5804,18 @@
       "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce"
     },
     {
+      "path": "public/http/v1/manifest.schema.json",
+      "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844"
+    },
+    {
+      "path": "public/http/v1/panel.schema.json",
+      "sha256": "e47e3fcad128918ca888c7f2a61ac03876ab50467a46b7597cda5cce53de21ce"
+    },
+    {
+      "path": "public/http/v1/policy-body.schema.json",
+      "sha256": "62509c5a2f104b4d84fcbee28a0bf41946e49a89a3c5baf1e609700e05f24f68"
+    },
+    {
       "path": "public/http/v1/schema.json",
       "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce"
     },
@@ -5421,8 +5824,12 @@
       "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03"
     },
     {
+      "path": "public/http/v1/workflow.schema.json",
+      "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42"
+    },
+    {
       "path": "public/proto/constraints.json",
-      "sha256": "1ed8dbf334210b87fcaacc3b72ba00539e4d6fab0ca53eabcc5183d363424577"
+      "sha256": "7fb4e98c2005d6d29a71dae4b56008d47273f78ef1e143a0788008a5ebe96fd1"
     },
     {
       "path": "public/proto/constraints/events-baseline.json",
@@ -5431,6 +5838,10 @@
     {
       "path": "public/proto/constraints/extensions-baseline.json",
       "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e"
+    },
+    {
+      "path": "public/proto/constraints/extensions.json",
+      "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae"
     },
     {
       "path": "public/proto/constraints/foundation-baseline.json",
@@ -5470,11 +5881,11 @@
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
-      "sha256": "07d07fa1db0b0d39d8ce92819270b28cf825ba5e41f7a952f81439eed4b5f24b"
+      "sha256": "07aea46af64a73384a6e393a9a42d5f78579b833517131f47b7897277ab4a5a6"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json",
-      "sha256": "fa17fe6057706e36ae0b9370a457536d05d0f3a8f0f72df622881bfc1628337e"
+      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj",
@@ -5514,7 +5925,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Cli/packages.lock.json",
-      "sha256": "953b0fd0a6201157ff334804b5bbadf6d6de0c212416c200ff8873e3db1cc449"
+      "sha256": "b82fce1d2e52e143a0c83b6807b7207a720dd70479ff61fa95f9325bbfbbc3f3"
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Events/ArcForges.Contracts.Events.csproj",
@@ -5546,7 +5957,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/packages.lock.json",
-      "sha256": "8f1549cd1c68627821ac23754b1c09a9ad164956097ee7e7f8bd8e59e0a974dc"
+      "sha256": "0c7b05824fdd61702898b2d3c3297d40f19fde0a10ffcc9851920620c4168296"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Client/ArcForges.Sdk.Client.csproj",
@@ -5554,15 +5965,15 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Client/packages.lock.json",
-      "sha256": "89318d08cf51665d2f4a44ad801b47cbf06a59ea73df828aecaea01b8dc94512"
+      "sha256": "4a90644c21c833eda8fa5d74e2e850860a34605c026f3983114149f162a4e38a"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj",
-      "sha256": "3fa1d4a377776b1d659628471bf5a238eb85933a5517258dd5471dbc7ecea49f"
+      "sha256": "61d0ccec8cb02bf34fab51db298e1d74c8b7180f24fc9ae27f9318650a187b7d"
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/packages.lock.json",
-      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
+      "sha256": "0490ab15d029c97f1015d0483d419737a7963c4d7be002247d917eac684f74ce"
     },
     {
       "path": "src/public/kotlin/contract-fixtures/build.gradle.kts",
@@ -5611,26 +6022,6 @@
     {
       "path": "src/public/ts/proto/tsconfig.json",
       "sha256": "f13de7d9494783c4077aa3ddcf1242d26301f8b0ecce32ec263c58aeb4a81262"
-    },
-    {
-      "path": "internal/ai-http/v1/configuration.schema.json",
-      "sha256": "4c021409496cf2aa57beb2f7b004fd3041bc5bb8768a06f5e2eef6511a371e41"
-    },
-    {
-      "path": "public/http/v1/manifest.schema.json",
-      "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844"
-    },
-    {
-      "path": "public/http/v1/panel.schema.json",
-      "sha256": "e47e3fcad128918ca888c7f2a61ac03876ab50467a46b7597cda5cce53de21ce"
-    },
-    {
-      "path": "public/http/v1/policy-body.schema.json",
-      "sha256": "62509c5a2f104b4d84fcbee28a0bf41946e49a89a3c5baf1e609700e05f24f68"
-    },
-    {
-      "path": "public/http/v1/workflow.schema.json",
-      "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42"
     }
   ]
 }
