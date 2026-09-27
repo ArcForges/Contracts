@@ -51,9 +51,7 @@
         "memory": {},
         "externalBody": {}
       },
-      "oneofRequired": [
-        "body"
-      ]
+      "oneofRequired": ["body"]
     },
     "arcforges.publicapi.v1.AlignmentSpec": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.AlignmentSpec",
@@ -61,21 +59,14 @@
         "kind": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "absoluteTime",
-            "trigger",
-            "event",
-            "manualOffset"
-          ]
+          "enumValues": ["absoluteTime", "trigger", "event", "manualOffset"]
         },
         "leftAnchor": {},
         "rightAnchor": {},
         "offset": {},
         "eventId": {}
       },
-      "rules": [
-        "alignmentSpec"
-      ]
+      "rules": ["alignmentSpec"]
     },
     "arcforges.publicapi.v1.AutomationSpec": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationSpec",
@@ -222,9 +213,7 @@
         },
         "calibration": {}
       },
-      "rules": [
-        "channelDefinition"
-      ]
+      "rules": ["channelDefinition"]
     },
     "arcforges.publicapi.v1.ChatProjectRecord": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatProjectRecord",
@@ -254,11 +243,7 @@
         "algorithm": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "xor8",
-            "crc16CcittFalse",
-            "crc32IsoHdlc"
-          ]
+          "enumValues": ["xor8", "crc16CcittFalse", "crc32IsoHdlc"]
         },
         "input": {
           "required": true
@@ -269,15 +254,10 @@
         "byteOrder": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "little",
-            "big"
-          ]
+          "enumValues": ["little", "big"]
         }
       },
-      "rules": [
-        "checksumSpec"
-      ]
+      "rules": ["checksumSpec"]
     },
     "arcforges.publicapi.v1.ContextRef": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ContextRef",
@@ -291,19 +271,12 @@
         "origin": {},
         "lifetime": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "ephemeral": {},
         "consent": {}
       },
-      "rules": [
-        "contextRef"
-      ]
+      "rules": ["contextRef"]
     },
     "arcforges.publicapi.v1.ContextSelector": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ContextSelector",
@@ -312,12 +285,8 @@
         "byteRange": {},
         "scope": {}
       },
-      "oneofRequired": [
-        "selection"
-      ],
-      "rules": [
-        "contextSelector"
-      ]
+      "oneofRequired": ["selection"],
+      "rules": ["contextSelector"]
     },
     "arcforges.publicapi.v1.ControlProgress": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ControlProgress",
@@ -327,20 +296,11 @@
         },
         "kind": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "requestedAt": {
           "required": true
@@ -392,11 +352,7 @@
         },
         "historyMode": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         }
       }
     },
@@ -417,9 +373,7 @@
           "finite": true
         }
       },
-      "rules": [
-        "cursorResult"
-      ]
+      "rules": ["cursorResult"]
     },
     "arcforges.publicapi.v1.CursorSpec": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CursorSpec",
@@ -488,11 +442,7 @@
         "status": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "ok",
-            "insufficient",
-            "invalid"
-          ]
+          "enumValues": ["ok", "insufficient", "invalid"]
         },
         "values": {
           "items": {},
@@ -519,9 +469,7 @@
           "required": true
         }
       },
-      "rules": [
-        "familyResult"
-      ]
+      "rules": ["familyResult"]
     },
     "arcforges.publicapi.v1.FrameConfiguration": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.FrameConfiguration",
@@ -529,13 +477,7 @@
         "kind": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "delimitedText",
-            "csvLine",
-            "jsonLine",
-            "fixedBinary",
-            "canonicalReplay"
-          ]
+          "enumValues": ["delimitedText", "csvLine", "jsonLine", "fixedBinary", "canonicalReplay"]
         },
         "start": {
           "required": true,
@@ -568,9 +510,7 @@
         },
         "checksum": {}
       },
-      "rules": [
-        "frameConfiguration"
-      ]
+      "rules": ["frameConfiguration"]
     },
     "arcforges.publicapi.v1.FrameField": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.FrameField",
@@ -614,9 +554,7 @@
         "profile": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "scope.measurement.v1"
-          ]
+          "enumValues": ["scope.measurement.v1"]
         },
         "source": {
           "required": true
@@ -671,9 +609,7 @@
           "items": {}
         }
       },
-      "rules": [
-        "measurementRequest"
-      ]
+      "rules": ["measurementRequest"]
     },
     "arcforges.publicapi.v1.MeasurementResult": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MeasurementResult",
@@ -681,9 +617,7 @@
         "profile": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "scope.measurement.v1"
-          ]
+          "enumValues": ["scope.measurement.v1"]
         },
         "inputHash": {
           "required": true,
@@ -724,9 +658,7 @@
         },
         "cursor": {}
       },
-      "rules": [
-        "measurementResult"
-      ]
+      "rules": ["measurementResult"]
     },
     "arcforges.publicapi.v1.MeasurementSource": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MeasurementSource",
@@ -754,23 +686,12 @@
         "family": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "frequency",
-            "dutyCycle",
-            "riseTime",
-            "fallTime"
-          ]
+          "enumValues": ["frequency", "dutyCycle", "riseTime", "fallTime"]
         },
         "name": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "low",
-            "high",
-            "fraction10",
-            "fraction50",
-            "fraction90"
-          ]
+          "enumValues": ["low", "high", "fraction10", "fraction50", "fraction90"]
         },
         "value": {
           "required": true,
@@ -782,9 +703,7 @@
         },
         "channelId": {}
       },
-      "rules": [
-        "measurementThreshold"
-      ]
+      "rules": ["measurementThreshold"]
     },
     "arcforges.publicapi.v1.MeasurementValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MeasurementValue",
@@ -820,12 +739,8 @@
         },
         "count": {}
       },
-      "oneofRequired": [
-        "result"
-      ],
-      "rules": [
-        "measurementValue"
-      ]
+      "oneofRequired": ["result"],
+      "rules": ["measurementValue"]
     },
     "arcforges.publicapi.v1.MeasurementWindow": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MeasurementWindow",
@@ -837,9 +752,7 @@
           "required": true
         }
       },
-      "rules": [
-        "measurementWindow"
-      ]
+      "rules": ["measurementWindow"]
     },
     "arcforges.publicapi.v1.MemoryRecord": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MemoryRecord",
@@ -883,9 +796,7 @@
         "toolResult": {},
         "origin": {}
       },
-      "oneofRequired": [
-        "content"
-      ]
+      "oneofRequired": ["content"]
     },
     "arcforges.publicapi.v1.MessageView": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MessageView",
@@ -902,12 +813,7 @@
         "role": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "user",
-            "assistant",
-            "tool",
-            "system"
-          ]
+          "enumValues": ["user", "assistant", "tool", "system"]
         },
         "parts": {
           "items": {}
@@ -915,12 +821,7 @@
         "state": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "pending",
-            "complete",
-            "interrupted",
-            "failed"
-          ]
+          "enumValues": ["pending", "complete", "interrupted", "failed"]
         },
         "revision": {
           "required": true
@@ -928,9 +829,7 @@
         "taskId": {},
         "turnId": {}
       },
-      "rules": [
-        "messageView"
-      ]
+      "rules": ["messageView"]
     },
     "arcforges.publicapi.v1.MetadataEntry": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.MetadataEntry",
@@ -957,9 +856,7 @@
         "instant": {},
         "resource": {}
       },
-      "oneofRequired": [
-        "value"
-      ]
+      "oneofRequired": ["value"]
     },
     "arcforges.publicapi.v1.PreferenceRecord": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.PreferenceRecord",
@@ -990,9 +887,7 @@
           "required": true
         }
       },
-      "rules": [
-        "sampleRange"
-      ]
+      "rules": ["sampleRange"]
     },
     "arcforges.publicapi.v1.ScheduleSpec": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ScheduleSpec",
@@ -1000,11 +895,7 @@
         "kind": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "once",
-            "cron",
-            "interval"
-          ]
+          "enumValues": ["once", "cron", "interval"]
         },
         "expression": {
           "required": true
@@ -1019,18 +910,12 @@
         "dstGap": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "skip"
-          ]
+          "enumValues": ["skip"]
         },
         "dstOverlap": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "earlier",
-            "later",
-            "both"
-          ]
+          "enumValues": ["earlier", "later", "both"]
         }
       }
     },
@@ -1071,9 +956,7 @@
         },
         "trigger": {}
       },
-      "rules": [
-        "scopeConfiguration"
-      ]
+      "rules": ["scopeConfiguration"]
     },
     "arcforges.publicapi.v1.ScopeFinding": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeFinding",
@@ -1091,20 +974,12 @@
         "severity": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "info",
-            "warning",
-            "critical"
-          ]
+          "enumValues": ["info", "warning", "critical"]
         },
         "status": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "open",
-            "accepted",
-            "dismissed"
-          ]
+          "enumValues": ["open", "accepted", "dismissed"]
         },
         "evidence": {
           "items": {}
@@ -1185,9 +1060,7 @@
           "required": true
         }
       },
-      "rules": [
-        "scopeTime"
-      ]
+      "rules": ["scopeTime"]
     },
     "arcforges.publicapi.v1.SelectedSample": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.SelectedSample",
@@ -1274,12 +1147,8 @@
           "finite": true
         }
       },
-      "oneofRequired": [
-        "value"
-      ],
-      "rules": [
-        "structuredValue"
-      ]
+      "oneofRequired": ["value"],
+      "rules": ["structuredValue"]
     },
     "arcforges.publicapi.v1.TaskSnapshot": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskSnapshot",
@@ -1289,17 +1158,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6, 7, 8, 9]
         },
         "reason": {},
         "revision": {
@@ -1326,19 +1185,10 @@
         },
         "reasonFacet": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6]
         }
       },
-      "rules": [
-        "taskSnapshot"
-      ]
+      "rules": ["taskSnapshot"]
     },
     "arcforges.publicapi.v1.ToolProposal": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ToolProposal",
@@ -1366,11 +1216,7 @@
         },
         "effect": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "success": {},
         "error": {},
@@ -1378,9 +1224,7 @@
           "items": {}
         }
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.TriggerConfiguration": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.TriggerConfiguration",
@@ -1388,10 +1232,7 @@
         "kind": {
           "required": true,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "manual",
-            "edge"
-          ]
+          "enumValues": ["manual", "edge"]
         },
         "channelId": {},
         "threshold": {
@@ -1399,11 +1240,7 @@
         },
         "direction": {
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "rising",
-            "falling",
-            "either"
-          ]
+          "enumValues": ["rising", "falling", "either"]
         },
         "hysteresis": {
           "required": true,
@@ -1426,9 +1263,7 @@
           "min": 1
         }
       },
-      "rules": [
-        "triggerConfiguration"
-      ]
+      "rules": ["triggerConfiguration"]
     },
     "arcforges.publicapi.v1.TriggerSpec": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.TriggerSpec",
@@ -1437,9 +1272,7 @@
         "schedule": {},
         "event": {}
       },
-      "oneofRequired": [
-        "trigger"
-      ]
+      "oneofRequired": ["trigger"]
     },
     "arcforges.publicapi.v1.TurnInput": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.TurnInput",
@@ -1480,9 +1313,7 @@
           "maxItems": 200
         }
       },
-      "rules": [
-        "valueRecord"
-      ]
+      "rules": ["valueRecord"]
     }
   }
 }

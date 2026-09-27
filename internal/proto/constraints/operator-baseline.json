@@ -13,9 +13,7 @@
           "maxUtf8Bytes": 262144
         }
       },
-      "oneofRequired": [
-        "context"
-      ]
+      "oneofRequired": ["context"]
     }
   }
 }

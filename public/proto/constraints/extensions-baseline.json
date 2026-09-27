@@ -13,9 +13,7 @@
         },
         "renewAfterSeconds": {
           "required": true,
-          "enumValues": [
-            10
-          ]
+          "enumValues": [10]
         },
         "negotiatedContracts": {
           "items": {
@@ -44,9 +42,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue": {
       "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseValue",
