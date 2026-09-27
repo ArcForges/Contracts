@@ -3,7 +3,7 @@
   "id": "contract-bindings-con05-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+  "sourceCommit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -1798,7 +1798,7 @@
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "6cf8b2fa781697100b4111e373c7759492de84d4d7a49e3623808d0bab5e2254",
+      "sha256": "7ac91e06b40b8c898e4ef7604ccb4f49c94655a7e41a789a5a4995f5a619e0fd",
       "normalization": "lf"
     },
     {
@@ -1961,7 +1961,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+        "commit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2011,7 +2011,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+        "commit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2031,7 +2031,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+        "commit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
         "paths": [
           "eng/generate_fixtures.py"
         ],
@@ -2053,7 +2053,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+        "commit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2301,7 +2301,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+        "commit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2557,7 +2557,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Official CON.01 loader generation succeeded. Generated C# StructureTests build passed with zero warnings/errors using existing SDK10.0.401 diagnostic adapter preserving ILLink/ILCompiler10.0.11; CON.05 envelopes/oneofs/roundtrips, 86 inherited shape cases, 339 foundation cases and canonical hash vectors passed. Seven offline CON.05 groups passed. Retained pinned10.0.400 CI remains required. No broker/OS authorization, secret custody or live connector runtime proof is claimed.",
-    "baselineCommit": "7ad64dca092b11f7f6bffc61b6095174ab722d1d",
+    "baselineCommit": "e7c22311e8e1b6f0d28b5f5c8f619a358a35e1ec",
     "reconciliation": false
   },
   "supersedes": "contract-bindings-con16-r1",
