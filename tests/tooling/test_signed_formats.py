@@ -95,6 +95,40 @@ class SignedFormats(unittest.TestCase):
                                 text=True, capture_output=True, check=True)
         self.assertEqual(json.loads(result.stdout), [True] * len(rows))
 
+    def test_generated_typescript_codecs(self):
+        names = {"catalog-index.v1": "CatalogIndex", "catalog-revocations.v1": "CatalogRevocations",
+                 "android-update.v1": "AndroidUpdate", "realm.v1": "RealmDescriptor"}
+        rows = [{"name": names[self.values[case["id"]]["schemaVersion"]],
+                 "json": canonical(self.values[case["id"]]), "accepted": case["expected"] != "shape",
+                 "id": case["id"]} for case in self.fixture["cases"]]
+        rows += [{"name": "CatalogIndex", "json": case["json"], "accepted": False, "id": case["id"]}
+                 for case in self.fixture["malformedJson"]]
+        script = r"""
+const {isDeepStrictEqual} = require('node:util'), {pathToFileURL} = require('node:url');
+let input = ''; process.stdin.setEncoding('utf8'); process.stdin.on('data', x => input += x);
+process.stdin.on('end', async () => {
+ const {directory, rows} = JSON.parse(input), failures = [];
+ for (const row of rows) {
+  const module = await import(pathToFileURL(directory + '/' + row.name + '.ts'));
+  const parse = module['tryParse' + row.name + 'Json'];
+  const result = parse(row.json);
+  if (result.ok !== row.accepted) failures.push(row.id + ': shape acceptance mismatch');
+  if (result.ok) {
+   const roundtrip = parse(module['serialize' + row.name + 'Json'](result.value));
+   if (!roundtrip.ok || !isDeepStrictEqual(roundtrip.value, result.value))
+    failures.push(row.id + ': typed roundtrip mismatch');
+  }
+ }
+ process.stdout.write(JSON.stringify(failures));
+});
+"""
+        result = subprocess.run(["node", "--experimental-transform-types", "-e", script],
+                                input=json.dumps({"directory": str(ROOT / "src/public/ts/api-client/src/shapes/gen"), "rows": rows}),
+                                text=True, capture_output=True, check=True)
+        self.assertEqual(json.loads(result.stdout), [])
+
+
+
     def test_independent_canonical_bytes(self):
         for item in self.documents.values():
             with self.subTest(document=item["id"]):
