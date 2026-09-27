@@ -73,7 +73,13 @@ def static_rules(body):
                     other_start = instant(other.get("effectiveAt", body["issuedAt"]))
                     other_end = instant(other.get("expiresAt", body["expiresAt"]))
                     if end <= other_start or other_end <= start: continue
-                    disjoint = isinstance(rule["target"], str) and isinstance(other["target"], str) and rule["target"] != other["target"]
+                    def finite(target):
+                        if isinstance(target, str): return rule['scope'] + 'Id', {target}
+                        if target['op'] == 'equal': return target['field'], {target['value']}
+                        if target['op'] == 'in': return target['field'], set(target['values'])
+                        return None, set()
+                    left, right = finite(rule['target']), finite(other['target'])
+                    disjoint = left[0] is not None and left[0] == right[0] and left[1].isdisjoint(right[1])
                     if not disjoint: return "overlapping-priority"
             priorities.append(rule)
             if rule["key"].endswith(".stop"):

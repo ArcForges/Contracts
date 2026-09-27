@@ -1357,6 +1357,26 @@ CS_POLICY_RULES = r'''
         => global::System.Text.RegularExpressions.Regex.IsMatch(value, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", global::System.Text.RegularExpressions.RegexOptions.CultureInvariant)
             && value != "00000000-0000-0000-0000-000000000000";
 
+    private static bool PolicyDisjoint(global::System.Text.Json.JsonElement left, global::System.Text.Json.JsonElement right, string scope)
+    {
+        static (string? Field, global::System.Collections.Generic.HashSet<string> Values) Finite(global::System.Text.Json.JsonElement target, string selectedScope)
+        {
+            var values = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+            if (target.ValueKind == global::System.Text.Json.JsonValueKind.String)
+            {
+                values.Add(target.GetString()!);
+                return (selectedScope + "Id", values);
+            }
+            var op = target.GetProperty("op").GetString();
+            if (op == "equal") values.Add(target.GetProperty("value").GetString()!);
+            else if (op == "in") foreach (var item in target.GetProperty("values").EnumerateArray()) values.Add(item.GetString()!);
+            else return (null, values);
+            return (target.GetProperty("field").GetString(), values);
+        }
+        var a = Finite(left, scope); var b = Finite(right, scope);
+        return a.Field is not null && a.Field == b.Field && !a.Values.Overlaps(b.Values);
+    }
+
     private static bool PolicyBody(global::System.Text.Json.JsonElement value)
     {
         try
@@ -1383,9 +1403,7 @@ CS_POLICY_RULES = r'''
                     var otherEnd = other.TryGetProperty("expiresAt", out var otherEndValue) ? PolicyInstant(otherEndValue.GetString()!) : expires;
                     if (end <= otherStart || otherEnd <= start) continue;
                     var otherTarget = other.GetProperty("target");
-                    if (!(target.ValueKind == global::System.Text.Json.JsonValueKind.String
-                        && otherTarget.ValueKind == global::System.Text.Json.JsonValueKind.String
-                        && target.GetString() != otherTarget.GetString())) return false;
+                    if (!PolicyDisjoint(target, otherTarget, rule.GetProperty("scope").GetString()!)) return false;
                 }
                 prior.Add(rule);
                 var key = rule.GetProperty("key").GetString()!;
@@ -1471,7 +1489,14 @@ function policyBody(value: unknown): boolean {
         const otherStart = other.effectiveAt === undefined ? issued : policyInstant(other.effectiveAt);
         const otherEnd = other.expiresAt === undefined ? expires : policyInstant(other.expiresAt);
         if (end <= otherStart || otherEnd <= start) continue;
-        if (!(typeof rule.target === 'string' && typeof other.target === 'string' && rule.target !== other.target)) return false;
+        const finite = (target: any): { field: string; values: string[] } | undefined => {
+          if (typeof target === 'string') return { field: rule.scope + 'Id', values: [target] };
+          if (target.op === 'equal') return { field: target.field, values: [target.value] };
+          if (target.op === 'in') return { field: target.field, values: target.values };
+          return undefined;
+        };
+        const a = finite(rule.target), b = finite(other.target);
+        if (!a || !b || a.field !== b.field || a.values.some(value => b.values.includes(value))) return false;
       }
       prior.push(rule);
       if (rule.key.endsWith('.stop')) {
@@ -1957,6 +1982,7 @@ function workflowGraph(value: unknown): boolean {
 CS_MANIFEST_RULES = r'''
     private static bool ManifestProfile(JsonElement value)
     {
+        if (!ManifestLocales(value.GetProperty("name")) || !ManifestLocales(value.GetProperty("description"))) return false;
         static string S(JsonElement x,string p) => x.GetProperty(p).GetString()!;
         static JsonElement[] A(JsonElement x,string p) => System.Linq.Enumerable.ToArray(x.GetProperty(p).EnumerateArray());
         static bool Has(JsonElement x,string p) => x.TryGetProperty(p,out _);
@@ -2034,11 +2060,40 @@ CS_MANIFEST_RULES = r'''
         }
         return true;
     }
+    private static bool ManifestLocales(global::System.Text.Json.JsonElement map)
+    {
+        var tags = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.OrdinalIgnoreCase);
+        foreach (var property in map.EnumerateObject())
+            if (!tags.Add(property.Name) || !ManifestLocale(property.Name)) return false;
+        return true;
+    }
+    private static bool ManifestLocale(string value)
+    {
+        const string grammar = @"^(?:(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4}|[A-Za-z]{5,8})(?:-[A-Za-z]{4})?(?:-(?:[A-Za-z]{2}|[0-9]{3}))?(?:-(?:[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(?:-[0-9A-WY-Za-wy-z](?:-[A-Za-z0-9]{2,8})+)*(?:-[xX](?:-[A-Za-z0-9]{1,8})+)?|[xX](?:-[A-Za-z0-9]{1,8})+)$";
+        var grandfathered = new[] { "en-gb-oed", "i-ami", "i-bnn", "i-default", "i-enochian", "i-hak", "i-klingon", "i-lux", "i-mingo", "i-navajo", "i-pwn", "i-tao", "i-tay", "i-tsu", "sgn-be-fr", "sgn-be-nl", "sgn-ch-de", "art-lojban", "cel-gaulish", "no-bok", "no-nyn", "zh-guoyu", "zh-hakka", "zh-min", "zh-min-nan", "zh-xiang" };
+        var normalized = value.ToLowerInvariant();
+        if (global::System.Array.IndexOf(grandfathered, normalized) >= 0) return true;
+        if (global::System.Text.RegularExpressions.Regex.Match(value, grammar).Value != value) return false;
+        var singleton = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+        var variants = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+        var extension = false;
+        var tokens = normalized.Split('-');
+        if (tokens[0] == "x") return true;
+        for (var i = 1; i < tokens.Length; i++)
+        {
+            var token = tokens[i];
+            if (token == "x") break;
+            if (token.Length == 1) { if (!singleton.Add(token)) return false; extension = true; }
+            else if (!extension && (token.Length >= 5 || (token.Length == 4 && char.IsAsciiDigit(token[0]))) && !variants.Add(token)) return false;
+        }
+        return true;
+    }
 '''
 
 TS_MANIFEST_RULES = r'''
 function manifestProfile(value: unknown): boolean {
   const root = value as { [key: string]: unknown };
+  for (const localized of [root.name, root.description]) { const tags=Object.keys(localized as object); if(new Set(tags.map(tag=>tag.toLowerCase())).size!==tags.length || !tags.every(manifestLocale)) return false; }
   const obj = (x: unknown) => x as { [key: string]: unknown };
   const list = (x: unknown) => x as unknown[];
   const unique = (xs: unknown[], key: string) => new Set(xs.map(x => obj(x)[key])).size === xs.length;
@@ -2117,6 +2172,25 @@ function manifestProfile(value: unknown): boolean {
     if (c.kind === 'extension') {
       if (!plainUnique(list(b.executableRids)) || !list(b.executableRids).every(rid => executables.some(x => obj(x).rid === rid)) || !unique(list(b.extensionPoints),'id') || !list(b.panels).every(content) || b.settings !== undefined && !content(b.settings)) return false;
       if (b.background === true && ![...list(c.permissions), ...list(root.permissions)].some(x => obj(x).kind === 'background' && obj(x).enabled === true)) return false;
+    }
+  }
+  return true;
+}
+function manifestLocale(value: string): boolean {
+  const normalized = value.toLowerCase();
+  if (['en-gb-oed','i-ami','i-bnn','i-default','i-enochian','i-hak','i-klingon','i-lux','i-mingo','i-navajo','i-pwn','i-tao','i-tay','i-tsu','sgn-be-fr','sgn-be-nl','sgn-ch-de','art-lojban','cel-gaulish','no-bok','no-nyn','zh-guoyu','zh-hakka','zh-min','zh-min-nan','zh-xiang'].includes(normalized)) return true;
+  const grammar = /^(?:(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4}|[A-Za-z]{5,8})(?:-[A-Za-z]{4})?(?:-(?:[A-Za-z]{2}|[0-9]{3}))?(?:-(?:[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(?:-[0-9A-WY-Za-wy-z](?:-[A-Za-z0-9]{2,8})+)*(?:-[xX](?:-[A-Za-z0-9]{1,8})+)?|[xX](?:-[A-Za-z0-9]{1,8})+)$/u;
+  if (grammar.exec(value)?.[0] !== value) return false;
+  const singleton = new Set<string>(), variants = new Set<string>();
+  let extension = false;
+  const tokens = normalized.split('-');
+  if (tokens[0] === 'x') return true;
+  for (const token of tokens.slice(1)) {
+    if (token === 'x') break;
+    if (token.length === 1) { if (singleton.has(token)) return false; singleton.add(token); extension = true; }
+    else if (!extension && (token.length >= 5 || (token.length === 4 && /^[0-9]/u.test(token)))) {
+      if (variants.has(token)) return false;
+      variants.add(token);
     }
   }
   return true;
