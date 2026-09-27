@@ -11,10 +11,7 @@ option java_outer_classname = "FoundationProto";
 // Complete selected registry04 records; shape constraints are owned beside this schema.
 message Id { optional bytes value = 1 [json_name = "value"]; }
 message Revision { optional int64 value = 1 [json_name = "value"]; }
-message LocalNotesVersion {
-  Revision acked_rev = 1 [json_name = "ackedRev"];
-  optional uint64 head_local_seq = 2 [json_name = "headLocalSeq"];
-}
+
 message NativeContentRev { optional uint64 value = 1 [json_name = "value"]; }
 message Instant {
   optional sint64 unix_seconds = 1 [json_name = "unixSeconds"];
@@ -69,10 +66,12 @@ message RequestMeta {
   Revision expected_rev = 2 [json_name = "expectedRev"];
   Id correlation_id = 3 [json_name = "correlationId"];
   Id workspace_id = 4 [json_name = "workspaceId"];
-  LocalNotesVersion expected_local = 5 [json_name = "expectedLocal"];
   NativeContentRev expected_native = 6 [json_name = "expectedNative"];
   optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
   ApplicationScope application_scope = 8 [json_name = "applicationScope"];
+
+  reserved 5;
+  reserved "expected_local";
 }
 message ResponseMeta {
   Revision result_rev = 1 [json_name = "resultRev"];
@@ -123,8 +122,10 @@ message StateFailure {
   optional string state = 1 [json_name = "state"];
   optional string reason = 2 [json_name = "reason"];
   AggregateRef resource = 3 [json_name = "resource"];
-  LocalNotesVersion local = 4 [json_name = "local"];
   NativeContentRev native = 5 [json_name = "native"];
+
+  reserved 4;
+  reserved "local";
 }
 
 enum ResourceAvailability {
@@ -237,8 +238,10 @@ message ResourceVersionRef {
   oneof revision {
     Revision cloud = 2 [json_name = "cloud"];
     NativeContentRev native = 3 [json_name = "native"];
-    LocalNotesVersion local = 4 [json_name = "local"];
   }
+
+  reserved 4;
+  reserved "local";
 }
 
 // registry04: TimeRangeUtc; complete selected WP03.01 projection.
