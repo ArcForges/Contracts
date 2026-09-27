@@ -2564,7 +2564,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "95eacd7efb1105491ae0473f01e0e979d6abb5c2",
+        "commit": "b95c800c52e03aa4e18a127e8b8fc674c8386885",
         "paths": [
           "build.gradle.kts",
           "gradle.properties",
@@ -4699,7 +4699,7 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Reproduce documentation for fourteen added descriptor records and five enums with existing pinned Dokka and JDK21. Preserve every existing API marker, fixed resource, excluded font and transform. Append explicit getters/presence/parser markers for every added message. No upstream resource changes.",
-    "baselineCommit": "95eacd7efb1105491ae0473f01e0e979d6abb5c2",
+    "baselineCommit": "b95c800c52e03aa4e18a127e8b8fc674c8386885",
     "reconciliation": false
   },
   "supersedes": "dokka-documentation-resources-r8"

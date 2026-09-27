@@ -3,7 +3,7 @@
     "owner": "Contracts maintainers",
     "reviewer": "w-20260927-web-lane (admission assessment; independent exact-head review required)",
     "reviewedOn": "2026-09-27",
-    "baselineCommit": "95eacd7efb1105491ae0473f01e0e979d6abb5c2",
+    "baselineCommit": "b95c800c52e03aa4e18a127e8b8fc674c8386885",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -18,8 +18,8 @@
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-      "eng/contract-packages.json": "0f9eef4655743d00df5f4f7bf6eb37bd56b53818c70d409dca3adf8198da84a5",
-      "eng/policy/contract-access.json": "65d938d4c8a5164013f7f7ed3b59f4c9a88f83b698769863556e4217a9e21789",
+      "eng/contract-packages.json": "5515d23d10c81c04f35c6b81260d97edfba4f2cf4cfc88d1774d4242edb14a8c",
+      "eng/policy/contract-access.json": "a9af47cba8a815ad8602b4a41bd54b30c2910d3e35c14a3bb1b034522970ee1f",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
@@ -30,9 +30,10 @@
       "eng/provenance/artifact-profiles/dokka-2-2-0-r8.json": "224432d3957639e42fb429aa2841d80dbfd10aaec18b8ab3b4bf3851829f2089",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r9.json": "8fae9b8b9ba086ce05ca66b48604e1f96afbb14f89da00cc9d2b5e4dbd839ac5",
       "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
-      "eng/provenance/records/con02-descriptor-bindings-r1.json": "2b167777260e9ab33c4c71650bb3028c1d63f9d1b10423526baca788f397ab32",
+      "eng/provenance/records/con02-descriptor-bindings-r1.json": "7bffc40a88bffa40237dd8b2814369a7e9dafe527e0707c7b00c546696a58bc0",
       "eng/provenance/records/con17-published-descriptors-r1.json": "b0f35abb8edcaa665d53663f5eaad3cd7825195fd93bbe093101e29452bed97c",
       "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
+      "eng/provenance/records/contract-bindings-con16-r1.json": "369f1d77e97b6e7e1db9db65d94595925aff218c5179817b954e3a6a3c2c62ae",
       "eng/provenance/records/contract-bindings-r2.json": "95d2bde3b8d00c03061866838bc28b907bcec0e29a0ede996a42e79b7bb53221",
       "eng/provenance/records/contract-bindings-r3.json": "ba8adc87164b16804cad6525c50674d4f1b05da89d1d300a9b4f770576906878",
       "eng/provenance/records/contract-bindings-r4.json": "0918c490633e7205d66af8fe7bd825cb4f6db259c12b4ba33ee08aa4e55e57aa",
@@ -61,7 +62,7 @@
       "eng/provenance/records/dokka-documentation-resources-r6.json": "0c9b3c6783c7436ddd06588c39002b32f23e7424e394267a21a41c8af1a4024e",
       "eng/provenance/records/dokka-documentation-resources-r7.json": "bed620535cf50a6e736123e9223bfdbdb77202dc3838fed48e2baf3bb79aca8b",
       "eng/provenance/records/dokka-documentation-resources-r8.json": "ae159ec440748eaf2a0e23518f64bdabbfec88006c26e78eddb9540a4db1dee8",
-      "eng/provenance/records/dokka-documentation-resources-r9.json": "2b0bcbd15e7560688025437df71d93f1d7099bf7bc4abf15ffa1e15846a94aa0",
+      "eng/provenance/records/dokka-documentation-resources-r9.json": "bb936d1a5ef78869cb390fbbc48e05e79dcb69609343557cce36ce0ff276ceaf",
       "eng/provenance/records/dokka-dom-helpers-licence-r1.json": "13303b969579dd5694c0544925d45b7126c3d9c1a6e0a754122896ca263da918",
       "eng/provenance/records/dokka-dunder-proto-licence-r1.json": "78b90efc76c0649d6150b4710fc90b58a99fe582af3696a7f3180f3a79f6aa7d",
       "eng/provenance/records/dokka-es-define-property-licence-r1.json": "f496d51bead2a29f6d9ea98032b46ccf6363caeb3dea928807974128d2f16139",
@@ -215,7 +216,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-01-shards-r2.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-16-signed-formats-r1.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
