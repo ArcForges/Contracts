@@ -6,7 +6,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
-from check_compatibility import compare, descriptor, fields
+from check_compatibility import compare, descriptor, fields, retained
 
 
 def integer(value):
@@ -88,6 +88,19 @@ class CompatibilityTests(unittest.TestCase):
         for raw in [b"\x09abc", b"\x0dabc"]:
             with self.assertRaises(ValueError):
                 fields(raw)
+
+    def test_retirement_is_exact_and_does_not_waive_other_namespaces(self):
+        model = deepcopy(self.old)
+        model["messages"][".arcforges.foundation.v1.Request"] = deepcopy(model["messages"][".fixture.Request"])
+        result = retained(model, {"messages": ["Request"]})
+        self.assertNotIn(".arcforges.foundation.v1.Request", result["messages"])
+        self.assertIn(".fixture.Request", result["messages"])
+        self.assertIn(".arcforges.foundation.v1.Request", model["messages"])
+        result = retained(model, {"fields": {"Request": [{"name": "other", "tag": 1}]}})
+        self.assertIn(1, result["messages"][".arcforges.foundation.v1.Request"])
+        result = retained(model, {"fields": {"Request": [{"name": "revision", "tag": 1}]}})
+        self.assertNotIn(1, result["messages"][".arcforges.foundation.v1.Request"])
+        self.assertIn(1, result["messages"][".fixture.Request"])
 
 
 if __name__ == "__main__":

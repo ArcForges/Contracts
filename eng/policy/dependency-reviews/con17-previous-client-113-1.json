@@ -2,7 +2,7 @@
   "review": {
     "owner": "Contracts maintainers",
     "reviewer": "w-20260927-platform (dependency admission assessment; independent CON.17 PR review required)",
-    "reviewedOn": "2026-09-26",
+    "reviewedOn": "2026-09-27",
     "baselineCommit": "792306133ee1adcfd93e533c53ff3d4381c1c66a",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
@@ -19,7 +19,7 @@
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
       "eng/contract-packages.json": "4f31f579f1dc1ec708d8e76299592df748eb5206a957938f03a334d7048abe3b",
-      "eng/policy/contract-access.json": "381c259ee36628481a9634c7f60cf975dca5f962567776009412a618f61620ec",
+      "eng/policy/contract-access.json": "622d53ff60931677847ab90c550721b7630c13e167133bd13688215e46f5ae1e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
