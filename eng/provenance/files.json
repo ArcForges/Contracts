@@ -116,6 +116,7 @@
     "eng/policy/reuse-policy.json",
     "eng/provenance/NOTICE.txt",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json",
@@ -156,6 +157,7 @@
     "eng/provenance/records/dokka-define-data-property-licence-r1.json",
     "eng/provenance/records/dokka-define-properties-licence-r1.json",
     "eng/provenance/records/dokka-documentation-resources-r1.json",
+    "eng/provenance/records/dokka-documentation-resources-r10.json",
     "eng/provenance/records/dokka-documentation-resources-r2.json",
     "eng/provenance/records/dokka-documentation-resources-r3.json",
     "eng/provenance/records/dokka-documentation-resources-r4.json",
@@ -1058,5 +1060,5 @@
     "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/PublisherViewKt.kt": "contract-bindings-con-13-r1",
     "src/public/ts/proto/src/gen/arcforges/catalog/v1/catalog_pb.ts": "contract-bindings-con-13-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r9"]
+  "artifacts": ["dokka-documentation-resources-r10"]
 }

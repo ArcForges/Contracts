@@ -95,14 +95,29 @@ class DocumentationAdmissionTests(unittest.TestCase):
                            "ActionDescriptor", "ContractVersion", "ContractCompatibility", "FeatureSet",
                            "CompatibilityDescriptor", "InstanceReadiness", "HealthSnapshot", "EncodedBodyRef",
                            "ContextProvider", "ContextDescriptor"}
-            self.assertEqual(additions, {
+            descriptor_pages = {
                 "contracts-proto/io.github.arcforges.contracts." +
                 ("publicapi" if name.startswith("Context") else "foundation") + ".v1/" + slug(name) + "/index.html"
                 for name in descriptors
-            } if module == "contracts-proto" else set())
+            }
+            operations = {"RegisterPublisher", "VerifyPublisher", "Search", "GetPackage",
+                          "ListVersions", "SubmitVersion", "GetSubmission"}
+            catalog_messages = {"PublisherView", "CatalogPackageView", "CatalogVersionView", "CatalogSubmissionView"}
+            catalog_messages |= {"CatalogService" + operation + suffix for operation in operations
+                                 for suffix in ("Request", "Response", "Value")}
+            catalog_pages = {"contracts-proto/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
+                             for name in catalog_messages}
+            clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
+                       for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
+            permitted = descriptor_pages | catalog_pages if module == "contracts-proto" else (
+                clients if module == "contracts-connect-client" else set())
+            self.assertEqual(additions, permitted)
             for name in additions:
-                self.assertIn('anchor-label="parser"', actual[name])
-                self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]))
+                if module == "contracts-proto":
+                    self.assertIn('anchor-label="parser"', actual[name])
+                    self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]))
+                else:
+                    self.assertEqual(set(actual[name]), {operation[0].lower() + operation[1:] for operation in operations})
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
         self.assertTrue(any("foundation.v1" in name for name in proto_pages))
