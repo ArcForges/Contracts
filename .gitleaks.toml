@@ -393,3 +393,16 @@ regexes = [
   '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/get\-message\-key\.html":\s*"f45262464bef4ac36508d5003e5feceb25dc4b2a6f3bcab9b1170dddf9c6b746",?\s*$''',
   '''(?s)^\s*"contracts\-proto/io\.github\.arcforges\.contracts\.foundation\.v1/\-arc\-error/has\-message\-key\.html":\s*"ded31531551a204963587fdf139c3c4f81017168ee1439a8760a89439f7fae67",?\s*$''',
 ]
+
+[[allowlists]]
+description = "Observed CON17 remote-branch receipt public input hashes matching retained reviewed baseline"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = ['''^eng/policy/dependency-reviews/con17-previous-client-113-1\.json$''']
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"381c259ee36628481a9634c7f60cf975dca5f962567776009412a618f61620ec",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]
