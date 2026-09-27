@@ -147,7 +147,6 @@
           "maxItems": 128
         },
         "warnings": {
-          "maxItems": 128,
           "items": {
             "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
           }
@@ -222,9 +221,7 @@
           "required": true,
           "maxUtf8Bytes": 65536
         },
-        "boxes": {
-          "maxItems": 1024
-        }
+        "boxes": {}
       }
     },
     "arcforges.local.sandbox.v1.SandboxBufferAck": {
