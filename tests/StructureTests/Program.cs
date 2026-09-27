@@ -59,6 +59,7 @@ catch (ArgumentException) { }
 Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key rejection and SDK caller-owned invocation.");
 FoundationLinkCases.Run();
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
+SemanticHashCases.Run(root);
 return 0;
 
 static bool Proto<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()
