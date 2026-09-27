@@ -14,6 +14,29 @@ from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coord
 
 
 class DependencyAdmission(unittest.TestCase):
+    def test_retirement_hash_exceptions_match_only_observed_exact_rows(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        expected = ['eng/policy/dependency-policy.json',
+                    'eng/policy/dependency-reviews/con-23-retirement-r1.json',
+                    'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json']
+        for allow, name in zip(config['allowlists'][13:], expected, strict=True):
+            self.assertEqual(allow['targetRules'], ['generic-api-key'])
+            self.assertEqual(allow['condition'], 'AND')
+            self.assertEqual(allow['regexTarget'], 'line')
+            self.assertEqual(allow['paths'], ['^' + re.escape(name) + '$'])
+            self.assertIsNone(re.fullmatch(allow['paths'][0], name + '.backup'))
+            # The current-policy rows also remain in the immutable r1 receipt.
+            source = ROOT / (expected[1] if name == expected[0] else name)
+            lines = source.read_text().splitlines()
+            for pattern in allow['regexes']:
+                matched = [line for line in lines if re.fullmatch(pattern, line)]
+                self.assertTrue(matched)
+                for line in matched:
+                    value = json.loads('{' + line.strip().rstrip(',') + '}')
+                    self.assertRegex(next(iter(value.values())), '^[0-9a-f]{64}$')
+                    changed = re.sub('[0-9a-f]{64}', '0' * 64, line)
+                    self.assertIsNone(re.fullmatch(pattern, changed))
+
     def setUp(self):
         self.policy = json.loads((ROOT / POLICY).read_text())
         self.graph = inventory(ROOT)
@@ -102,7 +125,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 13)
+        self.assertEqual(len(config['allowlists']), 16)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -195,7 +218,7 @@ class DependencyAdmission(unittest.TestCase):
             {key: protobuf_receipt['review']['inputHashes'][key] for key in sources},
             {key: r7_pages[key] for key in reviewed_public_pages + [key for key in current_pages if 'message-key' in key]},
         ]
-        for allow, source_rows, permitted, excluded in zip(config['allowlists'][1:], new_sources,
+        for allow, source_rows, permitted, excluded in zip(config['allowlists'][1:13], new_sources,
                 ['eng/policy/dependency-reviews/wp03-00-r1.json',
                  'eng/provenance/artifact-profiles/dokka-2-2-0-r4.json',
                  'eng/policy/dependency-reviews/wp03-01-r1.json',

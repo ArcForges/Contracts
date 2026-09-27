@@ -348,6 +348,7 @@ regexes = [
 
 [[allowlists]]
 description = "CON.23 exact reviewed SHA-256 inventory rows; no credential or general path exemption"
+targetRules = ["generic-api-key"]
 condition = "AND"
 regexTarget = "line"
 paths = ['''^eng/policy/dependency\-policy\.json$''']
@@ -358,6 +359,7 @@ regexes = [
 
 [[allowlists]]
 description = "CON.23 exact reviewed SHA-256 inventory rows; no credential or general path exemption"
+targetRules = ["generic-api-key"]
 condition = "AND"
 regexTarget = "line"
 paths = ['''^eng/policy/dependency\-reviews/con\-23\-retirement\-r1\.json$''']
@@ -370,6 +372,7 @@ regexes = [
 
 [[allowlists]]
 description = "CON.23 exact reviewed SHA-256 inventory rows; no credential or general path exemption"
+targetRules = ["generic-api-key"]
 condition = "AND"
 regexTarget = "line"
 paths = ['''^eng/provenance/artifact\-profiles/dokka\-2\-2\-0\-r8\.json$''']
