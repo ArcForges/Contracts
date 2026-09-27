@@ -34,7 +34,7 @@
       "type": "object",
       "propertyNames": {
         "type": "string",
-        "pattern": "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$"
+        "pattern": "^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$"
       },
       "additionalProperties": {
         "type": "string",
@@ -48,7 +48,7 @@
       "type": "object",
       "propertyNames": {
         "type": "string",
-        "pattern": "^(?:[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*|[ix]-(?:[A-Za-z0-9]{1,8})(?:-[A-Za-z0-9]{1,8})*)$"
+        "pattern": "^[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*$"
       },
       "additionalProperties": {
         "type": "string",
