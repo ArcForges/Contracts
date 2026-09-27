@@ -114,7 +114,7 @@
           "bytesLength": 32
         },
         "contributions": {
-          "maxItems": 200
+          "maxItems": 256
         }
       }
     },

@@ -40,7 +40,7 @@
       "access": "public",
       "sourceRoot": "src/public/dotnet/ArcForges.Sdk.Contracts",
       "proto": ["public/proto/arcforges/extensions/v1/extensions.proto"],
-      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "dependencies": ["ArcForges.Contracts.Foundation", "ArcForges.Contracts.PublicApi"],
       "descriptor": "extensions.binpb",
       "jsonSchemas": ["public/http/v1/inventory.schema.json"]
     },
@@ -85,7 +85,7 @@
       "access": "internal",
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform",
       "proto": ["internal/proto/arcforges/local/platform/v1/platform.proto"],
-      "dependencies": [],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "local-platform.binpb",
       "jsonSchemas": []
     },

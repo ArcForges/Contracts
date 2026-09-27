@@ -23,4 +23,3 @@
     <None Include="$(ContractMetadataDir)/**/*" Pack="true" PackagePath="/" Condition="'$(ContractMetadataDir)' != ''" />
   </ItemGroup>
 </Project>
-

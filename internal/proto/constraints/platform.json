@@ -113,7 +113,7 @@
           "maxItems": 32,
           "unique": true,
           "items": {
-            "pattern": "^https://[^/\\s]+$",
+            "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\\[[0-9A-Fa-f:]+\\])(?::[0-9]{1,5})?$",
             "maxUtf8Bytes": 2048
           }
         },
@@ -149,7 +149,7 @@
         "name": {
           "required": true,
           "minLength": 1,
-          "maxUtf8Bytes": 256
+          "maxLength": 256
         },
         "state": {
           "required": true,
@@ -205,11 +205,11 @@
       "fields": {
         "callbackReceipt": {
           "minLength": 1,
-          "maxUtf8Bytes": 4096
+          "maxUtf8Bytes": 8192
         },
         "personalToken": {
           "minLength": 1,
-          "maxUtf8Bytes": 4096
+          "maxUtf8Bytes": 8192
         }
       },
       "oneofRequired": [
@@ -421,7 +421,7 @@
         "name": {
           "required": true,
           "minLength": 1,
-          "maxUtf8Bytes": 256
+          "maxLength": 256
         }
       }
     },
