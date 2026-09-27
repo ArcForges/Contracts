@@ -1120,6 +1120,76 @@
           }
         ],
         "expected": "overlapping-priority"
+      },
+      {
+        "id": "major-disjoint",
+        "mutations": [
+          {
+            "path": ["rules"],
+            "value": [
+              {
+                "ruleId": "rule-11",
+                "key": "ai.maxModelCalls",
+                "value": 16,
+                "scope": "realm",
+                "target": {
+                  "op": "equal",
+                  "field": "contractsMajor",
+                  "value": 1
+                },
+                "priority": 100
+              },
+              {
+                "ruleId": "other-target",
+                "key": "ai.maxModelCalls",
+                "value": 16,
+                "scope": "realm",
+                "target": {
+                  "op": "in",
+                  "field": "contractsMajor",
+                  "values": [4294967295]
+                },
+                "priority": 100
+              }
+            ]
+          }
+        ],
+        "expected": "accepted"
+      },
+      {
+        "id": "major-overlap",
+        "mutations": [
+          {
+            "path": ["rules"],
+            "value": [
+              {
+                "ruleId": "rule-11",
+                "key": "ai.maxModelCalls",
+                "value": 16,
+                "scope": "realm",
+                "target": {
+                  "op": "equal",
+                  "field": "contractsMajor",
+                  "value": 4294967295
+                },
+                "priority": 100
+              },
+              {
+                "ruleId": "other-target",
+                "key": "ai.maxModelCalls",
+                "value": 16,
+                "scope": "realm",
+                "target": {
+                  "op": "in",
+                  "field": "contractsMajor",
+                  "values": [4294967295]
+                },
+                "priority": 100
+              }
+            ]
+          }
+        ],
+        "expected": "overlapping-priority"
       }
     ],
     "hashVectors": [
@@ -64032,6 +64102,152 @@
             }
           }
         ]
+      }
+    },
+    {
+      "id": "policy-major-disjoint",
+      "schema": "PolicyBody",
+      "valid": true,
+      "value": {
+        "schemaVersion": "policy.body.v1",
+        "version": "fixture-v1",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "rules": [
+          {
+            "ruleId": "rule-11",
+            "key": "ai.maxModelCalls",
+            "value": 16,
+            "scope": "realm",
+            "target": {
+              "op": "equal",
+              "field": "contractsMajor",
+              "value": 1
+            },
+            "priority": 100
+          },
+          {
+            "ruleId": "other-target",
+            "key": "ai.maxModelCalls",
+            "value": 16,
+            "scope": "realm",
+            "target": {
+              "op": "in",
+              "field": "contractsMajor",
+              "values": [4294967295]
+            },
+            "priority": 100
+          }
+        ],
+        "experiments": [
+          {
+            "experimentId": "presentation-fixture",
+            "version": "v1",
+            "hypothesis": "compact layout improves navigation",
+            "subject": "user",
+            "eligibility": {
+              "op": "equal",
+              "field": "product",
+              "value": "arcscope"
+            },
+            "variants": [
+              {
+                "variantId": "compact",
+                "allocation": 4000,
+                "values": {
+                  "ui.density": "compact"
+                }
+              },
+              {
+                "variantId": "control",
+                "allocation": 4000,
+                "values": {
+                  "ui.density": "comfortable"
+                }
+              }
+            ],
+            "allocation": 8000,
+            "startsAt": "2026-09-27T00:00:00Z",
+            "endsAt": "2026-09-28T00:00:00Z",
+            "successMetrics": ["navigation-completed"],
+            "exitCriteria": "choose declared baseline when trial ends",
+            "holdoutBasisPoints": 1000
+          }
+        ],
+        "reason": "fixture only; not signed or activated"
+      }
+    },
+    {
+      "id": "policy-major-overlap",
+      "schema": "PolicyBody",
+      "valid": false,
+      "value": {
+        "schemaVersion": "policy.body.v1",
+        "version": "fixture-v1",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "rules": [
+          {
+            "ruleId": "rule-11",
+            "key": "ai.maxModelCalls",
+            "value": 16,
+            "scope": "realm",
+            "target": {
+              "op": "equal",
+              "field": "contractsMajor",
+              "value": 4294967295
+            },
+            "priority": 100
+          },
+          {
+            "ruleId": "other-target",
+            "key": "ai.maxModelCalls",
+            "value": 16,
+            "scope": "realm",
+            "target": {
+              "op": "in",
+              "field": "contractsMajor",
+              "values": [4294967295]
+            },
+            "priority": 100
+          }
+        ],
+        "experiments": [
+          {
+            "experimentId": "presentation-fixture",
+            "version": "v1",
+            "hypothesis": "compact layout improves navigation",
+            "subject": "user",
+            "eligibility": {
+              "op": "equal",
+              "field": "product",
+              "value": "arcscope"
+            },
+            "variants": [
+              {
+                "variantId": "compact",
+                "allocation": 4000,
+                "values": {
+                  "ui.density": "compact"
+                }
+              },
+              {
+                "variantId": "control",
+                "allocation": 4000,
+                "values": {
+                  "ui.density": "comfortable"
+                }
+              }
+            ],
+            "allocation": 8000,
+            "startsAt": "2026-09-27T00:00:00Z",
+            "endsAt": "2026-09-28T00:00:00Z",
+            "successMetrics": ["navigation-completed"],
+            "exitCriteria": "choose declared baseline when trial ends",
+            "holdoutBasisPoints": 1000
+          }
+        ],
+        "reason": "fixture only; not signed or activated"
       }
     }
   ],

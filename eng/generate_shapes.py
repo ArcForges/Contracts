@@ -1368,8 +1368,10 @@ CS_POLICY_RULES = r'''
                 return (selectedScope + "Id", values);
             }
             var op = target.GetProperty("op").GetString();
-            if (op == "equal") values.Add(target.GetProperty("value").GetString()!);
-            else if (op == "in") foreach (var item in target.GetProperty("values").EnumerateArray()) values.Add(item.GetString()!);
+            static string Scalar(global::System.Text.Json.JsonElement item) => item.ValueKind == global::System.Text.Json.JsonValueKind.String
+                ? item.GetString()! : item.GetInt64().ToString(global::System.Globalization.CultureInfo.InvariantCulture);
+            if (op == "equal") values.Add(Scalar(target.GetProperty("value")));
+            else if (op == "in") foreach (var item in target.GetProperty("values").EnumerateArray()) values.Add(Scalar(item));
             else return (null, values);
             return (target.GetProperty("field").GetString(), values);
         }
@@ -1489,7 +1491,7 @@ function policyBody(value: unknown): boolean {
         const otherStart = other.effectiveAt === undefined ? issued : policyInstant(other.effectiveAt);
         const otherEnd = other.expiresAt === undefined ? expires : policyInstant(other.expiresAt);
         if (end <= otherStart || otherEnd <= start) continue;
-        const finite = (target: any): { field: string; values: string[] } | undefined => {
+        const finite = (target: any): { field: string; values: (string | number)[] } | undefined => {
           if (typeof target === 'string') return { field: rule.scope + 'Id', values: [target] };
           if (target.op === 'equal') return { field: target.field, values: [target.value] };
           if (target.op === 'in') return { field: target.field, values: target.values };
