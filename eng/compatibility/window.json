@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "contract-compatibility-window.v1",
+  "license": "Apache-2.0",
+  "contractMajor": 1,
+  "openedOn": "2026-09-27",
+  "earliestRetirement": "2026-12-26",
+  "minimumReadSupportDays": 90,
+  "previousVersion": "1.0.0-ci.113.1",
+  "minimumVersion": "1.0.0-ci.113.1",
+  "sourceCommit": "b10b2f6f316bf0c007e00632c5442fc102ebbe6e",
+  "publication": "https://github.com/ArcForges/Contracts/actions/runs/36334951174",
+  "profile": "Retained P2-019/P2-020 surface only; exact retirements remain validated by check_foundation. This is an actual published development candidate, not a claimed stable release or deployed production client.",
+  "descriptors": [
+    {
+      "package": "ArcForges.Contracts.Foundation",
+      "previousAndMinimum": "eng/compatibility/foundation-1.0.0-ci.113.1.binpb",
+      "sha256": "c4a1cbf6201d09ee9f3dbbdf3ef96d8be78bc495755da5ab17496efee46cd558",
+      "current": "artifacts/foundation.binpb"
+    },
+    {
+      "package": "ArcForges.Contracts.PublicApi",
+      "previousAndMinimum": "eng/compatibility/public-api-1.0.0-ci.113.1.binpb",
+      "sha256": "0709b7bc039e2ebff9e6865ff362deb1520bc584384fc832bfea4a16bda9c707",
+      "current": "artifacts/public-api.binpb"
+    }
+  ],
+  "coverage": "Previous/current and current/minimum offline generated codec exchange covers the actually published Hello packaging demonstration plus exact Foundation values and additive response retention. Full later product service matrix coverage remains the CON.18 completion prerequisite, not an invented previous deployment."
+}

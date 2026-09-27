@@ -7,6 +7,9 @@ It uses no source-regex approximation, package restore or live service.
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
+from datetime import date
+import hashlib
 import json
 from pathlib import Path
 
@@ -167,23 +170,82 @@ def compare(previous: dict, current: dict) -> list[str]:
     return errors
 
 
+def retained(model: dict, retirement: dict) -> dict:
+    """Apply only the exact retirement inventory already validated by Foundation.
+
+    The historical descriptor bytes remain immutable. This projection is limited
+    to the two namespaces whose retirement is owned by CON.23; it never waives
+    retained field changes or a later service's compatibility requirements.
+    """
+    result = deepcopy(model)
+    prefixes = (".arcforges.foundation.v1.", ".arcforges.publicapi.v1.")
+    for name in list(result["messages"]):
+        if not name.startswith(prefixes):
+            continue
+        short = name.rsplit(".", 1)[1]
+        if short in retirement.get("messages", []):
+            del result["messages"][name]
+            continue
+        for row in retirement.get("fields", {}).get(short, []):
+            tag = row["tag"]
+            field = result["messages"][name].get(tag)
+            if field is not None and field["name"] == row["name"]:
+                del result["messages"][name][tag]
+    return result
+
+
+def check_window(root: Path) -> dict:
+    from check_foundation import check, safe_path
+    # This verifies the exact CON.23 retirement exceptions before using them.
+    check(root)
+    window = json.loads((root / "eng/compatibility/window.json").read_text(encoding="utf-8"))
+    if window["schemaVersion"] != "contract-compatibility-window.v1" or window["minimumReadSupportDays"] < 90:
+        raise ValueError("Invalid minimum compatibility window")
+    if (date.fromisoformat(window["earliestRetirement"]) - date.fromisoformat(window["openedOn"])).days < window["minimumReadSupportDays"]:
+        raise ValueError("Read compatibility window is shorter than its minimum")
+    if window["previousVersion"] != window["minimumVersion"]:
+        raise ValueError("Distinct minimum versions require their own pinned descriptors and offline harness")
+    inventory = json.loads((root / "eng/foundation-inventory.json").read_text(encoding="utf-8"))
+    results, errors = [], []
+    for row in window["descriptors"]:
+        raw = safe_path(root, row["previousAndMinimum"]).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != row["sha256"]:
+            raise ValueError("Historical descriptor fixture changed: " + row["package"])
+        previous = retained(descriptor(raw), inventory.get("retirement", {}))
+        current = descriptor(safe_path(root, row["current"]).read_bytes())
+        problems = compare(previous, current)
+        errors.extend(row["package"] + ": " + problem for problem in problems)
+        results.append({"package": row["package"], "retainedDefinitions": {key: len(value) for key, value in previous.items()},
+                        "check": "preserve published supported members used by both offline codec directions",
+                        "errors": problems})
+    return {"schemaVersion": "contract-compatibility-report.v1", "previousVersion": window["previousVersion"],
+            "minimumVersion": window["minimumVersion"], "coverage": window["coverage"], "descriptors": results, "errors": errors}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--previous", type=Path, required=True)
-    parser.add_argument("--current", type=Path, required=True)
+    parser.add_argument("--previous", type=Path)
+    parser.add_argument("--current", type=Path)
+    parser.add_argument("--window", action="store_true")
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
-    previous = descriptor(args.previous.read_bytes())
-    current = descriptor(args.current.read_bytes())
-    errors = compare(previous, current)
-    report = {"schemaVersion": "contract-descriptor-compatibility.v1", "errors": errors,
-              "previousDefinitions": {key: len(value) for key, value in previous.items()},
-              "currentDefinitions": {key: len(value) for key, value in current.items()}}
+    if args.window:
+        report = check_window(args.root)
+    else:
+        if args.previous is None or args.current is None:
+            parser.error("Use --window or both --previous and --current")
+        previous = descriptor(args.previous.read_bytes())
+        current = descriptor(args.current.read_bytes())
+        errors = compare(previous, current)
+        report = {"schemaVersion": "contract-descriptor-compatibility.v1", "errors": errors,
+                  "previousDefinitions": {key: len(value) for key, value in previous.items()},
+                  "currentDefinitions": {key: len(value) for key, value in current.items()}}
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report))
-    return 1 if errors else 0
+    return 1 if report["errors"] else 0
 
 
 if __name__ == "__main__":

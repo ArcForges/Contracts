@@ -288,6 +288,7 @@ def build() -> None:
     run(sys.executable, ROOT / "eng/check_licences.py")
     run("node", ROOT / "eng/check_contract_access.mjs")
     run(sys.executable, ROOT / "eng/check_foundation.py", "--generated", "--self-test")
+    run(sys.executable, ROOT / "eng/check_compatibility.py", "--window", "--report", ARTIFACTS / "evidence/compatibility-matrix.json")
     run(sys.executable, ROOT / "eng/check_serialization.py", "--report", ARTIFACTS / "evidence/serialization-policy.json")
     run(sys.executable, ROOT / "eng/check_operation_scope.py", "--report", ARTIFACTS / "evidence/operation-reachability.json")
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
@@ -309,9 +310,20 @@ def build() -> None:
     run(NPM, "test")
     run("node", ROOT / "tests/public/foundation.test.mjs", "--exchange")
     run("dotnet", structure_tests, ROOT, "--verify-foundation-exchange")
+    compatibility_exchange(structure_tests)
     serialization_probe()
     from kotlin_tools import build as build_kotlin
     build_kotlin()
+
+
+def compatibility_exchange(structure_tests: Path) -> None:
+    """Isolated old/current generated assemblies; no transport or live service."""
+    previous = ROOT / "tests/StructureTests/PreviousClient/bin/Release/net10.0/PreviousClient.dll"
+    with tempfile.TemporaryDirectory(prefix="arcforges-compatibility-") as temporary:
+        run("dotnet", previous, "emit", temporary)
+        run("dotnet", structure_tests, ROOT, "--compatibility-current", temporary)
+        run("dotnet", previous, "verify-and-serve", temporary)
+        run("dotnet", structure_tests, ROOT, "--compatibility-verify", temporary)
 
 
 def serialization_probe() -> None:
