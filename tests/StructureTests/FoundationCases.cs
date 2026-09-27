@@ -14,11 +14,24 @@ using Validation = ArcForges.Contracts.Validation.ContractShapeValidation;
 
 internal static class FoundationCases
 {
+    private static (JsonObject Fixture, byte[] Bytes) LoadFixtures(string root)
+    {
+        var original = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "wp03-01.json"));
+        var descriptors = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "con-02-descriptors.json"));
+        var fixture = JsonNode.Parse(original)!.AsObject();
+        var additions = JsonNode.Parse(descriptors)!["exchange"]!.AsObject();
+        foreach (var (name, sample) in additions["samples"]!.AsObject())
+        {
+            Require(!fixture["samples"]!.AsObject().ContainsKey(name), "Duplicate independent fixture " + name);
+            fixture["samples"]![name] = sample!.DeepClone();
+        }
+        foreach (var item in additions["cases"]!.AsArray()) fixture["cases"]!.AsArray().Add(item!.DeepClone());
+        return (fixture, [.. original, .. descriptors]);
+    }
+
     public static void Run(string root, bool exchange)
     {
-        var path = Path.Combine(root, "fixtures", "public", "wp03-01.json");
-        var bytes = File.ReadAllBytes(path);
-        var fixture = JsonNode.Parse(bytes)!.AsObject();
+        var (fixture, bytes) = LoadFixtures(root);
         var samples = fixture["samples"]!.AsObject();
         var cases = fixture["cases"]!.AsArray();
         var errors = new List<string>();
@@ -77,8 +90,7 @@ internal static class FoundationCases
 
     public static void VerifyExchange(string root)
     {
-        var fixtureBytes = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "wp03-01.json"));
-        var fixture = JsonNode.Parse(fixtureBytes)!.AsObject();
+        var (fixture, fixtureBytes) = LoadFixtures(root);
         var samples = fixture["samples"]!.AsObject();
         var expected = fixture["cases"]!.AsArray().Select(n => n!.AsObject()).Where(n => n["valid"]!.GetValue<bool>()).ToDictionary(n => n["id"]!.GetValue<string>(), StringComparer.Ordinal);
         var incoming = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "artifacts", "tests", "foundation", "typescript.json")))!.AsObject();
@@ -176,6 +188,20 @@ internal static class FoundationCases
     // No runtime discovery or production schema generates fixture expectations.
     private static Observation Dispatch(string target, JsonNode? json, byte[]? binary) => target switch
     {
+        "OperationBinding" => Check<F.OperationBinding>(json, binary, Validation.IsValid),
+        "CancelSupport" => Check<F.CancelSupport>(json, binary, Validation.IsValid),
+        "CapabilityLimits" => Check<F.CapabilityLimits>(json, binary, Validation.IsValid),
+        "CapabilityDescriptor" => Check<F.CapabilityDescriptor>(json, binary, Validation.IsValid),
+        "ActionDescriptor" => Check<F.ActionDescriptor>(json, binary, Validation.IsValid),
+        "ContractVersion" => Check<F.ContractVersion>(json, binary, Validation.IsValid),
+        "ContractCompatibility" => Check<F.ContractCompatibility>(json, binary, Validation.IsValid),
+        "FeatureSet" => Check<F.FeatureSet>(json, binary, Validation.IsValid),
+        "CompatibilityDescriptor" => Check<F.CompatibilityDescriptor>(json, binary, Validation.IsValid),
+        "InstanceReadiness" => Check<F.InstanceReadiness>(json, binary, Validation.IsValid),
+        "HealthSnapshot" => Check<F.HealthSnapshot>(json, binary, Validation.IsValid),
+        "EncodedBodyRef" => Check<F.EncodedBodyRef>(json, binary, Validation.IsValid),
+        "ContextProvider" => Check<P.ContextProvider>(json, binary, Validation.IsValid),
+        "ContextDescriptor" => Check<P.ContextDescriptor>(json, binary, Validation.IsValid),
         "ActorChain" => Check<F.ActorChain>(json, binary, Validation.IsValid),
         "AgentProfile" => Check<P.AgentProfile>(json, binary, Validation.IsValid),
         "AggregateBody" => Check<P.AggregateBody>(json, binary, Validation.IsValid),

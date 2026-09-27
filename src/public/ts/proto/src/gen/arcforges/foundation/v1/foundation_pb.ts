@@ -14,7 +14,471 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file arcforges/foundation/v1/foundation.proto.
  */
 export const file_arcforges_foundation_v1_foundation: GenFile = /*@__PURE__*/
-  fileDesc("CihhcmNmb3JnZXMvZm91bmRhdGlvbi92MS9mb3VuZGF0aW9uLnByb3RvEhdhcmNmb3JnZXMuZm91bmRhdGlvbi52MSIiCgJJZBISCgV2YWx1ZRgBIAEoDEgAiAEBQggKBl92YWx1ZSIoCghSZXZpc2lvbhISCgV2YWx1ZRgBIAEoA0gAiAEBQggKBl92YWx1ZSIwChBOYXRpdmVDb250ZW50UmV2EhIKBXZhbHVlGAEgASgESACIAQFCCAoGX3ZhbHVlIlMKB0luc3RhbnQSGQoMdW5peF9zZWNvbmRzGAEgASgSSACIAQESEgoFbmFub3MYAiABKA1IAYgBAUIPCg1fdW5peF9zZWNvbmRzQggKBl9uYW5vcyInCgdEZWNpbWFsEhIKBXZhbHVlGAEgASgJSACIAQFCCAoGX3ZhbHVlIlMKDEFnZ3JlZ2F0ZVJlZhIRCgRraW5kGAEgASgJSACIAQESJwoCaWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZEIHCgVfa2luZCKYAQoMVmVyc2lvbmVkUmVmEjMKBHJvb3QYASABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BZ2dyZWdhdGVSZWYSMwoIcmV2aXNpb24YAiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbhITCgZzaGEyNTYYAyABKAlIAIgBAUIJCgdfc2hhMjU2IsABCgdSZWNlaXB0Ei8KCmNvbW1hbmRfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBI6Cg9yZXN1bHRfcmV2aXNpb24YAiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbhI9CgZlZmZlY3QYAyABKA4yKC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5FZmZlY3RDZXJ0YWludHlIAIgBAUIJCgdfZWZmZWN0InAKEEFwcGxpY2F0aW9uU2NvcGUSFwoKcHJvZHVjdF9pZBgBIAEoCUgAiAEBEjQKD2luc3RhbGxhdGlvbl9pZBgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkQg0KC19wcm9kdWN0X2lkIrkDCgtSZXF1ZXN0TWV0YRIvCgpjb21tYW5kX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSNwoMZXhwZWN0ZWRfcmV2GAIgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb24SMwoOY29ycmVsYXRpb25faWQYAyABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIxCgx3b3Jrc3BhY2VfaWQYBCABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBJCCg9leHBlY3RlZF9uYXRpdmUYBiABKAsyKS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5OYXRpdmVDb250ZW50UmV2EiAKE3JlY292ZXJ5X2dlbmVyYXRpb24YByABKARIAIgBARJEChFhcHBsaWNhdGlvbl9zY29wZRgIIAEoCzIpLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFwcGxpY2F0aW9uU2NvcGVCFgoUX3JlY292ZXJ5X2dlbmVyYXRpb25KBAgFEAZSDmV4cGVjdGVkX2xvY2FsIoACCgxSZXNwb25zZU1ldGESNQoKcmVzdWx0X3JldhgBIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJldmlzaW9uEiAKE2VudGl0bGVtZW50X3ZlcnNpb24YAiABKANIAIgBARIQCgh3YXJuaW5ncxgDIAMoCRIzCg5jb3JyZWxhdGlvbl9pZBgEIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEiAKE3JlY292ZXJ5X2dlbmVyYXRpb24YBSABKARIAYgBAUIWChRfZW50aXRsZW1lbnRfdmVyc2lvbkIWChRfcmVjb3ZlcnlfZ2VuZXJhdGlvbiKIAwoIQXJjRXJyb3ISEQoEY29kZRgBIAEoCUgAiAEBEj0KCGNhdGVnb3J5GAIgASgOMiYuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuRXJyb3JDYXRlZ29yeUgBiAEBEhgKC21lc3NhZ2Vfa2V5GAMgASgJSAKIAQESMwoFcmV0cnkYBCABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXRyeUFkdmljZRI9CgZlZmZlY3QYBSABKA4yKC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5FZmZlY3RDZXJ0YWludHlIA4gBARIzCg5jb3JyZWxhdGlvbl9pZBgGIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjYKB2RldGFpbHMYByABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5FcnJvckRldGFpbHNCBwoFX2NvZGVCCwoJX2NhdGVnb3J5Qg4KDF9tZXNzYWdlX2tleUIJCgdfZWZmZWN0IsUBCgtSZXRyeUFkdmljZRI1CgRtb2RlGAEgASgOMiIuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV0cnlNb2RlSACIAQESMgoIcmV0cnlfYXQYAiABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50EiUKGHJlY29uY2lsaWF0aW9uX29wZXJhdGlvbhgDIAEoCUgBiAEBQgcKBV9tb2RlQhsKGV9yZWNvbmNpbGlhdGlvbl9vcGVyYXRpb24igwIKDEVycm9yRGV0YWlscxI9CghyZXZpc2lvbhgBIAEoCzIpLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJldmlzaW9uQ29uZmxpY3RIABI2CgVsaW1pdBgCIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkxpbWl0RmFpbHVyZUgAEjoKB3VwZ3JhZGUYAyABKAsyJy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5WZXJzaW9uRmFpbHVyZUgAEjYKBXN0YXRlGAQgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuU3RhdGVGYWlsdXJlSABCCAoGZGV0YWlsIqwBChBSZXZpc2lvbkNvbmZsaWN0EjMKCGV4cGVjdGVkGAEgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb24SMQoGYWN0dWFsGAIgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb24SMAoLY29uZmxpY3RfaWQYAyABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZCLVAQoMTGltaXRGYWlsdXJlEhcKCmxpbWl0X25hbWUYASABKAlIAIgBARIxCgdtYXhpbXVtGAIgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuRGVjaW1hbBIzCglhdmFpbGFibGUYAyABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5EZWNpbWFsEjUKC3JlY292ZXJ5X2F0GAQgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudEINCgtfbGltaXRfbmFtZSKMAQoOVmVyc2lvbkZhaWx1cmUSGQoMbWluX3JlYWRhYmxlGAEgASgJSACIAQESGQoMbWluX3dyaXRhYmxlGAIgASgJSAGIAQESFQoIcmVjZWl2ZWQYAyABKAlIAogBAUIPCg1fbWluX3JlYWRhYmxlQg8KDV9taW5fd3JpdGFibGVCCwoJX3JlY2VpdmVkIs0BCgxTdGF0ZUZhaWx1cmUSEgoFc3RhdGUYASABKAlIAIgBARITCgZyZWFzb24YAiABKAlIAYgBARI3CghyZXNvdXJjZRgDIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFnZ3JlZ2F0ZVJlZhI5CgZuYXRpdmUYBSABKAsyKS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5OYXRpdmVDb250ZW50UmV2QggKBl9zdGF0ZUIJCgdfcmVhc29uSgQIBBAFUgVsb2NhbCL0AQoKQWN0b3JDaGFpbhIuCglpbml0aWF0b3IYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIqCgVvd25lchgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhcKCmFjdG9yX2tpbmQYAyABKAlIAIgBARIyCg1kZWxlZ2F0aW9uX2lkGAQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSLgoJZGV2aWNlX2lkGAUgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRCDQoLX2FjdG9yX2tpbmQi7gQKC0FydGlmYWN0UmVmEjAKC2FydGlmYWN0X2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSEQoEa2luZBgCIAEoCUgAiAEBEjQKBW93bmVyGAMgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQWdncmVnYXRlUmVmEjYKCHJlc291cmNlGAQgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVzb3VyY2VSZWYSKwoGam9iX2lkGAUgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSNgoGb3JpZ2luGAYgASgLMiYuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQ29udGVudE9yaWdpbhI2ChFwcm9kdWNpbmdfdGFza19pZBgHIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjUKEHByb2R1Y2luZ19ydW5faWQYCCABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIyCgVhY3RvchgJIAEoCzIjLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFjdG9yQ2hhaW4SNAoKY3JlYXRlZF9hdBgKIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnQSGQoMYXZhaWxhYmlsaXR5GAsgASgJSAGIAQESOQoKcHJvdmVuYW5jZRgMIAMoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlZlcnNpb25lZFJlZkIHCgVfa2luZEIPCg1fYXZhaWxhYmlsaXR5IosBCgdCbG9iUmVmEiwKB2Jsb2JfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIZCgxjb250ZW50X2hhc2gYAiABKAlIAIgBARIXCgpzaXplX2J5dGVzGAMgASgESAGIAQFCDwoNX2NvbnRlbnRfaGFzaEINCgtfc2l6ZV9ieXRlcyJLCglCeXRlUmFuZ2USEwoGb2Zmc2V0GAEgASgESACIAQESEwoGbGVuZ3RoGAIgASgESAGIAQFCCQoHX29mZnNldEIJCgdfbGVuZ3RoIq4DCg1Db250ZW50T3JpZ2luEhQKB3Byb2ZpbGUYASABKAlIAIgBARIuCglvcmlnaW5faWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBI0Cg9jb250ZW50X3VuaXRfaWQYAyABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBINCgVraW5kcxgEIAMoCRIbCg5wYXlsb2FkX3NoYTI1NhgFIAEoCUgBiAEBEhoKDXByb2R1Y2VyX2tpbmQYBiABKAlIAogBARI0CgpjcmVhdGVkX2F0GAcgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudBI2ChFwYXJlbnRfb3JpZ2luX2lkcxgIIAMoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEiEKFG9taXR0ZWRfcGFyZW50X2NvdW50GAkgASgNSAOIAQFCCgoIX3Byb2ZpbGVCEQoPX3BheWxvYWRfc2hhMjU2QhAKDl9wcm9kdWNlcl9raW5kQhcKFV9vbWl0dGVkX3BhcmVudF9jb3VudCJ1CgpNZWRpYVJhbmdlEjEKBXN0YXJ0GAEgASgLMiIuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuTWVkaWFUaW1lEjQKCGR1cmF0aW9uGAIgASgLMiIuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuTWVkaWFUaW1lIloKCU1lZGlhVGltZRISCgV0aWNrcxgBIAEoEkgAiAEBEi8KBHJhdGUYAiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SYXRpb25hbEIICgZfdGlja3MiSwoLUGFnZVJlcXVlc3QSEwoGY3Vyc29yGAEgASgJSACIAQESEgoFbGltaXQYAiABKAVIAYgBAUIJCgdfY3Vyc29yQggKBl9saW1pdCJZCglQYWdlU3RhdGUSGAoLbmV4dF9jdXJzb3IYASABKAlIAIgBARIVCghoYXNfbW9yZRgCIAEoCEgBiAEBQg4KDF9uZXh0X2N1cnNvckILCglfaGFzX21vcmUiWgoIUmF0aW9uYWwSFgoJbnVtZXJhdG9yGAEgASgSSACIAQESGAoLZGVub21pbmF0b3IYAiABKARIAYgBAUIMCgpfbnVtZXJhdG9yQg4KDF9kZW5vbWluYXRvciK6AwoLUmVzb3VyY2VSZWYSLQoIcmVhbG1faWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIxCgx3b3Jrc3BhY2VfaWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIZCgxvd25lcl9hcHBfaWQYAyABKAlIAIgBARIaCg1yZXNvdXJjZV9raW5kGAQgASgJSAGIAQESMAoLcmVzb3VyY2VfaWQYBSABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIZCgxkaXNwbGF5X2hpbnQYBiABKAlIAogBARJICgxhdmFpbGFiaWxpdHkYByABKA4yLS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNvdXJjZUF2YWlsYWJpbGl0eUgDiAEBEjYKEWhvbGRpbmdfZGV2aWNlX2lkGAggASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRCDwoNX293bmVyX2FwcF9pZEIQCg5fcmVzb3VyY2Vfa2luZEIPCg1fZGlzcGxheV9oaW50Qg8KDV9hdmFpbGFiaWxpdHkisgIKElJlc291cmNlVmVyc2lvblJlZhI2CghyZXNvdXJjZRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc291cmNlUmVmEhkKDGNvbnRlbnRfaGFzaBgFIAEoCUgBiAEBEi4KBGJsb2IYBiABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5CbG9iUmVmEjIKBWNsb3VkGAIgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb25IABI7CgZuYXRpdmUYAyABKAsyKS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5OYXRpdmVDb250ZW50UmV2SABCCgoIcmV2aXNpb25CDwoNX2NvbnRlbnRfaGFzaEoECAQQBVIFbG9jYWwibwoMVGltZVJhbmdlVXRjEi4KBGZyb20YASABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50Ei8KBXVudGlsGAIgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudCqVAQoPRWZmZWN0Q2VydGFpbnR5EiAKHEVGRkVDVF9DRVJUQUlOVFlfVU5TUEVDSUZJRUQQABIjCh9FRkZFQ1RfQ0VSVEFJTlRZX0RJRF9OT1RfSEFQUEVOEAESHQoZRUZGRUNUX0NFUlRBSU5UWV9IQVBQRU5FRBACEhwKGEVGRkVDVF9DRVJUQUlOVFlfVU5LTk9XThADKo8BCglSZXRyeU1vZGUSGgoWUkVUUllfTU9ERV9VTlNQRUNJRklFRBAAEhQKEFJFVFJZX01PREVfTkVWRVIQARIbChdSRVRSWV9NT0RFX1NBTUVfQ09NTUFORBACEhkKFVJFVFJZX01PREVfQUZURVJfVElNRRADEhgKFFJFVFJZX01PREVfUkVDT05DSUxFEAQqwgIKDUVycm9yQ2F0ZWdvcnkSHgoaRVJST1JfQ0FURUdPUllfVU5TUEVDSUZJRUQQABIdChlFUlJPUl9DQVRFR09SWV9WQUxJREFUSU9OEAESIQodRVJST1JfQ0FURUdPUllfQVVUSEVOVElDQVRJT04QAhIgChxFUlJPUl9DQVRFR09SWV9BVVRIT1JJWkFUSU9OEAMSHgoaRVJST1JfQ0FURUdPUllfRU5USVRMRU1FTlQQBBIbChdFUlJPUl9DQVRFR09SWV9DT05GTElDVBAFEhgKFEVSUk9SX0NBVEVHT1JZX1NUQVRFEAYSGwoXRVJST1JfQ0FURUdPUllfUkVTT1VSQ0UQBxIcChhFUlJPUl9DQVRFR09SWV9FWEVDVVRJT04QCBIbChdFUlJPUl9DQVRFR09SWV9JTlRFUk5BTBAJKogCChRSZXNvdXJjZUF2YWlsYWJpbGl0eRIlCiFSRVNPVVJDRV9BVkFJTEFCSUxJVFlfVU5TUEVDSUZJRUQQABIlCiFSRVNPVVJDRV9BVkFJTEFCSUxJVFlfQUxXQVlTX0tFRVAQARIrCidSRVNPVVJDRV9BVkFJTEFCSUxJVFlfQVZBSUxBQkxFX09GRkxJTkUQAhIjCh9SRVNPVVJDRV9BVkFJTEFCSUxJVFlfT05fREVNQU5EEAMSJAogUkVTT1VSQ0VfQVZBSUxBQklMSVRZX0NMT1VEX09OTFkQBBIqCiZSRVNPVVJDRV9BVkFJTEFCSUxJVFlfTUlTU0lOR19FWFRFUk5BTBAFQmQKK2lvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLmZvdW5kYXRpb24udjFCD0ZvdW5kYXRpb25Qcm90b1ABqgIhQXJjRm9yZ2VzLkNvbnRyYWN0cy5Gb3VuZGF0aW9uLlYxYgZwcm90bzM");
+  fileDesc("CihhcmNmb3JnZXMvZm91bmRhdGlvbi92MS9mb3VuZGF0aW9uLnByb3RvEhdhcmNmb3JnZXMuZm91bmRhdGlvbi52MSL+AQoQT3BlcmF0aW9uQmluZGluZxIZCgxvcGVyYXRpb25faWQYASABKAlIAIgBARI/Cghwcm90b2NvbBgCIAEoDjIoLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkJpbmRpbmdQcm90b2NvbEgBiAEBEhQKB3NlcnZpY2UYAyABKAlIAogBARITCgZtZXRob2QYBCABKAlIA4gBARIbCg5jb250cmFjdF9tYWpvchgFIAEoDUgEiAEBQg8KDV9vcGVyYXRpb25faWRCCwoJX3Byb3RvY29sQgoKCF9zZXJ2aWNlQgkKB19tZXRob2RCEQoPX2NvbnRyYWN0X21ham9yIqMBCg1DYW5jZWxTdXBwb3J0EhUKCGFjY2VwdGVkGAEgASgISACIAQESIQoUYmVmb3JlX2Rpc3BhdGNoX29ubHkYAiABKAhIAYgBARIdChBzdGF0dXNfb3BlcmF0aW9uGAMgASgJSAKIAQFCCwoJX2FjY2VwdGVkQhcKFV9iZWZvcmVfZGlzcGF0Y2hfb25seUITChFfc3RhdHVzX29wZXJhdGlvbiKSAgoQQ2FwYWJpbGl0eUxpbWl0cxIcCg9tYXhfaW5wdXRfYnl0ZXMYASABKARIAIgBARIdChBtYXhfb3V0cHV0X2J5dGVzGAIgASgESAGIAQESHAoPbWF4X2R1cmF0aW9uX21zGAMgASgESAKIAQESHAoPbWF4X2NvbmN1cnJlbmN5GAQgASgNSAOIAQESHgoRbWF4X2NvbnRleHRfaXRlbXMYBSABKA1IBIgBAUISChBfbWF4X2lucHV0X2J5dGVzQhMKEV9tYXhfb3V0cHV0X2J5dGVzQhIKEF9tYXhfZHVyYXRpb25fbXNCEgoQX21heF9jb25jdXJyZW5jeUIUChJfbWF4X2NvbnRleHRfaXRlbXMixggKFENhcGFiaWxpdHlEZXNjcmlwdG9yEhAKA2tleRgBIAEoCUgAiAEBEhQKB3ZlcnNpb24YAiABKAlIAYgBARIbCg5yZXF1ZXN0X3NjaGVtYRgDIAEoCUgCiAEBEhwKD3Jlc3BvbnNlX3NjaGVtYRgEIAEoCUgDiAEBEhEKBHJpc2sYBSABKAlIBIgBARI8Cghsb2NhbGl0eRgGIAEoDjIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlRvb2xMb2NhbGl0eUgFiAEBEhgKC2lkZW1wb3RlbmN5GAcgASgJSAaIAQESHQoQc3RhdHVzX29wZXJhdGlvbhgIIAEoCUgHiAEBEg0KBXJlYWRzGAkgAygJEg4KBndyaXRlcxgKIAMoCRIWCglleGNsdXNpdmUYCyABKAhICIgBARITCgZlZ3Jlc3MYDCABKAlICYgBARIVCghhcHByb3ZhbBgNIAEoCUgKiAEBEjoKB2JpbmRpbmcYDiABKAsyKS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5PcGVyYXRpb25CaW5kaW5nEj8KCWV4ZWN1dGlvbhgPIAEoDjInLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkV4ZWN1dGlvbkxvY3VzSAuIAQESOAoGZWZmZWN0GBAgASgOMiMuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuRWZmZWN0S2luZEgMiAEBEjYKBXJldHJ5GBEgASgOMiIuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV0cnlNb2RlSA2IAQESNgoGY2FuY2VsGBIgASgLMiYuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQ2FuY2VsU3VwcG9ydBI6CgdwcmV2aWV3GBMgASgLMikuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuT3BlcmF0aW9uQmluZGluZxI/Cgxjb21wZW5zYXRpb24YFCABKAsyKS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5PcGVyYXRpb25CaW5kaW5nEhcKCmNoZWNrcG9pbnQYFSABKAhIDogBARI5CgZsaW1pdHMYFiABKAsyKS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5DYXBhYmlsaXR5TGltaXRzEhgKEGFjY2VwdGVkX2NvbnRleHQYFyADKAlCBgoEX2tleUIKCghfdmVyc2lvbkIRCg9fcmVxdWVzdF9zY2hlbWFCEgoQX3Jlc3BvbnNlX3NjaGVtYUIHCgVfcmlza0ILCglfbG9jYWxpdHlCDgoMX2lkZW1wb3RlbmN5QhMKEV9zdGF0dXNfb3BlcmF0aW9uQgwKCl9leGNsdXNpdmVCCQoHX2VncmVzc0ILCglfYXBwcm92YWxCDAoKX2V4ZWN1dGlvbkIJCgdfZWZmZWN0QggKBl9yZXRyeUINCgtfY2hlY2twb2ludCLqAQoQQWN0aW9uRGVzY3JpcHRvchIQCgNrZXkYASABKAlIAIgBARIWCgl0aXRsZV9rZXkYAiABKAlIAYgBARIcCg9kZXNjcmlwdGlvbl9rZXkYAyABKAlIAogBARIYChBhY2NlcHRlZF9jb250ZXh0GAQgAygJEhQKDGNhcGFiaWxpdGllcxgFIAMoCRIeChFhdmFpbGFiaWxpdHlfcnVsZRgGIAEoCUgDiAEBQgYKBF9rZXlCDAoKX3RpdGxlX2tleUISChBfZGVzY3JpcHRpb25fa2V5QhQKEl9hdmFpbGFiaWxpdHlfcnVsZSJNCg9Db250cmFjdFZlcnNpb24SEAoDa2V5GAEgASgJSACIAQESFAoHdmVyc2lvbhgCIAEoCUgBiAEBQgYKBF9rZXlCCgoIX3ZlcnNpb24iqwEKFUNvbnRyYWN0Q29tcGF0aWJpbGl0eRI6Cghjb250cmFjdBgBIAEoCzIoLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkNvbnRyYWN0VmVyc2lvbhIZCgxtaW5fcmVhZGFibGUYAiABKAlIAIgBARIZCgxtaW5fd3JpdGFibGUYAyABKAlIAYgBAUIPCg1fbWluX3JlYWRhYmxlQg8KDV9taW5fd3JpdGFibGUiHgoKRmVhdHVyZVNldBIQCghmZWF0dXJlcxgBIAMoCSKdAgoXQ29tcGF0aWJpbGl0eURlc2NyaXB0b3ISQgoKZm91bmRhdGlvbhgBIAEoCzIuLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkNvbnRyYWN0Q29tcGF0aWJpbGl0eRJBCgljb250cmFjdHMYAiADKAsyLi5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5Db250cmFjdENvbXBhdGliaWxpdHkSRAoMY2FwYWJpbGl0aWVzGAMgAygLMi4uYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQ29udHJhY3RDb21wYXRpYmlsaXR5EjUKCGZlYXR1cmVzGAQgASgLMiMuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuRmVhdHVyZVNldCJQChFJbnN0YW5jZVJlYWRpbmVzcxIZCgxhY2NlcHRzX3dvcmsYASABKAhIAIgBARIPCgdyZWFzb25zGAIgAygJQg8KDV9hY2NlcHRzX3dvcmsigQIKDkhlYWx0aFNuYXBzaG90EjAKC2luc3RhbmNlX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSNQoLb2JzZXJ2ZWRfYXQYAiABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50EjwKBmhlYWx0aBgDIAEoDjInLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbmNlSGVhbHRoSACIAQESPQoJcmVhZGluZXNzGAQgASgLMiouYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFuY2VSZWFkaW5lc3NCCQoHX2hlYWx0aCK9AgoORW5jb2RlZEJvZHlSZWYSPQoIcmVzb3VyY2UYASABKAsyKy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNvdXJjZVZlcnNpb25SZWYSGQoMbWVzc2FnZV90eXBlGAIgASgJSACIAQESHAoPZGVzY3JpcHRvcl9oYXNoGAMgASgJSAGIAQESGAoLYnl0ZV9sZW5ndGgYBCABKARIAogBARIbCg5zbmFwc2hvdF90b2tlbhgFIAEoCUgDiAEBEjQKCmV4cGlyZXNfYXQYBiABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50Qg8KDV9tZXNzYWdlX3R5cGVCEgoQX2Rlc2NyaXB0b3JfaGFzaEIOCgxfYnl0ZV9sZW5ndGhCEQoPX3NuYXBzaG90X3Rva2VuIiIKAklkEhIKBXZhbHVlGAEgASgMSACIAQFCCAoGX3ZhbHVlIigKCFJldmlzaW9uEhIKBXZhbHVlGAEgASgDSACIAQFCCAoGX3ZhbHVlIjAKEE5hdGl2ZUNvbnRlbnRSZXYSEgoFdmFsdWUYASABKARIAIgBAUIICgZfdmFsdWUiUwoHSW5zdGFudBIZCgx1bml4X3NlY29uZHMYASABKBJIAIgBARISCgVuYW5vcxgCIAEoDUgBiAEBQg8KDV91bml4X3NlY29uZHNCCAoGX25hbm9zIicKB0RlY2ltYWwSEgoFdmFsdWUYASABKAlIAIgBAUIICgZfdmFsdWUiUwoMQWdncmVnYXRlUmVmEhEKBGtpbmQYASABKAlIAIgBARInCgJpZBgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkQgcKBV9raW5kIpgBCgxWZXJzaW9uZWRSZWYSMwoEcm9vdBgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFnZ3JlZ2F0ZVJlZhIzCghyZXZpc2lvbhgCIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJldmlzaW9uEhMKBnNoYTI1NhgDIAEoCUgAiAEBQgkKB19zaGEyNTYiwAEKB1JlY2VpcHQSLwoKY29tbWFuZF9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjoKD3Jlc3VsdF9yZXZpc2lvbhgCIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJldmlzaW9uEj0KBmVmZmVjdBgDIAEoDjIoLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkVmZmVjdENlcnRhaW50eUgAiAEBQgkKB19lZmZlY3QicAoQQXBwbGljYXRpb25TY29wZRIXCgpwcm9kdWN0X2lkGAEgASgJSACIAQESNAoPaW5zdGFsbGF0aW9uX2lkGAIgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRCDQoLX3Byb2R1Y3RfaWQiuQMKC1JlcXVlc3RNZXRhEi8KCmNvbW1hbmRfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBI3CgxleHBlY3RlZF9yZXYYAiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbhIzCg5jb3JyZWxhdGlvbl9pZBgDIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjEKDHdvcmtzcGFjZV9pZBgEIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEkIKD2V4cGVjdGVkX25hdGl2ZRgGIAEoCzIpLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLk5hdGl2ZUNvbnRlbnRSZXYSIAoTcmVjb3ZlcnlfZ2VuZXJhdGlvbhgHIAEoBEgAiAEBEkQKEWFwcGxpY2F0aW9uX3Njb3BlGAggASgLMikuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQXBwbGljYXRpb25TY29wZUIWChRfcmVjb3ZlcnlfZ2VuZXJhdGlvbkoECAUQBlIOZXhwZWN0ZWRfbG9jYWwigAIKDFJlc3BvbnNlTWV0YRI1CgpyZXN1bHRfcmV2GAEgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb24SIAoTZW50aXRsZW1lbnRfdmVyc2lvbhgCIAEoA0gAiAEBEhAKCHdhcm5pbmdzGAMgAygJEjMKDmNvcnJlbGF0aW9uX2lkGAQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSIAoTcmVjb3ZlcnlfZ2VuZXJhdGlvbhgFIAEoBEgBiAEBQhYKFF9lbnRpdGxlbWVudF92ZXJzaW9uQhYKFF9yZWNvdmVyeV9nZW5lcmF0aW9uIogDCghBcmNFcnJvchIRCgRjb2RlGAEgASgJSACIAQESPQoIY2F0ZWdvcnkYAiABKA4yJi5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5FcnJvckNhdGVnb3J5SAGIAQESGAoLbWVzc2FnZV9rZXkYAyABKAlIAogBARIzCgVyZXRyeRgEIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJldHJ5QWR2aWNlEj0KBmVmZmVjdBgFIAEoDjIoLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkVmZmVjdENlcnRhaW50eUgDiAEBEjMKDmNvcnJlbGF0aW9uX2lkGAYgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSNgoHZGV0YWlscxgHIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkVycm9yRGV0YWlsc0IHCgVfY29kZUILCglfY2F0ZWdvcnlCDgoMX21lc3NhZ2Vfa2V5QgkKB19lZmZlY3QixQEKC1JldHJ5QWR2aWNlEjUKBG1vZGUYASABKA4yIi5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXRyeU1vZGVIAIgBARIyCghyZXRyeV9hdBgCIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnQSJQoYcmVjb25jaWxpYXRpb25fb3BlcmF0aW9uGAMgASgJSAGIAQFCBwoFX21vZGVCGwoZX3JlY29uY2lsaWF0aW9uX29wZXJhdGlvbiKDAgoMRXJyb3JEZXRhaWxzEj0KCHJldmlzaW9uGAEgASgLMikuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmV2aXNpb25Db25mbGljdEgAEjYKBWxpbWl0GAIgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuTGltaXRGYWlsdXJlSAASOgoHdXBncmFkZRgDIAEoCzInLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlZlcnNpb25GYWlsdXJlSAASNgoFc3RhdGUYBCABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5TdGF0ZUZhaWx1cmVIAEIICgZkZXRhaWwirAEKEFJldmlzaW9uQ29uZmxpY3QSMwoIZXhwZWN0ZWQYASABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbhIxCgZhY3R1YWwYAiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbhIwCgtjb25mbGljdF9pZBgDIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkItUBCgxMaW1pdEZhaWx1cmUSFwoKbGltaXRfbmFtZRgBIAEoCUgAiAEBEjEKB21heGltdW0YAiABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5EZWNpbWFsEjMKCWF2YWlsYWJsZRgDIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkRlY2ltYWwSNQoLcmVjb3ZlcnlfYXQYBCABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50Qg0KC19saW1pdF9uYW1lIowBCg5WZXJzaW9uRmFpbHVyZRIZCgxtaW5fcmVhZGFibGUYASABKAlIAIgBARIZCgxtaW5fd3JpdGFibGUYAiABKAlIAYgBARIVCghyZWNlaXZlZBgDIAEoCUgCiAEBQg8KDV9taW5fcmVhZGFibGVCDwoNX21pbl93cml0YWJsZUILCglfcmVjZWl2ZWQizQEKDFN0YXRlRmFpbHVyZRISCgVzdGF0ZRgBIAEoCUgAiAEBEhMKBnJlYXNvbhgCIAEoCUgBiAEBEjcKCHJlc291cmNlGAMgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQWdncmVnYXRlUmVmEjkKBm5hdGl2ZRgFIAEoCzIpLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLk5hdGl2ZUNvbnRlbnRSZXZCCAoGX3N0YXRlQgkKB19yZWFzb25KBAgEEAVSBWxvY2FsIvQBCgpBY3RvckNoYWluEi4KCWluaXRpYXRvchgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEioKBW93bmVyGAIgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSFwoKYWN0b3Jfa2luZBgDIAEoCUgAiAEBEjIKDWRlbGVnYXRpb25faWQYBCABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIuCglkZXZpY2VfaWQYBSABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZEINCgtfYWN0b3Jfa2luZCLuBAoLQXJ0aWZhY3RSZWYSMAoLYXJ0aWZhY3RfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIRCgRraW5kGAIgASgJSACIAQESNAoFb3duZXIYAyABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BZ2dyZWdhdGVSZWYSNgoIcmVzb3VyY2UYBCABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNvdXJjZVJlZhIrCgZqb2JfaWQYBSABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBI2CgZvcmlnaW4YBiABKAsyJi5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5Db250ZW50T3JpZ2luEjYKEXByb2R1Y2luZ190YXNrX2lkGAcgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSNQoQcHJvZHVjaW5nX3J1bl9pZBgIIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjIKBWFjdG9yGAkgASgLMiMuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQWN0b3JDaGFpbhI0CgpjcmVhdGVkX2F0GAogASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudBIZCgxhdmFpbGFiaWxpdHkYCyABKAlIAYgBARI5Cgpwcm92ZW5hbmNlGAwgAygLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuVmVyc2lvbmVkUmVmQgcKBV9raW5kQg8KDV9hdmFpbGFiaWxpdHkiiwEKB0Jsb2JSZWYSLAoHYmxvYl9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhkKDGNvbnRlbnRfaGFzaBgCIAEoCUgAiAEBEhcKCnNpemVfYnl0ZXMYAyABKARIAYgBAUIPCg1fY29udGVudF9oYXNoQg0KC19zaXplX2J5dGVzIksKCUJ5dGVSYW5nZRITCgZvZmZzZXQYASABKARIAIgBARITCgZsZW5ndGgYAiABKARIAYgBAUIJCgdfb2Zmc2V0QgkKB19sZW5ndGgirgMKDUNvbnRlbnRPcmlnaW4SFAoHcHJvZmlsZRgBIAEoCUgAiAEBEi4KCW9yaWdpbl9pZBgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjQKD2NvbnRlbnRfdW5pdF9pZBgDIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEg0KBWtpbmRzGAQgAygJEhsKDnBheWxvYWRfc2hhMjU2GAUgASgJSAGIAQESGgoNcHJvZHVjZXJfa2luZBgGIAEoCUgCiAEBEjQKCmNyZWF0ZWRfYXQYByABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50EjYKEXBhcmVudF9vcmlnaW5faWRzGAggAygLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSIQoUb21pdHRlZF9wYXJlbnRfY291bnQYCSABKA1IA4gBAUIKCghfcHJvZmlsZUIRCg9fcGF5bG9hZF9zaGEyNTZCEAoOX3Byb2R1Y2VyX2tpbmRCFwoVX29taXR0ZWRfcGFyZW50X2NvdW50InUKCk1lZGlhUmFuZ2USMQoFc3RhcnQYASABKAsyIi5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5NZWRpYVRpbWUSNAoIZHVyYXRpb24YAiABKAsyIi5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5NZWRpYVRpbWUiWgoJTWVkaWFUaW1lEhIKBXRpY2tzGAEgASgSSACIAQESLwoEcmF0ZRgCIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJhdGlvbmFsQggKBl90aWNrcyJLCgtQYWdlUmVxdWVzdBITCgZjdXJzb3IYASABKAlIAIgBARISCgVsaW1pdBgCIAEoBUgBiAEBQgkKB19jdXJzb3JCCAoGX2xpbWl0IlkKCVBhZ2VTdGF0ZRIYCgtuZXh0X2N1cnNvchgBIAEoCUgAiAEBEhUKCGhhc19tb3JlGAIgASgISAGIAQFCDgoMX25leHRfY3Vyc29yQgsKCV9oYXNfbW9yZSJaCghSYXRpb25hbBIWCgludW1lcmF0b3IYASABKBJIAIgBARIYCgtkZW5vbWluYXRvchgCIAEoBEgBiAEBQgwKCl9udW1lcmF0b3JCDgoMX2Rlbm9taW5hdG9yIroDCgtSZXNvdXJjZVJlZhItCghyZWFsbV9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEjEKDHdvcmtzcGFjZV9pZBgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhkKDG93bmVyX2FwcF9pZBgDIAEoCUgAiAEBEhoKDXJlc291cmNlX2tpbmQYBCABKAlIAYgBARIwCgtyZXNvdXJjZV9pZBgFIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhkKDGRpc3BsYXlfaGludBgGIAEoCUgCiAEBEkgKDGF2YWlsYWJpbGl0eRgHIAEoDjItLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc291cmNlQXZhaWxhYmlsaXR5SAOIAQESNgoRaG9sZGluZ19kZXZpY2VfaWQYCCABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZEIPCg1fb3duZXJfYXBwX2lkQhAKDl9yZXNvdXJjZV9raW5kQg8KDV9kaXNwbGF5X2hpbnRCDwoNX2F2YWlsYWJpbGl0eSKyAgoSUmVzb3VyY2VWZXJzaW9uUmVmEjYKCHJlc291cmNlGAEgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVzb3VyY2VSZWYSGQoMY29udGVudF9oYXNoGAUgASgJSAGIAQESLgoEYmxvYhgGIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkJsb2JSZWYSMgoFY2xvdWQYAiABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbkgAEjsKBm5hdGl2ZRgDIAEoCzIpLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLk5hdGl2ZUNvbnRlbnRSZXZIAEIKCghyZXZpc2lvbkIPCg1fY29udGVudF9oYXNoSgQIBBAFUgVsb2NhbCJvCgxUaW1lUmFuZ2VVdGMSLgoEZnJvbRgBIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnQSLwoFdW50aWwYAiABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50KmAKDFRvb2xMb2NhbGl0eRIdChlUT09MX0xPQ0FMSVRZX1VOU1BFQ0lGSUVEEAASFwoTVE9PTF9MT0NBTElUWV9DTE9VRBABEhgKFFRPT0xfTE9DQUxJVFlfREVWSUNFEAIqhAEKDkV4ZWN1dGlvbkxvY3VzEh8KG0VYRUNVVElPTl9MT0NVU19VTlNQRUNJRklFRBAAEhkKFUVYRUNVVElPTl9MT0NVU19DTE9VRBABEhoKFkVYRUNVVElPTl9MT0NVU19ERVZJQ0UQAhIaChZFWEVDVVRJT05fTE9DVVNfRUlUSEVSEAMqngEKCkVmZmVjdEtpbmQSGwoXRUZGRUNUX0tJTkRfVU5TUEVDSUZJRUQQABIZChVFRkZFQ1RfS0lORF9QVVJFX1JFQUQQARIbChdFRkZFQ1RfS0lORF9MT0NBTF9XUklURRACEhsKF0VGRkVDVF9LSU5EX0NMT1VEX1dSSVRFEAMSHgoaRUZGRUNUX0tJTkRfRVhURVJOQUxfV1JJVEUQBCqDAgoPQmluZGluZ1Byb3RvY29sEiAKHEJJTkRJTkdfUFJPVE9DT0xfVU5TUEVDSUZJRUQQABIgChxCSU5ESU5HX1BST1RPQ09MX1BVQkxJQ19HUlBDEAESHwobQklORElOR19QUk9UT0NPTF9MT0NBTF9HUlBDEAISIwofQklORElOR19QUk9UT0NPTF9FWFRFTlNJT05fR1JQQxADEiIKHkJJTkRJTkdfUFJPVE9DT0xfUFJPVklERVJfSFRUUBAEEiEKHUJJTkRJTkdfUFJPVE9DT0xfTUFDSElORV9UT09MEAUSHwobQklORElOR19QUk9UT0NPTF9JTl9QUk9DRVNTEAYqogEKDkluc3RhbmNlSGVhbHRoEh8KG0lOU1RBTkNFX0hFQUxUSF9VTlNQRUNJRklFRBAAEhkKFUlOU1RBTkNFX0hFQUxUSF9SRUFEWRABEhgKFElOU1RBTkNFX0hFQUxUSF9CVVNZEAISHAoYSU5TVEFOQ0VfSEVBTFRIX0RFR1JBREVEEAMSHAoYSU5TVEFOQ0VfSEVBTFRIX0RSQUlOSU5HEAQqlQEKD0VmZmVjdENlcnRhaW50eRIgChxFRkZFQ1RfQ0VSVEFJTlRZX1VOU1BFQ0lGSUVEEAASIwofRUZGRUNUX0NFUlRBSU5UWV9ESURfTk9UX0hBUFBFThABEh0KGUVGRkVDVF9DRVJUQUlOVFlfSEFQUEVORUQQAhIcChhFRkZFQ1RfQ0VSVEFJTlRZX1VOS05PV04QAyqPAQoJUmV0cnlNb2RlEhoKFlJFVFJZX01PREVfVU5TUEVDSUZJRUQQABIUChBSRVRSWV9NT0RFX05FVkVSEAESGwoXUkVUUllfTU9ERV9TQU1FX0NPTU1BTkQQAhIZChVSRVRSWV9NT0RFX0FGVEVSX1RJTUUQAxIYChRSRVRSWV9NT0RFX1JFQ09OQ0lMRRAEKsICCg1FcnJvckNhdGVnb3J5Eh4KGkVSUk9SX0NBVEVHT1JZX1VOU1BFQ0lGSUVEEAASHQoZRVJST1JfQ0FURUdPUllfVkFMSURBVElPThABEiEKHUVSUk9SX0NBVEVHT1JZX0FVVEhFTlRJQ0FUSU9OEAISIAocRVJST1JfQ0FURUdPUllfQVVUSE9SSVpBVElPThADEh4KGkVSUk9SX0NBVEVHT1JZX0VOVElUTEVNRU5UEAQSGwoXRVJST1JfQ0FURUdPUllfQ09ORkxJQ1QQBRIYChRFUlJPUl9DQVRFR09SWV9TVEFURRAGEhsKF0VSUk9SX0NBVEVHT1JZX1JFU09VUkNFEAcSHAoYRVJST1JfQ0FURUdPUllfRVhFQ1VUSU9OEAgSGwoXRVJST1JfQ0FURUdPUllfSU5URVJOQUwQCSqIAgoUUmVzb3VyY2VBdmFpbGFiaWxpdHkSJQohUkVTT1VSQ0VfQVZBSUxBQklMSVRZX1VOU1BFQ0lGSUVEEAASJQohUkVTT1VSQ0VfQVZBSUxBQklMSVRZX0FMV0FZU19LRUVQEAESKwonUkVTT1VSQ0VfQVZBSUxBQklMSVRZX0FWQUlMQUJMRV9PRkZMSU5FEAISIwofUkVTT1VSQ0VfQVZBSUxBQklMSVRZX09OX0RFTUFORBADEiQKIFJFU09VUkNFX0FWQUlMQUJJTElUWV9DTE9VRF9PTkxZEAQSKgomUkVTT1VSQ0VfQVZBSUxBQklMSVRZX01JU1NJTkdfRVhURVJOQUwQBUJkCitpby5naXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5mb3VuZGF0aW9uLnYxQg9Gb3VuZGF0aW9uUHJvdG9QAaoCIUFyY0Zvcmdlcy5Db250cmFjdHMuRm91bmRhdGlvbi5WMWIGcHJvdG8z");
+
+/**
+ * @generated from message arcforges.foundation.v1.OperationBinding
+ */
+export type OperationBinding = Message<"arcforges.foundation.v1.OperationBinding"> & {
+  /**
+   * @generated from field: optional string operation_id = 1;
+   */
+  operationId?: string | undefined;
+
+  /**
+   * @generated from field: optional arcforges.foundation.v1.BindingProtocol protocol = 2;
+   */
+  protocol?: BindingProtocol | undefined;
+
+  /**
+   * @generated from field: optional string service = 3;
+   */
+  service?: string | undefined;
+
+  /**
+   * @generated from field: optional string method = 4;
+   */
+  method?: string | undefined;
+
+  /**
+   * @generated from field: optional uint32 contract_major = 5;
+   */
+  contractMajor?: number | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.OperationBinding.
+ * Use `create(OperationBindingSchema)` to create a new message.
+ */
+export const OperationBindingSchema: GenMessage<OperationBinding> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 0);
+
+/**
+ * @generated from message arcforges.foundation.v1.CancelSupport
+ */
+export type CancelSupport = Message<"arcforges.foundation.v1.CancelSupport"> & {
+  /**
+   * @generated from field: optional bool accepted = 1;
+   */
+  accepted?: boolean | undefined;
+
+  /**
+   * @generated from field: optional bool before_dispatch_only = 2;
+   */
+  beforeDispatchOnly?: boolean | undefined;
+
+  /**
+   * @generated from field: optional string status_operation = 3;
+   */
+  statusOperation?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.CancelSupport.
+ * Use `create(CancelSupportSchema)` to create a new message.
+ */
+export const CancelSupportSchema: GenMessage<CancelSupport> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 1);
+
+/**
+ * @generated from message arcforges.foundation.v1.CapabilityLimits
+ */
+export type CapabilityLimits = Message<"arcforges.foundation.v1.CapabilityLimits"> & {
+  /**
+   * @generated from field: optional uint64 max_input_bytes = 1;
+   */
+  maxInputBytes?: bigint | undefined;
+
+  /**
+   * @generated from field: optional uint64 max_output_bytes = 2;
+   */
+  maxOutputBytes?: bigint | undefined;
+
+  /**
+   * @generated from field: optional uint64 max_duration_ms = 3;
+   */
+  maxDurationMs?: bigint | undefined;
+
+  /**
+   * @generated from field: optional uint32 max_concurrency = 4;
+   */
+  maxConcurrency?: number | undefined;
+
+  /**
+   * @generated from field: optional uint32 max_context_items = 5;
+   */
+  maxContextItems?: number | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.CapabilityLimits.
+ * Use `create(CapabilityLimitsSchema)` to create a new message.
+ */
+export const CapabilityLimitsSchema: GenMessage<CapabilityLimits> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 2);
+
+/**
+ * @generated from message arcforges.foundation.v1.CapabilityDescriptor
+ */
+export type CapabilityDescriptor = Message<"arcforges.foundation.v1.CapabilityDescriptor"> & {
+  /**
+   * @generated from field: optional string key = 1;
+   */
+  key?: string | undefined;
+
+  /**
+   * @generated from field: optional string version = 2;
+   */
+  version?: string | undefined;
+
+  /**
+   * @generated from field: optional string request_schema = 3;
+   */
+  requestSchema?: string | undefined;
+
+  /**
+   * @generated from field: optional string response_schema = 4;
+   */
+  responseSchema?: string | undefined;
+
+  /**
+   * @generated from field: optional string risk = 5;
+   */
+  risk?: string | undefined;
+
+  /**
+   * @generated from field: optional arcforges.foundation.v1.ToolLocality locality = 6;
+   */
+  locality?: ToolLocality | undefined;
+
+  /**
+   * @generated from field: optional string idempotency = 7;
+   */
+  idempotency?: string | undefined;
+
+  /**
+   * @generated from field: optional string status_operation = 8;
+   */
+  statusOperation?: string | undefined;
+
+  /**
+   * @generated from field: repeated string reads = 9;
+   */
+  reads: string[];
+
+  /**
+   * @generated from field: repeated string writes = 10;
+   */
+  writes: string[];
+
+  /**
+   * @generated from field: optional bool exclusive = 11;
+   */
+  exclusive?: boolean | undefined;
+
+  /**
+   * @generated from field: optional string egress = 12;
+   */
+  egress?: string | undefined;
+
+  /**
+   * @generated from field: optional string approval = 13;
+   */
+  approval?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.OperationBinding binding = 14;
+   */
+  binding?: OperationBinding | undefined;
+
+  /**
+   * @generated from field: optional arcforges.foundation.v1.ExecutionLocus execution = 15;
+   */
+  execution?: ExecutionLocus | undefined;
+
+  /**
+   * @generated from field: optional arcforges.foundation.v1.EffectKind effect = 16;
+   */
+  effect?: EffectKind | undefined;
+
+  /**
+   * @generated from field: optional arcforges.foundation.v1.RetryMode retry = 17;
+   */
+  retry?: RetryMode | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.CancelSupport cancel = 18;
+   */
+  cancel?: CancelSupport | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.OperationBinding preview = 19;
+   */
+  preview?: OperationBinding | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.OperationBinding compensation = 20;
+   */
+  compensation?: OperationBinding | undefined;
+
+  /**
+   * @generated from field: optional bool checkpoint = 21;
+   */
+  checkpoint?: boolean | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.CapabilityLimits limits = 22;
+   */
+  limits?: CapabilityLimits | undefined;
+
+  /**
+   * @generated from field: repeated string accepted_context = 23;
+   */
+  acceptedContext: string[];
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.CapabilityDescriptor.
+ * Use `create(CapabilityDescriptorSchema)` to create a new message.
+ */
+export const CapabilityDescriptorSchema: GenMessage<CapabilityDescriptor> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 3);
+
+/**
+ * @generated from message arcforges.foundation.v1.ActionDescriptor
+ */
+export type ActionDescriptor = Message<"arcforges.foundation.v1.ActionDescriptor"> & {
+  /**
+   * @generated from field: optional string key = 1;
+   */
+  key?: string | undefined;
+
+  /**
+   * @generated from field: optional string title_key = 2;
+   */
+  titleKey?: string | undefined;
+
+  /**
+   * @generated from field: optional string description_key = 3;
+   */
+  descriptionKey?: string | undefined;
+
+  /**
+   * @generated from field: repeated string accepted_context = 4;
+   */
+  acceptedContext: string[];
+
+  /**
+   * @generated from field: repeated string capabilities = 5;
+   */
+  capabilities: string[];
+
+  /**
+   * @generated from field: optional string availability_rule = 6;
+   */
+  availabilityRule?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.ActionDescriptor.
+ * Use `create(ActionDescriptorSchema)` to create a new message.
+ */
+export const ActionDescriptorSchema: GenMessage<ActionDescriptor> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 4);
+
+/**
+ * @generated from message arcforges.foundation.v1.ContractVersion
+ */
+export type ContractVersion = Message<"arcforges.foundation.v1.ContractVersion"> & {
+  /**
+   * @generated from field: optional string key = 1;
+   */
+  key?: string | undefined;
+
+  /**
+   * @generated from field: optional string version = 2;
+   */
+  version?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.ContractVersion.
+ * Use `create(ContractVersionSchema)` to create a new message.
+ */
+export const ContractVersionSchema: GenMessage<ContractVersion> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 5);
+
+/**
+ * @generated from message arcforges.foundation.v1.ContractCompatibility
+ */
+export type ContractCompatibility = Message<"arcforges.foundation.v1.ContractCompatibility"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ContractVersion contract = 1;
+   */
+  contract?: ContractVersion | undefined;
+
+  /**
+   * @generated from field: optional string min_readable = 2;
+   */
+  minReadable?: string | undefined;
+
+  /**
+   * @generated from field: optional string min_writable = 3;
+   */
+  minWritable?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.ContractCompatibility.
+ * Use `create(ContractCompatibilitySchema)` to create a new message.
+ */
+export const ContractCompatibilitySchema: GenMessage<ContractCompatibility> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 6);
+
+/**
+ * @generated from message arcforges.foundation.v1.FeatureSet
+ */
+export type FeatureSet = Message<"arcforges.foundation.v1.FeatureSet"> & {
+  /**
+   * @generated from field: repeated string features = 1;
+   */
+  features: string[];
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.FeatureSet.
+ * Use `create(FeatureSetSchema)` to create a new message.
+ */
+export const FeatureSetSchema: GenMessage<FeatureSet> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 7);
+
+/**
+ * @generated from message arcforges.foundation.v1.CompatibilityDescriptor
+ */
+export type CompatibilityDescriptor = Message<"arcforges.foundation.v1.CompatibilityDescriptor"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ContractCompatibility foundation = 1;
+   */
+  foundation?: ContractCompatibility | undefined;
+
+  /**
+   * @generated from field: repeated arcforges.foundation.v1.ContractCompatibility contracts = 2;
+   */
+  contracts: ContractCompatibility[];
+
+  /**
+   * @generated from field: repeated arcforges.foundation.v1.ContractCompatibility capabilities = 3;
+   */
+  capabilities: ContractCompatibility[];
+
+  /**
+   * @generated from field: arcforges.foundation.v1.FeatureSet features = 4;
+   */
+  features?: FeatureSet | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.CompatibilityDescriptor.
+ * Use `create(CompatibilityDescriptorSchema)` to create a new message.
+ */
+export const CompatibilityDescriptorSchema: GenMessage<CompatibilityDescriptor> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 8);
+
+/**
+ * @generated from message arcforges.foundation.v1.InstanceReadiness
+ */
+export type InstanceReadiness = Message<"arcforges.foundation.v1.InstanceReadiness"> & {
+  /**
+   * @generated from field: optional bool accepts_work = 1;
+   */
+  acceptsWork?: boolean | undefined;
+
+  /**
+   * @generated from field: repeated string reasons = 2;
+   */
+  reasons: string[];
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.InstanceReadiness.
+ * Use `create(InstanceReadinessSchema)` to create a new message.
+ */
+export const InstanceReadinessSchema: GenMessage<InstanceReadiness> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 9);
+
+/**
+ * @generated from message arcforges.foundation.v1.HealthSnapshot
+ */
+export type HealthSnapshot = Message<"arcforges.foundation.v1.HealthSnapshot"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id instance_id = 1;
+   */
+  instanceId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Instant observed_at = 2;
+   */
+  observedAt?: Instant | undefined;
+
+  /**
+   * @generated from field: optional arcforges.foundation.v1.InstanceHealth health = 3;
+   */
+  health?: InstanceHealth | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.InstanceReadiness readiness = 4;
+   */
+  readiness?: InstanceReadiness | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.HealthSnapshot.
+ * Use `create(HealthSnapshotSchema)` to create a new message.
+ */
+export const HealthSnapshotSchema: GenMessage<HealthSnapshot> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 10);
+
+/**
+ * @generated from message arcforges.foundation.v1.EncodedBodyRef
+ */
+export type EncodedBodyRef = Message<"arcforges.foundation.v1.EncodedBodyRef"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResourceVersionRef resource = 1;
+   */
+  resource?: ResourceVersionRef | undefined;
+
+  /**
+   * @generated from field: optional string message_type = 2;
+   */
+  messageType?: string | undefined;
+
+  /**
+   * @generated from field: optional string descriptor_hash = 3;
+   */
+  descriptorHash?: string | undefined;
+
+  /**
+   * @generated from field: optional uint64 byte_length = 4;
+   */
+  byteLength?: bigint | undefined;
+
+  /**
+   * @generated from field: optional string snapshot_token = 5;
+   */
+  snapshotToken?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Instant expires_at = 6;
+   */
+  expiresAt?: Instant | undefined;
+};
+
+/**
+ * Describes the message arcforges.foundation.v1.EncodedBodyRef.
+ * Use `create(EncodedBodyRefSchema)` to create a new message.
+ */
+export const EncodedBodyRefSchema: GenMessage<EncodedBodyRef> = /*@__PURE__*/
+  messageDesc(file_arcforges_foundation_v1_foundation, 11);
 
 /**
  * Complete selected registry04 records; shape constraints are owned beside this schema.
@@ -33,7 +497,7 @@ export type Id = Message<"arcforges.foundation.v1.Id"> & {
  * Use `create(IdSchema)` to create a new message.
  */
 export const IdSchema: GenMessage<Id> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 0);
+  messageDesc(file_arcforges_foundation_v1_foundation, 12);
 
 /**
  * @generated from message arcforges.foundation.v1.Revision
@@ -50,7 +514,7 @@ export type Revision = Message<"arcforges.foundation.v1.Revision"> & {
  * Use `create(RevisionSchema)` to create a new message.
  */
 export const RevisionSchema: GenMessage<Revision> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 1);
+  messageDesc(file_arcforges_foundation_v1_foundation, 13);
 
 /**
  * @generated from message arcforges.foundation.v1.NativeContentRev
@@ -67,7 +531,7 @@ export type NativeContentRev = Message<"arcforges.foundation.v1.NativeContentRev
  * Use `create(NativeContentRevSchema)` to create a new message.
  */
 export const NativeContentRevSchema: GenMessage<NativeContentRev> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 2);
+  messageDesc(file_arcforges_foundation_v1_foundation, 14);
 
 /**
  * @generated from message arcforges.foundation.v1.Instant
@@ -89,7 +553,7 @@ export type Instant = Message<"arcforges.foundation.v1.Instant"> & {
  * Use `create(InstantSchema)` to create a new message.
  */
 export const InstantSchema: GenMessage<Instant> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 3);
+  messageDesc(file_arcforges_foundation_v1_foundation, 15);
 
 /**
  * @generated from message arcforges.foundation.v1.Decimal
@@ -106,7 +570,7 @@ export type Decimal = Message<"arcforges.foundation.v1.Decimal"> & {
  * Use `create(DecimalSchema)` to create a new message.
  */
 export const DecimalSchema: GenMessage<Decimal> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 4);
+  messageDesc(file_arcforges_foundation_v1_foundation, 16);
 
 /**
  * @generated from message arcforges.foundation.v1.AggregateRef
@@ -128,7 +592,7 @@ export type AggregateRef = Message<"arcforges.foundation.v1.AggregateRef"> & {
  * Use `create(AggregateRefSchema)` to create a new message.
  */
 export const AggregateRefSchema: GenMessage<AggregateRef> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 5);
+  messageDesc(file_arcforges_foundation_v1_foundation, 17);
 
 /**
  * @generated from message arcforges.foundation.v1.VersionedRef
@@ -155,7 +619,7 @@ export type VersionedRef = Message<"arcforges.foundation.v1.VersionedRef"> & {
  * Use `create(VersionedRefSchema)` to create a new message.
  */
 export const VersionedRefSchema: GenMessage<VersionedRef> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 6);
+  messageDesc(file_arcforges_foundation_v1_foundation, 18);
 
 /**
  * @generated from message arcforges.foundation.v1.Receipt
@@ -182,7 +646,7 @@ export type Receipt = Message<"arcforges.foundation.v1.Receipt"> & {
  * Use `create(ReceiptSchema)` to create a new message.
  */
 export const ReceiptSchema: GenMessage<Receipt> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 7);
+  messageDesc(file_arcforges_foundation_v1_foundation, 19);
 
 /**
  * @generated from message arcforges.foundation.v1.ApplicationScope
@@ -204,7 +668,7 @@ export type ApplicationScope = Message<"arcforges.foundation.v1.ApplicationScope
  * Use `create(ApplicationScopeSchema)` to create a new message.
  */
 export const ApplicationScopeSchema: GenMessage<ApplicationScope> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 8);
+  messageDesc(file_arcforges_foundation_v1_foundation, 20);
 
 /**
  * @generated from message arcforges.foundation.v1.RequestMeta
@@ -251,7 +715,7 @@ export type RequestMeta = Message<"arcforges.foundation.v1.RequestMeta"> & {
  * Use `create(RequestMetaSchema)` to create a new message.
  */
 export const RequestMetaSchema: GenMessage<RequestMeta> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 9);
+  messageDesc(file_arcforges_foundation_v1_foundation, 21);
 
 /**
  * @generated from message arcforges.foundation.v1.ResponseMeta
@@ -288,7 +752,7 @@ export type ResponseMeta = Message<"arcforges.foundation.v1.ResponseMeta"> & {
  * Use `create(ResponseMetaSchema)` to create a new message.
  */
 export const ResponseMetaSchema: GenMessage<ResponseMeta> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 10);
+  messageDesc(file_arcforges_foundation_v1_foundation, 22);
 
 /**
  * @generated from message arcforges.foundation.v1.ArcError
@@ -335,7 +799,7 @@ export type ArcError = Message<"arcforges.foundation.v1.ArcError"> & {
  * Use `create(ArcErrorSchema)` to create a new message.
  */
 export const ArcErrorSchema: GenMessage<ArcError> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 11);
+  messageDesc(file_arcforges_foundation_v1_foundation, 23);
 
 /**
  * @generated from message arcforges.foundation.v1.RetryAdvice
@@ -362,7 +826,7 @@ export type RetryAdvice = Message<"arcforges.foundation.v1.RetryAdvice"> & {
  * Use `create(RetryAdviceSchema)` to create a new message.
  */
 export const RetryAdviceSchema: GenMessage<RetryAdvice> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 12);
+  messageDesc(file_arcforges_foundation_v1_foundation, 24);
 
 /**
  * @generated from message arcforges.foundation.v1.ErrorDetails
@@ -403,7 +867,7 @@ export type ErrorDetails = Message<"arcforges.foundation.v1.ErrorDetails"> & {
  * Use `create(ErrorDetailsSchema)` to create a new message.
  */
 export const ErrorDetailsSchema: GenMessage<ErrorDetails> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 13);
+  messageDesc(file_arcforges_foundation_v1_foundation, 25);
 
 /**
  * @generated from message arcforges.foundation.v1.RevisionConflict
@@ -430,7 +894,7 @@ export type RevisionConflict = Message<"arcforges.foundation.v1.RevisionConflict
  * Use `create(RevisionConflictSchema)` to create a new message.
  */
 export const RevisionConflictSchema: GenMessage<RevisionConflict> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 14);
+  messageDesc(file_arcforges_foundation_v1_foundation, 26);
 
 /**
  * @generated from message arcforges.foundation.v1.LimitFailure
@@ -462,7 +926,7 @@ export type LimitFailure = Message<"arcforges.foundation.v1.LimitFailure"> & {
  * Use `create(LimitFailureSchema)` to create a new message.
  */
 export const LimitFailureSchema: GenMessage<LimitFailure> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 15);
+  messageDesc(file_arcforges_foundation_v1_foundation, 27);
 
 /**
  * @generated from message arcforges.foundation.v1.VersionFailure
@@ -489,7 +953,7 @@ export type VersionFailure = Message<"arcforges.foundation.v1.VersionFailure"> &
  * Use `create(VersionFailureSchema)` to create a new message.
  */
 export const VersionFailureSchema: GenMessage<VersionFailure> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 16);
+  messageDesc(file_arcforges_foundation_v1_foundation, 28);
 
 /**
  * @generated from message arcforges.foundation.v1.StateFailure
@@ -521,7 +985,7 @@ export type StateFailure = Message<"arcforges.foundation.v1.StateFailure"> & {
  * Use `create(StateFailureSchema)` to create a new message.
  */
 export const StateFailureSchema: GenMessage<StateFailure> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 17);
+  messageDesc(file_arcforges_foundation_v1_foundation, 29);
 
 /**
  * registry04: ActorChain; complete selected WP03.01 projection.
@@ -560,7 +1024,7 @@ export type ActorChain = Message<"arcforges.foundation.v1.ActorChain"> & {
  * Use `create(ActorChainSchema)` to create a new message.
  */
 export const ActorChainSchema: GenMessage<ActorChain> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 18);
+  messageDesc(file_arcforges_foundation_v1_foundation, 30);
 
 /**
  * registry04: ArtifactRef; complete selected WP03.01 projection.
@@ -634,7 +1098,7 @@ export type ArtifactRef = Message<"arcforges.foundation.v1.ArtifactRef"> & {
  * Use `create(ArtifactRefSchema)` to create a new message.
  */
 export const ArtifactRefSchema: GenMessage<ArtifactRef> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 19);
+  messageDesc(file_arcforges_foundation_v1_foundation, 31);
 
 /**
  * registry04: BlobRef; complete selected WP03.01 projection.
@@ -663,7 +1127,7 @@ export type BlobRef = Message<"arcforges.foundation.v1.BlobRef"> & {
  * Use `create(BlobRefSchema)` to create a new message.
  */
 export const BlobRefSchema: GenMessage<BlobRef> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 20);
+  messageDesc(file_arcforges_foundation_v1_foundation, 32);
 
 /**
  * registry04: ByteRange; complete selected WP03.01 projection.
@@ -687,7 +1151,7 @@ export type ByteRange = Message<"arcforges.foundation.v1.ByteRange"> & {
  * Use `create(ByteRangeSchema)` to create a new message.
  */
 export const ByteRangeSchema: GenMessage<ByteRange> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 21);
+  messageDesc(file_arcforges_foundation_v1_foundation, 33);
 
 /**
  * registry04: ContentOrigin; complete selected WP03.01 projection.
@@ -746,7 +1210,7 @@ export type ContentOrigin = Message<"arcforges.foundation.v1.ContentOrigin"> & {
  * Use `create(ContentOriginSchema)` to create a new message.
  */
 export const ContentOriginSchema: GenMessage<ContentOrigin> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 22);
+  messageDesc(file_arcforges_foundation_v1_foundation, 34);
 
 /**
  * registry04: MediaRange; complete selected WP03.01 projection.
@@ -770,7 +1234,7 @@ export type MediaRange = Message<"arcforges.foundation.v1.MediaRange"> & {
  * Use `create(MediaRangeSchema)` to create a new message.
  */
 export const MediaRangeSchema: GenMessage<MediaRange> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 23);
+  messageDesc(file_arcforges_foundation_v1_foundation, 35);
 
 /**
  * registry04: MediaTime; complete selected WP03.01 projection.
@@ -794,7 +1258,7 @@ export type MediaTime = Message<"arcforges.foundation.v1.MediaTime"> & {
  * Use `create(MediaTimeSchema)` to create a new message.
  */
 export const MediaTimeSchema: GenMessage<MediaTime> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 24);
+  messageDesc(file_arcforges_foundation_v1_foundation, 36);
 
 /**
  * registry04: PageRequest; complete selected WP03.01 projection.
@@ -818,7 +1282,7 @@ export type PageRequest = Message<"arcforges.foundation.v1.PageRequest"> & {
  * Use `create(PageRequestSchema)` to create a new message.
  */
 export const PageRequestSchema: GenMessage<PageRequest> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 25);
+  messageDesc(file_arcforges_foundation_v1_foundation, 37);
 
 /**
  * registry04: PageState; complete selected WP03.01 projection.
@@ -842,7 +1306,7 @@ export type PageState = Message<"arcforges.foundation.v1.PageState"> & {
  * Use `create(PageStateSchema)` to create a new message.
  */
 export const PageStateSchema: GenMessage<PageState> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 26);
+  messageDesc(file_arcforges_foundation_v1_foundation, 38);
 
 /**
  * registry04: Rational; complete selected WP03.01 projection.
@@ -866,7 +1330,7 @@ export type Rational = Message<"arcforges.foundation.v1.Rational"> & {
  * Use `create(RationalSchema)` to create a new message.
  */
 export const RationalSchema: GenMessage<Rational> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 27);
+  messageDesc(file_arcforges_foundation_v1_foundation, 39);
 
 /**
  * registry04: ResourceRef; complete selected WP03.01 projection.
@@ -920,7 +1384,7 @@ export type ResourceRef = Message<"arcforges.foundation.v1.ResourceRef"> & {
  * Use `create(ResourceRefSchema)` to create a new message.
  */
 export const ResourceRefSchema: GenMessage<ResourceRef> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 28);
+  messageDesc(file_arcforges_foundation_v1_foundation, 40);
 
 /**
  * registry04: ResourceVersionRef; complete selected WP03.01 projection.
@@ -966,7 +1430,7 @@ export type ResourceVersionRef = Message<"arcforges.foundation.v1.ResourceVersio
  * Use `create(ResourceVersionRefSchema)` to create a new message.
  */
 export const ResourceVersionRefSchema: GenMessage<ResourceVersionRef> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 29);
+  messageDesc(file_arcforges_foundation_v1_foundation, 41);
 
 /**
  * registry04: TimeRangeUtc; complete selected WP03.01 projection.
@@ -990,7 +1454,184 @@ export type TimeRangeUtc = Message<"arcforges.foundation.v1.TimeRangeUtc"> & {
  * Use `create(TimeRangeUtcSchema)` to create a new message.
  */
 export const TimeRangeUtcSchema: GenMessage<TimeRangeUtc> = /*@__PURE__*/
-  messageDesc(file_arcforges_foundation_v1_foundation, 30);
+  messageDesc(file_arcforges_foundation_v1_foundation, 42);
+
+/**
+ * Registry04 descriptors describe compiled bindings; they never grant authority.
+ *
+ * @generated from enum arcforges.foundation.v1.ToolLocality
+ */
+export enum ToolLocality {
+  /**
+   * @generated from enum value: TOOL_LOCALITY_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: TOOL_LOCALITY_CLOUD = 1;
+   */
+  CLOUD = 1,
+
+  /**
+   * @generated from enum value: TOOL_LOCALITY_DEVICE = 2;
+   */
+  DEVICE = 2,
+}
+
+/**
+ * Describes the enum arcforges.foundation.v1.ToolLocality.
+ */
+export const ToolLocalitySchema: GenEnum<ToolLocality> = /*@__PURE__*/
+  enumDesc(file_arcforges_foundation_v1_foundation, 0);
+
+/**
+ * @generated from enum arcforges.foundation.v1.ExecutionLocus
+ */
+export enum ExecutionLocus {
+  /**
+   * @generated from enum value: EXECUTION_LOCUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: EXECUTION_LOCUS_CLOUD = 1;
+   */
+  CLOUD = 1,
+
+  /**
+   * @generated from enum value: EXECUTION_LOCUS_DEVICE = 2;
+   */
+  DEVICE = 2,
+
+  /**
+   * @generated from enum value: EXECUTION_LOCUS_EITHER = 3;
+   */
+  EITHER = 3,
+}
+
+/**
+ * Describes the enum arcforges.foundation.v1.ExecutionLocus.
+ */
+export const ExecutionLocusSchema: GenEnum<ExecutionLocus> = /*@__PURE__*/
+  enumDesc(file_arcforges_foundation_v1_foundation, 1);
+
+/**
+ * @generated from enum arcforges.foundation.v1.EffectKind
+ */
+export enum EffectKind {
+  /**
+   * @generated from enum value: EFFECT_KIND_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: EFFECT_KIND_PURE_READ = 1;
+   */
+  PURE_READ = 1,
+
+  /**
+   * @generated from enum value: EFFECT_KIND_LOCAL_WRITE = 2;
+   */
+  LOCAL_WRITE = 2,
+
+  /**
+   * @generated from enum value: EFFECT_KIND_CLOUD_WRITE = 3;
+   */
+  CLOUD_WRITE = 3,
+
+  /**
+   * @generated from enum value: EFFECT_KIND_EXTERNAL_WRITE = 4;
+   */
+  EXTERNAL_WRITE = 4,
+}
+
+/**
+ * Describes the enum arcforges.foundation.v1.EffectKind.
+ */
+export const EffectKindSchema: GenEnum<EffectKind> = /*@__PURE__*/
+  enumDesc(file_arcforges_foundation_v1_foundation, 2);
+
+/**
+ * @generated from enum arcforges.foundation.v1.BindingProtocol
+ */
+export enum BindingProtocol {
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_PUBLIC_GRPC = 1;
+   */
+  PUBLIC_GRPC = 1,
+
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_LOCAL_GRPC = 2;
+   */
+  LOCAL_GRPC = 2,
+
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_EXTENSION_GRPC = 3;
+   */
+  EXTENSION_GRPC = 3,
+
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_PROVIDER_HTTP = 4;
+   */
+  PROVIDER_HTTP = 4,
+
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_MACHINE_TOOL = 5;
+   */
+  MACHINE_TOOL = 5,
+
+  /**
+   * @generated from enum value: BINDING_PROTOCOL_IN_PROCESS = 6;
+   */
+  IN_PROCESS = 6,
+}
+
+/**
+ * Describes the enum arcforges.foundation.v1.BindingProtocol.
+ */
+export const BindingProtocolSchema: GenEnum<BindingProtocol> = /*@__PURE__*/
+  enumDesc(file_arcforges_foundation_v1_foundation, 3);
+
+/**
+ * @generated from enum arcforges.foundation.v1.InstanceHealth
+ */
+export enum InstanceHealth {
+  /**
+   * @generated from enum value: INSTANCE_HEALTH_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: INSTANCE_HEALTH_READY = 1;
+   */
+  READY = 1,
+
+  /**
+   * @generated from enum value: INSTANCE_HEALTH_BUSY = 2;
+   */
+  BUSY = 2,
+
+  /**
+   * @generated from enum value: INSTANCE_HEALTH_DEGRADED = 3;
+   */
+  DEGRADED = 3,
+
+  /**
+   * @generated from enum value: INSTANCE_HEALTH_DRAINING = 4;
+   */
+  DRAINING = 4,
+}
+
+/**
+ * Describes the enum arcforges.foundation.v1.InstanceHealth.
+ */
+export const InstanceHealthSchema: GenEnum<InstanceHealth> = /*@__PURE__*/
+  enumDesc(file_arcforges_foundation_v1_foundation, 4);
 
 /**
  * @generated from enum arcforges.foundation.v1.EffectCertainty
@@ -1021,7 +1662,7 @@ export enum EffectCertainty {
  * Describes the enum arcforges.foundation.v1.EffectCertainty.
  */
 export const EffectCertaintySchema: GenEnum<EffectCertainty> = /*@__PURE__*/
-  enumDesc(file_arcforges_foundation_v1_foundation, 0);
+  enumDesc(file_arcforges_foundation_v1_foundation, 5);
 
 /**
  * @generated from enum arcforges.foundation.v1.RetryMode
@@ -1057,7 +1698,7 @@ export enum RetryMode {
  * Describes the enum arcforges.foundation.v1.RetryMode.
  */
 export const RetryModeSchema: GenEnum<RetryMode> = /*@__PURE__*/
-  enumDesc(file_arcforges_foundation_v1_foundation, 1);
+  enumDesc(file_arcforges_foundation_v1_foundation, 6);
 
 /**
  * @generated from enum arcforges.foundation.v1.ErrorCategory
@@ -1118,7 +1759,7 @@ export enum ErrorCategory {
  * Describes the enum arcforges.foundation.v1.ErrorCategory.
  */
 export const ErrorCategorySchema: GenEnum<ErrorCategory> = /*@__PURE__*/
-  enumDesc(file_arcforges_foundation_v1_foundation, 2);
+  enumDesc(file_arcforges_foundation_v1_foundation, 7);
 
 /**
  * @generated from enum arcforges.foundation.v1.ResourceAvailability
@@ -1159,4 +1800,4 @@ export enum ResourceAvailability {
  * Describes the enum arcforges.foundation.v1.ResourceAvailability.
  */
 export const ResourceAvailabilitySchema: GenEnum<ResourceAvailability> = /*@__PURE__*/
-  enumDesc(file_arcforges_foundation_v1_foundation, 3);
+  enumDesc(file_arcforges_foundation_v1_foundation, 8);
