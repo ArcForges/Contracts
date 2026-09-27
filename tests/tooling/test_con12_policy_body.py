@@ -105,10 +105,10 @@ def bucket(components):
 class PolicyBodyVectors(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.schema = json.loads((ROOT / "public/http/v1/policy-body.schema.json").read_text())
+        cls.schema = json.loads((ROOT / "public/http/v1/policy-body.schema.json").read_text(encoding="utf-8"))
         fixture_path = ROOT / "fixtures/public/con-12-extension-policy.json"
         # The owner folds these independently authored cases into the shared fixture.
-        cls.fixture = json.loads(fixture_path.read_text())["policyBody"]
+        cls.fixture = json.loads(fixture_path.read_text(encoding="utf-8"))["policyBody"]
 
     def test_independent_policy_vectors(self):
         for case in self.fixture["cases"]:
@@ -139,6 +139,7 @@ class PolicyBodyVectors(unittest.TestCase):
             for allocation in (0, 10000): self.assertEqual(result < allocation, allocation == 10000)
 
 if __name__ == "__main__": unittest.main()
+
 
 
 
