@@ -34,13 +34,7 @@
       "$ref": "#/$defs/WorkflowLimits"
     }
   },
-  "required": [
-    "schemaVersion",
-    "inputs",
-    "nodes",
-    "outputs",
-    "limits"
-  ],
+  "required": ["schemaVersion", "inputs", "nodes", "outputs", "limits"],
   "additionalProperties": false,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$comment": "SPDX-License-Identifier: Apache-2.0; contracts08 section2. Closed workflow graph profile; no execution or owner-authority evidence.",
@@ -55,18 +49,14 @@
           "minLength": 1,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "workspaceId": {
           "type": "string",
           "minLength": 1,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "ownerAppId": {
           "type": "string",
@@ -85,9 +75,7 @@
           "minLength": 1,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "displayHint": {
           "type": "string",
@@ -96,31 +84,17 @@
         },
         "availability": {
           "type": "string",
-          "enum": [
-            "AlwaysKeep",
-            "AvailableOffline",
-            "OnDemand",
-            "CloudOnly",
-            "MissingExternal"
-          ]
+          "enum": ["AlwaysKeep", "AvailableOffline", "OnDemand", "CloudOnly", "MissingExternal"]
         },
         "holdingDeviceId": {
           "type": "string",
           "minLength": 1,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         }
       },
-      "required": [
-        "realmId",
-        "ownerAppId",
-        "resourceKind",
-        "resourceId",
-        "availability"
-      ],
+      "required": ["realmId", "ownerAppId", "resourceKind", "resourceId", "availability"],
       "additionalProperties": false
     },
     "WorkflowTextValue": {
@@ -137,10 +111,7 @@
           "maxLength": 4096
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowBoolValue": {
@@ -155,10 +126,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowInt64Value": {
@@ -174,15 +142,10 @@
           "minLength": 1,
           "maxLength": 20,
           "pattern": "^(0|-[1-9][0-9]*|[1-9][0-9]*)$",
-          "x-arcforges-rules": [
-            "int64"
-          ]
+          "x-arcforges-rules": ["int64"]
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowDecimalValue": {
@@ -198,15 +161,10 @@
           "minLength": 1,
           "maxLength": 39,
           "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]{0,8}[1-9])$",
-          "x-arcforges-rules": [
-            "canonicalDecimal"
-          ]
+          "x-arcforges-rules": ["canonicalDecimal"]
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowEnumValue": {
@@ -224,10 +182,7 @@
           "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowResourceRefValue": {
@@ -242,10 +197,7 @@
           "$ref": "#/$defs/WorkflowResourceRef"
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowTypedValue": {
@@ -288,10 +240,7 @@
           "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
         }
       },
-      "required": [
-        "nodeId",
-        "field"
-      ],
+      "required": ["nodeId", "field"],
       "additionalProperties": false
     },
     "WorkflowLiteralOperand": {
@@ -306,10 +255,7 @@
           "$ref": "#/$defs/WorkflowTypedValue"
         }
       },
-      "required": [
-        "kind",
-        "value"
-      ],
+      "required": ["kind", "value"],
       "additionalProperties": false
     },
     "WorkflowReferenceOperand": {
@@ -324,10 +270,7 @@
           "$ref": "#/$defs/WorkflowValueRef"
         }
       },
-      "required": [
-        "kind",
-        "valueRef"
-      ],
+      "required": ["kind", "valueRef"],
       "additionalProperties": false
     },
     "WorkflowOperand": {
@@ -347,14 +290,7 @@
       "properties": {
         "operator": {
           "type": "string",
-          "enum": [
-            "eq",
-            "ne",
-            "lt",
-            "le",
-            "gt",
-            "ge"
-          ]
+          "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
         },
         "left": {
           "$ref": "#/$defs/WorkflowOperand"
@@ -363,11 +299,7 @@
           "$ref": "#/$defs/WorkflowOperand"
         }
       },
-      "required": [
-        "operator",
-        "left",
-        "right"
-      ],
+      "required": ["operator", "left", "right"],
       "additionalProperties": false
     },
     "WorkflowExists": {
@@ -382,10 +314,7 @@
           "$ref": "#/$defs/WorkflowValueRef"
         }
       },
-      "required": [
-        "operator",
-        "valueRef"
-      ],
+      "required": ["operator", "valueRef"],
       "additionalProperties": false
     },
     "WorkflowAll": {
@@ -405,10 +334,7 @@
           "maxItems": 128
         }
       },
-      "required": [
-        "operator",
-        "predicates"
-      ],
+      "required": ["operator", "predicates"],
       "additionalProperties": false
     },
     "WorkflowAny": {
@@ -428,10 +354,7 @@
           "maxItems": 128
         }
       },
-      "required": [
-        "operator",
-        "predicates"
-      ],
+      "required": ["operator", "predicates"],
       "additionalProperties": false
     },
     "WorkflowPredicate": {
@@ -465,10 +388,7 @@
           "$ref": "#/$defs/WorkflowOperand"
         }
       },
-      "required": [
-        "name",
-        "value"
-      ],
+      "required": ["name", "value"],
       "additionalProperties": false
     },
     "WorkflowConstantNode": {
@@ -489,11 +409,7 @@
           "$ref": "#/$defs/WorkflowTypedValue"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "typedValue"
-      ],
+      "required": ["id", "kind", "typedValue"],
       "additionalProperties": false
     },
     "WorkflowInputNode": {
@@ -517,11 +433,7 @@
           "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "name"
-      ],
+      "required": ["id", "kind", "name"],
       "additionalProperties": false
     },
     "WorkflowSelectNode": {
@@ -548,12 +460,7 @@
           "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "source",
-        "recordField"
-      ],
+      "required": ["id", "kind", "source", "recordField"],
       "additionalProperties": false
     },
     "WorkflowCapabilityNode": {
@@ -596,13 +503,7 @@
           "maxItems": 256
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "operationId",
-        "typedArguments",
-        "dependencies"
-      ],
+      "required": ["id", "kind", "operationId", "typedArguments", "dependencies"],
       "additionalProperties": false
     },
     "WorkflowConditionNode": {
@@ -645,13 +546,7 @@
           "maxItems": 256
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "predicate",
-        "thenNodes",
-        "elseNodes"
-      ],
+      "required": ["id", "kind", "predicate", "thenNodes", "elseNodes"],
       "additionalProperties": false
     },
     "WorkflowForeachNode": {
@@ -685,13 +580,7 @@
           "maxItems": 256
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "inputArray",
-        "maxItems",
-        "body"
-      ],
+      "required": ["id", "kind", "inputArray", "maxItems", "body"],
       "additionalProperties": false
     },
     "WorkflowOutputNode": {
@@ -712,11 +601,7 @@
           "$ref": "#/$defs/WorkflowValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "valueRef"
-      ],
+      "required": ["id", "kind", "valueRef"],
       "additionalProperties": false
     },
     "WorkflowNode": {
@@ -765,11 +650,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "name",
-        "schemaId",
-        "required"
-      ],
+      "required": ["name", "schemaId", "required"],
       "additionalProperties": false
     },
     "WorkflowOutput": {
@@ -792,11 +673,7 @@
           "$ref": "#/$defs/WorkflowValueRef"
         }
       },
-      "required": [
-        "name",
-        "schemaId",
-        "valueRef"
-      ],
+      "required": ["name", "schemaId", "valueRef"],
       "additionalProperties": false
     },
     "WorkflowLimits": {
@@ -833,7 +710,5 @@
       "additionalProperties": false
     }
   },
-  "x-arcforges-rules": [
-    "workflowGraph"
-  ]
+  "x-arcforges-rules": ["workflowGraph"]
 }

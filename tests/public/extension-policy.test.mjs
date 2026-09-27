@@ -28,12 +28,14 @@ const privateFixture = JSON.parse(
 const codecCases = [...fixture.codecCases, ...privateFixture.codecCases];
 test("length-prefixed SHA256 bucket and allocation boundary vectors", () => {
   for (const row of fixture.bucketVectors) {
-    const input = Buffer.concat(row.components.map(component => {
-      const bytes = Buffer.from(component, "utf8");
-      const length = Buffer.alloc(4);
-      length.writeUInt32BE(bytes.length);
-      return Buffer.concat([length, bytes]);
-    }));
+    const input = Buffer.concat(
+      row.components.map((component) => {
+        const bytes = Buffer.from(component, "utf8");
+        const length = Buffer.alloc(4);
+        length.writeUInt32BE(bytes.length);
+        return Buffer.concat([length, bytes]);
+      }),
+    );
     const digest = createHash("sha256").update(input).digest();
     assert.equal(input.toString("hex"), row.inputHex);
     assert.equal(digest.toString("hex"), row.sha256);

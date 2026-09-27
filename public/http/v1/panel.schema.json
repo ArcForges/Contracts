@@ -21,10 +21,7 @@
       "maxItems": 1000
     }
   },
-  "required": [
-    "schemaVersion",
-    "controls"
-  ],
+  "required": ["schemaVersion", "controls"],
   "additionalProperties": false,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$comment": "SPDX-License-Identifier: Apache-2.0; contracts08 section 2. Shape validity does not authorize operations or establish external schema/property bindings.",
@@ -41,9 +38,7 @@
           "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
         }
       },
-      "required": [
-        "property"
-      ],
+      "required": ["property"],
       "additionalProperties": false
     },
     "PanelArgument": {
@@ -60,10 +55,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "name",
-        "valueRef"
-      ],
+      "required": ["name", "valueRef"],
       "additionalProperties": false
     },
     "PanelComparison": {
@@ -72,14 +64,7 @@
       "properties": {
         "operator": {
           "type": "string",
-          "enum": [
-            "eq",
-            "ne",
-            "lt",
-            "le",
-            "gt",
-            "ge"
-          ]
+          "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
         },
         "left": {
           "$ref": "#/$defs/PanelValueRef"
@@ -88,11 +73,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "operator",
-        "left",
-        "right"
-      ],
+      "required": ["operator", "left", "right"],
       "additionalProperties": false
     },
     "PanelExists": {
@@ -107,10 +88,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "operator",
-        "value"
-      ],
+      "required": ["operator", "value"],
       "additionalProperties": false
     },
     "PanelAll": {
@@ -130,10 +108,7 @@
           "maxItems": 128
         }
       },
-      "required": [
-        "operator",
-        "predicates"
-      ],
+      "required": ["operator", "predicates"],
       "additionalProperties": false
     },
     "PanelAny": {
@@ -153,10 +128,7 @@
           "maxItems": 128
         }
       },
-      "required": [
-        "operator",
-        "predicates"
-      ],
+      "required": ["operator", "predicates"],
       "additionalProperties": false
     },
     "PanelPredicate": {
@@ -236,11 +208,7 @@
           "description": "Stable IDs of controls in this panel; only containers declare children."
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "children"
-      ],
+      "required": ["id", "kind", "children"],
       "additionalProperties": false
     },
     "PanelRowControl": {
@@ -303,11 +271,7 @@
           "description": "Stable IDs of controls in this panel; only containers declare children."
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "children"
-      ],
+      "required": ["id", "kind", "children"],
       "additionalProperties": false
     },
     "PanelSectionControl": {
@@ -370,11 +334,7 @@
           "description": "Stable IDs of controls in this panel; only containers declare children."
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "children"
-      ],
+      "required": ["id", "kind", "children"],
       "additionalProperties": false
     },
     "PanelTextControl": {
@@ -440,11 +400,7 @@
           "maxProperties": 16
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "text"
-      ],
+      "required": ["id", "kind", "text"],
       "additionalProperties": false
     },
     "PanelTextInputControl": {
@@ -498,11 +454,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding"
-      ],
+      "required": ["id", "kind", "binding"],
       "additionalProperties": false
     },
     "PanelNumberInputControl": {
@@ -556,11 +508,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding"
-      ],
+      "required": ["id", "kind", "binding"],
       "additionalProperties": false
     },
     "PanelToggleControl": {
@@ -614,11 +562,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding"
-      ],
+      "required": ["id", "kind", "binding"],
       "additionalProperties": false
     },
     "PanelSelectControl": {
@@ -675,12 +619,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding",
-        "optionsBinding"
-      ],
+      "required": ["id", "kind", "binding", "optionsBinding"],
       "additionalProperties": false
     },
     "PanelButtonControl": {
@@ -745,12 +684,7 @@
           "maxItems": 64
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "operationId",
-        "arguments"
-      ],
+      "required": ["id", "kind", "operationId", "arguments"],
       "additionalProperties": false
     },
     "PanelListControl": {
@@ -809,12 +743,7 @@
           "maximum": 500
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding",
-        "pageSize"
-      ],
+      "required": ["id", "kind", "binding", "pageSize"],
       "additionalProperties": false
     },
     "PanelTableControl": {
@@ -873,12 +802,7 @@
           "maximum": 500
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding",
-        "pageSize"
-      ],
+      "required": ["id", "kind", "binding", "pageSize"],
       "additionalProperties": false
     },
     "PanelResourceLinkControl": {
@@ -932,11 +856,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding"
-      ],
+      "required": ["id", "kind", "binding"],
       "additionalProperties": false
     },
     "PanelPreviewControl": {
@@ -990,11 +910,7 @@
           "$ref": "#/$defs/PanelValueRef"
         }
       },
-      "required": [
-        "id",
-        "kind",
-        "binding"
-      ],
+      "required": ["id", "kind", "binding"],
       "additionalProperties": false
     },
     "PanelControl": {
@@ -1042,7 +958,5 @@
       ]
     }
   },
-  "x-arcforges-rules": [
-    "panelTree"
-  ]
+  "x-arcforges-rules": ["panelTree"]
 }

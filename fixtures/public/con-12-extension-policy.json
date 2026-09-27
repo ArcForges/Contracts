@@ -4,52 +4,28 @@
   "bucketVectors": [
     {
       "id": "user-one",
-      "components": [
-        "policy.v1",
-        "experiment-1",
-        "realm-1",
-        "user",
-        "user-1"
-      ],
+      "components": ["policy.v1", "experiment-1", "realm-1", "user", "user-1"],
       "inputHex": "00000009706f6c6963792e76310000000c6578706572696d656e742d31000000077265616c6d2d31000000047573657200000006757365722d31",
       "sha256": "8f1cf6d826b1c98d5a78829d4c2189d3b86b3d30723d83d62e07bc8de9d4e582",
       "bucket": 7725
     },
     {
       "id": "user-two",
-      "components": [
-        "policy.v1",
-        "experiment-1",
-        "realm-1",
-        "user",
-        "user-2"
-      ],
+      "components": ["policy.v1", "experiment-1", "realm-1", "user", "user-2"],
       "inputHex": "00000009706f6c6963792e76310000000c6578706572696d656e742d31000000077265616c6d2d31000000047573657200000006757365722d32",
       "sha256": "a409b14bc5e0d36ca7f6a3fae30fcdc4387b438186fcbc5fe7adf40de6676e57",
       "bucket": 6700
     },
     {
       "id": "length-prefix-left",
-      "components": [
-        "a",
-        "bc",
-        "realm",
-        "user",
-        "x"
-      ],
+      "components": ["a", "bc", "realm", "user", "x"],
       "inputHex": "0000000161000000026263000000057265616c6d00000004757365720000000178",
       "sha256": "6811bc4212754d1bc685cd25f0e0d04bf6502320b910ede29c5c871c358c1ec0",
       "bucket": 7259
     },
     {
       "id": "length-prefix-right",
-      "components": [
-        "ab",
-        "c",
-        "realm",
-        "user",
-        "x"
-      ],
+      "components": ["ab", "c", "realm", "user", "x"],
       "inputHex": "0000000261620000000163000000057265616c6d00000004757365720000000178",
       "sha256": "a8d8a98af0fae1aced7177d7f94bc4ef5a1e4901a799166acd1e536953acda70",
       "bucket": 9548
@@ -290,9 +266,7 @@
           "allocation": 8000,
           "startsAt": "2026-09-27T00:00:00Z",
           "endsAt": "2026-09-28T00:00:00Z",
-          "successMetrics": [
-            "navigation-completed"
-          ],
+          "successMetrics": ["navigation-completed"],
           "exitCriteria": "choose declared baseline when trial ends",
           "holdoutBasisPoints": 1000
         }
@@ -308,11 +282,7 @@
         "id": "unknown-key",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "key"
-            ],
+            "path": ["rules", 0, "key"],
             "value": "commerce.tariff"
           }
         ],
@@ -322,9 +292,7 @@
         "id": "unknown-body-field",
         "mutations": [
           {
-            "path": [
-              "secret"
-            ],
+            "path": ["secret"],
             "value": "never-a-secret"
           }
         ],
@@ -334,11 +302,7 @@
         "id": "wrong-value-type",
         "mutations": [
           {
-            "path": [
-              "rules",
-              11,
-              "value"
-            ],
+            "path": ["rules", 11, "value"],
             "value": "16"
           }
         ],
@@ -348,11 +312,7 @@
         "id": "scope-not-admitted",
         "mutations": [
           {
-            "path": [
-              "rules",
-              8,
-              "scope"
-            ],
+            "path": ["rules", 8, "scope"],
             "value": "user"
           }
         ],
@@ -362,11 +322,7 @@
         "id": "model-call-upper-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              11,
-              "value"
-            ],
+            "path": ["rules", 11, "value"],
             "value": 65
           }
         ],
@@ -376,11 +332,7 @@
         "id": "tool-call-zero",
         "mutations": [
           {
-            "path": [
-              "rules",
-              12,
-              "value"
-            ],
+            "path": ["rules", 12, "value"],
             "value": 0
           }
         ],
@@ -390,11 +342,7 @@
         "id": "cache-lower-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              7,
-              "value"
-            ],
+            "path": ["rules", 7, "value"],
             "value": 1048575
           }
         ],
@@ -404,11 +352,7 @@
         "id": "poll-upper-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              8,
-              "value"
-            ],
+            "path": ["rules", 8, "value"],
             "value": 60001
           }
         ],
@@ -418,11 +362,7 @@
         "id": "sample-upper-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              9,
-              "value"
-            ],
+            "path": ["rules", 9, "value"],
             "value": 1000001
           }
         ],
@@ -432,11 +372,7 @@
         "id": "trace-buffer-upper-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              10,
-              "value"
-            ],
+            "path": ["rules", 10, "value"],
             "value": 16777217
           }
         ],
@@ -446,11 +382,7 @@
         "id": "parallel-tools-upper-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              13,
-              "value"
-            ],
+            "path": ["rules", 13, "value"],
             "value": 9
           }
         ],
@@ -460,11 +392,7 @@
         "id": "active-time-upper-bound",
         "mutations": [
           {
-            "path": [
-              "rules",
-              14,
-              "value"
-            ],
+            "path": ["rules", 14, "value"],
             "value": 3600001
           }
         ],
@@ -474,11 +402,7 @@
         "id": "invalid-presentation",
         "mutations": [
           {
-            "path": [
-              "rules",
-              16,
-              "value"
-            ],
+            "path": ["rules", 16, "value"],
             "value": "invisible"
           }
         ],
@@ -488,11 +412,7 @@
         "id": "zero-target",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "target"
-            ],
+            "path": ["rules", 0, "target"],
             "value": "00000000-0000-0000-0000-000000000000"
           }
         ],
@@ -502,11 +422,7 @@
         "id": "secret-target-field",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "target"
-            ],
+            "path": ["rules", 0, "target"],
             "value": {
               "op": "equal",
               "field": "email",
@@ -520,11 +436,7 @@
         "id": "duplicate-rule-id",
         "mutations": [
           {
-            "path": [
-              "rules",
-              1,
-              "ruleId"
-            ],
+            "path": ["rules", 1, "ruleId"],
             "value": "rule-0"
           }
         ],
@@ -534,9 +446,7 @@
         "id": "overlapping-priority",
         "mutations": [
           {
-            "path": [
-              "rules"
-            ],
+            "path": ["rules"],
             "value": [
               {
                 "ruleId": "rule-11",
@@ -563,9 +473,7 @@
         "id": "disjoint-stable-targets",
         "mutations": [
           {
-            "path": [
-              "rules"
-            ],
+            "path": ["rules"],
             "value": [
               {
                 "ruleId": "rule-11",
@@ -592,9 +500,7 @@
         "id": "overlong-bundle",
         "mutations": [
           {
-            "path": [
-              "expiresAt"
-            ],
+            "path": ["expiresAt"],
             "value": "2026-09-29T00:00:00Z"
           }
         ],
@@ -604,9 +510,7 @@
         "id": "invalid-calendar",
         "mutations": [
           {
-            "path": [
-              "issuedAt"
-            ],
+            "path": ["issuedAt"],
             "value": "2026-99-99T00:00:00Z"
           }
         ],
@@ -616,12 +520,7 @@
         "id": "overlong-stop",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "value",
-              "until"
-            ],
+            "path": ["rules", 0, "value", "until"],
             "value": "2026-09-29T00:00:00Z"
           }
         ],
@@ -631,11 +530,7 @@
         "id": "rule-outside-bundle",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "effectiveAt"
-            ],
+            "path": ["rules", 0, "effectiveAt"],
             "value": "2026-09-29T00:00:00Z"
           }
         ],
@@ -645,11 +540,7 @@
         "id": "predicate-id-type",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "target"
-            ],
+            "path": ["rules", 0, "target"],
             "value": {
               "op": "equal",
               "field": "workspaceId",
@@ -663,11 +554,7 @@
         "id": "major-predicate-string",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "target"
-            ],
+            "path": ["rules", 0, "target"],
             "value": {
               "op": "equal",
               "field": "contractsMajor",
@@ -681,11 +568,7 @@
         "id": "percent-allocation-overflow",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "target"
-            ],
+            "path": ["rules", 0, "target"],
             "value": {
               "op": "percent",
               "subject": "user",
@@ -700,13 +583,7 @@
         "id": "presentation-only-experiment",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "variants",
-              0,
-              "values"
-            ],
+            "path": ["experiments", 0, "variants", 0, "values"],
             "value": {
               "ai.maxModelCalls": 1
             }
@@ -718,13 +595,7 @@
         "id": "empty-variant",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "variants",
-              0,
-              "values"
-            ],
+            "path": ["experiments", 0, "variants", 0, "values"],
             "value": {}
           }
         ],
@@ -734,13 +605,7 @@
         "id": "duplicate-variant",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "variants",
-              1,
-              "variantId"
-            ],
+            "path": ["experiments", 0, "variants", 1, "variantId"],
             "value": "compact"
           }
         ],
@@ -750,11 +615,7 @@
         "id": "wrong-variant-allocation",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "allocation"
-            ],
+            "path": ["experiments", 0, "allocation"],
             "value": 7999
           }
         ],
@@ -764,11 +625,7 @@
         "id": "holdout-overflow",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "holdoutBasisPoints"
-            ],
+            "path": ["experiments", 0, "holdoutBasisPoints"],
             "value": 3000
           }
         ],
@@ -778,11 +635,7 @@
         "id": "experiment-expired-window",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "endsAt"
-            ],
+            "path": ["experiments", 0, "endsAt"],
             "value": "2026-09-27T00:00:00Z"
           }
         ],
@@ -792,9 +645,7 @@
         "id": "duplicate-experiment",
         "mutations": [
           {
-            "path": [
-              "experiments"
-            ],
+            "path": ["experiments"],
             "value": [
               {
                 "experimentId": "presentation-fixture",
@@ -825,9 +676,7 @@
                 "allocation": 8000,
                 "startsAt": "2026-09-27T00:00:00Z",
                 "endsAt": "2026-09-28T00:00:00Z",
-                "successMetrics": [
-                  "navigation-completed"
-                ],
+                "successMetrics": ["navigation-completed"],
                 "exitCriteria": "choose declared baseline when trial ends",
                 "holdoutBasisPoints": 1000
               },
@@ -860,9 +709,7 @@
                 "allocation": 8000,
                 "startsAt": "2026-09-27T00:00:00Z",
                 "endsAt": "2026-09-28T00:00:00Z",
-                "successMetrics": [
-                  "navigation-completed"
-                ],
+                "successMetrics": ["navigation-completed"],
                 "exitCriteria": "choose declared baseline when trial ends",
                 "holdoutBasisPoints": 1000
               }
@@ -875,9 +722,7 @@
         "id": "exclusion-range-overlap",
         "mutations": [
           {
-            "path": [
-              "experiments"
-            ],
+            "path": ["experiments"],
             "value": [
               {
                 "experimentId": "presentation-fixture",
@@ -908,9 +753,7 @@
                 "allocation": 8000,
                 "startsAt": "2026-09-27T00:00:00Z",
                 "endsAt": "2026-09-28T00:00:00Z",
-                "successMetrics": [
-                  "navigation-completed"
-                ],
+                "successMetrics": ["navigation-completed"],
                 "exitCriteria": "choose declared baseline when trial ends",
                 "holdoutBasisPoints": 1000,
                 "exclusionGroup": "group"
@@ -944,9 +787,7 @@
                 "allocation": 8000,
                 "startsAt": "2026-09-27T00:00:00Z",
                 "endsAt": "2026-09-28T00:00:00Z",
-                "successMetrics": [
-                  "navigation-completed"
-                ],
+                "successMetrics": ["navigation-completed"],
                 "exitCriteria": "choose declared baseline when trial ends",
                 "holdoutBasisPoints": 1000,
                 "exclusionGroup": "group"
@@ -960,13 +801,7 @@
         "id": "android-code-required",
         "mutations": [
           {
-            "path": [
-              "rules",
-              6,
-              "value",
-              0,
-              "minimumVersionCode"
-            ],
+            "path": ["rules", 6, "value", 0, "minimumVersionCode"],
             "remove": true
           }
         ],
@@ -1005,19 +840,11 @@
         "id": "experiment-outlives-current-bundle",
         "mutations": [
           {
-            "path": [
-              "experiments",
-              0,
-              "startsAt"
-            ],
+            "path": ["experiments", 0, "startsAt"],
             "value": "2026-09-01T00:00:00Z"
           },
           {
-            "path": [
-              "experiments",
-              0,
-              "endsAt"
-            ],
+            "path": ["experiments", 0, "endsAt"],
             "value": "2026-10-01T00:00:00Z"
           }
         ],
@@ -1027,11 +854,7 @@
         "id": "rule-started-before-current-bundle",
         "mutations": [
           {
-            "path": [
-              "rules",
-              0,
-              "effectiveAt"
-            ],
+            "path": ["rules", 0, "effectiveAt"],
             "value": "2026-09-01T00:00:00Z"
           }
         ],
@@ -1041,9 +864,7 @@
         "id": "adjacent-priority-time-windows",
         "mutations": [
           {
-            "path": [
-              "rules"
-            ],
+            "path": ["rules"],
             "value": [
               {
                 "ruleId": "rule-11",
@@ -1072,9 +893,7 @@
         "id": "overlapping-priority-time-windows",
         "mutations": [
           {
-            "path": [
-              "rules"
-            ],
+            "path": ["rules"],
             "value": [
               {
                 "ruleId": "rule-11",
@@ -1103,9 +922,7 @@
         "id": "calendar-year-zero-refusal",
         "mutations": [
           {
-            "path": [
-              "issuedAt"
-            ],
+            "path": ["issuedAt"],
             "value": "0000-01-01T00:00:00Z"
           }
         ],
@@ -1124,13 +941,7 @@
         "id": "android-version-name-is-not-forced-semver",
         "mutations": [
           {
-            "path": [
-              "rules",
-              6,
-              "value",
-              0,
-              "minimumVersionName"
-            ],
+            "path": ["rules", 6, "value", 0, "minimumVersionName"],
             "value": "2026 release candidate"
           }
         ],
@@ -1199,9 +1010,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1230,107 +1039,77 @@
             {
               "id": "n0",
               "kind": "column",
-              "children": [
-                "n1"
-              ]
+              "children": ["n1"]
             },
             {
               "id": "n1",
               "kind": "column",
-              "children": [
-                "n2"
-              ]
+              "children": ["n2"]
             },
             {
               "id": "n2",
               "kind": "column",
-              "children": [
-                "n3"
-              ]
+              "children": ["n3"]
             },
             {
               "id": "n3",
               "kind": "column",
-              "children": [
-                "n4"
-              ]
+              "children": ["n4"]
             },
             {
               "id": "n4",
               "kind": "column",
-              "children": [
-                "n5"
-              ]
+              "children": ["n5"]
             },
             {
               "id": "n5",
               "kind": "column",
-              "children": [
-                "n6"
-              ]
+              "children": ["n6"]
             },
             {
               "id": "n6",
               "kind": "column",
-              "children": [
-                "n7"
-              ]
+              "children": ["n7"]
             },
             {
               "id": "n7",
               "kind": "column",
-              "children": [
-                "n8"
-              ]
+              "children": ["n8"]
             },
             {
               "id": "n8",
               "kind": "column",
-              "children": [
-                "n9"
-              ]
+              "children": ["n9"]
             },
             {
               "id": "n9",
               "kind": "column",
-              "children": [
-                "n10"
-              ]
+              "children": ["n10"]
             },
             {
               "id": "n10",
               "kind": "column",
-              "children": [
-                "n11"
-              ]
+              "children": ["n11"]
             },
             {
               "id": "n11",
               "kind": "column",
-              "children": [
-                "n12"
-              ]
+              "children": ["n12"]
             },
             {
               "id": "n12",
               "kind": "column",
-              "children": [
-                "n13"
-              ]
+              "children": ["n13"]
             },
             {
               "id": "n13",
               "kind": "column",
-              "children": [
-                "n14"
-              ]
+              "children": ["n14"]
             },
             {
               "id": "n14",
               "kind": "column",
-              "children": [
-                "n15"
-              ]
+              "children": ["n15"]
             },
             {
               "id": "n15",
@@ -1349,114 +1128,82 @@
             {
               "id": "n0",
               "kind": "column",
-              "children": [
-                "n1"
-              ]
+              "children": ["n1"]
             },
             {
               "id": "n1",
               "kind": "column",
-              "children": [
-                "n2"
-              ]
+              "children": ["n2"]
             },
             {
               "id": "n2",
               "kind": "column",
-              "children": [
-                "n3"
-              ]
+              "children": ["n3"]
             },
             {
               "id": "n3",
               "kind": "column",
-              "children": [
-                "n4"
-              ]
+              "children": ["n4"]
             },
             {
               "id": "n4",
               "kind": "column",
-              "children": [
-                "n5"
-              ]
+              "children": ["n5"]
             },
             {
               "id": "n5",
               "kind": "column",
-              "children": [
-                "n6"
-              ]
+              "children": ["n6"]
             },
             {
               "id": "n6",
               "kind": "column",
-              "children": [
-                "n7"
-              ]
+              "children": ["n7"]
             },
             {
               "id": "n7",
               "kind": "column",
-              "children": [
-                "n8"
-              ]
+              "children": ["n8"]
             },
             {
               "id": "n8",
               "kind": "column",
-              "children": [
-                "n9"
-              ]
+              "children": ["n9"]
             },
             {
               "id": "n9",
               "kind": "column",
-              "children": [
-                "n10"
-              ]
+              "children": ["n10"]
             },
             {
               "id": "n10",
               "kind": "column",
-              "children": [
-                "n11"
-              ]
+              "children": ["n11"]
             },
             {
               "id": "n11",
               "kind": "column",
-              "children": [
-                "n12"
-              ]
+              "children": ["n12"]
             },
             {
               "id": "n12",
               "kind": "column",
-              "children": [
-                "n13"
-              ]
+              "children": ["n13"]
             },
             {
               "id": "n13",
               "kind": "column",
-              "children": [
-                "n14"
-              ]
+              "children": ["n14"]
             },
             {
               "id": "n14",
               "kind": "column",
-              "children": [
-                "n15"
-              ]
+              "children": ["n15"]
             },
             {
               "id": "n15",
               "kind": "column",
-              "children": [
-                "n16"
-              ]
+              "children": ["n16"]
             },
             {
               "id": "n16",
@@ -1475,9 +1222,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "missing"
-              ]
+              "children": ["missing"]
             },
             {
               "id": "greeting",
@@ -1498,10 +1243,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting",
-                "greeting"
-              ]
+              "children": ["greeting", "greeting"]
             },
             {
               "id": "greeting",
@@ -1522,9 +1264,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "root"
-              ]
+              "children": ["root"]
             },
             {
               "id": "greeting",
@@ -1545,9 +1285,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1575,9 +1313,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1589,9 +1325,7 @@
             {
               "id": "other",
               "kind": "row",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             }
           ]
         },
@@ -1605,16 +1339,12 @@
             {
               "id": "a",
               "kind": "row",
-              "children": [
-                "b"
-              ]
+              "children": ["b"]
             },
             {
               "id": "b",
               "kind": "row",
-              "children": [
-                "a"
-              ]
+              "children": ["a"]
             }
           ]
         },
@@ -1628,9 +1358,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1652,9 +1380,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1676,9 +1402,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1700,9 +1424,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1724,9 +1446,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1747,9 +1467,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1770,9 +1488,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1793,9 +1509,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1816,9 +1530,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1839,9 +1551,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1862,9 +1572,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1886,9 +1594,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -1951,9 +1657,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -2021,9 +1725,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -2812,9 +2514,7 @@
             {
               "id": "root",
               "kind": "column",
-              "children": [
-                "greeting"
-              ]
+              "children": ["greeting"]
             },
             {
               "id": "greeting",
@@ -18580,9 +18280,7 @@
             {
               "kind": "network",
               "reasonKey": "network",
-              "origins": [
-                "https://user@example.com"
-              ]
+              "origins": ["https://user@example.com"]
             }
           ],
           "dependencies": [],
@@ -18641,9 +18339,7 @@
             {
               "kind": "network",
               "reasonKey": "network",
-              "origins": [
-                "https://example.com:443"
-              ]
+              "origins": ["https://example.com:443"]
             }
           ],
           "dependencies": [],
@@ -18940,9 +18636,7 @@
               "body": {
                 "definitionId": "sample",
                 "authKind": "none",
-                "origins": [
-                  "https://api.example.com"
-                ],
+                "origins": ["https://api.example.com"],
                 "scopes": [],
                 "secretInputs": [],
                 "capabilities": [],
@@ -19053,9 +18747,7 @@
               "titleKey": "guide.title",
               "permissions": [],
               "body": {
-                "executableRids": [
-                  "win-x64"
-                ],
+                "executableRids": ["win-x64"],
                 "extensionPoints": [
                   {
                     "id": "command",
@@ -19118,9 +18810,7 @@
               "titleKey": "guide.title",
               "permissions": [],
               "body": {
-                "executableRids": [
-                  "win-x64"
-                ],
+                "executableRids": ["win-x64"],
                 "extensionPoints": [
                   {
                     "id": "command",
@@ -19183,9 +18873,7 @@
               "titleKey": "guide.title",
               "permissions": [],
               "body": {
-                "executableRids": [
-                  "win-x64"
-                ],
+                "executableRids": ["win-x64"],
                 "extensionPoints": [
                   {
                     "id": "command",
@@ -19336,9 +19024,7 @@
                   "rid": "win-x64",
                   "path": "bin/extension.exe",
                   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                  "runtimeIds": [
-                    "runtime.missing"
-                  ],
+                  "runtimeIds": ["runtime.missing"],
                   "systemDependencyIds": []
                 },
                 "toolAllowlist": [],
@@ -19414,12 +19100,8 @@
                   "rid": "win-x64",
                   "path": "bin/extension.exe",
                   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                  "runtimeIds": [
-                    "runtime.missing"
-                  ],
-                  "systemDependencyIds": [
-                    "system.missing"
-                  ]
+                  "runtimeIds": ["runtime.missing"],
+                  "systemDependencyIds": ["system.missing"]
                 },
                 "toolAllowlist": [],
                 "parameterSchemaDigests": [],
@@ -19445,9 +19127,7 @@
               "rid": "win-x64",
               "path": "bin/extension.exe",
               "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-              "runtimeIds": [
-                "runtime.missing"
-              ],
+              "runtimeIds": ["runtime.missing"],
               "systemDependencyIds": []
             }
           ],
@@ -19496,13 +19176,8 @@
                   "rid": "win-x64",
                   "path": "bin/extension.exe",
                   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                  "runtimeIds": [
-                    "runtime.two",
-                    "runtime.one"
-                  ],
-                  "systemDependencyIds": [
-                    "system.missing"
-                  ]
+                  "runtimeIds": ["runtime.two", "runtime.one"],
+                  "systemDependencyIds": ["system.missing"]
                 },
                 "toolAllowlist": [],
                 "parameterSchemaDigests": [],
@@ -19528,13 +19203,8 @@
               "rid": "win-x64",
               "path": "bin/extension.exe",
               "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-              "runtimeIds": [
-                "runtime.one",
-                "runtime.two"
-              ],
-              "systemDependencyIds": [
-                "system.missing"
-              ]
+              "runtimeIds": ["runtime.one", "runtime.two"],
+              "systemDependencyIds": ["system.missing"]
             }
           ],
           "resources": [
@@ -19582,13 +19252,8 @@
                   "rid": "win-x64",
                   "path": "bin/extension.exe",
                   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                  "runtimeIds": [
-                    "runtime.one",
-                    "runtime.one"
-                  ],
-                  "systemDependencyIds": [
-                    "system.missing"
-                  ]
+                  "runtimeIds": ["runtime.one", "runtime.one"],
+                  "systemDependencyIds": ["system.missing"]
                 },
                 "toolAllowlist": [],
                 "parameterSchemaDigests": [],
@@ -19614,13 +19279,8 @@
               "rid": "win-x64",
               "path": "bin/extension.exe",
               "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-              "runtimeIds": [
-                "runtime.one",
-                "runtime.two"
-              ],
-              "systemDependencyIds": [
-                "system.missing"
-              ]
+              "runtimeIds": ["runtime.one", "runtime.two"],
+              "systemDependencyIds": ["system.missing"]
             }
           ],
           "resources": [
@@ -19914,18 +19574,14 @@
               "kind": "capability",
               "operationId": "sample.read",
               "typedArguments": [],
-              "dependencies": [
-                "b"
-              ]
+              "dependencies": ["b"]
             },
             {
               "id": "b",
               "kind": "capability",
               "operationId": "sample.read",
               "typedArguments": [],
-              "dependencies": [
-                "a"
-              ]
+              "dependencies": ["a"]
             }
           ],
           "outputs": [],
@@ -19950,9 +19606,7 @@
               "kind": "capability",
               "operationId": "sample.read",
               "typedArguments": [],
-              "dependencies": [
-                "a"
-              ]
+              "dependencies": ["a"]
             }
           ],
           "outputs": [],
@@ -20035,9 +19689,7 @@
                   "field": "value"
                 }
               },
-              "thenNodes": [
-                "branch"
-              ],
+              "thenNodes": ["branch"],
               "elseNodes": []
             },
             {
@@ -20083,9 +19735,7 @@
                   "field": "value"
                 }
               },
-              "thenNodes": [
-                "branch"
-              ],
+              "thenNodes": ["branch"],
               "elseNodes": []
             },
             {
@@ -20124,12 +19774,8 @@
                   "field": "value"
                 }
               },
-              "thenNodes": [
-                "branch"
-              ],
-              "elseNodes": [
-                "branch"
-              ]
+              "thenNodes": ["branch"],
+              "elseNodes": ["branch"]
             },
             {
               "id": "source",
@@ -20378,12 +20024,8 @@
                   }
                 }
               },
-              "thenNodes": [
-                "branch"
-              ],
-              "elseNodes": [
-                "branch"
-              ]
+              "thenNodes": ["branch"],
+              "elseNodes": ["branch"]
             },
             {
               "id": "source",
@@ -20425,9 +20067,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20458,107 +20098,77 @@
           {
             "id": "n0",
             "kind": "column",
-            "children": [
-              "n1"
-            ]
+            "children": ["n1"]
           },
           {
             "id": "n1",
             "kind": "column",
-            "children": [
-              "n2"
-            ]
+            "children": ["n2"]
           },
           {
             "id": "n2",
             "kind": "column",
-            "children": [
-              "n3"
-            ]
+            "children": ["n3"]
           },
           {
             "id": "n3",
             "kind": "column",
-            "children": [
-              "n4"
-            ]
+            "children": ["n4"]
           },
           {
             "id": "n4",
             "kind": "column",
-            "children": [
-              "n5"
-            ]
+            "children": ["n5"]
           },
           {
             "id": "n5",
             "kind": "column",
-            "children": [
-              "n6"
-            ]
+            "children": ["n6"]
           },
           {
             "id": "n6",
             "kind": "column",
-            "children": [
-              "n7"
-            ]
+            "children": ["n7"]
           },
           {
             "id": "n7",
             "kind": "column",
-            "children": [
-              "n8"
-            ]
+            "children": ["n8"]
           },
           {
             "id": "n8",
             "kind": "column",
-            "children": [
-              "n9"
-            ]
+            "children": ["n9"]
           },
           {
             "id": "n9",
             "kind": "column",
-            "children": [
-              "n10"
-            ]
+            "children": ["n10"]
           },
           {
             "id": "n10",
             "kind": "column",
-            "children": [
-              "n11"
-            ]
+            "children": ["n11"]
           },
           {
             "id": "n11",
             "kind": "column",
-            "children": [
-              "n12"
-            ]
+            "children": ["n12"]
           },
           {
             "id": "n12",
             "kind": "column",
-            "children": [
-              "n13"
-            ]
+            "children": ["n13"]
           },
           {
             "id": "n13",
             "kind": "column",
-            "children": [
-              "n14"
-            ]
+            "children": ["n14"]
           },
           {
             "id": "n14",
             "kind": "column",
-            "children": [
-              "n15"
-            ]
+            "children": ["n15"]
           },
           {
             "id": "n15",
@@ -20578,114 +20188,82 @@
           {
             "id": "n0",
             "kind": "column",
-            "children": [
-              "n1"
-            ]
+            "children": ["n1"]
           },
           {
             "id": "n1",
             "kind": "column",
-            "children": [
-              "n2"
-            ]
+            "children": ["n2"]
           },
           {
             "id": "n2",
             "kind": "column",
-            "children": [
-              "n3"
-            ]
+            "children": ["n3"]
           },
           {
             "id": "n3",
             "kind": "column",
-            "children": [
-              "n4"
-            ]
+            "children": ["n4"]
           },
           {
             "id": "n4",
             "kind": "column",
-            "children": [
-              "n5"
-            ]
+            "children": ["n5"]
           },
           {
             "id": "n5",
             "kind": "column",
-            "children": [
-              "n6"
-            ]
+            "children": ["n6"]
           },
           {
             "id": "n6",
             "kind": "column",
-            "children": [
-              "n7"
-            ]
+            "children": ["n7"]
           },
           {
             "id": "n7",
             "kind": "column",
-            "children": [
-              "n8"
-            ]
+            "children": ["n8"]
           },
           {
             "id": "n8",
             "kind": "column",
-            "children": [
-              "n9"
-            ]
+            "children": ["n9"]
           },
           {
             "id": "n9",
             "kind": "column",
-            "children": [
-              "n10"
-            ]
+            "children": ["n10"]
           },
           {
             "id": "n10",
             "kind": "column",
-            "children": [
-              "n11"
-            ]
+            "children": ["n11"]
           },
           {
             "id": "n11",
             "kind": "column",
-            "children": [
-              "n12"
-            ]
+            "children": ["n12"]
           },
           {
             "id": "n12",
             "kind": "column",
-            "children": [
-              "n13"
-            ]
+            "children": ["n13"]
           },
           {
             "id": "n13",
             "kind": "column",
-            "children": [
-              "n14"
-            ]
+            "children": ["n14"]
           },
           {
             "id": "n14",
             "kind": "column",
-            "children": [
-              "n15"
-            ]
+            "children": ["n15"]
           },
           {
             "id": "n15",
             "kind": "column",
-            "children": [
-              "n16"
-            ]
+            "children": ["n16"]
           },
           {
             "id": "n16",
@@ -20705,9 +20283,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "missing"
-            ]
+            "children": ["missing"]
           },
           {
             "id": "greeting",
@@ -20729,10 +20305,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting",
-              "greeting"
-            ]
+            "children": ["greeting", "greeting"]
           },
           {
             "id": "greeting",
@@ -20754,9 +20327,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "root"
-            ]
+            "children": ["root"]
           },
           {
             "id": "greeting",
@@ -20778,9 +20349,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20809,9 +20378,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20823,9 +20390,7 @@
           {
             "id": "other",
             "kind": "row",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           }
         ]
       }
@@ -20840,16 +20405,12 @@
           {
             "id": "a",
             "kind": "row",
-            "children": [
-              "b"
-            ]
+            "children": ["b"]
           },
           {
             "id": "b",
             "kind": "row",
-            "children": [
-              "a"
-            ]
+            "children": ["a"]
           }
         ]
       }
@@ -20864,9 +20425,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20889,9 +20448,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20914,9 +20471,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20939,9 +20494,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20964,9 +20517,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -20988,9 +20539,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21012,9 +20561,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21036,9 +20583,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21060,9 +20605,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21084,9 +20627,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21108,9 +20649,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21133,9 +20672,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21199,9 +20736,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -21270,9 +20805,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -22062,9 +21595,7 @@
           {
             "id": "root",
             "kind": "column",
-            "children": [
-              "greeting"
-            ]
+            "children": ["greeting"]
           },
           {
             "id": "greeting",
@@ -37332,9 +36863,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -37558,9 +37087,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -37784,9 +37311,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -38011,9 +37536,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -38237,9 +37760,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -38463,9 +37984,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -38689,9 +38208,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -38915,9 +38432,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -39141,9 +38656,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -39367,9 +38880,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -39593,9 +39104,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -39819,9 +39328,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -40045,9 +39552,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -40271,9 +39776,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -40497,9 +40000,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -40727,9 +40228,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -40953,9 +40452,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -41020,9 +40517,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -41087,9 +40582,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -41313,9 +40806,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -41539,9 +41030,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -41765,9 +41254,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -41992,9 +41479,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -42222,9 +41707,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -42452,9 +41935,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -42683,9 +42164,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -42909,9 +42388,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -43133,9 +42610,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -43359,9 +42834,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -43585,9 +43058,7 @@
             "allocation": 7999,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -43811,9 +43282,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 3000
           }
@@ -44037,9 +43506,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-27T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -44263,9 +43730,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           },
@@ -44298,9 +43763,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -44524,9 +43987,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000,
             "exclusionGroup": "group"
@@ -44560,9 +44021,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000,
             "exclusionGroup": "group"
@@ -44786,9 +44245,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -45037,9 +44494,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -45291,9 +44746,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -46171,9 +45624,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -46397,9 +45848,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-01T00:00:00Z",
             "endsAt": "2026-10-01T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -46624,9 +46073,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -46693,9 +46140,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -46762,9 +46207,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -46988,9 +46431,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -60039,9 +59480,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -60265,9 +59704,7 @@
             "allocation": 8000,
             "startsAt": "2026-09-27T00:00:00Z",
             "endsAt": "2026-09-28T00:00:00Z",
-            "successMetrics": [
-              "navigation-completed"
-            ],
+            "successMetrics": ["navigation-completed"],
             "exitCriteria": "choose declared baseline when trial ends",
             "holdoutBasisPoints": 1000
           }
@@ -60999,9 +60436,7 @@
           {
             "kind": "network",
             "reasonKey": "network",
-            "origins": [
-              "https://user@example.com"
-            ]
+            "origins": ["https://user@example.com"]
           }
         ],
         "dependencies": [],
@@ -61060,9 +60495,7 @@
           {
             "kind": "network",
             "reasonKey": "network",
-            "origins": [
-              "https://example.com:443"
-            ]
+            "origins": ["https://example.com:443"]
           }
         ],
         "dependencies": [],
@@ -61359,9 +60792,7 @@
             "body": {
               "definitionId": "sample",
               "authKind": "none",
-              "origins": [
-                "https://api.example.com"
-              ],
+              "origins": ["https://api.example.com"],
               "scopes": [],
               "secretInputs": [],
               "capabilities": [],
@@ -61472,9 +60903,7 @@
             "titleKey": "guide.title",
             "permissions": [],
             "body": {
-              "executableRids": [
-                "win-x64"
-              ],
+              "executableRids": ["win-x64"],
               "extensionPoints": [
                 {
                   "id": "command",
@@ -61537,9 +60966,7 @@
             "titleKey": "guide.title",
             "permissions": [],
             "body": {
-              "executableRids": [
-                "win-x64"
-              ],
+              "executableRids": ["win-x64"],
               "extensionPoints": [
                 {
                   "id": "command",
@@ -61602,9 +61029,7 @@
             "titleKey": "guide.title",
             "permissions": [],
             "body": {
-              "executableRids": [
-                "win-x64"
-              ],
+              "executableRids": ["win-x64"],
               "extensionPoints": [
                 {
                   "id": "command",
@@ -61755,9 +61180,7 @@
                 "rid": "win-x64",
                 "path": "bin/extension.exe",
                 "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                "runtimeIds": [
-                  "runtime.missing"
-                ],
+                "runtimeIds": ["runtime.missing"],
                 "systemDependencyIds": []
               },
               "toolAllowlist": [],
@@ -61833,12 +61256,8 @@
                 "rid": "win-x64",
                 "path": "bin/extension.exe",
                 "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                "runtimeIds": [
-                  "runtime.missing"
-                ],
-                "systemDependencyIds": [
-                  "system.missing"
-                ]
+                "runtimeIds": ["runtime.missing"],
+                "systemDependencyIds": ["system.missing"]
               },
               "toolAllowlist": [],
               "parameterSchemaDigests": [],
@@ -61864,9 +61283,7 @@
             "rid": "win-x64",
             "path": "bin/extension.exe",
             "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-            "runtimeIds": [
-              "runtime.missing"
-            ],
+            "runtimeIds": ["runtime.missing"],
             "systemDependencyIds": []
           }
         ],
@@ -61915,13 +61332,8 @@
                 "rid": "win-x64",
                 "path": "bin/extension.exe",
                 "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                "runtimeIds": [
-                  "runtime.two",
-                  "runtime.one"
-                ],
-                "systemDependencyIds": [
-                  "system.missing"
-                ]
+                "runtimeIds": ["runtime.two", "runtime.one"],
+                "systemDependencyIds": ["system.missing"]
               },
               "toolAllowlist": [],
               "parameterSchemaDigests": [],
@@ -61947,13 +61359,8 @@
             "rid": "win-x64",
             "path": "bin/extension.exe",
             "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-            "runtimeIds": [
-              "runtime.one",
-              "runtime.two"
-            ],
-            "systemDependencyIds": [
-              "system.missing"
-            ]
+            "runtimeIds": ["runtime.one", "runtime.two"],
+            "systemDependencyIds": ["system.missing"]
           }
         ],
         "resources": [
@@ -62001,13 +61408,8 @@
                 "rid": "win-x64",
                 "path": "bin/extension.exe",
                 "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-                "runtimeIds": [
-                  "runtime.one",
-                  "runtime.one"
-                ],
-                "systemDependencyIds": [
-                  "system.missing"
-                ]
+                "runtimeIds": ["runtime.one", "runtime.one"],
+                "systemDependencyIds": ["system.missing"]
               },
               "toolAllowlist": [],
               "parameterSchemaDigests": [],
@@ -62033,13 +61435,8 @@
             "rid": "win-x64",
             "path": "bin/extension.exe",
             "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-            "runtimeIds": [
-              "runtime.one",
-              "runtime.two"
-            ],
-            "systemDependencyIds": [
-              "system.missing"
-            ]
+            "runtimeIds": ["runtime.one", "runtime.two"],
+            "systemDependencyIds": ["system.missing"]
           }
         ],
         "resources": [
@@ -62287,18 +61684,14 @@
             "kind": "capability",
             "operationId": "sample.read",
             "typedArguments": [],
-            "dependencies": [
-              "b"
-            ]
+            "dependencies": ["b"]
           },
           {
             "id": "b",
             "kind": "capability",
             "operationId": "sample.read",
             "typedArguments": [],
-            "dependencies": [
-              "a"
-            ]
+            "dependencies": ["a"]
           }
         ],
         "outputs": [],
@@ -62323,9 +61716,7 @@
             "kind": "capability",
             "operationId": "sample.read",
             "typedArguments": [],
-            "dependencies": [
-              "a"
-            ]
+            "dependencies": ["a"]
           }
         ],
         "outputs": [],
@@ -62408,9 +61799,7 @@
                 "field": "value"
               }
             },
-            "thenNodes": [
-              "branch"
-            ],
+            "thenNodes": ["branch"],
             "elseNodes": []
           },
           {
@@ -62456,9 +61845,7 @@
                 "field": "value"
               }
             },
-            "thenNodes": [
-              "branch"
-            ],
+            "thenNodes": ["branch"],
             "elseNodes": []
           },
           {
@@ -62497,12 +61884,8 @@
                 "field": "value"
               }
             },
-            "thenNodes": [
-              "branch"
-            ],
-            "elseNodes": [
-              "branch"
-            ]
+            "thenNodes": ["branch"],
+            "elseNodes": ["branch"]
           },
           {
             "id": "source",
@@ -62751,12 +62134,8 @@
                 }
               }
             },
-            "thenNodes": [
-              "branch"
-            ],
-            "elseNodes": [
-              "branch"
-            ]
+            "thenNodes": ["branch"],
+            "elseNodes": ["branch"]
           },
           {
             "id": "source",
@@ -62782,6 +62161,836 @@
           "maxPredicateNodes": 128
         }
       }
+    },
+    {
+      "id": "decimal-0",
+      "schema": "ExtensionWorkflow",
+      "valid": true,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "0"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-1",
+      "schema": "ExtensionWorkflow",
+      "valid": false,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "-0"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-2",
+      "schema": "ExtensionWorkflow",
+      "valid": true,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "0.000000001"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-3",
+      "schema": "ExtensionWorkflow",
+      "valid": false,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "1.0"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-4",
+      "schema": "ExtensionWorkflow",
+      "valid": true,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "1234567890123456789012345678"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-5",
+      "schema": "ExtensionWorkflow",
+      "valid": false,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "12345678901234567890123456789"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-6",
+      "schema": "ExtensionWorkflow",
+      "valid": false,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "0.0000000001"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-7",
+      "schema": "ExtensionWorkflow",
+      "valid": true,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "-1234567890123456789.123456789"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-8",
+      "schema": "ExtensionWorkflow",
+      "valid": false,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "1e3"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
+    },
+    {
+      "id": "decimal-9",
+      "schema": "ExtensionWorkflow",
+      "valid": false,
+      "value": {
+        "schemaVersion": "workflow.v1",
+        "inputs": [],
+        "nodes": [
+          {
+            "id": "source",
+            "kind": "constant",
+            "typedValue": {
+              "kind": "decimal",
+              "value": "+1"
+            }
+          },
+          {
+            "id": "result",
+            "kind": "output",
+            "valueRef": {
+              "nodeId": "source",
+              "field": "value"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "result",
+            "schemaId": "sample.decimal",
+            "valueRef": {
+              "nodeId": "result",
+              "field": "value"
+            }
+          }
+        ],
+        "limits": {
+          "maxExpandedSteps": 256,
+          "maxForEachNesting": 2,
+          "maxPredicateDepth": 8,
+          "maxPredicateNodes": 128
+        }
+      }
     }
-  ]
+  ],
+  "lifecycle": {
+    "authority": "contracts08 sections 1 and 3",
+    "evidenceBoundary": "Offline declarative metadata and policy-oracle vectors only. These are not archive-byte, signature/trust, live secret/broker, process termination, migration or provider-runtime evidence.",
+    "vectors": [
+      {
+        "id": "archive-declared-metadata-only",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "LICENSE", "guide.md"],
+          "compressedBytes": 1024,
+          "expandedBytes": 2048,
+          "largestFileBytes": 1024,
+          "hasSymlink": false,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "metadataAccepted",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-traversal",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "../outside"],
+          "compressedBytes": 1024,
+          "expandedBytes": 2048,
+          "largestFileBytes": 1024,
+          "hasSymlink": false,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-case-collision",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "Guide.md", "guide.md"],
+          "compressedBytes": 1024,
+          "expandedBytes": 2048,
+          "largestFileBytes": 1024,
+          "hasSymlink": false,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-symlink",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "LICENSE", "guide.md"],
+          "compressedBytes": 1024,
+          "expandedBytes": 2048,
+          "largestFileBytes": 1024,
+          "hasSymlink": true,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-undeclared-file",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "LICENSE", "guide.md"],
+          "compressedBytes": 1024,
+          "expandedBytes": 2048,
+          "largestFileBytes": 1024,
+          "hasSymlink": false,
+          "hasUndeclaredFile": true
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-compressed-limit",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "LICENSE", "guide.md"],
+          "compressedBytes": 268435457,
+          "expandedBytes": 2048,
+          "largestFileBytes": 1024,
+          "hasSymlink": false,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-expanded-limit",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "LICENSE", "guide.md"],
+          "compressedBytes": 1024,
+          "expandedBytes": 1073741825,
+          "largestFileBytes": 1024,
+          "hasSymlink": false,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "archive-individual-file-limit",
+        "event": "archiveMetadata",
+        "input": {
+          "paths": ["manifest.json", "LICENSE", "guide.md"],
+          "compressedBytes": 1024,
+          "expandedBytes": 2048,
+          "largestFileBytes": 134217729,
+          "hasSymlink": false,
+          "hasUndeclaredFile": false
+        },
+        "expected": {
+          "documentDecision": "reject",
+          "executionAllowed": false,
+          "archiveByteVerificationStillRequired": true
+        }
+      },
+      {
+        "id": "permission-expansion-awaits-consent",
+        "event": "updatePermissionExpansion",
+        "input": {
+          "oldPermissions": ["notes.read"],
+          "newPermissions": ["notes.read", "network.provider"],
+          "consented": false,
+          "oldPackageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "expected": {
+          "candidateState": "awaitingConsent",
+          "runningPackageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "coexistingExecutableVersionsAllowed": false
+        }
+      },
+      {
+        "id": "permission-expansion-consented-still-staged",
+        "event": "updatePermissionExpansion",
+        "input": {
+          "oldPermissions": ["notes.read"],
+          "newPermissions": ["notes.read", "network.provider"],
+          "consented": true,
+          "oldPackageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "expected": {
+          "candidateState": "staged",
+          "runningPackageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "coexistingExecutableVersionsAllowed": false
+        }
+      },
+      {
+        "id": "permission-reduction-stages-update",
+        "event": "updatePermissionExpansion",
+        "input": {
+          "oldPermissions": ["notes.read", "network.provider"],
+          "newPermissions": ["notes.read"],
+          "consented": false,
+          "oldPackageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "expected": {
+          "candidateState": "staged",
+          "runningPackageHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "coexistingExecutableVersionsAllowed": false
+        }
+      },
+      {
+        "id": "revoke-running-grants-reducible",
+        "event": "revokeDuringWork",
+        "input": {
+          "grantsReducible": true
+        },
+        "expected": {
+          "admitNewCalls": false,
+          "runningAction": "stopAtSafePoint",
+          "deleteProductOutput": false
+        }
+      },
+      {
+        "id": "revoke-running-grants-not-reducible",
+        "event": "revokeDuringWork",
+        "input": {
+          "grantsReducible": false
+        },
+        "expected": {
+          "admitNewCalls": false,
+          "runningAction": "terminateProcess",
+          "deleteProductOutput": false
+        }
+      },
+      {
+        "id": "rollback-incompatible-private-schema",
+        "event": "rollback",
+        "input": {
+          "currentPrivateSchema": 3,
+          "minCompatibleSchema": 1,
+          "maxCompatibleSchema": 2,
+          "targetRevoked": false
+        },
+        "expected": {
+          "rollbackAllowed": false,
+          "packageState": "disabled",
+          "preservePrivateState": true
+        }
+      },
+      {
+        "id": "rollback-revoked-target",
+        "event": "rollback",
+        "input": {
+          "currentPrivateSchema": 2,
+          "minCompatibleSchema": 1,
+          "maxCompatibleSchema": 2,
+          "targetRevoked": true
+        },
+        "expected": {
+          "rollbackAllowed": false,
+          "packageState": "disabled",
+          "preservePrivateState": true
+        }
+      },
+      {
+        "id": "rollback-compatible-target-still-staged",
+        "event": "rollback",
+        "input": {
+          "currentPrivateSchema": 2,
+          "minCompatibleSchema": 1,
+          "maxCompatibleSchema": 2,
+          "targetRevoked": false
+        },
+        "expected": {
+          "rollbackAllowed": true,
+          "packageState": "staged",
+          "preservePrivateState": true
+        }
+      },
+      {
+        "id": "unknown-effect-after-reinstall",
+        "event": "unknownEffect",
+        "input": {
+          "reconciledNoEffect": false,
+          "currentAdmissionValid": true,
+          "reinstalled": true
+        },
+        "expected": {
+          "safeRetryAllowed": false,
+          "preserveCommandFence": true,
+          "reinstallResetsFence": false
+        }
+      },
+      {
+        "id": "unknown-effect-reconciled-no-effect",
+        "event": "unknownEffect",
+        "input": {
+          "reconciledNoEffect": true,
+          "currentAdmissionValid": true,
+          "reinstalled": false
+        },
+        "expected": {
+          "safeRetryAllowed": true,
+          "preserveCommandFence": true,
+          "reinstallResetsFence": false
+        }
+      },
+      {
+        "id": "no-effect-reconciliation-cannot-restore-admission",
+        "event": "unknownEffect",
+        "input": {
+          "reconciledNoEffect": true,
+          "currentAdmissionValid": false,
+          "reinstalled": false
+        },
+        "expected": {
+          "safeRetryAllowed": false,
+          "preserveCommandFence": true,
+          "reinstallResetsFence": false
+        }
+      },
+      {
+        "id": "disconnect-local-first",
+        "event": "disconnect",
+        "input": {
+          "providerReachable": false
+        },
+        "expected": {
+          "orderedActions": ["revokeGrants", "invalidateSecretRef", "bestEffortProviderRevocation"],
+          "newCallsAllowed": false,
+          "retainSecretValueInHistory": false
+        }
+      },
+      {
+        "id": "secret-value-never-projected",
+        "event": "secretProjection",
+        "input": {
+          "connectionId": "fixture-connection",
+          "status": "connected",
+          "secretRef": "fixture-secret-ref",
+          "secretValue": "fixture-secret-marker"
+        },
+        "expected": {
+          "connectionId": "fixture-connection",
+          "status": "connected",
+          "secretRef": "fixture-secret-ref"
+        }
+      }
+    ]
+  },
+  "policyDecisions": {
+    "evidenceBoundary": "Independent offline decision oracle; not signed activation, payment admission or experiment runtime evidence.",
+    "limits": [
+      {
+        "id": "lower-workspace",
+        "compiled": 64,
+        "realm": 16,
+        "workspace": 8,
+        "expected": 8
+      },
+      {
+        "id": "lower-realm",
+        "compiled": 64,
+        "realm": 4,
+        "workspace": 8,
+        "expected": 4
+      },
+      {
+        "id": "compiled-cap",
+        "compiled": 4,
+        "realm": 16,
+        "workspace": 8,
+        "expected": 4
+      }
+    ],
+    "presentation": [
+      {
+        "id": "explicit-user",
+        "default": "comfortable",
+        "experiment": "comfortable",
+        "user": "compact",
+        "expected": "compact"
+      },
+      {
+        "id": "experiment",
+        "default": "comfortable",
+        "experiment": "compact",
+        "user": null,
+        "expected": "compact"
+      },
+      {
+        "id": "default",
+        "default": "comfortable",
+        "experiment": null,
+        "user": null,
+        "expected": "comfortable"
+      }
+    ],
+    "paidAdmission": [
+      {
+        "id": "expired-no-guessed-tariff",
+        "bundleCurrent": false,
+        "configuredTariff": null,
+        "expected": false
+      },
+      {
+        "id": "expired-even-with-tariff",
+        "bundleCurrent": false,
+        "configuredTariff": "approved-tariff-v1",
+        "expected": false
+      },
+      {
+        "id": "missing-tariff",
+        "bundleCurrent": true,
+        "configuredTariff": null,
+        "expected": false
+      },
+      {
+        "id": "admissible-static-inputs",
+        "bundleCurrent": true,
+        "configuredTariff": "approved-tariff-v1",
+        "expected": true
+      }
+    ]
+  }
 }
