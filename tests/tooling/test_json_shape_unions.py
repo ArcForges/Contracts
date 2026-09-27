@@ -8,10 +8,11 @@ import sys
 import tempfile
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "eng"))
-from generate_shapes import JsonShapes, schema_roots
+from generate_shapes import JsonShapes, schema_roots, generate
 
 
 def record(title, properties):
@@ -96,6 +97,15 @@ class JsonShapeUnions(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Duplicate root"):
             schema_roots({"$defs": {"A": root, "B": root}, "oneOf": [{"$ref": "#/$defs/A"}, {"$ref": "#/$defs/B"}]})
 
+    def test_shared_bundle_model_collision_refused_before_any_output_write(self):
+        first = sample()
+        second = copy.deepcopy(first)
+        second["title"] = "Other"
+        with patch("generate_shapes.schema_roots", return_value=[first, second]), patch("generate_shapes.emit") as write:
+            with self.assertRaisesRegex(ValueError, "Duplicate generated schema model names"):
+                generate()
+            write.assert_not_called()
+
     def test_localized_map_has_typed_model_and_bounded_keys(self):
         schema = sample()
         schema["properties"]["labels"] = {"type": "object", "propertyNames": {"type": "string", "pattern": "^[A-Za-z-]+$", "maxLength": 35},
@@ -132,6 +142,7 @@ class JsonShapeUnions(unittest.TestCase):
         envelope = sample()
         envelope["properties"]["labels"] = {"type": "object", "propertyNames": {"type": "string", "pattern": "^[A-Za-z-]+$"},
                                               "additionalProperties": {"type": "string", "maxLength": 5}, "maxProperties": 2}
+        envelope["properties"]["maps"] = {"type": "array", "maxItems": 3, "items": copy.deepcopy(envelope["properties"]["labels"])}
         tree = record("Tree", {"node": {"$ref": "#/$defs/Node"}})
         tree["x-arcforges-max-bytes"] = 1024
         tree["$defs"] = {"Node": record("Node", {"children": {"type": "array", "maxItems": 3, "items": {"$ref": "#/$defs/Node"}}})}
@@ -143,7 +154,7 @@ class JsonShapeUnions(unittest.TestCase):
             runner.write_text('''import assert from "node:assert/strict";
 import * as envelope from "./Envelope.ts";
 import * as tree from "./Tree.ts";
-const valid = {body: {entries: ["one"]}, labels: {en: "Hello"}};
+const valid = {body: {entries: ["one"]}, labels: {en: "Hello"}, maps: [{fr: "Salut"}]};
 assert.equal(envelope.isEnvelope(valid), true);
 assert.deepEqual(envelope.tryParseEnvelopeJson(envelope.serializeEnvelopeJson(valid)), {ok: true, value: valid});
 for (const value of [{body:{}}, {body:{entries:[],shards:[]}}, {body:{entries:[],unknown:true}},

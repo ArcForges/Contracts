@@ -76,6 +76,7 @@ class JsonShapes:
         self.models: dict[str, dict] = {}
         self.visiting: set[int] = set()
         self.recursive = False
+        self.cs_symbols: set[str] = set()
 
     def resolve(self, node: dict) -> dict:
         if "$ref" not in node:
@@ -206,6 +207,17 @@ class JsonShapes:
                 model_ts.append(f"  {prop}{'' if required else '?'}: {tstype};")
             model_cs.append("}\n")
             model_ts.append("}\n")
+        self.cs_symbols = set(done)
+        generated_symbols = [self.title + "JsonContext"]
+        if unions:
+            generated_symbols.append(self.title + "UnionChecks")
+        for name, node in unions.items():
+            generated_symbols.append(name + "Converter")
+            generated_symbols.extend(name + self.typename(child, False, name + "Alternative") for child in node["oneOf"])
+        for symbol in generated_symbols:
+            if symbol in self.cs_symbols:
+                raise ValueError(f"Generated C# symbol collides with authored model: {symbol}")
+            self.cs_symbols.add(symbol)
         for index, node in enumerate(self.nodes):
             self.compile_node(index, node)
         cs = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {self.namespace};\n\n" + "\n".join(model_cs)
@@ -284,6 +296,8 @@ class JsonShapes:
                 elif target.get("type") == "object" or "oneOf" in target:
                     child_name = child["$ref"].split("/")[-1] if "$ref" in child else target.get("title", name + pascal(prop))
                     expression = f"order{child_name}({access})"
+                elif target.get("type") == "array" and string_map(self.resolve(target["items"])):
+                    expression = f"{access}.map(item => Object.fromEntries(Object.entries(item)))"
                 elif target.get("type") == "array" and (self.resolve(target["items"]).get("type") == "object" or "oneOf" in self.resolve(target["items"])):
                     items = target["items"]
                     child_name = items["$ref"].split("/")[-1] if "$ref" in items else self.resolve(items).get("title")
@@ -732,18 +746,30 @@ def generate(check: bool = False) -> None:
     ]
     tsoutputs: dict[str, list[str]] = {}
     tsnames: dict[str, list[str]] = {}
+    cs_symbols: dict[str, set[str]] = {}
+    ts_symbols: dict[str, set[str]] = {}
+    planned: list[tuple[str, str, str, str, str]] = []
     for source, namespace, csroot, tsroot in mappings:
         authored = json.loads((ROOT / source).read_text(encoding="utf-8"))
         for schema in schema_roots(authored):
-            generated_cs, generated_validator, generated_ts = JsonShapes(schema, namespace).generate()
+            compiler = JsonShapes(schema, namespace)
+            generated_cs, generated_validator, generated_ts = compiler.generate()
+            for known, key, names in [(cs_symbols, namespace, compiler.cs_symbols), (ts_symbols, tsroot, set(compiler.models))]:
+                duplicate = names & known.setdefault(key, set())
+                if duplicate:
+                    raise ValueError(f"Duplicate generated schema model names in {key}: {sorted(duplicate)}; use distinct authored definition names")
+                known[key].update(names)
             name = schema["title"]
             if name in tsnames.setdefault(tsroot, []):
                 raise ValueError(f"Duplicate generated root type: {name}")
             tsnames[tsroot].append(name)
-            emit(ROOT / csroot / "Generated/Shapes" / (name + ".g.cs"), generated_cs, check)
             validator_root = csroot if "CloudInternal" in namespace else "src/public/dotnet/ArcForges.Contracts.Validation"
-            emit(ROOT / validator_root / "Generated/Shapes" / (name + "Validator.g.cs"), generated_validator, check)
+            planned.append((csroot, validator_root, name, generated_cs, generated_validator))
             tsoutputs.setdefault(tsroot, []).append(generated_ts)
+    # Refuse cross-root type collisions before writing any output.
+    for csroot, validator_root, name, generated_cs, generated_validator in planned:
+        emit(ROOT / csroot / "Generated/Shapes" / (name + ".g.cs"), generated_cs, check)
+        emit(ROOT / validator_root / "Generated/Shapes" / (name + "Validator.g.cs"), generated_validator, check)
     for tsroot, contents in tsoutputs.items():
         # Separate module scopes avoid helper/name collisions while preserving one public entry.
         names = tsnames[tsroot]
