@@ -158,7 +158,7 @@ public static class ContractShapeValidation
         if (value.HasProductId)
         {
             if (!ValidUnicode(value.ProductId)) return false;
-            if (value.ProductId != "arcnotes" && value.ProductId != "arcscope" && value.ProductId != "arcslate" && value.ProductId != "companion") return false;
+            if (value.ProductId != "arcscope" && value.ProductId != "companion") return false;
         }
         if (value.InstallationId is not null)
         {

@@ -86,7 +86,7 @@
       "target": "arcforges.foundation.v1.ApplicationScope",
       "valid": true,
       "value": {
-        "productId": "arcnotes"
+        "productId": "arcscope"
       }
     },
     {
@@ -656,7 +656,7 @@
         "schemaVersion": "inventory.v1",
         "files": [
           {
-            "path": "fich\u00e9.txt",
+            "path": "fiché.txt",
             "size": "123",
             "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
           }
@@ -821,6 +821,22 @@
             "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
           }
         ]
+      }
+    },
+    {
+      "id": "ApplicationScope-retired-arcnotes",
+      "target": "arcforges.foundation.v1.ApplicationScope",
+      "valid": false,
+      "value": {
+        "productId": "arcnotes"
+      }
+    },
+    {
+      "id": "ApplicationScope-retired-arcslate",
+      "target": "arcforges.foundation.v1.ApplicationScope",
+      "valid": false,
+      "value": {
+        "productId": "arcslate"
       }
     }
   ]

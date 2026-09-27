@@ -106,7 +106,7 @@ export const publicFixtures = {
         "target": "arcforges.foundation.v1.ApplicationScope",
         "valid": true,
         "value": {
-          "productId": "arcnotes"
+          "productId": "arcscope"
         }
       },
       {
@@ -850,6 +850,22 @@ export const publicFixtures = {
             }
           ]
         }
+      },
+      {
+        "id": "ApplicationScope-retired-arcnotes",
+        "target": "arcforges.foundation.v1.ApplicationScope",
+        "valid": false,
+        "value": {
+          "productId": "arcnotes"
+        }
+      },
+      {
+        "id": "ApplicationScope-retired-arcslate",
+        "target": "arcforges.foundation.v1.ApplicationScope",
+        "valid": false,
+        "value": {
+          "productId": "arcslate"
+        }
       }
     ]
   },
@@ -960,7 +976,7 @@ export const publicFixtures = {
         "hasMore": true
       },
       "ApplicationScope": {
-        "productId": "arcnotes",
+        "productId": "arcscope",
         "installationId": {
           "$ref": "Id"
         }
@@ -1085,7 +1101,7 @@ export const publicFixtures = {
         "workspaceId": {
           "$ref": "$Id2"
         },
-        "ownerAppId": "arcnotes",
+        "ownerAppId": "arcscope",
         "resourceKind": "attachment",
         "resourceId": {
           "$ref": "Id"
@@ -1482,7 +1498,7 @@ export const publicFixtures = {
         "preferenceId": {
           "$ref": "Id"
         },
-        "ownerAppId": "arcnotes",
+        "ownerAppId": "arcscope",
         "values": [],
         "revision": {
           "$ref": "Revision"
@@ -5767,7 +5783,7 @@ export const publicFixtures = {
         "valid": false,
         "sample": "ApplicationScope",
         "set": {
-          "productId": "arcnotes\n"
+          "productId": "arcscope\n"
         }
       },
       {
@@ -5776,7 +5792,7 @@ export const publicFixtures = {
         "valid": false,
         "sample": "ApplicationScope",
         "set": {
-          "productId": "arcnotes\r"
+          "productId": "arcscope\r"
         }
       },
       {
@@ -5785,7 +5801,7 @@ export const publicFixtures = {
         "valid": false,
         "sample": "ApplicationScope",
         "set": {
-          "productId": "arcnotes\u2028"
+          "productId": "arcscope\u2028"
         }
       },
       {

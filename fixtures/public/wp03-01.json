@@ -105,7 +105,7 @@
       "hasMore": true
     },
     "ApplicationScope": {
-      "productId": "arcnotes",
+      "productId": "arcscope",
       "installationId": {
         "$ref": "Id"
       }
@@ -225,7 +225,7 @@
       "workspaceId": {
         "$ref": "$Id2"
       },
-      "ownerAppId": "arcnotes",
+      "ownerAppId": "arcscope",
       "resourceKind": "attachment",
       "resourceId": {
         "$ref": "Id"
@@ -618,7 +618,7 @@
       "preferenceId": {
         "$ref": "Id"
       },
-      "ownerAppId": "arcnotes",
+      "ownerAppId": "arcscope",
       "values": [],
       "revision": {
         "$ref": "Revision"
@@ -4701,7 +4701,7 @@
       "valid": false,
       "sample": "ApplicationScope",
       "set": {
-        "productId": "arcnotes\n"
+        "productId": "arcscope\n"
       }
     },
     {
@@ -4710,7 +4710,7 @@
       "valid": false,
       "sample": "ApplicationScope",
       "set": {
-        "productId": "arcnotes\r"
+        "productId": "arcscope\r"
       }
     },
     {
@@ -4719,7 +4719,7 @@
       "valid": false,
       "sample": "ApplicationScope",
       "set": {
-        "productId": "arcnotes "
+        "productId": "arcscope "
       }
     },
     {

@@ -188,6 +188,13 @@ def stage_naming(directory: Path, row: dict) -> None:
             shutil.copyfile(ROOT / relative, target)
 
 
+def verify_naming(files: dict[str, bytes], row: dict) -> None:
+    if row["id"] in NAMING_PACKAGES:
+        for relative in NAMING_FILES:
+            if files.get("tools/naming/" + relative) != (ROOT / relative).read_bytes():
+                raise ValueError("Canonical naming scanner or policy missing or changed")
+
+
 def pack(release: str) -> None:
     from dependency_admission import audit
     from release_channels import stable
@@ -321,10 +328,7 @@ def verify_artifacts(directory: Path, commit: str | None = None, *, contents: bo
         row = package_row(entry["id"])
         descriptor = (directory / row["descriptor"]).read_bytes()
         files = archive_files(path)
-        if row["id"] in NAMING_PACKAGES:
-            for relative in NAMING_FILES:
-                if files.get("tools/naming/" + relative) != (ROOT / relative).read_bytes():
-                    raise ValueError("Canonical naming scanner or policy missing or changed")
+        verify_naming(files, row)
         for required in ["LICENSE", "NOTICE", "README.md", "sbom.cdx.json", "source.json", "build-identity.json"]:
             if not files.get(required):
                 raise ValueError(f"{name} is missing {required}")

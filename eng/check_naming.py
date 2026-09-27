@@ -45,23 +45,24 @@ def no_duplicate_keys(pairs):
 
 def occurrences(data, names):
     """Scan raw bytes, including binary/UTF-16 resources, without discarding errors."""
+    admitted = []
+    for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
+        for token in ('Arc' + 'ImageNative', 'arc' + 'image-abi'):
+            encoded = token.encode(encoding)
+            width = 1 if encoding == 'utf-8' else 2
+            for found in re.finditer(re.escape(encoded), data):
+                start, end = found.span()
+                before = data[max(0, start - width):start].decode(encoding, errors='ignore')
+                after = data[end:end + width].decode(encoding, errors='ignore')
+                if not re.search(r'[A-Za-z0-9_]', before + after):
+                    admitted.append((start, end))
     for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
         tokens = {name.encode(encoding).lower(): name for name in names}
         pattern = re.compile(b'|'.join(re.escape(t) for t in sorted(tokens, key=len, reverse=True)),
                              re.IGNORECASE)
         for match in pattern.finditer(data):
-            # These exact technical identities are not retired product aliases.
-            technical = False
-            for token in ('Arc' + 'ImageNative', 'arc' + 'image-abi'):
-                encoded = token.encode(encoding)
-                start, end = match.start(), match.start() + len(encoded)
-                width = 1 if encoding == 'utf-8' else 2
-                before = data[max(0, start - width):start].decode(encoding, errors='ignore')
-                after = data[end:end + width].decode(encoding, errors='ignore')
-                if data[start:end] == encoded and not re.search(r'[A-Za-z0-9_]', before + after):
-                    technical = True
-                    break
-            if technical:
+            # Opposite-endian byte matches may overlap the same admitted token.
+            if any(start <= match.start() and match.end() <= end for start, end in admitted):
                 continue
             yield {'name': tokens[match[0].lower()], 'encoding': encoding,
                    'offset': match.start(), 'end': match.end()}
@@ -285,9 +286,11 @@ def scan_repository(root, repository, policy, policy_path=POLICY_PATH):
         except OSError:
             findings.append({'path': path, 'kind': 'unreadable inventory file'}); continue
         inventory_hash.update(path.encode() + b'\0' + hashlib.sha256(data).digest())
-        if target.resolve() == policy_path.resolve():
+        canonical_source = repository == 'Contracts' and path == 'eng/policy/product-names.json'
+        if target.resolve() == policy_path.resolve() or canonical_source:
             # Reparse these exact bytes: the policy itself never receives a blanket exemption.
-            validate_policy(json.loads(data.decode('utf-8'), object_pairs_hook=no_duplicate_keys))
+            source_policy = validate_policy(json.loads(data.decode('utf-8'), object_pairs_hook=no_duplicate_keys))
+            require(source_policy == policy, 'source naming authority differs from packaged policy')
             continue
         if path in declarations:
             try:

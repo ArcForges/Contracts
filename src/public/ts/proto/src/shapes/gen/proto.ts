@@ -85,7 +85,7 @@ function checkApplicationScope(input: unknown, context: ValidationContext): bool
     const fieldValue = value.productId;
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
-    if (fieldValue !== "arcnotes" && fieldValue !== "arcscope" && fieldValue !== "arcslate" && fieldValue !== "companion") return false;
+    if (fieldValue !== "arcscope" && fieldValue !== "companion") return false;
   }
   if (value.installationId !== undefined) {
     const fieldValue = value.installationId;
