@@ -922,7 +922,7 @@
         "foreground": true,
         "owningParent": true,
         "consented": true,
-        "stepUp": true,
+        "stepUp": false,
         "definitionHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "currentDefinitionHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "expectedRevision": 7,
@@ -1011,6 +1011,39 @@
         "parentAlive": true
       },
       "valid": true
+    },
+    {
+      "id": "agent-cannot-read-connector-state",
+      "input": {
+        "method": "GetConnection",
+        "state": "connected",
+        "actor": "agent",
+        "foreground": false,
+        "owningParent": true,
+        "consented": false,
+        "stepUp": false,
+        "definitionHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "currentDefinitionHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expectedRevision": 7,
+        "currentRevision": 7,
+        "flowExpiresMillis": 601000,
+        "nowMillis": 1001,
+        "flowConsumed": false,
+        "proofKind": "callbackReceipt",
+        "authKind": "oauth2",
+        "origin": "https://provider.example",
+        "allowedOrigins": [
+          "https://provider.example"
+        ],
+        "scopes": [
+          "read"
+        ],
+        "allowedScopes": [
+          "read"
+        ],
+        "parentAlive": true
+      },
+      "valid": false
     }
   ],
   "nonceLease": [
@@ -1107,12 +1140,80 @@
   "connectorRecovery": {
     "BeginConnection": "CC/R3/FR",
     "CompleteConnection": "NI/R3/FR; GetConnection after lost response, never automatic replay",
-    "RevokeConnection": "DE/R2/FR; meta.expectedRev owner-local",
+    "RevokeConnection": "DE/R2/FR; meta.expectedRev owner-local; foreground human confirmation; no new step-up by default, stricter current owner policy may require it",
     "ListDefinitions": "Q/R1/AO",
     "ListConnections": "Q/R1/AO",
     "GetConnection": "Q/R1/AO",
     "flowTtlSeconds": 600,
     "refresh": "single-flight; unknown outcome blocks new calls until reauthorization",
     "revoke": "invalidate grants and secret reference before best-effort provider revocation"
-  }
+  },
+  "renewal": [
+    {
+      "expectedExpiryMillis": 31000,
+      "commandId": "command-a",
+      "nowMillis": 11000,
+      "revoked": false,
+      "id": "duplicate-renew-same-expiry",
+      "liveExpiryMillis": 31000,
+      "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "valid": true,
+      "parentAlive": true
+    },
+    {
+      "expectedExpiryMillis": 41000,
+      "commandId": "command-b",
+      "nowMillis": 11000,
+      "revoked": false,
+      "id": "fresh-renew-live-pair",
+      "liveExpiryMillis": 31000,
+      "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "valid": true,
+      "parentAlive": true
+    },
+    {
+      "expectedExpiryMillis": null,
+      "commandId": "command-a",
+      "nowMillis": 11000,
+      "revoked": false,
+      "id": "duplicate-command-changed-input",
+      "liveExpiryMillis": 31000,
+      "inputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "valid": false,
+      "parentAlive": true
+    },
+    {
+      "expectedExpiryMillis": null,
+      "commandId": "command-b",
+      "nowMillis": 31000,
+      "revoked": false,
+      "id": "expired-pair-not-revived",
+      "liveExpiryMillis": 31000,
+      "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "valid": false,
+      "parentAlive": true
+    },
+    {
+      "expectedExpiryMillis": null,
+      "commandId": "command-b",
+      "nowMillis": 11000,
+      "revoked": true,
+      "id": "revoked-pair-not-regranted",
+      "liveExpiryMillis": 31000,
+      "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "valid": false,
+      "parentAlive": true
+    },
+    {
+      "expectedExpiryMillis": null,
+      "commandId": "command-b",
+      "nowMillis": 11000,
+      "revoked": false,
+      "id": "dead-parent-not-renewed",
+      "liveExpiryMillis": 31000,
+      "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "valid": false,
+      "parentAlive": false
+    }
+  ]
 }

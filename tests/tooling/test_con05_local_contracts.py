@@ -35,14 +35,18 @@ def bootstrap_admitted(value, secret):
 def connector_admitted(value):
     if not value['parentAlive'] or not value['owningParent']:
         return False
+    if value['actor'] != 'human':
+        return False
     if value['method'] == 'GetConnection':
         return True  # Recovery reads do not replay a mutating completion.
-    if value['actor'] != 'human' or not all(value[key] for key in ('foreground', 'consented', 'stepUp')):
+    if value['actor'] != 'human' or not all(value[key] for key in ('foreground', 'consented')):
         return False
     if value['definitionHash'] != value['currentDefinitionHash']:
         return False
     if value['method'] == 'RevokeConnection':
         return value['expectedRevision'] == value['currentRevision']
+    if not value['stepUp']:
+        return False
     if value['method'] != 'CompleteConnection' or value['state'] != 'awaitingAuthorization':
         return False
     if value['nowMillis'] >= value['flowExpiresMillis'] or value['flowConsumed']:
@@ -96,6 +100,16 @@ class LocalContractCases(unittest.TestCase):
                             and case['issuedMillis'] <= case['nowMillis'] < case['expiresMillis']
                             and 0 < case['expiresMillis'] - case['issuedMillis'] <= 30000)
                 self.assertEqual(case['valid'], admitted)
+
+    def test_renewal_duplicate_expiry_and_no_revival(self):
+        for case in self.vectors['renewal']:
+            with self.subTest(case=case['id']):
+                live = case['parentAlive'] and not case['revoked'] and case['nowMillis'] < case['liveExpiryMillis']
+                duplicate = case['commandId'] == 'command-a'
+                admitted = live and (not duplicate or case['inputHash'] == 'a' * 64)
+                expiry = (31000 if duplicate else case['nowMillis'] + 30000) if admitted else None
+                self.assertEqual(case['valid'], admitted)
+                self.assertEqual(case['expectedExpiryMillis'], expiry)
 
     def test_retired_services_are_not_active(self):
         manifest = json.loads((ROOT / 'eng/local-contract-retirements.json').read_text(encoding='utf-8'))

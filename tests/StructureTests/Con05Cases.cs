@@ -44,6 +44,17 @@ internal static class Con05Cases
         handshake.ProtocolVersions.RemoveAt(1);
         handshake.Nonce = ByteString.Empty;
         Require(!PublicShape.IsValid(handshake), "Absent peer nonce refuses.");
+        var definition = new P.ConnectorDefinition { DefinitionId = "fixture.connector", PackageId = "fixture.package", PackageVersion = "1.0.0", ManifestHash = new string('a', 64), AuthKind = "oauth2" };
+        foreach (var origin in new[] { "https://provider.example", "https://provider.example:65535", "https://[2001:4860:4860::8888]", "https://[2001:4860::192.0.2.1]", "https://[2001:4860:4860:0:0:0:0:8888]:443" })
+        {
+            definition.Origins.Clear(); definition.Origins.Add(origin);
+            Require(LocalShape.IsValid(definition), "Canonical provider origin shape: " + origin);
+        }
+        foreach (var origin in new[] { "https://a..b", "https://-provider.example", "https://provider.example:99999", "https://provider.example:0", "https://user@provider.example", "https://provider.example/path", "https://[:::]" })
+        {
+            definition.Origins.Clear(); definition.Origins.Add(origin);
+            Require(!LocalShape.IsValid(definition), "Malformed provider origin shape refuses: " + origin);
+        }
         var connection = new P.ConnectorConnection { ConnectionId = Id(), DefinitionId = "fixture.connector", Name = "Fixture", State = "connected", Revision = new F.Revision { Value = 1 } };
         Require(LocalShape.IsValid(connection), "Canonical connector state is admitted.");
         connection.Name = string.Concat(Enumerable.Repeat("😀", 256));

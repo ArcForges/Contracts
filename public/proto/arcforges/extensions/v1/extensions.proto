@@ -72,7 +72,7 @@ message Invocation {
     arcforges.foundation.v1.NativeContentRev expected_native = 10 [json_name = "expectedNative"];
   }
   reserved 9;
-  reserved "expected_local";
+  reserved "expected_local", "expectedLocal";
 }
 message ExtensionHostServiceHandshakeRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
