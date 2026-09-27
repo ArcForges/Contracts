@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "catalog.search",
+      "binding": "arcforges.catalog.v1.CatalogService/Search",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "catalog.getPackage",
+      "binding": "arcforges.catalog.v1.CatalogService/GetPackage",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "catalog.listVersions",
+      "binding": "arcforges.catalog.v1.CatalogService/ListVersions",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "catalog.registerPublisher",
+      "binding": "arcforges.catalog.v1.CatalogService/RegisterPublisher",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "foreground",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "catalog.verifyPublisher",
+      "binding": "arcforges.catalog.v1.CatalogService/VerifyPublisher",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "foreground",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "catalog.submitVersion",
+      "binding": "arcforges.catalog.v1.CatalogService/SubmitVersion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "catalog.getSubmission",
+      "binding": "arcforges.catalog.v1.CatalogService/GetSubmission",
+      "kind": "proto",
+      "source": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "scope": "public",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#package-catalog-operation-registry",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    }
+  ]
+}
