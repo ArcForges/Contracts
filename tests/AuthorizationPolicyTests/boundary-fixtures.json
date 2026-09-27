@@ -3,22 +3,10 @@
   "evidenceBoundary": "Symbolic offline customer-boundary fixtures; not live credentials, provider effects or owner runtime enforcement.",
   "identityDeclaration": {
     "schemaVersion": "identity-assertion-fixture.v1",
-    "authorityKinds": [
-      "human-owner",
-      "operator",
-      "deployment-service"
-    ],
-    "identityKey": [
-      "realmId",
-      "userId"
-    ],
+    "authorityKinds": ["human-owner", "operator", "deployment-service"],
+    "identityKey": ["realmId", "userId"],
     "rules": {
-      "agent": [
-        "userSession",
-        "workspaceOwner",
-        "currentPermission",
-        "currentServiceEligibility"
-      ],
+      "agent": ["userSession", "workspaceOwner", "currentPermission", "currentServiceEligibility"],
       "automation": [
         "workspaceOwner",
         "currentPermission",
@@ -31,9 +19,7 @@
         "currentPermission",
         "currentServiceEligibility"
       ],
-      "operator": [
-        "separateOperatorIdentity"
-      ]
+      "operator": ["separateOperatorIdentity"]
     }
   },
   "cases": [
@@ -41,9 +27,7 @@
       "id": "admissible-automation-fixture",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -69,15 +53,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "admissible-fixture"
     },
@@ -85,9 +63,7 @@
       "id": "valid-process-owner-permission-revoked",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -113,15 +89,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "owner-permission"
     },
@@ -129,9 +99,7 @@
       "id": "valid-process-owner-service-term-ended",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -157,15 +125,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "owner-service-eligibility"
     },
@@ -173,9 +135,7 @@
       "id": "process-credential-alone-insufficient",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -201,15 +161,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "owner-chain"
     },
@@ -217,9 +171,7 @@
       "id": "cross-realm-identity",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "other-realm",
@@ -245,15 +197,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "owner-chain"
     },
@@ -261,9 +207,7 @@
       "id": "invalid-process-credential",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -289,15 +233,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "credential"
     },
@@ -305,9 +243,7 @@
       "id": "agent-claims-human",
       "input": {
         "originalActor": "agent",
-        "actorChain": [
-          "agent"
-        ],
+        "actorChain": ["agent"],
         "claimedActor": "human",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -333,15 +269,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -349,9 +279,7 @@
       "id": "agent-human-only-approval",
       "input": {
         "originalActor": "agent",
-        "actorChain": [
-          "agent"
-        ],
+        "actorChain": ["agent"],
         "claimedActor": "agent",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -377,15 +305,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "tool-reachability"
     },
@@ -393,9 +315,7 @@
       "id": "agent-absent-tool-catalogue",
       "input": {
         "originalActor": "agent",
-        "actorChain": [
-          "agent"
-        ],
+        "actorChain": ["agent"],
         "claimedActor": "agent",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -421,15 +341,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "tool-reachability"
     },
@@ -437,9 +351,7 @@
       "id": "automation-claims-human",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "human",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -465,15 +377,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -481,9 +387,7 @@
       "id": "automation-human-only-approval",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -509,15 +413,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "tool-reachability"
     },
@@ -525,9 +423,7 @@
       "id": "automation-absent-tool-catalogue",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -553,15 +449,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "tool-reachability"
     },
@@ -569,9 +459,7 @@
       "id": "extension-claims-human",
       "input": {
         "originalActor": "extension",
-        "actorChain": [
-          "extension"
-        ],
+        "actorChain": ["extension"],
         "claimedActor": "human",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -597,15 +485,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -613,9 +495,7 @@
       "id": "extension-human-only-approval",
       "input": {
         "originalActor": "extension",
-        "actorChain": [
-          "extension"
-        ],
+        "actorChain": ["extension"],
         "claimedActor": "extension",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -641,15 +521,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "tool-reachability"
     },
@@ -657,9 +531,7 @@
       "id": "extension-absent-tool-catalogue",
       "input": {
         "originalActor": "extension",
-        "actorChain": [
-          "extension"
-        ],
+        "actorChain": ["extension"],
         "claimedActor": "extension",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -685,15 +557,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "tool-reachability"
     },
@@ -701,10 +567,7 @@
       "id": "chain-injects-operator",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation",
-          "operator"
-        ],
+        "actorChain": ["automation", "operator"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -730,15 +593,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -746,10 +603,7 @@
       "id": "chain-injects-service",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation",
-          "service"
-        ],
+        "actorChain": ["automation", "service"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -775,15 +629,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -791,10 +639,7 @@
       "id": "chain-injects-provider",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation",
-          "provider"
-        ],
+        "actorChain": ["automation", "provider"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -820,15 +665,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -836,10 +675,7 @@
       "id": "chain-injects-preauth",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation",
-          "preauth"
-        ],
+        "actorChain": ["automation", "preauth"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -865,15 +701,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -881,10 +711,7 @@
       "id": "chain-injects-organization",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation",
-          "organization"
-        ],
+        "actorChain": ["automation", "organization"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -910,15 +737,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -926,10 +747,7 @@
       "id": "chain-injects-customer-service-principal",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation",
-          "customer-service-principal"
-        ],
+        "actorChain": ["automation", "customer-service-principal"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -955,15 +773,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-substitution"
     },
@@ -971,10 +783,7 @@
       "id": "chain-changes-original-actor",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "human",
-          "automation"
-        ],
+        "actorChain": ["human", "automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1000,15 +809,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "identity-chain"
     },
@@ -1016,9 +819,7 @@
       "id": "capability-does-not-grant-resource",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1044,15 +845,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "resource"
     },
@@ -1060,9 +855,7 @@
       "id": "resource-explicit-egress",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1088,15 +881,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "admissible-fixture"
     },
@@ -1104,9 +891,7 @@
       "id": "resource-read-without-egress",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1128,15 +913,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1144,9 +923,7 @@
       "id": "resource-stale-source",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1172,15 +949,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1188,9 +959,7 @@
       "id": "resource-wrong-purpose",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1216,15 +985,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1232,9 +995,7 @@
       "id": "resource-wrong-destination",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1260,15 +1021,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1276,9 +1031,7 @@
       "id": "resource-revoked-source-policy",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1304,15 +1057,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1320,9 +1067,7 @@
       "id": "context-explicit-egress",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1348,15 +1093,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "admissible-fixture"
     },
@@ -1364,9 +1103,7 @@
       "id": "context-read-without-egress",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1388,15 +1125,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1404,9 +1135,7 @@
       "id": "context-stale-source",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1432,15 +1161,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1448,9 +1171,7 @@
       "id": "context-wrong-purpose",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1476,15 +1197,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1492,9 +1207,7 @@
       "id": "context-wrong-destination",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1520,15 +1233,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1536,9 +1243,7 @@
       "id": "context-revoked-source-policy",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1564,15 +1269,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1580,9 +1279,7 @@
       "id": "connector-explicit-egress",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1608,15 +1305,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "admissible-fixture"
     },
@@ -1624,9 +1315,7 @@
       "id": "connector-read-without-egress",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1648,15 +1337,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1664,9 +1347,7 @@
       "id": "connector-stale-source",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1692,15 +1373,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1708,9 +1383,7 @@
       "id": "connector-wrong-purpose",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1736,15 +1409,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1752,9 +1419,7 @@
       "id": "connector-wrong-destination",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1780,15 +1445,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1796,9 +1455,7 @@
       "id": "connector-revoked-source-policy",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1824,15 +1481,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "egress"
     },
@@ -1840,9 +1491,7 @@
       "id": "raw-scope-context-denied",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1868,15 +1517,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "raw-context"
     },
@@ -1884,9 +1527,7 @@
       "id": "connector-definition-changed",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1912,15 +1553,9 @@
         "definitionHash": "definition-v2",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "connector-egress"
     },
@@ -1928,9 +1563,7 @@
       "id": "connector-origin-expanded",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -1956,15 +1589,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://other.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
       },
       "expected": "connector-egress"
     },
@@ -1972,9 +1599,7 @@
       "id": "connector-scope-expanded",
       "input": {
         "originalActor": "automation",
-        "actorChain": [
-          "automation"
-        ],
+        "actorChain": ["automation"],
         "claimedActor": "automation",
         "ownerRealm": "realm-fixture",
         "credentialRealm": "realm-fixture",
@@ -2000,16 +1625,9 @@
         "definitionHash": "definition-v1",
         "grantDefinitionHash": "definition-v1",
         "providerOrigin": "https://provider.invalid",
-        "grantedOrigins": [
-          "https://provider.invalid"
-        ],
-        "requestedScopes": [
-          "read",
-          "write"
-        ],
-        "grantedScopes": [
-          "read"
-        ]
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read", "write"],
+        "grantedScopes": ["read"]
       },
       "expected": "connector-egress"
     }
