@@ -76,13 +76,21 @@ def oracle_rows(text: str) -> list[dict]:
     return sorted(rows, key=lambda row: row["operationId"])
 
 
+def proto_text(text: str, *, keep_strings: bool = False) -> str:
+    # Lex strings together with comments: braces/rpc text inside option strings
+    # must not end a service early or invent a declaration.
+    tokens = r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|/\*.*?\*/|//[^\n]*'
+    return re.sub(tokens, lambda match: match.group() if keep_strings and
+                  match.group().startswith(('"', "'")) else " ", text, flags=re.S)
+
+
 def proto_methods(root: Path) -> dict[str, str]:
     """Read authored declarations, including streaming/options bodies; never client code."""
     methods = {}
     for base in (root / "public/proto", root / "internal/proto"):
         for path in sorted(base.rglob("*.proto")):
             text = path.read_text(encoding="utf-8")
-            text = re.sub(r"/\*.*?\*/|//[^\n]*", "", text, flags=re.S)
+            text = proto_text(text)
             package = re.search(r"\bpackage\s+([\w.]+)\s*;", text)
             for service in re.finditer(r"\bservice\s+(\w+)\s*\{", text):
                 require(package is not None, f"service without package: {path}")
@@ -101,8 +109,8 @@ def proto_methods(root: Path) -> dict[str, str]:
 def public_imports(root: Path) -> None:
     # The existing compiled package-access gate also enforces dependency closure.
     for path in sorted((root / "public/proto").rglob("*.proto")):
-        text = re.sub(r"/\*.*?\*/|//[^\n]*", "", path.read_text(encoding="utf-8"), flags=re.S)
-        for imported in re.findall(r'\bimport\s+(?:public\s+|weak\s+)?"([^"]+)"', text):
+        text = proto_text(path.read_text(encoding="utf-8"), keep_strings=True)
+        for _, imported in re.findall(r'''\bimport\s+(?:public\s+|weak\s+)?(["'])([^"']+)["']''', text):
             require(not imported.startswith(("arcforges/local/", "internal/")),
                     f"public import of local schema: {path}: {imported}")
 

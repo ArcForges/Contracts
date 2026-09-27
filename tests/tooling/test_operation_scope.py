@@ -44,8 +44,12 @@ class OperationScopeTests(unittest.TestCase):
     def test_real_retained_methods_and_pending_inventory(self):
         result = gate.audit(ROOT)
         self.assertEqual(result["result"], "passed")
-        self.assertGreater(result["pending"], 250)
-        self.assertIn("arcforges.hello.v1.HelloService/SayHello", result["migrationExamples"])
+        oracle = gate.load(ROOT / "eng/operation-scope-manifest.json")
+        self.assertEqual(len(result["operations"]), len(oracle["operations"]))
+        self.assertEqual(result["registered"] + result["pending"] + result["reserved"], len(oracle["operations"]))
+        methods = gate.proto_methods(ROOT)
+        self.assertEqual(result["migrationExamples"], sorted(binding for binding, source in gate.EXAMPLES.items()
+                         if methods.get(binding) == source))
 
     def test_deterministic_complete_matrix(self):
         self.write()
@@ -241,6 +245,12 @@ class OperationScopeTests(unittest.TestCase):
             'rpc Stream(stream Req) returns(stream Res) { option (x) = {a: "b"}; } '
             'rpc Next(Req) returns(Res); } // rpc Fake(Req) returns(Res);')
         self.assertEqual(set(gate.proto_methods(self.root)), {"p.S/Stream", "p.S/Next"})
+
+    def test_option_strings_cannot_hide_actual_methods(self):
+        (self.root / self.source).write_text('package p; service S { '
+            'option (x) = "} // rpc Fake(Req) returns(Res);"; '
+            'rpc Actual(Req) returns(Res); }')
+        self.assertEqual(set(gate.proto_methods(self.root)), {"p.S/Actual"})
 
     def test_migration_exemption_is_not_wildcard(self):
         (self.root / self.source).write_text('package arcforges.hello.v1; service HelloService { '
