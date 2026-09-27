@@ -949,7 +949,5 @@
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Proto/SandboxGrpc.cs": "contract-bindings-con04-r1",
     "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/Generated/Services/ContractServices.g.cs": "contract-bindings-con04-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r9"
-  ]
+  "artifacts": ["dokka-documentation-resources-r9"]
 }

@@ -733,6 +733,7 @@ condition = "AND"
 regexTarget = "line"
 paths = ['''^eng/policy/dependency\-policy\.json$''']
 regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"2e7115ac2dec1721a7b1e0a83bf214235230f168e37083e09e77807e17ca9e58",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"d2e977d7b4300d320207d4ea0b44be5faf09ef04dc233faebc4222d949771eec",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"e5f4c02d5ace66df561da638a6c99cc96cfcce42ec59fd6c3e22db653c6998f0",?\s*$''',
 ]
@@ -744,6 +745,7 @@ condition = "AND"
 regexTarget = "line"
 paths = ['''^eng/policy/dependency\-reviews/con\-04\-r1\.json$''']
 regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"2e7115ac2dec1721a7b1e0a83bf214235230f168e37083e09e77807e17ca9e58",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"f80d54b5a5572909211b19090936e6869505fd52b68fe1d91e9284a030d2dfad",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"d2e977d7b4300d320207d4ea0b44be5faf09ef04dc233faebc4222d949771eec",?\s*$''',
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"e5f4c02d5ace66df561da638a6c99cc96cfcce42ec59fd6c3e22db653c6998f0",?\s*$''',
