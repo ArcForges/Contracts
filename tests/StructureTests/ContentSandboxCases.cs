@@ -47,6 +47,7 @@ internal static class ContentSandboxCases
             };
             Require(actual == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
+        Require(!SandboxProfile.IsValid(new SandboxPdfText { PageIndex = 0, Start = 0, Text = "\ud800" }), "unpaired UTF16 surrogate");
         var id = new ArcForges.Contracts.Foundation.V1.Id { Value = ByteString.CopyFrom(Convert.FromHexString("00112233445566778899aabbccddeeff")) };
         var grant = new SandboxSlotGrant { SlotId = 0, Sequence = 1, Capacity = 64 };
         var region = new SandboxRegion { X = 0, Y = 0, Width = 2, Height = 2, FirstSample = 0, SampleCount = 0, RowStride = 8 };
@@ -72,4 +73,3 @@ internal static class ContentSandboxCases
         if (!valid) throw new InvalidOperationException("ContentSandbox fixture failed: " + name);
     }
 }
-

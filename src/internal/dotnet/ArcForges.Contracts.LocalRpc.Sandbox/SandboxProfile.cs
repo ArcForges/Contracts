@@ -44,7 +44,7 @@ public static class SandboxProfile
     /// <summary>Validates a complete bounded text page chunk, including UTF16 and box coverage.</summary>
     public static bool IsValid(SandboxPdfText value)
     {
-        if (!Shape.IsValid(value) || value.CalculateSize() > 65536) return false;
+        if (!Shape.IsValid(value) || !CompleteUtf16(value.Text) || value.CalculateSize() > 65536) return false;
         ulong end = (ulong)value.Start + (uint)value.Text.Length;
         if (end > uint.MaxValue || (value.HasNext && (value.Next != end || value.Next <= value.Start))) return false;
         foreach (var box in value.Boxes)
@@ -54,6 +54,16 @@ public static class SandboxProfile
             int start = checked((int)(box.Start - value.Start));
             int finish = checked((int)(boxEnd - value.Start));
             if (!Boundary(value.Text, start) || !Boundary(value.Text, finish)) return false;
+        }
+        return true;
+    }
+
+    private static bool CompleteUtf16(string value)
+    {
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (char.IsLowSurrogate(value[i])) return false;
+            if (char.IsHighSurrogate(value[i]) && (++i == value.Length || !char.IsLowSurrogate(value[i]))) return false;
         }
         return true;
     }
