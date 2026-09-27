@@ -20,9 +20,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -43,9 +41,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -66,9 +62,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -89,9 +83,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -112,9 +104,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -135,9 +125,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -158,9 +146,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -181,9 +167,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -204,9 +188,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -227,9 +209,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -250,9 +230,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -273,9 +251,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -296,9 +272,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -319,9 +293,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     },
     {
@@ -342,9 +314,7 @@
         "localPresence": false,
         "egress": "parent-provisioned-slot",
         "patEligible": false,
-        "actorKinds": [
-          "helper-parent"
-        ]
+        "actorKinds": ["helper-parent"]
       }
     }
   ]

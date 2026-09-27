@@ -161,12 +161,7 @@
         },
         "rotation": {
           "required": true,
-          "enumValues": [
-            0,
-            90,
-            180,
-            270
-          ]
+          "enumValues": [0, 90, 180, 270]
         },
         "widthPoints": {
           "required": true,
@@ -348,9 +343,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceOpenSessionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenSessionValue",
@@ -380,9 +373,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceRenewSessionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenewSessionValue",
@@ -415,9 +406,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceGrantSlotValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGrantSlotValue",
@@ -450,9 +439,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceAckBufferValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceAckBufferValue",
@@ -494,9 +481,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceOpenImageValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenImageValue",
@@ -529,9 +514,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceGetImageInfoValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetImageInfoValue",
@@ -570,9 +553,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceReadImageTileValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceReadImageTileValue",
@@ -605,9 +586,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceCloseImageValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseImageValue",
@@ -640,9 +619,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceOpenPdfValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceOpenPdfValue",
@@ -681,9 +658,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceGetPdfPageValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceGetPdfPageValue",
@@ -722,9 +697,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceExtractPdfTextValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceExtractPdfTextValue",
@@ -772,9 +745,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceRenderPdfTileValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceRenderPdfTileValue",
@@ -807,9 +778,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceClosePdfValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceClosePdfValue",
@@ -839,9 +808,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceCancelSessionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCancelSessionValue",
@@ -871,9 +838,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.sandbox.v1.ContentSandboxServiceCloseSessionValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Sandbox.V1.ContentSandboxServiceCloseSessionValue",
