@@ -95,7 +95,7 @@
       "access": "internal",
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox",
       "proto": ["internal/proto/arcforges/local/sandbox/v1/sandbox.proto"],
-      "dependencies": [],
+      "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "local-sandbox.binpb",
       "jsonSchemas": []
     },
