@@ -3,7 +3,7 @@
   "id": "contract-bindings-con04-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "99d617671c3e70d42c408ded76ca7d41a7aada09",
+  "sourceCommit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -15,6 +15,7 @@
     "eng/package_catalog.py",
     "fixtures/internal/con-04-content-sandbox.json",
     "fixtures/internal/wp03-00.json",
+    "fixtures/public/con-16-signed-formats.json",
     "fixtures/public/con-17-compat-hash.json",
     "fixtures/public/hello.json",
     "fixtures/public/wp03-00.json",
@@ -35,6 +36,7 @@
     "internal/proto/constraints/scope-baseline.json",
     "public/http/v1/inventory.schema.json",
     "public/http/v1/schema.json",
+    "public/http/v1/signed-formats.schema.json",
     "public/proto/arcforges/events/v1/events.proto",
     "public/proto/arcforges/extensions/v1/extensions.proto",
     "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -57,7 +59,7 @@
         "finding": "All selected authored schemas, shape rules, fixtures and orchestration carry the repository Apache-2.0 terms; exact source identities and hashes are bound below."
       }
     ],
-    "scope": "WP03.02 adds strict source-generated HTTP-exception JSON codecs, generated per-package service catalogues and the public binary-only transport export to the existing Apache-2.0 package closure. Schemas, generators and independent serialization vectors are Apache-2.0 repository material; third-party generator attribution and immutable prior records remain intact; no external product implementation is imported.",
+    "scope": "WP03.02 adds strict source-generated HTTP-exception JSON codecs, generated per-package service catalogues and the public binary-only transport export to the existing Apache-2.0 package closure. Schemas, generators and independent serialization vectors are Apache-2.0 repository material; third-party generator attribution and immutable prior records remain intact; no external product implementation is imported. CON.16 adds four signed-format roots and independently signed public conformance fixtures through the existing Apache-2.0 JSON shape generator.",
     "copyingPermission": null
   },
   "attribution": [
@@ -199,13 +201,48 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/AndroidUpdate.g.cs",
+      "sha256": "7173114ba150d86418cfe52f0af50366ed0768cf82e25f362c062c5570464643",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/CatalogIndex.g.cs",
+      "sha256": "226493c7a973d6727dcfa05984ee95a1efcac9896af69b904fdfbbc42b0b017a",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/CatalogRevocations.g.cs",
+      "sha256": "95b57c133629ffa7512d3ffe27118de6cebd866954b85e93a29a19fa1824b374",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PartReceipt.g.cs",
       "sha256": "c5fc2e21df017212204fbaf68648d4c8afe7c1fa69d53b29c824c116c21ee808",
       "normalization": "lf"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/RealmDescriptor.g.cs",
+      "sha256": "df8713abe8cfa91a86228e8d1264090177256654449a51799d517b1ddcbc2250",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Values/Identifiers.g.cs",
       "sha256": "c91bf74af6a20ae42c1732e149d3619dc16bd1b201cc76860952648136f6c49d",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/AndroidUpdateValidator.g.cs",
+      "sha256": "3161fb3bdae9606d4f822e1a45bf6912344f2905f47a89790fcfffa3cabbf7a0",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/CatalogIndexValidator.g.cs",
+      "sha256": "30e4206152450a8296f104a0db72ba8bc3664be8ef78c3a5dd4000c5130a3e18",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/CatalogRevocationsValidator.g.cs",
+      "sha256": "398823d19b968b93a33b53d469eff1e40ce12d73a151bdede15b2ecdadd7348a",
       "normalization": "lf"
     },
     {
@@ -221,6 +258,11 @@
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ProtoValidation.g.cs",
       "sha256": "09c11327a9bbc42d8ca166570741cbeaaf37c3e6a0766108324bf6925a1c585f",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/RealmDescriptorValidator.g.cs",
+      "sha256": "03197c9a5e86036dfa301351000a84303d808b587c9deec4103251e09644e3ff",
       "normalization": "lf"
     },
     {
@@ -1725,7 +1767,22 @@
     },
     {
       "path": "src/public/ts/api-client/src/gen/http.ts",
-      "sha256": "c2d964d185d5ab0e0288401468780cae66284af73c9d3165ce5b8978e2664a82",
+      "sha256": "d01e401d5d4c6c6d9d5df84016962a8befb2d6648f6071b82ee87f4b061bd688",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/AndroidUpdate.ts",
+      "sha256": "b7d20090b644595a2c15e4bed74494218eab300995a84fa94a1964be9399cf1a",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/CatalogIndex.ts",
+      "sha256": "deeadc7994ba05e2f6ee8d2350f636ff6d11dfb64afc6077af0f2b54c46338ff",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/CatalogRevocations.ts",
+      "sha256": "69ff85c2f4d9c99782a0401a596dbe97fc129d43be8c81f39d6fe514438920e4",
       "normalization": "lf"
     },
     {
@@ -1739,8 +1796,13 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/ts/api-client/src/shapes/gen/RealmDescriptor.ts",
+      "sha256": "4c2c001c705ca45934cc5474201215da9c619d6816b345c9702a49a2fcc6c68a",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "d6103a6836787faa59945c3106708e29b871548cfa31d297086e3808ad55a10d",
+      "sha256": "6cf8b2fa781697100b4111e373c7759492de84d4d7a49e3623808d0bab5e2254",
       "normalization": "lf"
     },
     {
@@ -1903,7 +1965,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "99d617671c3e70d42c408ded76ca7d41a7aada09",
+        "commit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -1932,7 +1994,7 @@
           },
           {
             "path": "eng/generate_shapes.py",
-            "sha256": "6fb9f956d03c06909384b5b55516f60c37e9fdc4e2e1975a5ac0d0e437de60d3",
+            "sha256": "6d6f78bcedc7464d82896934775cf8e7d752f5fd760b59c4c6b990d919f0edae",
             "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
           },
           {
@@ -1956,13 +2018,14 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "99d617671c3e70d42c408ded76ca7d41a7aada09",
+        "commit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
           "eng/generate_fixtures.py",
           "fixtures/internal/con-04-content-sandbox.json",
           "fixtures/internal/wp03-00.json",
+          "fixtures/public/con-16-signed-formats.json",
           "fixtures/public/con-17-compat-hash.json",
           "fixtures/public/hello.json",
           "fixtures/public/wp03-00.json",
@@ -1983,6 +2046,7 @@
           "internal/proto/constraints/scope-baseline.json",
           "public/http/v1/inventory.schema.json",
           "public/http/v1/schema.json",
+          "public/http/v1/signed-formats.schema.json",
           "public/proto/arcforges/events/v1/events.proto",
           "public/proto/arcforges/extensions/v1/extensions.proto",
           "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -1999,7 +2063,7 @@
         "evidence": [
           {
             "path": "eng/contract-packages.json",
-            "sha256": "6f97a6d8f5e233234b01d7abf82984186f690b5ed853210f6c75e56848a9df60",
+            "sha256": "a48ec15d528d76810f84d5adb06817b41ba6fa8eeaae60c2a4f14de9ad00a89a",
             "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
           },
           {
@@ -2020,6 +2084,11 @@
           {
             "path": "fixtures/internal/wp03-00.json",
             "sha256": "165a82cf362ff2b05a220724e042915769f467697261035d71bb0c6ffce5fe96",
+            "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
+          },
+          {
+            "path": "fixtures/public/con-16-signed-formats.json",
+            "sha256": "c4f5da613be1adec783d7ba9a12217f55a93705e22c180a02c043c1662ee310c",
             "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
           },
           {
@@ -2123,6 +2192,11 @@
             "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
           },
           {
+            "path": "public/http/v1/signed-formats.schema.json",
+            "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03",
+            "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
+          },
+          {
             "path": "public/proto/arcforges/events/v1/events.proto",
             "sha256": "ea0ac740c06bbb5b81724b4a7e601110424cabc4940b07e579cf97d852880f43",
             "finding": "Exact first-party Apache-2.0 source input for the official CON04 generation snapshot."
@@ -2189,9 +2263,9 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "CON04 adds the internal ContentSandbox service and descriptor-derived bounded validation; official generation and StructureTests passed. Existing third-party generator identities and immutable history are preserved. No external product code or licence change.",
-    "baselineCommit": "99d617671c3e70d42c408ded76ca7d41a7aada09",
+    "baselineCommit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
     "reconciliation": false
   },
-  "supersedes": "con17-semantic-export-r1",
+  "supersedes": "contract-bindings-con16-r1",
   "artifactTargets": []
 }

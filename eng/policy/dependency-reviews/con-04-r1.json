@@ -3,7 +3,7 @@
     "owner": "Contracts maintainers",
     "reviewer": "w-20260927-dother; independent exact-head peer review required before merge",
     "reviewedOn": "2026-09-27",
-    "baselineCommit": "99d617671c3e70d42c408ded76ca7d41a7aada09",
+    "baselineCommit": "edbcf96c6684e31b9eceb880576813286fc0a01d",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -18,8 +18,8 @@
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-      "eng/contract-packages.json": "6f97a6d8f5e233234b01d7abf82984186f690b5ed853210f6c75e56848a9df60",
-      "eng/policy/contract-access.json": "f80d54b5a5572909211b19090936e6869505fd52b68fe1d91e9284a030d2dfad",
+      "eng/contract-packages.json": "a48ec15d528d76810f84d5adb06817b41ba6fa8eeaae60c2a4f14de9ad00a89a",
+      "eng/policy/contract-access.json": "d2e977d7b4300d320207d4ea0b44be5faf09ef04dc233faebc4222d949771eec",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
@@ -31,7 +31,8 @@
       "eng/provenance/records/canonical-apache-licence-r1.json": "e4252278767a0b4dd27a09a50b176c9420469828345e61336a4b5ca1d17c7b44",
       "eng/provenance/records/con17-published-descriptors-r1.json": "b0f35abb8edcaa665d53663f5eaad3cd7825195fd93bbe093101e29452bed97c",
       "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
-      "eng/provenance/records/contract-bindings-con04-r1.json": "cf71971bc87bf09786888c5e5675839cd3b551bba408dc21aba22392678352c2",
+      "eng/provenance/records/contract-bindings-con04-r1.json": "281f5e27e9a16d3cd4f3355d84da5e5e5c07f9d324501f97de406265de537709",
+      "eng/provenance/records/contract-bindings-con16-r1.json": "369f1d77e97b6e7e1db9db65d94595925aff218c5179817b954e3a6a3c2c62ae",
       "eng/provenance/records/contract-bindings-r2.json": "95d2bde3b8d00c03061866838bc28b907bcec0e29a0ede996a42e79b7bb53221",
       "eng/provenance/records/contract-bindings-r3.json": "ba8adc87164b16804cad6525c50674d4f1b05da89d1d300a9b4f770576906878",
       "eng/provenance/records/contract-bindings-r4.json": "0918c490633e7205d66af8fe7bd825cb4f6db259c12b4ba33ee08aa4e55e57aa",
@@ -213,7 +214,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-01-shards-r2.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-16-signed-formats-r1.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {

@@ -142,7 +142,8 @@ class DependencyAdmission(unittest.TestCase):
                 if wrong_path != path:
                     self.assertIsNone(re.fullmatch(allow['paths'][0], wrong_path))
             for pattern, key in zip(allow['regexes'], selected, strict=True):
-                digest = hashlib.sha256((ROOT / key).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+                source = subprocess.check_output(['git', 'show', '7eeaa3b:' + key], cwd=ROOT)
+                digest = hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest()
                 self.assertEqual(values[key], digest)
                 line = '  "' + key + '": "' + digest + '",'
                 self.assertIsNotNone(re.fullmatch(pattern, line))
@@ -396,3 +397,4 @@ class DependencyAdmission(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
