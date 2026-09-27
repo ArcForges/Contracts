@@ -348,6 +348,7 @@
     "tests/tooling/test_dependency_admission.py",
     "tests/tooling/test_documentation_provenance.py",
     "tests/tooling/test_generation_routes.py",
+    "tests/tooling/test_json_shape_unions.py",
     "tests/tooling/test_licence_boundary.py",
     "tests/tooling/test_maven_release.py",
     "tests/tooling/test_naming_policy.py",
