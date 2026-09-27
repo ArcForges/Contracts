@@ -1,0 +1,975 @@
+{
+  "schemaVersion": "con-16-signed-formats.v1",
+  "provenance": "fixture only, never production; synthetic examples authored independently of generated codecs. Seeds are reproducible public test data, not credentials. UPD.07 supplies production trust; REL.11 removes fixture trust from release composition.",
+  "canonicalProfile": "RFC8785-compatible restricted profile: closed ASCII property names sorted ordinal, UTF-8 without BOM, no whitespace, exact integers outside safe range are canonical decimal strings, no floating-point fields; signature excluded from signed envelope; SHA256 canonical body; unpadded base64url Ed25519.",
+  "fixtureSeedLabel": "ArcForges CON.16 fixture only, never production",
+  "trustRoots": [
+    {
+      "keyId": "con16-fixture-ed25519",
+      "algorithm": "Ed25519",
+      "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+      "realmId": "12345678-1234-4234-8234-123456789abc",
+      "channels": ["stable", "direct"],
+      "notBefore": "2026-09-01T00:00:00Z",
+      "notAfter": "2027-09-01T00:00:00Z",
+      "fixtureOnly": true
+    }
+  ],
+  "context": {
+    "now": "2026-09-27T12:00:00Z",
+    "realmId": "12345678-1234-4234-8234-123456789abc",
+    "channel": "stable",
+    "highestRevision": "9007199254740993",
+    "highestConfigGeneration": "9007199254740993",
+    "installedCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "trustPinned": true,
+    "pinnedOrigins": {
+      "apiOrigin": "https://api.example.org",
+      "accountOrigin": "https://account.example.org",
+      "objectOrigin": "https://objects.example.org"
+    },
+    "highestVersionCode": "18446744073709551615"
+  },
+  "documents": [
+    {
+      "id": "catalog-index",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "MSHqL1TvldA8vIh3ySn5XYUfXFAC-5NCllYHJylcAHBknBEfOicKAeWDb4EA9R2LZkovIaBusrHIq5ObDrvxBw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MSHqL1TvldA8vIh3ySn5XYUfXFAC-5NCllYHJylcAHBknBEfOicKAeWDb4EA9R2LZkovIaBusrHIq5ObDrvxBw\"}",
+      "documentSha256": "0e8689f97dbe4fbb46530072ed3f115a64b826139ce1abe94f53069a9730e8b3",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "catalog-revocations",
+      "value": {
+        "schemaVersion": "catalog-revocations.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "ab6edcc59262158c79733282a04f5e572232ea0b08f9b9a21927f24181549295",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "version": "1.2.3",
+              "digest": "1111111111111111111111111111111111111111111111111111111111111111",
+              "reason": "Fixture revoked version",
+              "revokedAt": "2026-09-27T00:00:00Z"
+            }
+          ]
+        },
+        "signature": "_8_tCYIF-Lax-JftVmx1IDEMQ2s_dy_RTzMEEcDgKuS-Sx3DkTukx0GiSgQeh8UidLEN4RtE0lT-jUQyK8VCDg"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"digest\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"packageId\":\"org.example.scope-tools\",\"reason\":\"Fixture revoked version\",\"revokedAt\":\"2026-09-27T00:00:00Z\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"ab6edcc59262158c79733282a04f5e572232ea0b08f9b9a21927f24181549295\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-revocations.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"digest\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"packageId\":\"org.example.scope-tools\",\"reason\":\"Fixture revoked version\",\"revokedAt\":\"2026-09-27T00:00:00Z\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"ab6edcc59262158c79733282a04f5e572232ea0b08f9b9a21927f24181549295\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-revocations.v1\",\"signature\":\"_8_tCYIF-Lax-JftVmx1IDEMQ2s_dy_RTzMEEcDgKuS-Sx3DkTukx0GiSgQeh8UidLEN4RtE0lT-jUQyK8VCDg\"}",
+      "documentSha256": "2704861020adec84bf874d4846a9883c5dc1d926fec3b815a6e4a86096598c83",
+      "canonicalBody": "{\"entries\":[{\"digest\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"packageId\":\"org.example.scope-tools\",\"reason\":\"Fixture revoked version\",\"revokedAt\":\"2026-09-27T00:00:00Z\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "catalog-index-root",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "829948d322d06e95fc89f01955ce39120bbfe3826c5c880ab86fd009adb1af0d",
+        "body": {
+          "shards": [
+            {
+              "url": "https://downloads.example.org/catalog/v1/9007199254740993/0.json",
+              "count": 1,
+              "sha256": "0e8689f97dbe4fbb46530072ed3f115a64b826139ce1abe94f53069a9730e8b3"
+            }
+          ]
+        },
+        "signature": "xmPPuArS36wR8ilIu-NQPZB4cN5G73qyCeCRWYf5cgfMIJxs64Qm8MleH3mijDibHzNziGSa7pt_DAVtu82jDQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"0e8689f97dbe4fbb46530072ed3f115a64b826139ce1abe94f53069a9730e8b3\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"829948d322d06e95fc89f01955ce39120bbfe3826c5c880ab86fd009adb1af0d\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"0e8689f97dbe4fbb46530072ed3f115a64b826139ce1abe94f53069a9730e8b3\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"829948d322d06e95fc89f01955ce39120bbfe3826c5c880ab86fd009adb1af0d\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"xmPPuArS36wR8ilIu-NQPZB4cN5G73qyCeCRWYf5cgfMIJxs64Qm8MleH3mijDibHzNziGSa7pt_DAVtu82jDQ\"}",
+      "documentSha256": "2ecf9d123199aac15834d53c4707b0e169fa7ed0844a31b175d29988dca7c2f1",
+      "canonicalBody": "{\"shards\":[{\"count\":1,\"sha256\":\"0e8689f97dbe4fbb46530072ed3f115a64b826139ce1abe94f53069a9730e8b3\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]}"
+    },
+    {
+      "id": "catalog-revocations-root",
+      "value": {
+        "schemaVersion": "catalog-revocations.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "dd7d951e0994ac6c81553df92d2d870406f79223a3499b3436ce09ddd23fdbec",
+        "body": {
+          "shards": [
+            {
+              "url": "https://downloads.example.org/catalog/v1/9007199254740993/revocations-0.json",
+              "count": 1,
+              "sha256": "2704861020adec84bf874d4846a9883c5dc1d926fec3b815a6e4a86096598c83"
+            }
+          ]
+        },
+        "signature": "jmqnnvjZ57IPcFKRcK5WtSIOQ9vbtCo7zvYwubX6TqQ66zvavpA5zl9GgLE3t6O5gJTGzmHfXalnMx5Tms5PBw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"2704861020adec84bf874d4846a9883c5dc1d926fec3b815a6e4a86096598c83\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/revocations-0.json\"}]},\"bodyHash\":\"dd7d951e0994ac6c81553df92d2d870406f79223a3499b3436ce09ddd23fdbec\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-revocations.v1\"}",
+      "canonicalDocument": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"2704861020adec84bf874d4846a9883c5dc1d926fec3b815a6e4a86096598c83\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/revocations-0.json\"}]},\"bodyHash\":\"dd7d951e0994ac6c81553df92d2d870406f79223a3499b3436ce09ddd23fdbec\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-revocations.v1\",\"signature\":\"jmqnnvjZ57IPcFKRcK5WtSIOQ9vbtCo7zvYwubX6TqQ66zvavpA5zl9GgLE3t6O5gJTGzmHfXalnMx5Tms5PBw\"}",
+      "documentSha256": "c044f33bd6eedcc3ce9575880a01f9ec526f497a447b878538b9f8e845dc3ce7",
+      "canonicalBody": "{\"shards\":[{\"count\":1,\"sha256\":\"2704861020adec84bf874d4846a9883c5dc1d926fec3b815a6e4a86096598c83\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/revocations-0.json\"}]}"
+    },
+    {
+      "id": "android-update",
+      "value": {
+        "schemaVersion": "android-update.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "direct",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341",
+        "body": {
+          "packageId": "com.arcforges.mobile",
+          "channel": "direct",
+          "versionName": "1.2.3",
+          "versionCode": "18446744073709551615",
+          "minSdk": 26,
+          "minSupportedVersionCode": "9007199254740993",
+          "apkUrl": "https://downloads.example.org/android/app.apk",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "size": "9007199254740993",
+          "signingCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "releaseNotesUrl": "https://downloads.example.org/android/notes",
+          "publishedAt": "2026-09-27T00:00:00Z"
+        },
+        "signature": "heXmbL1AYq74yqwbM1_HhkVaOkh8ve712GuifAJLRiLne19HIojNLDz864V-2lAurpNKKyLqGHPATcSmqbrvAA"
+      },
+      "canonicalUnsigned": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\"}",
+      "canonicalDocument": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\",\"signature\":\"heXmbL1AYq74yqwbM1_HhkVaOkh8ve712GuifAJLRiLne19HIojNLDz864V-2lAurpNKKyLqGHPATcSmqbrvAA\"}",
+      "documentSha256": "94bfcd2971ec82585200d32059df4c823db7e68e5fbb3f0e0c3eb5fd83d5f151",
+      "canonicalBody": "{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"}"
+    },
+    {
+      "id": "realm",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://api.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-04T00:00:00Z",
+        "signature": "LrmAo7p8JZIETYlcQFDYMwsaaY414LCKdWIzMLgoPruVbfR5yO1ZWEYthgv5u9ZJMsYMSKDG4J78mWoZDmJPBg"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"LrmAo7p8JZIETYlcQFDYMwsaaY414LCKdWIzMLgoPruVbfR5yO1ZWEYthgv5u9ZJMsYMSKDG4J78mWoZDmJPBg\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "e0e73f1454cea8be41e3a5c006b327c50f244dba7bbb341aca06251c904d6faf"
+    },
+    {
+      "id": "expired-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-25T00:00:00Z",
+        "expiresAt": "2026-09-26T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "eZ8jP6VoyYPZC_urR5rQXfVMadpMC5GhppzN6iY1lBKz1lBm4SNXePVRx8Ic9FhSL318Sus3Pn4kOj251Kn_Cw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-26T00:00:00Z\",\"issuedAt\":\"2026-09-25T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-26T00:00:00Z\",\"issuedAt\":\"2026-09-25T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"eZ8jP6VoyYPZC_urR5rQXfVMadpMC5GhppzN6iY1lBKz1lBm4SNXePVRx8Ic9FhSL318Sus3Pn4kOj251Kn_Cw\"}",
+      "documentSha256": "fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "overlong-expiry-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-29T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "HwtjCc1en_DIHIwGKuSK1xcmeWmKSR8MAziJcIM21jIVdf3h4Ejt4AbZjf7nPPIrT3sQWAiVXlD-Qb7rUCskBw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-29T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-29T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"HwtjCc1en_DIHIwGKuSK1xcmeWmKSR8MAziJcIM21jIVdf3h4Ejt4AbZjf7nPPIrT3sQWAiVXlD-Qb7rUCskBw\"}",
+      "documentSha256": "1275586ced581b2803d0d37ba16b46f0023065414639ce6ddb34c4961bdcfc77",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "rollback-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740992",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "wihiP3QKRJcfOsBbrtcYH_zHdFz8MgUYmvnCS1RIVfZkfuOCXodcrvbwYHjll371qqzkOsqZZTTMChLVLkJlDw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740992\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740992\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"wihiP3QKRJcfOsBbrtcYH_zHdFz8MgUYmvnCS1RIVfZkfuOCXodcrvbwYHjll371qqzkOsqZZTTMChLVLkJlDw\"}",
+      "documentSha256": "627fb28a5feec33fc4493f066b0769f6499d9d87e405489e6aa2816430b2c90e",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "wrong-channel-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "preview",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "W_9-3NEeVEVbaSQap43wZNI9l9fVP1Bc0PTPt57x-0EHQ-5VtaP9L5veynRHXh6AnXK-4iCJHt-6wFlA-ehRCg"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"preview\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"preview\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"W_9-3NEeVEVbaSQap43wZNI9l9fVP1Bc0PTPt57x-0EHQ-5VtaP9L5veynRHXh6AnXK-4iCJHt-6wFlA-ehRCg\"}",
+      "documentSha256": "d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "wrong-realm-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "22345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "dL_E04C7cCyeaHPZl3T75RBTqfmFNlfmt8Q6looDF2MkFGpXsYDvqgwdKOiZ9H9T4Jfh8Wd4adDRl5A0nEyQBQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"22345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"22345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"dL_E04C7cCyeaHPZl3T75RBTqfmFNlfmt8Q6looDF2MkFGpXsYDvqgwdKOiZ9H9T4Jfh8Wd4adDRl5A0nEyQBQ\"}",
+      "documentSha256": "05f0ec2fec22142e1d2aa6ebc61ae4a91d2ed540376aeb114dbcb689a88a563e",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "unknown-key-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "unknown-key",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "iOdrRi3qBmr-wmwDzx0pfoseeAOEwkXNOiMw-xbQ_wrCxQlpZcK5FKmqrk-9Xo-GU7oNPp7bN5YqYeCj3IV3AA"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"unknown-key\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"unknown-key\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"iOdrRi3qBmr-wmwDzx0pfoseeAOEwkXNOiMw-xbQ_wrCxQlpZcK5FKmqrk-9Xo-GU7oNPp7bN5YqYeCj3IV3AA\"}",
+      "documentSha256": "3a1351394793e9dc9b54831d2dc12e70c49b1e7851021cc2863e55c92eb847dd",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "revocation-removal-signed",
+      "value": {
+        "schemaVersion": "catalog-revocations.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740994",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658",
+        "body": {
+          "entries": []
+        },
+        "signature": "Df0s_J5Ovku8-unpgXzVjoMqlrTZ_NVXMTxo6vyHpWhotz2k5TQiOEjyv5bcTPTiOj2RDX4OFxhOLs3eFgFDDQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[]},\"bodyHash\":\"d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740994\",\"schemaVersion\":\"catalog-revocations.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[]},\"bodyHash\":\"d801aa1fb7ddcc330a5e3173372ea6af4a3d08ec58074478e85aa5603e926658\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740994\",\"schemaVersion\":\"catalog-revocations.v1\",\"signature\":\"Df0s_J5Ovku8-unpgXzVjoMqlrTZ_NVXMTxo6vyHpWhotz2k5TQiOEjyv5bcTPTiOj2RDX4OFxhOLs3eFgFDDQ\"}",
+      "documentSha256": "ba433b39f35c6a99b7a95153eb87a5a1720a1bf544c4bd54374f29b2a2e41674",
+      "canonicalBody": "{\"entries\":[]}"
+    },
+    {
+      "id": "mixed-shard-root-signed",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "6c363aa84b35311173ede6ff1af7ac9b80aeabc3395fceaae4798315adae8e45",
+        "body": {
+          "shards": [
+            {
+              "url": "https://downloads.example.org/catalog/v1/9007199254740993/0.json",
+              "count": 1,
+              "sha256": "d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7"
+            }
+          ]
+        },
+        "signature": "sRPQrMroAcYZ5yJEWMYkUDXXLP7290__SqRPqKL1k89EkA6CYxhy7q-NjWLCsTOrYt8kSvhJUgwMjdyCNG3wBw"
+      },
+      "canonicalUnsigned": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"6c363aa84b35311173ede6ff1af7ac9b80aeabc3395fceaae4798315adae8e45\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"6c363aa84b35311173ede6ff1af7ac9b80aeabc3395fceaae4798315adae8e45\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"sRPQrMroAcYZ5yJEWMYkUDXXLP7290__SqRPqKL1k89EkA6CYxhy7q-NjWLCsTOrYt8kSvhJUgwMjdyCNG3wBw\"}",
+      "documentSha256": "0fbb0f971f1b1b755bdb223082d9dd4239e0639ee03a17226212ed6cf71550f7",
+      "canonicalBody": "{\"shards\":[{\"count\":1,\"sha256\":\"d95e4e5d08be58f685cae4d6cba2206fec3da2556591b0b18e114d9ede3907e7\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]}"
+    },
+    {
+      "id": "android-overlong-expiry-signed",
+      "value": {
+        "schemaVersion": "android-update.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "direct",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-05T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341",
+        "body": {
+          "packageId": "com.arcforges.mobile",
+          "channel": "direct",
+          "versionName": "1.2.3",
+          "versionCode": "18446744073709551615",
+          "minSdk": 26,
+          "minSupportedVersionCode": "9007199254740993",
+          "apkUrl": "https://downloads.example.org/android/app.apk",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "size": "9007199254740993",
+          "signingCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "releaseNotesUrl": "https://downloads.example.org/android/notes",
+          "publishedAt": "2026-09-27T00:00:00Z"
+        },
+        "signature": "5mbNM_nWKPeHdM4eNBNwpKkawA8TNP6w4Dp0W6lmpWGzrXfDLUTCBLV3OGjyCy8D7rW9D7KlcAEOZOD67UoxBA"
+      },
+      "canonicalUnsigned": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341\",\"channel\":\"direct\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\"}",
+      "canonicalDocument": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"4cc24c7a804293a60ab7ebbf616e38b5a5f7e9d7a2c93a48bca943814232b341\",\"channel\":\"direct\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\",\"signature\":\"5mbNM_nWKPeHdM4eNBNwpKkawA8TNP6w4Dp0W6lmpWGzrXfDLUTCBLV3OGjyCy8D7rW9D7KlcAEOZOD67UoxBA\"}",
+      "documentSha256": "be35a116c081b2eb313d9a07693cb863f1ad9c96573eb9e6343e585d05fec6dc",
+      "canonicalBody": "{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551615\",\"versionName\":\"1.2.3\"}"
+    },
+    {
+      "id": "realm-overlong-expiry-signed",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://api.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-05T00:00:00Z",
+        "signature": "MDQhIew20XKyPYu0RNfZw9EbjloOyGWBD5ILoy4SU0i-r2qIZL5K20H7IQNwTDdlwm1k725IpYrl-hVo9DzdDA"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"MDQhIew20XKyPYu0RNfZw9EbjloOyGWBD5ILoy4SU0i-r2qIZL5K20H7IQNwTDdlwm1k725IpYrl-hVo9DzdDA\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "88e54b097334d9582c6065b3b779638f855bac468b4df2dbe29aece573b531e3"
+    },
+    {
+      "id": "realm-pinned-origin-mismatch",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://other.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-04T00:00:00Z",
+        "signature": "NujNgrLtLVBFiXgn8nV-BoYVOsLVC-YSmkKnbOHq-tgthPPvfIi1jfpmUngpXvaCWcchdMXkp_a_UdmxdQ8tCA"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://other.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://other.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"NujNgrLtLVBFiXgn8nV-BoYVOsLVC-YSmkKnbOHq-tgthPPvfIi1jfpmUngpXvaCWcchdMXkp_a_UdmxdQ8tCA\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "d6c6856db89d4d0576dc96ee0ab48e42ebca8f8393b99ef6371556595efeb1c3"
+    },
+    {
+      "id": "realm-config-rollback",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://api.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [1],
+        "nativeClientRedirects": ["arcforges-scope://auth/callback"],
+        "authMethods": ["passkey", "email"],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740992",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-04T00:00:00Z",
+        "signature": "z3tpb3SCr8SSqQ-WKp3Yf4G3utyCj2Jeqj850I3jQsjuXigk7tOvPHG9yMbR-ajwoBXLjLzG8sJ3fHl2BaUQBw"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740992\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740992\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"z3tpb3SCr8SSqQ-WKp3Yf4G3utyCj2Jeqj850I3jQsjuXigk7tOvPHG9yMbR-ajwoBXLjLzG8sJ3fHl2BaUQBw\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "10fb7fffe287a1b5c47d0a3173597564e283e2920ac7014486d9d8e0c5613c2a"
+    },
+    {
+      "id": "android-version-rollback",
+      "value": {
+        "schemaVersion": "android-update.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "direct",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65",
+        "body": {
+          "packageId": "com.arcforges.mobile",
+          "channel": "direct",
+          "versionName": "1.2.3",
+          "versionCode": "18446744073709551614",
+          "minSdk": 26,
+          "minSupportedVersionCode": "9007199254740993",
+          "apkUrl": "https://downloads.example.org/android/app.apk",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "size": "9007199254740993",
+          "signingCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "releaseNotesUrl": "https://downloads.example.org/android/notes",
+          "publishedAt": "2026-09-27T00:00:00Z"
+        },
+        "signature": "bCpUMXoTzRLxysnelYsLC_OD4fR9Hwde794K1qcQmR0Yf6pIu-benBWWmKij51C3K8KSwbHxMyL62TITXhrLCQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\"}",
+      "canonicalDocument": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\",\"signature\":\"bCpUMXoTzRLxysnelYsLC_OD4fR9Hwde794K1qcQmR0Yf6pIu-benBWWmKij51C3K8KSwbHxMyL62TITXhrLCQ\"}",
+      "documentSha256": "8642eaf9d51ec4cd2eee9d9c2f8b5f93e67f261442065825cf39cb00f4175e80",
+      "canonicalBody": "{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"}"
+    },
+    {
+      "id": "invalid-calendar-timestamp",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-99-99T99:99:99Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "jhNt4s6Nk4z1ShPCNZUK3O9C-LWvSQbcX7NkElKrukhH-cr13SkQoT3f0HX-mmFarc72v1aBBcq7Ov06pObmAQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-99-99T99:99:99Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-99-99T99:99:99Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"jhNt4s6Nk4z1ShPCNZUK3O9C-LWvSQbcX7NkElKrukhH-cr13SkQoT3f0HX-mmFarc72v1aBBcq7Ov06pObmAQ\"}",
+      "documentSha256": "7b408bff98338b652f5ab84ea2aa818d829f6cf4bd152949b57a39e132be8eb9",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "expired-shard-root",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "db094f27d02618a0e24e1d3663ae9ce38d45018a82d4e6d1487142035e8c1a21",
+        "body": {
+          "shards": [
+            {
+              "url": "https://downloads.example.org/catalog/v1/9007199254740993/0.json",
+              "count": 1,
+              "sha256": "fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8"
+            }
+          ]
+        },
+        "signature": "MOfOih7C1d9jvSo-UgSCPbSdKjmpxd-1KenaunpY-yOGam1ATs3KLDJ806V-adMvED8jQjA6_rjNfedT9e2ODQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"db094f27d02618a0e24e1d3663ae9ce38d45018a82d4e6d1487142035e8c1a21\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"db094f27d02618a0e24e1d3663ae9ce38d45018a82d4e6d1487142035e8c1a21\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MOfOih7C1d9jvSo-UgSCPbSdKjmpxd-1KenaunpY-yOGam1ATs3KLDJ806V-adMvED8jQjA6_rjNfedT9e2ODQ\"}",
+      "documentSha256": "485894c65a94a9936017de44e5c348ce8c7e8b3442d822eb149ce2928eff246e",
+      "canonicalBody": "{\"shards\":[{\"count\":1,\"sha256\":\"fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]}"
+    }
+  ],
+  "cases": [
+    {
+      "id": "valid-index",
+      "document": "catalog-index",
+      "expected": "accepted"
+    },
+    {
+      "id": "valid-revocations",
+      "document": "catalog-revocations",
+      "expected": "accepted"
+    },
+    {
+      "id": "valid-index-shards",
+      "document": "catalog-index-root",
+      "shards": ["catalog-index"],
+      "expected": "accepted"
+    },
+    {
+      "id": "valid-revocation-shards",
+      "document": "catalog-revocations-root",
+      "shards": ["catalog-revocations"],
+      "expected": "accepted"
+    },
+    {
+      "id": "valid-android-exact-uint64",
+      "document": "android-update",
+      "expected": "accepted"
+    },
+    {
+      "id": "valid-explicitly-pinned-selfhost",
+      "document": "realm",
+      "expected": "accepted"
+    },
+    {
+      "id": "expired",
+      "document": "expired-signed",
+      "expected": "expired"
+    },
+    {
+      "id": "expiry-beyond-24h",
+      "document": "overlong-expiry-signed",
+      "expected": "expiry-window"
+    },
+    {
+      "id": "rollback-above-js-safe-integer",
+      "document": "rollback-signed",
+      "expected": "rollback"
+    },
+    {
+      "id": "wrong-channel",
+      "document": "wrong-channel-signed",
+      "expected": "channel"
+    },
+    {
+      "id": "wrong-realm",
+      "document": "wrong-realm-signed",
+      "expected": "realm"
+    },
+    {
+      "id": "unknown-key",
+      "document": "unknown-key-signed",
+      "expected": "unknown-key"
+    },
+    {
+      "id": "revoked-trust-key",
+      "document": "catalog-index",
+      "revokedKeyIds": ["con16-fixture-ed25519"],
+      "expected": "revoked-key"
+    },
+    {
+      "id": "body-tamper",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["body", "entries", 0, "version"],
+        "value": "1.2.4"
+      },
+      "expected": "body-hash"
+    },
+    {
+      "id": "signature-tamper",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["signature"],
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "expected": "signature"
+    },
+    {
+      "id": "mixed-shard",
+      "document": "catalog-index-root",
+      "shards": ["wrong-channel-signed"],
+      "expected": "shard-hash"
+    },
+    {
+      "id": "missing-shard",
+      "document": "catalog-index-root",
+      "shards": [],
+      "expected": "shard-count"
+    },
+    {
+      "id": "revocation-disappears",
+      "document": "revocation-removal-signed",
+      "previousRevocations": [
+        "org.example.scope-tools|1.2.3|1111111111111111111111111111111111111111111111111111111111111111"
+      ],
+      "expected": "revocation-removal"
+    },
+    {
+      "id": "uint64-overflow",
+      "document": "android-update",
+      "mutation": {
+        "path": ["body", "versionCode"],
+        "value": "18446744073709551616"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "uint64-number-forbidden",
+      "document": "android-update",
+      "mutation": {
+        "path": ["body", "versionCode"],
+        "value": 100
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "leading-zero-revision",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["revision"],
+        "value": "01"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "unknown-property",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["extra"],
+        "value": true
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "invalid-semver-numeric-prerelease",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["body", "entries", 0, "version"],
+        "value": "1.0.0-01"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "credential-in-url",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["body", "entries", 0, "archiveHttpsUrl"],
+        "value": "https://user:secret@example.org/file"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "insecure-origin",
+      "document": "realm",
+      "mutation": {
+        "path": ["apiOrigin"],
+        "value": "http://api.example.org"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "same-origin-is-not-trust",
+      "document": "realm",
+      "trustPinned": false,
+      "expected": "untrusted-realm"
+    },
+    {
+      "id": "wrong-android-signing-lineage",
+      "document": "android-update",
+      "installedCertificateSha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "expected": "certificate"
+    },
+    {
+      "id": "mixed-shard-even-with-matching-hash",
+      "document": "mixed-shard-root-signed",
+      "shards": ["wrong-channel-signed"],
+      "expected": "shard-binding"
+    },
+    {
+      "id": "android-expiry-over-seven-days",
+      "document": "android-overlong-expiry-signed",
+      "expected": "expiry-window"
+    },
+    {
+      "id": "realm-expiry-over-seven-days",
+      "document": "realm-overlong-expiry-signed",
+      "expected": "expiry-window"
+    },
+    {
+      "id": "realm-pinned-origin-mismatch",
+      "document": "realm-pinned-origin-mismatch",
+      "expected": "origin"
+    },
+    {
+      "id": "realm-config-rollback",
+      "document": "realm-config-rollback",
+      "expected": "rollback"
+    },
+    {
+      "id": "android-version-rollback",
+      "document": "android-version-rollback",
+      "expected": "version-rollback"
+    },
+    {
+      "id": "empty-dns-label",
+      "document": "realm",
+      "mutation": {
+        "path": ["apiOrigin"],
+        "value": "https://."
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "out-of-range-port",
+      "document": "realm",
+      "mutation": {
+        "path": ["apiOrigin"],
+        "value": "https://api.example.org:99999"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "trust-key-not-yet-valid",
+      "document": "catalog-index",
+      "trustNotBefore": "2026-09-28T00:00:00Z",
+      "expected": "key-window"
+    },
+    {
+      "id": "trust-key-expired",
+      "document": "catalog-index",
+      "trustNotAfter": "2026-09-27T00:00:00Z",
+      "expected": "key-window"
+    },
+    {
+      "id": "invalid-calendar-timestamp",
+      "document": "invalid-calendar-timestamp",
+      "expected": "timestamp"
+    },
+    {
+      "id": "zero-realm-id",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["realmId"],
+        "value": "00000000-0000-0000-0000-000000000000"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "oversized-catalog-document",
+      "document": "catalog-index",
+      "repeatEntryCount": 1000,
+      "archiveUrlSuffixLength": 1500,
+      "expected": "shape"
+    },
+    {
+      "id": "expired-shard-with-matching-hash",
+      "document": "expired-shard-root",
+      "shards": ["expired-signed"],
+      "expected": "shard-expired"
+    },
+    {
+      "id": "noncanonical-signature-padding-bits",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["signature"],
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "noncanonical-public-key-padding-bits",
+      "document": "realm",
+      "mutation": {
+        "path": ["signingKeys", 0, "publicKey"],
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB"
+      },
+      "expected": "shape"
+    }
+  ],
+  "malformedJson": [
+    {
+      "id": "duplicate-property",
+      "json": "{\"schemaVersion\":\"catalog-index.v1\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "expected": "syntax"
+    },
+    {
+      "id": "trailing-data",
+      "json": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MSHqL1TvldA8vIh3ySn5XYUfXFAC-5NCllYHJylcAHBknBEfOicKAeWDb4EA9R2LZkovIaBusrHIq5ObDrvxBw\"} {}",
+      "expected": "syntax"
+    },
+    {
+      "id": "truncated",
+      "json": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MSHqL1TvldA8vIh3ySn5XYUfXFAC-5NCllYHJylcAHBknBEfOicKAeWDb4EA9R2LZkovIaBusrHIq5ObDrvxBw\"",
+      "expected": "syntax"
+    }
+  ]
+}

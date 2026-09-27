@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
+  "sourceCommit": "62e9ed8ca1b7f647289f6060ca87b66453d4e5eb",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -1237,11 +1237,67 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/AndroidUpdate.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["AndroidUpdate", "AndroidUpdateBody", "AndroidUpdateJsonContext"],
+      "sha256": "7173114ba150d86418cfe52f0af50366ed0768cf82e25f362c062c5570464643",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/CatalogIndex.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "CatalogIndex",
+        "IndexBody",
+        "IndexBodyIndexEntries",
+        "IndexBodyIndexShards",
+        "IndexEntries",
+        "CatalogEntry",
+        "IndexShards",
+        "IndexShard",
+        "CatalogIndexJsonContext",
+        "CatalogIndexUnionChecks",
+        "IndexBodyConverter"
+      ],
+      "sha256": "226493c7a973d6727dcfa05984ee95a1efcac9896af69b904fdfbbc42b0b017a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/CatalogRevocations.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "CatalogRevocations",
+        "RevocationBody",
+        "RevocationBodyRevocationEntries",
+        "RevocationBodyRevocationShards",
+        "RevocationEntries",
+        "RevocationEntry",
+        "RevocationShards",
+        "RevocationShard",
+        "CatalogRevocationsJsonContext",
+        "CatalogRevocationsUnionChecks",
+        "RevocationBodyConverter"
+      ],
+      "sha256": "95b57c133629ffa7512d3ffe27118de6cebd866954b85e93a29a19fa1824b374",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/PartReceipt.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["PartReceipt", "PartReceiptJsonContext"],
       "sha256": "c5fc2e21df017212204fbaf68648d4c8afe7c1fa69d53b29c824c116c21ee808",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Shapes/RealmDescriptor.g.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["RealmDescriptor", "RealmSigningKey", "RealmDescriptorJsonContext"],
+      "sha256": "df8713abe8cfa91a86228e8d1264090177256654449a51799d517b1ddcbc2250",
       "kind": "generated"
     },
     {
@@ -1286,6 +1342,30 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/AndroidUpdateValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["AndroidUpdateJson"],
+      "sha256": "3161fb3bdae9606d4f822e1a45bf6912344f2905f47a89790fcfffa3cabbf7a0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/CatalogIndexValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["CatalogIndexJson"],
+      "sha256": "30e4206152450a8296f104a0db72ba8bc3664be8ef78c3a5dd4000c5130a3e18",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/CatalogRevocationsValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["CatalogRevocationsJson"],
+      "sha256": "398823d19b968b93a33b53d469eff1e40ce12d73a151bdede15b2ecdadd7348a",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/PackageInventoryValidator.g.cs",
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
@@ -1307,6 +1387,14 @@
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
       "sha256": "09c11327a9bbc42d8ca166570741cbeaaf37c3e6a0766108324bf6925a1c585f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/RealmDescriptorValidator.g.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["RealmDescriptorJson"],
+      "sha256": "03197c9a5e86036dfa301351000a84303d808b587c9deec4103251e09644e3ff",
       "kind": "generated"
     },
     {
@@ -3767,7 +3855,7 @@
       "package": "@arcforges/api-client",
       "access": "public",
       "types": [],
-      "sha256": "c2d964d185d5ab0e0288401468780cae66284af73c9d3165ce5b8978e2664a82",
+      "sha256": "d01e401d5d4c6c6d9d5df84016962a8befb2d6648f6071b82ee87f4b061bd688",
       "kind": "generated"
     },
     {
@@ -3777,6 +3865,48 @@
       "types": ["PublicGrpcWebTransportOptions"],
       "sha256": "0734e50d85a650b60a0a10fddbbab4e48a29a3ba84ca1938a73432c9f49bf90e",
       "kind": "authored"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/AndroidUpdate.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": ["AndroidUpdate", "AndroidUpdateBody", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "b7d20090b644595a2c15e4bed74494218eab300995a84fa94a1964be9399cf1a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/CatalogIndex.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [
+        "CatalogIndex",
+        "IndexBody",
+        "IndexEntries",
+        "CatalogEntry",
+        "IndexShards",
+        "IndexShard",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "deeadc7994ba05e2f6ee8d2350f636ff6d11dfb64afc6077af0f2b54c46338ff",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/api-client/src/shapes/gen/CatalogRevocations.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": [
+        "CatalogRevocations",
+        "RevocationBody",
+        "RevocationEntries",
+        "RevocationEntry",
+        "RevocationShards",
+        "RevocationShard",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "69ff85c2f4d9c99782a0401a596dbe97fc129d43be8c81f39d6fe514438920e4",
+      "kind": "generated"
     },
     {
       "path": "src/public/ts/api-client/src/shapes/gen/PackageInventory.ts",
@@ -3795,11 +3925,19 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/ts/api-client/src/shapes/gen/RealmDescriptor.ts",
+      "package": "@arcforges/api-client",
+      "access": "public",
+      "types": ["RealmDescriptor", "RealmSigningKey", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "4c2c001c705ca45934cc5474201215da9c619d6816b345c9702a49a2fcc6c68a",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "d6103a6836787faa59945c3106708e29b871548cfa31d297086e3808ad55a10d",
+      "sha256": "6cf8b2fa781697100b4111e373c7759492de84d4d7a49e3623808d0bab5e2254",
       "kind": "generated"
     },
     {
@@ -4052,10 +4190,6 @@
   ],
   "buildInputs": [
     {
-      "path": "build.gradle.kts",
-      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
-    },
-    {
       "path": "Directory.Build.props",
       "sha256": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b"
     },
@@ -4068,8 +4202,16 @@
       "sha256": "4a83ab07c4e26a69d5153e683d311fa667a1d40130f69358a59b512b55d5a8d1"
     },
     {
+      "path": "NuGet.config",
+      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
+    },
+    {
+      "path": "build.gradle.kts",
+      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
+    },
+    {
       "path": "eng/contract-packages.json",
-      "sha256": "9567c392329f5db7cdcace051e9c7806c7b7ae163bd6d2ed3fff734a5e1a9569"
+      "sha256": "6bdc4b55168ab178e32ae9af4cac4da4b83c088e68218fc41dd7949ab0e1538d"
     },
     {
       "path": "gradle.properties",
@@ -4108,10 +4250,6 @@
       "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe"
     },
     {
-      "path": "NuGet.config",
-      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
-    },
-    {
       "path": "package-lock.json",
       "sha256": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c"
     },
@@ -4126,6 +4264,10 @@
     {
       "path": "public/http/v1/schema.json",
       "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce"
+    },
+    {
+      "path": "public/http/v1/signed-formats.schema.json",
+      "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03"
     },
     {
       "path": "public/proto/constraints.json",

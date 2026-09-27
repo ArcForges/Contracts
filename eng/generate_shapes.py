@@ -751,6 +751,7 @@ def generate(check: bool = False) -> None:
     mappings = [
         ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
         ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/ts/api-client"),
+        ("public/http/v1/signed-formats.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.SignedFormats", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
     ]
     tsoutputs: dict[str, list[str]] = {}
