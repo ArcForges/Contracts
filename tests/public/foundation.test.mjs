@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { fromJson, toJson, fromBinary, toBinary } from "@bufbuild/protobuf";
 import * as foundation from "../../src/public/ts/proto/dist/gen/arcforges/foundation/v1/foundation_pb.js";
 import * as content from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/content_pb.js";
+import * as descriptors from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/descriptors_pb.js";
 import * as checks from "../../src/public/ts/proto/dist/shapes/gen/proto.js";
 import * as values from "../../src/public/ts/proto/dist/values.js";
 import { assertFoundationCoverage } from "./foundation-coverage.mjs";
@@ -12,7 +13,20 @@ import { assertFoundationCoverage } from "./foundation-coverage.mjs";
 const fixtureUrl = new URL("../../fixtures/public/wp03-01.json", import.meta.url);
 const fixtureBytes = await readFile(fixtureUrl);
 const fixture = JSON.parse(fixtureBytes.toString("utf8"));
-const fixtureDigest = createHash("sha256").update(fixtureBytes).digest("hex");
+const descriptorBytes = await readFile(
+  new URL("../../fixtures/public/con-02-descriptors.json", import.meta.url),
+);
+const descriptorFixture = JSON.parse(descriptorBytes.toString("utf8")).exchange;
+for (const [name, sample] of Object.entries(descriptorFixture.samples)) {
+  assert.ok(!Object.hasOwn(fixture.samples, name), `Duplicate independent fixture ${name}`);
+  fixture.samples[name] = sample;
+}
+fixture.cases.push(...descriptorFixture.cases);
+fixture.foundationTypes.push(...descriptorFixture.foundationTypes);
+const fixtureDigest = createHash("sha256")
+  .update(fixtureBytes)
+  .update(descriptorBytes)
+  .digest("hex");
 const foundationNames = new Set(fixture.foundationTypes);
 const selectedNames = Object.keys(fixture.samples).filter((name) => !name.startsWith("$"));
 const output = [];
@@ -54,7 +68,9 @@ function materialize(item) {
 
 function schemaFor(name) {
   assert.ok(selectedNames.includes(name), `Unregistered fixture target ${name}`);
-  const schema = (foundationNames.has(name) ? foundation : content)[`${name}Schema`];
+  const schema = (foundationNames.has(name) ? foundation : { ...content, ...descriptors })[
+    `${name}Schema`
+  ];
   assert.ok(schema, `Missing generated schema ${name}`);
   assert.equal(typeof checks[`is${name}`], "function", `Missing generated validator ${name}`);
   return schema;
