@@ -284,6 +284,7 @@ def build() -> None:
     run("node", ROOT / "eng/check_contract_access.mjs")
     run(sys.executable, ROOT / "eng/check_foundation.py", "--generated", "--self-test")
     run(sys.executable, ROOT / "eng/check_serialization.py", "--report", ARTIFACTS / "evidence/serialization-policy.json")
+    run(sys.executable, ROOT / "eng/check_operation_scope.py", "--report", ARTIFACTS / "evidence/operation-reachability.json")
     run("dotnet", "build", "ArcForges.Contracts.slnx", "-c", "Release", "--no-restore")
     from build_identity import build as identity
     write_json(ARTIFACTS / "expected-build.json", identity())

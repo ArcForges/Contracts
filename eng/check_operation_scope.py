@@ -126,6 +126,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                     f"{operation}: ambiguous or unsupported derived {field}")
             derived.append(field)
     if derived:
+        require(set(derived) == FIELDS - {"patEligible"}, f"{operation}: partial delegated descriptor")
         require(row.get("delegation") == {"intersectOriginalActor": True, "requireCurrentGrant": True,
                 "denyHumanOnly": True, "requireLaunchRole": True}, f"{operation}: incomplete delegated authority binding")
         require(row["surface"] in {"private-helper", "in-process"}, f"{operation}: delegated binding exposed publicly")
@@ -142,6 +143,26 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
             and all(isinstance(a, str) and a in ACTORS for a in actors)
             and len(actors) == len(set(actors)), f"{operation}: ambiguous actor kinds")
     tools = set(actors) & TOOL_ACTORS
+    profile_actors = {"human-owner": {"human"}, "product-handler": {"human", "product-handler"},
+                      "extension-peer": {"extension-child", "owning-parent"},
+                      "helper-parent": {"human", "helper-parent", "helper-child", "owning-parent"},
+                      "operator": {"operator"}, "cf-service": {"service"},
+                      "provider": {"provider"}, "one-use-auth": {"preauth"},
+                      "local-bootstrap": {"helper-parent", "helper-child", "extension-child", "owning-parent"}}
+    if row["profile"] in profile_actors:
+        require(set(actors) <= profile_actors[row["profile"]], f"{operation}: profile identity mismatch")
+    require(auth["capability"] is None or derived or row["profile"] == "tool-delegation",
+            f"{operation}: capability outside tool binding")
+    if row["surface"] == "public":
+        require(row["profile"] in {"human-owner", "tool-delegation", "one-use-auth"},
+                f"{operation}: wrong public identity profile")
+    if row["surface"] == "operator" or row["scope"] == "operator":
+        require(row["surface"] == "operator" and row["scope"] == "operator" and row["profile"] == "operator",
+                f"{operation}: operator boundary mismatch")
+    if row["surface"] == "private-helper":
+        require(row["scope"] == "private-helper" and row["profile"] in
+                {"extension-peer", "helper-parent", "local-bootstrap", "delegated-invocation"},
+                f"{operation}: helper boundary mismatch")
     require(not (protected(operation) and (tools or "actorKinds" in derived)), f"{operation}: human-only tool reachability")
     require(not tools or (operation in tool_allowlist and auth["capability"] == operation
             and row["profile"] == "tool-delegation"), f"{operation}: tool is not explicitly admitted")
@@ -156,8 +177,21 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     if row["surface"] == "cf-internal":
         require(actors == ["service"] and auth["capability"] is None, f"{operation}: wrong CF service identity")
     if row["surface"] == "private-helper":
-        require(not set(actors) & {"human", "service", "provider", "preauth", "operator"},
+        human_parent = (row["profile"] == "helper-parent" and actors == ["human"]
+                        and row.get("launchRoles") == ["owning-parent"] and not auth["patEligible"])
+        require(human_parent or not set(actors) & {"human", "service", "provider", "preauth", "operator"},
                 f"{operation}: helper cannot acquire customer/service authority")
+    lifecycle = {"IExtensionHost.Handshake": "extension-child",
+                 "IExtensionHost.RenewLease": "extension-child", "IExtensionHost.Stop": "owning-parent"}
+    if operation in lifecycle:
+        expected = {"capability": None, "risk": "R1", "approval": "none", "stepUp": False,
+                    "localPresence": False, "egress": "none", "patEligible": False,
+                    "actorKinds": [lifecycle[operation]]}
+        require(auth == expected and row["profile"] == "extension-peer" and row["idempotency"] == "IW",
+                f"{operation}: lifecycle metadata disagrees with source profile")
+    if row["profile"] == "delegated-invocation":
+        require(operation == "IExtensionHost.Invoke" and bool(derived) and auth["patEligible"] is False,
+                f"{operation}: delegated profile outside admitted Invoke")
     return sorted(actors), sorted(derived)
 
 
@@ -166,15 +200,21 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
     manifest = manifest if manifest is not None else load(root / "eng/operation-scope-manifest.json")
     require(manifest.get("schemaVersion") == "operation-scope.v1", "unsupported scope manifest")
     oracle = {}
+    require(isinstance(manifest.get("operations"), list), "oracle operation list required")
     for row in manifest.get("operations", []):
+        require(isinstance(row, dict), "oracle row object required")
         operation, scope = row.get("operationId"), row.get("scope")
         require(isinstance(operation, str) and bool(operation) and scope in SCOPES, "unclassified oracle row")
         require(operation not in oracle, f"ambiguous oracle row: {operation}")
         oracle[operation] = scope
     require(bool(oracle), "empty scope oracle")
+    require(isinstance(manifest.get("idempotencyExamples"), list), "idempotency examples list required")
     for example in manifest.get("idempotencyExamples", []):
+        require(isinstance(example, str), "idempotency example ID required")
         require(example in oracle and oracle[example] != "future", f"nonexistent idempotency example: {example}")
-    tool_allowlist = set(manifest.get("toolAllowlist", []))
+    allowed = manifest.get("toolAllowlist", [])
+    require(isinstance(allowed, list) and all(isinstance(op, str) for op in allowed), "tool allowlist IDs required")
+    tool_allowlist = set(allowed)
     require(all(op in oracle and oracle[op] != "future" and not protected(op) for op in tool_allowlist),
             "forbidden or unclassified tool allowlist operation")
     public_imports(root)
@@ -185,7 +225,9 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
         require(document.get("schemaVersion") == "operation-metadata.v1", f"unsupported operation export: {path}")
         require(isinstance(document.get("operations"), list), f"operation list required: {path}")
         for row in document["operations"]:
+            require(isinstance(row, dict), f"operation row object required: {path}")
             operation = row.get("operationId")
+            require(isinstance(operation, str), "operation ID required")
             require(operation in oracle, f"unclassified operation: {operation}")
             require(oracle[operation] != "future", f"reserved future operation registered: {operation}")
             require(operation not in exported, f"ambiguous duplicate export: {operation}")
@@ -198,7 +240,7 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
                 require(methods.get(binding) == source, f"{operation}: nonexistent service method/source {binding}")
             else:
                 require(row.get("kind") in {"http", "in-process"}, f"{operation}: unknown binding kind")
-                require(row["surface"] in ({"http-exception", "cf-internal"} if row["kind"] == "http" else {"in-process"}),
+                require(row.get("surface") in ({"http-exception", "cf-internal"} if row["kind"] == "http" else {"in-process"}),
                         f"{operation}: binding surface mismatch")
             actors, derived = authorization(row, tool_allowlist)
             bindings.add(binding)
