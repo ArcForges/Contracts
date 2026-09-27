@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "local-service-retirements.v1",
+  "license": "Apache-2.0",
+  "authority": "registry04 section 13 and annex09 sections 1 and 3",
+  "retired": [
+    {
+      "names": ["IHubRegistry", "HubRegistryService"],
+      "reason": "No peer-product discovery or registration; product handlers are in process."
+    },
+    {
+      "names": ["IHubRouting", "HubRoutingService"],
+      "reason": "No cross-product local router; remote control uses the Cloud bridge."
+    },
+    {
+      "names": ["IDeviceSsoBroker", "DeviceSsoBrokerService"],
+      "reason": "Future-only reserved names; applications use their own Cloud session and standard OS/browser authentication."
+    }
+  ]
+}

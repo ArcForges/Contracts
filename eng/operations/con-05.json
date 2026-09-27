@@ -1,0 +1,303 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "operations": [
+    {
+      "operationId": "IExtensionHost.Handshake",
+      "binding": "arcforges.extensions.v1.ExtensionHostService/Handshake",
+      "kind": "proto",
+      "source": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "extension-peer",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#extension-operation-authorization-metadata",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["extension-child"]
+      }
+    },
+    {
+      "operationId": "IExtensionHost.Invoke",
+      "binding": "arcforges.extensions.v1.ExtensionHostService/Invoke",
+      "kind": "proto",
+      "source": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "delegated-invocation",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#extension-operation-authorization-metadata",
+      "idempotency": {
+        "from": "admittedCapability.idempotency"
+      },
+      "authorization": {
+        "capability": {
+          "from": "admittedCapability.operationId"
+        },
+        "risk": {
+          "from": "admittedCapability.risk"
+        },
+        "approval": {
+          "from": "admittedCapability.approval"
+        },
+        "stepUp": {
+          "from": "admittedCapability.stepUp"
+        },
+        "localPresence": {
+          "from": "admittedCapability.localPresence"
+        },
+        "egress": {
+          "from": "admittedCapability.egress"
+        },
+        "patEligible": false,
+        "actorKinds": {
+          "from": "admittedCapability.actorKinds"
+        }
+      },
+      "delegation": {
+        "intersectOriginalActor": true,
+        "requireCurrentGrant": true,
+        "denyHumanOnly": true,
+        "requireLaunchRole": true
+      }
+    },
+    {
+      "operationId": "IExtensionHost.Stop",
+      "binding": "arcforges.extensions.v1.ExtensionHostService/Stop",
+      "kind": "proto",
+      "source": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "extension-peer",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#extension-operation-authorization-metadata",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["owning-parent"]
+      }
+    },
+    {
+      "operationId": "ILocalBootstrap.Challenge",
+      "binding": "arcforges.local.platform.v1.LocalBootstrapService/Challenge",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "launch-bootstrap-only",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#bootstrap-operation-authorization-metadata",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": {
+          "from": "verifiedLaunchProfile.actorKinds"
+        }
+      },
+      "launchRoles": {
+        "from": "verifiedLaunchProfile.callerRoles"
+      },
+      "requireLaunchRole": true
+    },
+    {
+      "operationId": "ILocalBootstrap.Confirm",
+      "binding": "arcforges.local.platform.v1.LocalBootstrapService/Confirm",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "launch-bootstrap-only",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#bootstrap-operation-authorization-metadata",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": {
+          "from": "verifiedLaunchProfile.actorKinds"
+        }
+      },
+      "launchRoles": {
+        "from": "verifiedLaunchProfile.callerRoles"
+      },
+      "requireLaunchRole": true
+    },
+    {
+      "operationId": "ILocalBootstrap.Renew",
+      "binding": "arcforges.local.platform.v1.LocalBootstrapService/Renew",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "launch-bootstrap-only",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#bootstrap-operation-authorization-metadata",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": {
+          "from": "verifiedLaunchProfile.actorKinds"
+        }
+      },
+      "launchRoles": {
+        "from": "verifiedLaunchProfile.callerRoles"
+      },
+      "requireLaunchRole": true
+    },
+    {
+      "operationId": "IConnectorBroker.ListDefinitions",
+      "binding": "arcforges.local.platform.v1.ConnectorBrokerService/ListDefinitions",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#connector-operation-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      },
+      "launchRoles": ["owning-parent"]
+    },
+    {
+      "operationId": "IConnectorBroker.ListConnections",
+      "binding": "arcforges.local.platform.v1.ConnectorBrokerService/ListConnections",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#connector-operation-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      },
+      "launchRoles": ["owning-parent"]
+    },
+    {
+      "operationId": "IConnectorBroker.BeginConnection",
+      "binding": "arcforges.local.platform.v1.ConnectorBrokerService/BeginConnection",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#connector-operation-authorization-metadata",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "foreground-human-consent",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "definition-hash-bound-provider-origins-scopes",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      },
+      "launchRoles": ["owning-parent"]
+    },
+    {
+      "operationId": "IConnectorBroker.CompleteConnection",
+      "binding": "arcforges.local.platform.v1.ConnectorBrokerService/CompleteConnection",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#connector-operation-authorization-metadata",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "original-foreground-human-consent-flow",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "definition-hash-bound-provider-origins-scopes",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      },
+      "launchRoles": ["owning-parent"]
+    },
+    {
+      "operationId": "IConnectorBroker.GetConnection",
+      "binding": "arcforges.local.platform.v1.ConnectorBrokerService/GetConnection",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#connector-operation-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      },
+      "launchRoles": ["owning-parent"]
+    },
+    {
+      "operationId": "IConnectorBroker.RevokeConnection",
+      "binding": "arcforges.local.platform.v1.ConnectorBrokerService/RevokeConnection",
+      "kind": "proto",
+      "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "scope": "private-helper",
+      "surface": "private-helper",
+      "profile": "helper-parent",
+      "sourceRule": "docs/architecture/contracts/09-local-grpc-and-sandbox.md#connector-operation-authorization-metadata",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "foreground-human-confirmation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "definition-hash-bound-existing-provider-revocation",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      },
+      "launchRoles": ["owning-parent"]
+    }
+  ]
+}

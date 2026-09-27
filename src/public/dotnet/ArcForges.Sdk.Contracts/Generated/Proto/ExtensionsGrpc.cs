@@ -50,9 +50,37 @@ namespace ArcForges.Sdk.Contracts.V1 {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceHandshakeRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceHandshakeResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceInvokeRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceInvokeResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceRenewLeaseRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceRenewLeaseResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceStopRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse> __Marshaller_arcforges_extensions_v1_ExtensionHostServiceStopResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse.Parser));
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse> __Method_Handshake = new grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Handshake",
+        __Marshaller_arcforges_extensions_v1_ExtensionHostServiceHandshakeRequest,
+        __Marshaller_arcforges_extensions_v1_ExtensionHostServiceHandshakeResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse> __Method_Invoke = new grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Invoke",
+        __Marshaller_arcforges_extensions_v1_ExtensionHostServiceInvokeRequest,
+        __Marshaller_arcforges_extensions_v1_ExtensionHostServiceInvokeResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse> __Method_RenewLease = new grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse>(
@@ -61,6 +89,14 @@ namespace ArcForges.Sdk.Contracts.V1 {
         "RenewLease",
         __Marshaller_arcforges_extensions_v1_ExtensionHostServiceRenewLeaseRequest,
         __Marshaller_arcforges_extensions_v1_ExtensionHostServiceRenewLeaseResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse> __Method_Stop = new grpc::Method<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Stop",
+        __Marshaller_arcforges_extensions_v1_ExtensionHostServiceStopRequest,
+        __Marshaller_arcforges_extensions_v1_ExtensionHostServiceStopResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -72,8 +108,44 @@ namespace ArcForges.Sdk.Contracts.V1 {
     [grpc::BindServiceMethod(typeof(ExtensionHostService), "BindService")]
     public abstract partial class ExtensionHostServiceBase
     {
+      /// <summary>
+      /// Receiver: verified host. Package identity must match the installed manifest.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse> Handshake(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Each launch direction exposes only its admitted capabilities; no symmetric grant.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse> Invoke(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse> RenewLease(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Receiver: extension; the owning parent may stop only its current lease.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse> Stop(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -107,6 +179,102 @@ namespace ArcForges.Sdk.Contracts.V1 {
       {
       }
 
+      /// <summary>
+      /// Receiver: verified host. Package identity must match the installed manifest.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse Handshake(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Handshake(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Receiver: verified host. Package identity must match the installed manifest.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse Handshake(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Handshake, null, options, request);
+      }
+      /// <summary>
+      /// Receiver: verified host. Package identity must match the installed manifest.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse> HandshakeAsync(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return HandshakeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Receiver: verified host. Package identity must match the installed manifest.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse> HandshakeAsync(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Handshake, null, options, request);
+      }
+      /// <summary>
+      /// Each launch direction exposes only its admitted capabilities; no symmetric grant.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse Invoke(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Invoke(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Each launch direction exposes only its admitted capabilities; no symmetric grant.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse Invoke(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Invoke, null, options, request);
+      }
+      /// <summary>
+      /// Each launch direction exposes only its admitted capabilities; no symmetric grant.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse> InvokeAsync(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return InvokeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Each launch direction exposes only its admitted capabilities; no symmetric grant.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse> InvokeAsync(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Invoke, null, options, request);
+      }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse RenewLease(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
@@ -127,6 +295,54 @@ namespace ArcForges.Sdk.Contracts.V1 {
       {
         return CallInvoker.AsyncUnaryCall(__Method_RenewLease, null, options, request);
       }
+      /// <summary>
+      /// Receiver: extension; the owning parent may stop only its current lease.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse Stop(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Stop(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Receiver: extension; the owning parent may stop only its current lease.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse Stop(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Stop, null, options, request);
+      }
+      /// <summary>
+      /// Receiver: extension; the owning parent may stop only its current lease.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse> StopAsync(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StopAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Receiver: extension; the owning parent may stop only its current lease.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse> StopAsync(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Stop, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override ExtensionHostServiceClient NewInstance(ClientBaseConfiguration configuration)
@@ -141,7 +357,10 @@ namespace ArcForges.Sdk.Contracts.V1 {
     public static grpc::ServerServiceDefinition BindService(ExtensionHostServiceBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_RenewLease, serviceImpl.RenewLease).Build();
+          .AddMethod(__Method_Handshake, serviceImpl.Handshake)
+          .AddMethod(__Method_Invoke, serviceImpl.Invoke)
+          .AddMethod(__Method_RenewLease, serviceImpl.RenewLease)
+          .AddMethod(__Method_Stop, serviceImpl.Stop).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -151,7 +370,10 @@ namespace ArcForges.Sdk.Contracts.V1 {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, ExtensionHostServiceBase serviceImpl)
     {
+      serviceBinder.AddMethod(__Method_Handshake, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceHandshakeResponse>(serviceImpl.Handshake));
+      serviceBinder.AddMethod(__Method_Invoke, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeResponse>(serviceImpl.Invoke));
       serviceBinder.AddMethod(__Method_RenewLease, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse>(serviceImpl.RenewLease));
+      serviceBinder.AddMethod(__Method_Stop, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest, global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse>(serviceImpl.Stop));
     }
 
   }

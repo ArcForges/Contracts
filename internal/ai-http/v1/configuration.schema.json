@@ -1,0 +1,1553 @@
+{
+  "title": "ConfigurationDocument",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "configuration.v1"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "parentVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "effectiveAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+    },
+    "realmId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "x-arcforges-rules": ["nonzeroUuid"]
+    },
+    "identity": {
+      "$ref": "#/$defs/ConfigurationIdentity"
+    },
+    "offers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfigurationOffer"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "entitlementProfiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfigurationEntitlementProfile"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "customerTariffs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfigurationCustomerTariff"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "supplierPrices": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfigurationSupplierPrice"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "funding": {
+      "$ref": "#/$defs/ConfigurationFunding"
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfigurationModel"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "search": {
+      "$ref": "#/$defs/ConfigurationSearch"
+    },
+    "commerce": {
+      "$ref": "#/$defs/ConfigurationCommerce"
+    },
+    "objects": {
+      "$ref": "#/$defs/ConfigurationObjects"
+    },
+    "backup": {
+      "$ref": "#/$defs/ConfigurationBackup"
+    },
+    "launchCapacity": {
+      "$ref": "#/$defs/ConfigurationLaunchCapacity"
+    },
+    "release": {
+      "$ref": "#/$defs/ConfigurationRelease"
+    },
+    "policy": {
+      "$ref": "#/$defs/ConfigurationPolicy"
+    },
+    "email": {
+      "$ref": "#/$defs/ConfigurationEmail"
+    },
+    "push": {
+      "$ref": "#/$defs/ConfigurationPush"
+    },
+    "operatorIdentity": {
+      "$ref": "#/$defs/ConfigurationOperatorIdentity"
+    },
+    "serviceKeys": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfigurationServiceKey"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "origins": {
+      "$ref": "#/$defs/ConfigurationOrigins"
+    },
+    "observability": {
+      "$ref": "#/$defs/ConfigurationObservability"
+    },
+    "status": {
+      "$ref": "#/$defs/ConfigurationStatus"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "version",
+    "parentVersion",
+    "effectiveAt",
+    "realmId",
+    "identity",
+    "offers",
+    "entitlementProfiles",
+    "customerTariffs",
+    "supplierPrices",
+    "funding",
+    "models",
+    "search",
+    "commerce",
+    "objects",
+    "backup",
+    "launchCapacity",
+    "release",
+    "policy",
+    "email",
+    "push",
+    "operatorIdentity",
+    "serviceKeys",
+    "origins",
+    "observability",
+    "status"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "description": "Private configuration shape and static cross-reference closure only; provider readiness, pinned artifacts, credential resolution, signatures and activation remain owner checks.",
+  "x-arcforges-max-bytes": 1048576,
+  "x-arcforges-schema-version": "1",
+  "x-arcforges-rules": ["configurationDocument"],
+  "$defs": {
+    "ConfigurationSecretRef": {
+      "title": "ConfigurationSecretRef",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["provider", "key", "version"],
+      "additionalProperties": false
+    },
+    "ConfigurationIdentityProvider": {
+      "title": "ConfigurationIdentityProvider",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["passkey", "email", "password", "oidc"]
+        },
+        "issuer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?(?:/[^\\s#]*)?$"
+        },
+        "clientId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "redirectUris": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?(?:/[^\\s#]*)?$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        }
+      },
+      "required": ["id", "kind", "issuer", "clientId", "redirectUris"],
+      "additionalProperties": false
+    },
+    "ConfigurationIdentity": {
+      "title": "ConfigurationIdentity",
+      "type": "object",
+      "properties": {
+        "realmKind": {
+          "type": "string",
+          "enum": ["official", "selfHosted"]
+        },
+        "publicOrigin": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$"
+        },
+        "enabledMethods": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["passkey", "email", "password", "oidc"]
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConfigurationIdentityProvider"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "emailSenderSecretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        }
+      },
+      "required": [
+        "realmKind",
+        "publicOrigin",
+        "enabledMethods",
+        "providers",
+        "emailSenderSecretRef"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationOffer": {
+      "title": "ConfigurationOffer",
+      "type": "object",
+      "properties": {
+        "offerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["subscription", "pass", "credits"]
+        },
+        "providerPriceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "pattern": "^[A-Z]{3}$"
+        },
+        "regionSet": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2,
+            "pattern": "^[A-Z]{2}$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "amount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "interval": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "entitlementProfileId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "offerId",
+        "kind",
+        "providerPriceId",
+        "currency",
+        "regionSet",
+        "amount",
+        "entitlementProfileId"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationEntitlementProfile": {
+      "title": "ConfigurationEntitlementProfile",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "storageBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "capacityMicrounits": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "refillNumerator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "refillDenominator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "burstMicrounits": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "periodRules": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "description": "Identifier of an immutable inherited commerce renewal/reset profile. Activation resolves its canonical bytes and hash from the same manifest or an already verified artifact; no URL or mutable lookup."
+        }
+      },
+      "required": [
+        "id",
+        "capabilities",
+        "storageBytes",
+        "capacityMicrounits",
+        "refillNumerator",
+        "refillDenominator",
+        "burstMicrounits",
+        "periodRules"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationCustomerTariff": {
+      "title": "ConfigurationCustomerTariff",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "inputMicrounitsPerMillion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "outputMicrounitsPerMillion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "imageMicrounits": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "audioMicrounitsPerSecond": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "validFrom": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": [
+        "id",
+        "modelId",
+        "inputMicrounitsPerMillion",
+        "outputMicrounitsPerMillion",
+        "validFrom"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationSupplierPrice": {
+      "title": "ConfigurationSupplierPrice",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "pattern": "^[A-Z]{3}$"
+        },
+        "inputPerMillion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "outputPerMillion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "requestPrice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "imagePrice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "audioPerSecond": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "effectiveAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": [
+        "id",
+        "provider",
+        "modelId",
+        "currency",
+        "inputPerMillion",
+        "outputPerMillion",
+        "effectiveAt"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationMoney": {
+      "title": "ConfigurationMoney",
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "pattern": "^[A-Z]{3}$"
+        },
+        "amount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]*[1-9])?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        }
+      },
+      "required": ["currency", "amount"],
+      "additionalProperties": false
+    },
+    "ConfigurationFunding": {
+      "title": "ConfigurationFunding",
+      "type": "object",
+      "properties": {
+        "operatorExposureLimit": {
+          "$ref": "#/$defs/ConfigurationMoney"
+        },
+        "unknownOutcomeDeadline": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["uint64String"],
+          "description": "Positive seconds for the existing unknown-outcome reconciliation boundary; activation enforces the compiled customer-protection ceiling."
+        },
+        "maximumCustomerBudget": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "defaultRunBudget": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "allowedCreditLotKinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["purchased", "compensation"]
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "fxSnapshotHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "operatorExposureLimit",
+        "unknownOutcomeDeadline",
+        "maximumCustomerBudget",
+        "defaultRunBudget",
+        "allowedCreditLotKinds"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationModel": {
+      "title": "ConfigurationModel",
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["customerInference", "platformCompaction", "embedding", "rerank"]
+        },
+        "provider": {
+          "type": "string",
+          "const": "workersAi"
+        },
+        "route": {
+          "type": "string",
+          "enum": [
+            "@cf/openai/gpt-oss-120b",
+            "@cf/openai/gpt-oss-20b",
+            "@cf/google/gemma-4-26b-a4b-it",
+            "@cf/baai/bge-m3",
+            "@cf/baai/bge-reranker-base"
+          ]
+        },
+        "tokenizerArtifactHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "inputKinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["text", "image"]
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "contextTokens": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "maxOutputTokens": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "customerTariffId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "supplierPriceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "modelId",
+        "purpose",
+        "provider",
+        "route",
+        "tokenizerArtifactHash",
+        "inputKinds",
+        "contextTokens",
+        "maxOutputTokens",
+        "supplierPriceId",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationSearch": {
+      "title": "ConfigurationSearch",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "const": "braveWebV1"
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "maxResponseBytes": {
+          "type": "integer",
+          "const": 262144
+        },
+        "maxHits": {
+          "type": "integer",
+          "const": 10
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "const": 10000
+        },
+        "operatorBudget": {
+          "$ref": "#/$defs/ConfigurationMoney"
+        }
+      },
+      "required": [
+        "provider",
+        "secretRef",
+        "enabled",
+        "maxResponseBytes",
+        "maxHits",
+        "timeoutMs",
+        "operatorBudget"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationCommerce": {
+      "title": "ConfigurationCommerce",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "const": "paddle"
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["live", "test"]
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "webhookSecretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "legalEntityId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "payoutEvidenceHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "cnyActivationEvidenceHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "paymentEnabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "provider",
+        "environment",
+        "secretRef",
+        "webhookSecretRef",
+        "legalEntityId",
+        "payoutEvidenceHash",
+        "paymentEnabled"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationObjects": {
+      "title": "ConfigurationObjects",
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "const": "r2"
+        },
+        "bucketRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "maxUploadBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "partBytes": {
+          "type": "integer",
+          "const": 8388608
+        },
+        "maxParts": {
+          "type": "integer",
+          "const": 10000
+        },
+        "uploadTtlSeconds": {
+          "type": "integer",
+          "const": 86400
+        },
+        "ticketTtlSeconds": {
+          "type": "integer",
+          "const": 600
+        }
+      },
+      "required": [
+        "primary",
+        "bucketRef",
+        "secretRef",
+        "maxUploadBytes",
+        "partBytes",
+        "maxParts",
+        "uploadTtlSeconds",
+        "ticketTtlSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationBackup": {
+      "title": "ConfigurationBackup",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "const": "s3"
+        },
+        "independentAccountRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "bucketRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "objectLockMode": {
+          "type": "string",
+          "const": "COMPLIANCE"
+        },
+        "retentionDays": {
+          "type": "integer",
+          "const": 30
+        },
+        "metadataRpoSeconds": {
+          "type": "integer",
+          "const": 300
+        },
+        "blobRpoSeconds": {
+          "type": "integer",
+          "const": 900
+        },
+        "rtoSeconds": {
+          "type": "integer",
+          "const": 14400
+        }
+      },
+      "required": [
+        "provider",
+        "independentAccountRef",
+        "bucketRef",
+        "secretRef",
+        "objectLockMode",
+        "retentionDays",
+        "metadataRpoSeconds",
+        "blobRpoSeconds",
+        "rtoSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationLaunchCapacity": {
+      "title": "ConfigurationLaunchCapacity",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "const": "launch-capacity.v1"
+        },
+        "manifestHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "artifactRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["profileId", "manifestHash", "artifactRef"],
+      "additionalProperties": false
+    },
+    "ConfigurationRelease": {
+      "title": "ConfigurationRelease",
+      "type": "object",
+      "properties": {
+        "manifestHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "cloudDigest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "contractsRelease": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "compatibleMajors": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4294967295
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "minClientVersions": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "minProperties": 1,
+          "maxProperties": 256
+        },
+        "migrationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "migrationMode": {
+          "type": "string",
+          "enum": ["A", "B", "C"]
+        },
+        "rollbackHorizonSeconds": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": [
+        "manifestHash",
+        "cloudDigest",
+        "workerVersion",
+        "contractsRelease",
+        "compatibleMajors",
+        "minClientVersions",
+        "migrationId",
+        "migrationMode",
+        "rollbackHorizonSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationPolicy": {
+      "title": "ConfigurationPolicy",
+      "type": "object",
+      "properties": {
+        "bodyHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "artifactId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["bodyHash", "artifactId"],
+      "additionalProperties": false
+    },
+    "ConfigurationPostmark": {
+      "title": "ConfigurationPostmark",
+      "type": "object",
+      "properties": {
+        "serverTokenRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "webhookCredentialRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "messageStreamId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "allowedWebhookCidrs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9A-Fa-f:.]+/[0-9]{1,3}$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "serverTokenRef",
+        "webhookCredentialRef",
+        "messageStreamId",
+        "allowedWebhookCidrs"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationSes": {
+      "title": "ConfigurationSes",
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "credentialRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "configurationSet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "snsTopicArn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^arn:aws[a-z-]*:sns:[A-Za-z0-9-]+:[0-9]{12}:[A-Za-z0-9_-]+$"
+        }
+      },
+      "required": ["region", "credentialRef", "configurationSet", "snsTopicArn"],
+      "additionalProperties": false
+    },
+    "ConfigurationEmail": {
+      "title": "ConfigurationEmail",
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "const": "postmark"
+        },
+        "secondary": {
+          "type": "string",
+          "const": "ses"
+        },
+        "transactionalDomain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253,
+          "pattern": "^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+        },
+        "broadcastDomain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253,
+          "pattern": "^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+        },
+        "postmark": {
+          "$ref": "#/$defs/ConfigurationPostmark"
+        },
+        "ses": {
+          "$ref": "#/$defs/ConfigurationSes"
+        },
+        "maxAttempts": {
+          "type": "integer",
+          "const": 3
+        },
+        "unknownReconcileSeconds": {
+          "type": "integer",
+          "const": 300
+        }
+      },
+      "required": [
+        "primary",
+        "secondary",
+        "transactionalDomain",
+        "broadcastDomain",
+        "postmark",
+        "ses",
+        "maxAttempts",
+        "unknownReconcileSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationPush": {
+      "title": "ConfigurationPush",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "const": "fcm"
+        },
+        "projectId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "serviceAccountRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "androidPackage": {
+          "type": "string",
+          "const": "com.arcforges.mobile"
+        },
+        "ttlSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        }
+      },
+      "required": ["provider", "projectId", "serviceAccountRef", "androidPackage", "ttlSeconds"],
+      "additionalProperties": false
+    },
+    "ConfigurationOperatorIdentity": {
+      "title": "ConfigurationOperatorIdentity",
+      "type": "object",
+      "properties": {
+        "issuer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?(?:/[^\\s#]*)?$"
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?(?:/[^\\s#]*)?$"
+        },
+        "clientId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "allowedTenantIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "x-arcforges-rules": ["nonzeroUuid"]
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "roleMapping": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "customerSupport",
+              "recoverySpecialist",
+              "operations",
+              "trustSafety",
+              "security"
+            ]
+          },
+          "minProperties": 1,
+          "maxProperties": 256
+        },
+        "accessApplicationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "issuer",
+        "audience",
+        "clientId",
+        "secretRef",
+        "allowedTenantIds",
+        "roleMapping",
+        "accessApplicationId"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationServiceKey": {
+      "title": "ConfigurationServiceKey",
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["cloud-to-ai", "ai-to-cloud", "objects", "feeds"]
+        },
+        "secretRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "activatesAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        },
+        "retiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.[0-9]{1,6})?Z$"
+        }
+      },
+      "required": ["keyId", "direction", "secretRef", "activatesAt", "retiresAt"],
+      "additionalProperties": false
+    },
+    "ConfigurationOrigins": {
+      "title": "ConfigurationOrigins",
+      "type": "object",
+      "properties": {
+        "publicHosts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 253,
+            "pattern": "^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "privateVirtualHosts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 253,
+            "pattern": "^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "providerEgressOrigins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        },
+        "connectorOriginPolicy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "description": "Identifier of an immutable connector-origin policy with verified canonical bytes/hash; activation must enforce pinned origin and provider egress rules."
+        },
+        "androidCertificateFingerprints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "minItems": 1,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "publicHosts",
+        "privateVirtualHosts",
+        "providerEgressOrigins",
+        "connectorOriginPolicy",
+        "androidCertificateFingerprints"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationObservability": {
+      "title": "ConfigurationObservability",
+      "type": "object",
+      "properties": {
+        "otlpEndpoint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?(?:/[^\\s#]*)?$"
+        },
+        "credentialRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "sampleRate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(0|1|0\\.[0-9]*[1-9])$"
+        },
+        "retentionDays": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 90
+        },
+        "redactionProfileHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "incidentAdapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "analyticsAdapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "consentRequired": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "required": [
+        "otlpEndpoint",
+        "credentialRef",
+        "sampleRate",
+        "retentionDays",
+        "redactionProfileHash",
+        "incidentAdapterId",
+        "analyticsAdapterId",
+        "consentRequired"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationStatusComponents": {
+      "title": "ConfigurationStatusComponents",
+      "type": "object",
+      "properties": {
+        "website": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "accountAuthentication": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "cloudApi": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "syncStorage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "remoteRealtime": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "cloudTasksAutomation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "managedAi": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "billingCheckout": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "downloadsUpdates": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "website",
+        "accountAuthentication",
+        "cloudApi",
+        "syncStorage",
+        "remoteRealtime",
+        "cloudTasksAutomation",
+        "managedAi",
+        "billingCheckout",
+        "downloadsUpdates"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigurationStatus": {
+      "title": "ConfigurationStatus",
+      "type": "object",
+      "properties": {
+        "providerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "externalOrigin": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?::(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$"
+        },
+        "credentialRef": {
+          "$ref": "#/$defs/ConfigurationSecretRef"
+        },
+        "componentMap": {
+          "$ref": "#/$defs/ConfigurationStatusComponents"
+        },
+        "incidentAdapterId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "independenceEvidenceHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "providerId",
+        "externalOrigin",
+        "credentialRef",
+        "componentMap",
+        "incidentAdapterId",
+        "independenceEvidenceHash"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

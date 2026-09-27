@@ -840,7 +840,10 @@
         "/arcforges.catalog.v1.CatalogService/GetSubmission"
       ],
       "arcforges.extensions.v1.ExtensionHostService": [
-        "/arcforges.extensions.v1.ExtensionHostService/RenewLease"
+        "/arcforges.extensions.v1.ExtensionHostService/Handshake",
+        "/arcforges.extensions.v1.ExtensionHostService/Invoke",
+        "/arcforges.extensions.v1.ExtensionHostService/RenewLease",
+        "/arcforges.extensions.v1.ExtensionHostService/Stop"
       ]
     }
   }

@@ -46,8 +46,9 @@ class ContractIdentityTests(unittest.TestCase):
     def test_http_only_package_uses_own_schema_version_without_fake_descriptor(self):
         axes = self.axes("@arcforges/ai-internal", descriptor=b"")
         values = axes["ContractSet"]["values"]
-        self.assertEqual([(v["subject"], v["version"]) for v in values], [("json:CommitReceipt", "1")])
-        self.assertNotIn("descriptorSha256", values[0])
+        self.assertEqual({(v["subject"], v["version"]) for v in values}, {("json:CommitReceipt", "1"), ("json:ConfigurationDocument", "1")})
+        for value in values:
+            self.assertNotIn("descriptorSha256", value)
 
     def test_schema_mutation_does_not_change_unrelated_package_or_other_axes(self):
         with tempfile.TemporaryDirectory() as folder:
