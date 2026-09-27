@@ -3,13 +3,15 @@
   "id": "con-12-bindings-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "6e3a1e7e3ee153fae89fe7fb4ed4cf3dbb89e01c",
+  "sourceCommit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
     "eng/generate_fixtures.py",
     "fixtures/internal/con-12-configuration.json",
     "fixtures/internal/wp03-00.json",
+    "fixtures/public/LICENSE",
+    "fixtures/public/con-02-descriptors.json",
     "fixtures/public/con-12-extension-policy.json",
     "fixtures/public/con-16-signed-formats.json",
     "fixtures/public/con-17-compat-hash.json",
@@ -42,10 +44,12 @@
     "public/proto/arcforges/foundation/v1/foundation.proto",
     "public/proto/arcforges/hello/v1/hello.proto",
     "public/proto/arcforges/publicapi/v1/content.proto",
+    "public/proto/arcforges/publicapi/v1/descriptors.proto",
     "public/proto/constraints.json",
     "public/proto/constraints/events-baseline.json",
     "public/proto/constraints/extensions-baseline.json",
     "public/proto/constraints/foundation-baseline.json",
+    "public/proto/constraints/foundation-descriptors.json",
     "public/proto/constraints/publicapi-baseline.json",
     "public/proto/value-boundaries.json"
   ],
@@ -177,7 +181,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
-      "sha256": "18b597b052fe137b5697d9b34cf13f55348d5d0757fff0af3a315be0c3e3fe14",
+      "sha256": "3f0bb22158579a7daa1f767f9e1dcb1c134f7a879eadffa286ab501b1599abbb",
       "normalization": "lf"
     },
     {
@@ -188,6 +192,11 @@
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
       "sha256": "f8d94bd4ad0eab553def1452212db81a498014186cc908dac1c54f5504883722",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Descriptors.cs",
+      "sha256": "7f8a02924b7b67c0162ce693d6ebff3440d825388e72cdac01475f628b0c98cb",
       "normalization": "lf"
     },
     {
@@ -241,6 +250,11 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/EncodedBodyReader.cs",
+      "sha256": "1220b25741a588ba881cc2fa2420bc79bc921e1d7d2536a9130a4ebafac7c9c8",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/AndroidUpdateValidator.g.cs",
       "sha256": "3161fb3bdae9606d4f822e1a45bf6912344f2905f47a89790fcfffa3cabbf7a0",
       "normalization": "lf"
@@ -287,7 +301,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ProtoValidation.g.cs",
-      "sha256": "09c11327a9bbc42d8ca166570741cbeaaf37c3e6a0766108324bf6925a1c585f",
+      "sha256": "ea623ae7660c45c74d7b10309f2bcff7241a5fb4d6f7730e170f411df7c2eb06",
       "normalization": "lf"
     },
     {
@@ -356,6 +370,16 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ActionDescriptor.java",
+      "sha256": "cc43cd72022b3cff4710cf683a85c571bb8f0b5ac144271fc0d8d15b388fcf9f",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ActionDescriptorOrBuilder.java",
+      "sha256": "0428a0d1228b77e07639fd7ec50232ec176078c109c9bdf98490fcc4b4f1f24d",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ActorChain.java",
       "sha256": "e469988ffa939f3aa1f2d18a80adda608a8ecfaa1458ded2d5e94b2b111f36e3",
       "normalization": "lf"
@@ -406,6 +430,11 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/BindingProtocol.java",
+      "sha256": "509c60fee00594923959f4c0247488f6b9fa26cbc553f8405bf3dd5554e11c6a",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/BlobRef.java",
       "sha256": "0cbcf0cbe1dc6786526d507d3815524717d2e5b20b75b344d999f046034c6aba",
       "normalization": "lf"
@@ -426,6 +455,46 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CancelSupport.java",
+      "sha256": "461389db7147574a2b8be88100d24049d51ade294b588b4f31f6e3cd2f388b7a",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CancelSupportOrBuilder.java",
+      "sha256": "2f129d38c84a5f8ebc4f5f54ae130e0cad8a8625d837ccc97c6af78425d0f5db",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CapabilityDescriptor.java",
+      "sha256": "6a1db7144a0a75b50c958a1f0524eeb3fe1467c56f9fc44d1c42e8b9648681dc",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CapabilityDescriptorOrBuilder.java",
+      "sha256": "46a55606748d61e6b11c4ffe684edfe0cd15b7edb59b41d4c8fe211198461b90",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CapabilityLimits.java",
+      "sha256": "90954890187785a32e530ae2fdcf66e4d1196238b1d5162856bf633f45163b4a",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CapabilityLimitsOrBuilder.java",
+      "sha256": "b169a90fb877ac14ddb85483146c93058f4d01f14a008d917607ef7aa6b1dec7",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CompatibilityDescriptor.java",
+      "sha256": "2f7b0cd7b0efc8bce6d4345c30fd6c010a719e54159a5d53c37c6842a346923f",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CompatibilityDescriptorOrBuilder.java",
+      "sha256": "7b9e708e88820846e6d0b16a542439ddce7c7e7ebb84c4d869fc10928a982e84",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContentOrigin.java",
       "sha256": "3235ca65c876e126f5b9e52bcfb972581d05aa5a3d5015508f4a175d6731540d",
       "normalization": "lf"
@@ -433,6 +502,26 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContentOriginOrBuilder.java",
       "sha256": "7c5b1f100f8940d8a97b753cf2e423adfb252469ac53b5638c664c4104504e4e",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContractCompatibility.java",
+      "sha256": "89d1a285bc2ebc95f19ef2df72d9b0b04734b3e1245d00d1c1a84845b83c4287",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContractCompatibilityOrBuilder.java",
+      "sha256": "2a3df6b85f84ac18a9f04aa322bd05e4c5e851be5859d786255913ba8cec4817",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContractVersion.java",
+      "sha256": "01e7ca9c08564f3bb9b28bb7596b2e086df2094ecd50323ac6895b360f9e5773",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContractVersionOrBuilder.java",
+      "sha256": "36894ac23ffe9923678c0597066ea347a241a2e72d19a7003f3ff7e93f370cb5",
       "normalization": "lf"
     },
     {
@@ -451,6 +540,21 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/EffectKind.java",
+      "sha256": "52ee608d083ac89e55cd4f6321ed6ef3646993c6ae5c39de0e337705b708ea86",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/EncodedBodyRef.java",
+      "sha256": "7d3e79888b80a0e0649f582075e1e8e70f5b6365abb69f76589c76320a6240fc",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/EncodedBodyRefOrBuilder.java",
+      "sha256": "3f095ad2e16e2f32df3d9238392071bb0854052387079dbab6d09ba24ae6a740",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ErrorCategory.java",
       "sha256": "c7af39da9a6d8ab7a9f037f069c39706182895b78c05fa2aa13ed80cfa04dd58",
       "normalization": "lf"
@@ -466,8 +570,33 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ExecutionLocus.java",
+      "sha256": "2a296502b87b0b63a26d6362875a3e8995f4f899b1afe8b86d7e4754939dada9",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/FeatureSet.java",
+      "sha256": "92c62b27f594b337ccd9e805a92fec5ebfd54a43594d8aefdfcbf5b0bf7000be",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/FeatureSetOrBuilder.java",
+      "sha256": "d083b4ea02fbe573cb4ea3f2d6049ba1ab8f5c7e82119ce0ace3e5739914494f",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/FoundationProto.java",
       "sha256": "e00379ac4af65db8d9c581c72330a259b88c5b5918ce6a7f684f479072171f99",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/HealthSnapshot.java",
+      "sha256": "c80e3a958f7b5dc370e868c3c9fa21f332086ce025554aab1f33bca64622fa50",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/HealthSnapshotOrBuilder.java",
+      "sha256": "e59fa01603835c7f6e1dde78a95d24b4f4b2782b770323038ac21b0b0ddaa096",
       "normalization": "lf"
     },
     {
@@ -478,6 +607,21 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/IdOrBuilder.java",
       "sha256": "839b166873748b95e746b2938e031749812f10afebe41a59ac43b666465bab51",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/InstanceHealth.java",
+      "sha256": "819e1ebe1f6333d9543c91710dfa71b628b4524cbf1a4972bffb65d01aa3501d",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/InstanceReadiness.java",
+      "sha256": "b2fac5f68a993ab2e23aa0611a276d76200ac8a2d6eabb0246e424c593a7d17b",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/InstanceReadinessOrBuilder.java",
+      "sha256": "1c9dd019eda7d635aee728b0e477a56348e5feccc1c25b40736f6ba312a9dddd",
       "normalization": "lf"
     },
     {
@@ -528,6 +672,16 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/NativeContentRevOrBuilder.java",
       "sha256": "cd9f37449419231ea74962f0e87b0df3458c1a520120e8f50c3bad58234e7700",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/OperationBinding.java",
+      "sha256": "42dde676f7b333c191e783bc282d5714d8896f7388bfc2224dac8c38edea57bc",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/OperationBindingOrBuilder.java",
+      "sha256": "775a9d1ae7fe255f7fcf06563f024f14f884c97cdfec1794803ce06fb6f37480",
       "normalization": "lf"
     },
     {
@@ -668,6 +822,11 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TimeRangeUtcOrBuilder.java",
       "sha256": "ea8ac9d5a42e5492b674ef54341772f4da54b4f6c77c77236ce1958c1026ed21",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ToolLocality.java",
+      "sha256": "e10f71b00c8989568a6f1d2da77456bbbe47e8799b22da802945c98c1a103720",
       "normalization": "lf"
     },
     {
@@ -841,8 +1000,28 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextDescriptor.java",
+      "sha256": "4e9c5f6424a80773d1ec27bf6b764d548599651b80a1ac5170212117d2fd799c",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextDescriptorOrBuilder.java",
+      "sha256": "2862b406dc87e0362da08607404c204e5ff1fe0dfacaf7fef70bb2abcb71d0d8",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextLifetime.java",
       "sha256": "aa7793144a7a102ffc5088c1d3012cc738232b75c7f36d239ecdf65f27d0545b",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextProvider.java",
+      "sha256": "5fe7e7f13a30fb093167226dd4a2c62feec0c41d53af979865b873f2284ce9c9",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextProviderOrBuilder.java",
+      "sha256": "767fc09a137ad87d40e88986f58c849a5759f2a3a62441eb1522c8e99b191245",
       "normalization": "lf"
     },
     {
@@ -923,6 +1102,11 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CursorSpecOrBuilder.java",
       "sha256": "72248ce898838227189d6c5e49796d379bb14b192054665c6b583e20df69c0b9",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/DescriptorsProto.java",
+      "sha256": "5e711656bd9b7f736f0e5d9c1c6cb198bfbc1c15fb98cf2716b28fc37c652894",
       "normalization": "lf"
     },
     {
@@ -1341,6 +1525,11 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ActionDescriptorKt.kt",
+      "sha256": "7e125a3adccaccbb18b990fd6cd95b5b6ea9a76923fb894ee34f03e25ca25bdf",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ActorChainKt.kt",
       "sha256": "4cf8082790f9e6458ab3fe712e7d872fcb5862e76ce6de40bac461a70dac59c5",
       "normalization": "lf"
@@ -1376,8 +1565,38 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CancelSupportKt.kt",
+      "sha256": "e834ea5c1189b6c8b1ff76086f06dd877bf27d13fd5b7bba0a3ec24404559e50",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CapabilityDescriptorKt.kt",
+      "sha256": "79cf27510cdfb724248889e1acff78e68930331a283e7f937f3cb7660a39a6b0",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CapabilityLimitsKt.kt",
+      "sha256": "e6a85783064fc8577177dd79d329c9680bf0837d89cf2031ed4feabcc2c50110",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CompatibilityDescriptorKt.kt",
+      "sha256": "017c3ce691b59d9aac50e8307884d5cbd606edf505b388322c8725c64096db61",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ContentOriginKt.kt",
       "sha256": "94a920442d04ddc090de59c152eda17b00228ac3ca2cf96c91eea686bb280875",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ContractCompatibilityKt.kt",
+      "sha256": "2dadf2f899bb052ea43c9b4f5474589e9f924b29c28629836718082500ca5e9d",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ContractVersionKt.kt",
+      "sha256": "af14b279420dfe9e078f647507e21244ab27e5184ca59cf304235998f7ae9eb8",
       "normalization": "lf"
     },
     {
@@ -1386,8 +1605,18 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/EncodedBodyRefKt.kt",
+      "sha256": "0b7f3e1c98e10fa1d34b130fac332b9cdfe8e418456344870be6ab38e43e7a61",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ErrorDetailsKt.kt",
       "sha256": "c1f0385e384567dafb6211f9fdb9daca78ee9ba14daa3b917595d3d5a2e8082e",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/FeatureSetKt.kt",
+      "sha256": "ce6524b8e0b0dd073773ed9b4d997e6d12a12eeeec9480beed48de1f776a199e",
       "normalization": "lf"
     },
     {
@@ -1396,8 +1625,18 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/HealthSnapshotKt.kt",
+      "sha256": "bb9262c66136d2d5f35b539e5497e1fdef17f7630979d62de70af68f695ddbd5",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/IdKt.kt",
       "sha256": "a82bdcef00c1697afb7f12696def78a30cd281cfd09e3742b9fb08ad65d25410",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/InstanceReadinessKt.kt",
+      "sha256": "bfa92e20cffc5e463622d3cc7b07d574309d0e12a34e9810b60776340fc6839d",
       "normalization": "lf"
     },
     {
@@ -1423,6 +1662,11 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/NativeContentRevKt.kt",
       "sha256": "b34322ae96a82e5e39a48273cd92d560d322e5c1b3320c9c3f309482f211724a",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/OperationBindingKt.kt",
+      "sha256": "0dd6eda8fa16210f48be5af8889f9dfc9f0c693839b755fe5baf06d497bc79b6",
       "normalization": "lf"
     },
     {
@@ -1581,6 +1825,16 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextDescriptorKt.kt",
+      "sha256": "ebc2d89ecece721d7b9a6e6e7280d2a4219bc7fed9f196b23acc7e34d932c9a5",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextProviderKt.kt",
+      "sha256": "369b16e875c3488a2b75899242b8be64e865e892be43d812ed0e7579b22108b2",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextRefKt.kt",
       "sha256": "1221123d137a796a53384b6f20ac550d933f619cbe8473e27c21a4549fcfe513",
       "normalization": "lf"
@@ -1613,6 +1867,11 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CursorSpecKt.kt",
       "sha256": "c0cd26501492f28712d9546e30f881306b63ad4ee58a433133ffe455f28d0564",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/DescriptorsProtoKt.proto.kt",
+      "sha256": "407af96f53dc46a861ff0b4fb11b5339ff1e1d85ed86801f931a3c5a424f170c",
       "normalization": "lf"
     },
     {
@@ -1867,7 +2126,7 @@
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "053b0d5c44200fd14c5c90f979342a10b124c33bc77beaa3bfa632f106350697",
+      "sha256": "1e1149b7e2e4bd55e48c030aceb273fb053380fd4419a0ff0aea8f9cc2dd1527",
       "normalization": "lf"
     },
     {
@@ -1877,7 +2136,7 @@
     },
     {
       "path": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
-      "sha256": "b79c7c1231d85fc1385366d8260bfc01261f577b5b2f6bfd0b9f9c960788030b",
+      "sha256": "cb69f5a70efc8dbada614a083cebc41a49e5d59bd907d0098def195b65622c47",
       "normalization": "lf"
     },
     {
@@ -1891,8 +2150,13 @@
       "normalization": "lf"
     },
     {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/descriptors_pb.ts",
+      "sha256": "934401b6413b49f0767675ca85e08dbc797a4c7127d69203ca32c6bb2c472ef3",
+      "normalization": "lf"
+    },
+    {
       "path": "src/public/ts/proto/src/index.ts",
-      "sha256": "f637d0b976ad65604ed5dde8fb61245bfd59b788171cb4dfaacca475e7cffefe",
+      "sha256": "c4c258e66da83388103993151998243c3d261cfaa856580e522d1f0fca5d0ec9",
       "normalization": "lf"
     },
     {
@@ -1902,7 +2166,7 @@
     },
     {
       "path": "src/public/ts/proto/src/shapes/gen/proto.ts",
-      "sha256": "5fe6e144d6babe4194717e5e47d01a99073ccf68dd3d04654d23463caf488f58",
+      "sha256": "7fde066a08d688cf1d4d3e27d685695bfe799b5892b44060bc8b4d9715912c3d",
       "normalization": "lf"
     },
     {
@@ -1915,7 +2179,7 @@
   "verification": {
     "kind": "regeneration",
     "command": "python eng/contracts.py generate --check",
-    "expected": "The existing generators reproduce the semantic-hash barrel export and public fixture package including the independently authored CON17 vectors; other generated targets retain their accepted ownership.",
+    "expected": "Formal merged constraint-shard loader reproduces all generated bindings; exact input schemas, shards, fixtures and generator snapshots are retained.",
     "artifacts": []
   },
   "notice": {
@@ -2030,7 +2294,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "6e3a1e7e3ee153fae89fe7fb4ed4cf3dbb89e01c",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2043,12 +2307,12 @@
         "evidence": [
           {
             "path": "eng/contracts.py",
-            "sha256": "cbbafa6888f5393d4b1944456fb1f83bf0e89473eaeced43f21ed81a62944702",
+            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
             "path": "eng/foundation_semantics.py",
-            "sha256": "880e7736000c5141c24f51a32918c9cf87de464ecd88fd54d51f3d9cf495cee4",
+            "sha256": "04c3cd27f699b249aac25a5b1b03510f833e66e6a84199abd72619121916bd59",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2058,7 +2322,7 @@
           },
           {
             "path": "eng/generate_shapes.py",
-            "sha256": "0b99e65d8bdf84df89917780b60bacdc5e885578b519b572c04b30fd5902133f",
+            "sha256": "6420dfdc07519e4dd3fcd4ea3d22c25d0e5a7f81ab24e1880c9679b467c0da71",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2080,7 +2344,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "6e3a1e7e3ee153fae89fe7fb4ed4cf3dbb89e01c",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2088,7 +2352,7 @@
         "evidence": [
           {
             "path": "eng/contracts.py",
-            "sha256": "cbbafa6888f5393d4b1944456fb1f83bf0e89473eaeced43f21ed81a62944702",
+            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2100,7 +2364,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "6e3a1e7e3ee153fae89fe7fb4ed4cf3dbb89e01c",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
         "paths": [
           "eng/generate_fixtures.py"
         ],
@@ -2117,12 +2381,56 @@
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           }
         ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
+        "paths": [
+          "eng/contracts.py",
+          "eng/generate_shapes.py",
+          "eng/foundation_semantics.py",
+          "eng/generate_fixtures.py",
+          "eng/kotlin_tools.py"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "eng/contracts.py",
+            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "eng/generate_shapes.py",
+            "sha256": "6420dfdc07519e4dd3fcd4ea3d22c25d0e5a7f81ab24e1880c9679b467c0da71",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "eng/foundation_semantics.py",
+            "sha256": "04c3cd27f699b249aac25a5b1b03510f833e66e6a84199abd72619121916bd59",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "eng/generate_fixtures.py",
+            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "eng/kotlin_tools.py",
+            "sha256": "219ff48ab12c421b63942047d16e61c6282ee6fa1af69c4148337be8e52d3325",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          }
+        ]
       }
     ],
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "6e3a1e7e3ee153fae89fe7fb4ed4cf3dbb89e01c",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2172,12 +2480,12 @@
         "evidence": [
           {
             "path": "eng/contract-packages.json",
-            "sha256": "06294fa4e7ca85e77ebc87cabb3fd8814fc7917c3fc8fadaaa532ce22ddae48a",
+            "sha256": "35513ffd9c8278d73cddb5e0ecc513a490c047b5e982fa98e1fe7fe6073c53d1",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
             "path": "eng/contracts.py",
-            "sha256": "cbbafa6888f5393d4b1944456fb1f83bf0e89473eaeced43f21ed81a62944702",
+            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2342,7 +2650,7 @@
           },
           {
             "path": "public/proto/arcforges/foundation/v1/foundation.proto",
-            "sha256": "8412a262ed890e1048680d437c8cbb42ea4e94a31b9c62ee08b0ba3007f53f9e",
+            "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2357,7 +2665,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "69b5e9a861d5e2e914bbfd1817dc15481965868ab719564308c99b77845a4f2f",
+            "sha256": "1ed8dbf334210b87fcaacc3b72ba00539e4d6fab0ca53eabcc5183d363424577",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2394,7 +2702,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "6e3a1e7e3ee153fae89fe7fb4ed4cf3dbb89e01c",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
         "paths": [
           "eng/contract-packages.json",
           "eng/contracts.py",
@@ -2444,12 +2752,12 @@
         "evidence": [
           {
             "path": "eng/contract-packages.json",
-            "sha256": "06294fa4e7ca85e77ebc87cabb3fd8814fc7917c3fc8fadaaa532ce22ddae48a",
+            "sha256": "35513ffd9c8278d73cddb5e0ecc513a490c047b5e982fa98e1fe7fe6073c53d1",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
             "path": "eng/contracts.py",
-            "sha256": "cbbafa6888f5393d4b1944456fb1f83bf0e89473eaeced43f21ed81a62944702",
+            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2614,7 +2922,7 @@
           },
           {
             "path": "public/proto/arcforges/foundation/v1/foundation.proto",
-            "sha256": "8412a262ed890e1048680d437c8cbb42ea4e94a31b9c62ee08b0ba3007f53f9e",
+            "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2629,7 +2937,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "69b5e9a861d5e2e914bbfd1817dc15481965868ab719564308c99b77845a4f2f",
+            "sha256": "1ed8dbf334210b87fcaacc3b72ba00539e4d6fab0ca53eabcc5183d363424577",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2645,6 +2953,302 @@
           {
             "path": "public/proto/constraints/foundation-baseline.json",
             "sha256": "99c0d68fa83c3722e45b58a2158a108c63c18e62f13a76da173dba9d4c9235a9",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/constraints/publicapi-baseline.json",
+            "sha256": "0c4d1d95926ee51fdc649f7552d151b669fcdfecc2111a09e3ec3a63a7731e50",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/value-boundaries.json",
+            "sha256": "b4d7eaa24ec864c69426fa5d679cf1e2d4536b8ed720e4371fb4a3ee94bc5111",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "1117193c8e2c00f0b2e0c6fcf304f6cbc500a6c0",
+        "paths": [
+          "eng/contract-packages.json",
+          "eng/contracts.py",
+          "eng/generate_fixtures.py",
+          "fixtures/internal/con-12-configuration.json",
+          "fixtures/internal/wp03-00.json",
+          "fixtures/public/LICENSE",
+          "fixtures/public/con-02-descriptors.json",
+          "fixtures/public/con-12-extension-policy.json",
+          "fixtures/public/con-16-signed-formats.json",
+          "fixtures/public/con-17-compat-hash.json",
+          "fixtures/public/hello.json",
+          "fixtures/public/wp03-00.json",
+          "fixtures/public/wp03-01.json",
+          "fixtures/public/wp03-02.json",
+          "internal/ai-http/v1/configuration.schema.json",
+          "internal/ai-http/v1/schema.json",
+          "internal/proto/arcforges/local/chat/v1/chat.proto",
+          "internal/proto/arcforges/local/platform/v1/platform.proto",
+          "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+          "internal/proto/arcforges/local/scope/v1/scope.proto",
+          "internal/proto/arcforges/operator/v1/operator.proto",
+          "internal/proto/constraints.json",
+          "internal/proto/constraints/chat-baseline.json",
+          "internal/proto/constraints/operator-baseline.json",
+          "internal/proto/constraints/platform-baseline.json",
+          "internal/proto/constraints/sandbox-baseline.json",
+          "internal/proto/constraints/scope-baseline.json",
+          "public/http/v1/inventory.schema.json",
+          "public/http/v1/manifest.schema.json",
+          "public/http/v1/panel.schema.json",
+          "public/http/v1/policy-body.schema.json",
+          "public/http/v1/schema.json",
+          "public/http/v1/signed-formats.schema.json",
+          "public/http/v1/workflow.schema.json",
+          "public/proto/arcforges/events/v1/events.proto",
+          "public/proto/arcforges/extensions/v1/extensions.proto",
+          "public/proto/arcforges/foundation/v1/foundation.proto",
+          "public/proto/arcforges/hello/v1/hello.proto",
+          "public/proto/arcforges/publicapi/v1/content.proto",
+          "public/proto/arcforges/publicapi/v1/descriptors.proto",
+          "public/proto/constraints.json",
+          "public/proto/constraints/events-baseline.json",
+          "public/proto/constraints/extensions-baseline.json",
+          "public/proto/constraints/foundation-baseline.json",
+          "public/proto/constraints/foundation-descriptors.json",
+          "public/proto/constraints/publicapi-baseline.json",
+          "public/proto/value-boundaries.json"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "eng/contract-packages.json",
+            "sha256": "35513ffd9c8278d73cddb5e0ecc513a490c047b5e982fa98e1fe7fe6073c53d1",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "eng/contracts.py",
+            "sha256": "65ab8333238daa0d7eacd0e782b6eac21aa9b7ddc0134c0421a07ee9da3a4380",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "eng/generate_fixtures.py",
+            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/internal/con-12-configuration.json",
+            "sha256": "090d8ea1bc452154a13b6525510600c542f99c8dc2acb0926e059b9f523b92bc",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/internal/wp03-00.json",
+            "sha256": "165a82cf362ff2b05a220724e042915769f467697261035d71bb0c6ffce5fe96",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/con-02-descriptors.json",
+            "sha256": "e44e99c4599597166846177ad481e12e1a0a0d3e31a2baa0fd7347180dca3c8a",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/con-12-extension-policy.json",
+            "sha256": "645fa316847c69272f1a2f2177285e8ad434a1b06e31b1c52859105fccabe174",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/con-16-signed-formats.json",
+            "sha256": "c4f5da613be1adec783d7ba9a12217f55a93705e22c180a02c043c1662ee310c",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/con-17-compat-hash.json",
+            "sha256": "61272b4e1bb12f83eadc4b60384c2734918e1814db829b02d9a127ef532d43b4",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/hello.json",
+            "sha256": "5e1fe5f94dfad301514a341b1f52f5a113943dc1837c7c4f817caaa4ea886b4e",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/wp03-00.json",
+            "sha256": "919b5585f9c403648dbe797e71a4da4d3dbd85eecd5dede2b3f5f9b948ec6a69",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/wp03-01.json",
+            "sha256": "38919422eaa333bf94ce3b98264ec811f6ccff8c8e3e9ac9efe2bd10c3f2b886",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "fixtures/public/wp03-02.json",
+            "sha256": "fe8a4635ce9578207ef549efc91962d87c1a8cb23fb56fdb8bddd6f8ee095787",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/ai-http/v1/configuration.schema.json",
+            "sha256": "4c021409496cf2aa57beb2f7b004fd3041bc5bb8768a06f5e2eef6511a371e41",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/ai-http/v1/schema.json",
+            "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
+            "sha256": "3e9c76af5aefc63c78d21609e09d7106cf809f8e271d2382c3f0c15cdb4cd519",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
+            "sha256": "519bd579aa83cfaa00e05d981c8d646524bddb8c27be22e67573c190e5762800",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+            "sha256": "f97dbd60a9bc471bfc58f0cc8998b40e3fef4ddb8b10dbea8906e89fafe02574",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
+            "sha256": "027b0f72e1d1285fa3b2fcc13130400f8e8f0e801601485fef63e7a102b014c4",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/operator/v1/operator.proto",
+            "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints.json",
+            "sha256": "92fe9ee7c97d6dee8f79e4c98e61fb16f3acb0a291e15a53c20af22f4c00b6ea",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints/chat-baseline.json",
+            "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints/operator-baseline.json",
+            "sha256": "d874f39980cf62d2bf5f146679175c7a87b06bce90ff0c319a44240725957edd",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints/platform-baseline.json",
+            "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints/sandbox-baseline.json",
+            "sha256": "a95f4cd0ec774ffe5954165357c621241dae4593851e97b023322e879c6277af",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "internal/proto/constraints/scope-baseline.json",
+            "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/inventory.schema.json",
+            "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/manifest.schema.json",
+            "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/panel.schema.json",
+            "sha256": "e47e3fcad128918ca888c7f2a61ac03876ab50467a46b7597cda5cce53de21ce",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/policy-body.schema.json",
+            "sha256": "62509c5a2f104b4d84fcbee28a0bf41946e49a89a3c5baf1e609700e05f24f68",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/schema.json",
+            "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/signed-formats.schema.json",
+            "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/http/v1/workflow.schema.json",
+            "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/events/v1/events.proto",
+            "sha256": "ea0ac740c06bbb5b81724b4a7e601110424cabc4940b07e579cf97d852880f43",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/extensions/v1/extensions.proto",
+            "sha256": "188c3667e1887926efd0df3bd3cb3574a2d8573ee0271171c7f96622d5dc8642",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/foundation/v1/foundation.proto",
+            "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/hello/v1/hello.proto",
+            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/content.proto",
+            "sha256": "15acce6e5618843a24115f8e5ddf64aba5e4fb60ca55dcb926a1900dc46d078f",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/descriptors.proto",
+            "sha256": "d8a43c27fd345d55786a67ce9776efa0b4bc089f57361c3e532dd1b5f9326161",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/constraints.json",
+            "sha256": "1ed8dbf334210b87fcaacc3b72ba00539e4d6fab0ca53eabcc5183d363424577",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/constraints/events-baseline.json",
+            "sha256": "346d458859cf734650911cd0875b85925f4bd1c5c6335b5ba53f7f914ba6c311",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/constraints/extensions-baseline.json",
+            "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/constraints/foundation-baseline.json",
+            "sha256": "99c0d68fa83c3722e45b58a2158a108c63c18e62f13a76da173dba9d4c9235a9",
+            "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
+          },
+          {
+            "path": "public/proto/constraints/foundation-descriptors.json",
+            "sha256": "d9814a41ab37da37f9c387f52891929d839d7109e0d0540f5a322a3abdf00427",
             "finding": "Apache-2.0 repository-owned source at the bound immutable source snapshot."
           },
           {
@@ -2674,9 +3278,9 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Five closed extension/policy profiles and reflection-free C#/TS codecs. 199 actual C#/TS codec cases passed, with local C# SDK10.0.401 diagnostic and pinned CI required. Runtime archive, grant, activation and provider evidence is not asserted.",
-    "baselineCommit": "7eeaa3b407ca1d99f1320ecf9d1fb752c9c9ba21",
+    "baselineCommit": "dbfb192751a3745626e89c7907ace188e01b41d7",
     "reconciliation": false
   },
-  "supersedes": "contract-bindings-con16-r1",
+  "supersedes": "con02-descriptor-bindings-r1",
   "artifactTargets": []
 }

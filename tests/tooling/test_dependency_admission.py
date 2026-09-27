@@ -37,7 +37,8 @@ class DependencyAdmission(unittest.TestCase):
             # accepted historical receipts are never rewritten to hide findings.
             for commit in ['77e0965e7f257c5cd4d6a95c2bf9b58167e62fcc',
                            '55ad3b4a1e60e6f0285fea37cbf71489f7cfabc5',
-                           '4dfaebd33118f5405e1bbbcc5ef92ae21177f650']:
+                           '4dfaebd33118f5405e1bbbcc5ef92ae21177f650',
+                           'dbfb192751a3745626e89c7907ace188e01b41d7']:
                 lines.extend(subprocess.check_output(['git', 'show', commit + ':' + path], cwd=ROOT,
                                                       text=True).splitlines())
             for pattern in row['regexes']:
@@ -464,7 +465,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 1, 5])
 
 
 if __name__ == '__main__':
