@@ -7,4 +7,5 @@ export * from "./gen/arcforges/publicapi/v1/content_pb.js";
 export * from "./shapes/gen/proto.js";
 export * from "./values.js";
 export * from "./wire.js";
+export * from "./semantic-hash.js";
 export * from "./services/gen/catalog.js";

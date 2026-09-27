@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "id": "con17-published-descriptors-r1",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "b10b2f6f316bf0c007e00632c5442fc102ebbe6e",
+  "sourcePaths": [
+    "public/proto/arcforges/foundation/v1/foundation.proto",
+    "public/proto/arcforges/hello/v1/hello.proto",
+    "public/proto/arcforges/publicapi/v1/content.proto"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "finding": "All selected authored schemas, shape rules, fixtures and orchestration carry the repository Apache-2.0 terms; exact source identities and hashes are bound below."
+      }
+    ],
+    "scope": "WP03.02 adds strict source-generated HTTP-exception JSON codecs, generated per-package service catalogues and the public binary-only transport export to the existing Apache-2.0 package closure. Schemas, generators and independent serialization vectors are Apache-2.0 repository material; third-party generator attribution and immutable prior records remain intact; no external product implementation is imported.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors.",
+    "Copyright 2008 Google Inc. All rights reserved.",
+    "Copyright 2015, 2019, 2020 gRPC authors.",
+    "Copyright 2021-2026 Buf Technologies, Inc.",
+    "Copyright 2022-2026 The Connect Authors."
+  ],
+  "targets": [
+    {
+      "path": "eng/compatibility/foundation-1.0.0-ci.113.1.binpb",
+      "sha256": "c4a1cbf6201d09ee9f3dbbdf3ef96d8be78bc495755da5ab17496efee46cd558",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/public-api-1.0.0-ci.113.1.binpb",
+      "sha256": "0709b7bc039e2ebff9e6865ff362deb1520bc584384fc832bfea4a16bda9c707",
+      "normalization": "raw"
+    }
+  ],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "byte-match",
+    "command": "python eng/check_compatibility.py --window",
+    "expected": "Pinned descriptor hashes equal source.json descriptorSha256 of the actual published 1.0.0-ci.113.1 packages, source b10b2f6. This necessary compatibility fixture is not a repeated publication audit.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.",
+    "files": [
+      "LICENSE",
+      "third-party/protobuf-generator-LICENSE.txt",
+      "eng/provenance/NOTICE.txt"
+    ],
+    "distribution": "source",
+    "reason": "Historical descriptors are test-only compatibility fixtures; they are not exported as a new production contract or package."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/protocolbuffers/protobuf",
+        "commit": "35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03",
+        "paths": [
+          "src/google/protobuf/compiler/csharp/csharp_generator.cc",
+          "src/google/protobuf/compiler/java/generator.cc",
+          "src/google/protobuf/compiler/kotlin/generator.cc"
+        ],
+        "spdx": "BSD-3-Clause",
+        "evidence": [
+          {
+            "path": "src/google/protobuf/compiler/csharp/csharp_generator.cc",
+            "sha256": "8b1977fc091ca196408fd0b88332fe4457e8bde2b1fc9b92327ca0accbb618b6",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "src/google/protobuf/compiler/java/generator.cc",
+            "sha256": "62d1d34fa2003b460eeb793e5c87f7c9ba3a9ab43a06ba6032c0daacbcc15d7d",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "src/google/protobuf/compiler/kotlin/generator.cc",
+            "sha256": "a73a77ee148d87601686875fa7545e27dfedf2162845bc6b04a5b73a63e1fd57",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+            "finding": "Full governing BSD-3-Clause terms for these explicitly licensed generator files."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "b10b2f6f316bf0c007e00632c5442fc102ebbe6e",
+        "paths": [
+          "public/proto/arcforges/foundation/v1/foundation.proto",
+          "public/proto/arcforges/hello/v1/hello.proto",
+          "public/proto/arcforges/publicapi/v1/content.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/foundation/v1/foundation.proto",
+            "sha256": "ceda869bf2998ca4bc21c4b7504c365a4662e7f28183e6db81660592d5bcdb3f",
+            "finding": "Exact previously published Apache-2.0 schema source."
+          },
+          {
+            "path": "public/proto/arcforges/hello/v1/hello.proto",
+            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
+            "finding": "Exact previously published Apache-2.0 schema source."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/content.proto",
+            "sha256": "a352f31e0bcee5e5523e59cb6bcfe2af04423e78389c67fc0d8d0ab52f104dee",
+            "finding": "Exact previously published Apache-2.0 schema source."
+          }
+        ]
+      }
+    ],
+    "command": "Restore exact ArcForges.Contracts.PublicApi [1.0.0-ci.113.1] for the offline previous-client harness; retain its and Foundation contracts.binpb as immutable fixtures.",
+    "outputSpdx": "Apache-2.0"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-20260927-platform (file-level licence assessment; independent task review remains required)",
+    "reviewedOn": "2026-09-27",
+    "decision": "approved",
+    "rationale": "Reuse exact first-party Apache-2.0 descriptor bytes from the published baseline required by CON.17. Preserve original generator attribution. No retired contract is reintroduced as a production export.",
+    "baselineCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
+    "reconciliation": false
+  },
+  "supersedes": null,
+  "artifactTargets": []
+}

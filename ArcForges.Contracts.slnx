@@ -22,4 +22,5 @@
   <Project Path="src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj" />
   <Project Path="src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" />
   <Project Path="tests/StructureTests/StructureTests.csproj" />
+  <Project Path="tests/StructureTests/PreviousClient/PreviousClient.csproj" />
 </Solution>

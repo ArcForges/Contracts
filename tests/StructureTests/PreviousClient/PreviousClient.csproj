@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- SPDX-License-Identifier: Apache-2.0 -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ArcForges.Contracts.PublicApi" />
+  </ItemGroup>
+</Project>
