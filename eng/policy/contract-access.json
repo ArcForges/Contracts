@@ -4052,6 +4052,10 @@
   ],
   "buildInputs": [
     {
+      "path": "build.gradle.kts",
+      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
+    },
+    {
       "path": "Directory.Build.props",
       "sha256": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b"
     },
@@ -4062,14 +4066,6 @@
     {
       "path": "Directory.Packages.props",
       "sha256": "4a83ab07c4e26a69d5153e683d311fa667a1d40130f69358a59b512b55d5a8d1"
-    },
-    {
-      "path": "NuGet.config",
-      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
-    },
-    {
-      "path": "build.gradle.kts",
-      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
     },
     {
       "path": "eng/contract-packages.json",
@@ -4092,6 +4088,30 @@
       "sha256": "92fe9ee7c97d6dee8f79e4c98e61fb16f3acb0a291e15a53c20af22f4c00b6ea"
     },
     {
+      "path": "internal/proto/constraints/chat-baseline.json",
+      "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117"
+    },
+    {
+      "path": "internal/proto/constraints/operator-baseline.json",
+      "sha256": "d874f39980cf62d2bf5f146679175c7a87b06bce90ff0c319a44240725957edd"
+    },
+    {
+      "path": "internal/proto/constraints/platform-baseline.json",
+      "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a"
+    },
+    {
+      "path": "internal/proto/constraints/sandbox-baseline.json",
+      "sha256": "a95f4cd0ec774ffe5954165357c621241dae4593851e97b023322e879c6277af"
+    },
+    {
+      "path": "internal/proto/constraints/scope-baseline.json",
+      "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe"
+    },
+    {
+      "path": "NuGet.config",
+      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
+    },
+    {
       "path": "package-lock.json",
       "sha256": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c"
     },
@@ -4110,6 +4130,22 @@
     {
       "path": "public/proto/constraints.json",
       "sha256": "69b5e9a861d5e2e914bbfd1817dc15481965868ab719564308c99b77845a4f2f"
+    },
+    {
+      "path": "public/proto/constraints/events-baseline.json",
+      "sha256": "346d458859cf734650911cd0875b85925f4bd1c5c6335b5ba53f7f914ba6c311"
+    },
+    {
+      "path": "public/proto/constraints/extensions-baseline.json",
+      "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e"
+    },
+    {
+      "path": "public/proto/constraints/foundation-baseline.json",
+      "sha256": "99c0d68fa83c3722e45b58a2158a108c63c18e62f13a76da173dba9d4c9235a9"
+    },
+    {
+      "path": "public/proto/constraints/publicapi-baseline.json",
+      "sha256": "0c4d1d95926ee51fdc649f7552d151b669fcdfecc2111a09e3ec3a63a7731e50"
     },
     {
       "path": "public/proto/value-boundaries.json",

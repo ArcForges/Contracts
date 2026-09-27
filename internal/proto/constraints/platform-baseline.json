@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.platform.v1.LocalChunk": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk",
+      "fields": {
+        "bytes": {
+          "required": true,
+          "maxLength": 65536
+        },
+        "offset": {
+          "required": true
+        },
+        "nextOffset": {
+          "required": true
+        },
+        "eof": {
+          "required": true
+        },
+        "sha256": {
+          "required": true,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "rules": ["chunkOffsets"]
+    }
+  }
+}

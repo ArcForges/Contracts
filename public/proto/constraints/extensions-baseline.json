@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.extensions.v1.ExtensionLease": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionLease",
+      "fields": {
+        "leaseId": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "renewAfterSeconds": {
+          "required": true,
+          "enumValues": [10]
+        },
+        "negotiatedContracts": {
+          "items": {
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseRequest": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "leaseId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseResponse": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.extensions.v1.ExtensionHostServiceRenewLeaseValue": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseValue",
+      "fields": {
+        "lease": {
+          "required": true
+        }
+      }
+    }
+  }
+}

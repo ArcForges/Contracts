@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateFindingValue",
+      "fields": {
+        "revision": {
+          "required": true
+        }
+      }
+    }
+  }
+}

@@ -17,6 +17,30 @@ lock files; CI restores them in locked mode. For Gradle changes, use
 consumer locks/checksums. Review both dependency versions and new checksums;
 ordinary CI must never generate or accept missing verification metadata.
 
+## Concurrent contract closures
+
+Author constraints in domain files under `public/proto/constraints/` or
+`internal/proto/constraints/`, with the `proto-constraints.v1` envelope, Apache-2.0
+license and a `messages` object keyed by fully qualified protobuf message name.
+Each message has one authoring shard. Preserve existing `*-baseline.json` entries;
+coordinate edits to a shared domain with its task owner. New domain shards must
+not duplicate existing messages or JSON keys. `eng/contracts.py generate` merges
+shards in filename order into the derived `proto/constraints.json` compatibility
+snapshots; `generate --check` rejects stale snapshots without writing them.
+Edit shards, never author the aggregate snapshots directly. A layout-only split
+preserves their effective content and bytes.
+
+The current holder of Plan's `roles/integration-contracts` is the single Contracts
+integration owner. Authors append only their domain entries to
+`eng/contract-packages.json` and `eng/foundation-inventory.json`; preserve existing
+identities, ownership, wire reservations and historical baselines. Request shared
+source changes through its designated author. The integration owner serially
+merges independently reviewed CON.* heads after applicable checks pass and waits
+for normal main publication before the next merge. The next author rebases onto
+that main, regenerates bindings and inventories with pinned tools, and obtains
+review of the updated head. Never hand-merge generated output or create a second
+publication solely for validation.
+
 A Dependabot Gradle PR can update the version catalog or wrapper without
 refreshing the producer or isolated consumer locks and checksums. Wrapper
 upgrades can also change embedded Kotlin dependencies. Complete the same update

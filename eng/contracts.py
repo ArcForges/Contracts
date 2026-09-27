@@ -213,7 +213,47 @@ def generate_export_barrel(row: dict, output: Path, check: bool = False) -> None
         index_file.write_text(barrel, encoding="utf-8")
 
 
+def merge_constraint_shards(check: bool = False) -> None:
+    """Merge authored domain sidecars into deterministic compatibility snapshots."""
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Duplicate constraint JSON key: " + key)
+            result[key] = value
+        return result
+
+    for visibility in ("public", "internal"):
+        directory = ROOT / visibility / "proto/constraints"
+        paths = sorted(directory.glob("*.json"))
+        if not paths:
+            raise ValueError("Missing constraint shards: " + str(directory))
+        messages = {}
+        for path in paths:
+            shard = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
+            if (not isinstance(shard, dict) or set(shard) != {"schemaVersion", "license", "messages"}
+                    or shard["schemaVersion"] != "proto-constraints.v1"
+                    or shard["license"] != "Apache-2.0" or not isinstance(shard["messages"], dict)):
+                raise ValueError("Invalid constraint shard envelope: " + str(path))
+            for name, constraint in shard["messages"].items():
+                if not re.fullmatch(r"[a-zA-Z_]\w*(?:\.[a-zA-Z_]\w*)+", name) or not isinstance(constraint, dict):
+                    raise ValueError("Invalid constraint message: " + name)
+                if name in messages:
+                    raise ValueError("Duplicate constraint message: " + name)
+                messages[name] = constraint
+        merged = {"schemaVersion": "proto-constraints.v1", "license": "Apache-2.0", "messages": messages}
+        aggregate = ROOT / visibility / "proto/constraints.json"
+        current = (json.loads(aggregate.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
+                   if aggregate.is_file() else None)
+        # Preserve the accepted snapshot bytes when only source layout changes.
+        if json.dumps(current, sort_keys=True) != json.dumps(merged, sort_keys=True):
+            if check:
+                raise ValueError("Stale merged constraint snapshot: " + str(aggregate))
+            write_json(aggregate, merged)
+
+
 def generate(check: bool = False) -> None:
+    merge_constraint_shards(check)
     ARTIFACTS.mkdir(exist_ok=True)
     platform_key = {"Windows": "windows_x64", "Linux": "linux_x64", "Darwin": "macosx_x64"}.get(platform.system())
     if platform.machine().lower() not in {"amd64", "x86_64"} or platform_key is None:
