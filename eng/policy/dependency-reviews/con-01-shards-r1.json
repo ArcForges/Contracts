@@ -208,7 +208,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-23-retirement-r2.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con17-previous-client-113-1.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
