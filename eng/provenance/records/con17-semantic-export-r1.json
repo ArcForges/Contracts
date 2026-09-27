@@ -7,7 +7,9 @@
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
+    "eng/generate_fixtures.py",
     "fixtures/internal/wp03-00.json",
+    "fixtures/public/con-17-compat-hash.json",
     "fixtures/public/hello.json",
     "fixtures/public/wp03-00.json",
     "fixtures/public/wp03-01.json",
@@ -1760,7 +1762,7 @@
   "verification": {
     "kind": "regeneration",
     "command": "python eng/contracts.py generate --check",
-    "expected": "The existing generator reproduces the one added semantic-hash export; all unchanged barrel exports retain their original package owners.",
+    "expected": "The existing generators reproduce the semantic-hash barrel export and public fixture package including the independently authored CON17 vectors; other generated targets retain their accepted ownership.",
     "artifacts": []
   },
   "notice": {
@@ -1942,6 +1944,21 @@
             "finding": "Exact export generator source snapshot; unchanged binding generator evidence is retained."
           }
         ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "39612a52d25245cf6b1bbc7142b5a7864c00be53",
+        "paths": [
+          "eng/generate_fixtures.py"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "eng/generate_fixtures.py",
+            "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
+            "finding": "Existing Apache fixture exporter regenerates the package index from the public fixture inputs."
+          }
+        ]
       }
     ],
     "inputs": [
@@ -2084,6 +2101,21 @@
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           }
         ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "39612a52d25245cf6b1bbc7142b5a7864c00be53",
+        "paths": [
+          "fixtures/public/con-17-compat-hash.json"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "fixtures/public/con-17-compat-hash.json",
+            "sha256": "61272b4e1bb12f83eadc4b60384c2734918e1814db829b02d9a127ef532d43b4",
+            "finding": "Exact independently authored CON17 canonical semantic hash golden/refusal input exported to the public fixture package."
+          }
+        ]
       }
     ],
     "command": "python eng/contracts.py generate --check",
@@ -2094,7 +2126,7 @@
     "reviewer": "w-20260927-platform (file-level licence assessment; independent task review remains required)",
     "reviewedOn": "2026-09-27",
     "decision": "approved",
-    "rationale": "Only the generator-owned proto export barrel adds the first-party semantic hash module. No package identity, upstream generator or licence boundary changes; original generated provenance remains linked through supersedes.",
+    "rationale": "The generator-owned proto barrel exports the first-party semantic hash module, and the public fixture package exports the exact owned CON17 golden/refusal vectors. Existing bindings retain their accepted input lineage; no package, upstream generator or licence boundary changes.",
     "baselineCommit": "a1d2f4bd6ff05f80e86c776ce9f7070729b38898",
     "reconciliation": false
   },
