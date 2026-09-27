@@ -36,19 +36,30 @@ internal static class ContentSandboxCases
         Require(buffer.ReservedRange.Any(r => r.Start == 7 && r.End == 8) && buffer.ReservedName.Contains("frame_id") && buffer.ReservedName.Contains("frameId"), "retired frame identity");
         foreach (var item in fixture.GetProperty("cases").EnumerateArray())
         {
-            string json = item.GetProperty("value").GetRawText();
+            var value = item.GetProperty("value");
             bool actual = item.GetProperty("target").GetString() switch
             {
-                "slot" => Shape.IsValid(JsonParser.Default.Parse<SandboxSlotGrant>(json)),
-                "page" => SandboxProfile.IsValid(JsonParser.Default.Parse<SandboxPdfPage>(json)),
-                "text" => SandboxProfile.IsValid(JsonParser.Default.Parse<SandboxPdfText>(json)),
-                "region" => SandboxProfile.IsValid(JsonParser.Default.Parse<SandboxRegion>(json)),
+                "slot" => Shape.IsValid(Slot(value)),
+                "page" => SandboxProfile.IsValid(Page(value)),
+                "text" => SandboxProfile.IsValid(Text(value)),
+                "region" => SandboxProfile.IsValid(Region(value)),
                 _ => throw new InvalidOperationException("Unknown sandbox fixture target")
             };
             Require(actual == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
         Require(!SandboxProfile.IsValid(new SandboxPdfText { PageIndex = 0, Start = 0, Text = "\ud800" }), "unpaired UTF16 surrogate");
         var id = new ArcForges.Contracts.Foundation.V1.Id { Value = ByteString.CopyFrom(Convert.FromHexString("00112233445566778899aabbccddeeff")) };
+        var extraction = new ContentSandboxServiceExtractPdfTextResponse
+        {
+            Meta = new ArcForges.Contracts.Foundation.V1.ResponseMeta { CorrelationId = id },
+            Value = new ContentSandboxServiceExtractPdfTextValue { Text = new SandboxPdfText { PageIndex = 0, Start = 0, Text = "abc" } }
+        };
+        Require(SandboxProfile.IsValid(extraction), "bounded extraction response");
+        extraction.Meta.Warnings.Add(Enumerable.Repeat(new string('a', 128), 512));
+        Require(!SandboxProfile.IsValid(extraction), "whole response envelope exceeds budget");
+        var boxes = new SandboxPdfText { PageIndex = 0, Start = 0, Text = "a" };
+        for (int i = 0; i < 1025; i++) boxes.Boxes.Add(new SandboxTextBox { Start = 0, Length = 1, X = 0, Y = 0, Width = 1, Height = 1 });
+        Require(!SandboxProfile.IsValid(boxes), "excess PDF box count");
         var grant = new SandboxSlotGrant { SlotId = 0, Sequence = 1, Capacity = 64 };
         var region = new SandboxRegion { X = 0, Y = 0, Width = 2, Height = 2, FirstSample = 0, SampleCount = 0, RowStride = 8 };
         var seal = new SandboxBufferDescriptor { Version = 1, InvocationId = id, LeaseId = id, Generation = 1, SlotId = 0, Sequence = 1,
@@ -67,6 +78,40 @@ internal static class ContentSandboxCases
         Require(!SandboxProfile.IsValid(truncated, grant, region), "truncated pixel rows");
         Console.WriteLine("Validated ContentSandbox closed descriptors, role policy and independent shape/geometry fixtures.");
     }
+
+    // JSON is fixture notation only; assign generated protobuf messages explicitly.
+    private static SandboxSlotGrant Slot(JsonElement value)
+    {
+        var result = new SandboxSlotGrant();
+        if (value.TryGetProperty("slotId", out var slot)) result.SlotId = slot.GetUInt32();
+        if (value.TryGetProperty("sequence", out var sequence)) result.Sequence = ulong.Parse(sequence.GetString()!, System.Globalization.CultureInfo.InvariantCulture);
+        if (value.TryGetProperty("capacity", out var capacity)) result.Capacity = ulong.Parse(capacity.GetString()!, System.Globalization.CultureInfo.InvariantCulture);
+        return result;
+    }
+    private static double Number(JsonElement value) => value.ValueKind == JsonValueKind.String ? double.NaN : value.GetDouble();
+    private static SandboxPdfPage Page(JsonElement value) => new()
+    {
+        PageIndex = value.GetProperty("pageIndex").GetUInt32(), Rotation = value.GetProperty("rotation").GetUInt32(),
+        WidthPoints = Number(value.GetProperty("widthPoints")), HeightPoints = Number(value.GetProperty("heightPoints"))
+    };
+    private static SandboxPdfText Text(JsonElement value)
+    {
+        var result = new SandboxPdfText { PageIndex = value.GetProperty("pageIndex").GetUInt32(), Start = value.GetProperty("start").GetUInt32(), Text = value.GetProperty("text").GetString()! };
+        if (value.TryGetProperty("next", out var next)) result.Next = next.GetUInt32();
+        foreach (var box in value.GetProperty("boxes").EnumerateArray()) result.Boxes.Add(new SandboxTextBox
+        {
+            Start = box.GetProperty("start").GetUInt32(), Length = box.GetProperty("length").GetUInt32(),
+            X = Number(box.GetProperty("x")), Y = Number(box.GetProperty("y")), Width = Number(box.GetProperty("width")), Height = Number(box.GetProperty("height"))
+        });
+        return result;
+    }
+    private static SandboxRegion Region(JsonElement value) => new()
+    {
+        X = value.GetProperty("x").GetUInt32(), Y = value.GetProperty("y").GetUInt32(), Width = value.GetProperty("width").GetUInt32(), Height = value.GetProperty("height").GetUInt32(),
+        FirstSample = ulong.Parse(value.GetProperty("firstSample").GetString()!, System.Globalization.CultureInfo.InvariantCulture),
+        SampleCount = ulong.Parse(value.GetProperty("sampleCount").GetString()!, System.Globalization.CultureInfo.InvariantCulture),
+        RowStride = ulong.Parse(value.GetProperty("rowStride").GetString()!, System.Globalization.CultureInfo.InvariantCulture)
+    };
 
     private static void Require(bool valid, string name)
     {
