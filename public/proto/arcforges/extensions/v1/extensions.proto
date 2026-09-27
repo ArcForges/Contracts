@@ -4,6 +4,7 @@ syntax = "proto3";
 package arcforges.extensions.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
 
 option csharp_namespace = "ArcForges.Sdk.Contracts.V1";
 option java_package = "io.github.arcforges.contracts.extensions.v1";
@@ -18,7 +19,13 @@ message ExtensionLease {
   repeated string negotiated_contracts = 4 [json_name = "negotiatedContracts"];
 }
 service ExtensionHostService {
+  // Receiver: verified host. Package identity must match the installed manifest.
+  rpc Handshake(ExtensionHostServiceHandshakeRequest) returns (ExtensionHostServiceHandshakeResponse);
+  // Each launch direction exposes only its admitted capabilities; no symmetric grant.
+  rpc Invoke(ExtensionHostServiceInvokeRequest) returns (ExtensionHostServiceInvokeResponse);
   rpc RenewLease(ExtensionHostServiceRenewLeaseRequest) returns (ExtensionHostServiceRenewLeaseResponse);
+  // Receiver: extension; the owning parent may stop only its current lease.
+  rpc Stop(ExtensionHostServiceStopRequest) returns (ExtensionHostServiceStopResponse);
 }
 message ExtensionHostServiceRenewLeaseRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
@@ -35,4 +42,89 @@ message ExtensionHostServiceRenewLeaseResponse {
 }
 message ExtensionHostServiceRenewLeaseValue {
   ExtensionLease lease = 10 [json_name = "lease"];
+}
+
+// Registry04 extension boundary records. Context and arguments reuse their public owner.
+message Contribution {
+  optional string contribution_id = 1 [json_name = "contributionId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional string title_key = 3 [json_name = "titleKey"];
+  optional string capability = 4 [json_name = "capability"];
+  optional string pattern = 5 [json_name = "pattern"];
+  optional string schema_id = 6 [json_name = "schemaId"];
+}
+message FrozenContext {
+  repeated arcforges.publicapi.v1.ContextRef sources = 1 [json_name = "sources"];
+  arcforges.foundation.v1.ActorChain actor = 2 [json_name = "actor"];
+  optional string profile_version = 3 [json_name = "profileVersion"];
+  optional string permissions_version = 4 [json_name = "permissionsVersion"];
+}
+message Invocation {
+  arcforges.foundation.v1.Id invocation_id = 1 [json_name = "invocationId"];
+  arcforges.foundation.v1.Id command_id = 2 [json_name = "commandId"];
+  optional string capability = 3 [json_name = "capability"];
+  FrozenContext context = 4 [json_name = "context"];
+  arcforges.publicapi.v1.CapabilityArguments arguments = 5 [json_name = "arguments"];
+  arcforges.foundation.v1.Id approval_id = 6 [json_name = "approvalId"];
+  arcforges.foundation.v1.Id lease_id = 7 [json_name = "leaseId"];
+  oneof precondition {
+    arcforges.foundation.v1.Revision expected_rev = 8 [json_name = "expectedRev"];
+    arcforges.foundation.v1.NativeContentRev expected_native = 10 [json_name = "expectedNative"];
+  }
+  reserved 9;
+  reserved "expected_local";
+}
+message ExtensionHostServiceHandshakeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string package_id = 10 [json_name = "packageId"];
+  optional string package_version = 11 [json_name = "packageVersion"];
+  repeated string protocol_versions = 12 [json_name = "protocolVersions"];
+  arcforges.foundation.v1.Id installation_id = 13 [json_name = "installationId"];
+  optional bytes nonce = 14 [json_name = "nonce"];
+  repeated Contribution contributions = 15 [json_name = "contributions"];
+}
+message ExtensionHostServiceHandshakeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExtensionHostServiceHandshakeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ExtensionHostServiceHandshakeValue {
+  ExtensionLease lease = 10 [json_name = "lease"];
+}
+message ExtensionHostServiceInvokeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  Invocation invocation = 10 [json_name = "invocation"];
+}
+message ExtensionHostServiceInvokeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExtensionHostServiceInvokeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ExtensionHostServiceInvokeValue {
+  arcforges.publicapi.v1.ToolResult result = 10 [json_name = "result"];
+}
+message ExtensionHostServiceStopRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id lease_id = 10 [json_name = "leaseId"];
+  optional string reason = 11 [json_name = "reason"];
+}
+message ExtensionHostServiceStopResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExtensionHostServiceStopValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ExtensionHostServiceStopValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
 }
