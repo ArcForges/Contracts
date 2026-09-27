@@ -30,6 +30,7 @@ def shape(value, schema, document):
         return shape(value, document["$defs"][schema["$ref"].split("/")[-1]], document)
     if "oneOf" in schema:
         return sum(shape(value, branch, document) for branch in schema["oneOf"]) == 1
+    if len(canonical(value).encode("utf-8")) > schema.get("x-arcforges-max-bytes", float("inf")): return False
     kind = schema.get("type")
     if kind == "object":
         if not isinstance(value, dict): return False
@@ -45,6 +46,7 @@ def shape(value, schema, document):
         if "pattern" in schema and re.search(schema["pattern"], value) is None: return False
         if "uint64String" in schema.get("x-arcforges-rules", []) and (not value.isascii() or not value.isdecimal() or int(value) > 2**64 - 1): return False
     if kind == "integer" and (type(value) is not int or not schema.get("minimum", -float("inf")) <= value <= schema.get("maximum", float("inf"))): return False
+    if "nonzeroUuid" in schema.get("x-arcforges-rules", []) and value == "00000000-0000-0000-0000-000000000000": return False
     if "const" in schema and value != schema["const"]: return False
     if "enum" in schema and value not in schema["enum"]: return False
     return True
@@ -76,10 +78,22 @@ class SignedFormats(unittest.TestCase):
                 change = case["mutation"]; target = value
                 for part in change["path"][:-1]: target = target[part]
                 target[change["path"][-1]] = change["value"]
+            if "repeatEntryCount" in case:
+                entry = copy.deepcopy(value["body"]["entries"][0])
+                entry["archiveHttpsUrl"] += "a" * case["archiveUrlSuffixLength"]
+                value["body"]["entries"] = [copy.deepcopy(entry) for _ in range(case["repeatEntryCount"])]
             cls.values[case["id"]] = value
             rows.append({"key": cls.fixture["trustRoots"][0]["publicKey"], "signature": value["signature"], "bytes": canonical({k:v for k,v in value.items() if k != "signature"})})
         result = subprocess.run(["node", "-e", VERIFY], input=json.dumps(rows), text=True, capture_output=True, check=True)
         cls.signatures = dict(zip((case["id"] for case in cls.fixture["cases"]), json.loads(result.stdout)))
+
+    def test_every_static_document_signature(self):
+        rows = [{"key": self.fixture["trustRoots"][0]["publicKey"],
+                 "signature": item["value"]["signature"], "bytes": item["canonicalUnsigned"]}
+                for item in self.documents.values()]
+        result = subprocess.run(["node", "-e", VERIFY], input=json.dumps(rows),
+                                text=True, capture_output=True, check=True)
+        self.assertEqual(json.loads(result.stdout), [True] * len(rows))
 
     def test_independent_canonical_bytes(self):
         for item in self.documents.values():
@@ -130,6 +144,7 @@ class SignedFormats(unittest.TestCase):
                 if digest(shard) != reference["sha256"]: return "shard-hash"
                 if any(shard[k] != value[k] for k in ("schemaVersion", "realmId", "channel", "revision", "keyId")): return "shard-binding"
                 if len(shard["body"]["entries"]) != reference["count"]: return "shard-count"
+                if instant(shard["expiresAt"]) <= now: return "shard-expired"
         if "previousRevocations" in case:
             current = {"|".join(row[k] for k in ("packageId", "version", "digest")) for row in body["entries"]}
             if set(case["previousRevocations"]) - current: return "revocation-removal"
@@ -152,5 +167,7 @@ class SignedFormats(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
 
 

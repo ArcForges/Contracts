@@ -637,6 +637,33 @@
       "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-99-99T99:99:99Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"jhNt4s6Nk4z1ShPCNZUK3O9C-LWvSQbcX7NkElKrukhH-cr13SkQoT3f0HX-mmFarc72v1aBBcq7Ov06pObmAQ\"}",
       "documentSha256": "7b408bff98338b652f5ab84ea2aa818d829f6cf4bd152949b57a39e132be8eb9",
       "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
+    },
+    {
+      "id": "expired-shard-root",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "db094f27d02618a0e24e1d3663ae9ce38d45018a82d4e6d1487142035e8c1a21",
+        "body": {
+          "shards": [
+            {
+              "url": "https://downloads.example.org/catalog/v1/9007199254740993/0.json",
+              "count": 1,
+              "sha256": "fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8"
+            }
+          ]
+        },
+        "signature": "MOfOih7C1d9jvSo-UgSCPbSdKjmpxd-1KenaunpY-yOGam1ATs3KLDJ806V-adMvED8jQjA6_rjNfedT9e2ODQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"db094f27d02618a0e24e1d3663ae9ce38d45018a82d4e6d1487142035e8c1a21\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"shards\":[{\"count\":1,\"sha256\":\"fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]},\"bodyHash\":\"db094f27d02618a0e24e1d3663ae9ce38d45018a82d4e6d1487142035e8c1a21\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"MOfOih7C1d9jvSo-UgSCPbSdKjmpxd-1KenaunpY-yOGam1ATs3KLDJ806V-adMvED8jQjA6_rjNfedT9e2ODQ\"}",
+      "documentSha256": "485894c65a94a9936017de44e5c348ce8c7e8b3442d822eb149ce2928eff246e",
+      "canonicalBody": "{\"shards\":[{\"count\":1,\"sha256\":\"fde61e57cce94734a64df9649be38508cbf457eba922739ec6f705c077f975f8\",\"url\":\"https://downloads.example.org/catalog/v1/9007199254740993/0.json\"}]}"
     }
   ],
   "cases": [
@@ -886,6 +913,28 @@
       "id": "invalid-calendar-timestamp",
       "document": "invalid-calendar-timestamp",
       "expected": "timestamp"
+    },
+    {
+      "id": "zero-realm-id",
+      "document": "catalog-index",
+      "mutation": {
+        "path": ["realmId"],
+        "value": "00000000-0000-0000-0000-000000000000"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "oversized-catalog-document",
+      "document": "catalog-index",
+      "repeatEntryCount": 1000,
+      "archiveUrlSuffixLength": 1500,
+      "expected": "shape"
+    },
+    {
+      "id": "expired-shard-with-matching-hash",
+      "document": "expired-shard-root",
+      "shards": ["expired-signed"],
+      "expected": "shard-expired"
     }
   ],
   "malformedJson": [
