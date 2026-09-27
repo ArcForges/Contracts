@@ -233,7 +233,8 @@ class DependencyAdmission(unittest.TestCase):
         access = 'eng/policy/contract-access.json'
         receipt = 'eng/policy/dependency-reviews/con-04-r1.json'
         historical = 'f80d54b5a5572909211b19090936e6869505fd52b68fe1d91e9284a030d2dfad'
-        sources = [('7f5321e0695d2b7780c381d63cfdf4a70922cd84', 'd2e977d7b4300d320207d4ea0b44be5faf09ef04dc233faebc4222d949771eec'),
+        sources = [('7d0a8630f950734404da81c21714c59a76bf1bd8', '2e7115ac2dec1721a7b1e0a83bf214235230f168e37083e09e77807e17ca9e58'),
+                   ('7f5321e0695d2b7780c381d63cfdf4a70922cd84', 'd2e977d7b4300d320207d4ea0b44be5faf09ef04dc233faebc4222d949771eec'),
                    ('a353a1f24d1b04e5e7e44edec3b10ac23ca10e19', 'e5f4c02d5ace66df561da638a6c99cc96cfcce42ec59fd6c3e22db653c6998f0')]
         for commit, digest in sources:
             value = subprocess.check_output(['git', 'show', commit + ':' + access], cwd=ROOT)
@@ -247,7 +248,7 @@ class DependencyAdmission(unittest.TestCase):
                  'eng/provenance/records/dokka-object-keys-licence-r1.json',
                  'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
         rows = [[(access, digest) for _, digest in sources],
-                [(access, historical)] + [(access, digest) for _, digest in sources] + [(key, hashes[key]) for key in other]]
+                [(access, sources[0][1]), (access, historical)] + [(access, digest) for _, digest in sources[1:]] + [(key, hashes[key]) for key in other]]
         for key in other:
             source = subprocess.check_output(['git', 'show', 'a353a1f24d1b04e5e7e44edec3b10ac23ca10e19:' + key], cwd=ROOT)
             self.assertEqual(hashlib.sha256(source.replace(b'\r\n', b'\n')).hexdigest(), hashes[key])
