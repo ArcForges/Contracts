@@ -3,7 +3,7 @@
   "id": "con17-semantic-export-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "792306133ee1adcfd93e533c53ff3d4381c1c66a",
+  "sourceCommit": "b323a494a9a4ab83832050fb52488407d8f51264",
   "sourcePaths": [
     "eng/contract-packages.json",
     "eng/contracts.py",
@@ -14,11 +14,9 @@
     "fixtures/public/wp03-02.json",
     "internal/ai-http/v1/schema.json",
     "internal/proto/arcforges/local/chat/v1/chat.proto",
-    "internal/proto/arcforges/local/notes/v1/notes.proto",
     "internal/proto/arcforges/local/platform/v1/platform.proto",
     "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
     "internal/proto/arcforges/local/scope/v1/scope.proto",
-    "internal/proto/arcforges/local/slate/v1/slate.proto",
     "internal/proto/arcforges/operator/v1/operator.proto",
     "internal/proto/constraints.json",
     "public/http/v1/inventory.schema.json",
@@ -83,16 +81,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/Generated/Proto/Notes.cs",
-      "sha256": "0d16902d575c5201f4f25b2a61ed9aa3229bba44969d356cb3066fbef35d1c14",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Notes/Generated/Shapes/ProtoValidation.g.cs",
-      "sha256": "7b857438632df1763e19eead876654da953ccf15506315b34387138903997b41",
-      "normalization": "lf"
-    },
-    {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/Platform.cs",
       "sha256": "22d31db7bb514b215d5aa20e6cd230aed7ede730d303bca9670d90a3f05a56f1",
       "normalization": "lf"
@@ -123,16 +111,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/Generated/Proto/Slate.cs",
-      "sha256": "a08a43fe85bafe7a20c819a5befd995e62cfa690f6e24499b6ea715eb8309749",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Slate/Generated/Shapes/ProtoValidation.g.cs",
-      "sha256": "749be308f139c5f40b2206fa3dab34ba558196623ecdca422a6bef4ddfdbef6a",
-      "normalization": "lf"
-    },
-    {
       "path": "src/internal/ts/ai-internal/src/gen/http.ts",
       "sha256": "2f77ad4309a03b099db14173dc84ad79c2eb05acc7af908f1bd307c5e1be6094",
       "normalization": "lf"
@@ -154,7 +132,7 @@
     },
     {
       "path": "src/internal/ts/operator-client/src/shapes/gen/proto.ts",
-      "sha256": "03b28f089c35319d3454a7f46d98df95c33c4384095021dca72f0399ded9388f",
+      "sha256": "4f269c398a54e60946a0192b8c0f3ab529f4373e8f768742ba265654866c4021",
       "normalization": "lf"
     },
     {
@@ -164,7 +142,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
-      "sha256": "abc58869f0dc490cff2012edd03de976d87de30d4d61cf20e5898e952861ff69",
+      "sha256": "18b597b052fe137b5697d9b34cf13f55348d5d0757fff0af3a315be0c3e3fe14",
       "normalization": "lf"
     },
     {
@@ -174,7 +152,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
-      "sha256": "507cdff451f3bf19cd66251d3f6de544297546a76106e00787f6738afaa7449b",
+      "sha256": "f8d94bd4ad0eab553def1452212db81a498014186cc908dac1c54f5504883722",
       "normalization": "lf"
     },
     {
@@ -199,7 +177,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Values/Identifiers.g.cs",
-      "sha256": "64e61aa0598d5d393825169e6ecc462d24ea3c7b0ce19ebe07ba75d98558bb57",
+      "sha256": "c91bf74af6a20ae42c1732e149d3619dc16bd1b201cc76860952648136f6c49d",
       "normalization": "lf"
     },
     {
@@ -214,7 +192,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ProtoValidation.g.cs",
-      "sha256": "eb52070bbeb05aedc82af66987f574ff6da011af8a439a830ff78475ae0d4912",
+      "sha256": "09c11327a9bbc42d8ca166570741cbeaaf37c3e6a0766108324bf6925a1c585f",
       "normalization": "lf"
     },
     {
@@ -408,16 +386,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LocalNotesVersion.java",
-      "sha256": "c685c5b2f8a7cff75fc64daf25c20a900188bbc237577e2301eecb4341b492c5",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/LocalNotesVersionOrBuilder.java",
-      "sha256": "e6d0f49d83dbc4579506bf8aa8bb84ac798a1fcd6146d5624473c6f4e07fadbe",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/MediaRange.java",
       "sha256": "9d502ad73d2b3d2a5370dd666356b545d5ffa4bd7a9b3b51edb404dfffe3ba27",
       "normalization": "lf"
@@ -489,12 +457,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMeta.java",
-      "sha256": "b89752208dbc40842d52f53cf02e9a7ddf5b365ace92216f00438aef813657a6",
+      "sha256": "4baf3c9ecbd379ce3855e9e8ea52ae39d9b4bad81afcce5dea93cf4e4918a091",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMetaOrBuilder.java",
-      "sha256": "bc2ba7a1553979a2b2fff3d8346a9d35795b8babf81d119b9b2e63210e5267c2",
+      "sha256": "df735bed58347a0deeff8aa29fabc1fc8c7736cd112944f2e4dd3726fe6e388c",
       "normalization": "lf"
     },
     {
@@ -514,12 +482,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResourceVersionRef.java",
-      "sha256": "9e07e7a8073a62ed164c26969323e8ee193b7f0bd093e2eaa13fe5329fef84f8",
+      "sha256": "a64da7611f128bae3fc327c9efa362e9ff9cbe1748282c702b67bd69d8374458",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResourceVersionRefOrBuilder.java",
-      "sha256": "da927faa873101358283697338f6030b0c4509364c645d3577bd889b02da2204",
+      "sha256": "47073dc4380c3629728046915970673c8afeea8e8cd8a9262db890f2ab2b913e",
       "normalization": "lf"
     },
     {
@@ -569,12 +537,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailure.java",
-      "sha256": "32c5741780ef2b4ed5166f22ed74f15ff2e8a1fbf1a6d4d2233c176438e2123e",
+      "sha256": "bdfc17f0004c2525afa00e838352c3b4742501d5203a1acd3b9edf84ea55466c",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailureOrBuilder.java",
-      "sha256": "e7a1404025c7c6c07ac2fee6bc320150aa20e143f118bccd516786b4623cfe78",
+      "sha256": "4945371fc2f6c339117c3c1fd4fdf6bdde706544ce98aa3afa8dc3d6c7ed4d9c",
       "normalization": "lf"
     },
     {
@@ -644,12 +612,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateBody.java",
-      "sha256": "03b3b15ef85208f4ff60298e542a2d9a75ac40dd45c9981bf3788459752b608f",
+      "sha256": "2918bd401c3200e079e8bf113768d920287e72243c37a0e8d0febe6c04f0192f",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateBodyOrBuilder.java",
-      "sha256": "ff483affdc1c4e2bc3ef2c314a432c92cdfeb0011fb6f51a76c18020d55b3406",
+      "sha256": "897a610217c8da043e09fa6778e485db814900e3ccd6d747062c98ddfa1f2839",
       "normalization": "lf"
     },
     {
@@ -680,36 +648,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AutomationViewOrBuilder.java",
       "sha256": "beb0ecf4e6856c03fdee1769234ef3eeecfdf7236d274b9d03a6b886a0ea79fe",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Block.java",
-      "sha256": "dc2122caf9b91fc1a77709b3742c62ef7fb036e5aa19cfda856df1777dfe7b88",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockBody.java",
-      "sha256": "8825521c290d085bb2c3f217a6a72487c702f06f797fe4dea8a2df0928bb5b08",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockBodyOrBuilder.java",
-      "sha256": "2260de47e0cf129b06b06776f9229594e7a65cbc2a089197721a4ff02f72eb8d",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockOrBuilder.java",
-      "sha256": "cb5863415cc7acb2f6ee3d7bcb90be60701cc57d869622da8ace07cc6dbbdd00",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockProperties.java",
-      "sha256": "d2d98b014c04667d4f315ac48a53485323ee6c1f3e4fb0c99d8e16a3ba41cc54",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BlockPropertiesOrBuilder.java",
-      "sha256": "c5c1a338502480405b4ca0be1d9840d250a2d5b1ba39d67610ffee80e85d55fc",
       "normalization": "lf"
     },
     {
@@ -783,26 +721,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CodeBlock.java",
-      "sha256": "67b5acbb9463391319c6fa0f7b58a50199f0891a6084d68cb4615bcbc7fd6555",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CodeBlockOrBuilder.java",
-      "sha256": "9d92727c173a7311a911d4c0836ab013d95696cdbc0348a0a306e68b4e748893",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ColourConfiguration.java",
-      "sha256": "18a3f136820cc34de876ae04fc2b76ad20f806a00865980cb5acd4290f241f4a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ColourConfigurationOrBuilder.java",
-      "sha256": "d637a46befc69850fec043f986ac6829b1f8b6f9f35c2dfaa9f144da2782422c",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContentProto.java",
       "sha256": "05d2fc1232adbbb2e7b5d1da5f355f95c8fdede972e3050bd9ad620e8c0e5edb",
       "normalization": "lf"
@@ -824,12 +742,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextSelector.java",
-      "sha256": "afac0e0e451c7c49c7695947f38bf4e99f267c60cad66b5a6448ac3d81129c82",
+      "sha256": "fcaaa050cf67287303e745efe65bdef8c7bc8c1bb23fc01d774eff5baeb66929",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextSelectorOrBuilder.java",
-      "sha256": "759b72c84a385f6f4fc87866c3084b326384e87bda3528b1321c28393627f047",
+      "sha256": "1b0b5090c0d0c53ec409abd582a3e1916d5453524c2ae106b6fa7441811b3a7b",
       "normalization": "lf"
     },
     {
@@ -893,26 +811,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EffectParameter.java",
-      "sha256": "d6c8b09c9b2d33c45e6ab7fa5d080326117a4a806ae3a98da41d4f3c0b80f77f",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EffectParameterOrBuilder.java",
-      "sha256": "08fe0ee2a7bbc18b8df015453ff2e5f544439275fb558e3a20f1ace2af33c7ec",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EffectSpec.java",
-      "sha256": "3f09bd271f5ed5b0b038e099b00d3f26a5614e320bbff6eb36ceafe9427ed5d6",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EffectSpecOrBuilder.java",
-      "sha256": "e4653f7c56c26bdded9be9e88894fd965de7f2b6ec2c2f2936000036bb6fb99e",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EphemeralSelection.java",
       "sha256": "e311bd98eca273ffb5c8bb19c69ef9d770a94f215bfe85456d3303363d74a363",
       "normalization": "lf"
@@ -924,12 +822,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EventTrigger.java",
-      "sha256": "94e3ae01847d007f4f2ed18595df32676fd962599158d4ec65c711070b7140d3",
+      "sha256": "e88ab3efb629125dbb678161b15b225e919ec935e01bf3104df846cb1f9e3ef7",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EventTriggerOrBuilder.java",
-      "sha256": "8eb5cc054e4a1609b353841a07cdd4c2764087452401bcaf84a47409cfcd94bf",
+      "sha256": "f4a23bd9525047e342e7eb329ac9508d0627f5c5ce52adb0c52a10496293a114",
       "normalization": "lf"
     },
     {
@@ -940,26 +838,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FamilyResultOrBuilder.java",
       "sha256": "56aa700113b85090ac923d7fb0a52934142bb4d119c5ec744b83c071ca0e837e",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FilterGroup.java",
-      "sha256": "7f2923a0a1dcc5dc72f4aaed9642732966f202d88731eee68cbcdad0de9ef003",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FilterGroupOrBuilder.java",
-      "sha256": "811d217f5fef708f0d514c6cf7f3393fb0c64f3c96b0e67fa39ef3fc1fb86926",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FolderView.java",
-      "sha256": "9dbd988da7953ddd91bdc8e2c7bf5885e52419fae20ae23bbfc0f5ade377f8e5",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FolderViewOrBuilder.java",
-      "sha256": "6043258debcdcfd75445990b0a86224511234cf9f723404d0977b9deb27f8fdb",
       "normalization": "lf"
     },
     {
@@ -983,98 +861,8 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/GeneratedSource.java",
-      "sha256": "579b37794bb4f8aeea897099875a1fed27d0b8ef9c843368afb751d57579799a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/GeneratedSourceOrBuilder.java",
-      "sha256": "b4afe471ecdaa57eb48f1e37aace7712d39a8c1cdd77deb3de1049dee56b7084",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/HistoryMode.java",
       "sha256": "bd24d3ae2ec35cc489302cd6ba3c49e98956928f72e88c4d0ae756f060de34b9",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/IdList.java",
-      "sha256": "8319bff20cbc4c83855837a95bf49b12da23bb3a2db296285675cb4969591d97",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/IdListOrBuilder.java",
-      "sha256": "2ce4553a9c2582ba8510331a3c05d10545ce1a8fea04d2472047907c75dcc64c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ImageLayout.java",
-      "sha256": "01eb9f73abfbac4a310ebae2f323aa6f397d7be47b69e1899fe393577c89bc6c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ImageLayoutOrBuilder.java",
-      "sha256": "2131f24dd17daccd2bd5a73b365ae6f982a8f07112dd1ca379853db13e5e8414",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/InlineAtom.java",
-      "sha256": "3d3c1fea6973abe37279a2a9effff2354add4fee87ff0814a726535693e921ce",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/InlineAtomOrBuilder.java",
-      "sha256": "f3831fd09c1fa95108acca52f08052e76fb56e5be733eabb9af64078f8f132c7",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Keyframe.java",
-      "sha256": "f6fb71c01539c4792a87293983096ddab84695f70c3ef440a3fcc0a19dbced9a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KeyframeList.java",
-      "sha256": "f204125bb503ea67af941d9db62fa1fef35e32a58438f3b5c7f6e5795bdbf552",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KeyframeListOrBuilder.java",
-      "sha256": "053bf7e190df8b973e7d28f94e7fee5ffa0a89a4ca5dc868304d058060e2028d",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KeyframeOrBuilder.java",
-      "sha256": "de2ff121c5214f6cf12e7916c0ce58d71b4715941f4764cb374b4679e20bf0c8",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/LinkSpec.java",
-      "sha256": "0c65d268025ca2c15679aa90c6d0f673cd720eb7b4c607d876c63f411cc32d1e",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/LinkSpecOrBuilder.java",
-      "sha256": "3198c37b0814b14d08afc84ccccf7677f354f23f3809112e894a105864f80104",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MarkerView.java",
-      "sha256": "c4a214e2662693809a81d37152cf36981db6630467600e634ea33266cd0519aa",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MarkerViewOrBuilder.java",
-      "sha256": "1ff117ed43611ea71bb71d10c6165639f69f1a4792a2051e300a7f32f89e28f5",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MathContent.java",
-      "sha256": "d55b7f7d9fbadc84666c04ebd5cda9e96a16722ab890d64fdd919a45f170971c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MathContentOrBuilder.java",
-      "sha256": "20fc3ca58e6e0a16a2e4a1c00bcc6c8a9aa05b352c15431341b816defb7bb661",
       "normalization": "lf"
     },
     {
@@ -1138,46 +926,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaBin.java",
-      "sha256": "8402cc7a1fad4584b2a000b0acbfdaa514f0b824f7c717a249a8e7e1e24905b5",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaBinOrBuilder.java",
-      "sha256": "d0f7a25781713af0435c61a035dde51217b6b73e80d2d59b3d1482a29136405d",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaColourAssignment.java",
-      "sha256": "a83bdf58e356bc1375fe7c2d1328dadb475fadec6fb5b7f38caf0a68a6cede72",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaColourAssignmentOrBuilder.java",
-      "sha256": "19589846441862a6608bd88c22531a5d577eed35477bfd46b6b4aa54c64abdf1",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaStream.java",
-      "sha256": "9097da858e4298af4b18797bd3347c1e7841f6a8b8c38312140e96734626e15a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaStreamOrBuilder.java",
-      "sha256": "ee50b047b629c8aa536b8f27ae300b898f2c827539f6ccabffe000b9e0026ffb",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaView.java",
-      "sha256": "4fc4c829ac5e18b8454755c0eacb0a5f0da2b0b3bef381151ffed8d18eafed7e",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MediaViewOrBuilder.java",
-      "sha256": "960f60142bcec1cb52ee7c37ac32ec0eec3a86750df8d347df3e5a3365df9768",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MemoryRecord.java",
       "sha256": "12dd63d1e8cd677b2857b037c9a10021553888536ae0ca92c35192001c6cec6e",
       "normalization": "lf"
@@ -1238,96 +986,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotebookBody.java",
-      "sha256": "cbbd1c2bf9384aef45b04732c55586c8281ee6910095ab61db45173ead9918a0",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotebookBodyOrBuilder.java",
-      "sha256": "a03b742a70b76647c87ace1d5f18df4f29e32b068930261ea114928ce1be700a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotebookView.java",
-      "sha256": "5d1f40947709dbc7eeeaa061d9e87faf79cecca7c68af76f3f28666c29942f03",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotebookViewOrBuilder.java",
-      "sha256": "c82c8e7c67834e57980349dfbcec4dde3e9b084f503db244acf9ba948349d929",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesDocument.java",
-      "sha256": "79eb269215d7230f5e74ee63cebd703214a6fb6352e4b95842d1e493eff4d0d4",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesDocumentOrBuilder.java",
-      "sha256": "4dd753819ef36638790eec2e0db727cd49f80feebb935319fc2a7f4a94fc6ebb",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesFilter.java",
-      "sha256": "909c8a224064bc5f16f45ce67c9fd3aaaacc1d8c1335ec18e2caad0003d92def",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesFilterOrBuilder.java",
-      "sha256": "e8acfbc8fcbd41d507c29f2095d55e80a006ec829c6c1fb395c9e3e04264bb08",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesQuery.java",
-      "sha256": "fed2cfc8a22e3d11914af838e0c42d52f4a15c1eca474992e5d6c5caff852a58",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesQueryOrBuilder.java",
-      "sha256": "e57df4030c15e02930230d40e3973bee89c6d1a51ba4685dedac59fa98bc48ac",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSelection.java",
-      "sha256": "f909bd3ff238d1949a87535ac0635ee414aaafbbbcf204a6c90ae65f14d8504b",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSelectionOrBuilder.java",
-      "sha256": "19d926cc3beef6e0313e27844da5bd505355a3b0d9dd43a6eac3748ab5c7338c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSelectors.java",
-      "sha256": "0dbf7e81e5ce8d457203882892d552dd2c4a2a282081393a5accf1d403035d89",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSelectorsOrBuilder.java",
-      "sha256": "c1a142d66fc12d060ae314a09724d1867d14867d8070b0782c99713d9ceec1bc",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSort.java",
-      "sha256": "695ad74c43308fd026d0cb52642a3c1d53fc89ab4be780161d74f3677913c97c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesSortOrBuilder.java",
-      "sha256": "be078cb551f0529cb1282b4473712be4d87807fc146cf2caf5a57a5f4726984b",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesTextPosition.java",
-      "sha256": "09a0e7db82fa67c07b51215862117ef7db2b351fa8fc4fbc0e7074e0d0b14204",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/NotesTextPositionOrBuilder.java",
-      "sha256": "67f0e3599f27b3af94e67f70689e7394f02766a3df398fb099926cc42bb56580",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PreferenceRecord.java",
       "sha256": "67b3c1a2a2172f924add313697a2cff7d2b2bc17f74c1294e6a8d974e3c00ada",
       "normalization": "lf"
@@ -1338,96 +996,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ProcessingEdge.java",
-      "sha256": "1b1fc737f322322d9a2f59e6ea0dad68621905e1a842fbb19882205cace78e8b",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ProcessingEdgeOrBuilder.java",
-      "sha256": "cc78a10862934ac2853b79e94745ef6b180c95b683b222c0ae4a78be30f5acf8",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ProcessingGraph.java",
-      "sha256": "44b8f80c0c919af434c96d0d038867e0317219cd915cb566e4c18f75af29109c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ProcessingGraphOrBuilder.java",
-      "sha256": "4b6f05f5037d9c9f00bb35702c1df08e38db6db61ac4523279b3210659be752c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyDefinition.java",
-      "sha256": "c7c76daf23cc29a2b4f2fef5fd12eb9f08649691b5de359ef4c6ec96d56b09c3",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionOrBuilder.java",
-      "sha256": "47e12664440e117e0aa32028123b5b7336c6f5cc617eafdd353e5a9c56af5b36",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionVersion.java",
-      "sha256": "127fffd28e726387f1ffbbf10ddffe2c0558f59ca13ed38e76de0a2ff9b41abd",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionVersionOrBuilder.java",
-      "sha256": "89c8f741b88efc4e6e3b31b87d2d8f43118642022493f14783ad49275d5f5b45",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyValue.java",
-      "sha256": "7d0e767a04e5e4513eb037024eebeeba2cf925db0ebf33be8bf0fea899f23b6c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PropertyValueOrBuilder.java",
-      "sha256": "19a5375ef86410d1f4782b5ae8ee817c6532589751fa8f7aa3f8187bff10c895",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RenderPreset.java",
-      "sha256": "037cc41bd8f1eb436f01115d2b0b29593d95e67e18916d3c72ae87bdd1d772e2",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RenderPresetOrBuilder.java",
-      "sha256": "ca437cda5a38561e9db595c28ea8be283e80d4f05c147f65b103a201b4fe1f82",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RetimeCurve.java",
-      "sha256": "c3efec76f5e1ec7191f3d8f19606d37aca83f11e1ac2c613648fe4ce7c39ca42",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RetimeCurveOrBuilder.java",
-      "sha256": "b1bd67e9b98d69955b029485c03f0c3fe59e3f1db232b3d41ddbe4eee13c0280",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RetimePoint.java",
-      "sha256": "dc543d311dafad2e8fe10d6dbd10a09a1d186a2c394fa58c3e63ee4ba3e5b6b1",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RetimePointOrBuilder.java",
-      "sha256": "249108c83a4e34e7043c67559a6f14cbfcb290d27f3494fb24f2d75d3436cdc0",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RichText.java",
-      "sha256": "93a5e128677879fbe24f9e52f130609bcb55d5ddb37d66ed8f55d8954564b607",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RichTextOrBuilder.java",
-      "sha256": "b3f79354dad466683bdb7c993b323df87ea6286dfeb0d93aae7c3e0a9e1116a0",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SampleRange.java",
       "sha256": "78ca7ac2271801db44e02d9e64eceb18e7954cf9137d329f35585186286ca72e",
       "normalization": "lf"
@@ -1435,36 +1003,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SampleRangeOrBuilder.java",
       "sha256": "71f89649b45b1c2a514efc1c37db953442e31e8b11b3060d992cadd8a3e0694a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SavedViewRecord.java",
-      "sha256": "fa7634020c255aa54bfa7e8802bdc370618f9e25b630d368e90567ece54d17d6",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SavedViewRecordOrBuilder.java",
-      "sha256": "825cbc7fea09ffcc8d5962fce499df39576b54a1431feee4f39301a0b77724de",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScalarPredicate.java",
-      "sha256": "088384d58168e863ca25ad1aafc21e0e1745ff2bea76d4b0c1770357e0925879",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScalarPredicateOrBuilder.java",
-      "sha256": "9900381ce28e84ce81d18d295cb451072e3e5952d070e12301ac91ae84e0f300",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScalarValue.java",
-      "sha256": "e074e6e7c9994c090a89856d37f4e32b37814bb939a684c1b11df7081b9e6391",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScalarValueOrBuilder.java",
-      "sha256": "2e876d55fba4c4c815a218b3b72d5c6fce2143d5ae8c825d08ebdd11ac9c2bfd",
       "normalization": "lf"
     },
     {
@@ -1538,16 +1076,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SelectOption.java",
-      "sha256": "965bc3379d05a5a5ae5847e33ebf57935fa9076dc0211941dd49e10af0d0ce22",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SelectOptionOrBuilder.java",
-      "sha256": "9d5e65179b62c9c7a02dcc1347ebd6aaf6b872cf7570cc989a78a8a1e2cb570a",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SelectedSample.java",
       "sha256": "5911debda85c7a210f35cfeace3505c6dd14c2d20ba4a0b0bf202e9198e7b948",
       "normalization": "lf"
@@ -1558,16 +1086,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SequenceView.java",
-      "sha256": "1ea75d5e8c5a1b99313cefd22950a3a064a2510e644569aed64605ac06ea2953",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SequenceViewOrBuilder.java",
-      "sha256": "ec30ed0d088d7c7fe30b36f5d89beb35945c5593a77b291546092cf57c8e5251",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SkillRecord.java",
       "sha256": "cdf2a799f3ce504e7807f07412ef6ab75b0cf5f46d9d585336d68e91ce8a8b78",
       "normalization": "lf"
@@ -1575,26 +1093,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SkillRecordOrBuilder.java",
       "sha256": "898a0b972f03b0859674aeec1d120baae7e00da1c973580857c3c21499ac17b0",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SlateMetadata.java",
-      "sha256": "539be6f3331a24005100b0f4714b101795224f0b406fe9e2687a448380aef462",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SlateMetadataOrBuilder.java",
-      "sha256": "8edecd06dc183354af893a7ca9bc450ba47a6e4e89c44af9e8c8899e1333d569",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SlateSelection.java",
-      "sha256": "c9071266ab6e0a85bab3e35920eac5184aa7a803da76098b318fc372e89295fb",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SlateSelectionOrBuilder.java",
-      "sha256": "9de81117b8c99c8e9c290eba5b0158c28fbb68f8d3a4ef1f1f43d0571eee49a7",
       "normalization": "lf"
     },
     {
@@ -1618,46 +1116,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableBlock.java",
-      "sha256": "b9971a98aac6df70fb54d1d3d6dc3a07ecb48cd2902623a271145adb191fa099",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableBlockOrBuilder.java",
-      "sha256": "31f8784706e613327da43f16c79e2bc62de6ca4c370d04e3449c2a46abe77858",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableCell.java",
-      "sha256": "fa44a305c6620b088df706e29ab613f55b1fe7c45e16e3c2a6d2fb2c8790db13",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableCellOrBuilder.java",
-      "sha256": "9dc7ee42c9ffd01c56ced131f84d26332aad1ca29bb2b49fc924fc116045f985",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableRow.java",
-      "sha256": "c2a450b34b0780d5cf1912fc2a4679ebe75dac167da4cf5c1ad1524588a30428",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TableRowOrBuilder.java",
-      "sha256": "891029e319ae7d70e4e5025c15db7ad44757ea5c560b18c8129648a9ad41f9f9",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TagRecord.java",
-      "sha256": "38b29ccd10e39e03a5f0a22ab544c2bbadb4e353886c751fea54cbffe8e85e93",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TagRecordOrBuilder.java",
-      "sha256": "e9e93c83b914818d1c74438646647e062d16c3e11837a1b03d1dafff3e4ef519",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TaskReasonFacet.java",
       "sha256": "5925128cc65285cdaea3369eb57476afe7295fdba16e361b46e5afc35c1ef576",
       "normalization": "lf"
@@ -1678,66 +1136,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TextRunSegment.java",
-      "sha256": "e2f5c29c01084bd32659b94ed7c5cd0de88a99a99910aeeb6ef181392aa646c8",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TextRunSegmentOrBuilder.java",
-      "sha256": "bd01e0693402777f3ebaf62daa0ef4d6984939800285d2693033631f8275c3ec",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TextSpan.java",
-      "sha256": "e06bd7f7b7f13a817973b2552011c9e703277cc60706ef5a91d42cfdc329ccc9",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TextSpanOrBuilder.java",
-      "sha256": "e8b26a01a21d54eef567a0dd547b86cdcb8eb20fc34d24c98af7d440d48771bc",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimedText.java",
-      "sha256": "67f03f3bdbe27b7c33d369582f95e32ba2d5664465a6e2786e055ed73b107586",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimedTextOrBuilder.java",
-      "sha256": "32ca1ab26005b316953477c594eeb8f80bc88187d2a94ff4a72f6c8d38b57dbb",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineClip.java",
-      "sha256": "bf6e762c072c010d51d4879d6ab84c2954b249bfc3ff9ea2bab8062346cc0dad",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineClipOrBuilder.java",
-      "sha256": "26498ad46d9a90deff7654a265582b0db5e8d26908405b1edc36bc6df802ffeb",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineTrack.java",
-      "sha256": "e80a04fcdf4426d0e0a0634f569842956c87d6081d17d7e8759a6208059be901",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineTrackOrBuilder.java",
-      "sha256": "b45315395bb1084a6f3fbd0d61f242ad9c1757396b84720dac9af2dbbeae5ac6",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineView.java",
-      "sha256": "819f91f3d0d42dce7640732a58429ee01cd3fd8949a571678c69d1a778c968d9",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TimelineViewOrBuilder.java",
-      "sha256": "8b9d01a5477940f8ab45cf61c0b75f40daff23be7c61212233f6ee6d0db59705",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ToolProposal.java",
       "sha256": "3008ac9bc2a7ff6e36b2af432ed53461139bc2b80470221b5051f8a3c0c6f55e",
       "normalization": "lf"
@@ -1755,16 +1153,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ToolResultOrBuilder.java",
       "sha256": "cf899b74f43bad27a32603b4e109e11eb29cf475804783991f298b5473ec11e4",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransitionSpec.java",
-      "sha256": "c6076c8923b05f179927e01f6eabd46a97f3fccde9c33860375611ba328bb0f1",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransitionSpecOrBuilder.java",
-      "sha256": "0d4a82086051f7e4d01548a9af6cacf44b9ff55b84202ccccf91c795c542e2e3",
       "normalization": "lf"
     },
     {
@@ -1908,11 +1296,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/LocalNotesVersionKt.kt",
-      "sha256": "37d2eea09ca3e1ca6df5d1f9ec1f504e77eaf0fe1906860fb0389947fb2b432c",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/MediaRangeKt.kt",
       "sha256": "ec8248c594c6b45b3f058ae895a15c62b0498206e106c01975320a644537b59d",
       "normalization": "lf"
@@ -1949,7 +1332,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RequestMetaKt.kt",
-      "sha256": "18e1c74074eb75edf4fca5bd1cc5c4d27e7e17bf23e29ffca85403be88ef0a98",
+      "sha256": "5e61c64d69c20f776c41272f2ac1c174b715c9a6e8dd34f1ba0847f060391dce",
       "normalization": "lf"
     },
     {
@@ -1959,7 +1342,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ResourceVersionRefKt.kt",
-      "sha256": "aeb0e4b8b3d16e2d31bb70f5ab6936840ceb28784071ceaafc5cfafe49f47371",
+      "sha256": "e8cc5081cbe8fb0a33a5f5cd91ce498aeaea696866c0b6bb8ac3855c44077a57",
       "normalization": "lf"
     },
     {
@@ -1984,7 +1367,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/StateFailureKt.kt",
-      "sha256": "00b68e19347e56b4cefe892ac7ea96d9d018f15990d6359493944a06291a89ff",
+      "sha256": "c19c377c9f4f17d7e0f32cd072ba60c1107712186f1368c688fdf848c2370da6",
       "normalization": "lf"
     },
     {
@@ -2024,7 +1407,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AggregateBodyKt.kt",
-      "sha256": "26e32e5c47dc54d4ef5b2ce0743c0224e8291eb1035953f03b72cabff53b2fce",
+      "sha256": "69b777adcf39f8b27530597ac02f54be9ae051d6f5ec37fba9b2bad7a0d1b563",
       "normalization": "lf"
     },
     {
@@ -2040,21 +1423,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AutomationViewKt.kt",
       "sha256": "42ca16cc55aab8c19f2d1f4746109ac61a2c4f154ca6ea31fd2520ea38fa6ff4",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BlockBodyKt.kt",
-      "sha256": "2b47c079204c6c785f02292c9589833ed4bca520b50a1501287290510f629ef6",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BlockKt.kt",
-      "sha256": "64051c8b199b68174066408a88c5cf669d97715fbc42421f9de876b4d624cae0",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BlockPropertiesKt.kt",
-      "sha256": "d82224d359cc92fce325c7d5c4651232f4287e5f57833058bef0feaa37778f9c",
       "normalization": "lf"
     },
     {
@@ -2093,16 +1461,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CodeBlockKt.kt",
-      "sha256": "1eb43ebca15bc9b9c9223be53715d666f012c2d80981d99200ba54b94ecd02da",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ColourConfigurationKt.kt",
-      "sha256": "a26d3036d87b7e25cc7fed028407226f18df77abf76fd14db993c958b2aa2e53",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContentProtoKt.proto.kt",
       "sha256": "4f638e31002baf902121d1a1a5e163adc66d5e681f12d8f522e8c2e489f67eb1",
       "normalization": "lf"
@@ -2114,7 +1472,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextSelectorKt.kt",
-      "sha256": "22875304bb4b5b9af6da42f14226959b986bd80ef0408cb0aae9c25d59d56489",
+      "sha256": "215c296f0fc5440aeeff29d58e79297495b073e4a19570e4b3c8df31b3e29d53",
       "normalization": "lf"
     },
     {
@@ -2143,38 +1501,18 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EffectParameterKt.kt",
-      "sha256": "0447b336ef2526a0a69e4e1470f649f7f190882361f0b4d3c7f5edb5022d4acd",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EffectSpecKt.kt",
-      "sha256": "5e052638246bea4160689190b1c2d4f99cd3c3597021eec0dc0de58fc982cdb1",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EphemeralSelectionKt.kt",
       "sha256": "309e3ac8801924bf1b1862b287d6785d5fe8760dee646f78870b21b3dad138d5",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EventTriggerKt.kt",
-      "sha256": "428b45e99b7d882a7ef7d6827c4ae1c06669a5846478ad383f0075a5f68ebf9a",
+      "sha256": "c8f3a26748bef1f6b5324cb03930a0307e99315441444b20cf6d6fae4e3d45d1",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FamilyResultKt.kt",
       "sha256": "ba3deabc8d1cd5f5164d82e7f13b37c7aa765fb5bd990a1497d6e36dcd4bba01",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FilterGroupKt.kt",
-      "sha256": "6d953e957cece2abc4474ddaa37d302ecf5202278acc0a1da0ada8d53c9d4d09",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FolderViewKt.kt",
-      "sha256": "9248d804a538078186e43c0f832a1bd517f7e84f632c5ba9773c596bf572dd5b",
       "normalization": "lf"
     },
     {
@@ -2185,51 +1523,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FrameFieldKt.kt",
       "sha256": "3ac1bd94c1294852a1a785f64302a3c4e278c19ffc9986f7c08bbb6d484a983d",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/GeneratedSourceKt.kt",
-      "sha256": "2dc861471b465986b0159ddc1ca83556fb981b86a2cc616d82a265f8b096c26f",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/IdListKt.kt",
-      "sha256": "d004488fccb2d1066bc931c7c0b8550013c22ce847f9943a7d32d15ced045748",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ImageLayoutKt.kt",
-      "sha256": "d112d134e3158ad8e2cd1b583724b194061552b6d6baee811c122e9c079cb48f",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/InlineAtomKt.kt",
-      "sha256": "5a90b2ad7e53640be6f5931c5f02deff7d4d0d055dbe590723c93c5b983454a0",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/KeyframeKt.kt",
-      "sha256": "97360464f60a8895e17e9dd2e53c359282b773f3948e46853dd8dfa527fb6bd7",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/KeyframeListKt.kt",
-      "sha256": "cafe2108937916b0c833bcf3ef9dd808c0b9a272866b7e4a8597b618b597f516",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/LinkSpecKt.kt",
-      "sha256": "0bebce491233eff9e0d4dacfd52530d8e929debcc0d3068a269003f5ab9a4291",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MarkerViewKt.kt",
-      "sha256": "b84427f4eeb6fe40b5606b8178be4b3f745bd6a0a05747826228a1442943ec1c",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MathContentKt.kt",
-      "sha256": "be325ffe28155dcb6e64a11439831ebdcd8f22fc5571b0864999c44d4a5c8b74",
       "normalization": "lf"
     },
     {
@@ -2263,26 +1556,6 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaBinKt.kt",
-      "sha256": "2f8419cb50d4a0d51a7b4f5d15c610706b7bea65b71613ccf83c0a88947d027a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaColourAssignmentKt.kt",
-      "sha256": "22634316b0a5e66d17a231d30d6d7cc04d8f206e56eaa63bbfce5bad791d3e82",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaStreamKt.kt",
-      "sha256": "e7bcf21001070fc06623814bf6af286fd1a25a304911d2bdc28eaa07e606176d",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MediaViewKt.kt",
-      "sha256": "8be0ada67fbed678855aa7faf4355e46dcab71ceb13eb680c4aabb751b90b278",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/MemoryRecordKt.kt",
       "sha256": "dde3ba508c486d7b6b6bf6229775c62e8c712babb6f69bb26656403465365cc6",
       "normalization": "lf"
@@ -2313,118 +1586,13 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotebookBodyKt.kt",
-      "sha256": "23671fd377f0c4c2f6fb85f1ab5097933e97f74b560fecb743186f18d8c06ba2",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotebookViewKt.kt",
-      "sha256": "6b5027fb83cdd293306d16f18ba831988d79781d93cd56d6a0900523effedfcb",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesDocumentKt.kt",
-      "sha256": "b0592a637b1c981e226eab863f663eb1382914cc040431e6a92b9e90b54971a4",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesFilterKt.kt",
-      "sha256": "7a5e44f28cafaacfee3e7595a4d3c23b810f653cd18887fdb7b1d52531f06191",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesQueryKt.kt",
-      "sha256": "cc6286bbab3f1fc0db4d7a1d5ad33af9bd15a93e7b6e1e4ac2e8a4e511ba2f8b",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesSelectionKt.kt",
-      "sha256": "50bee5570ded6e8ccc0e721ae95c1c7c4674f99481c09437fdec580b09736317",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesSelectorsKt.kt",
-      "sha256": "bf31d0f89ff8cd3dad650b23918c17a9f7ee15c90088fda9579e5b120f22a9c3",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesSortKt.kt",
-      "sha256": "ae219be90211e0629576192825abb3c2fa5fc8142ab83ee80aa8413498da545e",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/NotesTextPositionKt.kt",
-      "sha256": "5bcf38b6d071fc146718ce16d0c36c03704bc73423386b796b70c41ada6f9961",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PreferenceRecordKt.kt",
       "sha256": "f5d0ce8f38134d97b0b54fc6ef8cc92cdce0aa55af1ae37eeef65ed69c6a9e73",
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ProcessingEdgeKt.kt",
-      "sha256": "a223175728a5b495819bed9eee718faf5178cb2bb9d4cf36707b6356546f7c18",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ProcessingGraphKt.kt",
-      "sha256": "c4c4d1165e1e189295dee4a0f328c7651f953432361b98c6a489f97ced5dceb7",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionKt.kt",
-      "sha256": "275ea425130968a2cfecb1e15bbb058868c45e718cf5a5c5de6d809223ada49e",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PropertyDefinitionVersionKt.kt",
-      "sha256": "263b92d4e9718a1a03c6b10482d79050b432aaed75ff360f29f4407e7fd1fa76",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PropertyValueKt.kt",
-      "sha256": "bf8718fbcaa56b6e50f320f4700ef9af4cdc85d8b5025123c10a44c020798937",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RenderPresetKt.kt",
-      "sha256": "72ba7bb615081738d65a91d727a88c97dd467478572a0188c80e83d7cf2e33f3",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RetimeCurveKt.kt",
-      "sha256": "e006e12713649212be6f399bd84b8819a74d5ffadd58d26b74900d86fd92c2c9",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RetimePointKt.kt",
-      "sha256": "668a751399e467e724b55711c8a5e40bc4921274bd25b390a20b43f66ba66fb0",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RichTextKt.kt",
-      "sha256": "86008f09af82f4735324b35890742f62161c67877806f6a4daf37087ce8db6bf",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SampleRangeKt.kt",
       "sha256": "d2d8f984ae3e3fa744445df736d0544ab5fc617e5c2702a234ece2c4b38c8447",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SavedViewRecordKt.kt",
-      "sha256": "1f130fdaa8ddc13bae8317872e78b89e76a0e710ea5f72077bb1a1651b3561e5",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScalarPredicateKt.kt",
-      "sha256": "32810b51545a25aec68c8604765be47509c57adabb4070fab7dbd785a98039df",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScalarValueKt.kt",
-      "sha256": "ec560ba5d15785ffd02886d72ddbb513f164822ae37f868b4e3343ebe79c3cdc",
       "normalization": "lf"
     },
     {
@@ -2463,33 +1631,13 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SelectOptionKt.kt",
-      "sha256": "814e8c9fe4c880843c931d89a5f4bb94975b738b166af94f7f927a7ee8aab504",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SelectedSampleKt.kt",
       "sha256": "5922589945edaf49e2137189755d1f3d42c8db46d6d12d6a4383d74baa8999d4",
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SequenceViewKt.kt",
-      "sha256": "db0558af221397ee290f66bbe40be1bcb171f9abe6bbc941c70ae9482d06cf4f",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SkillRecordKt.kt",
       "sha256": "f2fe507dac1630b4b0021eeb0948498149da80ddae29a2a6b962e1c4d0bd8c93",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SlateMetadataKt.kt",
-      "sha256": "4cbcbd0f696137eb212b9c1106c17d8f7d3767616a8952a82ed6229524fe4c50",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SlateSelectionKt.kt",
-      "sha256": "3f1fcc11b48686eb108ad5b6294328f0406b7028e54f90a8d21851e8f4eff5f0",
       "normalization": "lf"
     },
     {
@@ -2503,58 +1651,8 @@
       "normalization": "lf"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TableBlockKt.kt",
-      "sha256": "490d08c04fa985d798505ae7ed81f1c2362b2214b4555efb49354b1070aa0701",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TableCellKt.kt",
-      "sha256": "42fc8c84aab9ef46a3341172b69e81cf69a428efad194a2de853f0f0137956a5",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TableRowKt.kt",
-      "sha256": "18c52a6a98f1a838bc14ecfd04036edd90385ef5c498eebc70eb5d5af039b90a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TagRecordKt.kt",
-      "sha256": "92d61cfe14828d6f0380282c43d4e310fb567d032a89163d9c0822d386f87133",
-      "normalization": "lf"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TaskSnapshotKt.kt",
       "sha256": "577eaca45d93bc74f485242d56e70693976ff22cc9b521ec780a9f8776eb843f",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TextRunSegmentKt.kt",
-      "sha256": "d14187707d8b67c06b9e3d79c2a8b1a787b8739af1f4e8549548ef11de6e366e",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TextSpanKt.kt",
-      "sha256": "2353b4a6131439be8659d782629ab5598cf8a030bbd2e6706d482908d89f0ffd",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimedTextKt.kt",
-      "sha256": "b1e41267b9274b8d28f525f84acce01259d53f39f8e409094ee8caab96f55bb1",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimelineClipKt.kt",
-      "sha256": "a0df8816c6cce1a9a6a67da15e245e3c462225f91243b4b1c5d4001f1749351a",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimelineTrackKt.kt",
-      "sha256": "96b891f22c26818ba330ec196b014037fe898c3305a614bb08e2485999783167",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TimelineViewKt.kt",
-      "sha256": "ff8a5e003a2a5f21568c4cace5609cbdeb74f19b291b5b51f4bdf105d3e0bf76",
       "normalization": "lf"
     },
     {
@@ -2565,11 +1663,6 @@
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ToolResultKt.kt",
       "sha256": "a54378b2e31f4cd2bee7671403cb3d55bab2cde124b45df19275b80fcc1bcd59",
-      "normalization": "lf"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransitionSpecKt.kt",
-      "sha256": "dbe634cc775793d6d01910c95030f5a45fe0d189a2ed896e71b747ec25244883",
       "normalization": "lf"
     },
     {
@@ -2619,7 +1712,7 @@
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "ca73ba9be87173e10a50b7e6b0e77966b9be05e726c8359e0223e3a90954b304",
+      "sha256": "629ae43b5ba560b0f6322f46deebda5a181753bea649637b8a2021e5da15a212",
       "normalization": "lf"
     },
     {
@@ -2629,7 +1722,7 @@
     },
     {
       "path": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
-      "sha256": "78ded595f1f17e465a0c6747d68ddba38abf231f1e611834a2ed444ea9813351",
+      "sha256": "b79c7c1231d85fc1385366d8260bfc01261f577b5b2f6bfd0b9f9c960788030b",
       "normalization": "lf"
     },
     {
@@ -2639,7 +1732,7 @@
     },
     {
       "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
-      "sha256": "5001e43e8abdffe443da6e933fe162b213b63cff2b9f595ad4358bb45919ecc1",
+      "sha256": "29b0edd012e3e76ff2c1b7223c8869224d6d0e9be2862ff78e5bc643901e599b",
       "normalization": "lf"
     },
     {
@@ -2654,12 +1747,12 @@
     },
     {
       "path": "src/public/ts/proto/src/shapes/gen/proto.ts",
-      "sha256": "1e98d1f5a0d75a6b80c2167778ce921af0c91a6270b6a237bb1ee64f01d66682",
+      "sha256": "5fe6e144d6babe4194717e5e47d01a99073ccf68dd3d04654d23463caf488f58",
       "normalization": "lf"
     },
     {
       "path": "src/public/ts/proto/src/values/gen/identifiers.ts",
-      "sha256": "17f4c6adf458d0ba1df4ac9341f620f50219863ee127c6fbf1071d1870ec8c3c",
+      "sha256": "f93d058ebfcb43ab486de32de647e8f0feb0b47703ce8dde1e86c45d2c13e63f",
       "normalization": "lf"
     }
   ],
@@ -2782,7 +1875,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "af7b6cca5e14a51735512d283b03d3ae9d96d170",
+        "commit": "671f816ddc9e1a3a75782842234f2e899c3de01a",
         "paths": [
           "eng/contracts.py",
           "eng/foundation_semantics.py",
@@ -2795,12 +1888,12 @@
         "evidence": [
           {
             "path": "eng/contracts.py",
-            "sha256": "50b3b18e871c1030204a5d37ca76107928552059f3303a1528629ff5a22b347b",
+            "sha256": "fc9e816e9dcba4f7c90fd35f4a2fffe8056600c6fe76eb38165a2838802726ef",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "eng/foundation_semantics.py",
-            "sha256": "696df0723403994619c2b4777890cae7ce6b5aab280925930994f256dcc65cc4",
+            "sha256": "880e7736000c5141c24f51a32918c9cf87de464ecd88fd54d51f3d9cf495cee4",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -2810,7 +1903,7 @@
           },
           {
             "path": "eng/generate_shapes.py",
-            "sha256": "412b21f7913a3ef724ed0d32dd571d8e9ea007a0a552b23bac3331b00d0497a0",
+            "sha256": "db9522dc0e822fc3b8b08d4f95277b238a129dfbfb2143d1090a4e4a251a8bce",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -2832,7 +1925,7 @@
       },
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "792306133ee1adcfd93e533c53ff3d4381c1c66a",
+        "commit": "b323a494a9a4ab83832050fb52488407d8f51264",
         "paths": [
           "eng/contracts.py"
         ],
@@ -2854,7 +1947,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "af7b6cca5e14a51735512d283b03d3ae9d96d170",
+        "commit": "671f816ddc9e1a3a75782842234f2e899c3de01a",
         "paths": [
           "eng/contract-packages.json",
           "fixtures/internal/wp03-00.json",
@@ -2863,11 +1956,9 @@
           "fixtures/public/wp03-01.json",
           "internal/ai-http/v1/schema.json",
           "internal/proto/arcforges/local/chat/v1/chat.proto",
-          "internal/proto/arcforges/local/notes/v1/notes.proto",
           "internal/proto/arcforges/local/platform/v1/platform.proto",
           "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
           "internal/proto/arcforges/local/scope/v1/scope.proto",
-          "internal/proto/arcforges/local/slate/v1/slate.proto",
           "internal/proto/arcforges/operator/v1/operator.proto",
           "internal/proto/constraints.json",
           "public/http/v1/inventory.schema.json",
@@ -2884,12 +1975,12 @@
         "evidence": [
           {
             "path": "eng/contract-packages.json",
-            "sha256": "4f31f579f1dc1ec708d8e76299592df748eb5206a957938f03a334d7048abe3b",
+            "sha256": "9567c392329f5db7cdcace051e9c7806c7b7ae163bd6d2ed3fff734a5e1a9569",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "fixtures/internal/wp03-00.json",
-            "sha256": "d199b011ee721c9f6010a9eb449f254de7fd7e24f3e0d46a74005a51f3c56b13",
+            "sha256": "165a82cf362ff2b05a220724e042915769f467697261035d71bb0c6ffce5fe96",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -2899,27 +1990,22 @@
           },
           {
             "path": "fixtures/public/wp03-00.json",
-            "sha256": "3c6e4b53644c2568b50dde46c1255071a2f7b9d1f4674c69603bded3c1f8acad",
+            "sha256": "919b5585f9c403648dbe797e71a4da4d3dbd85eecd5dede2b3f5f9b948ec6a69",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "fixtures/public/wp03-01.json",
-            "sha256": "1dfe708496a001e0b900ff727130f9cb5e91fa79287049df8655dc09ac37f22b",
+            "sha256": "38919422eaa333bf94ce3b98264ec811f6ccff8c8e3e9ac9efe2bd10c3f2b886",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "internal/ai-http/v1/schema.json",
-            "sha256": "395ffc80d24bc9d59b2de0706e9efd5071ec8ce3763dddf2dc7c3f4f7456da78",
+            "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
             "sha256": "3e9c76af5aefc63c78d21609e09d7106cf809f8e271d2382c3f0c15cdb4cd519",
-            "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
-          },
-          {
-            "path": "internal/proto/arcforges/local/notes/v1/notes.proto",
-            "sha256": "6986907e69f15c21e495f2f5ff4f234bca2c00fb2b2a90f8698680adc38e8fda",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -2938,28 +2024,23 @@
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
-            "path": "internal/proto/arcforges/local/slate/v1/slate.proto",
-            "sha256": "9bdc13d5344a6b30b01cf844b34ce183bd4d58b6277696ec70f9e2dc1e918a6c",
-            "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
-          },
-          {
             "path": "internal/proto/arcforges/operator/v1/operator.proto",
             "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "internal/proto/constraints.json",
-            "sha256": "2560a714da7d5f60d7b7010d95c9dc8bda26338dbb320073b57a15b7d8898285",
+            "sha256": "92fe9ee7c97d6dee8f79e4c98e61fb16f3acb0a291e15a53c20af22f4c00b6ea",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "public/http/v1/inventory.schema.json",
-            "sha256": "fb6929548278f6e16e61491001fecae4143882efbfe732950a1584e1e2f80a5d",
+            "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "public/http/v1/schema.json",
-            "sha256": "23587b33320fcbe4a917c2839552984eb40e716c4ce317a5c218f35bedf06751",
+            "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -2974,7 +2055,7 @@
           },
           {
             "path": "public/proto/arcforges/foundation/v1/foundation.proto",
-            "sha256": "ceda869bf2998ca4bc21c4b7504c365a4662e7f28183e6db81660592d5bcdb3f",
+            "sha256": "8412a262ed890e1048680d437c8cbb42ea4e94a31b9c62ee08b0ba3007f53f9e",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -2984,17 +2065,17 @@
           },
           {
             "path": "public/proto/arcforges/publicapi/v1/content.proto",
-            "sha256": "a352f31e0bcee5e5523e59cb6bcfe2af04423e78389c67fc0d8d0ab52f104dee",
+            "sha256": "15acce6e5618843a24115f8e5ddf64aba5e4fb60ca55dcb926a1900dc46d078f",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "4f76f316c66d85dae393e64f0362610c479596859f3247825ca003d97a4157d8",
+            "sha256": "69b5e9a861d5e2e914bbfd1817dc15481965868ab719564308c99b77845a4f2f",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
             "path": "public/proto/value-boundaries.json",
-            "sha256": "ba5173445ebcead5b8137383bc32072658f69d8cf0f4be6913989e3b7a30f1d7",
+            "sha256": "b4d7eaa24ec864c69426fa5d679cf1e2d4536b8ed720e4371fb4a3ee94bc5111",
             "finding": "Reviewed exact Apache-2.0 schema, rule, fixture or generator input at the bound source snapshot."
           },
           {
@@ -3014,9 +2095,9 @@
     "reviewedOn": "2026-09-27",
     "decision": "approved",
     "rationale": "Only the generator-owned proto export barrel adds the first-party semantic hash module. No package identity, upstream generator or licence boundary changes; original generated provenance remains linked through supersedes.",
-    "baselineCommit": "792306133ee1adcfd93e533c53ff3d4381c1c66a",
+    "baselineCommit": "b323a494a9a4ab83832050fb52488407d8f51264",
     "reconciliation": false
   },
-  "supersedes": "contract-bindings-r5",
+  "supersedes": "contract-bindings-r6",
   "artifactTargets": []
 }
