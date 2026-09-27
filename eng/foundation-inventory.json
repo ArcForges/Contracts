@@ -4,14 +4,21 @@
   "designCommit": "5e202ff10f3c218d9e159029579ca535c641169b",
   "designProfile": "docs/assurance/wp03-01-foundation-contract-profile.md",
   "seeds": [
+    "ActionDescriptor",
     "AggregateBody",
     "AggregateRef",
     "ApplicationScope",
     "ArcError",
     "ByteRange",
+    "CapabilityDescriptor",
+    "CompatibilityDescriptor",
     "ContentOrigin",
+    "ContextDescriptor",
+    "ContextProvider",
     "Decimal",
+    "EncodedBodyRef",
     "ErrorDetails",
+    "HealthSnapshot",
     "Id",
     "Instant",
     "LimitFailure",
@@ -35,6 +42,82 @@
     "VersionedRef"
   ],
   "records": [
+    {
+      "name": "ActionDescriptor",
+      "protobufType": "arcforges.foundation.v1.ActionDescriptor",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "key",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "titleKey",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "title_key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "descriptionKey",
+          "type": "Key",
+          "cardinality": "?",
+          "wireType": "string",
+          "protoName": "description_key",
+          "oneof": null,
+          "presence": "optional"
+        },
+        {
+          "tag": 4,
+          "name": "acceptedContext",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "accepted_context",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 5,
+          "name": "capabilities",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "capabilities",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 6,
+          "name": "availabilityRule",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "availability_rule",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ActionDescriptor.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ActionDescriptorKt.kt"
+      }
+    },
     {
       "name": "ActorChain",
       "protobufType": "arcforges.foundation.v1.ActorChain",
@@ -312,7 +395,14 @@
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateBody.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AggregateBodyKt.kt"
       },
-      "reservedTags": [1, 4, 5, 6, 7, 8],
+      "reservedTags": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
       "reservedNames": [
         "notebook",
         "notes",
@@ -416,7 +506,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["alignmentSpec"],
+      "rules": [
+        "alignmentSpec"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -538,7 +630,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["arcError"],
+      "rules": [
+        "arcError"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -968,7 +1062,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["byteRange"],
+      "rules": [
+        "byteRange"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -1023,6 +1119,52 @@
       }
     },
     {
+      "name": "CancelSupport",
+      "protobufType": "arcforges.foundation.v1.CancelSupport",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "accepted",
+          "type": "bool",
+          "cardinality": "required",
+          "wireType": "bool",
+          "protoName": "accepted",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "beforeDispatchOnly",
+          "type": "bool",
+          "cardinality": "required",
+          "wireType": "bool",
+          "protoName": "before_dispatch_only",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "statusOperation",
+          "type": "Key",
+          "cardinality": "?",
+          "wireType": "string",
+          "protoName": "status_operation",
+          "oneof": null,
+          "presence": "optional"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CancelSupport.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CancelSupportKt.kt"
+      }
+    },
+    {
       "name": "CapabilityArguments",
       "protobufType": "arcforges.publicapi.v1.CapabilityArguments",
       "owner": "ArcForges.Contracts.PublicApi",
@@ -1056,6 +1198,320 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CapabilityArguments.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CapabilityArgumentsKt.kt"
+      }
+    },
+    {
+      "name": "CapabilityDescriptor",
+      "protobufType": "arcforges.foundation.v1.CapabilityDescriptor",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "key",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "version",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "version",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "requestSchema",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "request_schema",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "responseSchema",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "response_schema",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "risk",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "risk",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 6,
+          "name": "locality",
+          "type": "ToolLocality",
+          "cardinality": "required",
+          "wireType": "ToolLocality",
+          "protoName": "locality",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 7,
+          "name": "idempotency",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "idempotency",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 8,
+          "name": "statusOperation",
+          "type": "Key",
+          "cardinality": "?",
+          "wireType": "string",
+          "protoName": "status_operation",
+          "oneof": null,
+          "presence": "optional"
+        },
+        {
+          "tag": 9,
+          "name": "reads",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "reads",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 10,
+          "name": "writes",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "writes",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 11,
+          "name": "exclusive",
+          "type": "bool",
+          "cardinality": "required",
+          "wireType": "bool",
+          "protoName": "exclusive",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 12,
+          "name": "egress",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "egress",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 13,
+          "name": "approval",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "approval",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 14,
+          "name": "binding",
+          "type": "OperationBinding",
+          "cardinality": "required",
+          "wireType": "OperationBinding",
+          "protoName": "binding",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 15,
+          "name": "execution",
+          "type": "ExecutionLocus",
+          "cardinality": "required",
+          "wireType": "ExecutionLocus",
+          "protoName": "execution",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 16,
+          "name": "effect",
+          "type": "EffectKind",
+          "cardinality": "required",
+          "wireType": "EffectKind",
+          "protoName": "effect",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 17,
+          "name": "retry",
+          "type": "RetryMode",
+          "cardinality": "required",
+          "wireType": "RetryMode",
+          "protoName": "retry",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 18,
+          "name": "cancel",
+          "type": "CancelSupport",
+          "cardinality": "required",
+          "wireType": "CancelSupport",
+          "protoName": "cancel",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 19,
+          "name": "preview",
+          "type": "OperationBinding",
+          "cardinality": "?",
+          "wireType": "OperationBinding",
+          "protoName": "preview",
+          "oneof": null,
+          "presence": "optional"
+        },
+        {
+          "tag": 20,
+          "name": "compensation",
+          "type": "OperationBinding",
+          "cardinality": "?",
+          "wireType": "OperationBinding",
+          "protoName": "compensation",
+          "oneof": null,
+          "presence": "optional"
+        },
+        {
+          "tag": 21,
+          "name": "checkpoint",
+          "type": "bool",
+          "cardinality": "required",
+          "wireType": "bool",
+          "protoName": "checkpoint",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 22,
+          "name": "limits",
+          "type": "CapabilityLimits",
+          "cardinality": "required",
+          "wireType": "CapabilityLimits",
+          "protoName": "limits",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 23,
+          "name": "acceptedContext",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "accepted_context",
+          "oneof": null,
+          "presence": "repeated"
+        }
+      ],
+      "rules": [
+        "capabilityDescriptor"
+      ],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CapabilityDescriptor.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CapabilityDescriptorKt.kt"
+      }
+    },
+    {
+      "name": "CapabilityLimits",
+      "protobufType": "arcforges.foundation.v1.CapabilityLimits",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "maxInputBytes",
+          "type": "uint64",
+          "cardinality": "required",
+          "wireType": "uint64",
+          "protoName": "max_input_bytes",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "maxOutputBytes",
+          "type": "uint64",
+          "cardinality": "required",
+          "wireType": "uint64",
+          "protoName": "max_output_bytes",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "maxDurationMs",
+          "type": "uint64",
+          "cardinality": "required",
+          "wireType": "uint64",
+          "protoName": "max_duration_ms",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "maxConcurrency",
+          "type": "uint32",
+          "cardinality": "required",
+          "wireType": "uint32",
+          "protoName": "max_concurrency",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "maxContextItems",
+          "type": "uint32",
+          "cardinality": "required",
+          "wireType": "uint32",
+          "protoName": "max_context_items",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CapabilityLimits.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CapabilityLimitsKt.kt"
       }
     },
     {
@@ -1228,7 +1684,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["channelDefinition"],
+      "rules": [
+        "channelDefinition"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -1360,12 +1818,72 @@
           "presence": "required"
         }
       ],
-      "rules": ["checksumSpec"],
+      "rules": [
+        "checksumSpec"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChecksumSpec.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ChecksumSpecKt.kt"
+      }
+    },
+    {
+      "name": "CompatibilityDescriptor",
+      "protobufType": "arcforges.foundation.v1.CompatibilityDescriptor",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "foundation",
+          "type": "ContractCompatibility",
+          "cardinality": "required",
+          "wireType": "ContractCompatibility",
+          "protoName": "foundation",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "contracts",
+          "type": "ContractCompatibility",
+          "cardinality": "[]",
+          "wireType": "ContractCompatibility",
+          "protoName": "contracts",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 3,
+          "name": "capabilities",
+          "type": "ContractCompatibility",
+          "cardinality": "[]",
+          "wireType": "ContractCompatibility",
+          "protoName": "capabilities",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 4,
+          "name": "features",
+          "type": "FeatureSet",
+          "cardinality": "required",
+          "wireType": "FeatureSet",
+          "protoName": "features",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [
+        "compatibilityDescriptor"
+      ],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/CompatibilityDescriptor.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/CompatibilityDescriptorKt.kt"
       }
     },
     {
@@ -1466,12 +1984,166 @@
           "presence": "required"
         }
       ],
-      "rules": ["contentOrigin"],
+      "rules": [
+        "contentOrigin"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContentOrigin.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ContentOriginKt.kt"
+      }
+    },
+    {
+      "name": "ContextDescriptor",
+      "protobufType": "arcforges.publicapi.v1.ContextDescriptor",
+      "owner": "ArcForges.Contracts.PublicApi",
+      "source": "public/proto/arcforges/publicapi/v1/descriptors.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "key",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "provider",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "provider",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "kind",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "kind",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "titleKey",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "title_key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "context",
+          "type": "ContextRef",
+          "cardinality": "required",
+          "wireType": "ContextRef",
+          "protoName": "context",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 6,
+          "name": "observedAt",
+          "type": "Instant",
+          "cardinality": "required",
+          "wireType": "Instant",
+          "protoName": "observed_at",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Descriptors.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/descriptors_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextDescriptor.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextDescriptorKt.kt"
+      }
+    },
+    {
+      "name": "ContextProvider",
+      "protobufType": "arcforges.publicapi.v1.ContextProvider",
+      "owner": "ArcForges.Contracts.PublicApi",
+      "source": "public/proto/arcforges/publicapi/v1/descriptors.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "key",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "appId",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "app_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "titleKey",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "title_key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "contextKinds",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "context_kinds",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 5,
+          "name": "maxItems",
+          "type": "uint32",
+          "cardinality": "required",
+          "wireType": "uint32",
+          "protoName": "max_items",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 6,
+          "name": "maxBytes",
+          "type": "uint32",
+          "cardinality": "required",
+          "wireType": "uint32",
+          "protoName": "max_bytes",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Descriptors.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/descriptors_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextProvider.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextProviderKt.kt"
       }
     },
     {
@@ -1562,7 +2234,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["contextRef"],
+      "rules": [
+        "contextRef"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -1608,15 +2282,109 @@
           "presence": "oneof"
         }
       ],
-      "rules": ["contextSelector"],
+      "rules": [
+        "contextSelector"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextSelector.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextSelectorKt.kt"
       },
-      "reservedTags": [3, 5],
-      "reservedNames": ["notes", "slate"]
+      "reservedTags": [
+        3,
+        5
+      ],
+      "reservedNames": [
+        "notes",
+        "slate"
+      ]
+    },
+    {
+      "name": "ContractCompatibility",
+      "protobufType": "arcforges.foundation.v1.ContractCompatibility",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "contract",
+          "type": "ContractVersion",
+          "cardinality": "required",
+          "wireType": "ContractVersion",
+          "protoName": "contract",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "minReadable",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "min_readable",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "minWritable",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "min_writable",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [
+        "contractCompatibility"
+      ],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContractCompatibility.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ContractCompatibilityKt.kt"
+      }
+    },
+    {
+      "name": "ContractVersion",
+      "protobufType": "arcforges.foundation.v1.ContractVersion",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "key",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "key",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "version",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "version",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [
+        "contractVersion"
+      ],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ContractVersion.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ContractVersionKt.kt"
+      }
     },
     {
       "name": "ControlProgress",
@@ -1904,7 +2672,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["cursorResult"],
+      "rules": [
+        "cursorResult"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -1976,12 +2746,92 @@
           "presence": "required"
         }
       ],
-      "rules": ["canonicalDecimal"],
+      "rules": [
+        "canonicalDecimal"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Decimal.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/DecimalKt.kt"
+      }
+    },
+    {
+      "name": "EncodedBodyRef",
+      "protobufType": "arcforges.foundation.v1.EncodedBodyRef",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "resource",
+          "type": "ResourceVersionRef",
+          "cardinality": "required",
+          "wireType": "ResourceVersionRef",
+          "protoName": "resource",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "messageType",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "message_type",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "descriptorHash",
+          "type": "Hash",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "descriptor_hash",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "byteLength",
+          "type": "uint64",
+          "cardinality": "required",
+          "wireType": "uint64",
+          "protoName": "byte_length",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "snapshotToken",
+          "type": "Cursor",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "snapshot_token",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 6,
+          "name": "expiresAt",
+          "type": "Instant",
+          "cardinality": "required",
+          "wireType": "Instant",
+          "protoName": "expires_at",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [
+        "encodedBodyRef"
+      ],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/EncodedBodyRef.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/EncodedBodyRefKt.kt"
       }
     },
     {
@@ -2131,8 +2981,12 @@
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EventTrigger.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EventTriggerKt.kt"
       },
-      "reservedTags": [3],
-      "reservedNames": ["predicate"]
+      "reservedTags": [
+        3
+      ],
+      "reservedNames": [
+        "predicate"
+      ]
     },
     {
       "name": "FamilyResult",
@@ -2212,12 +3066,40 @@
           "presence": "required"
         }
       ],
-      "rules": ["familyResult"],
+      "rules": [
+        "familyResult"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/FamilyResult.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/FamilyResultKt.kt"
+      }
+    },
+    {
+      "name": "FeatureSet",
+      "protobufType": "arcforges.foundation.v1.FeatureSet",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "features",
+          "type": "Key",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "features",
+          "oneof": null,
+          "presence": "repeated"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/FeatureSet.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/FeatureSetKt.kt"
       }
     },
     {
@@ -2328,7 +3210,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["frameConfiguration"],
+      "rules": [
+        "frameConfiguration"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -2413,6 +3297,62 @@
       }
     },
     {
+      "name": "HealthSnapshot",
+      "protobufType": "arcforges.foundation.v1.HealthSnapshot",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "instanceId",
+          "type": "Id",
+          "cardinality": "required",
+          "wireType": "Id",
+          "protoName": "instance_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "observedAt",
+          "type": "Instant",
+          "cardinality": "required",
+          "wireType": "Instant",
+          "protoName": "observed_at",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "health",
+          "type": "InstanceHealth",
+          "cardinality": "required",
+          "wireType": "InstanceHealth",
+          "protoName": "health",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "readiness",
+          "type": "InstanceReadiness",
+          "cardinality": "required",
+          "wireType": "InstanceReadiness",
+          "protoName": "readiness",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/HealthSnapshot.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/HealthSnapshotKt.kt"
+      }
+    },
+    {
       "name": "Id",
       "protobufType": "arcforges.foundation.v1.Id",
       "owner": "ArcForges.Contracts.Foundation",
@@ -2430,12 +3370,50 @@
           "presence": "required"
         }
       ],
-      "rules": ["nonzeroId"],
+      "rules": [
+        "nonzeroId"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/Id.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/IdKt.kt"
+      }
+    },
+    {
+      "name": "InstanceReadiness",
+      "protobufType": "arcforges.foundation.v1.InstanceReadiness",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "acceptsWork",
+          "type": "bool",
+          "cardinality": "required",
+          "wireType": "bool",
+          "protoName": "accepts_work",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "reasons",
+          "type": "ReasonCode",
+          "cardinality": "[]",
+          "wireType": "string",
+          "protoName": "reasons",
+          "oneof": null,
+          "presence": "repeated"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/InstanceReadiness.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/InstanceReadinessKt.kt"
       }
     },
     {
@@ -2648,7 +3626,9 @@
           "presence": "repeated"
         }
       ],
-      "rules": ["measurementRequest"],
+      "rules": [
+        "measurementRequest"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -2804,7 +3784,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["measurementResult"],
+      "rules": [
+        "measurementResult"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -2956,7 +3938,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["measurementThreshold"],
+      "rules": [
+        "measurementThreshold"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3012,7 +3996,9 @@
           "presence": "oneof"
         }
       ],
-      "rules": ["measurementValue"],
+      "rules": [
+        "measurementValue"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3048,7 +4034,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["measurementWindow"],
+      "rules": [
+        "measurementWindow"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3084,7 +4072,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["mediaRange"],
+      "rules": [
+        "mediaRange"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -3120,7 +4110,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["mediaTime"],
+      "rules": [
+        "mediaTime"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -3404,7 +4396,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["messageView"],
+      "rules": [
+        "messageView"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3561,6 +4555,72 @@
       }
     },
     {
+      "name": "OperationBinding",
+      "protobufType": "arcforges.foundation.v1.OperationBinding",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "operationId",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "operation_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "protocol",
+          "type": "BindingProtocol",
+          "cardinality": "required",
+          "wireType": "BindingProtocol",
+          "protoName": "protocol",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "service",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "service",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "method",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "method",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "contractMajor",
+          "type": "uint32",
+          "cardinality": "required",
+          "wireType": "uint32",
+          "protoName": "contract_major",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/OperationBinding.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/OperationBindingKt.kt"
+      }
+    },
+    {
       "name": "PageRequest",
       "protobufType": "arcforges.foundation.v1.PageRequest",
       "owner": "ArcForges.Contracts.Foundation",
@@ -3624,7 +4684,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["pageState"],
+      "rules": [
+        "pageState"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -3716,7 +4778,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["reducedRational"],
+      "rules": [
+        "reducedRational"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -3848,15 +4912,21 @@
           "presence": "optional"
         }
       ],
-      "rules": ["exclusiveRevision"],
+      "rules": [
+        "exclusiveRevision"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMeta.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RequestMetaKt.kt"
       },
-      "reservedTags": [5],
-      "reservedNames": ["expected_local"]
+      "reservedTags": [
+        5
+      ],
+      "reservedNames": [
+        "expected_local"
+      ]
     },
     {
       "name": "ResourceRef",
@@ -4012,15 +5082,21 @@
           "presence": "optional"
         }
       ],
-      "rules": ["resourceVersionRef"],
+      "rules": [
+        "resourceVersionRef"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResourceVersionRef.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ResourceVersionRefKt.kt"
       },
-      "reservedTags": [4],
-      "reservedNames": ["local"]
+      "reservedTags": [
+        4
+      ],
+      "reservedNames": [
+        "local"
+      ]
     },
     {
       "name": "ResponseMeta",
@@ -4126,7 +5202,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["retryAdvice"],
+      "rules": [
+        "retryAdvice"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -4234,7 +5312,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["sampleRange"],
+      "rules": [
+        "sampleRange"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -4452,7 +5532,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["scopeConfiguration"],
+      "rules": [
+        "scopeConfiguration"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -4776,7 +5858,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["scopeTime"],
+      "rules": [
+        "scopeTime"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5047,8 +6131,12 @@
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailure.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/StateFailureKt.kt"
       },
-      "reservedTags": [4],
-      "reservedNames": ["local"]
+      "reservedTags": [
+        4
+      ],
+      "reservedNames": [
+        "local"
+      ]
     },
     {
       "name": "StructuredValue",
@@ -5158,7 +6246,9 @@
           "presence": "oneof"
         }
       ],
-      "rules": ["structuredValue"],
+      "rules": [
+        "structuredValue"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5314,7 +6404,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["taskSnapshot"],
+      "rules": [
+        "taskSnapshot"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5350,7 +6442,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["timeRangeUtc"],
+      "rules": [
+        "timeRangeUtc"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -5588,7 +6682,9 @@
           "presence": "required"
         }
       ],
-      "rules": ["triggerConfiguration"],
+      "rules": [
+        "triggerConfiguration"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5768,7 +6864,9 @@
           "presence": "repeated"
         }
       ],
-      "rules": ["valueRecord"],
+      "rules": [
+        "valueRecord"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5860,7 +6958,9 @@
           "presence": "optional"
         }
       ],
-      "rules": ["committedRevision"],
+      "rules": [
+        "committedRevision"
+      ],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -5870,6 +6970,40 @@
     }
   ],
   "enums": [
+    {
+      "name": "BindingProtocol",
+      "owner": "ArcForges.Contracts.Foundation",
+      "values": [
+        {
+          "name": "unspecified",
+          "number": 0
+        },
+        {
+          "name": "publicGrpc",
+          "number": 1
+        },
+        {
+          "name": "localGrpc",
+          "number": 2
+        },
+        {
+          "name": "extensionGrpc",
+          "number": 3
+        },
+        {
+          "name": "providerHttp",
+          "number": 4
+        },
+        {
+          "name": "machineTool",
+          "number": 5
+        },
+        {
+          "name": "inProcess",
+          "number": 6
+        }
+      ]
+    },
     {
       "name": "ContextLifetime",
       "owner": "ArcForges.Contracts.PublicApi",
@@ -5967,6 +7101,32 @@
       ]
     },
     {
+      "name": "EffectKind",
+      "owner": "ArcForges.Contracts.Foundation",
+      "values": [
+        {
+          "name": "unspecified",
+          "number": 0
+        },
+        {
+          "name": "pureRead",
+          "number": 1
+        },
+        {
+          "name": "localWrite",
+          "number": 2
+        },
+        {
+          "name": "cloudWrite",
+          "number": 3
+        },
+        {
+          "name": "externalWrite",
+          "number": 4
+        }
+      ]
+    },
+    {
       "name": "ErrorCategory",
       "owner": "ArcForges.Contracts.Foundation",
       "values": [
@@ -6013,6 +7173,28 @@
       ]
     },
     {
+      "name": "ExecutionLocus",
+      "owner": "ArcForges.Contracts.Foundation",
+      "values": [
+        {
+          "name": "unspecified",
+          "number": 0
+        },
+        {
+          "name": "cloud",
+          "number": 1
+        },
+        {
+          "name": "device",
+          "number": 2
+        },
+        {
+          "name": "either",
+          "number": 3
+        }
+      ]
+    },
+    {
       "name": "HistoryMode",
       "owner": "ArcForges.Contracts.PublicApi",
       "values": [
@@ -6031,6 +7213,32 @@
         {
           "name": "temporary",
           "number": 3
+        }
+      ]
+    },
+    {
+      "name": "InstanceHealth",
+      "owner": "ArcForges.Contracts.Foundation",
+      "values": [
+        {
+          "name": "unspecified",
+          "number": 0
+        },
+        {
+          "name": "ready",
+          "number": 1
+        },
+        {
+          "name": "busy",
+          "number": 2
+        },
+        {
+          "name": "degraded",
+          "number": 3
+        },
+        {
+          "name": "draining",
+          "number": 4
         }
       ]
     },
@@ -6167,6 +7375,24 @@
         {
           "name": "canceled",
           "number": 9
+        }
+      ]
+    },
+    {
+      "name": "ToolLocality",
+      "owner": "ArcForges.Contracts.Foundation",
+      "values": [
+        {
+          "name": "unspecified",
+          "number": 0
+        },
+        {
+          "name": "cloud",
+          "number": 1
+        },
+        {
+          "name": "device",
+          "number": 2
         }
       ]
     }

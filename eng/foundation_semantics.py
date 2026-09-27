@@ -10,6 +10,11 @@ from __future__ import annotations
 
 
 cs_rules = {
+    "capabilityDescriptor": "if ((int)value.Effect == 1 && value.Writes.Count != 0) return false;",
+    "contractVersion": "if (!DescriptorSemver(value.Version)) return false;",
+    "contractCompatibility": "if (!DescriptorSemver(value.MinReadable) || !DescriptorSemver(value.MinWritable) || CompareDescriptorVersions(value.MinReadable, value.Contract.Version) > 0 || CompareDescriptorVersions(value.MinWritable, value.Contract.Version) > 0) return false;",
+    "compatibilityDescriptor": "if (value.Contracts.Select(x => x.Contract.Key).Distinct(global::System.StringComparer.Ordinal).Count() != value.Contracts.Count || value.Capabilities.Select(x => x.Contract.Key).Distinct(global::System.StringComparer.Ordinal).Count() != value.Capabilities.Count) return false;",
+    "encodedBodyRef": "if (!value.Resource.HasContentHash) return false;",
     "reducedRational": "if (!Reduced(value.Numerator, value.Denominator)) return false;",
     "mediaTime": "if (value.Rate.Numerator != 705600000L || value.Rate.Denominator != 1UL) return false;",
     "mediaRange": "if (value.Duration.Ticks < 0 || value.Start.Rate.Numerator != value.Duration.Rate.Numerator || value.Start.Rate.Denominator != value.Duration.Rate.Denominator || (global::System.Numerics.BigInteger)value.Start.Ticks + value.Duration.Ticks > long.MaxValue) return false;",
@@ -55,6 +60,11 @@ cs_rules = {
 
 
 ts_rules = {
+    "capabilityDescriptor": "if (value.effect === 1 && (value.writes as unknown[]).length !== 0) return false;",
+    "contractVersion": "if (!descriptorSemver(value.version as string)) return false;",
+    "contractCompatibility": "if (!descriptorSemver(value.minReadable as string) || !descriptorSemver(value.minWritable as string) || compareDescriptorVersions(value.minReadable as string, (value.contract as Profile).version) > 0 || compareDescriptorVersions(value.minWritable as string, (value.contract as Profile).version) > 0) return false;",
+    "compatibilityDescriptor": "if (new Set((value.contracts as Profile[]).map(x => x.contract.key)).size !== (value.contracts as unknown[]).length || new Set((value.capabilities as Profile[]).map(x => x.contract.key)).size !== (value.capabilities as unknown[]).length) return false;",
+    "encodedBodyRef": "if (typeof (value.resource as Profile).contentHash !== 'string') return false;",
     "reducedRational": "if (!reduced(value.numerator as bigint, value.denominator as bigint)) return false;",
     "mediaTime": "if ((value.rate as Profile).numerator !== 705600000n || (value.rate as Profile).denominator !== 1n) return false;",
     "mediaRange": "if (!mediaRangeSemantics(value)) return false;",
@@ -99,6 +109,35 @@ def ts_imports(names: set[str]) -> str:
 
 
 COMMON_CS_HELPERS = r'''
+    private static bool DescriptorSemver(string value)
+    {
+        if (value.Length is < 1 or > 128) return false;
+        if (!Matches(value, @"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?")) return false;
+        var core = value.Split('+')[0].Split('-', 2);
+        return core.Length == 1 || core[1].Split('.').All(x => x.Length == 1 || x[0] != '0' || !x.All(char.IsAsciiDigit));
+    }
+    private static int CompareDescriptorVersions(string left, string right)
+    {
+        var a = left.Split('+')[0].Split('-', 2);
+        var b = right.Split('+')[0].Split('-', 2);
+        var ac = a[0].Split('.'); var bc = b[0].Split('.');
+        for (var i = 0; i < 3; i++)
+        {
+            var result = global::System.Numerics.BigInteger.Parse(ac[i], global::System.Globalization.CultureInfo.InvariantCulture).CompareTo(global::System.Numerics.BigInteger.Parse(bc[i], global::System.Globalization.CultureInfo.InvariantCulture));
+            if (result != 0) return result;
+        }
+        if (a.Length != b.Length) return a.Length == 1 ? 1 : -1;
+        if (a.Length == 1) return 0;
+        var ap = a[1].Split('.'); var bp = b[1].Split('.');
+        for (var i = 0; i < global::System.Math.Min(ap.Length, bp.Length); i++)
+        {
+            var an = ap[i].All(char.IsAsciiDigit); var bn = bp[i].All(char.IsAsciiDigit);
+            var result = an && bn ? global::System.Numerics.BigInteger.Parse(ap[i], global::System.Globalization.CultureInfo.InvariantCulture).CompareTo(global::System.Numerics.BigInteger.Parse(bp[i], global::System.Globalization.CultureInfo.InvariantCulture))
+                : an != bn ? (an ? -1 : 1) : global::System.StringComparer.Ordinal.Compare(ap[i], bp[i]);
+            if (result != 0) return result;
+        }
+        return ap.Length.CompareTo(bp.Length);
+    }
     private static bool Reduced(long numerator, ulong denominator) => denominator != 0 &&
         global::System.Numerics.BigInteger.GreatestCommonDivisor(global::System.Numerics.BigInteger.Abs(numerator), denominator) == 1;
     private static bool SafeLink(string value)
@@ -417,6 +456,33 @@ CS_HELPERS += r'''
 
 
 TS_HELPERS = r'''
+function descriptorSemver(value: string): boolean {
+  if (value.length < 1 || value.length > 128) return false;
+  const pattern = /(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?/;
+  if (pattern.exec(value)?.[0] !== value) return false;
+  const core = value.split('+')[0]!.split(/-(.*)/s);
+  return core.length === 1 || core[1]!.split('.').every(x => !/^0[0-9]+$/.test(x));
+}
+function compareDescriptorVersions(left: string, right: string): number {
+  const a = left.split('+')[0]!.split(/-(.*)/s);
+  const b = right.split('+')[0]!.split(/-(.*)/s);
+  const ac = a[0]!.split('.'); const bc = b[0]!.split('.');
+  for (let i = 0; i < 3; i++) {
+    const x = BigInt(ac[i]!); const y = BigInt(bc[i]!);
+    if (x !== y) return x < y ? -1 : 1;
+  }
+  if (a.length !== b.length) return a.length === 1 ? 1 : -1;
+  if (a.length === 1) return 0;
+  const ap = a[1]!.split('.'); const bp = b[1]!.split('.');
+  for (let i = 0; i < Math.min(ap.length, bp.length); i++) {
+    const x = ap[i]!; const y = bp[i]!;
+    const an = /^[0-9]+$/.test(x); const bn = /^[0-9]+$/.test(y);
+    if (an && bn) { if (BigInt(x) !== BigInt(y)) return BigInt(x) < BigInt(y) ? -1 : 1; }
+    else if (an !== bn) return an ? -1 : 1;
+    else if (x !== y) return x < y ? -1 : 1;
+  }
+  return ap.length - bp.length;
+}
 // These helpers follow successful recursive field checks. They never deserialize
 // a second wire model or consult an owner store.
 type Profile = Record<string, any>;
