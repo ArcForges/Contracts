@@ -14,7 +14,7 @@ internal static class ExtensionPolicyCases
 
     public static void Run(string root)
     {
-        using var fixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/public/con-12-extension-policy.json")));
+        using var fixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/public/con-12-extension-policy.json")), new JsonDocumentOptions { MaxDepth = 256 });
         // Cross-language fixture oracle, not an activation or targeting runtime implementation.
         foreach (var row in fixture.RootElement.GetProperty("bucketVectors").EnumerateArray())
         {
@@ -37,7 +37,7 @@ internal static class ExtensionPolicyCases
         foreach (var row in fixture.RootElement.GetProperty("allocationVectors").EnumerateArray())
             if ((row.GetProperty("bucket").GetInt32() < row.GetProperty("allocation").GetInt32()) != row.GetProperty("included").GetBoolean())
                 throw new InvalidOperationException("Allocation boundary fixture differs.");
-        using var privateFixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/internal/con-12-configuration.json")));
+        using var privateFixture = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(root, "fixtures/internal/con-12-configuration.json")), new JsonDocumentOptions { MaxDepth = 256 });
         var publicCases = fixture.RootElement.GetProperty("codecCases").EnumerateArray().ToArray();
         var privateCases = privateFixture.RootElement.GetProperty("codecCases").EnumerateArray().ToArray();
         if (publicCases.Any(item => item.GetProperty("schema").GetString() == "ConfigurationDocument")
