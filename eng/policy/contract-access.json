@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "74306e39a4eef26173fecbbab9173134b9831dba",
+  "sourceCommit": "55db2726091d5b7183d1ae611ec07df2c0b658dd",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -33,6 +33,11 @@
       "path": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal",
       "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8"
+    },
+    {
+      "path": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public",
+      "sha256": "ff77d24be445e107d4fb4a0b3f7fd6b205664317e856a3696e471be1a18f0828"
     },
     {
       "path": "public/proto/arcforges/events/v1/events.proto",
@@ -66,6 +71,168 @@
     }
   ],
   "types": [
+    {
+      "name": "arcforges.catalog.v1.CatalogPackageView",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogReviewDecision",
+      "kind": "enum",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogService",
+      "kind": "service",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceGetPackageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceGetPackageResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceGetPackageValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceGetSubmissionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceGetSubmissionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceGetSubmissionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceListVersionsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceListVersionsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceListVersionsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceRegisterPublisherRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceRegisterPublisherResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceRegisterPublisherValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceSearchRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceSearchResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceSearchValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceSubmitVersionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceSubmitVersionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceSubmitVersionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceVerifyPublisherRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceVerifyPublisherResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogServiceVerifyPublisherValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogSubmissionView",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.CatalogVersionView",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.catalog.v1.PublisherView",
+      "kind": "message",
+      "file": "public/proto/arcforges/catalog/v1/catalog.proto",
+      "access": "public"
+    },
     {
       "name": "arcforges.events.v1.EntitlementChanged",
       "kind": "message",
@@ -2175,6 +2342,69 @@
       "kind": "authored"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Catalog.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "CatalogReflection",
+        "CatalogReviewDecision",
+        "PublisherView",
+        "CatalogPackageView",
+        "CatalogVersionView",
+        "CatalogSubmissionView",
+        "CatalogServiceSearchRequest",
+        "CatalogServiceSearchValue",
+        "CatalogServiceSearchResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CatalogServiceGetPackageRequest",
+        "CatalogServiceGetPackageValue",
+        "CatalogServiceGetPackageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CatalogServiceListVersionsRequest",
+        "CatalogServiceListVersionsValue",
+        "CatalogServiceListVersionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CatalogServiceRegisterPublisherRequest",
+        "CatalogServiceRegisterPublisherValue",
+        "CatalogServiceRegisterPublisherResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CatalogServiceVerifyPublisherRequest",
+        "CatalogServiceVerifyPublisherValue",
+        "CatalogServiceVerifyPublisherResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CatalogServiceSubmitVersionRequest",
+        "CatalogServiceSubmitVersionValue",
+        "CatalogServiceSubmitVersionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CatalogServiceGetSubmissionRequest",
+        "CatalogServiceGetSubmissionValue",
+        "CatalogServiceGetSubmissionResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "ec034b0d4e67c3eeeef4f012972e804f577b26ddcb98f1cbd22353b8933e7ac1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/CatalogGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "CatalogService",
+        "__Helper_MessageCache",
+        "CatalogServiceBase",
+        "CatalogServiceClient"
+      ],
+      "sha256": "20cdd153452000aaf622da26c1786581d02eee825ffe01d920257887fc5d295f",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -2293,7 +2523,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "0286d33f4a32db0e111a5394b98b8b8124e03528270bdcf0c053103d27f10f79",
+      "sha256": "ec2332a5e6211b36fcf0a6f91d1b86a36493ba024a5d8621331edc38716bd283",
       "kind": "generated"
     },
     {
@@ -2485,6 +2715,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.Validation/CatalogProfile.cs",
+      "package": "ArcForges.Contracts.Validation",
+      "access": "public",
+      "types": ["CatalogProfile"],
+      "sha256": "5c0823689ea1207d5084641b120c2625c494f0bdf8ccaf22435e78a037c611f4",
+      "kind": "authored"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/EncodedBodyReader.cs",
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
@@ -2569,7 +2807,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "54adcbc348c3fb9a7a35a70a0ad48146d98e79c3868c3365c2a811f26f07a7f2",
+      "sha256": "1efbdafa977ff70ef33cad7a35540d54b1105c6b219b392b54fcf38725bef2b4",
       "kind": "generated"
     },
     {
@@ -2854,6 +3092,22 @@
       "kind": "authored"
     },
     {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["CatalogServiceClient"],
+      "sha256": "6f8c2d5ae1259f72aafd7687d62c65bdf145530eef91999408240f37632e7b42",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["CatalogServiceClientInterface"],
+      "sha256": "cbdd8963d24f26897fe141f0ce21ebb0a105f471f1eed41ca363b815beca8eed",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/hello/v1/HelloServiceClient.kt",
       "package": "io.github.arcforges:contracts-connect-client",
       "access": "public",
@@ -2867,6 +3121,422 @@
       "access": "public",
       "types": ["HelloServiceClientInterface"],
       "sha256": "32b55e844500d7d6ac0c081b4c3d50cb4feaaefe5b24bcba708d7e515d1f8e3b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogPackageView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogPackageView", "Builder"],
+      "sha256": "2f1d240d25ae1abc52aeaf1711e4fdbf39f021ffc1530e92dcf4434b94fff24d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogPackageViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogPackageViewOrBuilder"],
+      "sha256": "31b5e406afc460571a96402d62afb3c35a77e8e8928efb0e16d7d85ca6f4a806",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogProto"],
+      "sha256": "14a0efd304b89204c92c986e498ea75498fc249d8eb0dbb63abec24bb1cf23eb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogReviewDecision.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogReviewDecision", "CatalogReviewDecisionVerifier"],
+      "sha256": "ea45eda6d47c43af314ad14a321b6eb5839856e67b234409a8bf8a9656f38386",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageRequest", "Builder"],
+      "sha256": "2183dc7248320c58d7facfdc207f572142212ff916bea5d8fcb1b44004b199aa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageRequestOrBuilder"],
+      "sha256": "2e731706557cdacb95eb3257c0d1c4bf02f2692cb1dda3d3c5174873bb4813ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageResponse", "OutcomeCase", "Builder"],
+      "sha256": "c4098e153a2448c33ee9b84da3d954b3573a388aefe0aac236c16a55c99da9cd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageResponseOrBuilder"],
+      "sha256": "20005ce564c58e06baf4e6b116a4989d024558d687ac949e34502639c8e7c065",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageValue", "Builder"],
+      "sha256": "09062a3d7f272e2cb9e603a0e0be46f330d98637eb262f472f76f774e3f08ed4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageValueOrBuilder"],
+      "sha256": "208bc1bec68c04b84f6b22b2add858a17fa476643a086cef5f3728c126528d91",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionRequest", "Builder"],
+      "sha256": "c213982b274e85a494f6ca823a890227365268f55e6f42af587c25356530b994",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionRequestOrBuilder"],
+      "sha256": "69972ba25253005b8425149d9777283104b3f3932dda3b692adaa83192bbd0b8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionResponse", "OutcomeCase", "Builder"],
+      "sha256": "626455c9e08ea1d71c02c5bd39d713114388c0a4e8f9222ee52ce20213679d2b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionResponseOrBuilder"],
+      "sha256": "a1c41d99d611c76b0819a1b08c0d0f7a9a324224f994b387dfe6184083e7c948",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionValue", "Builder"],
+      "sha256": "c2972c7a53038a01b9388803f5f737116dc13ae967289b0f93358b83d832f875",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionValueOrBuilder"],
+      "sha256": "395721c5abeccc757e793ae2a2f203ba2819b18e1ae0471e76cad171026cebcd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsRequest", "Builder"],
+      "sha256": "99a8025b14b3270ba1102d4b4117b8ba9811a65702c8ac7661b66d1cfeae43f7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsRequestOrBuilder"],
+      "sha256": "37a6ecfae04e50ded38a380840fbea286e7fbce5dc7dcf1c9276db1b7d9668a6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsResponse", "OutcomeCase", "Builder"],
+      "sha256": "7441689cac2829fcbb4c0a74b87c79f3151c2b2bd782c0eee9b33088f12fe33f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsResponseOrBuilder"],
+      "sha256": "c566c74f1ef29999b512a4a181e0f690e00cf5c8a5bed598eda7ca9047438acd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsValue", "Builder"],
+      "sha256": "c42e05568945d7688951dd806332546eb64b10785362ee5706ba34f85ab94c6f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsValueOrBuilder"],
+      "sha256": "3902f5d7b3e3fcf877676bca5bb32ee521c3322335e178160f2cdd05dd67efe2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherRequest", "Builder"],
+      "sha256": "c6c6793e5985694ed0dbbffc535dc251d22e52140980851e23546d3580be964e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherRequestOrBuilder"],
+      "sha256": "0d5b202898886419226829aaf3781e28cb82bbbdeee16db89a74ec2e49466669",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherResponse", "OutcomeCase", "Builder"],
+      "sha256": "7e3eeccd5aa37dd3a076291e7ca7da7299ff58d8f1f89d812d836ded6ef93b1e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherResponseOrBuilder"],
+      "sha256": "6f4ea5de9888b7789ac8532ecf4db021b6a4a7136cfff8a242fa03a3ad3028f6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherValue", "Builder"],
+      "sha256": "a0f1c7cd40b39bc158393a0358571bc7573cf778be7360ee8af7ca2921732650",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherValueOrBuilder"],
+      "sha256": "7b9ed9a57ecd8c9c45d5436d403da9d146dc05f603851564299a2802af5ba6cd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchRequest", "Builder"],
+      "sha256": "d376088e704cf12cbde1c9ed854c20968d7e1c4fd9c6c31685699b9ada0cc4ea",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchRequestOrBuilder"],
+      "sha256": "09a6909c9380b91dcb5933740ce867792c6d94e163da4fc9f4883475234f6055",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchResponse", "OutcomeCase", "Builder"],
+      "sha256": "3f2b63c022bb9d113d92cf9d7e297ef2b589976b7a52e87667d9575eba3835b7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchResponseOrBuilder"],
+      "sha256": "c25362674069f9891fc1c301deae0b2f774f6c9500ced8a0bfee090cdb75aa87",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchValue", "Builder"],
+      "sha256": "adb51d8684485856985aba9ccfc6f2fa48ffee8ee2f095beaa0aa98c61a20736",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchValueOrBuilder"],
+      "sha256": "1a73decd68b592d58f4cbe7fcd77f0bfdb40239ddef59df9ca2cf7849211d2ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionRequest", "Builder"],
+      "sha256": "4d6d0512cf119c6686a563316377ce7e92e2646b42bf4507b3a232ec4af372ed",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionRequestOrBuilder"],
+      "sha256": "a897c97798f5329f80d32c63749cf20f4817b02c36e476ffbdcc92cd3b8a7f1c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionResponse", "OutcomeCase", "Builder"],
+      "sha256": "6d5335e6b586c4d6743ad377c271195df9901bd902cc7dde3c5056fff3283a3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionResponseOrBuilder"],
+      "sha256": "bc543c951e5c81ee33a103a23a0db5cdde8dadec35d699ea8761e233621baa65",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionValue", "Builder"],
+      "sha256": "c800c195220eeffcae3d8a9b5fbdc6aaa30b7e80109506371f2f566c1a5331fb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionValueOrBuilder"],
+      "sha256": "1cf8121afc9a3505d103928ade79e85c9d13a53b2df2bdf034ffa154a5b8829d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherRequest", "Builder"],
+      "sha256": "74ff7549c9bb6f24667dbd8468104b4c6042d0b69b64a76aef490a7a74f5c6f2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherRequestOrBuilder"],
+      "sha256": "5b327bbeb42033e1735bd1aee653180fec9f62f4fba9c2835172d891ddf065d6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherResponse", "OutcomeCase", "Builder"],
+      "sha256": "a787eb40a3b1898a0881422156a8464141023dbbb43b628fb68e69af0dd01ba7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherResponseOrBuilder"],
+      "sha256": "2f666917f8e8a4295bb5d90965071366946f7a0658747d884b18db35d3567eb7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherValue", "Builder"],
+      "sha256": "64063041936a6d51d2fd2fcf58d65481d30c7e4a583aadecc62dec810a91b4b2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherValueOrBuilder"],
+      "sha256": "8d2d3f6cd309edfde163ca1e4c55aa378c048882d86503ae723638f902fdfc86",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogSubmissionView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogSubmissionView", "Builder"],
+      "sha256": "d10ef53cd7b376809d0e16c5de28c49f44b0ad9596b9d2836754c1910bba8fcc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogSubmissionViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogSubmissionViewOrBuilder"],
+      "sha256": "9e965ef0db90be2adc3a3ba9a0db340d75b4b6e7b83ecaded1c6940c102ba235",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogVersionView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogVersionView", "Builder"],
+      "sha256": "28efce11c0dcf4906ece8687a8f636968de8734a7ad437635d0609488cdae78d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/CatalogVersionViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogVersionViewOrBuilder"],
+      "sha256": "7034419e896e9c7b46f8cfb82a5f57e4f13ee28375d5f83a80f8ae0bad15bb37",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/PublisherView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PublisherView", "Builder"],
+      "sha256": "f7d110bb870c93b3fd8f42d179ff8554503cd64181cbe7acfa18626c85ff068e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/catalog/v1/PublisherViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PublisherViewOrBuilder"],
+      "sha256": "0d3234923e45d9573b3b595ba7bb27cf5e3181649bc383e9ca132045ee05c283",
       "kind": "generated"
     },
     {
@@ -4726,6 +5396,214 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogPackageViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogPackageViewKt", "Dsl"],
+      "sha256": "46b5c1f30c9eabe64ee7ebab820433e526dbb80572ee51fe080f839baa854975",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "34eb186e17e8d7aafee1b2633a4b70f61693af143a65c6e2f1c9aed8f6d33b27",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageRequestKt", "Dsl"],
+      "sha256": "eb94d496f9939c454a6e8f7b7b2f8d536214c4d9ac1998020b29aff04cad8e48",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageResponseKt", "Dsl"],
+      "sha256": "3a35771d596130942b0337f2c01869f752eae31a7301b53d19675451903d6dd1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetPackageValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetPackageValueKt", "Dsl"],
+      "sha256": "30c9df4a2583d6152a2fac5f5c570758b508d11fc5b4baf7bcb66cc478306dd7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionRequestKt", "Dsl"],
+      "sha256": "817e1660bc3c2f0db18ddf0b71a13a98ca53beec0905db721089674315a16598",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionResponseKt", "Dsl"],
+      "sha256": "2ac95b67393bb0dd5e62dd00e1724f3091cfc1353605c7c9c954cd6f77c78521",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceGetSubmissionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceGetSubmissionValueKt", "Dsl"],
+      "sha256": "c55c69385ec03cda9bb9c9f938821415d4f665c74613871f815bd51297eb0e75",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsRequestKt", "Dsl"],
+      "sha256": "ab6ce130ac2918d54fb1d0096109062cc75d23a0e62cad2c3a03d07c755e30a7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsResponseKt", "Dsl"],
+      "sha256": "26e9f2a804b23a7345bf6e026ccec192f49549a4e7df2382d73fe0c3a8b8bffe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceListVersionsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceListVersionsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "446be3bc7c9a85af992f7519890281860ec8f7a46ff32950a98e568e0795458b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherRequestKt", "Dsl"],
+      "sha256": "c4c38b058cd17346fcefc21a86b9fc8e009168c43cd7c2d9b84bf335b72e2f85",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherResponseKt", "Dsl"],
+      "sha256": "adb8ae36d63ed7ea33d53865164d04194fd5bf97a2543d3aac176d41b316c619",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceRegisterPublisherValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceRegisterPublisherValueKt", "Dsl"],
+      "sha256": "33acd017af9b586e608208c39b6ccc6d39c3bce10dcc4895833724ee4fe560aa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchRequestKt", "Dsl"],
+      "sha256": "6df23ab4c5b6e3a6ca9c2cdd692b998715372a8906e4ac2c208f6256e0a5288b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchResponseKt", "Dsl"],
+      "sha256": "a5ba82eddbdd24ec5bf8f51c69eefa3f3c0060155b04ec00f351bee8c23b9d44",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceSearchValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSearchValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "711018449ee097549b53a1c2f4ebefe68b8f15aa33f85d7aea4115509ed003c2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionRequestKt", "Dsl"],
+      "sha256": "aaf4d1f7fc7f624bf93e7c4c8d67582994497d96f95ac2363ca8bbe4d9a719d8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionResponseKt", "Dsl"],
+      "sha256": "e5c82fb3b413aafe4f899d5cc5a634a249d0a3ff8f73dd085822e709ad12d8c1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceSubmitVersionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceSubmitVersionValueKt", "Dsl"],
+      "sha256": "b89b88c24c3cafb28b82d6ac55c35f2b1b030dca6c35d56defae01e80f07a27f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherRequestKt", "Dsl"],
+      "sha256": "7187611856184b75ddc3a1aa0b5b750dceca681f8b551a2184f1a98c2d7f37a7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherResponseKt", "Dsl"],
+      "sha256": "250588bae990cdb90a1d5918386fff76dce05f0b7bfce8ca2793d7ff7869ec7d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogServiceVerifyPublisherValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogServiceVerifyPublisherValueKt", "Dsl"],
+      "sha256": "8cdb1e7df5567d01e722b7d5f9d5b94eaa3e062e328ba8951e72703de6c61b9c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogSubmissionViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogSubmissionViewKt", "Dsl"],
+      "sha256": "250450706e2fc2601671a05e20c3151b88893cbe63259191f159b724e8672b3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/CatalogVersionViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CatalogVersionViewKt", "Dsl"],
+      "sha256": "f38ae34f689c356b97d32caccb73cfcf637dfe4c13e961fecafbdf683ca1d6aa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/catalog/v1/PublisherViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PublisherViewKt", "Dsl"],
+      "sha256": "952654bf2d087a9fc7ebac98b2ed5d86c594080a802a24f7027447fd322ce1d9",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/events/v1/EntitlementChangedKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5905,8 +6783,16 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "2bdfc483b30e1f17e3dd60d123ffdcef737f62f07a98f81bff3f4debc3d10cb3",
+      "sha256": "68764fcce4ea18b250a5159ed5ac770563066979ffb46f0310b5031bf1234213",
       "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/catalog-profile.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": ["CatalogRequest", "CatalogSubmissionFacts"],
+      "sha256": "489cfe049188bce3bd5b30dfbd7e3dac6292cef02b849828ae5036ba95d16cfc",
+      "kind": "authored"
     },
     {
       "path": "src/public/ts/proto/src/encoded-body.ts",
@@ -5915,6 +6801,41 @@
       "types": ["EncodedBodyExpectation"],
       "sha256": "383c317550c81e158661b0940e8955151d63ad0d59adcc9ab45c31a9c782c33c",
       "kind": "authored"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/catalog/v1/catalog_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "PublisherView",
+        "CatalogPackageView",
+        "CatalogVersionView",
+        "CatalogSubmissionView",
+        "CatalogServiceSearchRequest",
+        "CatalogServiceSearchValue",
+        "CatalogServiceSearchResponse",
+        "CatalogServiceGetPackageRequest",
+        "CatalogServiceGetPackageValue",
+        "CatalogServiceGetPackageResponse",
+        "CatalogServiceListVersionsRequest",
+        "CatalogServiceListVersionsValue",
+        "CatalogServiceListVersionsResponse",
+        "CatalogServiceRegisterPublisherRequest",
+        "CatalogServiceRegisterPublisherValue",
+        "CatalogServiceRegisterPublisherResponse",
+        "CatalogServiceVerifyPublisherRequest",
+        "CatalogServiceVerifyPublisherValue",
+        "CatalogServiceVerifyPublisherResponse",
+        "CatalogServiceSubmitVersionRequest",
+        "CatalogServiceSubmitVersionValue",
+        "CatalogServiceSubmitVersionResponse",
+        "CatalogServiceGetSubmissionRequest",
+        "CatalogServiceGetSubmissionValue",
+        "CatalogServiceGetSubmissionResponse",
+        "CatalogReviewDecision"
+      ],
+      "sha256": "f8a4a25a195354d7462cde5f3e01e6728284601d644f9ca30a63dbfef8feaabd",
+      "kind": "generated"
     },
     {
       "path": "src/public/ts/proto/src/gen/arcforges/events/v1/events_pb.ts",
@@ -6079,7 +7000,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "c4c258e66da83388103993151998243c3d261cfaa856580e522d1f0fca5d0ec9",
+      "sha256": "46c4144cbae798e553b39f14bd41b8ae6d697089728a6683b7f74f2798a38281",
       "kind": "generated"
     },
     {
@@ -6095,7 +7016,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "835b8e11f1112aa7496b87c0b554bad2159ab84d393bd2f0222a90303438ad8c",
+      "sha256": "c98f7758984cf4e5b04d5cb4b96986ed8fed55c620bb45cc0c85599ca2642941",
       "kind": "generated"
     },
     {
@@ -6103,7 +7024,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "7fde066a08d688cf1d4d3e27d685695bfe799b5892b44060bc8b4d9715912c3d",
+      "sha256": "e996dd0068aa7bcfdd95533a138b5c3028886ce54c6be0536958e3cc3b110344",
       "kind": "generated"
     },
     {
@@ -6212,7 +7133,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "c5c6d5962be81fd334f9763eff110e9d1b9b197dc72f7873e9dadcebfb86e9c5"
+      "sha256": "5b60b1db07f255020d6a9639293dc9c081186495dbe5e6576b72a350c6af6505"
     },
     {
       "path": "gradle.properties",
@@ -6268,7 +7189,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "b62ea9e176d0bead276ecce4d6d07a59c2b4ed9de967e1985085e66cf13279b1"
+      "sha256": "379f6538646413c4fe9e4f372e0b6d2a745dd3ad2ac6687346740a7274350a63"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
@@ -6300,7 +7221,11 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "f607d1728bf0c8edb21fbe3d3ef65702dd5e8b5352ae14c3c4f7254fe9206200"
+      "sha256": "8d33935308f234c2e330cb09400889d0b9788ccace92192c62dc5f15f3ea08b4"
+    },
+    {
+      "path": "public/proto/constraints/con-13-package-catalog.json",
+      "sha256": "2648d051ff85a7b657c8fa5fe2614cece043efba3ec6b9284b7b38ac4c293d67"
     },
     {
       "path": "public/proto/constraints/events-baseline.json",
@@ -6488,7 +7413,7 @@
     },
     {
       "path": "src/public/ts/proto/package.json",
-      "sha256": "ef1d092f9811439e7f9d5e232d437c7a886020b1fd68f1327b326e22fb6bfe5b"
+      "sha256": "2a07095d6b90bbec4914bdd42a036eb0468ebd3de18c6204781927c7c50cd46a"
     },
     {
       "path": "src/public/ts/proto/tsconfig.json",
