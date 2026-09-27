@@ -8,14 +8,35 @@
     "contextProvider": "0a017012036170701a0174220973656c656374696f6e283230808004",
     "featureSet": "0a01610a0162"
   },
-  "validVersions": ["0.0.0", "1.2.3", "1.2.3-alpha.1", "1.2.3+build.001", "1.2.3-0+build.001", "9007199254740993.0.0", "999999999999999999999999999999999999.0.0"],
-  "invalidVersions": ["", "v1.2.3", "01.2.3", "1.02.3", "1.2.03", "1.2", "1.2.3-01", "1.2.3-alpha..1", "1.2.3+", "1.2.3+build..x", "1.2.3\n", "1.2.3+中"],
+  "validVersions": [
+    "0.0.0",
+    "1.2.3",
+    "1.2.3-alpha.1",
+    "1.2.3+build.001",
+    "1.2.3-0+build.001",
+    "9007199254740993.0.0",
+    "999999999999999999999999999999999999.0.0"
+  ],
+  "invalidVersions": [
+    "",
+    "v1.2.3",
+    "01.2.3",
+    "1.02.3",
+    "1.2.03",
+    "1.2",
+    "1.2.3-01",
+    "1.2.3-alpha..1",
+    "1.2.3+",
+    "1.2.3+build..x",
+    "1.2.3\n",
+    "1.2.3+中"
+  ],
   "compatibility": [
-    {"version": "1.0.0", "minimum": "1.0.0-alpha", "valid": true},
-    {"version": "1.0.0-alpha", "minimum": "1.0.0", "valid": false},
-    {"version": "1.0.0-rc.10", "minimum": "1.0.0-rc.2", "valid": true},
-    {"version": "1.0.0-rc.2", "minimum": "1.0.0-rc.10", "valid": false},
-    {"version": "1.0.0+aaa", "minimum": "1.0.0+zzz", "valid": true},
-    {"version": "9007199254740992.0.0", "minimum": "9007199254740993.0.0", "valid": false}
+    { "version": "1.0.0", "minimum": "1.0.0-alpha", "valid": true },
+    { "version": "1.0.0-alpha", "minimum": "1.0.0", "valid": false },
+    { "version": "1.0.0-rc.10", "minimum": "1.0.0-rc.2", "valid": true },
+    { "version": "1.0.0-rc.2", "minimum": "1.0.0-rc.10", "valid": false },
+    { "version": "1.0.0+aaa", "minimum": "1.0.0+zzz", "valid": true },
+    { "version": "9007199254740992.0.0", "minimum": "9007199254740993.0.0", "valid": false }
   ]
 }

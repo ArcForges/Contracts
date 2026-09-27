@@ -108,7 +108,7 @@ def ts_imports(names: set[str]) -> str:
     return "\n".join(lines) + ("\n" if lines else "")
 
 
-COMMON_CS_HELPERS = r'''
+DESCRIPTOR_CS_HELPERS = r'''
     private static bool DescriptorSemver(string value)
     {
         if (value.Length is < 1 or > 128) return false;
@@ -138,6 +138,9 @@ COMMON_CS_HELPERS = r'''
         }
         return ap.Length.CompareTo(bp.Length);
     }
+'''
+
+COMMON_CS_HELPERS = r'''
     private static bool Reduced(long numerator, ulong denominator) => denominator != 0 &&
         global::System.Numerics.BigInteger.GreatestCommonDivisor(global::System.Numerics.BigInteger.Abs(numerator), denominator) == 1;
     private static bool SafeLink(string value)
@@ -455,7 +458,7 @@ CS_HELPERS += r'''
 '''.replace("P.", "global::ArcForges.Contracts.PublicApi.V1.")
 
 
-TS_HELPERS = r'''
+DESCRIPTOR_TS_HELPERS = r'''
 function descriptorSemver(value: string): boolean {
   if (value.length < 1 || value.length > 128) return false;
   const pattern = /(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?/;
@@ -483,6 +486,9 @@ function compareDescriptorVersions(left: string, right: string): number {
   }
   return ap.length - bp.length;
 }
+'''
+
+TS_HELPERS = r'''
 // These helpers follow successful recursive field checks. They never deserialize
 // a second wire model or consult an owner store.
 type Profile = Record<string, any>;

@@ -13,14 +13,7 @@
         },
         "protocol": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6]
         },
         "service": {
           "required": true,
@@ -117,10 +110,7 @@
         },
         "locality": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "idempotency": {
           "required": true,
@@ -169,29 +159,15 @@
         },
         "execution": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "effect": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "retry": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "cancel": {
           "required": true
@@ -213,9 +189,7 @@
           "unique": true
         }
       },
-      "rules": [
-        "capabilityDescriptor"
-      ]
+      "rules": ["capabilityDescriptor"]
     },
     "arcforges.foundation.v1.ActionDescriptor": {
       "csharpType": "ArcForges.Contracts.Foundation.V1.ActionDescriptor",
@@ -280,9 +254,7 @@
           "pattern": "^[0-9A-Za-z.+-]+$"
         }
       },
-      "rules": [
-        "contractVersion"
-      ]
+      "rules": ["contractVersion"]
     },
     "arcforges.foundation.v1.ContractCompatibility": {
       "csharpType": "ArcForges.Contracts.Foundation.V1.ContractCompatibility",
@@ -303,9 +275,7 @@
           "pattern": "^[0-9A-Za-z.+-]+$"
         }
       },
-      "rules": [
-        "contractCompatibility"
-      ]
+      "rules": ["contractCompatibility"]
     },
     "arcforges.foundation.v1.FeatureSet": {
       "csharpType": "ArcForges.Contracts.Foundation.V1.FeatureSet",
@@ -339,9 +309,7 @@
           "required": true
         }
       },
-      "rules": [
-        "compatibilityDescriptor"
-      ]
+      "rules": ["compatibilityDescriptor"]
     },
     "arcforges.foundation.v1.InstanceReadiness": {
       "csharpType": "ArcForges.Contracts.Foundation.V1.InstanceReadiness",
@@ -370,12 +338,7 @@
         },
         "health": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "readiness": {
           "required": true
@@ -414,9 +377,7 @@
           "required": true
         }
       },
-      "rules": [
-        "encodedBodyRef"
-      ]
+      "rules": ["encodedBodyRef"]
     },
     "arcforges.publicapi.v1.ContextProvider": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ContextProvider",

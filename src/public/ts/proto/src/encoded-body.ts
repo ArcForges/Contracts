@@ -31,12 +31,15 @@ export async function readEncodedBody<Desc extends DescMessage>(
   if (bytes.byteLength > wireLimits.largeProjection)
     throw new ContractSerializationError("tooLarge");
   const expiry = reference.expiresAt!;
-  if (reference.messageType !== expected.messageType || schema.typeName !== expected.messageType
-      || reference.descriptorHash !== expected.descriptorHash
-      || reference.snapshotToken !== expected.snapshotToken
-      || reference.byteLength !== BigInt(bytes.byteLength)
-      || expiry.unixSeconds! < expected.now.unixSeconds!
-      || (expiry.unixSeconds === expected.now.unixSeconds && expiry.nanos! <= expected.now.nanos!))
+  if (
+    reference.messageType !== expected.messageType ||
+    schema.typeName !== expected.messageType ||
+    reference.descriptorHash !== expected.descriptorHash ||
+    reference.snapshotToken !== expected.snapshotToken ||
+    reference.byteLength !== BigInt(bytes.byteLength) ||
+    expiry.unixSeconds! < expected.now.unixSeconds! ||
+    (expiry.unixSeconds === expected.now.unixSeconds && expiry.nanos! <= expected.now.nanos!)
+  )
     throw new ContractSerializationError("invalid");
   // Capture all mutable inputs before the asynchronous digest can yield control.
   const contentHash = reference.resource!.contentHash!;

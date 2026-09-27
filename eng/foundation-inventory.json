@@ -395,14 +395,7 @@
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateBody.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AggregateBodyKt.kt"
       },
-      "reservedTags": [
-        1,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
+      "reservedTags": [1, 4, 5, 6, 7, 8],
       "reservedNames": [
         "notebook",
         "notes",
@@ -506,9 +499,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "alignmentSpec"
-      ],
+      "rules": ["alignmentSpec"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -630,9 +621,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "arcError"
-      ],
+      "rules": ["arcError"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -1062,9 +1051,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "byteRange"
-      ],
+      "rules": ["byteRange"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -1438,9 +1425,7 @@
           "presence": "repeated"
         }
       ],
-      "rules": [
-        "capabilityDescriptor"
-      ],
+      "rules": ["capabilityDescriptor"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -1684,9 +1669,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "channelDefinition"
-      ],
+      "rules": ["channelDefinition"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -1818,9 +1801,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "checksumSpec"
-      ],
+      "rules": ["checksumSpec"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -1876,9 +1857,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "compatibilityDescriptor"
-      ],
+      "rules": ["compatibilityDescriptor"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -1984,9 +1963,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "contentOrigin"
-      ],
+      "rules": ["contentOrigin"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -2234,9 +2211,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "contextRef"
-      ],
+      "rules": ["contextRef"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -2282,23 +2257,15 @@
           "presence": "oneof"
         }
       ],
-      "rules": [
-        "contextSelector"
-      ],
+      "rules": ["contextSelector"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextSelector.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextSelectorKt.kt"
       },
-      "reservedTags": [
-        3,
-        5
-      ],
-      "reservedNames": [
-        "notes",
-        "slate"
-      ]
+      "reservedTags": [3, 5],
+      "reservedNames": ["notes", "slate"]
     },
     {
       "name": "ContractCompatibility",
@@ -2338,9 +2305,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "contractCompatibility"
-      ],
+      "rules": ["contractCompatibility"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -2376,9 +2341,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "contractVersion"
-      ],
+      "rules": ["contractVersion"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -2672,9 +2635,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "cursorResult"
-      ],
+      "rules": ["cursorResult"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -2746,9 +2707,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "canonicalDecimal"
-      ],
+      "rules": ["canonicalDecimal"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -2824,9 +2783,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "encodedBodyRef"
-      ],
+      "rules": ["encodedBodyRef"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -2981,12 +2938,8 @@
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EventTrigger.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EventTriggerKt.kt"
       },
-      "reservedTags": [
-        3
-      ],
-      "reservedNames": [
-        "predicate"
-      ]
+      "reservedTags": [3],
+      "reservedNames": ["predicate"]
     },
     {
       "name": "FamilyResult",
@@ -3066,9 +3019,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "familyResult"
-      ],
+      "rules": ["familyResult"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3210,9 +3161,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "frameConfiguration"
-      ],
+      "rules": ["frameConfiguration"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3370,9 +3319,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "nonzeroId"
-      ],
+      "rules": ["nonzeroId"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -3626,9 +3573,7 @@
           "presence": "repeated"
         }
       ],
-      "rules": [
-        "measurementRequest"
-      ],
+      "rules": ["measurementRequest"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3784,9 +3729,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "measurementResult"
-      ],
+      "rules": ["measurementResult"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3938,9 +3881,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "measurementThreshold"
-      ],
+      "rules": ["measurementThreshold"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -3996,9 +3937,7 @@
           "presence": "oneof"
         }
       ],
-      "rules": [
-        "measurementValue"
-      ],
+      "rules": ["measurementValue"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -4034,9 +3973,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "measurementWindow"
-      ],
+      "rules": ["measurementWindow"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -4072,9 +4009,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "mediaRange"
-      ],
+      "rules": ["mediaRange"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -4110,9 +4045,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "mediaTime"
-      ],
+      "rules": ["mediaTime"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -4396,9 +4329,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "messageView"
-      ],
+      "rules": ["messageView"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -4684,9 +4615,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "pageState"
-      ],
+      "rules": ["pageState"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -4778,9 +4707,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "reducedRational"
-      ],
+      "rules": ["reducedRational"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -4912,21 +4839,15 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "exclusiveRevision"
-      ],
+      "rules": ["exclusiveRevision"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/RequestMeta.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/RequestMetaKt.kt"
       },
-      "reservedTags": [
-        5
-      ],
-      "reservedNames": [
-        "expected_local"
-      ]
+      "reservedTags": [5],
+      "reservedNames": ["expected_local"]
     },
     {
       "name": "ResourceRef",
@@ -5082,21 +5003,15 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "resourceVersionRef"
-      ],
+      "rules": ["resourceVersionRef"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/ResourceVersionRef.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/ResourceVersionRefKt.kt"
       },
-      "reservedTags": [
-        4
-      ],
-      "reservedNames": [
-        "local"
-      ]
+      "reservedTags": [4],
+      "reservedNames": ["local"]
     },
     {
       "name": "ResponseMeta",
@@ -5202,9 +5117,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "retryAdvice"
-      ],
+      "rules": ["retryAdvice"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -5312,9 +5225,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "sampleRange"
-      ],
+      "rules": ["sampleRange"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5532,9 +5443,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "scopeConfiguration"
-      ],
+      "rules": ["scopeConfiguration"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -5858,9 +5767,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "scopeTime"
-      ],
+      "rules": ["scopeTime"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -6131,12 +6038,8 @@
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/StateFailure.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/StateFailureKt.kt"
       },
-      "reservedTags": [
-        4
-      ],
-      "reservedNames": [
-        "local"
-      ]
+      "reservedTags": [4],
+      "reservedNames": ["local"]
     },
     {
       "name": "StructuredValue",
@@ -6246,9 +6149,7 @@
           "presence": "oneof"
         }
       ],
-      "rules": [
-        "structuredValue"
-      ],
+      "rules": ["structuredValue"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -6404,9 +6305,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "taskSnapshot"
-      ],
+      "rules": ["taskSnapshot"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -6442,9 +6341,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "timeRangeUtc"
-      ],
+      "rules": ["timeRangeUtc"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
@@ -6682,9 +6579,7 @@
           "presence": "required"
         }
       ],
-      "rules": [
-        "triggerConfiguration"
-      ],
+      "rules": ["triggerConfiguration"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -6864,9 +6759,7 @@
           "presence": "repeated"
         }
       ],
-      "rules": [
-        "valueRecord"
-      ],
+      "rules": ["valueRecord"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
@@ -6958,9 +6851,7 @@
           "presence": "optional"
         }
       ],
-      "rules": [
-        "committedRevision"
-      ],
+      "rules": ["committedRevision"],
       "outputs": {
         "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
