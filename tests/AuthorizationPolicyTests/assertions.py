@@ -42,6 +42,8 @@ def assert_identity_declaration(declaration: dict) -> None:
 
 def fixture_decision(case: dict) -> str:
     """Evaluate independent symbolic boundary snapshots, not process credentials."""
+    if case['boundary'] not in {'none', 'resource', 'context', 'connector'}:
+        return 'unclassified-boundary'
     actor = case['originalActor']
     chain = case['actorChain']
     allowed = {'human', 'agent', 'automation', 'extension'}

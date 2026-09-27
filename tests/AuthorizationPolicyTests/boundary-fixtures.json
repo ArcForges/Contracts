@@ -1810,6 +1810,42 @@
         "grantedScopes": ["read"]
       },
       "expected": "admissible-fixture"
+    },
+    {
+      "id": "unclassified-egress-boundary",
+      "input": {
+        "originalActor": "automation",
+        "actorChain": ["automation"],
+        "claimedActor": "automation",
+        "ownerRealm": "realm-fixture",
+        "credentialRealm": "realm-fixture",
+        "ownerUser": "owner-fixture",
+        "workspaceOwner": "owner-fixture",
+        "processCredential": "valid",
+        "ownerPermission": "current",
+        "ownerServiceEligibility": "current",
+        "humanOnly": false,
+        "catalogueTool": true,
+        "resourceAuthorization": "current",
+        "boundary": "unclassified",
+        "sourcePolicy": "current",
+        "sourceVersion": "source-v1",
+        "purpose": "context-read",
+        "destination": "owned-context",
+        "sourceKind": "document",
+        "egressGrant": {
+          "sourceVersion": "source-v1",
+          "purpose": "context-read",
+          "destination": "owned-context"
+        },
+        "definitionHash": "definition-v1",
+        "grantDefinitionHash": "definition-v1",
+        "providerOrigin": "https://provider.invalid",
+        "grantedOrigins": ["https://provider.invalid"],
+        "requestedScopes": ["read"],
+        "grantedScopes": ["read"]
+      },
+      "expected": "unclassified-boundary"
     }
   ]
 }
