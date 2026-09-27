@@ -29,6 +29,39 @@ def emit(path: Path, content: str, check: bool) -> None:
         path.write_bytes(data)
 
 
+def schema_roots(schema: dict) -> list[dict]:
+    """Expand an authored root bundle without introducing a wire wrapper."""
+    if "oneOf" not in schema:
+        return [schema]
+    allowed = {"$schema", "$id", "$comment", "title", "description", "$defs", "oneOf"}
+    if schema.keys() - allowed:
+        raise ValueError("Root schema bundle cannot contain additional constraints")
+    definitions = schema.get("$defs", {})
+    roots = []
+    titles: set[str] = set()
+    for reference in schema["oneOf"]:
+        if set(reference) != {"$ref"} or not reference["$ref"].startswith("#/$defs/"):
+            raise ValueError("Root bundle alternatives must be explicit local definition refs")
+        name = reference["$ref"].removeprefix("#/$defs/")
+        if name not in definitions:
+            raise ValueError(f"Missing root schema definition: {name}")
+        root = dict(definitions[name])
+        if root.get("type") != "object" or not root.get("title"):
+            raise ValueError("Each root bundle alternative must be a titled object")
+        if root["title"] in titles:
+            raise ValueError(f"Duplicate root schema title: {root['title']}")
+        titles.add(root["title"])
+        root["$defs"] = definitions
+        roots.append(root)
+    if not roots:
+        raise ValueError("Root schema bundle must contain alternatives")
+    return roots
+
+
+def string_map(node: dict) -> bool:
+    return node.get("type") == "object" and isinstance(node.get("additionalProperties"), dict)
+
+
 class JsonShapes:
     """Compile the selected closed JSON-schema subset; unknown constraints fail."""
 
@@ -41,6 +74,8 @@ class JsonShapes:
         self.cs: list[str] = []
         self.ts: list[str] = []
         self.models: dict[str, dict] = {}
+        self.visiting: set[int] = set()
+        self.recursive = False
 
     def resolve(self, node: dict) -> dict:
         if "$ref" not in node:
@@ -53,19 +88,46 @@ class JsonShapes:
     def visit(self, node: dict) -> int:
         node = self.resolve(node)
         if id(node) in self.ids:
+            if id(node) in self.visiting:
+                self.recursive = True
             return self.ids[id(node)]
+        self.visiting.add(id(node))
         index = len(self.nodes)
         self.ids[id(node)] = index
         self.nodes.append(node)
         allowed = {"$schema", "$id", "$defs", "title", "description", "type", "properties", "required",
                    "additionalProperties", "items", "minItems", "maxItems", "minLength", "maxLength",
                    "minimum", "maximum", "pattern", "enum", "const", "not", "x-arcforges-rules", "x-arcforges-schema-version",
-                   "x-arcforges-max-bytes", "$comment"}
+                   "x-arcforges-max-bytes", "$comment", "oneOf", "propertyNames", "minProperties", "maxProperties"}
         unknown = node.keys() - allowed
         if unknown:
             raise ValueError(f"Unimplemented JSON shape constraints: {sorted(unknown)}")
-        if node.get("type") == "object":
-            if node.get("additionalProperties") is not False:
+        if "oneOf" in node:
+            if set(node) - {"title", "description", "$comment", "oneOf"}:
+                raise ValueError("Union nodes may only declare titled alternatives")
+            if not node.get("title") or len(node["oneOf"]) < 2:
+                raise ValueError("Unions require a title and at least two alternatives")
+            for child in node["oneOf"]:
+                target = self.resolve(child)
+                if target.get("type") != "object" or not target.get("title"):
+                    raise ValueError("Union alternatives must be titled closed objects")
+                self.visit(child)
+        elif node.get("type") == "object":
+            if string_map(node):
+                if node.get("properties") or node.get("required"):
+                    raise ValueError("Typed maps cannot mix fixed record properties")
+                keys = node.get("propertyNames", {})
+                if keys.get("type") != "string" or "pattern" not in keys:
+                    raise ValueError("Typed maps require an explicit string key pattern")
+                if keys.keys() - {"type", "pattern", "minLength", "maxLength"} or node.get("x-arcforges-rules"):
+                    raise ValueError("Unsupported typed-map key constraint or rule")
+                self.visit(keys)
+                if self.resolve(node["additionalProperties"]).get("type") != "string":
+                    raise ValueError("Only declared string-valued maps are supported")
+                if not isinstance(node.get("maxProperties"), int) or node["maxProperties"] < 1:
+                    raise ValueError("Typed maps require a positive entry bound")
+                self.visit(node["additionalProperties"])
+            elif node.get("additionalProperties") is not False:
                 raise ValueError("Every generated object must explicitly close additionalProperties")
             for child in node.get("properties", {}).values():
                 self.visit(child)
@@ -73,17 +135,26 @@ class JsonShapes:
             self.visit(node["items"])
         elif node.get("type") not in {"string", "integer", "boolean"}:
             raise ValueError(f"Unsupported JSON shape type: {node.get('type')}")
+        if not string_map(node) and {"propertyNames", "minProperties", "maxProperties"} & node.keys():
+            raise ValueError("Map constraints require an explicitly typed map")
+        self.visiting.remove(id(node))
         return index
 
     def typename(self, node: dict, ts: bool, hint: str) -> str:
         if "$ref" in node:
             name = node["$ref"].split("/")[-1]
             target = self.resolve(node)
-            if target.get("type") == "object":
+            if (target.get("type") == "object" and not string_map(target)) or "oneOf" in target:
                 self.models[name] = target
                 return name
             return self.typename(target, ts, name)
+        if "oneOf" in node:
+            name = node["title"]
+            self.models[name] = node
+            return name
         kind = node["type"]
+        if string_map(node):
+            return "Record<string, string>" if ts else "global::System.Collections.Generic.Dictionary<string, string>"
         if kind == "object":
             name = node.get("title", hint)
             self.models[name] = node
@@ -98,10 +169,24 @@ class JsonShapes:
         model_cs: list[str] = []
         model_ts: list[str] = []
         done: set[str] = set()
+        unions: dict[str, dict] = {}
         while self.models.keys() - done:
             name = sorted(self.models.keys() - done)[0]
             node = self.models[name]
             done.add(name)
+            if "oneOf" in node:
+                unions[name] = node
+                branches = [self.typename(child, False, name + "Alternative") for child in node["oneOf"]]
+                if len(set(branches)) != len(branches):
+                    raise ValueError(f"Duplicate union branch type in {name}")
+                model_cs.append(f"/// <summary>Generated closed {html.escape(name)} union.</summary>\n"
+                                f"[global::System.Text.Json.Serialization.JsonConverter(typeof({name}Converter))]\n"
+                                f"public abstract record {name};")
+                for branch in branches:
+                    model_cs.append(f"/// <summary>Typed {html.escape(branch)} alternative; its Value is serialized directly.</summary>\n"
+                                    f"public sealed record {name}{branch}({branch} Value) : {name};")
+                model_ts.append(f"export type {name} = " + " | ".join(branches) + ";\n")
+                continue
             model_cs.append(f"/// <summary>Generated closed {html.escape(name)} JSON record.</summary>\npublic sealed record {name}\n{{")
             model_ts.append(f"export interface {name} {{")
             for prop, child in node["properties"].items():
@@ -121,6 +206,12 @@ class JsonShapes:
         cs += CS_CONTEXT_OPTIONS
         cs += "\n".join(f"[global::System.Text.Json.Serialization.JsonSerializable(typeof({name}))]" for name in sorted(done))
         cs += f"\npublic partial class {self.title}JsonContext : global::System.Text.Json.Serialization.JsonSerializerContext {{ }}\n\n"
+        if unions:
+            cs += f"internal static class {self.title}UnionChecks\n{{\n"
+            cs += "\n".join(method.replace("private static bool Check", "internal static bool Check") for method in self.cs)
+            cs += "\n" + CS_JSON_HELPERS + "\n}\n"
+            for name, node in unions.items():
+                cs += self.union_converter(name, node)
         validator_namespace = self.namespace if "CloudInternal" in self.namespace else "ArcForges.Contracts.Validation"
         validator = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {validator_namespace};\n\n"
         validator += f"/// <summary>Closed authored-schema validation for {html.escape(self.title)} JSON values.</summary>\npublic static class {self.title}Json\n{{\n"
@@ -131,6 +222,25 @@ class JsonShapes:
         ts += self.ts_codec(sorted(done))
         ts += "\n".join(self.ts) + "\n" + TS_JSON_HELPERS
         return cs, validator, ts
+
+    def union_converter(self, name: str, node: dict) -> str:
+        lines = [f"internal sealed class {name}Converter : global::System.Text.Json.Serialization.JsonConverter<{name}>", "{",
+                 f"    public override {name} Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)",
+                 "    {", "        using var document = global::System.Text.Json.JsonDocument.ParseValue(ref reader);",
+                 "        var value = document.RootElement;", "        var matched = 0;", f"        {name}? result = null;"]
+        branches = []
+        for child in node["oneOf"]:
+            branch = self.typename(child, False, name + "Alternative")
+            branches.append(branch)
+            lines += [f"        if ({self.title}UnionChecks.Check{self.visit(child)}(value))", "        {",
+                      "            matched++;", f"            result = new {name}{branch}(global::System.Text.Json.JsonSerializer.Deserialize(value, {self.title}JsonContext.Default.{branch})!);", "        }"]
+        lines += ["        if (matched != 1 || result is null) throw new global::System.Text.Json.JsonException(\"Expected exactly one closed union alternative\");",
+                  "        return result;", "    }", f"    public override void Write(global::System.Text.Json.Utf8JsonWriter writer, {name} value, global::System.Text.Json.JsonSerializerOptions options)",
+                  "    {", "        switch (value)", "        {"]
+        for branch in branches:
+            lines.append(f"            case {name}{branch} item: global::System.Text.Json.JsonSerializer.Serialize(writer, item.Value, {self.title}JsonContext.Default.{branch}); break;")
+        lines += ["            default: throw new global::System.Text.Json.JsonException(\"Unknown union alternative\");", "        }", "    }", "}\n"]
+        return "\n".join(lines)
 
     def max_bytes(self) -> int:
         value = self.schema.get("x-arcforges-max-bytes")
@@ -147,16 +257,27 @@ class JsonShapes:
     def ts_codec(self, models: list[str]) -> str:
         stem = self.title[:1].lower() + self.title[1:]
         lines = [TS_CODEC.replace("__TITLE__", self.title).replace("__STEM__", stem).replace("__MAX__", str(self.max_bytes()))]
+        if self.recursive:
+            lines[0] = lines[0].replace("  const bytes = new TextEncoder()", f"  if (!is{self.title}(value)) throw Object.assign(new Error('Invalid recursive shape'), {{ failure: 'invalid' }});\n  const bytes = new TextEncoder()")
         for name in models:
             node = self.models[name]
+            if "oneOf" in node:
+                lines.append(f"function order{name}(value: {name}): Record<string, unknown> {{")
+                for child in node["oneOf"]:
+                    branch = self.typename(child, True, name + "Alternative")
+                    lines.append(f"  if (check{self.visit(child)}(value)) return order{branch}(value as {branch});")
+                lines.append("  throw new TypeError('Invalid closed union');\n}")
+                continue
             lines.append(f"function order{name}(value: {name}): Record<string, unknown> {{\n  const out: Record<string, unknown> = {{}};")
             for prop, child in node["properties"].items():
                 access = f"value[{literal(prop)}]"
                 target = self.resolve(child)
-                if target.get("type") == "object":
+                if string_map(target):
+                    expression = f"Object.fromEntries(Object.entries({access}))"
+                elif target.get("type") == "object" or "oneOf" in target:
                     child_name = child["$ref"].split("/")[-1] if "$ref" in child else target.get("title", name + pascal(prop))
                     expression = f"order{child_name}({access})"
-                elif target.get("type") == "array" and self.resolve(target["items"]).get("type") == "object":
+                elif target.get("type") == "array" and (self.resolve(target["items"]).get("type") == "object" or "oneOf" in self.resolve(target["items"])):
                     items = target["items"]
                     child_name = items["$ref"].split("/")[-1] if "$ref" in items else self.resolve(items).get("title")
                     expression = f"{access}.map(item => order{child_name}(item))"
@@ -172,8 +293,37 @@ class JsonShapes:
     def compile_node(self, index: int, node: dict) -> None:
         c = [f"    private static bool Check{index}(global::System.Text.Json.JsonElement value)\n    {{"]
         t = [f"function check{index}(value: unknown): boolean {{"]
-        kind = node["type"]
-        if kind == "object":
+        kind = node.get("type")
+        if "oneOf" in node:
+            indexes = [self.visit(child) for child in node["oneOf"]]
+            c.append("        if (" + " + ".join(f"(Check{i}(value) ? 1 : 0)" for i in indexes) + " != 1) return false;")
+            t.append("  if (" + " + ".join(f"(check{i}(value) ? 1 : 0)" for i in indexes) + " !== 1) return false;")
+        elif kind == "object":
+            if string_map(node):
+                child_id = self.visit(node["additionalProperties"])
+                keys = node["propertyNames"]
+                c += ["        if (value.ValueKind != global::System.Text.Json.JsonValueKind.Object) return false;",
+                      "        var seen = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);",
+                      "        foreach (var property in value.EnumerateObject())", "        {",
+                      "            if (!seen.Add(property.Name) || !ValidText(property.Name)) return false;",
+                      f"            if (!Matches(property.Name, {literal(keys['pattern'])}) || !Check{child_id}(property.Value)) return false;"]
+                t += ["  if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;",
+                      "  const object = value as Record<string, unknown>;", "  const keys = Object.keys(object);", "  for (const key of keys) {",
+                      f"    if (!validText(key) || (new RegExp({literal(keys['pattern'])}, 'u')).exec(key)?.[0] !== key || !check{child_id}(object[key])) return false;"]
+                for bound, op in [("minLength", "<"), ("maxLength", ">")]:
+                    if bound in keys:
+                        c.append(f"            if (ScalarLength(property.Name) {op} {keys[bound]}) return false;")
+                        t.append(f"    if ([...key].length {op} {keys[bound]}) return false;")
+                c.append("        }")
+                t.append("  }")
+                for bound, op in [("minProperties", "<"), ("maxProperties", ">")]:
+                    if bound in node:
+                        c.append(f"        if (seen.Count {op} {node[bound]}) return false;")
+                        t.append(f"  if (keys.length {op} {node[bound]}) return false;")
+                c += ["        return true;", "    }"]
+                t += ["  return true;", "}"]
+                self.append_checks(c, t)
+                return
             c += ["        if (value.ValueKind != global::System.Text.Json.JsonValueKind.Object) return false;",
                   "        var seen = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);",
                   "        foreach (var property in value.EnumerateObject())", "        {",
@@ -250,8 +400,19 @@ class JsonShapes:
                 raise ValueError(f"Unimplemented shape rule {rule}")
         c += ["        return true;", "    }"]
         t += ["  return true;", "}"]
-        self.cs.append("\n".join(c))
-        self.ts.append("\n".join(t))
+        self.append_checks(c, t)
+
+    def append_checks(self, c: list[str], t: list[str]) -> None:
+        cs, ts = "\n".join(c), "\n".join(t)
+        if self.recursive:
+            cs = cs.replace("global::System.Text.Json.JsonElement value)", "global::System.Text.Json.JsonElement value, int depth = 0)")
+            ts = ts.replace("value: unknown): boolean", "value: unknown, depth = 0): boolean")
+            cs = cs.replace("    {\n", "    {\n        if (depth >= 128) return false;\n", 1)
+            ts = ts.replace("{\n", "{\n  if (depth >= 128) return false;\n", 1)
+            cs = re.sub(r"(Check\d+)\((value|property\.Value|item)\)", r"\1(\2, depth + 1)", cs)
+            ts = re.sub(r"(check\d+)\((value|item|object\[key\])\)", r"\1(\2, depth + 1)", ts)
+        self.cs.append(cs)
+        self.ts.append(ts)
 
 
 CS_CONTEXT_OPTIONS = '''[global::System.Text.Json.Serialization.JsonSourceGenerationOptions(
@@ -563,20 +724,22 @@ def generate(check: bool = False) -> None:
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
     ]
     tsoutputs: dict[str, list[str]] = {}
+    tsnames: dict[str, list[str]] = {}
     for source, namespace, csroot, tsroot in mappings:
-        schema = json.loads((ROOT / source).read_text(encoding="utf-8"))
-        generated_cs, generated_validator, generated_ts = JsonShapes(schema, namespace).generate()
-        name = schema["title"]
-        emit(ROOT / csroot / "Generated/Shapes" / (name + ".g.cs"), generated_cs, check)
-        validator_root = csroot if "CloudInternal" in namespace else "src/public/dotnet/ArcForges.Contracts.Validation"
-        emit(ROOT / validator_root / "Generated/Shapes" / (name + "Validator.g.cs"), generated_validator, check)
-        tsoutputs.setdefault(tsroot, []).append(generated_ts)
+        authored = json.loads((ROOT / source).read_text(encoding="utf-8"))
+        for schema in schema_roots(authored):
+            generated_cs, generated_validator, generated_ts = JsonShapes(schema, namespace).generate()
+            name = schema["title"]
+            if name in tsnames.setdefault(tsroot, []):
+                raise ValueError(f"Duplicate generated root type: {name}")
+            tsnames[tsroot].append(name)
+            emit(ROOT / csroot / "Generated/Shapes" / (name + ".g.cs"), generated_cs, check)
+            validator_root = csroot if "CloudInternal" in namespace else "src/public/dotnet/ArcForges.Contracts.Validation"
+            emit(ROOT / validator_root / "Generated/Shapes" / (name + "Validator.g.cs"), generated_validator, check)
+            tsoutputs.setdefault(tsroot, []).append(generated_ts)
     for tsroot, contents in tsoutputs.items():
         # Separate module scopes avoid helper/name collisions while preserving one public entry.
-        names = []
-        for source, namespace, csroot, target in mappings:
-            if target == tsroot:
-                names.append(json.loads((ROOT / source).read_text(encoding="utf-8"))["title"])
+        names = tsnames[tsroot]
         for name, content in zip(names, contents, strict=True):
             emit(ROOT / tsroot / "src/shapes/gen" / (name + ".ts"), content, check)
         emit(ROOT / tsroot / "src/gen/http.ts", HEADER + "".join(f'export * from "../shapes/gen/{name}.js";\n' for name in names), check)
