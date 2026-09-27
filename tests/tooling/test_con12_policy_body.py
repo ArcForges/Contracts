@@ -106,7 +106,7 @@ class PolicyBodyVectors(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.schema = json.loads((ROOT / "public/http/v1/policy-body.schema.json").read_text())
-        fixture_path = ROOT / "fixtures/public/con-12-ext-policy.json"
+        fixture_path = ROOT / "fixtures/public/con-12-extension-policy.json"
         # The owner folds these independently authored cases into the shared fixture.
         cls.fixture = json.loads(fixture_path.read_text())["policyBody"]
 
@@ -139,5 +139,6 @@ class PolicyBodyVectors(unittest.TestCase):
             for allocation in (0, 10000): self.assertEqual(result < allocation, allocation == 10000)
 
 if __name__ == "__main__": unittest.main()
+
 
 
