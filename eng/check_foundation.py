@@ -21,10 +21,12 @@ CONSTRAINTS = "public/proto/constraints.json"
 VALUES = "public/proto/value-boundaries.json"
 FOUNDATION = "public/proto/arcforges/foundation/v1/foundation.proto"
 CONTENT = "public/proto/arcforges/publicapi/v1/content.proto"
+DESCRIPTORS = "public/proto/arcforges/publicapi/v1/descriptors.proto"
 PUBLISHED_COMMIT = "30ddcad2bcb3634e089abb5e29d6c9ce05d38386"
 PUBLISHED_RECORDS = set("Id Revision LocalNotesVersion NativeContentRev Instant Decimal AggregateRef VersionedRef Receipt ApplicationScope RequestMeta ResponseMeta ArcError RetryAdvice ErrorDetails RevisionConflict LimitFailure VersionFailure StateFailure".split())
 PUBLISHED_ENUMS = {"EffectCertainty", "RetryMode", "ErrorCategory"}
 EXTRA_SEEDS = set("PageRequest PageState Rational MediaTime MediaRange ByteRange TimeRangeUtc ContentOrigin NotesQuery MeasurementRequest MeasurementResult AggregateBody".split())
+EXTRA_SEEDS |= set("CapabilityDescriptor ActionDescriptor CompatibilityDescriptor HealthSnapshot EncodedBodyRef ContextProvider ContextDescriptor".split())
 SCALARS = set("string bytes int32 int64 sint32 sint64 uint32 uint64 fixed32 fixed64 sfixed32 sfixed64 double float bool".split())
 ALIASES = {name: "string" for name in "Name Text Email SecretText Key CountryCode Cursor ReasonCode Hash ModelId".split()}
 ALIASES.update(Bytes="bytes", Int32="int32", Int64="int64", UInt64="uint64", Bool="bool")
@@ -235,6 +237,11 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
     require(not schemas[FOUNDATION]["imports"], "Foundation cannot import owner or internal projections")
     require(schemas[CONTENT]["package"] == "arcforges.publicapi.v1" and schemas[CONTENT]["imports"] == ["arcforges/foundation/v1/foundation.proto"], "PublicApi projection import/package mismatch")
     require(schemas[CONTENT]["options"] == {"csharp_namespace": "ArcForges.Contracts.PublicApi.V1", "java_package": "io.github.arcforges.contracts.publicapi.v1", "java_multiple_files": "true", "java_outer_classname": "ContentProto"}, "PublicApi generator namespace mismatch")
+    require(set(schemas) == {FOUNDATION, CONTENT, DESCRIPTORS}, "Unregistered descriptor source")
+    descriptor = schemas[DESCRIPTORS]
+    require(descriptor["package"] == "arcforges.publicapi.v1" and descriptor["imports"] == ["arcforges/foundation/v1/foundation.proto", "arcforges/publicapi/v1/content.proto"], "Descriptor projection import/package mismatch")
+    require(descriptor["options"] == {**schemas[CONTENT]["options"], "java_outer_classname": "DescriptorsProto"}, "Descriptor generator namespace mismatch")
+    require(set(descriptor["messages"]) == {"ContextProvider", "ContextDescriptor"} and not descriptor["enums"], "Descriptor source ownership mismatch")
     all_messages, all_enums = {}, {}
     for path, schema in schemas.items():
         for name, definition in schema["messages"].items():
@@ -297,7 +304,7 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
                 require(rule.get("enumValues") == permitted, f"{name}.{expected['name']}: request enum validation mismatch")
         require(set(profile.get("oneofRequired", [])) == oneof_names, f"{name}: required oneof validation mismatch")
         require(sorted(definition["reservedTags"]) == sorted(row.get("reservedTags", [])) and sorted(definition["reservedNames"]) == sorted(row.get("reservedNames", [])), f"{name}: removed fields not reserved")
-        domain, stem = ("foundation", "Foundation") if path == FOUNDATION else ("publicapi", "Content")
+        domain, stem = {FOUNDATION: ("foundation", "Foundation"), CONTENT: ("publicapi", "Content"), DESCRIPTORS: ("publicapi", "Descriptors")}[path]
         expected_outputs = {
             "csharp": f"src/public/dotnet/{owner}/Generated/Proto/{stem}.cs",
             "typescript": f"src/public/ts/proto/src/gen/arcforges/{domain}/v1/{stem.lower()}_pb.ts",
@@ -341,7 +348,7 @@ def check_model(inventory: dict, schemas: dict, constraints: dict, values: dict,
 
 def check(root: Path = ROOT, generated: bool = False, self_test: bool = False) -> None:
     inventory, baseline, constraints, values = [read_json(root, path) for path in [INVENTORY, BASELINE, CONSTRAINTS, VALUES]]
-    schemas = {path: parse_schema(safe_path(root, path).read_text(encoding="utf-8"), path) for path in [FOUNDATION, CONTENT]}
+    schemas = {path: parse_schema(safe_path(root, path).read_text(encoding="utf-8"), path) for path in [FOUNDATION, CONTENT, DESCRIPTORS]}
     counts = check_model(inventory, schemas, constraints, values, baseline)
     if generated:
         for record in inventory["records"]:

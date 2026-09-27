@@ -851,8 +851,10 @@ def generate_proto_checks(check: bool) -> None:
     for namespace, directory, names in groups:
         methods = [proto_cs(name, messages) for name in sorted(names)]
         content = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {namespace};\n\n/// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>\npublic static class ContractShapeValidation\n{{\n"
-        from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS
+        from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS, DESCRIPTOR_CS_HELPERS
         content += "\n".join(methods) + CS_PROTO_HELPERS + COMMON_CS_HELPERS
+        if "arcforges.foundation.v1.ContractVersion" in names:
+            content += DESCRIPTOR_CS_HELPERS
         if any(n.startswith("arcforges.publicapi.") for n in names):
             content += CS_HELPERS
         content += "\n}\n"
@@ -860,8 +862,9 @@ def generate_proto_checks(check: bool) -> None:
     # Public protobuf-es checks intentionally exclude extension/private protocols.
     for directory, names in [("src/public/ts/proto", {n for n in public if not n.startswith("arcforges.extensions.")}),
                              ("src/internal/ts/operator-client", next((g[2] for g in groups if g[0] == "ArcForges.Contracts.CloudInternal.Shapes"), set()))]:
-        from foundation_semantics import TS_HELPERS, ts_imports
-        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS, check)
+        from foundation_semantics import TS_HELPERS, DESCRIPTOR_TS_HELPERS, ts_imports
+        descriptor_helpers = DESCRIPTOR_TS_HELPERS if "arcforges.foundation.v1.ContractVersion" in names else ""
+        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS + descriptor_helpers, check)
 
 
 def proto_cs(name: str, messages: dict) -> str:

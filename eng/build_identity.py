@@ -129,6 +129,7 @@ def axes(package: dict, dependencies: list[dict], descriptor: bytes, root: Path 
         if "protoProtocol" in spec and (name != "ExtensionProtocolVersion" or "sources" in spec):
             raise ValueError("Protocol source applies only to ExtensionProtocolVersion")
         values = []
+        proto_subjects = {}
         if kind == "packages":
             proof = hashlib.sha256(json.dumps(dependencies, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
             values = [{"subject": item["purl"].rsplit("@", 1)[0],
@@ -161,6 +162,19 @@ def axes(package: dict, dependencies: list[dict], descriptor: bytes, root: Path 
                     value = {"subject": subject.decode(), "version": major.decode(), "source": evidence}
                     if kind == "contracts":
                         value["descriptorSha256"] = hashlib.sha256(descriptor).hexdigest()
+                        previous = proto_subjects.get(value["subject"])
+                        if previous is not None:
+                            if (previous["version"] != value["version"]
+                                    or previous["descriptorSha256"] != value["descriptorSha256"]):
+                                raise ValueError("Conflicting protobuf namespace version or descriptor identity")
+                            if "sources" not in previous:
+                                previous["sources"] = [previous.pop("source")]
+                            if any(item["path"] == evidence["path"] for item in previous["sources"]):
+                                raise ValueError("Duplicate protobuf source evidence path")
+                            previous["sources"].append(evidence)
+                            previous["sources"].sort(key=lambda item: item["path"])
+                            continue
+                        proto_subjects[value["subject"]] = value
                     values.append(value)
                 elif kind == "native-abi":
                     major = re.search(rb"#define\s+ARC_ABI_MAJOR\s+(\d+)", content)

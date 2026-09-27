@@ -203,6 +203,7 @@ def generate_export_barrel(row: dict, output: Path, check: bool = False) -> None
         barrel += 'export * from "./values.js";\n'
         barrel += 'export * from "./wire.js";\n'
         barrel += 'export * from "./semantic-hash.js";\n'
+        barrel += 'export * from "./encoded-body.js";\n'
     if proto_services(row):
         barrel += 'export * from "./services/gen/catalog.js";\n'
     index_file = ROOT / row["sourceRoot"] / "src/index.ts"
