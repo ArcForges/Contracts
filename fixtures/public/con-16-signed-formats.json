@@ -636,6 +636,38 @@
       "canonicalDocument": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\",\"signature\":\"bCpUMXoTzRLxysnelYsLC_OD4fR9Hwde794K1qcQmR0Yf6pIu-benBWWmKij51C3K8KSwbHxMyL62TITXhrLCQ\"}",
       "documentSha256": "8642eaf9d51ec4cd2eee9d9c2f8b5f93e67f261442065825cf39cb00f4175e80",
       "canonicalBody": "{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"}"
+    },
+    {
+      "id": "invalid-calendar-timestamp",
+      "value": {
+        "schemaVersion": "catalog-index.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "stable",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-99-99T99:99:99Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922",
+        "body": {
+          "entries": [
+            {
+              "packageId": "org.example.scope-tools",
+              "publisherId": "publisher-example",
+              "version": "1.2.3",
+              "archiveHttpsUrl": "https://downloads.example.org/packages/1.2.3.arcpkg",
+              "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+              "manifestHash": "2222222222222222222222222222222222222222222222222222222222222222",
+              "minimumHostVersion": "1.0.0",
+              "capabilitiesDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ]
+        },
+        "signature": "jhNt4s6Nk4z1ShPCNZUK3O9C-LWvSQbcX7NkElKrukhH-cr13SkQoT3f0HX-mmFarc72v1aBBcq7Ov06pObmAQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-99-99T99:99:99Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\"}",
+      "canonicalDocument": "{\"body\":{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]},\"bodyHash\":\"f7b87bfebbb1a5228a292d8a7d6ebf7f6c7e5306d4bf90a769b3cb48083bd922\",\"channel\":\"stable\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-99-99T99:99:99Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"catalog-index.v1\",\"signature\":\"jhNt4s6Nk4z1ShPCNZUK3O9C-LWvSQbcX7NkElKrukhH-cr13SkQoT3f0HX-mmFarc72v1aBBcq7Ov06pObmAQ\"}",
+      "documentSha256": "7b408bff98338b652f5ab84ea2aa818d829f6cf4bd152949b57a39e132be8eb9",
+      "canonicalBody": "{\"entries\":[{\"archiveHttpsUrl\":\"https://downloads.example.org/packages/1.2.3.arcpkg\",\"capabilitiesDigest\":\"3333333333333333333333333333333333333333333333333333333333333333\",\"manifestHash\":\"2222222222222222222222222222222222222222222222222222222222222222\",\"minimumHostVersion\":\"1.0.0\",\"packageId\":\"org.example.scope-tools\",\"publisherId\":\"publisher-example\",\"sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"version\":\"1.2.3\"}]}"
     }
   ],
   "cases": [
@@ -889,6 +921,45 @@
       "id": "android-version-rollback",
       "document": "android-version-rollback",
       "expected": "version-rollback"
+    },
+    {
+      "id": "empty-dns-label",
+      "document": "realm",
+      "mutation": {
+        "path": [
+          "apiOrigin"
+        ],
+        "value": "https://."
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "out-of-range-port",
+      "document": "realm",
+      "mutation": {
+        "path": [
+          "apiOrigin"
+        ],
+        "value": "https://api.example.org:99999"
+      },
+      "expected": "shape"
+    },
+    {
+      "id": "trust-key-not-yet-valid",
+      "document": "catalog-index",
+      "trustNotBefore": "2026-09-28T00:00:00Z",
+      "expected": "key-window"
+    },
+    {
+      "id": "trust-key-expired",
+      "document": "catalog-index",
+      "trustNotAfter": "2026-09-27T00:00:00Z",
+      "expected": "key-window"
+    },
+    {
+      "id": "invalid-calendar-timestamp",
+      "document": "invalid-calendar-timestamp",
+      "expected": "timestamp"
     }
   ],
   "malformedJson": [
