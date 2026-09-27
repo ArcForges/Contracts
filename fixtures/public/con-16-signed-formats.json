@@ -25,7 +25,13 @@
     "highestRevision": "9007199254740993",
     "highestConfigGeneration": "9007199254740993",
     "installedCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
-    "trustPinned": true
+    "trustPinned": true,
+    "pinnedOrigins": {
+      "apiOrigin": "https://api.example.org",
+      "accountOrigin": "https://account.example.org",
+      "objectOrigin": "https://objects.example.org"
+    },
+    "highestVersionCode": "18446744073709551615"
   },
   "documents": [
     {
@@ -522,6 +528,114 @@
       "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
       "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-05T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"MDQhIew20XKyPYu0RNfZw9EbjloOyGWBD5ILoy4SU0i-r2qIZL5K20H7IQNwTDdlwm1k725IpYrl-hVo9DzdDA\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
       "documentSha256": "88e54b097334d9582c6065b3b779638f855bac468b4df2dbe29aece573b531e3"
+    },
+    {
+      "id": "realm-pinned-origin-mismatch",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://other.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [
+          1
+        ],
+        "nativeClientRedirects": [
+          "arcforges-scope://auth/callback"
+        ],
+        "authMethods": [
+          "passkey",
+          "email"
+        ],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-04T00:00:00Z",
+        "signature": "NujNgrLtLVBFiXgn8nV-BoYVOsLVC-YSmkKnbOHq-tgthPPvfIi1jfpmUngpXvaCWcchdMXkp_a_UdmxdQ8tCA"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://other.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://other.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740993\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"NujNgrLtLVBFiXgn8nV-BoYVOsLVC-YSmkKnbOHq-tgthPPvfIi1jfpmUngpXvaCWcchdMXkp_a_UdmxdQ8tCA\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "d6c6856db89d4d0576dc96ee0ab48e42ebca8f8393b99ef6371556595efeb1c3"
+    },
+    {
+      "id": "realm-config-rollback",
+      "value": {
+        "schemaVersion": "realm.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "kind": "selfHosted",
+        "apiOrigin": "https://api.example.org",
+        "accountOrigin": "https://account.example.org",
+        "objectOrigin": "https://objects.example.org",
+        "supportedContractMajors": [
+          1
+        ],
+        "nativeClientRedirects": [
+          "arcforges-scope://auth/callback"
+        ],
+        "authMethods": [
+          "passkey",
+          "email"
+        ],
+        "passkeyRpId": "example.org",
+        "signingKeys": [
+          {
+            "keyId": "con16-fixture-ed25519",
+            "algorithm": "Ed25519",
+            "publicKey": "HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA",
+            "notBefore": "2026-09-01T00:00:00Z",
+            "notAfter": "2027-09-01T00:00:00Z"
+          }
+        ],
+        "configGeneration": "9007199254740992",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-10-04T00:00:00Z",
+        "signature": "z3tpb3SCr8SSqQ-WKp3Yf4G3utyCj2Jeqj850I3jQsjuXigk7tOvPHG9yMbR-ajwoBXLjLzG8sJ3fHl2BaUQBw"
+      },
+      "canonicalUnsigned": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740992\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "canonicalDocument": "{\"accountOrigin\":\"https://account.example.org\",\"apiOrigin\":\"https://api.example.org\",\"authMethods\":[\"passkey\",\"email\"],\"configGeneration\":\"9007199254740992\",\"expiresAt\":\"2026-10-04T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"kind\":\"selfHosted\",\"nativeClientRedirects\":[\"arcforges-scope://auth/callback\"],\"objectOrigin\":\"https://objects.example.org\",\"passkeyRpId\":\"example.org\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"schemaVersion\":\"realm.v1\",\"signature\":\"z3tpb3SCr8SSqQ-WKp3Yf4G3utyCj2Jeqj850I3jQsjuXigk7tOvPHG9yMbR-ajwoBXLjLzG8sJ3fHl2BaUQBw\",\"signingKeys\":[{\"algorithm\":\"Ed25519\",\"keyId\":\"con16-fixture-ed25519\",\"notAfter\":\"2027-09-01T00:00:00Z\",\"notBefore\":\"2026-09-01T00:00:00Z\",\"publicKey\":\"HwJQ-fvZRsrdOA8z7ndUEptQL-0TDPitw4H_MtFH5BA\"}],\"supportedContractMajors\":[1]}",
+      "documentSha256": "10fb7fffe287a1b5c47d0a3173597564e283e2920ac7014486d9d8e0c5613c2a"
+    },
+    {
+      "id": "android-version-rollback",
+      "value": {
+        "schemaVersion": "android-update.v1",
+        "realmId": "12345678-1234-4234-8234-123456789abc",
+        "channel": "direct",
+        "revision": "9007199254740993",
+        "issuedAt": "2026-09-27T00:00:00Z",
+        "expiresAt": "2026-09-28T00:00:00Z",
+        "keyId": "con16-fixture-ed25519",
+        "bodyHash": "877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65",
+        "body": {
+          "packageId": "com.arcforges.mobile",
+          "channel": "direct",
+          "versionName": "1.2.3",
+          "versionCode": "18446744073709551614",
+          "minSdk": 26,
+          "minSupportedVersionCode": "9007199254740993",
+          "apkUrl": "https://downloads.example.org/android/app.apk",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "size": "9007199254740993",
+          "signingCertificateSha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "releaseNotesUrl": "https://downloads.example.org/android/notes",
+          "publishedAt": "2026-09-27T00:00:00Z"
+        },
+        "signature": "bCpUMXoTzRLxysnelYsLC_OD4fR9Hwde794K1qcQmR0Yf6pIu-benBWWmKij51C3K8KSwbHxMyL62TITXhrLCQ"
+      },
+      "canonicalUnsigned": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\"}",
+      "canonicalDocument": "{\"body\":{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"},\"bodyHash\":\"877b1c6c6706332ff826172f087b69ccd02730438d4c5e38fe3d0884f963fc65\",\"channel\":\"direct\",\"expiresAt\":\"2026-09-28T00:00:00Z\",\"issuedAt\":\"2026-09-27T00:00:00Z\",\"keyId\":\"con16-fixture-ed25519\",\"realmId\":\"12345678-1234-4234-8234-123456789abc\",\"revision\":\"9007199254740993\",\"schemaVersion\":\"android-update.v1\",\"signature\":\"bCpUMXoTzRLxysnelYsLC_OD4fR9Hwde794K1qcQmR0Yf6pIu-benBWWmKij51C3K8KSwbHxMyL62TITXhrLCQ\"}",
+      "documentSha256": "8642eaf9d51ec4cd2eee9d9c2f8b5f93e67f261442065825cf39cb00f4175e80",
+      "canonicalBody": "{\"apkUrl\":\"https://downloads.example.org/android/app.apk\",\"channel\":\"direct\",\"minSdk\":26,\"minSupportedVersionCode\":\"9007199254740993\",\"packageId\":\"com.arcforges.mobile\",\"publishedAt\":\"2026-09-27T00:00:00Z\",\"releaseNotesUrl\":\"https://downloads.example.org/android/notes\",\"sha256\":\"4444444444444444444444444444444444444444444444444444444444444444\",\"signingCertificateSha256\":\"5555555555555555555555555555555555555555555555555555555555555555\",\"size\":\"9007199254740993\",\"versionCode\":\"18446744073709551614\",\"versionName\":\"1.2.3\"}"
     }
   ],
   "cases": [
@@ -760,6 +874,21 @@
       "id": "realm-expiry-over-seven-days",
       "document": "realm-overlong-expiry-signed",
       "expected": "expiry-window"
+    },
+    {
+      "id": "realm-pinned-origin-mismatch",
+      "document": "realm-pinned-origin-mismatch",
+      "expected": "origin"
+    },
+    {
+      "id": "realm-config-rollback",
+      "document": "realm-config-rollback",
+      "expected": "rollback"
+    },
+    {
+      "id": "android-version-rollback",
+      "document": "android-version-rollback",
+      "expected": "version-rollback"
     }
   ],
   "malformedJson": [
