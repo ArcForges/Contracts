@@ -710,5 +710,6 @@
       "additionalProperties": false
     }
   },
-  "x-arcforges-rules": ["workflowGraph"]
+  "x-arcforges-rules": ["workflowGraph"],
+  "x-arcforges-schema-version": "1"
 }

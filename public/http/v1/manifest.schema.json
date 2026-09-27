@@ -1454,5 +1454,6 @@
         }
       ]
     }
-  }
+  },
+  "x-arcforges-schema-version": "1"
 }

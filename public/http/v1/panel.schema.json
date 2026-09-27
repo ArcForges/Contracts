@@ -958,5 +958,6 @@
       ]
     }
   },
-  "x-arcforges-rules": ["panelTree"]
+  "x-arcforges-rules": ["panelTree"],
+  "x-arcforges-schema-version": "1"
 }
