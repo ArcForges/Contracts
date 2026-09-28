@@ -37,6 +37,37 @@ def bundle_of_roots(definitions, *names):
             "oneOf": [{"$ref": f"#/$defs/{name}"} for name in names]}
 
 
+def reachable_number_fields(root):
+    definitions = root.get("$defs", {})
+    fields = set()
+    visited_refs = set()
+
+    def visit(node, owner=None, field=None):
+        if "$ref" in node:
+            name = node["$ref"].removeprefix("#/$defs/")
+            if name in visited_refs:
+                return
+            visited_refs.add(name)
+            target = definitions[name]
+            visit(target, target.get("title", owner), field)
+            return
+        if node.get("type") == "number":
+            fields.add((owner, field))
+            return
+        if node.get("type") == "object":
+            current = node.get("title", owner)
+            for name, child in node.get("properties", {}).items():
+                visit(child, current, name)
+        elif node.get("type") == "array":
+            visit(node["items"], owner, field)
+        elif "oneOf" in node:
+            for child in node["oneOf"]:
+                visit(child, owner, field)
+
+    visit(root, root.get("title"))
+    return fields
+
+
 class JsonShapeUnions(unittest.TestCase):
     def test_accepted_seed_outputs_unchanged(self):
         mappings = [
@@ -198,6 +229,36 @@ class JsonShapeUnions(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Conflicting canonical schema definitions for bundled model SharedRecord"):
             compile_bundle_roots(bundle_of_roots(definitions, "RootA", "RootB"), "Example")
 
+    def test_con10_bundle_reaches_only_its_nine_finite_number_fields(self):
+        authored = json.loads((ROOT / "internal/ai-http/v1/schema.json").read_text(encoding="utf-8"))
+        roots, compilers, owners = compile_bundle_roots(
+            authored, "ArcForges.Contracts.CloudInternal.Http.V1")
+        expected = {
+            ("StructuredValueAsNumber", "number"),
+            ("MeasurementValueAsValue", "value"),
+            ("Calibration", "scale"),
+            ("Calibration", "offset"),
+            ("TriggerConfiguration", "threshold"),
+            ("TriggerConfiguration", "hysteresis"),
+            ("MeasurementThreshold", "value"),
+            ("SelectedSample", "value"),
+            ("CursorResult", "deltaValue"),
+        }
+        self.assertEqual(len(roots), 30)
+        self.assertEqual(set().union(*(reachable_number_fields(root) for root in roots)), expected)
+
+        for index, (root, compiler) in enumerate(zip(roots, compilers, strict=True)):
+            expected_count = len(reachable_number_fields(root))
+            _, validator, typescript = compiler.generate(bundle_external_models(index, compiler, owners))
+            self.assertEqual(validator.count("!global::System.Double.IsFinite(number)"), expected_count,
+                             root["title"])
+            self.assertEqual(typescript.count("!Number.isFinite(number)"), expected_count,
+                             root["title"])
+            if expected_count:
+                self.assertIn("StrictJsonNumber", typescript, root["title"])
+            else:
+                self.assertNotIn("StrictJsonNumber", typescript, root["title"])
+
     def test_finite_numbers_and_utf8_byte_bounds_are_compiled_narrowly(self):
         schema = record("NumericEnvelope", {
             "count": {"type": "integer", "minimum": 1, "maximum": 4},
@@ -263,6 +324,7 @@ assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2,"value":1e0,"cursor
 assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2,"value":1e999,"cursor":""}').ok, false);
 assert.equal(numeric.isNumericEnvelope({...valid, value: Number.NaN}), false);
 assert.equal(numeric.isNumericEnvelope({...valid, value: Number.POSITIVE_INFINITY}), false);
+assert.equal(numeric.isNumericEnvelope({...valid, value: Number.NEGATIVE_INFINITY}), false);
 assert.equal(numeric.isNumericEnvelope({...valid, value: 10.5001}), false);
 assert.equal(numeric.isNumericEnvelope({...valid, count: 2.5}), false);
 assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2,"value":1,"cursor":"\\ud800"}').failure, "malformed");
