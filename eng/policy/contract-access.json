@@ -52,7 +52,7 @@
     {
       "path": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public",
-      "sha256": "675025c66cca55cf3771c0a4aadc6731501119f406bf5337001b8c8fb29a3703"
+      "sha256": "73e66d8130a01db43f963386fead900ca910f4ba143f3102968d0c82e90d14a7"
     },
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
@@ -353,6 +353,30 @@
     {
       "name": "arcforges.extensions.v1.Invocation",
       "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.UnknownValueFieldPolicy",
+      "kind": "enum",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ValueSchema",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ValueSchemaField",
+      "kind": "message",
+      "file": "public/proto/arcforges/extensions/v1/extensions.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.extensions.v1.ValueSchemaKind",
+      "kind": "enum",
       "file": "public/proto/arcforges/extensions/v1/extensions.proto",
       "access": "public"
     },
@@ -4621,7 +4645,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "dc56f837d258932ee04360631dfc75e0f7137652056166ccd18b259a5128a660",
+      "sha256": "64c60c63b638810faa727616963a1a96824c379f585bfb0e16a238904302a132",
       "kind": "generated"
     },
     {
@@ -4646,6 +4670,8 @@
       "access": "public",
       "types": [
         "ExtensionsReflection",
+        "ValueSchemaKind",
+        "UnknownValueFieldPolicy",
         "ExtensionLease",
         "ExtensionHostServiceRenewLeaseRequest",
         "ExtensionHostServiceRenewLeaseResponse",
@@ -4671,9 +4697,11 @@
         "ExtensionHostServiceStopResponse",
         "outcome_",
         "OutcomeOneofCase",
-        "ExtensionHostServiceStopValue"
+        "ExtensionHostServiceStopValue",
+        "ValueSchema",
+        "ValueSchemaField"
       ],
-      "sha256": "43fab39d309834a6745afecf14373e5f395cfcc69039c10adaaf66e88670d556",
+      "sha256": "bcdbd9f82c4a8c0fa3bfa97a46c4b950fdbeb3c0441e072ee982133b0913dfcf",
       "kind": "generated"
     },
     {
@@ -11431,7 +11459,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "ba493dfbd1be39f35db16e0ddc3687d6560a05813d231a2f844c108e45fbb332"
+      "sha256": "7ac3644b76feb4273ecd682a05ff79a815f9c6d38f6aebef3697d973d19d084f"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",
@@ -11444,6 +11472,10 @@
     {
       "path": "public/proto/constraints/events-baseline.json",
       "sha256": "346d458859cf734650911cd0875b85925f4bd1c5c6335b5ba53f7f914ba6c311"
+    },
+    {
+      "path": "public/proto/constraints/ext-02-dual-capability.json",
+      "sha256": "6b84a8a0ca79ce8dae22f18f537351ea76a5f5769f91f736c2c1545935a8ccf0"
     },
     {
       "path": "public/proto/constraints/extensions-baseline.json",
