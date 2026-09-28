@@ -23,7 +23,10 @@ import {
 import * as shapes from "../../src/public/ts/proto/dist/shapes/gen/proto.js";
 
 const fixture = JSON.parse(
-  readFileSync(new URL("../../fixtures/public/con-03-sync-allowlist.json", import.meta.url), "utf8"),
+  readFileSync(
+    new URL("../../fixtures/public/con-03-sync-allowlist.json", import.meta.url),
+    "utf8",
+  ),
 );
 const id = (hex) => create(IdSchema, { value: Uint8Array.from(Buffer.from(hex, "hex")) });
 
@@ -37,7 +40,10 @@ function bodyFrom(value) {
       return create(AggregateBodySchema, {
         body: {
           case: "scopeProjectMetadata",
-          value: create(ScopeProjectMetadataSchema, { projectId: id(value.projectIdHex), name: value.name }),
+          value: create(ScopeProjectMetadataSchema, {
+            projectId: id(value.projectIdHex),
+            name: value.name,
+          }),
         },
       });
     case "scopeMetadata": {
@@ -115,9 +121,14 @@ function bodyFrom(value) {
 test("closed Sync client-write allowlist rejects named negative vectors", () => {
   for (const item of fixture.cases) {
     const sourceBody = bodyFrom(item.body);
-    if (item.resolvedBody !== undefined) assert.equal(shapes.isAggregateBody(sourceBody), true, item.id + ": external source shape");
+    if (item.resolvedBody !== undefined)
+      assert.equal(shapes.isAggregateBody(sourceBody), true, item.id + ": external source shape");
     const candidate = item.resolvedBody === undefined ? sourceBody : bodyFrom(item.resolvedBody);
-    assert.equal(candidate !== null && shapes.isAggregateBody(candidate), item.bodyShapeValid, item.id + ": shape validity");
+    assert.equal(
+      candidate !== null && shapes.isAggregateBody(candidate),
+      item.bodyShapeValid,
+      item.id + ": shape validity",
+    );
     assert.equal(
       shapes.isSyncClientWriteAllowed(candidate, {
         expectedOwner: item.expectedOwner,

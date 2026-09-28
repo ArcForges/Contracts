@@ -8778,7 +8778,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "643d8623949092ff37ab67efef5ebcae012f9bc96b89d08839822c7d2a67556b"
+      "sha256": "0cecda209c224dd8d0c7b3a86dc5559cd414aedc56752d2e4c8baf530c474ec9"
     },
     {
       "path": "public/proto/constraints/con-13-package-catalog.json",

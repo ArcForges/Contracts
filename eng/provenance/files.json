@@ -1131,7 +1131,5 @@
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r12"
-  ]
+  "artifacts": ["dokka-documentation-resources-r12"]
 }
