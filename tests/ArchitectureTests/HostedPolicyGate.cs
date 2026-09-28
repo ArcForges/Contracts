@@ -1,0 +1,341 @@
+// SPDX-License-Identifier: Apache-2.0
+
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using ArcForges.Build.Policy.Architecture;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace ArcForges.Contracts.ArchitectureTests;
+
+internal static class HostedPolicyGate
+{
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        Converters = { new JsonStringEnumConverter() },
+    };
+
+    public static void Run()
+    {
+        string root = RepositoryRoot.Find();
+        string sourceCommit = RequireHostedIdentity(root);
+        ExternalPolicyEvidence naming = ReadNamingEvidence(root, sourceCommit, "RP-01");
+        ExternalPolicyEvidence licence = ReadNamingEvidence(root, sourceCommit, "RP-08");
+        VerifySecurityWorkflow(root);
+        var projects = ReadProjectGraph(root);
+        var compilations = projects.Where(project => project.Classification.Role is not (ProjectRole.BuildTool or ProjectRole.NativeLibrary or ProjectRole.NativeWorker))
+            .ToDictionary(project => project.Classification.Path, ProjectGraph.ReadCompilation, StringComparer.Ordinal);
+
+        VerifyProtoDtoSymbols(root, projects, compilations);
+        VerifySerializationClosure(root, projects, compilations);
+        var dependency = ReadDependencyPolicy(root);
+        var exceptions = JsonSerializer.Deserialize<PolicyException[]>(File.ReadAllText(Path.Combine(root, "eng/policy/exceptions.json")), JsonOptions)
+            ?? throw new InvalidOperationException("Policy exception inventory is missing.");
+        var contractTests = BindPublicApiToArchitectureFact(projects, compilations);
+        var wireTypes = BuildWireTypeBindings(root, projects, compilations);
+        var evidence = new[] { naming, licence, new ExternalPolicyEvidence("RP-09", sourceCommit, true, []) };
+        var repository = new RepositoryFacts(root, "Contracts", projects, exceptions, contractTests);
+        var configuration = new RepositoryPolicyConfiguration(sourceCommit, dependency.Hashes,
+            dependency.Licenses, new HashSet<string>(StringComparer.Ordinal), [], wireTypes, evidence);
+        var findings = PolicyEngine.Check(repository, configuration, compilations, DateOnly.FromDateTime(DateTime.UtcNow));
+        if (findings.Count != 0)
+        {
+            throw new InvalidOperationException("Shared architecture policy reported findings.");
+        }
+    }
+
+    private static string RequireHostedIdentity(string root)
+    {
+        string? actions = Environment.GetEnvironmentVariable("GITHUB_ACTIONS");
+        string? job = Environment.GetEnvironmentVariable("GITHUB_JOB");
+        string? source = Environment.GetEnvironmentVariable("GITHUB_SHA");
+        if (actions != "true" || job != "secrets" || source is null || !Regex.IsMatch(source, "^[0-9a-f]{40}$"))
+        {
+            throw new InvalidOperationException("The architecture gate requires the exact hosted Security/secrets job identity.");
+        }
+
+        string head = Git(root, "rev-parse", "HEAD");
+        if (head != source) throw new InvalidOperationException("The architecture gate source differs from GITHUB_SHA.");
+        return source;
+    }
+
+    private static ExternalPolicyEvidence ReadNamingEvidence(string root, string sourceCommit, string rule)
+    {
+        string path = Path.Combine(root, "artifacts/evidence/naming.json");
+        using var document = JsonDocument.Parse(File.ReadAllText(path));
+        Checks.Equal("source-policy-scan", document.RootElement.GetProperty("evidenceClass").GetString(),
+            "Canonical naming report has the wrong evidence class.");
+        Checks.SequenceEqual(new[] { "WP00.00", "WP00.01" }, document.RootElement.GetProperty("substeps").EnumerateArray()
+            .Select(value => value.GetString()!), "Canonical naming report omitted an authoritative WP00 scan.");
+        var rows = document.RootElement.GetProperty("repositories").EnumerateArray()
+            .Where(value => value.GetProperty("repository").GetString() == "Contracts").ToArray();
+        Checks.Equal(1, rows.Length, "Canonical naming report must contain exactly one Contracts source row.");
+        var row = rows[0];
+        Checks.Equal(sourceCommit, row.GetProperty("commit").GetString(), "Canonical naming report is not bound to GITHUB_SHA.");
+        Checks.Equal(false, row.GetProperty("dirty").GetBoolean(), "Canonical naming report is not from a clean checkout.");
+        Checks.Equal("pass", row.GetProperty("status").GetString(), "Canonical naming policy did not pass.");
+        Checks.Equal(0, row.GetProperty("findings").GetArrayLength(), "Canonical naming report contains findings.");
+        return new ExternalPolicyEvidence(rule, sourceCommit, true, []);
+    }
+
+    private static void VerifySecurityWorkflow(string root)
+    {
+        string workflow = File.ReadAllText(Path.Combine(root, ".github/workflows/security.yml"));
+        const string scanName = "- name: Scan full reviewed history with redacted output";
+        const string dotnetPin = "actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68";
+        const string pythonPin = "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97";
+        string[] orderedSteps =
+        [
+            scanName,
+            dotnetPin,
+            pythonPin,
+            "dotnet restore ArcForges.Contracts.slnx --locked-mode",
+            "dotnet build ArcForges.Contracts.slnx --configuration Release --no-restore --verbosity minimal",
+            "python eng/check_naming.py --report artifacts/evidence/naming.json",
+            "dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll --hosted",
+        ];
+        int previous = -1;
+        foreach (string step in orderedSteps)
+        {
+            int current = workflow.IndexOf(step, StringComparison.Ordinal);
+            Checks.True(current > previous, "Security workflow must preserve the successful Gitleaks -> pinned full build -> naming -> architecture sequence.");
+            previous = current;
+        }
+
+        Checks.True(workflow.Contains("fetch-depth: 0", StringComparison.Ordinal), "The hosted secret scan must inspect reviewed history.");
+        Checks.True(workflow.Contains("ghcr.io/gitleaks/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f", StringComparison.Ordinal)
+            && workflow.Contains("--redact --no-banner --verbose --config /repo/.gitleaks.toml", StringComparison.Ordinal),
+            "The existing pinned, redacted Gitleaks command changed or was removed.");
+        string afterScan = workflow[workflow.IndexOf(scanName, StringComparison.Ordinal)..];
+        Checks.True(!afterScan.Contains("continue-on-error: true", StringComparison.Ordinal)
+            && !afterScan.Contains("if: always()", StringComparison.Ordinal),
+            "A later Security step can no longer treat failed Gitleaks as successful antecedent evidence.");
+        Checks.True(workflow.Contains("python-version-file: .python-version", StringComparison.Ordinal)
+            && workflow.Contains("global-json-file: global.json", StringComparison.Ordinal),
+            "Hosted canonical report/build is not bound to existing pinned toolchains.");
+    }
+
+    private static List<ProjectFacts> ReadProjectGraph(string root)
+    {
+        using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/contract-packages.json")));
+        var packages = manifest.RootElement.GetProperty("packages").EnumerateArray()
+            .Where(row => row.GetProperty("kind").GetString() == "nuget")
+            .ToDictionary(row => row.GetProperty("sourceRoot").GetString()!.Replace('\\', '/'), StringComparer.Ordinal);
+        var solution = XDocument.Load(Path.Combine(root, "ArcForges.Contracts.slnx"));
+        string[] paths = solution.Descendants("Project").Select(project => project.Attribute("Path")?.Value)
+            .Where(path => path is not null && path.EndsWith(".csproj", StringComparison.Ordinal))!
+            .Select(path => path!).Order(StringComparer.Ordinal).ToArray();
+        Checks.True(paths.Contains("tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj", StringComparer.Ordinal),
+            "ArchitectureTests is absent from the full solution build graph.");
+
+        var result = new List<ProjectFacts>(paths.Length);
+        foreach (string path in paths)
+        {
+            ProjectRole role;
+            bool production;
+            if (path.StartsWith("tests/", StringComparison.Ordinal))
+            {
+                role = ProjectRole.Test;
+                production = false;
+            }
+            else if (path == "eng/Codegen/Codegen.csproj")
+            {
+                role = ProjectRole.BuildTool;
+                production = false;
+            }
+            else if (path == "src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj")
+            {
+                role = ProjectRole.Foundation;
+                production = true;
+            }
+            else
+            {
+                string projectRoot = Path.GetDirectoryName(path)!.Replace('\\', '/');
+                if (!packages.ContainsKey(projectRoot)) throw new InvalidOperationException("Unclassified solution project in the Contracts policy graph.");
+                bool hasNonProtoGeneratedApi = Directory.Exists(Path.Combine(root, projectRoot, "Generated", "Shapes"))
+                    || Directory.Exists(Path.Combine(root, projectRoot, "Generated", "Services"))
+                    || File.Exists(Path.Combine(root, projectRoot, "Generated", "InprocessPorts.g.cs"));
+                role = hasNonProtoGeneratedApi ? ProjectRole.PublicApiAdapter : ProjectRole.Contracts;
+                production = true;
+            }
+
+            var classification = new ProjectClassification(path, role, "Contracts", Production: production, Aot: false);
+            result.Add(ProjectGraph.Evaluate(root, classification, configuration: "Release"));
+        }
+
+        return result;
+    }
+
+    private static void VerifyProtoDtoSymbols(string root, IReadOnlyList<ProjectFacts> projects,
+        IReadOnlyDictionary<string, CSharpCompilation> compilations)
+    {
+        using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/contract-packages.json")));
+        var protoPackages = manifest.RootElement.GetProperty("packages").EnumerateArray()
+            .Where(row => row.GetProperty("kind").GetString() == "nuget" && row.GetProperty("proto").GetArrayLength() > 0)
+            .ToDictionary(row => Path.GetDirectoryName(Path.Combine(row.GetProperty("sourceRoot").GetString()!, row.GetProperty("id").GetString() + ".csproj"))!
+                .Replace('\\', '/') + "/" + row.GetProperty("id").GetString() + ".csproj", StringComparer.Ordinal);
+        int publicWireDtos = 0;
+        foreach (var project in projects.Where(project => project.Classification.Role is ProjectRole.Contracts or ProjectRole.PublicApiAdapter))
+        {
+            if (!compilations.TryGetValue(project.Classification.Path, out var compilation)) continue;
+            foreach (var tree in compilation.SyntaxTrees)
+            {
+                var model = compilation.GetSemanticModel(tree);
+                foreach (var declaration in tree.GetRoot().DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+                {
+                    if (model.GetDeclaredSymbol(declaration) is not INamedTypeSymbol type
+                        || type.DeclaredAccessibility != Accessibility.Public || type.TypeKind != TypeKind.Class
+                        || !type.AllInterfaces.Any(contract => contract.OriginalDefinition.ToDisplayString().StartsWith("Google.Protobuf.IMessage<", StringComparison.Ordinal))) continue;
+                    publicWireDtos++;
+                    string relative = Path.GetRelativePath(root, tree.FilePath).Replace('\\', '/');
+                    Checks.True(relative.Contains("/Generated/Proto/", StringComparison.Ordinal), "A public business DTO was authored outside protoc-generated source.");
+                    var source = Regex.Match(File.ReadAllText(tree.FilePath), @"^//\s*source:\s*(?<path>[A-Za-z0-9_./-]+\.proto)\s*$", RegexOptions.Multiline);
+                    Checks.True(source.Success, "A public business DTO source is missing its generated schema identity.");
+                    string sourceIdentity = source.Groups["path"].Value;
+                    Checks.True(protoPackages.TryGetValue(project.Classification.Path, out var package)
+                        && package.GetProperty("proto").EnumerateArray().Any(proto => proto.GetString()!.EndsWith(sourceIdentity, StringComparison.Ordinal)),
+                        "A public business DTO was generated from a schema not owned by its contract package.");
+                    Checks.True(type.GetAttributes().Any(attribute => attribute.AttributeClass?.ToDisplayString() == "System.CodeDom.Compiler.GeneratedCodeAttribute"
+                        && attribute.ConstructorArguments.FirstOrDefault().Value as string == "protoc"),
+                        "A public business DTO is missing the protoc generator identity.");
+                }
+            }
+        }
+
+        Checks.True(publicWireDtos > 0, "No compiled public business DTOs were validated against their authored proto source.");
+    }
+
+    private static void VerifySerializationClosure(string root, IReadOnlyList<ProjectFacts> projects,
+        IReadOnlyDictionary<string, CSharpCompilation> compilations)
+    {
+        string commonProps = File.ReadAllText(Path.Combine(root, "Directory.Build.props"));
+        const string disabled = "<JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>";
+        Checks.True(commonProps.Contains(disabled, StringComparison.Ordinal),
+            "The shared project configuration must disable reflection-based JSON metadata.");
+        foreach (var project in projects)
+        {
+            string projectPath = Path.Combine(root, project.Classification.Path);
+            var projectXml = XDocument.Load(projectPath);
+            Checks.True(projectXml.Descendants().Where(element => element.Name.LocalName == "JsonSerializerIsReflectionEnabledByDefault")
+                .All(element => element.Value == "false"), "A project enables reflection-based JSON metadata.");
+        }
+
+        foreach (var project in projects.Where(project => project.Classification.Production))
+        {
+            if (!compilations.TryGetValue(project.Classification.Path, out var compilation)) continue;
+            Checks.Empty(ContractsArchitectureTests.FindUnregisteredJsonSerializer(compilation),
+                "A serializer call bypasses registered compile-time JsonTypeInfo metadata.");
+        }
+    }
+
+    private static (Dictionary<string, string> Hashes, Dictionary<string, string> Licenses) ReadDependencyPolicy(string root)
+    {
+        using var policy = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/policy/dependency-policy.json")));
+        var hashes = policy.RootElement.GetProperty("inputHashes").EnumerateObject()
+            .ToDictionary(item => item.Name, item => item.Value.GetString()!, StringComparer.Ordinal);
+        var licenses = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+        foreach (var package in policy.RootElement.GetProperty("closure").EnumerateObject())
+        {
+            string key = package.Name;
+            if (!key.StartsWith("nuget:", StringComparison.OrdinalIgnoreCase)) continue;
+            int versionSeparator = key.LastIndexOf('@');
+            if (versionSeparator <= 6) throw new InvalidOperationException("Malformed NuGet identity in the reviewed dependency closure.");
+            string name = key[6..versionSeparator];
+            if (!licenses.TryGetValue(name, out var values)) licenses.Add(name, values = []);
+            values.Add(package.Value.GetProperty("licence").GetString()!);
+        }
+
+        return (hashes, licenses.ToDictionary(group => group.Key,
+            group => group.Value.Distinct(StringComparer.Ordinal).Single(), StringComparer.OrdinalIgnoreCase));
+    }
+
+    private static IReadOnlyList<ContractTestBinding> BindPublicApiToArchitectureFact(
+        IReadOnlyList<ProjectFacts> projects, IReadOnlyDictionary<string, CSharpCompilation> compilations)
+    {
+        const string testProject = "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj";
+        var host = compilations[testProject];
+        var testMethod = host.GetTypeByMetadataName("ArcForges.Contracts.ArchitectureTests.ContractsArchitectureTests")?
+            .GetMembers("VerifyEveryPublicApiHasGeneratedContractTestBinding").OfType<IMethodSymbol>().SingleOrDefault();
+        if (testMethod is null || !testMethod.GetAttributes().Any(attribute =>
+            attribute.AttributeClass?.ToDisplayString() == "Xunit.FactAttribute"))
+        {
+            throw new InvalidOperationException("The architecture contract fact is missing or not registered as a real test.");
+        }
+
+        string binding = PolicyEngine.MethodIdentity(testMethod);
+        var result = new List<ContractTestBinding>();
+        foreach (var project in projects.Where(project => project.Classification.Production))
+        {
+            var compilation = compilations[project.Classification.Path];
+            foreach (var tree in compilation.SyntaxTrees)
+            {
+                var model = compilation.GetSemanticModel(tree);
+                foreach (var declaration in tree.GetRoot().DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+                {
+                    if (model.GetDeclaredSymbol(declaration) is not INamedTypeSymbol type) continue;
+                    foreach (var method in type.GetMembers().OfType<IMethodSymbol>().Where(method => method.DeclaredAccessibility == Accessibility.Public
+                        && method.MethodKind == MethodKind.Ordinary && !method.IsImplicitlyDeclared))
+                    {
+                        result.Add(new ContractTestBinding(PolicyEngine.MethodIdentity(method), testProject, binding));
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static IReadOnlyList<WireTypeBinding> BuildWireTypeBindings(string root, IReadOnlyList<ProjectFacts> projects,
+        IReadOnlyDictionary<string, CSharpCompilation> compilations)
+    {
+        using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/contract-packages.json")));
+        var packages = manifest.RootElement.GetProperty("packages").EnumerateArray()
+            .Where(row => row.GetProperty("kind").GetString() == "nuget")
+            .ToDictionary(row => Path.GetDirectoryName(Path.Combine(row.GetProperty("sourceRoot").GetString()!, row.GetProperty("id").GetString() + ".csproj"))!
+                .Replace('\\', '/') + "/" + row.GetProperty("id").GetString() + ".csproj", StringComparer.Ordinal);
+        var bindings = new Dictionary<string, WireTypeBinding>(StringComparer.Ordinal);
+        foreach (var project in projects.Where(project => project.Classification.Role == ProjectRole.Contracts))
+        {
+            var compilation = compilations[project.Classification.Path];
+            foreach (var tree in compilation.SyntaxTrees)
+            {
+                var source = Regex.Match(File.ReadAllText(tree.FilePath), @"^//\s*source:\s*(?<path>[A-Za-z0-9_./-]+\.proto)\s*$", RegexOptions.Multiline);
+                if (!source.Success) continue;
+                var row = packages[project.Classification.Path];
+                string protoPath = row.GetProperty("proto").EnumerateArray().Select(item => item.GetString()!)
+                    .Single(path => path.EndsWith(source.Groups["path"].Value, StringComparison.Ordinal));
+                string hash = HashNormalized(Path.Combine(root, protoPath));
+                var model = compilation.GetSemanticModel(tree);
+                foreach (var declaration in tree.GetRoot().DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+                {
+                    if (model.GetDeclaredSymbol(declaration) is not INamedTypeSymbol type || type.DeclaredAccessibility != Accessibility.Public
+                        || type.TypeKind is not (TypeKind.Class or TypeKind.Struct or TypeKind.Enum)) continue;
+                    bindings.TryAdd(type.ToDisplayString(), new WireTypeBinding(type.ToDisplayString(), protoPath, hash));
+                }
+            }
+        }
+
+        return bindings.Values.ToArray();
+    }
+
+    private static string HashNormalized(string path) => Convert.ToHexStringLower(
+        SHA256.HashData(Encoding.UTF8.GetBytes(File.ReadAllText(path).Replace("\r\n", "\n", StringComparison.Ordinal))));
+
+    private static string Git(string root, params string[] args)
+    {
+        var start = new ProcessStartInfo("git") { WorkingDirectory = root, UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true };
+        foreach (string argument in args) start.ArgumentList.Add(argument);
+        using var process = Process.Start(start) ?? throw new InvalidOperationException("Git could not be started.");
+        string output = process.StandardOutput.ReadToEnd().Trim();
+        process.WaitForExit();
+        if (process.ExitCode != 0) throw new InvalidOperationException("Git source identity could not be read.");
+        return output;
+    }
+}

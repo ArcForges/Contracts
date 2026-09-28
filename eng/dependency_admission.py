@@ -15,6 +15,11 @@ POLICY = 'eng/policy/dependency-policy.json'
 CHECKS = {'compilation', 'aot-trim', 'compatibility', 'licence-provenance', 'security-sbom',
           'runtime-performance-migration', 'framework-runtime-posture'}
 ALLOWED = {'Apache-2.0', 'MIT', 'BSD-2-Clause', 'BSD-3-Clause', '(Apache-2.0 AND BSD-3-Clause)', 'CDDL-1.1'}
+BUILD_POLICY_KEY = 'nuget:arcforges.build.policy@1.0.0-ci.31.1'
+BUILD_POLICY_SCOPE = ('Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; '
+                      'direct reference only, PrivateAssets=all, never a product/runtime or public package dependency.')
+ARCHITECTURE_TEST_PROJECT = 'tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj'
+ARCHITECTURE_TEST_LOCK = 'tests/ArchitectureTests/packages.lock.json'
 
 
 def reject_unless(condition, reason):
@@ -28,6 +33,8 @@ def pinned(version):
 
 
 def stable_dependency(key):
+    if key == BUILD_POLICY_KEY:
+        return True  # Test/build-only tooling is excluded from the stable product/runtime closure.
     if key == 'maven:com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava':
         return True  # Released empty compatibility artifact, not a preview selector.
     if key.startswith('maven:'):
@@ -101,7 +108,11 @@ def validate(policy, actual, stable=False):
     for key, digest in actual.items():
         entry = policy['closure'][key]
         reject_unless(entry['integrity'] == digest, 'Mutable admitted version: ' + key)
-        reject_unless(entry['licence'] in ALLOWED, 'Forbidden or unreviewed licence: ' + key)
+        if key == BUILD_POLICY_KEY:
+            reject_unless(entry['licence'] == 'AGPL-3.0-only' and entry.get('scope') == BUILD_POLICY_SCOPE,
+                          'Build.Policy AGPL exception is not the exact ArchitectureTests-only boundary')
+        else:
+            reject_unless(entry['licence'] in ALLOWED, 'Forbidden or unreviewed licence: ' + key)
         reject_unless(entry['evidence'] and all(re.fullmatch('[0-9a-f]{64}', e['sha256']) and e['source']
                                               for e in entry['evidence']), 'Missing exact source evidence')
         if stable:
@@ -117,6 +128,90 @@ def validate(policy, actual, stable=False):
                   'maven': {'environment': 'maven-central', 'credential': 'central-token-and-formal-pgp'}},
                   'Wrong publisher or feed')
     reject_unless(policy['publicInternalGate'] == 'eng/policy/contract-access.json', 'Public/internal guard missing')
+
+
+def validate_architecture_policy_boundary(root, actual):
+    """Keep Build.Policy out of every closure except the exact private test/build host."""
+    host = root / ARCHITECTURE_TEST_PROJECT
+    has_host = host.is_file()
+    matches = [key for key in actual if key.lower().startswith('nuget:arcforges.build.policy@')]
+    if not has_host:
+        reject_unless(not matches, 'Build.Policy is admitted without its ArchitectureTests-only host')
+        return
+
+    reject_unless(len(matches) == 1 and matches[0] == BUILD_POLICY_KEY,
+                  'Only ArcForges.Build.Policy 1.0.0-ci.31.1 is admitted')
+    pin_path = root / 'Directory.Packages.props'
+    reject_unless(pin_path.is_file(), 'Build.Policy exact central version pin is missing')
+    pins = [item for item in ET.parse(pin_path).getroot().iter()
+            if item.tag.split('}')[-1] == 'PackageVersion'
+            and (item.get('Include') or '').casefold() == 'arcforges.build.policy']
+    reject_unless(len(pins) == 1 and pins[0].get('Include') == 'ArcForges.Build.Policy'
+                  and pins[0].get('Version') == '1.0.0-ci.31.1',
+                  'Build.Policy must have exactly one exact central pin')
+
+    project = ET.parse(host).getroot()
+    def values(name):
+        return [element.text or '' for element in project.iter() if element.tag.split('}')[-1] == name]
+    reject_unless(values('TargetFramework') == ['net10.0'] and values('OutputType') == ['Exe']
+                  and values('IsTestProject') == ['true'] and values('IsPackable') == ['false']
+                  and values('PackageLicenseExpression') == ['Apache-2.0']
+                  and values('LicenceBoundary') == ['Apache'],
+                  'Build.Policy host must retain Apache metadata as a non-packable ArchitectureTests executable')
+    references = [item for item in project.iter() if item.tag.split('}')[-1] == 'PackageReference'
+                  and (item.get('Include') or item.get('Update') or '').casefold() == 'arcforges.build.policy']
+    reject_unless(len(references) == 1 and references[0].get('Include') == 'ArcForges.Build.Policy'
+                  and references[0].get('Version') is None and references[0].get('VersionOverride') is None
+                  and references[0].get('PrivateAssets', '').casefold() == 'all'
+                  and references[0].get('GeneratePathProperty', '').casefold() == 'true',
+                  'Build.Policy must be one exact central, PrivateAssets=all architecture-test reference')
+    all_references = []
+    for path in input_paths(root):
+        if path.endswith(('.csproj', '.props', '.targets')):
+            for item in ET.parse(root / path).getroot().iter():
+                if item.tag.split('}')[-1] == 'PackageReference' and (item.get('Include') or item.get('Update') or '').casefold() == 'arcforges.build.policy':
+                    all_references.append(path)
+    reject_unless(all_references == [ARCHITECTURE_TEST_PROJECT],
+                  'Build.Policy PackageReference must exist only in the ArchitectureTests project')
+    imports = [item.get('Project', '').replace('\\', '/') for item in project.iter()
+               if item.tag.split('}')[-1] == 'Import']
+    reject_unless('$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props' in imports,
+                  'ArchitectureTests must explicitly import the packaged shared policy engine')
+
+    locks = []
+    for path in input_paths(root):
+        if not path.endswith('packages.lock.json'):
+            continue
+        document = json.loads((root / path).read_text())
+        for framework, graph in document['dependencies'].items():
+            for name, row in graph.items():
+                if name.casefold() == 'arcforges.build.policy':
+                    locks.append((path, framework, name, row))
+    reject_unless(len(locks) == 1 and locks[0][0] == ARCHITECTURE_TEST_LOCK
+                  and locks[0][2] == 'ArcForges.Build.Policy'
+                  and locks[0][3].get('type', '').casefold() == 'direct'
+                  and locks[0][3].get('resolved') == '1.0.0-ci.31.1'
+                  and locks[0][3].get('contentHash') == actual[BUILD_POLICY_KEY],
+                  'Build.Policy must be only the exact direct ArchitectureTests locked dependency')
+    reject_unless(not locks[0][3].get('dependencies'),
+                  'Build.Policy test/build-only package must not expand its dependency closure')
+
+    project_references = []
+    for path in input_paths(root):
+        if path.endswith(('.csproj', '.props', '.targets')):
+            for item in ET.parse(root / path).getroot().iter():
+                if item.tag.split('}')[-1] == 'ProjectReference':
+                    project_references.append((path, item.get('Include', '').replace('\\', '/')))
+    for path, reference in project_references:
+        if path == ARCHITECTURE_TEST_PROJECT:
+            continue
+        target = (root / Path(path).parent / reference).resolve()
+        reject_unless(not target.is_relative_to(host.resolve()),
+                      'ArchitectureTests host cannot be referenced by another project: ' + path)
+
+    catalog = json.loads((root / 'eng/contract-packages.json').read_text())
+    reject_unless(all(row.get('project') != ARCHITECTURE_TEST_PROJECT for row in catalog.get('packages', [])),
+                  'ArchitectureTests cannot enter the public/internal package catalog')
 
 
 def immutable_coordinates(policy, receipts):
@@ -176,6 +271,7 @@ def audit(root=ROOT, stable=False):
     reject_unless(policy['inputHashes'] == input_hashes(root), 'Dependency input drift requires reviewed upgrade receipt')
     actual = inventory(root)
     validate(policy, actual, stable)
+    validate_architecture_policy_boundary(root, actual)
     review_history(root, policy)
     reject_unless([e.get('value') for e in ET.parse(root / 'NuGet.config').findall('./packageSources/add')]
                   == [policy['publisher']['nuget']['feed']], 'Untrusted NuGet feed')

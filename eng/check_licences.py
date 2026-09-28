@@ -16,6 +16,9 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = 'eng/policy/licence-boundary.json'
 PROJECT_SUFFIXES = {'.csproj', '.fsproj', '.vbproj', '.vcxproj', '.esproj'}
+ARCHITECTURE_TEST_PROJECT = 'tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj'
+ARCHITECTURE_POLICY_PACKAGE = 'ArcForges.Build.Policy'
+ARCHITECTURE_POLICY_VERSION = '1.0.0-ci.31.1'
 
 
 def require(condition, message):
@@ -52,6 +55,10 @@ def check_package(name):
                 f'Non-Apache or unknown first-party Maven dependency: {name}')
 
 
+def is_architecture_policy_package(name):
+    return name.casefold() == ARCHITECTURE_POLICY_PACKAGE.casefold()
+
+
 def audit(root=ROOT):
     root = root.resolve()
     files = set(subprocess.check_output(['git', '-C', str(root), 'ls-files', '-z', '--cached',
@@ -83,7 +90,8 @@ def audit(root=ROOT):
         text = read(name)
         if kind == 'msbuild':
             tree = ET.fromstring(text)
-            for prop, expected in [('PackageLicenseExpression', 'Apache-2.0'), ('LicenceBoundary', 'Apache')]:
+            expected_license, expected_boundary = ('Apache-2.0', 'Apache')
+            for prop, expected in [('PackageLicenseExpression', expected_license), ('LicenceBoundary', expected_boundary)]:
                 require([e.text for e in tree.iter() if e.tag.split('}')[-1] == prop] == [expected], f'Missing/incorrect declaration: {name}: {prop}')
             for element in tree.iter():
                 if element.tag.split('}')[-1] in {'AssemblyName', 'PackageId'} and element.text:
@@ -100,13 +108,37 @@ def audit(root=ROOT):
             raise ValueError(f'Unreviewed build system in Apache owner: {name}')
 
     references = []
+    architecture_policy_references = []
+    architecture_policy_versions = []
+    architecture_policy_locks = []
     for name in sorted(files):
         path = PurePosixPath(name)
         if path.suffix in PROJECT_SUFFIXES | {'.props', '.targets'}:
-            for element in ET.fromstring(read(name)).iter():
+            tree = ET.fromstring(read(name))
+            if name == ARCHITECTURE_TEST_PROJECT:
+                properties = {element.tag.split('}')[-1]: element.text or '' for element in tree.iter()
+                              if element.tag.split('}')[-1] in {'IsTestProject', 'IsPackable', 'TargetFramework',
+                                                                'PackageLicenseExpression', 'LicenceBoundary'}}
+                require(properties == {'IsTestProject': 'true', 'IsPackable': 'false', 'TargetFramework': 'net10.0',
+                                       'PackageLicenseExpression': 'Apache-2.0', 'LicenceBoundary': 'Apache'},
+                        'Architecture policy host must retain Apache metadata as a non-packable test project')
+            else:
+                for element in tree.iter():
+                    if element.tag.split('}')[-1] != 'ProjectReference':
+                        continue
+                    include = element.get('Include', '').replace('\\', '/')
+                    target = (root / path.parent / include).resolve()
+                    try:
+                        relative = target.relative_to(root).as_posix()
+                    except ValueError:
+                        relative = ''
+                    require(relative != ARCHITECTURE_TEST_PROJECT,
+                            'Architecture policy test host cannot be referenced by another project: ' + name)
+            for element in tree.iter():
                 tag = element.tag.split('}')[-1]
                 if tag in {'LicenceBoundary', 'PackageLicenseExpression'}:
-                    require(element.text == ('Apache' if tag == 'LicenceBoundary' else 'Apache-2.0'), f'Property override: {name}: {tag}')
+                    expected = 'Apache' if tag == 'LicenceBoundary' else 'Apache-2.0'
+                    require(element.text == expected, f'Property override: {name}: {tag}')
                 if tag == 'ProjectReference':
                     value = element.get('Include', '')
                     require(value and not any(c in value for c in '$@*?;'), f'Unreviewed project reference: {name}')
@@ -115,7 +147,22 @@ def audit(root=ROOT):
                     require(actual.get(target.relative_to(root).as_posix()) == 'msbuild', f'Unregistered project reference: {name}')
                 if tag in {'PackageVersion', 'PackageReference'}:
                     package = element.get('Include') or element.get('Update') or ''
-                    check_package(package)
+                    if is_architecture_policy_package(package):
+                        if tag == 'PackageVersion':
+                            require(name == 'Directory.Packages.props' and package == ARCHITECTURE_POLICY_PACKAGE
+                                    and element.get('Version') == ARCHITECTURE_POLICY_VERSION,
+                                    'Build.Policy central pin must be exact and repository-owned')
+                            architecture_policy_versions.append(name)
+                        else:
+                            require(tag == 'PackageReference' and name == ARCHITECTURE_TEST_PROJECT
+                                    and package == ARCHITECTURE_POLICY_PACKAGE
+                                    and element.get('Version') is None and element.get('VersionOverride') is None
+                                    and element.get('PrivateAssets', '').casefold() == 'all'
+                                    and element.get('GeneratePathProperty', '').casefold() == 'true',
+                                    'Build.Policy is allowed only as the exact private architecture-test/build reference')
+                            architecture_policy_references.append(name)
+                    else:
+                        check_package(package)
                     references.append(package)
         elif path.name == 'package.json':
             package = document(name)
@@ -134,7 +181,15 @@ def audit(root=ROOT):
                     if entry['type'].lower() == 'project':
                         require(dependency.lower() in local_managed, f'Unknown locked project: {dependency}')
                     else:
-                        check_package(dependency)
+                        if is_architecture_policy_package(dependency):
+                            require(name == 'tests/ArchitectureTests/packages.lock.json'
+                                    and dependency == ARCHITECTURE_POLICY_PACKAGE
+                                    and entry.get('type', '').casefold() == 'direct'
+                                    and entry.get('resolved') == ARCHITECTURE_POLICY_VERSION,
+                                    'Build.Policy may be locked only as the exact direct ArchitectureTests dependency')
+                            architecture_policy_locks.append((name, dependency))
+                        else:
+                            check_package(dependency)
                         references.append(dependency)
         elif path.name == 'package-lock.json':
             for dependency, entry in document(name).get('packages', {}).items():
@@ -150,6 +205,16 @@ def audit(root=ROOT):
             require('includeBuild(' not in text and 'mavenLocal(' not in text, f'Unpublished Gradle source: {name}')
             for dependency in re.findall(r'io\.github\.arcforges:[A-Za-z0-9_.-]+', text):
                 check_package(dependency)
+    if ARCHITECTURE_TEST_PROJECT in actual:
+        require(architecture_policy_versions == ['Directory.Packages.props'],
+                'Exactly one central Build.Policy version pin is required')
+        require(architecture_policy_references == [ARCHITECTURE_TEST_PROJECT],
+                'Build.Policy must have exactly one direct ArchitectureTests reference')
+        require(architecture_policy_locks == [('tests/ArchitectureTests/packages.lock.json', ARCHITECTURE_POLICY_PACKAGE)],
+                'Build.Policy must occur in only the ArchitectureTests direct lock closure')
+    else:
+        require(not architecture_policy_versions and not architecture_policy_references and not architecture_policy_locks,
+                'Build.Policy admission cannot exist without its ArchitectureTests host')
     return {'result': 'passed', 'repository': 'Contracts', 'spdxLicense': 'Apache-2.0', 'licenceBoundary': 'Apache',
             'projects': [{'path': p, 'kind': actual[p]} for p in sorted(actual)],
             'lockedAndDeclaredManagedPackages': sorted(set(references)),
