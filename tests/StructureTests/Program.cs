@@ -83,6 +83,7 @@ Con06InprocessCases.Run(root);
 FoundationLinkCases.Run();
 ContentSandboxCases.Run(root);
 ExtensionPolicyCases.Run(root);
+ExtensionBoundaryCases.Run(root);
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 SemanticHashCases.Run(root);
 Con02Cases.Run(root);

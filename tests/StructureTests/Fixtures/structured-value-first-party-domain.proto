@@ -1,0 +1,11 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/publicapi/v1/content.proto";
+
+// Negative policy fixture: domain contracts must stay compile-time typed.
+message FirstPartyDomainCommand {
+  arcforges.publicapi.v1.StructuredValue arguments = 1 [json_name = "arguments"];
+}

@@ -128,3 +128,56 @@ message ExtensionHostServiceStopResponse {
 message ExtensionHostServiceStopValue {
   arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
 }
+
+// WP-41.02: a bounded schema for the existing PublicApi StructuredValue wire model.
+// It describes only the extension edge; first-party product contracts remain typed.
+enum ValueSchemaKind {
+  VALUE_SCHEMA_KIND_UNSPECIFIED = 0;
+  VALUE_SCHEMA_KIND_NULL = 1;
+  VALUE_SCHEMA_KIND_BOOLEAN = 2;
+  VALUE_SCHEMA_KIND_INTEGER = 3;
+  VALUE_SCHEMA_KIND_DECIMAL = 4;
+  VALUE_SCHEMA_KIND_TEXT = 5;
+  VALUE_SCHEMA_KIND_INSTANT = 6;
+  VALUE_SCHEMA_KIND_RESOURCE = 7;
+  VALUE_SCHEMA_KIND_LIST = 8;
+  VALUE_SCHEMA_KIND_RECORD = 9;
+  VALUE_SCHEMA_KIND_NUMBER = 10;
+}
+
+enum UnknownValueFieldPolicy {
+  UNKNOWN_VALUE_FIELD_POLICY_UNSPECIFIED = 0;
+  UNKNOWN_VALUE_FIELD_POLICY_REJECT = 1;
+  UNKNOWN_VALUE_FIELD_POLICY_ALLOW = 2;
+}
+
+message ValueSchema {
+  // Exactly one declared kind. NUMBER is the finite binary64 variant only.
+  ValueSchemaKind kind = 1 [json_name = "kind"];
+  // Explicit null is rejected unless this is true, except for NULL schemas.
+  optional bool nullable = 2 [json_name = "nullable"];
+  // LIST requires item_schema; RECORD requires fields. Other kinds forbid them.
+  ValueSchema item_schema = 3 [json_name = "itemSchema"];
+  repeated ValueSchemaField fields = 4 [json_name = "fields"];
+  // Omission/UNSPECIFIED means reject; ALLOW is an explicit forward-compatible choice.
+  optional UnknownValueFieldPolicy unknown_field_policy = 5 [json_name = "unknownFieldPolicy"];
+  // Bounds narrow the fixed StructuredValue ceilings; item bounds apply to LIST/RECORD,
+  // length bounds count Unicode scalar values in TEXT, and numeric bounds are inclusive.
+  optional uint32 min_items = 6 [json_name = "minItems"];
+  optional uint32 max_items = 7 [json_name = "maxItems"];
+  optional uint32 min_length = 8 [json_name = "minLength"];
+  optional uint32 max_length = 9 [json_name = "maxLength"];
+  optional sint64 min_integer = 10 [json_name = "minInteger"];
+  optional sint64 max_integer = 11 [json_name = "maxInteger"];
+  arcforges.foundation.v1.Decimal min_decimal = 12 [json_name = "minDecimal"];
+  arcforges.foundation.v1.Decimal max_decimal = 13 [json_name = "maxDecimal"];
+  optional double min_number = 14 [json_name = "minNumber"];
+  optional double max_number = 15 [json_name = "maxNumber"];
+}
+
+message ValueSchemaField {
+  // Keys use the same bounded ASCII key vocabulary as ValueEntry.
+  optional string name = 1 [json_name = "name"];
+  ValueSchema schema = 2 [json_name = "schema"];
+  optional bool required = 3 [json_name = "required"];
+}
