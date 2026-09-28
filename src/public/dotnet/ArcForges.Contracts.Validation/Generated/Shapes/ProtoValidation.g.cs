@@ -2399,7 +2399,11 @@ public static class ContractShapeValidation
         {
         if (value.TicketId is null) return false;
         if (!Check(value.TicketId, context)) return false;
-        if (!ValidUnicode(value.Url)) return false;
+        if (!value.HasUrl) return false;
+        if (value.HasUrl)
+        {
+            if (!ValidUnicode(value.Url)) return false;
+        }
         if (value.ExpiresAt is null) return false;
         if (!Check(value.ExpiresAt, context)) return false;
         if (value.ResourceId is null) return false;
@@ -2408,8 +2412,12 @@ public static class ContractShapeValidation
         {
             if (!Check(value.Range, context)) return false;
         }
-        if (value.MaxPartBytes < 1) return false;
-        if (value.MaxPartBytes > 8388608) return false;
+        if (!value.HasMaxPartBytes) return false;
+        if (value.HasMaxPartBytes)
+        {
+            if (value.MaxPartBytes < 1) return false;
+            if (value.MaxPartBytes > 8388608) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }

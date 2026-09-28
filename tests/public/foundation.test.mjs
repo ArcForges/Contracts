@@ -20,14 +20,105 @@ const descriptorFixture = JSON.parse(descriptorBytes.toString("utf8")).exchange;
 const transferTicketBytes = await readFile(
   new URL("../../fixtures/public/con-09-sync-transfer.json", import.meta.url),
 );
-const transferTicketFixture = JSON.parse(transferTicketBytes.toString("utf8")).transferTicket;
+const con09Fixture = JSON.parse(transferTicketBytes.toString("utf8"));
+const transferTicketFixture = con09Fixture.transferTicket;
+const syncTransferVectors = con09Fixture.syncTransferVectors;
+const expectedSyncTransferVectors = [
+  {
+    id: "con09-sync-stale-revision-preserves-conflict-proposal",
+    evidenceClass: "declarative-owner-runtime-vector-not-executed-by-con09",
+    operation: "sync.pushChange",
+    given: {
+      baseRevision: "17",
+      currentRevision: "18",
+      proposalHash: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },
+    expect: { result: "revision-conflict", proposalPreserved: true, ownerMutation: false },
+  },
+  {
+    id: "con09-resource-absent-hash-never-promotes",
+    evidenceClass: "declarative-owner-runtime-vector-not-executed-by-con09",
+    operation: "resource.completeUpload",
+    given: { expectedContentHash: null, allPartsPresent: true },
+    expect: { verified: false, ownerPinCreated: false },
+  },
+  {
+    id: "con09-resource-expired-pin-blocks-adoption",
+    evidenceClass: "declarative-owner-runtime-vector-not-executed-by-con09",
+    ownerBoundary: "verified-resource adoption",
+    given: { pinExpired: true, contentHashPresent: true },
+    expect: { ownerAdoption: false, verifiedObjectRetained: true },
+  },
+  {
+    id: "con09-transfer-exclusions-are-per-root-issues",
+    evidenceClass: "declarative-owner-runtime-vector-not-executed-by-con09",
+    operation: "transfer.requestExport",
+    given: {
+      includedRoots: ["conversation", "memory", "scopeSession"],
+      excludedAuthority: [
+        "credentials",
+        "deviceTrust",
+        "activeExecution",
+        "policy",
+        "deletionTombstones",
+      ],
+    },
+    expect: {
+      manifestRootsContainOnlyIncludedRoots: true,
+      exclusionsUseTransferJobIssues: true,
+      inventedExcludedRootsField: false,
+    },
+  },
+  {
+    id: "con09-transfer-resume-uses-bounded-root-mappings",
+    evidenceClass: "declarative-owner-runtime-vector-not-executed-by-con09",
+    operation: "transfer.commitImport",
+    given: {
+      requestRootLimit: 100,
+      committedRoots: 1,
+      totalRoots: 2,
+      mappings: ["committed", "planned"],
+      previewHashBound: true,
+    },
+    expect: {
+      resumeUsesSameTargetIds: true,
+      dependentRootsRemainHiddenUntilCommitted: true,
+      workspaceWideAtomicityClaim: false,
+    },
+  },
+];
+assert.equal(
+  syncTransferVectors.length,
+  expectedSyncTransferVectors.length,
+  "All declarative CON.09 vectors are present",
+);
+const syncTransferVectorById = new Map();
+for (const vector of syncTransferVectors) {
+  assert.ok(!syncTransferVectorById.has(vector.id), `Duplicate declarative vector ${vector.id}`);
+  syncTransferVectorById.set(vector.id, vector);
+}
+assert.deepEqual(
+  [...syncTransferVectorById.keys()].sort(),
+  expectedSyncTransferVectors.map(({ id }) => id).sort(),
+  "Only the five authorized declarative CON.09 vectors are present",
+);
+for (const expected of expectedSyncTransferVectors) {
+  assert.deepEqual(
+    syncTransferVectorById.get(expected.id),
+    expected,
+    `${expected.id}: exact declarative binding, shape, and expected disposition`,
+  );
+}
 for (const [name, sample] of Object.entries(descriptorFixture.samples)) {
   assert.ok(!Object.hasOwn(fixture.samples, name), `Duplicate independent fixture ${name}`);
   fixture.samples[name] = sample;
 }
 fixture.cases.push(...descriptorFixture.cases);
 fixture.foundationTypes.push(...descriptorFixture.foundationTypes);
-assert.ok(!Object.hasOwn(fixture.samples, "TransferTicket"), "Duplicate independent fixture TransferTicket");
+assert.ok(
+  !Object.hasOwn(fixture.samples, "TransferTicket"),
+  "Duplicate independent fixture TransferTicket",
+);
 fixture.samples.TransferTicket = transferTicketFixture.sample;
 fixture.cases.push(...transferTicketFixture.cases);
 fixture.foundationTypes.push("TransferTicket");

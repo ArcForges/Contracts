@@ -76,7 +76,15 @@ public  final class TransferTicket extends
   public static final int URL_FIELD_NUMBER = 2;
   private java.lang.String url_;
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
+   * @return Whether the url field is set.
+   */
+  @java.lang.Override
+  public boolean hasUrl() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>optional string url = 2 [json_name = "url"];</code>
    * @return The url.
    */
   @java.lang.Override
@@ -84,7 +92,7 @@ public  final class TransferTicket extends
     return url_;
   }
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
    * @return The bytes for url.
    */
   @java.lang.Override
@@ -93,32 +101,32 @@ public  final class TransferTicket extends
     return com.google.protobuf.ByteString.copyFromUtf8(url_);
   }
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
    * @param value The url to set.
    */
   @java.lang.SuppressWarnings("ReturnValueIgnored")
   private void setUrl(
       java.lang.String value) {
     value.getClass();  // minimal bytecode null check
-
+    bitField0_ |= 0x00000002;
     url_ = value;
   }
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
    */
   private void clearUrl() {
-
+    bitField0_ = (bitField0_ & ~0x00000002);
     url_ = getDefaultInstance().getUrl();
   }
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
    * @param value The bytes for url to set.
    */
   private void setUrlBytes(
       com.google.protobuf.ByteString value) {
     checkByteStringIsUtf8(value);
     url_ = value.toStringUtf8();
-
+    bitField0_ |= 0x00000002;
   }
 
   public static final int EXPIRES_AT_FIELD_NUMBER = 3;
@@ -128,7 +136,7 @@ public  final class TransferTicket extends
    */
   @java.lang.Override
   public boolean hasExpiresAt() {
-    return ((bitField0_ & 0x00000002) != 0);
+    return ((bitField0_ & 0x00000004) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"];</code>
@@ -144,7 +152,7 @@ public  final class TransferTicket extends
   private void setExpiresAt(io.github.arcforges.contracts.foundation.v1.Instant value) {
     value.getClass();  // minimal bytecode null check
     expiresAt_ = value;
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
   }
   /**
    * <code>.arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"];</code>
@@ -159,14 +167,14 @@ public  final class TransferTicket extends
     } else {
       expiresAt_ = value;
     }
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
   }
   /**
    * <code>.arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"];</code>
    */
   private void clearExpiresAt() {
     expiresAt_ = null;
-    bitField0_ = (bitField0_ & ~0x00000002);
+    bitField0_ = (bitField0_ & ~0x00000004);
   }
 
   public static final int RESOURCE_ID_FIELD_NUMBER = 4;
@@ -176,7 +184,7 @@ public  final class TransferTicket extends
    */
   @java.lang.Override
   public boolean hasResourceId() {
-    return ((bitField0_ & 0x00000004) != 0);
+    return ((bitField0_ & 0x00000008) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.Id resource_id = 4 [json_name = "resourceId"];</code>
@@ -192,7 +200,7 @@ public  final class TransferTicket extends
   private void setResourceId(io.github.arcforges.contracts.foundation.v1.Id value) {
     value.getClass();  // minimal bytecode null check
     resourceId_ = value;
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.foundation.v1.Id resource_id = 4 [json_name = "resourceId"];</code>
@@ -207,14 +215,14 @@ public  final class TransferTicket extends
     } else {
       resourceId_ = value;
     }
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.foundation.v1.Id resource_id = 4 [json_name = "resourceId"];</code>
    */
   private void clearResourceId() {
     resourceId_ = null;
-    bitField0_ = (bitField0_ & ~0x00000004);
+    bitField0_ = (bitField0_ & ~0x00000008);
   }
 
   public static final int RANGE_FIELD_NUMBER = 5;
@@ -224,7 +232,7 @@ public  final class TransferTicket extends
    */
   @java.lang.Override
   public boolean hasRange() {
-    return ((bitField0_ & 0x00000008) != 0);
+    return ((bitField0_ & 0x00000010) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.ByteRange range = 5 [json_name = "range"];</code>
@@ -240,7 +248,7 @@ public  final class TransferTicket extends
   private void setRange(io.github.arcforges.contracts.foundation.v1.ByteRange value) {
     value.getClass();  // minimal bytecode null check
     range_ = value;
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
   }
   /**
    * <code>.arcforges.foundation.v1.ByteRange range = 5 [json_name = "range"];</code>
@@ -255,20 +263,28 @@ public  final class TransferTicket extends
     } else {
       range_ = value;
     }
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
   }
   /**
    * <code>.arcforges.foundation.v1.ByteRange range = 5 [json_name = "range"];</code>
    */
   private void clearRange() {
     range_ = null;
-    bitField0_ = (bitField0_ & ~0x00000008);
+    bitField0_ = (bitField0_ & ~0x00000010);
   }
 
   public static final int MAX_PART_BYTES_FIELD_NUMBER = 6;
   private int maxPartBytes_;
   /**
-   * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+   * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+   * @return Whether the maxPartBytes field is set.
+   */
+  @java.lang.Override
+  public boolean hasMaxPartBytes() {
+    return ((bitField0_ & 0x00000020) != 0);
+  }
+  /**
+   * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
    * @return The maxPartBytes.
    */
   @java.lang.Override
@@ -276,18 +292,18 @@ public  final class TransferTicket extends
     return maxPartBytes_;
   }
   /**
-   * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+   * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
    * @param value The maxPartBytes to set.
    */
   private void setMaxPartBytes(int value) {
-
+    bitField0_ |= 0x00000020;
     maxPartBytes_ = value;
   }
   /**
-   * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+   * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
    */
   private void clearMaxPartBytes() {
-
+    bitField0_ = (bitField0_ & ~0x00000020);
     maxPartBytes_ = 0;
   }
 
@@ -441,7 +457,15 @@ public  final class TransferTicket extends
     }
 
     /**
-     * <code>string url = 2 [json_name = "url"];</code>
+     * <code>optional string url = 2 [json_name = "url"];</code>
+     * @return Whether the url field is set.
+     */
+    @java.lang.Override
+    public boolean hasUrl() {
+      return instance.hasUrl();
+    }
+    /**
+     * <code>optional string url = 2 [json_name = "url"];</code>
      * @return The url.
      */
     @java.lang.Override
@@ -449,7 +473,7 @@ public  final class TransferTicket extends
       return instance.getUrl();
     }
     /**
-     * <code>string url = 2 [json_name = "url"];</code>
+     * <code>optional string url = 2 [json_name = "url"];</code>
      * @return The bytes for url.
      */
     @java.lang.Override
@@ -458,7 +482,7 @@ public  final class TransferTicket extends
       return instance.getUrlBytes();
     }
     /**
-     * <code>string url = 2 [json_name = "url"];</code>
+     * <code>optional string url = 2 [json_name = "url"];</code>
      * @param value The url to set.
      * @return This builder for chaining.
      */
@@ -469,7 +493,7 @@ public  final class TransferTicket extends
       return this;
     }
     /**
-     * <code>string url = 2 [json_name = "url"];</code>
+     * <code>optional string url = 2 [json_name = "url"];</code>
      * @return This builder for chaining.
      */
     public Builder clearUrl() {
@@ -478,7 +502,7 @@ public  final class TransferTicket extends
       return this;
     }
     /**
-     * <code>string url = 2 [json_name = "url"];</code>
+     * <code>optional string url = 2 [json_name = "url"];</code>
      * @param value The bytes for url to set.
      * @return This builder for chaining.
      */
@@ -631,7 +655,15 @@ public  final class TransferTicket extends
     }
 
     /**
-     * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+     * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+     * @return Whether the maxPartBytes field is set.
+     */
+    @java.lang.Override
+    public boolean hasMaxPartBytes() {
+      return instance.hasMaxPartBytes();
+    }
+    /**
+     * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
      * @return The maxPartBytes.
      */
     @java.lang.Override
@@ -639,7 +671,7 @@ public  final class TransferTicket extends
       return instance.getMaxPartBytes();
     }
     /**
-     * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+     * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
      * @param value The maxPartBytes to set.
      * @return This builder for chaining.
      */
@@ -649,7 +681,7 @@ public  final class TransferTicket extends
       return this;
     }
     /**
-     * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+     * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
      * @return This builder for chaining.
      */
     public Builder clearMaxPartBytes() {
@@ -684,7 +716,8 @@ public  final class TransferTicket extends
           };
           java.lang.String info =
               "\u0000\u0006\u0000\u0001\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
-              "\u0208\u0003\u1009\u0001\u0004\u1009\u0002\u0005\u1009\u0003\u0006\u000b";
+              "\u1208\u0001\u0003\u1009\u0002\u0004\u1009\u0003\u0005\u1009\u0004\u0006\u100b\u0005" +
+              "";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

@@ -24,12 +24,17 @@ public interface TransferTicketOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.Id getTicketId();
 
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
+   * @return Whether the url field is set.
+   */
+  boolean hasUrl();
+  /**
+   * <code>optional string url = 2 [json_name = "url"];</code>
    * @return The url.
    */
   java.lang.String getUrl();
   /**
-   * <code>string url = 2 [json_name = "url"];</code>
+   * <code>optional string url = 2 [json_name = "url"];</code>
    * @return The bytes for url.
    */
   com.google.protobuf.ByteString
@@ -69,7 +74,12 @@ public interface TransferTicketOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.ByteRange getRange();
 
   /**
-   * <code>uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+   * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
+   * @return Whether the maxPartBytes field is set.
+   */
+  boolean hasMaxPartBytes();
+  /**
+   * <code>optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];</code>
    * @return The maxPartBytes.
    */
   int getMaxPartBytes();

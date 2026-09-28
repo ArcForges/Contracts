@@ -64,7 +64,7 @@ public object TransferTicketKt {
       get() = _builder.ticketIdOrNull
 
     /**
-     * `string url = 2 [json_name = "url"];`
+     * `optional string url = 2 [json_name = "url"];`
      */
     public var url: kotlin.String
       @kotlin.jvm.JvmName("getUrl")
@@ -74,10 +74,17 @@ public object TransferTicketKt {
         _builder.url = value
       }
     /**
-     * `string url = 2 [json_name = "url"];`
+     * `optional string url = 2 [json_name = "url"];`
      */
     public fun clearUrl() {
       _builder.clearUrl()
+    }
+    /**
+     * `optional string url = 2 [json_name = "url"];`
+     * @return Whether the url field is set.
+     */
+    public fun hasUrl(): kotlin.Boolean {
+      return _builder.hasUrl()
     }
 
     /**
@@ -162,7 +169,7 @@ public object TransferTicketKt {
       get() = _builder.rangeOrNull
 
     /**
-     * `uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];`
+     * `optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];`
      */
     public var maxPartBytes: kotlin.Int
       @kotlin.jvm.JvmName("getMaxPartBytes")
@@ -172,10 +179,17 @@ public object TransferTicketKt {
         _builder.maxPartBytes = value
       }
     /**
-     * `uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];`
+     * `optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];`
      */
     public fun clearMaxPartBytes() {
       _builder.clearMaxPartBytes()
+    }
+    /**
+     * `optional uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];`
+     * @return Whether the maxPartBytes field is set.
+     */
+    public fun hasMaxPartBytes(): kotlin.Boolean {
+      return _builder.hasMaxPartBytes()
     }
   }
 }

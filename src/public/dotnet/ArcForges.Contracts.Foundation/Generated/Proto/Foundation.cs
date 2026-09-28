@@ -276,54 +276,55 @@ namespace ArcForges.Contracts.Foundation.V1 {
             "aGFzaEoECAQQBVIFbG9jYWwifAoMVGltZVJhbmdlVXRjEjQKBGZyb20YASAB",
             "KAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50UgRmcm9tEjYK",
             "BXVudGlsGAIgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFu",
-            "dFIFdW50aWwiuwIKDlRyYW5zZmVyVGlja2V0EjgKCXRpY2tldF9pZBgBIAEo",
-            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgh0aWNrZXRJZBIQCgN1",
-            "cmwYAiABKAlSA3VybBI/CgpleHBpcmVzX2F0GAMgASgLMiAuYXJjZm9yZ2Vz",
-            "LmZvdW5kYXRpb24udjEuSW5zdGFudFIJZXhwaXJlc0F0EjwKC3Jlc291cmNl",
-            "X2lkGAQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSCnJlc291",
-            "cmNlSWQSOAoFcmFuZ2UYBSABKAsyIi5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
-            "MS5CeXRlUmFuZ2VSBXJhbmdlEiQKDm1heF9wYXJ0X2J5dGVzGAYgASgNUgxt",
-            "YXhQYXJ0Qnl0ZXMqYAoMVG9vbExvY2FsaXR5Eh0KGVRPT0xfTE9DQUxJVFlf",
-            "VU5TUEVDSUZJRUQQABIXChNUT09MX0xPQ0FMSVRZX0NMT1VEEAESGAoUVE9P",
-            "TF9MT0NBTElUWV9ERVZJQ0UQAiqEAQoORXhlY3V0aW9uTG9jdXMSHwobRVhF",
-            "Q1VUSU9OX0xPQ1VTX1VOU1BFQ0lGSUVEEAASGQoVRVhFQ1VUSU9OX0xPQ1VT",
-            "X0NMT1VEEAESGgoWRVhFQ1VUSU9OX0xPQ1VTX0RFVklDRRACEhoKFkVYRUNV",
-            "VElPTl9MT0NVU19FSVRIRVIQAyqeAQoKRWZmZWN0S2luZBIbChdFRkZFQ1Rf",
-            "S0lORF9VTlNQRUNJRklFRBAAEhkKFUVGRkVDVF9LSU5EX1BVUkVfUkVBRBAB",
-            "EhsKF0VGRkVDVF9LSU5EX0xPQ0FMX1dSSVRFEAISGwoXRUZGRUNUX0tJTkRf",
-            "Q0xPVURfV1JJVEUQAxIeChpFRkZFQ1RfS0lORF9FWFRFUk5BTF9XUklURRAE",
-            "KoMCCg9CaW5kaW5nUHJvdG9jb2wSIAocQklORElOR19QUk9UT0NPTF9VTlNQ",
-            "RUNJRklFRBAAEiAKHEJJTkRJTkdfUFJPVE9DT0xfUFVCTElDX0dSUEMQARIf",
-            "ChtCSU5ESU5HX1BST1RPQ09MX0xPQ0FMX0dSUEMQAhIjCh9CSU5ESU5HX1BS",
-            "T1RPQ09MX0VYVEVOU0lPTl9HUlBDEAMSIgoeQklORElOR19QUk9UT0NPTF9Q",
-            "Uk9WSURFUl9IVFRQEAQSIQodQklORElOR19QUk9UT0NPTF9NQUNISU5FX1RP",
-            "T0wQBRIfChtCSU5ESU5HX1BST1RPQ09MX0lOX1BST0NFU1MQBiqiAQoOSW5z",
-            "dGFuY2VIZWFsdGgSHwobSU5TVEFOQ0VfSEVBTFRIX1VOU1BFQ0lGSUVEEAAS",
-            "GQoVSU5TVEFOQ0VfSEVBTFRIX1JFQURZEAESGAoUSU5TVEFOQ0VfSEVBTFRI",
-            "X0JVU1kQAhIcChhJTlNUQU5DRV9IRUFMVEhfREVHUkFERUQQAxIcChhJTlNU",
-            "QU5DRV9IRUFMVEhfRFJBSU5JTkcQBCqVAQoPRWZmZWN0Q2VydGFpbnR5EiAK",
-            "HEVGRkVDVF9DRVJUQUlOVFlfVU5TUEVDSUZJRUQQABIjCh9FRkZFQ1RfQ0VS",
-            "VEFJTlRZX0RJRF9OT1RfSEFQUEVOEAESHQoZRUZGRUNUX0NFUlRBSU5UWV9I",
-            "QVBQRU5FRBACEhwKGEVGRkVDVF9DRVJUQUlOVFlfVU5LTk9XThADKo8BCglS",
-            "ZXRyeU1vZGUSGgoWUkVUUllfTU9ERV9VTlNQRUNJRklFRBAAEhQKEFJFVFJZ",
-            "X01PREVfTkVWRVIQARIbChdSRVRSWV9NT0RFX1NBTUVfQ09NTUFORBACEhkK",
-            "FVJFVFJZX01PREVfQUZURVJfVElNRRADEhgKFFJFVFJZX01PREVfUkVDT05D",
-            "SUxFEAQqwgIKDUVycm9yQ2F0ZWdvcnkSHgoaRVJST1JfQ0FURUdPUllfVU5T",
-            "UEVDSUZJRUQQABIdChlFUlJPUl9DQVRFR09SWV9WQUxJREFUSU9OEAESIQod",
-            "RVJST1JfQ0FURUdPUllfQVVUSEVOVElDQVRJT04QAhIgChxFUlJPUl9DQVRF",
-            "R09SWV9BVVRIT1JJWkFUSU9OEAMSHgoaRVJST1JfQ0FURUdPUllfRU5USVRM",
-            "RU1FTlQQBBIbChdFUlJPUl9DQVRFR09SWV9DT05GTElDVBAFEhgKFEVSUk9S",
-            "X0NBVEVHT1JZX1NUQVRFEAYSGwoXRVJST1JfQ0FURUdPUllfUkVTT1VSQ0UQ",
-            "BxIcChhFUlJPUl9DQVRFR09SWV9FWEVDVVRJT04QCBIbChdFUlJPUl9DQVRF",
-            "R09SWV9JTlRFUk5BTBAJKogCChRSZXNvdXJjZUF2YWlsYWJpbGl0eRIlCiFS",
-            "RVNPVVJDRV9BVkFJTEFCSUxJVFlfVU5TUEVDSUZJRUQQABIlCiFSRVNPVVJD",
-            "RV9BVkFJTEFCSUxJVFlfQUxXQVlTX0tFRVAQARIrCidSRVNPVVJDRV9BVkFJ",
-            "TEFCSUxJVFlfQVZBSUxBQkxFX09GRkxJTkUQAhIjCh9SRVNPVVJDRV9BVkFJ",
-            "TEFCSUxJVFlfT05fREVNQU5EEAMSJAogUkVTT1VSQ0VfQVZBSUxBQklMSVRZ",
-            "X0NMT1VEX09OTFkQBBIqCiZSRVNPVVJDRV9BVkFJTEFCSUxJVFlfTUlTU0lO",
-            "R19FWFRFUk5BTBAFQmQKK2lvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3Rz",
-            "LmZvdW5kYXRpb24udjFCD0ZvdW5kYXRpb25Qcm90b1ABqgIhQXJjRm9yZ2Vz",
-            "LkNvbnRyYWN0cy5Gb3VuZGF0aW9uLlYxYgZwcm90bzM="));
+            "dFIFdW50aWwi4AIKDlRyYW5zZmVyVGlja2V0EjgKCXRpY2tldF9pZBgBIAEo",
+            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgh0aWNrZXRJZBIVCgN1",
+            "cmwYAiABKAlIAFIDdXJsiAEBEj8KCmV4cGlyZXNfYXQYAyABKAsyIC5hcmNm",
+            "b3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50UglleHBpcmVzQXQSPAoLcmVz",
+            "b3VyY2VfaWQYBCABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIK",
+            "cmVzb3VyY2VJZBI4CgVyYW5nZRgFIAEoCzIiLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLkJ5dGVSYW5nZVIFcmFuZ2USKQoObWF4X3BhcnRfYnl0ZXMYBiAB",
+            "KA1IAVIMbWF4UGFydEJ5dGVziAEBQgYKBF91cmxCEQoPX21heF9wYXJ0X2J5",
+            "dGVzKmAKDFRvb2xMb2NhbGl0eRIdChlUT09MX0xPQ0FMSVRZX1VOU1BFQ0lG",
+            "SUVEEAASFwoTVE9PTF9MT0NBTElUWV9DTE9VRBABEhgKFFRPT0xfTE9DQUxJ",
+            "VFlfREVWSUNFEAIqhAEKDkV4ZWN1dGlvbkxvY3VzEh8KG0VYRUNVVElPTl9M",
+            "T0NVU19VTlNQRUNJRklFRBAAEhkKFUVYRUNVVElPTl9MT0NVU19DTE9VRBAB",
+            "EhoKFkVYRUNVVElPTl9MT0NVU19ERVZJQ0UQAhIaChZFWEVDVVRJT05fTE9D",
+            "VVNfRUlUSEVSEAMqngEKCkVmZmVjdEtpbmQSGwoXRUZGRUNUX0tJTkRfVU5T",
+            "UEVDSUZJRUQQABIZChVFRkZFQ1RfS0lORF9QVVJFX1JFQUQQARIbChdFRkZF",
+            "Q1RfS0lORF9MT0NBTF9XUklURRACEhsKF0VGRkVDVF9LSU5EX0NMT1VEX1dS",
+            "SVRFEAMSHgoaRUZGRUNUX0tJTkRfRVhURVJOQUxfV1JJVEUQBCqDAgoPQmlu",
+            "ZGluZ1Byb3RvY29sEiAKHEJJTkRJTkdfUFJPVE9DT0xfVU5TUEVDSUZJRUQQ",
+            "ABIgChxCSU5ESU5HX1BST1RPQ09MX1BVQkxJQ19HUlBDEAESHwobQklORElO",
+            "R19QUk9UT0NPTF9MT0NBTF9HUlBDEAISIwofQklORElOR19QUk9UT0NPTF9F",
+            "WFRFTlNJT05fR1JQQxADEiIKHkJJTkRJTkdfUFJPVE9DT0xfUFJPVklERVJf",
+            "SFRUUBAEEiEKHUJJTkRJTkdfUFJPVE9DT0xfTUFDSElORV9UT09MEAUSHwob",
+            "QklORElOR19QUk9UT0NPTF9JTl9QUk9DRVNTEAYqogEKDkluc3RhbmNlSGVh",
+            "bHRoEh8KG0lOU1RBTkNFX0hFQUxUSF9VTlNQRUNJRklFRBAAEhkKFUlOU1RB",
+            "TkNFX0hFQUxUSF9SRUFEWRABEhgKFElOU1RBTkNFX0hFQUxUSF9CVVNZEAIS",
+            "HAoYSU5TVEFOQ0VfSEVBTFRIX0RFR1JBREVEEAMSHAoYSU5TVEFOQ0VfSEVB",
+            "TFRIX0RSQUlOSU5HEAQqlQEKD0VmZmVjdENlcnRhaW50eRIgChxFRkZFQ1Rf",
+            "Q0VSVEFJTlRZX1VOU1BFQ0lGSUVEEAASIwofRUZGRUNUX0NFUlRBSU5UWV9E",
+            "SURfTk9UX0hBUFBFThABEh0KGUVGRkVDVF9DRVJUQUlOVFlfSEFQUEVORUQQ",
+            "AhIcChhFRkZFQ1RfQ0VSVEFJTlRZX1VOS05PV04QAyqPAQoJUmV0cnlNb2Rl",
+            "EhoKFlJFVFJZX01PREVfVU5TUEVDSUZJRUQQABIUChBSRVRSWV9NT0RFX05F",
+            "VkVSEAESGwoXUkVUUllfTU9ERV9TQU1FX0NPTU1BTkQQAhIZChVSRVRSWV9N",
+            "T0RFX0FGVEVSX1RJTUUQAxIYChRSRVRSWV9NT0RFX1JFQ09OQ0lMRRAEKsIC",
+            "Cg1FcnJvckNhdGVnb3J5Eh4KGkVSUk9SX0NBVEVHT1JZX1VOU1BFQ0lGSUVE",
+            "EAASHQoZRVJST1JfQ0FURUdPUllfVkFMSURBVElPThABEiEKHUVSUk9SX0NB",
+            "VEVHT1JZX0FVVEhFTlRJQ0FUSU9OEAISIAocRVJST1JfQ0FURUdPUllfQVVU",
+            "SE9SSVpBVElPThADEh4KGkVSUk9SX0NBVEVHT1JZX0VOVElUTEVNRU5UEAQS",
+            "GwoXRVJST1JfQ0FURUdPUllfQ09ORkxJQ1QQBRIYChRFUlJPUl9DQVRFR09S",
+            "WV9TVEFURRAGEhsKF0VSUk9SX0NBVEVHT1JZX1JFU09VUkNFEAcSHAoYRVJS",
+            "T1JfQ0FURUdPUllfRVhFQ1VUSU9OEAgSGwoXRVJST1JfQ0FURUdPUllfSU5U",
+            "RVJOQUwQCSqIAgoUUmVzb3VyY2VBdmFpbGFiaWxpdHkSJQohUkVTT1VSQ0Vf",
+            "QVZBSUxBQklMSVRZX1VOU1BFQ0lGSUVEEAASJQohUkVTT1VSQ0VfQVZBSUxB",
+            "QklMSVRZX0FMV0FZU19LRUVQEAESKwonUkVTT1VSQ0VfQVZBSUxBQklMSVRZ",
+            "X0FWQUlMQUJMRV9PRkZMSU5FEAISIwofUkVTT1VSQ0VfQVZBSUxBQklMSVRZ",
+            "X09OX0RFTUFORBADEiQKIFJFU09VUkNFX0FWQUlMQUJJTElUWV9DTE9VRF9P",
+            "TkxZEAQSKgomUkVTT1VSQ0VfQVZBSUxBQklMSVRZX01JU1NJTkdfRVhURVJO",
+            "QUwQBUJkCitpby5naXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5mb3VuZGF0",
+            "aW9uLnYxQg9Gb3VuZGF0aW9uUHJvdG9QAaoCIUFyY0Zvcmdlcy5Db250cmFj",
+            "dHMuRm91bmRhdGlvbi5WMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Foundation.V1.ToolLocality), typeof(global::ArcForges.Contracts.Foundation.V1.ExecutionLocus), typeof(global::ArcForges.Contracts.Foundation.V1.EffectKind), typeof(global::ArcForges.Contracts.Foundation.V1.BindingProtocol), typeof(global::ArcForges.Contracts.Foundation.V1.InstanceHealth), typeof(global::ArcForges.Contracts.Foundation.V1.EffectCertainty), typeof(global::ArcForges.Contracts.Foundation.V1.RetryMode), typeof(global::ArcForges.Contracts.Foundation.V1.ErrorCategory), typeof(global::ArcForges.Contracts.Foundation.V1.ResourceAvailability), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -370,7 +371,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.ResourceRef), global::ArcForges.Contracts.Foundation.V1.ResourceRef.Parser, new[]{ "RealmId", "WorkspaceId", "OwnerAppId", "ResourceKind", "ResourceId", "DisplayHint", "Availability", "HoldingDeviceId" }, new[]{ "OwnerAppId", "ResourceKind", "DisplayHint", "Availability" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.ResourceVersionRef), global::ArcForges.Contracts.Foundation.V1.ResourceVersionRef.Parser, new[]{ "Resource", "ContentHash", "Blob", "Cloud", "Native" }, new[]{ "Revision", "ContentHash" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc), global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc.Parser, new[]{ "From", "Until" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.TransferTicket), global::ArcForges.Contracts.Foundation.V1.TransferTicket.Parser, new[]{ "TicketId", "Url", "ExpiresAt", "ResourceId", "Range", "MaxPartBytes" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.TransferTicket), global::ArcForges.Contracts.Foundation.V1.TransferTicket.Parser, new[]{ "TicketId", "Url", "ExpiresAt", "ResourceId", "Range", "MaxPartBytes" }, new[]{ "Url", "MaxPartBytes" }, null, null, null)
           }));
     }
     #endregion
@@ -15903,6 +15904,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
   {
     private static readonly pb::MessageParser<TransferTicket> _parser = new pb::MessageParser<TransferTicket>(() => new TransferTicket());
     private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pb::MessageParser<TransferTicket> Parser { get { return _parser; } }
@@ -15930,6 +15932,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public TransferTicket(TransferTicket other) : this() {
+      _hasBits0 = other._hasBits0;
       ticketId_ = other.ticketId_ != null ? other.ticketId_.Clone() : null;
       url_ = other.url_;
       expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
@@ -15959,14 +15962,28 @@ namespace ArcForges.Contracts.Foundation.V1 {
 
     /// <summary>Field number for the "url" field.</summary>
     public const int UrlFieldNumber = 2;
-    private string url_ = "";
+    private readonly static string UrlDefaultValue = "";
+
+    private string url_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Url {
-      get { return url_; }
+      get { return url_ ?? UrlDefaultValue; }
       set {
         url_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
+    }
+    /// <summary>Gets whether the "url" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasUrl {
+      get { return url_ != null; }
+    }
+    /// <summary>Clears the value of the "url" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearUrl() {
+      url_ = null;
     }
 
     /// <summary>Field number for the "expires_at" field.</summary>
@@ -16007,14 +16024,29 @@ namespace ArcForges.Contracts.Foundation.V1 {
 
     /// <summary>Field number for the "max_part_bytes" field.</summary>
     public const int MaxPartBytesFieldNumber = 6;
+    private readonly static uint MaxPartBytesDefaultValue = 0;
+
     private uint maxPartBytes_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public uint MaxPartBytes {
-      get { return maxPartBytes_; }
+      get { if ((_hasBits0 & 1) != 0) { return maxPartBytes_; } else { return MaxPartBytesDefaultValue; } }
       set {
+        _hasBits0 |= 1;
         maxPartBytes_ = value;
       }
+    }
+    /// <summary>Gets whether the "max_part_bytes" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxPartBytes {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "max_part_bytes" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxPartBytes() {
+      _hasBits0 &= ~1;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -16046,11 +16078,11 @@ namespace ArcForges.Contracts.Foundation.V1 {
     public override int GetHashCode() {
       int hash = 1;
       if (ticketId_ != null) hash ^= TicketId.GetHashCode();
-      if (Url.Length != 0) hash ^= Url.GetHashCode();
+      if (HasUrl) hash ^= Url.GetHashCode();
       if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
       if (resourceId_ != null) hash ^= ResourceId.GetHashCode();
       if (range_ != null) hash ^= Range.GetHashCode();
-      if (MaxPartBytes != 0) hash ^= MaxPartBytes.GetHashCode();
+      if (HasMaxPartBytes) hash ^= MaxPartBytes.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -16073,7 +16105,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
         output.WriteRawTag(10);
         output.WriteMessage(TicketId);
       }
-      if (Url.Length != 0) {
+      if (HasUrl) {
         output.WriteRawTag(18);
         output.WriteString(Url);
       }
@@ -16089,7 +16121,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
         output.WriteRawTag(42);
         output.WriteMessage(Range);
       }
-      if (MaxPartBytes != 0) {
+      if (HasMaxPartBytes) {
         output.WriteRawTag(48);
         output.WriteUInt32(MaxPartBytes);
       }
@@ -16107,7 +16139,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
         output.WriteRawTag(10);
         output.WriteMessage(TicketId);
       }
-      if (Url.Length != 0) {
+      if (HasUrl) {
         output.WriteRawTag(18);
         output.WriteString(Url);
       }
@@ -16123,7 +16155,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
         output.WriteRawTag(42);
         output.WriteMessage(Range);
       }
-      if (MaxPartBytes != 0) {
+      if (HasMaxPartBytes) {
         output.WriteRawTag(48);
         output.WriteUInt32(MaxPartBytes);
       }
@@ -16140,7 +16172,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
       if (ticketId_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(TicketId);
       }
-      if (Url.Length != 0) {
+      if (HasUrl) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
       }
       if (expiresAt_ != null) {
@@ -16152,7 +16184,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
       if (range_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Range);
       }
-      if (MaxPartBytes != 0) {
+      if (HasMaxPartBytes) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxPartBytes);
       }
       if (_unknownFields != null) {
@@ -16173,7 +16205,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
         }
         TicketId.MergeFrom(other.TicketId);
       }
-      if (other.Url.Length != 0) {
+      if (other.HasUrl) {
         Url = other.Url;
       }
       if (other.expiresAt_ != null) {
@@ -16194,7 +16226,7 @@ namespace ArcForges.Contracts.Foundation.V1 {
         }
         Range.MergeFrom(other.Range);
       }
-      if (other.MaxPartBytes != 0) {
+      if (other.HasMaxPartBytes) {
         MaxPartBytes = other.MaxPartBytes;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);

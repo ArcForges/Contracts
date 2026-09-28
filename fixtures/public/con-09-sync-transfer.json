@@ -43,6 +43,13 @@
         "valid": false
       },
       {
+        "id": "con09-transfer-ticket-requires-part-limit",
+        "target": "TransferTicket",
+        "sample": "TransferTicket",
+        "remove": ["maxPartBytes"],
+        "valid": false
+      },
+      {
         "id": "con09-transfer-ticket-rejects-zero-part-limit",
         "target": "TransferTicket",
         "sample": "TransferTicket",
