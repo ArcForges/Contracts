@@ -12,5 +12,7 @@ public static class ContractServices
     [
         global::ArcForges.Contracts.Hello.V1.HelloService.Descriptor,
         global::ArcForges.Contracts.Catalog.V1.CatalogService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.EntitlementService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.CommerceService.Descriptor,
     ];
 }
