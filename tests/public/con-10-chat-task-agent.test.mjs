@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
+import { fromJson } from "@bufbuild/protobuf";
 import * as publicShapes from "../../src/public/ts/proto/dist/shapes/gen/proto.js";
 import * as chat from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/chat_pb.js";
 import * as ai from "../../src/internal/ts/ai-internal/dist/gen/http.js";
@@ -70,7 +71,10 @@ function defaultValue(original, propertyHint, depth = 0) {
       out[property] = defaultValue(node.properties[property], undefined, depth + 1);
     return out;
   }
-  if (node.type === "array") return [];
+  if (node.type === "array")
+    return Array.from({ length: node.minItems ?? 0 }, () =>
+      defaultValue(node.items, propertyHint, depth + 1),
+    );
   if (node.type === "string") return defaultString(node);
   if (node.type === "integer") return node.minimum ?? 0;
   if (node.type === "number") return node.minimum ?? 0.125;
@@ -130,8 +134,21 @@ function aiInputAtPath(vector, value) {
 test("CON.10 public chat and task shape vectors are consumed by generated validators", () => {
   for (const vector of publicFixture.contractShapeVectors) {
     const validate = publicShapes[`is${vector.shape}`];
+    const schema = chat[`${vector.shape}Schema`];
     assert.equal(typeof validate, "function", `${vector.shape} validator is generated`);
-    assert.equal(validate(vector.input), vector.valid, vector.id);
+    assert.ok(schema, `${vector.shape} protobuf schema is generated`);
+    let actual;
+    try {
+      // fromJson accepts safe JS numbers for uint64 and would erase the forbidden wire spelling.
+      const value = fromJson(schema, vector.input);
+      const hasNumericEpoch =
+        vector.shape === "ApplicationTarget" && typeof vector.input.instanceEpoch === "number";
+      if (hasNumericEpoch) value.instanceEpoch = vector.input.instanceEpoch;
+      actual = validate(value);
+    } catch {
+      actual = false;
+    }
+    assert.equal(actual, vector.valid, vector.id);
   }
 
   const journeys = new Map(publicFixture.journeyVectors.map((vector) => [vector.id, vector]));
@@ -282,11 +299,10 @@ test("14 CF port roots validate, round-trip every union branch, and reject forge
     }
   }
   for (const vector of internalFixture.negativeVectors) {
-    if (vector.input) assert.equal(ai[`is${vector.schema}`](vector.input), false, vector.id);
-    else if (vector.path) {
+    if (vector.path) {
       const input = aiInputAtPath(vector, vector.input);
       assert.equal(ai[`is${vector.schema}`](input), false, vector.id);
-    }
+    } else if (vector.input) assert.equal(ai[`is${vector.schema}`](vector.input), false, vector.id);
   }
 
   const overflowVector = internalFixture.negativeVectors.find(

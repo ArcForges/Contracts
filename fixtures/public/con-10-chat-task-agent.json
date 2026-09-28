@@ -10,8 +10,8 @@
       "valid": true,
       "input": {
         "productId": "arcscope",
-        "deviceId": "30000000-0000-4000-8000-000000000001",
-        "installationId": "30000000-0000-4000-8000-000000000002"
+        "deviceId": { "value": "ABEiM0RVZneImaq7zN3vAA==" },
+        "installationId": { "value": "ABEiM0RVZneImaq7zN3u/w==" }
       },
       "expected": "selection may omit instanceEpoch; it cannot authorize delivery, claim, or result"
     },
@@ -21,8 +21,8 @@
       "valid": true,
       "input": {
         "productId": "arcscope",
-        "deviceId": "30000000-0000-4000-8000-000000000001",
-        "installationId": "30000000-0000-4000-8000-000000000002",
+        "deviceId": { "value": "ABEiM0RVZneImaq7zN3vAA==" },
+        "installationId": { "value": "ABEiM0RVZneImaq7zN3u/w==" },
         "instanceEpoch": "18446744073709551615"
       },
       "expected": "the optional epoch is a canonical uint64 decimal string and is bound for delivery"
@@ -33,8 +33,8 @@
       "valid": false,
       "input": {
         "productId": "arcscope",
-        "deviceId": "30000000-0000-4000-8000-000000000001",
-        "installationId": "30000000-0000-4000-8000-000000000002",
+        "deviceId": { "value": "ABEiM0RVZneImaq7zN3vAA==" },
+        "installationId": { "value": "ABEiM0RVZneImaq7zN3u/w==" },
         "instanceEpoch": 7
       },
       "expected": "uint64 stays the established decimal-string JSON encoding"
@@ -45,7 +45,7 @@
       "valid": false,
       "input": {
         "productId": "arcscope",
-        "deviceId": "30000000-0000-4000-8000-000000000001"
+        "deviceId": { "value": "ABEiM0RVZneImaq7zN3vAA==" }
       },
       "expected": "productId, deviceId, and installationId are required; only instanceEpoch is optional"
     },
@@ -54,11 +54,11 @@
       "shape": "ChatTurnView",
       "valid": true,
       "input": {
-        "turnId": "10000000-0000-4000-8000-000000000010",
-        "conversationId": "10000000-0000-4000-8000-000000000011",
-        "inputMessageId": "10000000-0000-4000-8000-000000000012",
-        "state": "running",
-        "revision": "1",
+        "turnId": { "value": "ABEiM0RVZneImaq7zN3vAA==" },
+        "conversationId": { "value": "ABEiM0RVZneImaq7zN3u/w==" },
+        "inputMessageId": { "value": "ABEiM0RVZneImaq7zN3vAQ==" },
+        "state": "CHAT_TURN_STATE_RUNNING",
+        "revision": { "value": "1" },
         "temporary": false,
         "hasUnknownEffect": false
       },
@@ -69,10 +69,10 @@
       "shape": "ChatTurnView",
       "valid": false,
       "input": {
-        "turnId": "10000000-0000-4000-8000-000000000010",
-        "conversationId": "10000000-0000-4000-8000-000000000011",
-        "inputMessageId": "10000000-0000-4000-8000-000000000012",
-        "revision": "1",
+        "turnId": { "value": "ABEiM0RVZneImaq7zN3vAA==" },
+        "conversationId": { "value": "ABEiM0RVZneImaq7zN3u/w==" },
+        "inputMessageId": { "value": "ABEiM0RVZneImaq7zN3vAQ==" },
+        "revision": { "value": "1" },
         "temporary": false,
         "hasUnknownEffect": false
       },

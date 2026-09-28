@@ -420,7 +420,8 @@
     },
     {
       "id": "tool-result-rejects-success-and-error",
-      "schema": "ToolResult",
+      "schema": "AiCloudToolResponse",
+      "path": "result",
       "valid": false,
       "input": {
         "invocationId": "40000000-0000-4000-8000-000000000111",
@@ -443,7 +444,8 @@
     },
     {
       "id": "structured-value-rejects-multiple-oneof-members",
-      "schema": "StructuredValue",
+      "schema": "AiModelOutcomeRequest",
+      "path": "parts[].toolProposal.arguments.value",
       "valid": false,
       "input": { "number": 0.125, "text": "not-a-second-variant" },
       "expected": "exactly one typed value branch"
