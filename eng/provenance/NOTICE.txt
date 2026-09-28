@@ -20,8 +20,8 @@ Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
-contract-bindings-con-13-r1
-Source: https://github.com/ArcForges/Contracts @ 55db2726091d5b7183d1ae611ec07df2c0b658dd
+contract-bindings-con06-r1
+Source: https://github.com/ArcForges/Contracts @ 1e0b868f78b474dc1267917022786436f6b42bd7
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -158,7 +158,7 @@ Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-dokka-documentation-resources-r10
+dokka-documentation-resources-r11
 Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
 Material licence: Apache-2.0 AND MIT
 Notice scope: documentation

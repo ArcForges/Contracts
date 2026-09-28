@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-09-27",
+  "reviewedOn": "2026-09-28",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "55db2726091d5b7183d1ae611ec07df2c0b658dd",
+  "sourceCommit": "1e0b868f78b474dc1267917022786436f6b42bd7",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
       "access": "internal",
-      "sha256": "3e9c76af5aefc63c78d21609e09d7106cf809f8e271d2382c3f0c15cdb4cd519"
+      "sha256": "4d77656ed1a31141706328e69bd7050a9e426b0460cd97890838eecfb021f6f6"
+    },
+    {
+      "path": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal",
+      "sha256": "485be994a178fee8fb323dc58f5903a83b4f098ee5c8b658872e29b1cf439e2a"
     },
     {
       "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
@@ -27,7 +32,7 @@
     {
       "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
       "access": "internal",
-      "sha256": "027b0f72e1d1285fa3b2fcc13130400f8e8f0e801601485fef63e7a102b014c4"
+      "sha256": "387e6924688cc7f343a3273618549451784e5a9384a44150ca7d7fa23ab22219"
     },
     {
       "path": "internal/proto/arcforges/operator/v1/operator.proto",
@@ -68,6 +73,11 @@
       "path": "public/proto/arcforges/publicapi/v1/descriptors.proto",
       "access": "public",
       "sha256": "d8a43c27fd345d55786a67ce9776efa0b4bc089f57361c3e532dd1b5f9326161"
+    },
+    {
+      "path": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public",
+      "sha256": "24921ae4f54f48800ea1201a9eee27a4e23a476b738cc3903665dff137a10eea"
     }
   ],
   "types": [
@@ -672,9 +682,255 @@
       "access": "public"
     },
     {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceGetConversationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceGetConversationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceGetConversationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceListConversationsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceListConversationsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceListConversationsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.local.chat.v1.ChatOperationsServiceOpenArtifactValue",
       "kind": "message",
       "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/chat/v1/chat.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceDescribeArtifactKindsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceDescribeArtifactKindsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceDescribeArtifactKindsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceOpenRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceOpenResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceOpenValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceRenderPreviewRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceRenderPreviewResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceRenderPreviewValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceResolveRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceResolveResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ArtifactHandlerServiceResolveValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceDescribeRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceDescribeResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceDescribeValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceEvaluateAvailabilityRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceEvaluateAvailabilityResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceEvaluateAvailabilityValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceInvokeRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceInvokeResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.CapabilityProviderServiceInvokeValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
       "access": "internal"
     },
     {
@@ -816,6 +1072,60 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.local.platform.v1.ContextProviderServiceDescribeContextKindsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ContextProviderServiceDescribeContextKindsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ContextProviderServiceDescribeContextKindsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ContextProviderServiceProvideContextRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ContextProviderServiceProvideContextResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ContextProviderServiceProvideContextValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.DeepLinkTargetServiceHandleDeepLinkRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.DeepLinkTargetServiceHandleDeepLinkResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.DeepLinkTargetServiceHandleDeepLinkValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.local.platform.v1.EndpointManifest",
       "kind": "message",
       "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
@@ -891,6 +1201,180 @@
       "name": "arcforges.local.platform.v1.LocalEndpoint",
       "kind": "message",
       "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalEventsServicePollRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalEventsServicePollResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalEventsServicePollValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalHint",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalTransferTicket",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.OpenIntent",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductJobRef",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServiceGetJobRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServiceGetJobResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServiceGetJobValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServiceGetStateRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServiceGetStateResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServiceGetStateValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServicePrepareForShutdownRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServicePrepareForShutdownResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductLifecycleServicePrepareForShutdownValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ProductState",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceGetMetadataRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceGetMetadataResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceGetMetadataValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceOpenReadRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceOpenReadResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceOpenReadValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceReadChunkRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceReadChunkResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceReadChunkValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceReleaseRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceReleaseResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.ResourceAccessServiceReleaseValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
       "access": "internal"
     },
     {
@@ -1248,7 +1732,325 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.local.scope.v1.AcquisitionSource",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.AnalysisRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.CaptureRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.CaptureView",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.CompareRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.CorrelationOptions",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.DecoderOptions",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.EventPatternOptions",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ReportRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCompareSessionsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCompareSessionsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCompareSessionsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateAnnotationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateAnnotationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateAnnotationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGenerateReportRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGenerateReportResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGenerateReportValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetConfigurationSnapshotRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetConfigurationSnapshotResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetConfigurationSnapshotValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetSessionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetSessionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetSessionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetStructuredContextRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetStructuredContextResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceGetStructuredContextValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceListCapturesRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceListCapturesResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceListCapturesValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceListSessionsRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceListSessionsResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceListSessionsValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceRunAnalysisRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceRunAnalysisResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceRunAnalysisValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceRunMeasurementRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceRunMeasurementResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceRunMeasurementValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceStartCaptureRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceStartCaptureResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceStartCaptureValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceStopCaptureRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceStopCaptureResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeOperationsServiceStopCaptureValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ScopeSession",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.SerialSource",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.SourceEndpoint",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.SpectrumOptions",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.ThresholdOptions",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.scope.v1.UsbSource",
       "kind": "message",
       "file": "internal/proto/arcforges/local/scope/v1/scope.proto",
       "access": "internal"
@@ -1278,6 +2080,18 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ApprovalDecision",
+      "kind": "enum",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ApprovalView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.AutomationSpec",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -1287,6 +2101,12 @@
       "name": "arcforges.publicapi.v1.AutomationView",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.Availability",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
       "access": "public"
     },
     {
@@ -1320,6 +2140,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ChatMode",
+      "kind": "enum",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.ChatProjectRecord",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -1332,9 +2158,21 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ContextContribution",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.ContextDescriptor",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/descriptors.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ContextItem",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
       "access": "public"
     },
     {
@@ -1353,6 +2191,12 @@
       "name": "arcforges.publicapi.v1.ContextRef",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ContextRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
       "access": "public"
     },
     {
@@ -1440,6 +2284,18 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.KnowledgePolicy",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.KnowledgePolicyPatch",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.MeasurementRequest",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -1518,6 +2374,18 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.PreviewRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceMetadata",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.SampleRange",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -1584,6 +2452,18 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.SourceConsentSpec",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SourcePolicyView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.StructuredValue",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -1635,6 +2515,12 @@
       "name": "arcforges.publicapi.v1.TurnInput",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TurnOptions",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
       "access": "public"
     },
     {
@@ -1838,11 +2724,56 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Chat",
+      "access": "internal",
+      "types": ["IChatOperations"],
+      "sha256": "1a58e2a386bd8052cae3b40d54244bfe3f4896dd19ee9746125eab1778327ec8",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/Proto/Chat.cs",
       "package": "ArcForges.Contracts.LocalRpc.Chat",
       "access": "internal",
-      "types": ["ChatReflection", "ChatOperationsServiceOpenArtifactValue"],
-      "sha256": "b7b35fefb991f98913d3f3586c696eb667c727c831f478338886d2f98cb5a6c6",
+      "types": [
+        "ChatReflection",
+        "ChatOperationsServiceListConversationsRequest",
+        "ChatOperationsServiceListConversationsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceListConversationsValue",
+        "ChatOperationsServiceGetConversationRequest",
+        "ChatOperationsServiceGetConversationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceGetConversationValue",
+        "ChatOperationsServiceCreateConversationRequest",
+        "ChatOperationsServiceCreateConversationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceCreateConversationValue",
+        "ChatOperationsServiceAppendUserMessageRequest",
+        "ChatOperationsServiceAppendUserMessageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceAppendUserMessageValue",
+        "ChatOperationsServiceStartAgentTurnRequest",
+        "ChatOperationsServiceStartAgentTurnResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceStartAgentTurnValue",
+        "ChatOperationsServiceSubmitApprovalRequest",
+        "ChatOperationsServiceSubmitApprovalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceSubmitApprovalValue",
+        "ChatOperationsServiceOpenArtifactRequest",
+        "ChatOperationsServiceOpenArtifactResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ChatOperationsServiceOpenArtifactValue"
+      ],
+      "sha256": "d1a1c846cb2f05cbab503373baa97363aacc23b56b915d89fc7f137f07e7c6d3",
       "kind": "generated"
     },
     {
@@ -1850,7 +2781,128 @@
       "package": "ArcForges.Contracts.LocalRpc.Chat",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "679c535bc8032fa6cf296fa7b93b338a9a33db8d6e767bf88fd21df981357d8f",
+      "sha256": "5205fea0c55735aca481b2f61fee21a80128555a8e4c54f83a969e2db42f13bf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal",
+      "types": [
+        "ICapabilityProvider",
+        "IContextProvider",
+        "IArtifactHandler",
+        "IResourceAccess",
+        "IProductLifecycle",
+        "IDeepLinkTarget",
+        "ILocalEvents"
+      ],
+      "sha256": "323cb6b921914fa10f7105675fdfb54247ad04b26b7cb65c619cd05bb6730664",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/Proto/Inprocess.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Platform",
+      "access": "internal",
+      "types": [
+        "InprocessReflection",
+        "OpenIntent",
+        "LocalTransferTicket",
+        "ProductJobRef",
+        "ProductState",
+        "LocalHint",
+        "CapabilityProviderServiceDescribeRequest",
+        "CapabilityProviderServiceDescribeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CapabilityProviderServiceDescribeValue",
+        "CapabilityProviderServiceEvaluateAvailabilityRequest",
+        "CapabilityProviderServiceEvaluateAvailabilityResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CapabilityProviderServiceEvaluateAvailabilityValue",
+        "CapabilityProviderServiceInvokeRequest",
+        "CapabilityProviderServiceInvokeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CapabilityProviderServiceInvokeValue",
+        "ContextProviderServiceDescribeContextKindsRequest",
+        "ContextProviderServiceDescribeContextKindsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContextProviderServiceDescribeContextKindsValue",
+        "ContextProviderServiceProvideContextRequest",
+        "ContextProviderServiceProvideContextResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ContextProviderServiceProvideContextValue",
+        "ArtifactHandlerServiceDescribeArtifactKindsRequest",
+        "ArtifactHandlerServiceDescribeArtifactKindsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ArtifactHandlerServiceDescribeArtifactKindsValue",
+        "ArtifactHandlerServiceResolveRequest",
+        "ArtifactHandlerServiceResolveResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ArtifactHandlerServiceResolveValue",
+        "ArtifactHandlerServiceRenderPreviewRequest",
+        "ArtifactHandlerServiceRenderPreviewResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ArtifactHandlerServiceRenderPreviewValue",
+        "ArtifactHandlerServiceOpenRequest",
+        "ArtifactHandlerServiceOpenResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ArtifactHandlerServiceOpenValue",
+        "ResourceAccessServiceGetMetadataRequest",
+        "ResourceAccessServiceGetMetadataResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceAccessServiceGetMetadataValue",
+        "ResourceAccessServiceOpenReadRequest",
+        "ResourceAccessServiceOpenReadResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceAccessServiceOpenReadValue",
+        "ResourceAccessServiceReleaseRequest",
+        "ResourceAccessServiceReleaseResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceAccessServiceReleaseValue",
+        "ResourceAccessServiceReadChunkRequest",
+        "ResourceAccessServiceReadChunkResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceAccessServiceReadChunkValue",
+        "ProductLifecycleServiceGetStateRequest",
+        "ProductLifecycleServiceGetStateResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ProductLifecycleServiceGetStateValue",
+        "ProductLifecycleServicePrepareForShutdownRequest",
+        "ProductLifecycleServicePrepareForShutdownResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ProductLifecycleServicePrepareForShutdownValue",
+        "ProductLifecycleServiceGetJobRequest",
+        "ProductLifecycleServiceGetJobResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ProductLifecycleServiceGetJobValue",
+        "DeepLinkTargetServiceHandleDeepLinkRequest",
+        "DeepLinkTargetServiceHandleDeepLinkResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "DeepLinkTargetServiceHandleDeepLinkValue",
+        "LocalEventsServicePollRequest",
+        "LocalEventsServicePollResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "LocalEventsServicePollValue"
+      ],
+      "sha256": "7ab928c6b32e644c35ab1614003a29c4130566f8651ca0098f873d21b996c247",
       "kind": "generated"
     },
     {
@@ -1947,7 +2999,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "81e13c72b24b7aa6600947493af6af7bb71bb34796bfcc84d576ee8fea0e804a",
+      "sha256": "a2295a447efd6ba662012d3d0fdcd6d80b1941dd9aed611b1cd78917115abc37",
       "kind": "generated"
     },
     {
@@ -2086,11 +3138,103 @@
       "kind": "authored"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "package": "ArcForges.Contracts.LocalRpc.Scope",
+      "access": "internal",
+      "types": ["IScopeOperations"],
+      "sha256": "4ee580aa2c4eb756a0fcca9b1098d16d4e75ecd789259e2a46f27df7be62abc5",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/Proto/Scope.cs",
       "package": "ArcForges.Contracts.LocalRpc.Scope",
       "access": "internal",
-      "types": ["ScopeReflection", "ScopeOperationsServiceCreateFindingValue"],
-      "sha256": "29352108dd58c65fcd6ae47190a90f92e7ad71a1936a48643752a5dd116b1282",
+      "types": [
+        "ScopeReflection",
+        "ScopeOperationsServiceCreateFindingValue",
+        "ScopeSession",
+        "CaptureView",
+        "AnalysisRequest",
+        "options_",
+        "OptionsOneofCase",
+        "CompareRequest",
+        "ReportRequest",
+        "CaptureRequest",
+        "AcquisitionSource",
+        "SerialSource",
+        "SourceEndpoint",
+        "UsbSource",
+        "SpectrumOptions",
+        "CorrelationOptions",
+        "ThresholdOptions",
+        "EventPatternOptions",
+        "DecoderOptions",
+        "ScopeOperationsServiceListSessionsRequest",
+        "ScopeOperationsServiceListSessionsValue",
+        "ScopeOperationsServiceListSessionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceGetSessionRequest",
+        "ScopeOperationsServiceGetSessionValue",
+        "ScopeOperationsServiceGetSessionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceListCapturesRequest",
+        "ScopeOperationsServiceListCapturesValue",
+        "ScopeOperationsServiceListCapturesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceGetConfigurationSnapshotRequest",
+        "ScopeOperationsServiceGetConfigurationSnapshotValue",
+        "ScopeOperationsServiceGetConfigurationSnapshotResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceRunMeasurementRequest",
+        "ScopeOperationsServiceRunMeasurementValue",
+        "ScopeOperationsServiceRunMeasurementResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceRunAnalysisRequest",
+        "ScopeOperationsServiceRunAnalysisValue",
+        "ScopeOperationsServiceRunAnalysisResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceCompareSessionsRequest",
+        "ScopeOperationsServiceCompareSessionsValue",
+        "ScopeOperationsServiceCompareSessionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceCreateAnnotationRequest",
+        "ScopeOperationsServiceCreateAnnotationValue",
+        "ScopeOperationsServiceCreateAnnotationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceCreateFindingRequest",
+        "ScopeOperationsServiceCreateFindingResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceGenerateReportRequest",
+        "ScopeOperationsServiceGenerateReportValue",
+        "ScopeOperationsServiceGenerateReportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceStartCaptureRequest",
+        "ScopeOperationsServiceStartCaptureValue",
+        "ScopeOperationsServiceStartCaptureResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceStopCaptureRequest",
+        "ScopeOperationsServiceStopCaptureValue",
+        "ScopeOperationsServiceStopCaptureResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeOperationsServiceGetStructuredContextRequest",
+        "ScopeOperationsServiceGetStructuredContextValue",
+        "ScopeOperationsServiceGetStructuredContextResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "9ea694656f948ddb014ad97d9a5a71ca08b348e2ec1cd751edd77b475b5eb1b7",
       "kind": "generated"
     },
     {
@@ -2098,7 +3242,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Scope",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "c035add35c4ab044e73a35d79c2175ac06ebd00ed4441e87cf3de448c163ce95",
+      "sha256": "f1b7c556c9b8162a046ed7594ecd5eb7b3ed44346f82f5d432a7c1dfcad3539b",
       "kind": "generated"
     },
     {
@@ -2519,6 +3663,32 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/InprocessValues.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "InprocessValuesReflection",
+        "ChatMode",
+        "ApprovalDecision",
+        "ContextRequest",
+        "ContextContribution",
+        "ContextItem",
+        "projection_",
+        "ProjectionOneofCase",
+        "Availability",
+        "PreviewRequest",
+        "ResourceMetadata",
+        "ApprovalView",
+        "TurnOptions",
+        "KnowledgePolicy",
+        "KnowledgePolicyPatch",
+        "SourcePolicyView",
+        "SourceConsentSpec"
+      ],
+      "sha256": "e2503398de2359efcda30496c311d4b97436f4ef8e76af551ed23d530d69bd7d",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Services/ContractServices.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -2807,7 +3977,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "1efbdafa977ff70ef33cad7a35540d54b1105c6b219b392b54fcf38725bef2b4",
+      "sha256": "0a0f20d480f169a5616fa69610608bbe6e39e70287a9119ba0d26cf7eb3be3db",
       "kind": "generated"
     },
     {
@@ -4420,6 +5590,30 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ApprovalDecision.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApprovalDecision", "ApprovalDecisionVerifier"],
+      "sha256": "0cffa148961efddd2216eeb3c4194cc8bcc1d399521b80884f3bb0d8e24bd0b9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ApprovalView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApprovalView", "Builder"],
+      "sha256": "614ca3ef30dbda92caf2490e8cea7438c2199a97f47901a326cbab1b3bfa8457",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ApprovalViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApprovalViewOrBuilder"],
+      "sha256": "6cff2ae7e05bc979f9ce686afecb3bb3cc22e9bfced9c845f44c5da386ec3d35",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AutomationSpec.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -4449,6 +5643,22 @@
       "access": "public",
       "types": ["AutomationViewOrBuilder"],
       "sha256": "beb0ecf4e6856c03fdee1769234ef3eeecfdf7236d274b9d03a6b886a0ea79fe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Availability.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Availability", "Builder"],
+      "sha256": "ed9a9e95789ad6dfb353971d40275219b0b047cf8d42c5ac15b6738a13c9de64",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AvailabilityOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AvailabilityOrBuilder"],
+      "sha256": "5d4aceaf35b47060723ed3218c768e8d65cb58488d3495946e3a15f8c3e7b1f5",
       "kind": "generated"
     },
     {
@@ -4532,6 +5742,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChatMode.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChatMode", "ChatModeVerifier"],
+      "sha256": "7f812731db488ad985d616dcd2c2372a0f4c9db0054f2d762ad09e175010ee39",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChatProjectRecord.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -4572,6 +5790,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextContribution.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextContribution", "Builder"],
+      "sha256": "31299d685eb4a5ac962a09191a5c0c8e9d2ef6939bff03f24fe909f2fdcf22f0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextContributionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextContributionOrBuilder"],
+      "sha256": "93db193f2aed3344c9ca9f8f45856bce0984acafcac319b8a0975c89ed555c2d",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextDescriptor.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -4585,6 +5819,22 @@
       "access": "public",
       "types": ["ContextDescriptorOrBuilder"],
       "sha256": "2862b406dc87e0362da08607404c204e5ff1fe0dfacaf7fef70bb2abcb71d0d8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextItem.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextItem", "ProjectionCase", "Builder"],
+      "sha256": "f5bea856e5f4d41a3336687d205046948777ecf23fc7940175b45e7c39e0a4bc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextItemOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextItemOrBuilder"],
+      "sha256": "d0fb36ac039eb1f0c63061e7a6c16f0310c5ff19963938da4a02ed713c4328d5",
       "kind": "generated"
     },
     {
@@ -4625,6 +5875,22 @@
       "access": "public",
       "types": ["ContextRefOrBuilder"],
       "sha256": "ffdc79d955b7599fde79a9ed9f8011ac1925f6b3556c1c7f68fa418346cf28e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextRequest", "Builder"],
+      "sha256": "14210375becbc4f53498b58fc531862441f1bbdc55d2ff7d20c18c7f556efd3e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ContextRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextRequestOrBuilder"],
+      "sha256": "922c5ed1ba3fa1886993b41139fcfb110c8b28c12dd288780e0c03b7e95e51fd",
       "kind": "generated"
     },
     {
@@ -4836,6 +6102,46 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/InprocessValuesProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InprocessValuesProto"],
+      "sha256": "17f8265fb74c55ed0539e4b1a16c05b1a37e8fa3735e6e787fef044b68328b5d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KnowledgePolicy.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["KnowledgePolicy", "Builder"],
+      "sha256": "e6e031081e2d29391c8a060e2f3f1ed13579ba0b72dd49b0cc5ab2528649ebe8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KnowledgePolicyOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["KnowledgePolicyOrBuilder"],
+      "sha256": "a2895d40caab91fb0b58a9188d9daa08d799724743b5c07d48e69ef7471449b6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KnowledgePolicyPatch.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["KnowledgePolicyPatch", "Builder"],
+      "sha256": "cbe21ebaca535842651cb72f6dfa6d67bbb298dacafbec19be19fdd1f1bac2fa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/KnowledgePolicyPatchOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["KnowledgePolicyPatchOrBuilder"],
+      "sha256": "e7634a0fe19cfc854635e7be04dc471e714479575661da4962188949dc9fef6f",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/MeasurementRequest.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5044,6 +6350,38 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PreviewRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PreviewRequest", "Builder"],
+      "sha256": "696fc6b820b11401fd8c50f39da10af29fb299db9e484f54884e7b27e976005e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PreviewRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PreviewRequestOrBuilder"],
+      "sha256": "eb407a764c21b1c3681f78855dce8d4a5a30320b6867432cfe4b986542adcc2b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceMetadata.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceMetadata", "Builder"],
+      "sha256": "b90f2b43cb7e1caafe2ec0bc6da178bec8c412487886595fa0470c126e5db252",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceMetadataOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceMetadataOrBuilder"],
+      "sha256": "2eca431eaa171dbbc0408bca74988b789e253b53a4d5a62d0c7f37acd74e9cb2",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SampleRange.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5220,6 +6558,38 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SourceConsentSpec.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SourceConsentSpec", "Builder"],
+      "sha256": "95a20c20e4f9bbd1fc78f643a42034c4066ee048d230395eb3bf77963524a958",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SourceConsentSpecOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SourceConsentSpecOrBuilder"],
+      "sha256": "b62d51f4d4f9fb17fdc1712d49e1b8f824d64cec31c081054101bf8e29069b97",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SourcePolicyView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SourcePolicyView", "Builder"],
+      "sha256": "4806b26cbfc832d0a35c266b91b8afc0f070c07ade71b6880c1590aa8c1894a6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SourcePolicyViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SourcePolicyViewOrBuilder"],
+      "sha256": "c7bea22cce885ed4cc6c1a0175fcd6f409b5e5192b50a4f0d262316482cbe938",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/StructuredValue.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5345,6 +6715,22 @@
       "access": "public",
       "types": ["TurnInputOrBuilder"],
       "sha256": "95aaa4b1ee6276e4acc9bcc73a6d13da038a7bff716af146518a305c6bf5a110",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TurnOptions.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TurnOptions", "Builder"],
+      "sha256": "8ca34929833b087f76d3b78faf90ba5bc5e7e7f479590e8ad8a51c9607f8da53",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TurnOptionsOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TurnOptionsOrBuilder"],
+      "sha256": "002939ed42f34a4c3d04d9b1363c02877a8242b1014ef0f6c723aa6ea8c59c12",
       "kind": "generated"
     },
     {
@@ -6026,6 +7412,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ApprovalViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ApprovalViewKt", "Dsl", "ContextProxy"],
+      "sha256": "e88d9148f491aa968894d23e9818ceab80bc7908248d15bc8f07c9f8f944e914",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AutomationSpecKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6039,6 +7433,14 @@
       "access": "public",
       "types": ["AutomationViewKt", "Dsl"],
       "sha256": "42ca16cc55aab8c19f2d1f4746109ac61a2c4f154ca6ea31fd2520ea38fa6ff4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AvailabilityKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AvailabilityKt", "Dsl", "ReasonsProxy"],
+      "sha256": "6ae11cd997c6befbb9edc88a1ec9aa87992f6502b05f5a6f9f0cd38a04234104",
       "kind": "generated"
     },
     {
@@ -6106,11 +7508,27 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextContributionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextContributionKt", "Dsl", "SourcesProxy", "ItemsProxy", "ReasonsProxy"],
+      "sha256": "5b5bb4a735e58f8c0e11ee91de1c820cace93827094b7d71afa2f41e37fa9b77",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextDescriptorKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["ContextDescriptorKt", "Dsl"],
       "sha256": "ebc2d89ecece721d7b9a6e6e7280d2a4219bc7fed9f196b23acc7e34d932c9a5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextItemKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextItemKt", "Dsl"],
+      "sha256": "e03c3a325669249b902b9fa414ec454ff67080456ec24b42317d908f509fa214",
       "kind": "generated"
     },
     {
@@ -6127,6 +7545,14 @@
       "access": "public",
       "types": ["ContextRefKt", "Dsl"],
       "sha256": "1221123d137a796a53384b6f20ac550d933f619cbe8473e27c21a4549fcfe513",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ContextRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ContextRequestKt", "Dsl"],
+      "sha256": "8383280117758e725ec81b26ab19e9d4466d86ef574da2ad699cd20df67c92d8",
       "kind": "generated"
     },
     {
@@ -6223,6 +7649,30 @@
       "access": "public",
       "types": ["FrameFieldKt", "Dsl", "JsonPathProxy"],
       "sha256": "3ac1bd94c1294852a1a785f64302a3c4e278c19ffc9986f7c08bbb6d484a983d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/InprocessValuesProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "403a70cf7a9999f721ba2087e9fcde329f35303bda7e9e83ad2d0be68155fd41",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/KnowledgePolicyKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["KnowledgePolicyKt", "Dsl"],
+      "sha256": "c57679de0185d8ee4812b91872ff39f7b44e92ff11ea934b49c7805eb30768a0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/KnowledgePolicyPatchKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["KnowledgePolicyPatchKt", "Dsl"],
+      "sha256": "c38a71a10ac96d037fb7682ac66cacccd93964becdf0bd89698f33bcdceb3865",
       "kind": "generated"
     },
     {
@@ -6344,6 +7794,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PreviewRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PreviewRequestKt", "Dsl"],
+      "sha256": "7151a6d5cb7b60f21ef7007110f2e3ed9ff96a8c2030e4ed185868c5e881b1d5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceMetadataKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceMetadataKt", "Dsl"],
+      "sha256": "5eae2be9deaea557703fa0d3caadc7d11ab5f08a0d5ad130b84407d4350abcea",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SampleRangeKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6442,6 +7908,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SourceConsentSpecKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SourceConsentSpecKt", "Dsl", "SourcesProxy"],
+      "sha256": "b338882595084a58a75e386b3a2a4dc2429a1f160d0ad001812fdbcb9a2db874",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SourcePolicyViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SourcePolicyViewKt", "Dsl", "GoverningDenialsProxy"],
+      "sha256": "ef8f5fc54cab6e1ecd7056825394c2812df5df4263132406bdcd742f00a94a12",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/StructuredValueKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6495,6 +7977,14 @@
       "access": "public",
       "types": ["TurnInputKt", "Dsl", "ContextProxy"],
       "sha256": "c5db96fea68d7df830e07d0d424df5a5520af412d3abc52e4c0a7e50a1bb8f87",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TurnOptionsKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TurnOptionsKt", "Dsl"],
+      "sha256": "a602bc0c5c553305de734eed90f28f71b43e8417a726574471ed15210ac36cf8",
       "kind": "generated"
     },
     {
@@ -6996,11 +8486,34 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/inprocess-values_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "ContextRequest",
+        "ContextContribution",
+        "ContextItem",
+        "Availability",
+        "PreviewRequest",
+        "ResourceMetadata",
+        "ApprovalView",
+        "TurnOptions",
+        "KnowledgePolicy",
+        "KnowledgePolicyPatch",
+        "SourcePolicyView",
+        "SourceConsentSpec",
+        "ChatMode",
+        "ApprovalDecision"
+      ],
+      "sha256": "06f91966e4e7909abf164890213122bc8f13aaf114dedf88c11d8d606ac3bb0f",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/proto/src/index.ts",
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "46c4144cbae798e553b39f14bd41b8ae6d697089728a6683b7f74f2798a38281",
+      "sha256": "14ad3dbe320cbaad9e772a223a9d46288fbd6ce88b0c533c7b04b0495312eb01",
       "kind": "generated"
     },
     {
@@ -7024,7 +8537,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "e996dd0068aa7bcfdd95533a138b5c3028886ce54c6be0536958e3cc3b110344",
+      "sha256": "1f7747ce1fa82613af93f30cb6f56441837368666de3aea8733298d8d37dd0ad",
       "kind": "generated"
     },
     {
@@ -7133,7 +8646,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "5b60b1db07f255020d6a9639293dc9c081186495dbe5e6576b72a350c6af6505"
+      "sha256": "a67a507883d429c24e87f37c1ff399279ac8050a8b403e5ea2f40bf2f2c60ed8"
     },
     {
       "path": "gradle.properties",
@@ -7153,7 +8666,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "2b43d38896b66f81748cbfc491886144f6a1e2f5974b335f9347274dc36c3cb0"
+      "sha256": "f527309486fa65983be671f47889aa92ac4576edc072606a33d8466d4240fb52"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -7162,6 +8675,18 @@
     {
       "path": "internal/proto/constraints/con-04-content-sandbox.json",
       "sha256": "88fc4ce159f686a263f3cf87598e51b6ebea5667002aabcb525ee7c548747977"
+    },
+    {
+      "path": "internal/proto/constraints/con-06-chat.json",
+      "sha256": "40879c5c4c590422815201ef830f8d7bbbba8f688e67570e0a2df5ec8e03b058"
+    },
+    {
+      "path": "internal/proto/constraints/con-06-inprocess.json",
+      "sha256": "7a81f19428de28e7b1969862335c8b76b201863141885db2fc14c6da8cb1e9b8"
+    },
+    {
+      "path": "internal/proto/constraints/con-06-scope.json",
+      "sha256": "365230c0fe9156118591983535ab676065a728d33357eda7700061ba3c2e2bd7"
     },
     {
       "path": "internal/proto/constraints/operator-baseline.json",
@@ -7221,7 +8746,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "8d33935308f234c2e330cb09400889d0b9788ccace92192c62dc5f15f3ea08b4"
+      "sha256": "bd3d00180e88a93b779adcee770821dd49b0c9857a4229d87e10025a081497d2"
     },
     {
       "path": "public/proto/constraints/con-13-package-catalog.json",
@@ -7248,6 +8773,10 @@
       "sha256": "d9814a41ab37da37f9c387f52891929d839d7109e0d0540f5a322a3abdf00427"
     },
     {
+      "path": "public/proto/constraints/inprocess-values.json",
+      "sha256": "12cb914278ec1b99523805fe5b710bf19fa2e82ad5a4acffa5128b50490304e2"
+    },
+    {
       "path": "public/proto/constraints/publicapi-baseline.json",
       "sha256": "0c4d1d95926ee51fdc649f7552d151b669fcdfecc2111a09e3ec3a63a7731e50"
     },
@@ -7269,19 +8798,19 @@
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/ArcForges.Contracts.LocalRpc.Chat.csproj",
-      "sha256": "c9234b9f411e729544374450cd745cbfac520497499e88a990dc115c6803e6d9"
+      "sha256": "2413de819d392841db75a622a6e348719da93ce3dbb4c3402b5aed6fa277711c"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/packages.lock.json",
-      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+      "sha256": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/ArcForges.Contracts.LocalRpc.Platform.csproj",
-      "sha256": "07aea46af64a73384a6e393a9a42d5f78579b833517131f47b7897277ab4a5a6"
+      "sha256": "3e9c13b2454b28c55049fa5c2bc1693250f2db0b715dafb337909380b3b8494d"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/packages.lock.json",
-      "sha256": "950f637a1c8b5152e0fdabff441cb2a8802ac50ae8aae0b97a89b4fa1e633b29"
+      "sha256": "4af9f61c399adec188a1e1717c4ba13b2291d4039af5a374d99832cfd9228586"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Sandbox/ArcForges.Contracts.LocalRpc.Sandbox.csproj",
@@ -7293,11 +8822,11 @@
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/ArcForges.Contracts.LocalRpc.Scope.csproj",
-      "sha256": "34c1aa338c952ac2b5047ded8a67bdab783555ce01c4abdc04155cb268b1614c"
+      "sha256": "d82efed194d832b5c52695ebbc70841a1b4606ab40d8e4b0d7c7437b0ddb41be"
     },
     {
       "path": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/packages.lock.json",
-      "sha256": "bfc4981894f94a4ee6f2518f6e1f5997d7d20e17749125c5711794cd2ee10d94"
+      "sha256": "2ffa6c7fb3cf873b86775fa67fcce30516bed510d126113933bfef7fbed3e052"
     },
     {
       "path": "src/internal/ts/ai-internal/package.json",
