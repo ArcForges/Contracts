@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "simulation-fixtures.v1",
+  "license": "Apache-2.0",
+  "evidenceClass": "offline-contract-vectors-only-no-simulator-execution-or-cloud-authorization-proof",
+  "operationCount": 13,
+  "operations": [
+    { "operationId": "simulation.listDefinitions", "method": "ListDefinitions", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["page"], "responseFields": ["items", "page"], "encodedBody": true },
+    { "operationId": "simulation.getDefinition", "method": "GetDefinition", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["definitionId"], "responseFields": ["definition", "versions"], "encodedBody": true },
+    { "operationId": "simulation.createDefinition", "method": "CreateDefinition", "class": "CC", "risk": "R2", "compatibility": "FR", "requestFields": ["definitionId", "name"], "responseFields": ["definition"], "encodedBody": false },
+    { "operationId": "simulation.publishScenarioVersion", "method": "PublishScenarioVersion", "class": "CC", "risk": "R2", "compatibility": "FR", "requestFields": ["scenarioVersionId", "definitionId", "scenario"], "responseFields": ["version"], "encodedBody": false },
+    { "operationId": "simulation.startRun", "method": "StartRun", "class": "CC", "risk": "R2", "compatibility": "FR", "requestFields": ["runId", "scenarioVersionId", "seed", "profile"], "responseFields": ["run"], "encodedBody": false },
+    { "operationId": "simulation.pauseRun", "method": "PauseRun", "class": "IW", "risk": "R2", "compatibility": "FR", "requestFields": ["runId"], "responseFields": ["run"], "encodedBody": false },
+    { "operationId": "simulation.resumeRun", "method": "ResumeRun", "class": "IW", "risk": "R2", "compatibility": "FR", "requestFields": ["runId"], "responseFields": ["run"], "encodedBody": false },
+    { "operationId": "simulation.cancelRun", "method": "CancelRun", "class": "IW", "risk": "R2", "compatibility": "FR", "requestFields": ["runId"], "responseFields": ["run"], "encodedBody": false },
+    { "operationId": "simulation.getRun", "method": "GetRun", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["runId"], "responseFields": ["run"], "encodedBody": true },
+    { "operationId": "simulation.listRuns", "method": "ListRuns", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["page", "scenarioVersionId?", "state?"], "responseFields": ["items", "page"], "encodedBody": true },
+    { "operationId": "simulation.listSegments", "method": "ListSegments", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["runId", "page"], "responseFields": ["segments", "page"], "encodedBody": true },
+    { "operationId": "simulation.getSegmentTicket", "method": "GetSegmentTicket", "class": "NI", "risk": "R1", "compatibility": "FR", "requestFields": ["runId", "segmentSequence", "range?"], "responseFields": ["ticket"], "encodedBody": false },
+    { "operationId": "simulation.pollState", "method": "PollState", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["runId", "knownRevision?"], "responseFields": ["run", "hasChanged"], "encodedBody": true }
+  ],
+  "states": ["queued", "starting", "running", "pausing", "paused", "stopping", "canceled", "succeeded", "failed"],
+  "stateRejected": ["active", "completed", "cancelled", "unknown"],
+  "extents": ["complete", "partial"],
+  "runExtentVectors": [
+    { "id": "active-partial-prefix", "state": "running", "extent": "partial", "logicalEnd": "4096", "valid": true },
+    { "id": "succeeded-complete-range", "state": "succeeded", "extent": "complete", "logicalEnd": "65536", "valid": true },
+    { "id": "canceled-partial-range", "state": "canceled", "extent": "partial", "logicalEnd": "2048", "valid": true }
+  ],
+  "listRuns": {
+    "authorization": { "membership": "current-workspace", "role": "read", "productId": "arcscope", "recheckEveryPage": true },
+    "filters": ["exact scenarioVersionId", "exact simulation_run state"],
+    "order": ["createdAt descending", "runId descending"],
+    "pageStateBinds": ["realm", "workspace", "actor", "recoveryGeneration", "filters", "sort", "schema", "snapshot"],
+    "includesRetainedPartialAndTerminalRuns": true,
+    "requiresKnownRunId": false,
+    "requiresTerminalNotification": false,
+    "pageLimits": [
+      { "id": "default", "limit": null, "valid": true },
+      { "id": "minimum", "limit": 1, "valid": true },
+      { "id": "maximum", "limit": 200, "valid": true },
+      { "id": "zero", "limit": 0, "valid": false },
+      { "id": "above-maximum", "limit": 201, "valid": false }
+    ]
+  },
+  "profile": {
+    "executionProfile": "af-sim.v1",
+    "encodingProfile": "af-segment.v1",
+    "clockModes": ["realTime", "accelerated"],
+    "sampleCount": { "minimum": 1 },
+    "batchSamples": { "default": 4096, "minimum": 1, "maximum": 65536 },
+    "finiteDurationHoursMaximum": 24
+  },
+  "generatorKinds": ["constant", "sine", "square", "triangle", "sawtooth", "noise", "randomWalk", "pulse", "stepSequence", "csv"],
+  "faultKinds": ["latency", "jitter", "drop", "duplicate", "reorder", "disconnect", "malformed", "outlier"],
+  "astVectors": [
+    { "id": "constant-expression", "expression": "constant", "valid": true },
+    { "id": "binary-expression", "expression": "binary", "valid": true },
+    { "id": "unrecognized-expression", "expression": "script", "valid": false },
+    { "id": "missing-expression", "expression": null, "valid": false }
+  ]
+}
