@@ -37,6 +37,20 @@ internal static class ArchitectureFixtureTests
         }
 
         ExternalPolicyEvidenceMustBeExactAndFailClosed();
+        FailureDiagnosticsDoNotRevealExceptionDetails();
+    }
+
+    private static void FailureDiagnosticsDoNotRevealExceptionDetails()
+    {
+        const string privateDetail = "untrusted exception detail must never be printed";
+        using var output = new StringWriter();
+        Program.WriteFailure(output, PolicyGateStage.EvaluateSharedPolicy, new Exception(privateDetail));
+
+        string message = output.ToString().Trim();
+        Checks.Equal("Contracts architecture policy failed closed at stage EvaluateSharedPolicy.", message,
+            "Failure diagnostics must contain only a fixed stage code.");
+        Checks.True(!message.Contains(privateDetail, StringComparison.Ordinal),
+            "An exception detail escaped the redacted fail-closed diagnostic.");
     }
 
     private static void ExternalPolicyEvidenceMustBeExactAndFailClosed()

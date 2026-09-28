@@ -22,31 +22,58 @@ internal static class HostedPolicyGate
         Converters = { new JsonStringEnumConverter() },
     };
 
-    public static void Run()
+    public static void Run(Action<PolicyGateStage> setStage)
     {
+        setStage(PolicyGateStage.LocateRepository);
         string root = RepositoryRoot.Find();
+
+        setStage(PolicyGateStage.ValidateHostedIdentity);
         string sourceCommit = RequireHostedIdentity(root);
+
+        setStage(PolicyGateStage.ValidateRp01Evidence);
         ExternalPolicyEvidence naming = ReadNamingEvidence(root, sourceCommit, "RP-01");
+
+        setStage(PolicyGateStage.ValidateRp08Evidence);
         ExternalPolicyEvidence licence = ReadNamingEvidence(root, sourceCommit, "RP-08");
+
+        setStage(PolicyGateStage.ValidateSecurityWorkflow);
         VerifySecurityWorkflow(root);
+
+        setStage(PolicyGateStage.ReadProjectGraph);
         var projects = ReadProjectGraph(root);
+
+        setStage(PolicyGateStage.ReadProjectCompilations);
         var compilations = projects.Where(project => project.Classification.Role is not (ProjectRole.BuildTool or ProjectRole.NativeLibrary or ProjectRole.NativeWorker))
             .ToDictionary(project => project.Classification.Path, ProjectGraph.ReadCompilation, StringComparer.Ordinal);
 
+        setStage(PolicyGateStage.ValidateProtoDtoSymbols);
         VerifyProtoDtoSymbols(root, projects, compilations);
+
+        setStage(PolicyGateStage.ValidateSerializationClosure);
         VerifySerializationClosure(root, projects, compilations);
+
+        setStage(PolicyGateStage.ReadDependencyPolicy);
         var dependency = ReadDependencyPolicy(root);
+
+        setStage(PolicyGateStage.ReadPolicyExceptions);
         var exceptions = JsonSerializer.Deserialize<PolicyException[]>(File.ReadAllText(Path.Combine(root, "eng/policy/exceptions.json")), JsonOptions)
             ?? throw new InvalidOperationException("Policy exception inventory is missing.");
+
+        setStage(PolicyGateStage.BindContractTests);
         var contractTests = BindPublicApiToArchitectureFact(projects, compilations);
+
+        setStage(PolicyGateStage.BindWireTypes);
         var wireTypes = BuildWireTypeBindings(root, projects, compilations);
         var evidence = new[] { naming, licence, new ExternalPolicyEvidence("RP-09", sourceCommit, true, []) };
         var repository = new RepositoryFacts(root, "Contracts", projects, exceptions, contractTests);
         var configuration = new RepositoryPolicyConfiguration(sourceCommit, dependency.Hashes,
             dependency.Licenses, new HashSet<string>(StringComparer.Ordinal), [], wireTypes, evidence);
+
+        setStage(PolicyGateStage.EvaluateSharedPolicy);
         var findings = PolicyEngine.Check(repository, configuration, compilations, DateOnly.FromDateTime(DateTime.UtcNow));
         if (findings.Count != 0)
         {
+            setStage(PolicyGateStage.ValidatePolicyResults);
             throw new InvalidOperationException("Shared architecture policy reported findings.");
         }
     }

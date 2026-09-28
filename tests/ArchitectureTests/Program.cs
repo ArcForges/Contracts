@@ -10,10 +10,33 @@ namespace Xunit
 
 namespace ArcForges.Contracts.ArchitectureTests
 {
+    internal enum PolicyGateStage
+    {
+        ValidateArguments,
+        RunArchitectureFixtures,
+        RunLocalArchitecture,
+        LocateRepository,
+        ValidateHostedIdentity,
+        ValidateRp01Evidence,
+        ValidateRp08Evidence,
+        ValidateSecurityWorkflow,
+        ReadProjectGraph,
+        ReadProjectCompilations,
+        ValidateProtoDtoSymbols,
+        ValidateSerializationClosure,
+        ReadDependencyPolicy,
+        ReadPolicyExceptions,
+        BindContractTests,
+        BindWireTypes,
+        EvaluateSharedPolicy,
+        ValidatePolicyResults,
+    }
+
     internal static class Program
     {
         public static int Main(string[] args)
         {
+            PolicyGateStage stage = PolicyGateStage.ValidateArguments;
             try
             {
                 if (args.Length > 1 || (args.Length == 1 && args[0] != "--hosted"))
@@ -21,11 +44,13 @@ namespace ArcForges.Contracts.ArchitectureTests
                     throw new InvalidOperationException("Expected no arguments or --hosted.");
                 }
 
+                stage = PolicyGateStage.RunArchitectureFixtures;
                 ArchitectureFixtureTests.Run();
+                stage = PolicyGateStage.RunLocalArchitecture;
                 ContractsArchitectureTests.RunLocal();
                 if (args.Length == 1)
                 {
-                    HostedPolicyGate.Run();
+                    HostedPolicyGate.Run(next => stage = next);
                     Console.WriteLine("Contracts architecture policy passed for the exact hosted source revision.");
                 }
                 else
@@ -35,12 +60,18 @@ namespace ArcForges.Contracts.ArchitectureTests
 
                 return 0;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 // Never echo environment variables or build-job secrets.
-                Console.Error.WriteLine("Contracts architecture policy failed closed.");
+                WriteFailure(Console.Error, stage, exception);
                 return 1;
             }
+        }
+
+        internal static void WriteFailure(TextWriter writer, PolicyGateStage stage, Exception exception)
+        {
+            _ = exception;
+            writer.WriteLine($"Contracts architecture policy failed closed at stage {stage}.");
         }
     }
 }
