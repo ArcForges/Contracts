@@ -3,7 +3,7 @@
   "id": "contract-bindings-con-03-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "1dec82d3045e3b1128af91ff653b1a77bbdf98f7",
+  "sourceCommit": "d4a89dd098fee96201e99d4879666b47f6ec679d",
   "sourcePaths": [
     "eng/con06_inprocess.py",
     "eng/contract-packages.json",
@@ -2818,7 +2818,7 @@
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "c632965e48fe6debc9f08cbaa7f858f987ba537d6df1ff5ebc59f75d24be5abb",
+      "sha256": "19fb55926014b72e034470bb7b68772e5a40376b5b39a83a33598f06cdf00ce6",
       "normalization": "lf"
     },
     {
