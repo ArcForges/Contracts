@@ -322,6 +322,8 @@ def generate(check: bool = False) -> None:
         generate_fixtures(check)
         from generate_values import generate as generate_values
         generate_values(check)
+        from con06_inprocess import generate as generate_inprocess
+        generate_inprocess(check)
     print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript, Java/Kotlin and descriptor set.")
 
 

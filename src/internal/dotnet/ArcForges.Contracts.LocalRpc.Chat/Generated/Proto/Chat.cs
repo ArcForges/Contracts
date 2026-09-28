@@ -28,14 +28,147 @@ namespace ArcForges.Contracts.LocalRpc.Chat.V1 {
           string.Concat(
             "CiJhcmNmb3JnZXMvbG9jYWwvY2hhdC92MS9jaGF0LnByb3RvEhdhcmNmb3Jn",
             "ZXMubG9jYWwuY2hhdC52MRooYXJjZm9yZ2VzL2ZvdW5kYXRpb24vdjEvZm91",
-            "bmRhdGlvbi5wcm90byJkCiZDaGF0T3BlcmF0aW9uc1NlcnZpY2VPcGVuQXJ0",
-            "aWZhY3RWYWx1ZRI6CgdyZWNlaXB0GAogASgLMiAuYXJjZm9yZ2VzLmZvdW5k",
-            "YXRpb24udjEuUmVjZWlwdFIHcmVjZWlwdEJhCitpby5naXRodWIuYXJjZm9y",
-            "Z2VzLmNvbnRyYWN0cy5sb2NhbC5jaGF0LnYxQglDaGF0UHJvdG9QAaoCJEFy",
-            "Y0Zvcmdlcy5Db250cmFjdHMuTG9jYWxScGMuQ2hhdC5WMWIGcHJvdG8z"));
+            "bmRhdGlvbi5wcm90bxokYXJjZm9yZ2VzL3B1YmxpY2FwaS92MS9jb250ZW50",
+            "LnByb3RvGi1hcmNmb3JnZXMvcHVibGljYXBpL3YxL2lucHJvY2Vzcy12YWx1",
+            "ZXMucHJvdG8aK2FyY2Zvcmdlcy9sb2NhbC9wbGF0Zm9ybS92MS9pbnByb2Nl",
+            "c3MucHJvdG8iqQEKLUNoYXRPcGVyYXRpb25zU2VydmljZUxpc3RDb252ZXJz",
+            "YXRpb25zUmVxdWVzdBI4CgRtZXRhGAEgASgLMiQuYXJjZm9yZ2VzLmZvdW5k",
+            "YXRpb24udjEuUmVxdWVzdE1ldGFSBG1ldGESOAoEcGFnZRgKIAEoCzIkLmFy",
+            "Y2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlBhZ2VSZXF1ZXN0UgRwYWdlSgQIAhAK",
+            "IuMCCi5DaGF0T3BlcmF0aW9uc1NlcnZpY2VMaXN0Q29udmVyc2F0aW9uc1Jl",
+            "c3BvbnNlEjkKBG1ldGEYASABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52",
+            "MS5SZXNwb25zZU1ldGFSBG1ldGESXAoFdmFsdWUYAiABKAsyRC5hcmNmb3Jn",
+            "ZXMubG9jYWwuY2hhdC52MS5DaGF0T3BlcmF0aW9uc1NlcnZpY2VMaXN0Q29u",
+            "dmVyc2F0aW9uc1ZhbHVlSABSBXZhbHVlEjkKBWVycm9yGAMgASgLMiEuYXJj",
+            "Zm9yZ2VzLmZvdW5kYXRpb24udjEuQXJjRXJyb3JIAFIFZXJyb3ISTAoMZW5j",
+            "b2RlZF9ib2R5GAQgASgLMicuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuRW5j",
+            "b2RlZEJvZHlSZWZIAFILZW5jb2RlZEJvZHlCCQoHb3V0Y29tZUoECAUQCiKl",
+            "AQorQ2hhdE9wZXJhdGlvbnNTZXJ2aWNlTGlzdENvbnZlcnNhdGlvbnNWYWx1",
+            "ZRI+CgVpdGVtcxgKIAMoCzIoLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuQ29u",
+            "dmVyc2F0aW9uVmlld1IFaXRlbXMSNgoEcGFnZRgLIAEoCzIiLmFyY2Zvcmdl",
+            "cy5mb3VuZGF0aW9uLnYxLlBhZ2VTdGF0ZVIEcGFnZSKnAgorQ2hhdE9wZXJh",
+            "dGlvbnNTZXJ2aWNlR2V0Q29udmVyc2F0aW9uUmVxdWVzdBI4CgRtZXRhGAEg",
+            "ASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGFSBG1l",
+            "dGESRAoPY29udmVyc2F0aW9uX2lkGAogASgLMhsuYXJjZm9yZ2VzLmZvdW5k",
+            "YXRpb24udjEuSWRSDmNvbnZlcnNhdGlvbklkEjgKCWJyYW5jaF9pZBgLIAEo",
+            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUghicmFuY2hJZBI4CgRw",
+            "YWdlGAwgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUGFnZVJlcXVl",
+            "c3RSBHBhZ2VKBAgCEAoi3wIKLENoYXRPcGVyYXRpb25zU2VydmljZUdldENv",
+            "bnZlcnNhdGlvblJlc3BvbnNlEjkKBG1ldGEYASABKAsyJS5hcmNmb3JnZXMu",
+            "Zm91bmRhdGlvbi52MS5SZXNwb25zZU1ldGFSBG1ldGESWgoFdmFsdWUYAiAB",
+            "KAsyQi5hcmNmb3JnZXMubG9jYWwuY2hhdC52MS5DaGF0T3BlcmF0aW9uc1Nl",
+            "cnZpY2VHZXRDb252ZXJzYXRpb25WYWx1ZUgAUgV2YWx1ZRI5CgVlcnJvchgD",
+            "IAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySABSBWVy",
+            "cm9yEkwKDGVuY29kZWRfYm9keRgEIAEoCzInLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLkVuY29kZWRCb2R5UmVmSABSC2VuY29kZWRCb2R5QgkKB291dGNv",
+            "bWVKBAgFEAoi8gEKKUNoYXRPcGVyYXRpb25zU2VydmljZUdldENvbnZlcnNh",
+            "dGlvblZhbHVlEkwKDGNvbnZlcnNhdGlvbhgKIAEoCzIoLmFyY2Zvcmdlcy5w",
+            "dWJsaWNhcGkudjEuQ29udmVyc2F0aW9uVmlld1IMY29udmVyc2F0aW9uEj8K",
+            "CG1lc3NhZ2VzGAsgAygLMiMuYXJjZm9yZ2VzLnB1YmxpY2FwaS52MS5NZXNz",
+            "YWdlVmlld1IIbWVzc2FnZXMSNgoEcGFnZRgMIAEoCzIiLmFyY2Zvcmdlcy5m",
+            "b3VuZGF0aW9uLnYxLlBhZ2VTdGF0ZVIEcGFnZSLbAQouQ2hhdE9wZXJhdGlv",
+            "bnNTZXJ2aWNlQ3JlYXRlQ29udmVyc2F0aW9uUmVxdWVzdBI4CgRtZXRhGAEg",
+            "ASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGFSBG1l",
+            "dGESRAoPY29udmVyc2F0aW9uX2lkGAogASgLMhsuYXJjZm9yZ2VzLmZvdW5k",
+            "YXRpb24udjEuSWRSDmNvbnZlcnNhdGlvbklkEhkKBXRpdGxlGAsgASgJSABS",
+            "BXRpdGxliAEBQggKBl90aXRsZUoECAIQCiKXAgovQ2hhdE9wZXJhdGlvbnNT",
+            "ZXJ2aWNlQ3JlYXRlQ29udmVyc2F0aW9uUmVzcG9uc2USOQoEbWV0YRgBIAEo",
+            "CzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc3BvbnNlTWV0YVIEbWV0",
+            "YRJdCgV2YWx1ZRgCIAEoCzJFLmFyY2Zvcmdlcy5sb2NhbC5jaGF0LnYxLkNo",
+            "YXRPcGVyYXRpb25zU2VydmljZUNyZWF0ZUNvbnZlcnNhdGlvblZhbHVlSABS",
+            "BXZhbHVlEjkKBWVycm9yGAMgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24u",
+            "djEuQXJjRXJyb3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAQQCiJ8CixDaGF0",
+            "T3BlcmF0aW9uc1NlcnZpY2VDcmVhdGVDb252ZXJzYXRpb25WYWx1ZRJMCgxj",
+            "b252ZXJzYXRpb24YCiABKAsyKC5hcmNmb3JnZXMucHVibGljYXBpLnYxLkNv",
+            "bnZlcnNhdGlvblZpZXdSDGNvbnZlcnNhdGlvbiKtAgotQ2hhdE9wZXJhdGlv",
+            "bnNTZXJ2aWNlQXBwZW5kVXNlck1lc3NhZ2VSZXF1ZXN0EjgKBG1ldGEYASAB",
+            "KAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0YVIEbWV0",
+            "YRJECg9jb252ZXJzYXRpb25faWQYCiABKAsyGy5hcmNmb3JnZXMuZm91bmRh",
+            "dGlvbi52MS5JZFIOY29udmVyc2F0aW9uSWQSOgoKbWVzc2FnZV9pZBgLIAEo",
+            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgltZXNzYWdlSWQSOgoF",
+            "ZHJhZnQYDCABKAsyJC5hcmNmb3JnZXMucHVibGljYXBpLnYxLk1lc3NhZ2VE",
+            "cmFmdFIFZHJhZnRKBAgCEAoilQIKLkNoYXRPcGVyYXRpb25zU2VydmljZUFw",
+            "cGVuZFVzZXJNZXNzYWdlUmVzcG9uc2USOQoEbWV0YRgBIAEoCzIlLmFyY2Zv",
+            "cmdlcy5mb3VuZGF0aW9uLnYxLlJlc3BvbnNlTWV0YVIEbWV0YRJcCgV2YWx1",
+            "ZRgCIAEoCzJELmFyY2Zvcmdlcy5sb2NhbC5jaGF0LnYxLkNoYXRPcGVyYXRp",
+            "b25zU2VydmljZUFwcGVuZFVzZXJNZXNzYWdlVmFsdWVIAFIFdmFsdWUSOQoF",
+            "ZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJv",
+            "ckgAUgVlcnJvckIJCgdvdXRjb21lSgQIBBAKIpQBCitDaGF0T3BlcmF0aW9u",
+            "c1NlcnZpY2VBcHBlbmRVc2VyTWVzc2FnZVZhbHVlEjoKB3JlY2VpcHQYCiAB",
+            "KAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZWNlaXB0UgdyZWNlaXB0",
+            "Eh0KB3BlbmRpbmcYCyABKAhIAFIHcGVuZGluZ4gBAUIKCghfcGVuZGluZyLg",
+            "AgoqQ2hhdE9wZXJhdGlvbnNTZXJ2aWNlU3RhcnRBZ2VudFR1cm5SZXF1ZXN0",
+            "EjgKBG1ldGEYASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1",
+            "ZXN0TWV0YVIEbWV0YRI0Cgd0YXNrX2lkGAogASgLMhsuYXJjZm9yZ2VzLmZv",
+            "dW5kYXRpb24udjEuSWRSBnRhc2tJZBJECg9jb252ZXJzYXRpb25faWQYCyAB",
+            "KAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIOY29udmVyc2F0aW9u",
+            "SWQSNwoFaW5wdXQYDCABKAsyIS5hcmNmb3JnZXMucHVibGljYXBpLnYxLlR1",
+            "cm5JbnB1dFIFaW5wdXQSPQoHb3B0aW9ucxgNIAEoCzIjLmFyY2Zvcmdlcy5w",
+            "dWJsaWNhcGkudjEuVHVybk9wdGlvbnNSB29wdGlvbnNKBAgCEAoijwIKK0No",
+            "YXRPcGVyYXRpb25zU2VydmljZVN0YXJ0QWdlbnRUdXJuUmVzcG9uc2USOQoE",
+            "bWV0YRgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc3BvbnNl",
+            "TWV0YVIEbWV0YRJZCgV2YWx1ZRgCIAEoCzJBLmFyY2Zvcmdlcy5sb2NhbC5j",
+            "aGF0LnYxLkNoYXRPcGVyYXRpb25zU2VydmljZVN0YXJ0QWdlbnRUdXJuVmFs",
+            "dWVIAFIFdmFsdWUSOQoFZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMuZm91bmRh",
+            "dGlvbi52MS5BcmNFcnJvckgAUgVlcnJvckIJCgdvdXRjb21lSgQIBBAKImQK",
+            "KENoYXRPcGVyYXRpb25zU2VydmljZVN0YXJ0QWdlbnRUdXJuVmFsdWUSOAoE",
+            "dGFzaxgKIAEoCzIkLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuVGFza1NuYXBz",
+            "aG90UgR0YXNrIr4CCipDaGF0T3BlcmF0aW9uc1NlcnZpY2VTdWJtaXRBcHBy",
+            "b3ZhbFJlcXVlc3QSOAoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLlJlcXVlc3RNZXRhUgRtZXRhEjwKC2FwcHJvdmFsX2lkGAogASgL",
+            "MhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSCmFwcHJvdmFsSWQSSQoI",
+            "ZGVjaXNpb24YCyABKA4yKC5hcmNmb3JnZXMucHVibGljYXBpLnYxLkFwcHJv",
+            "dmFsRGVjaXNpb25IAFIIZGVjaXNpb26IAQESKAoNcHJvcG9zYWxfaGFzaBgM",
+            "IAEoCUgBUgxwcm9wb3NhbEhhc2iIAQFCCwoJX2RlY2lzaW9uQhAKDl9wcm9w",
+            "b3NhbF9oYXNoSgQIAhAKIo8CCitDaGF0T3BlcmF0aW9uc1NlcnZpY2VTdWJt",
+            "aXRBcHByb3ZhbFJlc3BvbnNlEjkKBG1ldGEYASABKAsyJS5hcmNmb3JnZXMu",
+            "Zm91bmRhdGlvbi52MS5SZXNwb25zZU1ldGFSBG1ldGESWQoFdmFsdWUYAiAB",
+            "KAsyQS5hcmNmb3JnZXMubG9jYWwuY2hhdC52MS5DaGF0T3BlcmF0aW9uc1Nl",
+            "cnZpY2VTdWJtaXRBcHByb3ZhbFZhbHVlSABSBXZhbHVlEjkKBWVycm9yGAMg",
+            "ASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQXJjRXJyb3JIAFIFZXJy",
+            "b3JCCQoHb3V0Y29tZUoECAQQCiJsCihDaGF0T3BlcmF0aW9uc1NlcnZpY2VT",
+            "dWJtaXRBcHByb3ZhbFZhbHVlEkAKCGFwcHJvdmFsGAogASgLMiQuYXJjZm9y",
+            "Z2VzLnB1YmxpY2FwaS52MS5BcHByb3ZhbFZpZXdSCGFwcHJvdmFsIp8CCihD",
+            "aGF0T3BlcmF0aW9uc1NlcnZpY2VPcGVuQXJ0aWZhY3RSZXF1ZXN0EjgKBG1l",
+            "dGEYASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0",
+            "YVIEbWV0YRJACghhcnRpZmFjdBgKIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLkFydGlmYWN0UmVmUghhcnRpZmFjdBJECgZpbnRlbnQYDCABKA4y",
+            "Jy5hcmNmb3JnZXMubG9jYWwucGxhdGZvcm0udjEuT3BlbkludGVudEgAUgZp",
+            "bnRlbnSIAQFCCQoHX2ludGVudEoECAIQCkoECAsQDFINdGFyZ2V0X2FwcF9p",
+            "ZFILdGFyZ2V0QXBwSWQiiwIKKUNoYXRPcGVyYXRpb25zU2VydmljZU9wZW5B",
+            "cnRpZmFjdFJlc3BvbnNlEjkKBG1ldGEYASABKAsyJS5hcmNmb3JnZXMuZm91",
+            "bmRhdGlvbi52MS5SZXNwb25zZU1ldGFSBG1ldGESVwoFdmFsdWUYAiABKAsy",
+            "Py5hcmNmb3JnZXMubG9jYWwuY2hhdC52MS5DaGF0T3BlcmF0aW9uc1NlcnZp",
+            "Y2VPcGVuQXJ0aWZhY3RWYWx1ZUgAUgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIh",
+            "LmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySABSBWVycm9yQgkK",
+            "B291dGNvbWVKBAgEEAoiZAomQ2hhdE9wZXJhdGlvbnNTZXJ2aWNlT3BlbkFy",
+            "dGlmYWN0VmFsdWUSOgoHcmVjZWlwdBgKIAEoCzIgLmFyY2Zvcmdlcy5mb3Vu",
+            "ZGF0aW9uLnYxLlJlY2VpcHRSB3JlY2VpcHRCYQoraW8uZ2l0aHViLmFyY2Zv",
+            "cmdlcy5jb250cmFjdHMubG9jYWwuY2hhdC52MUIJQ2hhdFByb3RvUAGqAiRB",
+            "cmNGb3JnZXMuQ29udHJhY3RzLkxvY2FsUnBjLkNoYXQuVjFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, global::ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor, global::ArcForges.Contracts.PublicApi.V1.InprocessValuesReflection.Descriptor, global::ArcForges.Contracts.LocalRpc.Platform.V1.InprocessReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsRequest.Parser, new[]{ "Meta", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsResponse.Parser, new[]{ "Meta", "Value", "Error", "EncodedBody" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue.Parser, new[]{ "Items", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationRequest.Parser, new[]{ "Meta", "ConversationId", "BranchId", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationResponse.Parser, new[]{ "Meta", "Value", "Error", "EncodedBody" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue.Parser, new[]{ "Conversation", "Messages", "Page" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationRequest.Parser, new[]{ "Meta", "ConversationId", "Title" }, new[]{ "Title" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue.Parser, new[]{ "Conversation" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageRequest.Parser, new[]{ "Meta", "ConversationId", "MessageId", "Draft" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue.Parser, new[]{ "Receipt", "Pending" }, new[]{ "Pending" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnRequest.Parser, new[]{ "Meta", "TaskId", "ConversationId", "Input", "Options" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue.Parser, new[]{ "Task" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalRequest.Parser, new[]{ "Meta", "ApprovalId", "Decision", "ProposalHash" }, new[]{ "Decision", "ProposalHash" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue.Parser, new[]{ "Approval" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactRequest), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactRequest.Parser, new[]{ "Meta", "Artifact", "Intent" }, new[]{ "Intent" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactResponse), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue), global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue.Parser, new[]{ "Receipt" }, null, null, null, null)
           }));
     }
@@ -43,9 +176,6189 @@ namespace ArcForges.Contracts.LocalRpc.Chat.V1 {
 
   }
   #region Messages
-  /// <summary>
-  /// Complete in-process operation result; no product RPC service is registered.
-  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceListConversationsRequest : pb::IMessage<ChatOperationsServiceListConversationsRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceListConversationsRequest> _parser = new pb::MessageParser<ChatOperationsServiceListConversationsRequest>(() => new ChatOperationsServiceListConversationsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceListConversationsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsRequest(ChatOperationsServiceListConversationsRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsRequest Clone() {
+      return new ChatOperationsServiceListConversationsRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.PageRequest page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageRequest Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceListConversationsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceListConversationsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceListConversationsRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceListConversationsResponse : pb::IMessage<ChatOperationsServiceListConversationsResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceListConversationsResponse> _parser = new pb::MessageParser<ChatOperationsServiceListConversationsResponse>(() => new ChatOperationsServiceListConversationsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceListConversationsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsResponse(ChatOperationsServiceListConversationsResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+        case OutcomeOneofCase.EncodedBody:
+          EncodedBody = other.EncodedBody.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsResponse Clone() {
+      return new ChatOperationsServiceListConversationsResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    /// <summary>Field number for the "encoded_body" field.</summary>
+    public const int EncodedBodyFieldNumber = 4;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef EncodedBody {
+      get { return outcomeCase_ == OutcomeOneofCase.EncodedBody ? (global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.EncodedBody;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+      EncodedBody = 4,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceListConversationsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceListConversationsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (!object.Equals(EncodedBody, other.EncodedBody)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) hash ^= EncodedBody.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+        output.WriteRawTag(34);
+        output.WriteMessage(EncodedBody);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+        output.WriteRawTag(34);
+        output.WriteMessage(EncodedBody);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EncodedBody);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceListConversationsResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+        case OutcomeOneofCase.EncodedBody:
+          if (EncodedBody == null) {
+            EncodedBody = new global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef();
+          }
+          EncodedBody.MergeFrom(other.EncodedBody);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+          case 34: {
+            global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef subBuilder = new global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef();
+            if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+              subBuilder.MergeFrom(EncodedBody);
+            }
+            input.ReadMessage(subBuilder);
+            EncodedBody = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+          case 34: {
+            global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef subBuilder = new global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef();
+            if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+              subBuilder.MergeFrom(EncodedBody);
+            }
+            input.ReadMessage(subBuilder);
+            EncodedBody = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceListConversationsValue : pb::IMessage<ChatOperationsServiceListConversationsValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceListConversationsValue> _parser = new pb::MessageParser<ChatOperationsServiceListConversationsValue>(() => new ChatOperationsServiceListConversationsValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceListConversationsValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsValue(ChatOperationsServiceListConversationsValue other) : this() {
+      items_ = other.items_.Clone();
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceListConversationsValue Clone() {
+      return new ChatOperationsServiceListConversationsValue(this);
+    }
+
+    /// <summary>Field number for the "items" field.</summary>
+    public const int ItemsFieldNumber = 10;
+    private static readonly pb::FieldCodec<global::ArcForges.Contracts.PublicApi.V1.ConversationView> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(82, global::ArcForges.Contracts.PublicApi.V1.ConversationView.Parser);
+    private readonly pbc::RepeatedField<global::ArcForges.Contracts.PublicApi.V1.ConversationView> items_ = new pbc::RepeatedField<global::ArcForges.Contracts.PublicApi.V1.ConversationView>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::ArcForges.Contracts.PublicApi.V1.ConversationView> Items {
+      get { return items_; }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.PageState page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageState Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceListConversationsValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceListConversationsValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!items_.Equals(other.items_)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= items_.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      items_.WriteTo(output, _repeated_items_codec);
+      if (page_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      items_.WriteTo(ref output, _repeated_items_codec);
+      if (page_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += items_.CalculateSize(_repeated_items_codec);
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceListConversationsValue other) {
+      if (other == null) {
+        return;
+      }
+      items_.Add(other.items_);
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            items_.AddEntriesFrom(input, _repeated_items_codec);
+            break;
+          }
+          case 90: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            items_.AddEntriesFrom(ref input, _repeated_items_codec);
+            break;
+          }
+          case 90: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceGetConversationRequest : pb::IMessage<ChatOperationsServiceGetConversationRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceGetConversationRequest> _parser = new pb::MessageParser<ChatOperationsServiceGetConversationRequest>(() => new ChatOperationsServiceGetConversationRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceGetConversationRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationRequest(ChatOperationsServiceGetConversationRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      conversationId_ = other.conversationId_ != null ? other.conversationId_.Clone() : null;
+      branchId_ = other.branchId_ != null ? other.branchId_.Clone() : null;
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationRequest Clone() {
+      return new ChatOperationsServiceGetConversationRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "conversation_id" field.</summary>
+    public const int ConversationIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id conversationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConversationId {
+      get { return conversationId_; }
+      set {
+        conversationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "branch_id" field.</summary>
+    public const int BranchIdFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.Id branchId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id BranchId {
+      get { return branchId_; }
+      set {
+        branchId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 12;
+    private global::ArcForges.Contracts.Foundation.V1.PageRequest page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageRequest Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceGetConversationRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceGetConversationRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ConversationId, other.ConversationId)) return false;
+      if (!object.Equals(BranchId, other.BranchId)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (conversationId_ != null) hash ^= ConversationId.GetHashCode();
+      if (branchId_ != null) hash ^= BranchId.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConversationId);
+      }
+      if (branchId_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(BranchId);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConversationId);
+      }
+      if (branchId_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(BranchId);
+      }
+      if (page_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (conversationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConversationId);
+      }
+      if (branchId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(BranchId);
+      }
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceGetConversationRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.conversationId_ != null) {
+        if (conversationId_ == null) {
+          ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConversationId.MergeFrom(other.ConversationId);
+      }
+      if (other.branchId_ != null) {
+        if (branchId_ == null) {
+          BranchId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        BranchId.MergeFrom(other.BranchId);
+      }
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 90: {
+            if (branchId_ == null) {
+              BranchId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(BranchId);
+            break;
+          }
+          case 98: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 90: {
+            if (branchId_ == null) {
+              BranchId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(BranchId);
+            break;
+          }
+          case 98: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageRequest();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceGetConversationResponse : pb::IMessage<ChatOperationsServiceGetConversationResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceGetConversationResponse> _parser = new pb::MessageParser<ChatOperationsServiceGetConversationResponse>(() => new ChatOperationsServiceGetConversationResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceGetConversationResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationResponse(ChatOperationsServiceGetConversationResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+        case OutcomeOneofCase.EncodedBody:
+          EncodedBody = other.EncodedBody.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationResponse Clone() {
+      return new ChatOperationsServiceGetConversationResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    /// <summary>Field number for the "encoded_body" field.</summary>
+    public const int EncodedBodyFieldNumber = 4;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef EncodedBody {
+      get { return outcomeCase_ == OutcomeOneofCase.EncodedBody ? (global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.EncodedBody;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+      EncodedBody = 4,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceGetConversationResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceGetConversationResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (!object.Equals(EncodedBody, other.EncodedBody)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) hash ^= EncodedBody.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+        output.WriteRawTag(34);
+        output.WriteMessage(EncodedBody);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+        output.WriteRawTag(34);
+        output.WriteMessage(EncodedBody);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EncodedBody);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceGetConversationResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+        case OutcomeOneofCase.EncodedBody:
+          if (EncodedBody == null) {
+            EncodedBody = new global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef();
+          }
+          EncodedBody.MergeFrom(other.EncodedBody);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+          case 34: {
+            global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef subBuilder = new global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef();
+            if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+              subBuilder.MergeFrom(EncodedBody);
+            }
+            input.ReadMessage(subBuilder);
+            EncodedBody = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+          case 34: {
+            global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef subBuilder = new global::ArcForges.Contracts.Foundation.V1.EncodedBodyRef();
+            if (outcomeCase_ == OutcomeOneofCase.EncodedBody) {
+              subBuilder.MergeFrom(EncodedBody);
+            }
+            input.ReadMessage(subBuilder);
+            EncodedBody = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceGetConversationValue : pb::IMessage<ChatOperationsServiceGetConversationValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceGetConversationValue> _parser = new pb::MessageParser<ChatOperationsServiceGetConversationValue>(() => new ChatOperationsServiceGetConversationValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceGetConversationValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationValue(ChatOperationsServiceGetConversationValue other) : this() {
+      conversation_ = other.conversation_ != null ? other.conversation_.Clone() : null;
+      messages_ = other.messages_.Clone();
+      page_ = other.page_ != null ? other.page_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceGetConversationValue Clone() {
+      return new ChatOperationsServiceGetConversationValue(this);
+    }
+
+    /// <summary>Field number for the "conversation" field.</summary>
+    public const int ConversationFieldNumber = 10;
+    private global::ArcForges.Contracts.PublicApi.V1.ConversationView conversation_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.ConversationView Conversation {
+      get { return conversation_; }
+      set {
+        conversation_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "messages" field.</summary>
+    public const int MessagesFieldNumber = 11;
+    private static readonly pb::FieldCodec<global::ArcForges.Contracts.PublicApi.V1.MessageView> _repeated_messages_codec
+        = pb::FieldCodec.ForMessage(90, global::ArcForges.Contracts.PublicApi.V1.MessageView.Parser);
+    private readonly pbc::RepeatedField<global::ArcForges.Contracts.PublicApi.V1.MessageView> messages_ = new pbc::RepeatedField<global::ArcForges.Contracts.PublicApi.V1.MessageView>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::ArcForges.Contracts.PublicApi.V1.MessageView> Messages {
+      get { return messages_; }
+    }
+
+    /// <summary>Field number for the "page" field.</summary>
+    public const int PageFieldNumber = 12;
+    private global::ArcForges.Contracts.Foundation.V1.PageState page_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.PageState Page {
+      get { return page_; }
+      set {
+        page_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceGetConversationValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceGetConversationValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Conversation, other.Conversation)) return false;
+      if(!messages_.Equals(other.messages_)) return false;
+      if (!object.Equals(Page, other.Page)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (conversation_ != null) hash ^= Conversation.GetHashCode();
+      hash ^= messages_.GetHashCode();
+      if (page_ != null) hash ^= Page.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (conversation_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Conversation);
+      }
+      messages_.WriteTo(output, _repeated_messages_codec);
+      if (page_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (conversation_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Conversation);
+      }
+      messages_.WriteTo(ref output, _repeated_messages_codec);
+      if (page_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Page);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (conversation_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Conversation);
+      }
+      size += messages_.CalculateSize(_repeated_messages_codec);
+      if (page_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Page);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceGetConversationValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.conversation_ != null) {
+        if (conversation_ == null) {
+          Conversation = new global::ArcForges.Contracts.PublicApi.V1.ConversationView();
+        }
+        Conversation.MergeFrom(other.Conversation);
+      }
+      messages_.Add(other.messages_);
+      if (other.page_ != null) {
+        if (page_ == null) {
+          Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+        }
+        Page.MergeFrom(other.Page);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (conversation_ == null) {
+              Conversation = new global::ArcForges.Contracts.PublicApi.V1.ConversationView();
+            }
+            input.ReadMessage(Conversation);
+            break;
+          }
+          case 90: {
+            messages_.AddEntriesFrom(input, _repeated_messages_codec);
+            break;
+          }
+          case 98: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (conversation_ == null) {
+              Conversation = new global::ArcForges.Contracts.PublicApi.V1.ConversationView();
+            }
+            input.ReadMessage(Conversation);
+            break;
+          }
+          case 90: {
+            messages_.AddEntriesFrom(ref input, _repeated_messages_codec);
+            break;
+          }
+          case 98: {
+            if (page_ == null) {
+              Page = new global::ArcForges.Contracts.Foundation.V1.PageState();
+            }
+            input.ReadMessage(Page);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceCreateConversationRequest : pb::IMessage<ChatOperationsServiceCreateConversationRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceCreateConversationRequest> _parser = new pb::MessageParser<ChatOperationsServiceCreateConversationRequest>(() => new ChatOperationsServiceCreateConversationRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceCreateConversationRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationRequest(ChatOperationsServiceCreateConversationRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      conversationId_ = other.conversationId_ != null ? other.conversationId_.Clone() : null;
+      title_ = other.title_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationRequest Clone() {
+      return new ChatOperationsServiceCreateConversationRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "conversation_id" field.</summary>
+    public const int ConversationIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id conversationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConversationId {
+      get { return conversationId_; }
+      set {
+        conversationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "title" field.</summary>
+    public const int TitleFieldNumber = 11;
+    private readonly static string TitleDefaultValue = "";
+
+    private string title_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Title {
+      get { return title_ ?? TitleDefaultValue; }
+      set {
+        title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "title" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasTitle {
+      get { return title_ != null; }
+    }
+    /// <summary>Clears the value of the "title" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearTitle() {
+      title_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceCreateConversationRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceCreateConversationRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ConversationId, other.ConversationId)) return false;
+      if (Title != other.Title) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (conversationId_ != null) hash ^= ConversationId.GetHashCode();
+      if (HasTitle) hash ^= Title.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConversationId);
+      }
+      if (HasTitle) {
+        output.WriteRawTag(90);
+        output.WriteString(Title);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConversationId);
+      }
+      if (HasTitle) {
+        output.WriteRawTag(90);
+        output.WriteString(Title);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (conversationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConversationId);
+      }
+      if (HasTitle) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceCreateConversationRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.conversationId_ != null) {
+        if (conversationId_ == null) {
+          ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConversationId.MergeFrom(other.ConversationId);
+      }
+      if (other.HasTitle) {
+        Title = other.Title;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 90: {
+            Title = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 90: {
+            Title = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceCreateConversationResponse : pb::IMessage<ChatOperationsServiceCreateConversationResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceCreateConversationResponse> _parser = new pb::MessageParser<ChatOperationsServiceCreateConversationResponse>(() => new ChatOperationsServiceCreateConversationResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceCreateConversationResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationResponse(ChatOperationsServiceCreateConversationResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationResponse Clone() {
+      return new ChatOperationsServiceCreateConversationResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceCreateConversationResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceCreateConversationResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceCreateConversationResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceCreateConversationValue : pb::IMessage<ChatOperationsServiceCreateConversationValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceCreateConversationValue> _parser = new pb::MessageParser<ChatOperationsServiceCreateConversationValue>(() => new ChatOperationsServiceCreateConversationValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceCreateConversationValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationValue(ChatOperationsServiceCreateConversationValue other) : this() {
+      conversation_ = other.conversation_ != null ? other.conversation_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceCreateConversationValue Clone() {
+      return new ChatOperationsServiceCreateConversationValue(this);
+    }
+
+    /// <summary>Field number for the "conversation" field.</summary>
+    public const int ConversationFieldNumber = 10;
+    private global::ArcForges.Contracts.PublicApi.V1.ConversationView conversation_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.ConversationView Conversation {
+      get { return conversation_; }
+      set {
+        conversation_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceCreateConversationValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceCreateConversationValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Conversation, other.Conversation)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (conversation_ != null) hash ^= Conversation.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (conversation_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Conversation);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (conversation_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Conversation);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (conversation_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Conversation);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceCreateConversationValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.conversation_ != null) {
+        if (conversation_ == null) {
+          Conversation = new global::ArcForges.Contracts.PublicApi.V1.ConversationView();
+        }
+        Conversation.MergeFrom(other.Conversation);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (conversation_ == null) {
+              Conversation = new global::ArcForges.Contracts.PublicApi.V1.ConversationView();
+            }
+            input.ReadMessage(Conversation);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (conversation_ == null) {
+              Conversation = new global::ArcForges.Contracts.PublicApi.V1.ConversationView();
+            }
+            input.ReadMessage(Conversation);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceAppendUserMessageRequest : pb::IMessage<ChatOperationsServiceAppendUserMessageRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceAppendUserMessageRequest> _parser = new pb::MessageParser<ChatOperationsServiceAppendUserMessageRequest>(() => new ChatOperationsServiceAppendUserMessageRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceAppendUserMessageRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageRequest(ChatOperationsServiceAppendUserMessageRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      conversationId_ = other.conversationId_ != null ? other.conversationId_.Clone() : null;
+      messageId_ = other.messageId_ != null ? other.messageId_.Clone() : null;
+      draft_ = other.draft_ != null ? other.draft_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageRequest Clone() {
+      return new ChatOperationsServiceAppendUserMessageRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "conversation_id" field.</summary>
+    public const int ConversationIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id conversationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConversationId {
+      get { return conversationId_; }
+      set {
+        conversationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "message_id" field.</summary>
+    public const int MessageIdFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.Id messageId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id MessageId {
+      get { return messageId_; }
+      set {
+        messageId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "draft" field.</summary>
+    public const int DraftFieldNumber = 12;
+    private global::ArcForges.Contracts.PublicApi.V1.MessageDraft draft_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.MessageDraft Draft {
+      get { return draft_; }
+      set {
+        draft_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceAppendUserMessageRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceAppendUserMessageRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ConversationId, other.ConversationId)) return false;
+      if (!object.Equals(MessageId, other.MessageId)) return false;
+      if (!object.Equals(Draft, other.Draft)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (conversationId_ != null) hash ^= ConversationId.GetHashCode();
+      if (messageId_ != null) hash ^= MessageId.GetHashCode();
+      if (draft_ != null) hash ^= Draft.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConversationId);
+      }
+      if (messageId_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(MessageId);
+      }
+      if (draft_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Draft);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ConversationId);
+      }
+      if (messageId_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(MessageId);
+      }
+      if (draft_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Draft);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (conversationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConversationId);
+      }
+      if (messageId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MessageId);
+      }
+      if (draft_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Draft);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceAppendUserMessageRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.conversationId_ != null) {
+        if (conversationId_ == null) {
+          ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConversationId.MergeFrom(other.ConversationId);
+      }
+      if (other.messageId_ != null) {
+        if (messageId_ == null) {
+          MessageId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        MessageId.MergeFrom(other.MessageId);
+      }
+      if (other.draft_ != null) {
+        if (draft_ == null) {
+          Draft = new global::ArcForges.Contracts.PublicApi.V1.MessageDraft();
+        }
+        Draft.MergeFrom(other.Draft);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 90: {
+            if (messageId_ == null) {
+              MessageId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(MessageId);
+            break;
+          }
+          case 98: {
+            if (draft_ == null) {
+              Draft = new global::ArcForges.Contracts.PublicApi.V1.MessageDraft();
+            }
+            input.ReadMessage(Draft);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 90: {
+            if (messageId_ == null) {
+              MessageId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(MessageId);
+            break;
+          }
+          case 98: {
+            if (draft_ == null) {
+              Draft = new global::ArcForges.Contracts.PublicApi.V1.MessageDraft();
+            }
+            input.ReadMessage(Draft);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceAppendUserMessageResponse : pb::IMessage<ChatOperationsServiceAppendUserMessageResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceAppendUserMessageResponse> _parser = new pb::MessageParser<ChatOperationsServiceAppendUserMessageResponse>(() => new ChatOperationsServiceAppendUserMessageResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceAppendUserMessageResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[10]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageResponse(ChatOperationsServiceAppendUserMessageResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageResponse Clone() {
+      return new ChatOperationsServiceAppendUserMessageResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceAppendUserMessageResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceAppendUserMessageResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceAppendUserMessageResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceAppendUserMessageValue : pb::IMessage<ChatOperationsServiceAppendUserMessageValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceAppendUserMessageValue> _parser = new pb::MessageParser<ChatOperationsServiceAppendUserMessageValue>(() => new ChatOperationsServiceAppendUserMessageValue());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceAppendUserMessageValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[11]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageValue(ChatOperationsServiceAppendUserMessageValue other) : this() {
+      _hasBits0 = other._hasBits0;
+      receipt_ = other.receipt_ != null ? other.receipt_.Clone() : null;
+      pending_ = other.pending_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceAppendUserMessageValue Clone() {
+      return new ChatOperationsServiceAppendUserMessageValue(this);
+    }
+
+    /// <summary>Field number for the "receipt" field.</summary>
+    public const int ReceiptFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Receipt receipt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Receipt Receipt {
+      get { return receipt_; }
+      set {
+        receipt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "pending" field.</summary>
+    public const int PendingFieldNumber = 11;
+    private readonly static bool PendingDefaultValue = false;
+
+    private bool pending_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Pending {
+      get { if ((_hasBits0 & 1) != 0) { return pending_; } else { return PendingDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        pending_ = value;
+      }
+    }
+    /// <summary>Gets whether the "pending" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasPending {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "pending" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearPending() {
+      _hasBits0 &= ~1;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceAppendUserMessageValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceAppendUserMessageValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Receipt, other.Receipt)) return false;
+      if (Pending != other.Pending) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (receipt_ != null) hash ^= Receipt.GetHashCode();
+      if (HasPending) hash ^= Pending.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (receipt_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Receipt);
+      }
+      if (HasPending) {
+        output.WriteRawTag(88);
+        output.WriteBool(Pending);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (receipt_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Receipt);
+      }
+      if (HasPending) {
+        output.WriteRawTag(88);
+        output.WriteBool(Pending);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (receipt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Receipt);
+      }
+      if (HasPending) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceAppendUserMessageValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.receipt_ != null) {
+        if (receipt_ == null) {
+          Receipt = new global::ArcForges.Contracts.Foundation.V1.Receipt();
+        }
+        Receipt.MergeFrom(other.Receipt);
+      }
+      if (other.HasPending) {
+        Pending = other.Pending;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (receipt_ == null) {
+              Receipt = new global::ArcForges.Contracts.Foundation.V1.Receipt();
+            }
+            input.ReadMessage(Receipt);
+            break;
+          }
+          case 88: {
+            Pending = input.ReadBool();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (receipt_ == null) {
+              Receipt = new global::ArcForges.Contracts.Foundation.V1.Receipt();
+            }
+            input.ReadMessage(Receipt);
+            break;
+          }
+          case 88: {
+            Pending = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceStartAgentTurnRequest : pb::IMessage<ChatOperationsServiceStartAgentTurnRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceStartAgentTurnRequest> _parser = new pb::MessageParser<ChatOperationsServiceStartAgentTurnRequest>(() => new ChatOperationsServiceStartAgentTurnRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceStartAgentTurnRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnRequest(ChatOperationsServiceStartAgentTurnRequest other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      taskId_ = other.taskId_ != null ? other.taskId_.Clone() : null;
+      conversationId_ = other.conversationId_ != null ? other.conversationId_.Clone() : null;
+      input_ = other.input_ != null ? other.input_.Clone() : null;
+      options_ = other.options_ != null ? other.options_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnRequest Clone() {
+      return new ChatOperationsServiceStartAgentTurnRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "task_id" field.</summary>
+    public const int TaskIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id taskId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id TaskId {
+      get { return taskId_; }
+      set {
+        taskId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "conversation_id" field.</summary>
+    public const int ConversationIdFieldNumber = 11;
+    private global::ArcForges.Contracts.Foundation.V1.Id conversationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ConversationId {
+      get { return conversationId_; }
+      set {
+        conversationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "input" field.</summary>
+    public const int InputFieldNumber = 12;
+    private global::ArcForges.Contracts.PublicApi.V1.TurnInput input_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.TurnInput Input {
+      get { return input_; }
+      set {
+        input_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "options" field.</summary>
+    public const int OptionsFieldNumber = 13;
+    private global::ArcForges.Contracts.PublicApi.V1.TurnOptions options_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.TurnOptions Options {
+      get { return options_; }
+      set {
+        options_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceStartAgentTurnRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceStartAgentTurnRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(TaskId, other.TaskId)) return false;
+      if (!object.Equals(ConversationId, other.ConversationId)) return false;
+      if (!object.Equals(Input, other.Input)) return false;
+      if (!object.Equals(Options, other.Options)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (taskId_ != null) hash ^= TaskId.GetHashCode();
+      if (conversationId_ != null) hash ^= ConversationId.GetHashCode();
+      if (input_ != null) hash ^= Input.GetHashCode();
+      if (options_ != null) hash ^= Options.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (taskId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(TaskId);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(ConversationId);
+      }
+      if (input_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Input);
+      }
+      if (options_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(Options);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (taskId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(TaskId);
+      }
+      if (conversationId_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(ConversationId);
+      }
+      if (input_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(Input);
+      }
+      if (options_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(Options);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (taskId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TaskId);
+      }
+      if (conversationId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConversationId);
+      }
+      if (input_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Input);
+      }
+      if (options_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Options);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceStartAgentTurnRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.taskId_ != null) {
+        if (taskId_ == null) {
+          TaskId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        TaskId.MergeFrom(other.TaskId);
+      }
+      if (other.conversationId_ != null) {
+        if (conversationId_ == null) {
+          ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ConversationId.MergeFrom(other.ConversationId);
+      }
+      if (other.input_ != null) {
+        if (input_ == null) {
+          Input = new global::ArcForges.Contracts.PublicApi.V1.TurnInput();
+        }
+        Input.MergeFrom(other.Input);
+      }
+      if (other.options_ != null) {
+        if (options_ == null) {
+          Options = new global::ArcForges.Contracts.PublicApi.V1.TurnOptions();
+        }
+        Options.MergeFrom(other.Options);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (taskId_ == null) {
+              TaskId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TaskId);
+            break;
+          }
+          case 90: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 98: {
+            if (input_ == null) {
+              Input = new global::ArcForges.Contracts.PublicApi.V1.TurnInput();
+            }
+            input.ReadMessage(Input);
+            break;
+          }
+          case 106: {
+            if (options_ == null) {
+              Options = new global::ArcForges.Contracts.PublicApi.V1.TurnOptions();
+            }
+            input.ReadMessage(Options);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (taskId_ == null) {
+              TaskId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TaskId);
+            break;
+          }
+          case 90: {
+            if (conversationId_ == null) {
+              ConversationId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ConversationId);
+            break;
+          }
+          case 98: {
+            if (input_ == null) {
+              Input = new global::ArcForges.Contracts.PublicApi.V1.TurnInput();
+            }
+            input.ReadMessage(Input);
+            break;
+          }
+          case 106: {
+            if (options_ == null) {
+              Options = new global::ArcForges.Contracts.PublicApi.V1.TurnOptions();
+            }
+            input.ReadMessage(Options);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceStartAgentTurnResponse : pb::IMessage<ChatOperationsServiceStartAgentTurnResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceStartAgentTurnResponse> _parser = new pb::MessageParser<ChatOperationsServiceStartAgentTurnResponse>(() => new ChatOperationsServiceStartAgentTurnResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceStartAgentTurnResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnResponse(ChatOperationsServiceStartAgentTurnResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnResponse Clone() {
+      return new ChatOperationsServiceStartAgentTurnResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceStartAgentTurnResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceStartAgentTurnResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceStartAgentTurnResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceStartAgentTurnValue : pb::IMessage<ChatOperationsServiceStartAgentTurnValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceStartAgentTurnValue> _parser = new pb::MessageParser<ChatOperationsServiceStartAgentTurnValue>(() => new ChatOperationsServiceStartAgentTurnValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceStartAgentTurnValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[14]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnValue(ChatOperationsServiceStartAgentTurnValue other) : this() {
+      task_ = other.task_ != null ? other.task_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceStartAgentTurnValue Clone() {
+      return new ChatOperationsServiceStartAgentTurnValue(this);
+    }
+
+    /// <summary>Field number for the "task" field.</summary>
+    public const int TaskFieldNumber = 10;
+    private global::ArcForges.Contracts.PublicApi.V1.TaskSnapshot task_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.TaskSnapshot Task {
+      get { return task_; }
+      set {
+        task_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceStartAgentTurnValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceStartAgentTurnValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Task, other.Task)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (task_ != null) hash ^= Task.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (task_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Task);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (task_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Task);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (task_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Task);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceStartAgentTurnValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.task_ != null) {
+        if (task_ == null) {
+          Task = new global::ArcForges.Contracts.PublicApi.V1.TaskSnapshot();
+        }
+        Task.MergeFrom(other.Task);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (task_ == null) {
+              Task = new global::ArcForges.Contracts.PublicApi.V1.TaskSnapshot();
+            }
+            input.ReadMessage(Task);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (task_ == null) {
+              Task = new global::ArcForges.Contracts.PublicApi.V1.TaskSnapshot();
+            }
+            input.ReadMessage(Task);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceSubmitApprovalRequest : pb::IMessage<ChatOperationsServiceSubmitApprovalRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceSubmitApprovalRequest> _parser = new pb::MessageParser<ChatOperationsServiceSubmitApprovalRequest>(() => new ChatOperationsServiceSubmitApprovalRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceSubmitApprovalRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalRequest(ChatOperationsServiceSubmitApprovalRequest other) : this() {
+      _hasBits0 = other._hasBits0;
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      approvalId_ = other.approvalId_ != null ? other.approvalId_.Clone() : null;
+      decision_ = other.decision_;
+      proposalHash_ = other.proposalHash_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalRequest Clone() {
+      return new ChatOperationsServiceSubmitApprovalRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "approval_id" field.</summary>
+    public const int ApprovalIdFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.Id approvalId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ApprovalId {
+      get { return approvalId_; }
+      set {
+        approvalId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "decision" field.</summary>
+    public const int DecisionFieldNumber = 11;
+    private readonly static global::ArcForges.Contracts.PublicApi.V1.ApprovalDecision DecisionDefaultValue = global::ArcForges.Contracts.PublicApi.V1.ApprovalDecision.Unspecified;
+
+    private global::ArcForges.Contracts.PublicApi.V1.ApprovalDecision decision_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.ApprovalDecision Decision {
+      get { if ((_hasBits0 & 1) != 0) { return decision_; } else { return DecisionDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        decision_ = value;
+      }
+    }
+    /// <summary>Gets whether the "decision" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasDecision {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "decision" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearDecision() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "proposal_hash" field.</summary>
+    public const int ProposalHashFieldNumber = 12;
+    private readonly static string ProposalHashDefaultValue = "";
+
+    private string proposalHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ProposalHash {
+      get { return proposalHash_ ?? ProposalHashDefaultValue; }
+      set {
+        proposalHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "proposal_hash" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasProposalHash {
+      get { return proposalHash_ != null; }
+    }
+    /// <summary>Clears the value of the "proposal_hash" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearProposalHash() {
+      proposalHash_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceSubmitApprovalRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceSubmitApprovalRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(ApprovalId, other.ApprovalId)) return false;
+      if (Decision != other.Decision) return false;
+      if (ProposalHash != other.ProposalHash) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (approvalId_ != null) hash ^= ApprovalId.GetHashCode();
+      if (HasDecision) hash ^= Decision.GetHashCode();
+      if (HasProposalHash) hash ^= ProposalHash.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (approvalId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ApprovalId);
+      }
+      if (HasDecision) {
+        output.WriteRawTag(88);
+        output.WriteEnum((int) Decision);
+      }
+      if (HasProposalHash) {
+        output.WriteRawTag(98);
+        output.WriteString(ProposalHash);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (approvalId_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(ApprovalId);
+      }
+      if (HasDecision) {
+        output.WriteRawTag(88);
+        output.WriteEnum((int) Decision);
+      }
+      if (HasProposalHash) {
+        output.WriteRawTag(98);
+        output.WriteString(ProposalHash);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (approvalId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ApprovalId);
+      }
+      if (HasDecision) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Decision);
+      }
+      if (HasProposalHash) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ProposalHash);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceSubmitApprovalRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.approvalId_ != null) {
+        if (approvalId_ == null) {
+          ApprovalId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ApprovalId.MergeFrom(other.ApprovalId);
+      }
+      if (other.HasDecision) {
+        Decision = other.Decision;
+      }
+      if (other.HasProposalHash) {
+        ProposalHash = other.ProposalHash;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (approvalId_ == null) {
+              ApprovalId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ApprovalId);
+            break;
+          }
+          case 88: {
+            Decision = (global::ArcForges.Contracts.PublicApi.V1.ApprovalDecision) input.ReadEnum();
+            break;
+          }
+          case 98: {
+            ProposalHash = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (approvalId_ == null) {
+              ApprovalId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ApprovalId);
+            break;
+          }
+          case 88: {
+            Decision = (global::ArcForges.Contracts.PublicApi.V1.ApprovalDecision) input.ReadEnum();
+            break;
+          }
+          case 98: {
+            ProposalHash = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceSubmitApprovalResponse : pb::IMessage<ChatOperationsServiceSubmitApprovalResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceSubmitApprovalResponse> _parser = new pb::MessageParser<ChatOperationsServiceSubmitApprovalResponse>(() => new ChatOperationsServiceSubmitApprovalResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceSubmitApprovalResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[16]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalResponse(ChatOperationsServiceSubmitApprovalResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalResponse Clone() {
+      return new ChatOperationsServiceSubmitApprovalResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceSubmitApprovalResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceSubmitApprovalResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceSubmitApprovalResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceSubmitApprovalValue : pb::IMessage<ChatOperationsServiceSubmitApprovalValue>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceSubmitApprovalValue> _parser = new pb::MessageParser<ChatOperationsServiceSubmitApprovalValue>(() => new ChatOperationsServiceSubmitApprovalValue());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceSubmitApprovalValue> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[17]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalValue() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalValue(ChatOperationsServiceSubmitApprovalValue other) : this() {
+      approval_ = other.approval_ != null ? other.approval_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceSubmitApprovalValue Clone() {
+      return new ChatOperationsServiceSubmitApprovalValue(this);
+    }
+
+    /// <summary>Field number for the "approval" field.</summary>
+    public const int ApprovalFieldNumber = 10;
+    private global::ArcForges.Contracts.PublicApi.V1.ApprovalView approval_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.PublicApi.V1.ApprovalView Approval {
+      get { return approval_; }
+      set {
+        approval_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceSubmitApprovalValue);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceSubmitApprovalValue other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Approval, other.Approval)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (approval_ != null) hash ^= Approval.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (approval_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Approval);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (approval_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Approval);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (approval_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Approval);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceSubmitApprovalValue other) {
+      if (other == null) {
+        return;
+      }
+      if (other.approval_ != null) {
+        if (approval_ == null) {
+          Approval = new global::ArcForges.Contracts.PublicApi.V1.ApprovalView();
+        }
+        Approval.MergeFrom(other.Approval);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 82: {
+            if (approval_ == null) {
+              Approval = new global::ArcForges.Contracts.PublicApi.V1.ApprovalView();
+            }
+            input.ReadMessage(Approval);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 82: {
+            if (approval_ == null) {
+              Approval = new global::ArcForges.Contracts.PublicApi.V1.ApprovalView();
+            }
+            input.ReadMessage(Approval);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceOpenArtifactRequest : pb::IMessage<ChatOperationsServiceOpenArtifactRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceOpenArtifactRequest> _parser = new pb::MessageParser<ChatOperationsServiceOpenArtifactRequest>(() => new ChatOperationsServiceOpenArtifactRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceOpenArtifactRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[18]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceOpenArtifactRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceOpenArtifactRequest(ChatOperationsServiceOpenArtifactRequest other) : this() {
+      _hasBits0 = other._hasBits0;
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      artifact_ = other.artifact_ != null ? other.artifact_.Clone() : null;
+      intent_ = other.intent_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceOpenArtifactRequest Clone() {
+      return new ChatOperationsServiceOpenArtifactRequest(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.RequestMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.RequestMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "artifact" field.</summary>
+    public const int ArtifactFieldNumber = 10;
+    private global::ArcForges.Contracts.Foundation.V1.ArtifactRef artifact_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArtifactRef Artifact {
+      get { return artifact_; }
+      set {
+        artifact_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "intent" field.</summary>
+    public const int IntentFieldNumber = 12;
+    private readonly static global::ArcForges.Contracts.LocalRpc.Platform.V1.OpenIntent IntentDefaultValue = global::ArcForges.Contracts.LocalRpc.Platform.V1.OpenIntent.Unspecified;
+
+    private global::ArcForges.Contracts.LocalRpc.Platform.V1.OpenIntent intent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Platform.V1.OpenIntent Intent {
+      get { if ((_hasBits0 & 1) != 0) { return intent_; } else { return IntentDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        intent_ = value;
+      }
+    }
+    /// <summary>Gets whether the "intent" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasIntent {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "intent" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearIntent() {
+      _hasBits0 &= ~1;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceOpenArtifactRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceOpenArtifactRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Artifact, other.Artifact)) return false;
+      if (Intent != other.Intent) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (artifact_ != null) hash ^= Artifact.GetHashCode();
+      if (HasIntent) hash ^= Intent.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (artifact_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Artifact);
+      }
+      if (HasIntent) {
+        output.WriteRawTag(96);
+        output.WriteEnum((int) Intent);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (artifact_ != null) {
+        output.WriteRawTag(82);
+        output.WriteMessage(Artifact);
+      }
+      if (HasIntent) {
+        output.WriteRawTag(96);
+        output.WriteEnum((int) Intent);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (artifact_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Artifact);
+      }
+      if (HasIntent) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Intent);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceOpenArtifactRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      if (other.artifact_ != null) {
+        if (artifact_ == null) {
+          Artifact = new global::ArcForges.Contracts.Foundation.V1.ArtifactRef();
+        }
+        Artifact.MergeFrom(other.Artifact);
+      }
+      if (other.HasIntent) {
+        Intent = other.Intent;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (artifact_ == null) {
+              Artifact = new global::ArcForges.Contracts.Foundation.V1.ArtifactRef();
+            }
+            input.ReadMessage(Artifact);
+            break;
+          }
+          case 96: {
+            Intent = (global::ArcForges.Contracts.LocalRpc.Platform.V1.OpenIntent) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.RequestMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 82: {
+            if (artifact_ == null) {
+              Artifact = new global::ArcForges.Contracts.Foundation.V1.ArtifactRef();
+            }
+            input.ReadMessage(Artifact);
+            break;
+          }
+          case 96: {
+            Intent = (global::ArcForges.Contracts.LocalRpc.Platform.V1.OpenIntent) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ChatOperationsServiceOpenArtifactResponse : pb::IMessage<ChatOperationsServiceOpenArtifactResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ChatOperationsServiceOpenArtifactResponse> _parser = new pb::MessageParser<ChatOperationsServiceOpenArtifactResponse>(() => new ChatOperationsServiceOpenArtifactResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ChatOperationsServiceOpenArtifactResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[19]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceOpenArtifactResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceOpenArtifactResponse(ChatOperationsServiceOpenArtifactResponse other) : this() {
+      meta_ = other.meta_ != null ? other.meta_.Clone() : null;
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          Value = other.Value.Clone();
+          break;
+        case OutcomeOneofCase.Error:
+          Error = other.Error.Clone();
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ChatOperationsServiceOpenArtifactResponse Clone() {
+      return new ChatOperationsServiceOpenArtifactResponse(this);
+    }
+
+    /// <summary>Field number for the "meta" field.</summary>
+    public const int MetaFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.ResponseMeta meta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ResponseMeta Meta {
+      get { return meta_; }
+      set {
+        meta_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "value" field.</summary>
+    public const int ValueFieldNumber = 2;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue Value {
+      get { return outcomeCase_ == OutcomeOneofCase.Value ? (global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Value;
+      }
+    }
+
+    /// <summary>Field number for the "error" field.</summary>
+    public const int ErrorFieldNumber = 3;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ArcError Error {
+      get { return outcomeCase_ == OutcomeOneofCase.Error ? (global::ArcForges.Contracts.Foundation.V1.ArcError) outcome_ : null; }
+      set {
+        outcome_ = value;
+        outcomeCase_ = value == null ? OutcomeOneofCase.None : OutcomeOneofCase.Error;
+      }
+    }
+
+    private object outcome_;
+    /// <summary>Enum of possible cases for the "outcome" oneof.</summary>
+    public enum OutcomeOneofCase {
+      None = 0,
+      Value = 2,
+      Error = 3,
+    }
+    private OutcomeOneofCase outcomeCase_ = OutcomeOneofCase.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public OutcomeOneofCase OutcomeCase {
+      get { return outcomeCase_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearOutcome() {
+      outcomeCase_ = OutcomeOneofCase.None;
+      outcome_ = null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ChatOperationsServiceOpenArtifactResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ChatOperationsServiceOpenArtifactResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Meta, other.Meta)) return false;
+      if (!object.Equals(Value, other.Value)) return false;
+      if (!object.Equals(Error, other.Error)) return false;
+      if (OutcomeCase != other.OutcomeCase) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (meta_ != null) hash ^= Meta.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Value) hash ^= Value.GetHashCode();
+      if (outcomeCase_ == OutcomeOneofCase.Error) hash ^= Error.GetHashCode();
+      hash ^= (int) outcomeCase_;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (meta_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        output.WriteRawTag(26);
+        output.WriteMessage(Error);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (meta_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Meta);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Value) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Value);
+      }
+      if (outcomeCase_ == OutcomeOneofCase.Error) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Error);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ChatOperationsServiceOpenArtifactResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.meta_ != null) {
+        if (meta_ == null) {
+          Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+        }
+        Meta.MergeFrom(other.Meta);
+      }
+      switch (other.OutcomeCase) {
+        case OutcomeOneofCase.Value:
+          if (Value == null) {
+            Value = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue();
+          }
+          Value.MergeFrom(other.Value);
+          break;
+        case OutcomeOneofCase.Error:
+          if (Error == null) {
+            Error = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+          }
+          Error.MergeFrom(other.Error);
+          break;
+      }
+
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (meta_ == null) {
+              Meta = new global::ArcForges.Contracts.Foundation.V1.ResponseMeta();
+            }
+            input.ReadMessage(Meta);
+            break;
+          }
+          case 18: {
+            global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue subBuilder = new global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceOpenArtifactValue();
+            if (outcomeCase_ == OutcomeOneofCase.Value) {
+              subBuilder.MergeFrom(Value);
+            }
+            input.ReadMessage(subBuilder);
+            Value = subBuilder;
+            break;
+          }
+          case 26: {
+            global::ArcForges.Contracts.Foundation.V1.ArcError subBuilder = new global::ArcForges.Contracts.Foundation.V1.ArcError();
+            if (outcomeCase_ == OutcomeOneofCase.Error) {
+              subBuilder.MergeFrom(Error);
+            }
+            input.ReadMessage(subBuilder);
+            Error = subBuilder;
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ChatOperationsServiceOpenArtifactValue : pb::IMessage<ChatOperationsServiceOpenArtifactValue>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -61,7 +6374,7 @@ namespace ArcForges.Contracts.LocalRpc.Chat.V1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[0]; }
+      get { return global::ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

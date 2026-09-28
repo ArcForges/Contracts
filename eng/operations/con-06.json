@@ -1,0 +1,831 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "operations": [
+    {
+      "operationId": "ICapabilityProvider.Describe",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.ICapabilityProvider.DescribeAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "ICapabilityProvider.EvaluateAvailability",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.ICapabilityProvider.EvaluateAvailabilityAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "ICapabilityProvider.Invoke",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.ICapabilityProvider.InvokeAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "in-process-invocation",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#closed-in-process-authorization-profiles",
+      "idempotency": {
+        "from": "admittedCapability.idempotency"
+      },
+      "authorization": {
+        "capability": {
+          "from": "admittedCapability.operationId"
+        },
+        "risk": {
+          "from": "admittedCapability.risk"
+        },
+        "approval": {
+          "from": "admittedCapability.approval"
+        },
+        "stepUp": {
+          "from": "admittedCapability.stepUp"
+        },
+        "localPresence": {
+          "from": "admittedCapability.localPresence"
+        },
+        "egress": {
+          "from": "admittedCapability.egress"
+        },
+        "actorKinds": {
+          "from": "admittedCapability.actorKinds"
+        },
+        "patEligible": false
+      },
+      "delegation": {
+        "intersectOriginalActor": true,
+        "requireCurrentGrant": true,
+        "denyHumanOnly": true,
+        "requireRegisteredProductHandler": true
+      }
+    },
+    {
+      "operationId": "IContextProvider.DescribeContextKinds",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IContextProvider.DescribeContextKindsAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IContextProvider.ProvideContext",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IContextProvider.ProvideContextAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IArtifactHandler.DescribeArtifactKinds",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IArtifactHandler.DescribeArtifactKindsAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IArtifactHandler.Resolve",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IArtifactHandler.ResolveAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IArtifactHandler.RenderPreview",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IArtifactHandler.RenderPreviewAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IArtifactHandler.Open",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IArtifactHandler.OpenAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IResourceAccess.GetMetadata",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IResourceAccess.GetMetadataAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IResourceAccess.OpenRead",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IResourceAccess.OpenReadAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IResourceAccess.Release",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IResourceAccess.ReleaseAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IResourceAccess.ReadChunk",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IResourceAccess.ReadChunkAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IProductLifecycle.GetState",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IProductLifecycle.GetStateAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IProductLifecycle.PrepareForShutdown",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IProductLifecycle.PrepareForShutdownAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IProductLifecycle.GetJob",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IProductLifecycle.GetJobAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IDeepLinkTarget.HandleDeepLink",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.IDeepLinkTarget.HandleDeepLinkAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "ILocalEvents.Poll",
+      "binding": "ArcForges.Contracts.LocalRpc.Platform.Ports.ILocalEvents.PollAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#ordinary-in-process-authorization-metadata",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.ListConversations",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.ListConversationsAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.GetConversation",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.GetConversationAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.CreateConversation",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.CreateConversationAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.AppendUserMessage",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.AppendUserMessageAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "AP",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.StartAgentTurn",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.StartAgentTurnAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perPlanStep",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.SubmitApproval",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.SubmitApprovalAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "human-approval-decision",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#closed-in-process-authorization-profiles",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": {
+          "from": "verifiedApprovalProposal.effectiveRisk"
+        },
+        "approval": "foregroundProposal",
+        "stepUp": {
+          "from": "verifiedApprovalProposal.stepUp"
+        },
+        "localPresence": {
+          "from": "verifiedApprovalProposal.localPresence"
+        },
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "IChatOperations.OpenArtifact",
+      "binding": "ArcForges.Contracts.LocalRpc.Chat.Ports.IChatOperations.OpenArtifactAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.ListSessions",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.ListSessionsAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.GetSession",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.GetSessionAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.ListCaptures",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.ListCapturesAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.GetConfigurationSnapshot",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.GetConfigurationSnapshotAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.RunMeasurement",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.RunMeasurementAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.RunAnalysis",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.RunAnalysisAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.CompareSessions",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CompareSessionsAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.CreateAnnotation",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateAnnotationAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.CreateFinding",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.CreateFindingAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.GenerateReport",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.GenerateReportAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.StartCapture",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.StartCaptureAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.StopCapture",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.StopCaptureAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "perOperation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    },
+    {
+      "operationId": "IScopeOperations.GetStructuredContext",
+      "binding": "ArcForges.Contracts.LocalRpc.Scope.Ports.IScopeOperations.GetStructuredContextAsync",
+      "kind": "in-process",
+      "source": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope/Generated/InprocessPorts.g.cs",
+      "scope": "in-process",
+      "surface": "in-process",
+      "profile": "product-handler",
+      "sourceRule": "docs/architecture/contracts/02-local-rpc-operations.md#6-product-operation-interfaces",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human", "product-handler"]
+      }
+    }
+  ]
+}

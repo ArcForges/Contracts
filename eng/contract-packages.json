@@ -20,7 +20,8 @@
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/publicapi/v1/content.proto",
         "public/proto/arcforges/publicapi/v1/descriptors.proto",
-        "public/proto/arcforges/catalog/v1/catalog.proto"
+        "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
@@ -95,8 +96,15 @@
       "kind": "nuget",
       "access": "internal",
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Platform",
-      "proto": ["internal/proto/arcforges/local/platform/v1/platform.proto"],
-      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "proto": [
+        "internal/proto/arcforges/local/platform/v1/platform.proto",
+        "internal/proto/arcforges/local/platform/v1/inprocess.proto"
+      ],
+      "dependencies": [
+        "ArcForges.Contracts.Foundation",
+        "ArcForges.Contracts.PublicApi",
+        "ArcForges.Sdk.Contracts"
+      ],
       "descriptor": "local-platform.binpb",
       "jsonSchemas": []
     },
@@ -116,7 +124,11 @@
       "access": "internal",
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Chat",
       "proto": ["internal/proto/arcforges/local/chat/v1/chat.proto"],
-      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "dependencies": [
+        "ArcForges.Contracts.Foundation",
+        "ArcForges.Contracts.PublicApi",
+        "ArcForges.Contracts.LocalRpc.Platform"
+      ],
       "descriptor": "local-chat.binpb",
       "jsonSchemas": []
     },
@@ -126,7 +138,11 @@
       "access": "internal",
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.LocalRpc.Scope",
       "proto": ["internal/proto/arcforges/local/scope/v1/scope.proto"],
-      "dependencies": ["ArcForges.Contracts.Foundation"],
+      "dependencies": [
+        "ArcForges.Contracts.Foundation",
+        "ArcForges.Contracts.PublicApi",
+        "ArcForges.Contracts.LocalRpc.Platform"
+      ],
       "descriptor": "local-scope.binpb",
       "jsonSchemas": []
     },
@@ -154,7 +170,8 @@
         "public/proto/arcforges/events/v1/events.proto",
         "public/proto/arcforges/publicapi/v1/content.proto",
         "public/proto/arcforges/publicapi/v1/descriptors.proto",
-        "public/proto/arcforges/catalog/v1/catalog.proto"
+        "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -222,7 +239,8 @@
         "public/proto/arcforges/events/v1/events.proto",
         "public/proto/arcforges/publicapi/v1/content.proto",
         "public/proto/arcforges/publicapi/v1/descriptors.proto",
-        "public/proto/arcforges/catalog/v1/catalog.proto"
+        "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",

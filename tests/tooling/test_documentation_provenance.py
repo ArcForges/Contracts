@@ -107,9 +107,14 @@ class DocumentationAdmissionTests(unittest.TestCase):
                                  for suffix in ("Request", "Response", "Value")}
             catalog_pages = {"contracts-proto/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                              for name in catalog_messages}
+            inprocess_messages = {"ContextRequest", "ContextContribution", "ContextItem", "Availability",
+                                  "PreviewRequest", "ResourceMetadata", "ApprovalView", "TurnOptions",
+                                  "KnowledgePolicy", "KnowledgePolicyPatch", "SourcePolicyView", "SourceConsentSpec"}
+            inprocess_pages = {"contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
+                               for name in inprocess_messages}
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
-            permitted = descriptor_pages | catalog_pages if module == "contracts-proto" else (
+            permitted = descriptor_pages | catalog_pages | inprocess_pages if module == "contracts-proto" else (
                 clients if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:

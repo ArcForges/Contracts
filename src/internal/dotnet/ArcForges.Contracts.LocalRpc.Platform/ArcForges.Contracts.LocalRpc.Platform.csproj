@@ -17,6 +17,8 @@
     <PackageReference Include="Google.Protobuf" />
     <PackageReference Include="Grpc.Core.Api" />
     <ProjectReference Include="../../../public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj" />
+    <ProjectReference Include="../../../public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj" />
+    <ProjectReference Include="../../../public/dotnet/ArcForges.Sdk.Contracts/ArcForges.Sdk.Contracts.csproj" />
     <None Include="README.md" Pack="true" PackagePath="/" />
     <None Include="../../../../LICENSE" Pack="true" PackagePath="/" />
     <None Include="$(ContractMetadataDir)/**/*" Pack="true" PackagePath="/" Condition="'$(ContractMetadataDir)' != ''" />

@@ -2484,6 +2484,50 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ApprovalView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ApprovalView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ApprovalView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ApprovalId is null) return false;
+        if (!Check(value.ApprovalId, context)) return false;
+        if (value.TaskId is null) return false;
+        if (!Check(value.TaskId, context)) return false;
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasRisk) return false;
+        if (value.HasRisk)
+        {
+            if (!ValidUnicode(value.Risk)) return false;
+            if (ScalarLength(value.Risk) < 1) return false;
+            if (ScalarLength(value.Risk) > 128) return false;
+            if (!Matches(value.Risk, "^[A-Za-z0-9._:/-]+$")) return false;
+        }
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) < 1) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]+$")) return false;
+            if (value.State != "pending" && value.State != "approved" && value.State != "rejected" && value.State != "expired" && value.State != "withdrawn") return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        foreach (var item in value.Context)
+        {
+            if (!Check(item, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.AutomationSpec.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.AutomationSpec? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.AutomationSpec? value, ValidationContext context)
@@ -2565,6 +2609,40 @@ public static class ContractShapeValidation
         if (value.NextOccurrence is not null)
         {
             if (!Check(value.NextOccurrence, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.Availability.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.Availability? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.Availability? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasCapability) return false;
+        if (value.HasCapability)
+        {
+            if (!ValidUnicode(value.Capability)) return false;
+            if (ScalarLength(value.Capability) < 1) return false;
+            if (ScalarLength(value.Capability) > 128) return false;
+            if (!Matches(value.Capability, "^[A-Za-z0-9._:/-]+$")) return false;
+        }
+        if (!value.HasAllowed) return false;
+        if (value.HasAllowed)
+        {
+        }
+        foreach (var item in value.Reasons)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (ScalarLength(item) < 1) return false;
+            if (ScalarLength(item) > 128) return false;
+            if (!Matches(item, "^[A-Za-z0-9._:/-]+$")) return false;
+        }
+        if (value.RecoveryAt is not null)
+        {
+            if (!Check(value.RecoveryAt, context)) return false;
         }
         return true;
         }
@@ -2768,6 +2846,37 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ContextContribution.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextContribution? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextContribution? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        foreach (var item in value.Sources)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Items.Count > 200) return false;
+        foreach (var item in value.Items)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasTruncated) return false;
+        if (value.HasTruncated)
+        {
+        }
+        foreach (var item in value.Reasons)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (ScalarLength(item) < 1) return false;
+            if (ScalarLength(item) > 128) return false;
+            if (!Matches(item, "^[A-Za-z0-9._:/-]+$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ContextDescriptor.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextDescriptor? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextDescriptor? value, ValidationContext context)
@@ -2811,6 +2920,29 @@ public static class ContractShapeValidation
         if (!Check(value.Context, context)) return false;
         if (value.ObservedAt is null) return false;
         if (!Check(value.ObservedAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ContextItem.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextItem? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextItem? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Source is null) return false;
+        if (!Check(value.Source, context)) return false;
+        if ((int)value.ProjectionCase == 2)
+        {
+            if (!ValidUnicode(value.Text)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Text) > 262144) return false;
+        }
+        if ((int)value.ProjectionCase == 3)
+        {
+            if (!Check(value.Measurement, context)) return false;
+        }
+        if ((int)value.ProjectionCase == 0) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -2910,6 +3042,39 @@ public static class ContractShapeValidation
             if (!Check(value.Consent, context)) return false;
         }
         if (value.Revision is { Value: <= 0 }) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ContextRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ContextRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if (!ValidUnicode(value.Kind)) return false;
+            if (ScalarLength(value.Kind) < 1) return false;
+            if (ScalarLength(value.Kind) > 128) return false;
+            if (!Matches(value.Kind, "^[A-Za-z0-9._:/-]+$")) return false;
+        }
+        if (value.Selector is null) return false;
+        if (!Check(value.Selector, context)) return false;
+        if (!value.HasMaxItems) return false;
+        if (value.HasMaxItems)
+        {
+            if (value.MaxItems < 1) return false;
+            if (value.MaxItems > 200) return false;
+        }
+        if (!value.HasMaxBytes) return false;
+        if (value.HasMaxBytes)
+        {
+            if (value.MaxBytes < 1) return false;
+            if (value.MaxBytes > 262144) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -3256,6 +3421,56 @@ public static class ContractShapeValidation
         }
         if (!value.HasRequired) return false;
         if (value.HasRequired)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.KnowledgePolicy.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.KnowledgePolicy? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.KnowledgePolicy? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSearchable) return false;
+        if (value.HasSearchable)
+        {
+        }
+        if (!value.HasCloudIndexAllowed) return false;
+        if (value.HasCloudIndexAllowed)
+        {
+        }
+        if (!value.HasAiRetrievalAllowed) return false;
+        if (value.HasAiRetrievalAllowed)
+        {
+        }
+        if (!value.HasManagedAiProcessingAllowed) return false;
+        if (value.HasManagedAiProcessingAllowed)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.KnowledgePolicyPatch.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.KnowledgePolicyPatch? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.KnowledgePolicyPatch? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasSearchable)
+        {
+        }
+        if (value.HasCloudIndexAllowed)
+        {
+        }
+        if (value.HasAiRetrievalAllowed)
+        {
+        }
+        if (value.HasManagedAiProcessingAllowed)
         {
         }
         return true;
@@ -3716,6 +3931,69 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.PreviewRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.PreviewRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.PreviewRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasMaxWidth) return false;
+        if (value.HasMaxWidth)
+        {
+            if (value.MaxWidth < 1) return false;
+            if (value.MaxWidth > 4096) return false;
+        }
+        if (!value.HasMaxHeight) return false;
+        if (value.HasMaxHeight)
+        {
+            if (value.MaxHeight < 1) return false;
+            if (value.MaxHeight > 4096) return false;
+        }
+        if (value.HasPage)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ResourceMetadata.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ResourceMetadata? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ResourceMetadata? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Resource is null) return false;
+        if (!Check(value.Resource, context)) return false;
+        if (value.Version is not null)
+        {
+            if (!Check(value.Version, context)) return false;
+        }
+        if (value.Blob is not null)
+        {
+            if (!Check(value.Blob, context)) return false;
+        }
+        if (value.HasMediaType)
+        {
+            if (!ValidUnicode(value.MediaType)) return false;
+        }
+        if (value.HasTransferState)
+        {
+            if (!ValidUnicode(value.TransferState)) return false;
+            if (ScalarLength(value.TransferState) < 1) return false;
+            if (ScalarLength(value.TransferState) > 128) return false;
+            if (!Matches(value.TransferState, "^[A-Za-z0-9._:/-]+$")) return false;
+            if (value.TransferState != "queued" && value.TransferState != "validating" && value.TransferState != "waitingConsent" && value.TransferState != "importing" && value.TransferState != "succeeded" && value.TransferState != "partiallySucceeded" && value.TransferState != "failed" && value.TransferState != "canceled") return false;
+        }
+        if (value.Origin is not null)
+        {
+            if (!Check(value.Origin, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.SampleRange.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SampleRange? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SampleRange? value, ValidationContext context)
@@ -4068,6 +4346,80 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.SourceConsentSpec.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SourceConsentSpec? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SourceConsentSpec? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.OperationId is null) return false;
+        if (!Check(value.OperationId, context)) return false;
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if (!ValidUnicode(value.Purpose)) return false;
+            if (ScalarLength(value.Purpose) < 1) return false;
+            if (ScalarLength(value.Purpose) > 128) return false;
+            if (!Matches(value.Purpose, "^[A-Za-z0-9._:/-]+$")) return false;
+            if (value.Purpose != "turnContext" && value.Purpose != "webSearch" && value.Purpose != "attachment") return false;
+        }
+        if (value.Sources.Count > 64) return false;
+        foreach (var item in value.Sources)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasMaxBytes) return false;
+        if (value.HasMaxBytes)
+        {
+            if (value.MaxBytes < 1UL) return false;
+        }
+        if (value.PolicyRevision is null) return false;
+        if (!Check(value.PolicyRevision, context)) return false;
+        if (value.Override is not null)
+        {
+            if (!Check(value.Override, context)) return false;
+        }
+        if (value.HasQueryHash)
+        {
+            if (!ValidUnicode(value.QueryHash)) return false;
+            if (!Matches(value.QueryHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (value.Override is not null && (value.Override.HasSearchable || value.Override.HasCloudIndexAllowed) || value.Purpose == "webSearch" && !value.HasQueryHash) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.SourcePolicyView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SourcePolicyView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SourcePolicyView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Target is null) return false;
+        if (!Check(value.Target, context)) return false;
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        if (value.Local is null) return false;
+        if (!Check(value.Local, context)) return false;
+        if (value.Effective is null) return false;
+        if (!Check(value.Effective, context)) return false;
+        foreach (var item in value.GoverningDenials)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (ScalarLength(item) < 1) return false;
+            if (ScalarLength(item) > 128) return false;
+            if (!Matches(item, "^[A-Za-z0-9._:/-]+$")) return false;
+        }
+        if (value.InheritedFrom is not null)
+        {
+            if (!Check(value.InheritedFrom, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.StructuredValue.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.StructuredValue? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.StructuredValue? value, ValidationContext context)
@@ -4334,6 +4686,54 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.Instructions)) return false;
         }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.TurnOptions.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.TurnOptions? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.TurnOptions? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.TaskId is not null)
+        {
+            if (!Check(value.TaskId, context)) return false;
+        }
+        if (value.ProfileId is null) return false;
+        if (!Check(value.ProfileId, context)) return false;
+        if (value.HasMaxBudget)
+        {
+        }
+        if (!value.HasMode) return false;
+        if (value.HasMode)
+        {
+            if ((int)value.Mode != 1 && (int)value.Mode != 2 && (int)value.Mode != 3) return false;
+        }
+        if (value.TurnId is not null)
+        {
+            if (!Check(value.TurnId, context)) return false;
+        }
+        if (value.HasModelId)
+        {
+            if (!ValidUnicode(value.ModelId)) return false;
+            if (ScalarLength(value.ModelId) > 256) return false;
+            if (!Matches(value.ModelId, "^([A-Za-z0-9._:/-]{1,128}|@cf/[a-z0-9._-]+/[a-zA-Z0-9._/-]+)$")) return false;
+        }
+        if (value.TargetDeviceId is not null)
+        {
+            if (!Check(value.TargetDeviceId, context)) return false;
+        }
+        if (!value.HasAllowWebSearch) return false;
+        if (value.HasAllowWebSearch)
+        {
+        }
+        if (!value.HasCompactionRequested) return false;
+        if (value.HasCompactionRequested)
+        {
+        }
+        if (value.Mode == global::ArcForges.Contracts.PublicApi.V1.ChatMode.Agent ? value.TaskId is null || value.TurnId is not null : value.TurnId is null || value.TaskId is not null) return false;
         return true;
         }
         finally { context.Exit(value); }

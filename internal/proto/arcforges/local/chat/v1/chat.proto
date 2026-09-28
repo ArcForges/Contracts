@@ -4,13 +4,165 @@ syntax = "proto3";
 package arcforges.local.chat.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+import "arcforges/local/platform/v1/inprocess.proto";
 
 option csharp_namespace = "ArcForges.Contracts.LocalRpc.Chat.V1";
 option java_package = "io.github.arcforges.contracts.local.chat.v1";
 option java_multiple_files = true;
 option java_outer_classname = "ChatProto";
 
-// Complete in-process operation result; no product RPC service is registered.
+// Typed in-process records only. No product gRPC service or listener is registered.
+
+message ChatOperationsServiceListConversationsRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message ChatOperationsServiceListConversationsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceListConversationsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatOperationsServiceListConversationsValue {
+  repeated arcforges.publicapi.v1.ConversationView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ChatOperationsServiceGetConversationRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id branch_id = 11 [json_name = "branchId"];
+  arcforges.foundation.v1.PageRequest page = 12 [json_name = "page"];
+}
+
+message ChatOperationsServiceGetConversationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceGetConversationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatOperationsServiceGetConversationValue {
+  arcforges.publicapi.v1.ConversationView conversation = 10 [json_name = "conversation"];
+  repeated arcforges.publicapi.v1.MessageView messages = 11 [json_name = "messages"];
+  arcforges.foundation.v1.PageState page = 12 [json_name = "page"];
+}
+
+message ChatOperationsServiceCreateConversationRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  optional string title = 11 [json_name = "title"];
+}
+
+message ChatOperationsServiceCreateConversationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceCreateConversationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ChatOperationsServiceCreateConversationValue {
+  arcforges.publicapi.v1.ConversationView conversation = 10 [json_name = "conversation"];
+}
+
+message ChatOperationsServiceAppendUserMessageRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id message_id = 11 [json_name = "messageId"];
+  arcforges.publicapi.v1.MessageDraft draft = 12 [json_name = "draft"];
+}
+
+message ChatOperationsServiceAppendUserMessageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceAppendUserMessageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ChatOperationsServiceAppendUserMessageValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+  optional bool pending = 11 [json_name = "pending"];
+}
+
+message ChatOperationsServiceStartAgentTurnRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+  arcforges.foundation.v1.Id conversation_id = 11 [json_name = "conversationId"];
+  arcforges.publicapi.v1.TurnInput input = 12 [json_name = "input"];
+  arcforges.publicapi.v1.TurnOptions options = 13 [json_name = "options"];
+}
+
+message ChatOperationsServiceStartAgentTurnResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceStartAgentTurnValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ChatOperationsServiceStartAgentTurnValue {
+  arcforges.publicapi.v1.TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message ChatOperationsServiceSubmitApprovalRequest {
+  reserved 2 to 9;
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id approval_id = 10 [json_name = "approvalId"];
+  optional arcforges.publicapi.v1.ApprovalDecision decision = 11 [json_name = "decision"];
+  optional string proposal_hash = 12 [json_name = "proposalHash"];
+}
+
+message ChatOperationsServiceSubmitApprovalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceSubmitApprovalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message ChatOperationsServiceSubmitApprovalValue {
+  arcforges.publicapi.v1.ApprovalView approval = 10 [json_name = "approval"];
+}
+
+message ChatOperationsServiceOpenArtifactRequest {
+  reserved 2 to 9;
+  reserved 11;
+  reserved "target_app_id", "targetAppId";
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.ArtifactRef artifact = 10 [json_name = "artifact"];
+  optional arcforges.local.platform.v1.OpenIntent intent = 12 [json_name = "intent"];
+}
+
+message ChatOperationsServiceOpenArtifactResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatOperationsServiceOpenArtifactValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
 message ChatOperationsServiceOpenArtifactValue {
   arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
 }

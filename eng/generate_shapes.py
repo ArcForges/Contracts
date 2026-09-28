@@ -915,6 +915,7 @@ def generate_proto_checks(check: bool) -> None:
 
 def proto_cs(name: str, messages: dict) -> str:
     from foundation_semantics import cs_rules
+    from con06_inprocess import CS_RULES
     info = messages[name]
     profile = info["constraints"]
     cstype = "global::" + profile["csharpType"]
@@ -964,6 +965,7 @@ def proto_cs(name: str, messages: dict) -> str:
         "exclusiveRevision": "if ((value.ExpectedRev is null ? 0 : 1) + (value.ExpectedNative is null ? 0 : 1) > 1) return false;",
         "chunkOffsets": "if (value.Offset > ulong.MaxValue - (ulong)value.Bytes.Length || value.NextOffset != value.Offset + (ulong)value.Bytes.Length) return false;",
         **cs_rules,
+        **CS_RULES,
     }
     for rule in profile.get("rules", []):
         if rule not in rules:
@@ -1008,6 +1010,7 @@ def cs_field_checks(prop: str, field: dict, rules: dict) -> list[str]:
 
 def proto_ts(name: str, messages: dict) -> str:
     from foundation_semantics import ts_rules
+    from con06_inprocess import TS_RULES
     info = messages[name]
     profile = info["constraints"]
     simple = name.split(".")[-1]
@@ -1055,6 +1058,7 @@ def proto_ts(name: str, messages: dict) -> str:
         "exclusiveRevision": "if ([value.expectedRev, value.expectedNative].filter(v => v !== undefined).length > 1) return false;",
         "chunkOffsets": "if ((value.offset as bigint) + BigInt((value.bytes as Uint8Array).length) > 18446744073709551615n || value.nextOffset !== (value.offset as bigint) + BigInt((value.bytes as Uint8Array).length)) return false;",
         **ts_rules,
+        **TS_RULES,
     }
     lines.extend("  " + special[rule] for rule in profile.get("rules", []))
     lines += ["  return true;", "  } finally { context.depth--; context.active.delete(input); }", "}"]
