@@ -1,0 +1,204 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+package arcforges.catalog.v1;
+option csharp_namespace = "ArcForges.Contracts.Catalog.V1";
+option java_package = "io.github.arcforges.contracts.catalog.v1";
+option java_multiple_files = true;
+option java_outer_classname = "CatalogProto";
+import "arcforges/foundation/v1/foundation.proto";
+
+// Registry04 package catalog. Operator reviews and revocations are a separate service.
+service CatalogService {
+  rpc Search(CatalogServiceSearchRequest) returns (CatalogServiceSearchResponse);
+  rpc GetPackage(CatalogServiceGetPackageRequest) returns (CatalogServiceGetPackageResponse);
+  rpc ListVersions(CatalogServiceListVersionsRequest) returns (CatalogServiceListVersionsResponse);
+  rpc RegisterPublisher(CatalogServiceRegisterPublisherRequest) returns (CatalogServiceRegisterPublisherResponse);
+  rpc VerifyPublisher(CatalogServiceVerifyPublisherRequest) returns (CatalogServiceVerifyPublisherResponse);
+  rpc SubmitVersion(CatalogServiceSubmitVersionRequest) returns (CatalogServiceSubmitVersionResponse);
+  rpc GetSubmission(CatalogServiceGetSubmissionRequest) returns (CatalogServiceGetSubmissionResponse);
+}
+
+// Only owner projections may include the challenge. DNS and ownership checks are server responsibilities.
+message PublisherView {
+  arcforges.foundation.v1.Id publisher_id = 1 [json_name = "publisherId"];
+  optional string domain = 2 [json_name = "domain"];
+  optional string state = 3 [json_name = "state"];
+  optional string dns_name = 4 [json_name = "dnsName"];
+  optional string challenge = 5 [json_name = "challenge"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Revision revision = 7 [json_name = "revision"];
+}
+message CatalogPackageView {
+  optional string package_id = 1 [json_name = "packageId"];
+  arcforges.foundation.v1.Id publisher_id = 2 [json_name = "publisherId"];
+  optional string name = 3 [json_name = "name"];
+  optional string summary = 4 [json_name = "summary"];
+  optional string kind = 5 [json_name = "kind"];
+  optional string latest_version = 6 [json_name = "latestVersion"];
+  arcforges.foundation.v1.Revision revision = 7 [json_name = "revision"];
+}
+message CatalogVersionView {
+  optional string package_id = 1 [json_name = "packageId"];
+  optional string version = 2 [json_name = "version"];
+  arcforges.foundation.v1.ResourceVersionRef archive = 3 [json_name = "archive"];
+  optional string digest = 4 [json_name = "digest"];
+  optional string manifest_hash = 5 [json_name = "manifestHash"];
+  optional string state = 6 [json_name = "state"];
+  arcforges.foundation.v1.Instant published_at = 7 [json_name = "publishedAt"];
+  arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];
+}
+message CatalogSubmissionView {
+  arcforges.foundation.v1.Id submission_id = 1 [json_name = "submissionId"];
+  CatalogVersionView version = 2 [json_name = "version"];
+  optional string reason = 3 [json_name = "reason"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+}
+// Operator-only decisions; zero is never a known mutation value.
+enum CatalogReviewDecision {
+  CATALOG_REVIEW_DECISION_UNSPECIFIED = 0;
+  CATALOG_REVIEW_DECISION_APPROVE = 1;
+  CATALOG_REVIEW_DECISION_REJECT = 2;
+}
+message CatalogServiceSearchRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  optional string query = 10;
+  optional string kind = 11;
+  arcforges.foundation.v1.PageRequest page = 12;
+}
+message CatalogServiceSearchValue {
+  repeated CatalogPackageView items = 10;
+  arcforges.foundation.v1.PageState page = 11;
+}
+message CatalogServiceSearchResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceSearchValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}
+
+message CatalogServiceGetPackageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  optional string package_id = 10 [json_name = "packageId"];
+}
+message CatalogServiceGetPackageValue {
+  CatalogPackageView package = 10;
+}
+message CatalogServiceGetPackageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceGetPackageValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}
+
+message CatalogServiceListVersionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  optional string package_id = 10 [json_name = "packageId"];
+  arcforges.foundation.v1.PageRequest page = 11;
+}
+message CatalogServiceListVersionsValue {
+  repeated CatalogVersionView items = 10;
+  arcforges.foundation.v1.PageState page = 11;
+}
+message CatalogServiceListVersionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceListVersionsValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}
+
+message CatalogServiceRegisterPublisherRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id publisher_id = 10 [json_name = "publisherId"];
+  optional string domain = 11;
+}
+message CatalogServiceRegisterPublisherValue {
+  PublisherView publisher = 10;
+}
+message CatalogServiceRegisterPublisherResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceRegisterPublisherValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message CatalogServiceVerifyPublisherRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id publisher_id = 10 [json_name = "publisherId"];
+}
+message CatalogServiceVerifyPublisherValue {
+  PublisherView publisher = 10;
+}
+message CatalogServiceVerifyPublisherResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceVerifyPublisherValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message CatalogServiceSubmitVersionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id submission_id = 10 [json_name = "submissionId"];
+  arcforges.foundation.v1.Id publisher_id = 11 [json_name = "publisherId"];
+  optional string package_id = 12 [json_name = "packageId"];
+  optional string version = 13;
+  arcforges.foundation.v1.ResourceVersionRef archive = 14;
+  optional string manifest_hash = 15 [json_name = "manifestHash"];
+}
+message CatalogServiceSubmitVersionValue {
+  CatalogSubmissionView submission = 10;
+}
+message CatalogServiceSubmitVersionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceSubmitVersionValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message CatalogServiceGetSubmissionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id submission_id = 10 [json_name = "submissionId"];
+}
+message CatalogServiceGetSubmissionValue {
+  CatalogSubmissionView submission = 10;
+}
+message CatalogServiceGetSubmissionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    CatalogServiceGetSubmissionValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}

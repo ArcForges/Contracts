@@ -78,6 +78,7 @@ foreach (var package in services.GetProperty("csharp").EnumerateObject())
 }
 var binder = new RecordingBinder();
 ArcForges.Contracts.Hello.V1.HelloService.BindService(binder, new HelloEndpoint());
+ArcForges.Contracts.Catalog.V1.CatalogService.BindService(binder, new CatalogEndpoint());
 ArcForges.Sdk.Contracts.V1.ExtensionHostService.BindService(binder, new ExtensionEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
@@ -88,6 +89,7 @@ FileDescriptor[] files =
 [
     ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor,
     ArcForges.Contracts.Hello.V1.HelloReflection.Descriptor,
+    ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
     ArcForges.Contracts.Events.V1.EventsReflection.Descriptor,
     ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor,
@@ -285,6 +287,7 @@ internal sealed class RecordingBinder : ServiceBinderBase
 }
 
 internal sealed class HelloEndpoint : ArcForges.Contracts.Hello.V1.HelloService.HelloServiceBase;
+internal sealed class CatalogEndpoint : ArcForges.Contracts.Catalog.V1.CatalogService.CatalogServiceBase;
 
 internal sealed class ExtensionEndpoint : ArcForges.Sdk.Contracts.V1.ExtensionHostService.ExtensionHostServiceBase;
 

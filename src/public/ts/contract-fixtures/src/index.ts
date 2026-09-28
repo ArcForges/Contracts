@@ -65699,6 +65699,246 @@ export const publicFixtures = {
       ]
     }
   },
+  "con-13-package-catalog.json": {
+    "schemaVersion": "catalog-fixtures.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline-contract-only-not-dns-publisher-or-archive-verification",
+    "patEligible": [
+      "catalog.search",
+      "catalog.getPackage",
+      "catalog.listVersions",
+      "catalog.submitVersion",
+      "catalog.getSubmission"
+    ],
+    "patDenied": [
+      "catalog.registerPublisher",
+      "catalog.verifyPublisher",
+      "catalog.review",
+      "catalog.revoke",
+      "catalog.future",
+      "catalog.Search"
+    ],
+    "challenge": [
+      {
+        "id": "32-byte-canonical",
+        "valid": true,
+        "value": "arcforges=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      {
+        "id": "wrong-prefix",
+        "valid": false,
+        "value": "publisher=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      {
+        "id": "short",
+        "valid": false,
+        "value": "arcforges=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      {
+        "id": "padding",
+        "valid": false,
+        "value": "arcforges=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+      },
+      {
+        "id": "noncanonical-tail-bits",
+        "valid": false,
+        "value": "arcforges=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB"
+      },
+      {
+        "id": "last-byte-max",
+        "valid": true,
+        "value": "arcforges=__________________________________________8"
+      }
+    ],
+    "domains": [
+      {
+        "value": "publisher.example.com",
+        "valid": true
+      },
+      {
+        "value": "xn--bcher-kva.example.com",
+        "valid": true
+      },
+      {
+        "value": "Publisher.example.com",
+        "valid": false
+      },
+      {
+        "value": "b\u00fccher.example.com",
+        "valid": false
+      },
+      {
+        "value": "localhost",
+        "valid": false
+      },
+      {
+        "value": "publisher.local",
+        "valid": false
+      },
+      {
+        "value": "127.0.0.1",
+        "valid": false
+      },
+      {
+        "value": "example..com",
+        "valid": false
+      },
+      {
+        "value": "-x.example.com",
+        "valid": false
+      },
+      {
+        "value": "example.com.",
+        "valid": false
+      }
+    ],
+    "versions": [
+      {
+        "value": "1.2.3",
+        "valid": true
+      },
+      {
+        "value": "1.2.3-rc.1+build.55",
+        "valid": true
+      },
+      {
+        "value": "0.0.0",
+        "valid": true
+      },
+      {
+        "value": "1.2",
+        "valid": false
+      },
+      {
+        "value": "01.2.3",
+        "valid": false
+      },
+      {
+        "value": "1.2.3-01",
+        "valid": false
+      },
+      {
+        "value": "1.2.3-",
+        "valid": false
+      },
+      {
+        "value": "1.2.3+01",
+        "valid": true
+      },
+      {
+        "valid": true,
+        "value": "9007199254740993.0.0+build.001"
+      },
+      {
+        "valid": true,
+        "value": "1.2.3+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "valid": false,
+        "value": "1.2.3+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "valid": false,
+        "value": "1.2.3\n"
+      }
+    ],
+    "integrityBase": {
+      "packageId": "com.example.fixture",
+      "version": "1.2.3",
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "archiveDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "archiveBytes": "104857600",
+      "manifestLicences": {
+        "licences/example.txt": "MIT"
+      },
+      "archiveLicences": {
+        "licences/example.txt": "MIT"
+      }
+    },
+    "integrity": [
+      {
+        "id": "matching-bounded-projections",
+        "field": "none",
+        "valid": true,
+        "value": ""
+      },
+      {
+        "id": "wrong-package",
+        "field": "packageId",
+        "valid": false,
+        "value": "com.example.other"
+      },
+      {
+        "id": "wrong-version",
+        "field": "version",
+        "valid": false,
+        "value": "1.2.4"
+      },
+      {
+        "id": "wrong-manifest-hash",
+        "field": "manifestHash",
+        "valid": false,
+        "value": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      {
+        "id": "wrong-archive-digest",
+        "field": "archiveDigest",
+        "valid": false,
+        "value": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      {
+        "id": "archive-over-limit",
+        "field": "archiveBytes",
+        "valid": false,
+        "value": "104857601"
+      },
+      {
+        "id": "missing-licence",
+        "field": "archiveLicences",
+        "valid": false,
+        "value": {}
+      },
+      {
+        "id": "licence-mismatch",
+        "field": "archiveLicences",
+        "valid": false,
+        "value": {
+          "licences/example.txt": "Apache-2.0"
+        }
+      },
+      {
+        "valid": false,
+        "value": "1.2.3+build.1",
+        "field": "version",
+        "id": "build-metadata-is-part-of-exact-identity"
+      },
+      {
+        "id": "licence-path-case-mismatch",
+        "field": "archiveLicences",
+        "valid": false,
+        "value": {
+          "LICENCES/EXAMPLE.TXT": "MIT"
+        }
+      }
+    ],
+    "boundaries": {
+      "searchScalars": 256,
+      "pageDefault": 50,
+      "pageMaximum": 100,
+      "summaryUtf8Bytes": 4096,
+      "archiveMaximumBytes": "104857600",
+      "dnsPrefix": "_arcforges-publisher.",
+      "challengeLifetimeSeconds": 86400,
+      "verificationAttemptsPerHour": 5
+    },
+    "serverResponsibilities": [
+      "Public registrable suffix and domain ownership via configured DNS resolver",
+      "Challenge entropy, expiry and rate limiting",
+      "Caller session or scoped token, publisher ownership and verified/non-suspended state",
+      "Archive bytes, manifest schema, signatures, licence/provenance and resource ownership",
+      "Command deduplication, immutable package/version bytes, private staging and signed publication"
+    ]
+  },
   "con-16-signed-formats.json": {
     "schemaVersion": "con-16-signed-formats.v1",
     "provenance": "fixture only, never production; synthetic examples authored independently of generated codecs. Seeds are reproducible public test data, not credentials. UPD.07 supplies production trust; REL.11 removes fixture trust from release composition.",
@@ -74955,7 +75195,8 @@ export const publicFixtures = {
     "services": {
       "csharp": {
         "ArcForges.Contracts.PublicApi": [
-          "arcforges.hello.v1.HelloService"
+          "arcforges.hello.v1.HelloService",
+          "arcforges.catalog.v1.CatalogService"
         ],
         "ArcForges.Sdk.Contracts": [
           "arcforges.extensions.v1.ExtensionHostService"
@@ -74963,12 +75204,22 @@ export const publicFixtures = {
       },
       "typescript": {
         "@arcforges/proto": [
-          "arcforges.hello.v1.HelloService"
+          "arcforges.hello.v1.HelloService",
+          "arcforges.catalog.v1.CatalogService"
         ]
       },
       "methods": {
         "arcforges.hello.v1.HelloService": [
           "/arcforges.hello.v1.HelloService/SayHello"
+        ],
+        "arcforges.catalog.v1.CatalogService": [
+          "/arcforges.catalog.v1.CatalogService/Search",
+          "/arcforges.catalog.v1.CatalogService/GetPackage",
+          "/arcforges.catalog.v1.CatalogService/ListVersions",
+          "/arcforges.catalog.v1.CatalogService/RegisterPublisher",
+          "/arcforges.catalog.v1.CatalogService/VerifyPublisher",
+          "/arcforges.catalog.v1.CatalogService/SubmitVersion",
+          "/arcforges.catalog.v1.CatalogService/GetSubmission"
         ],
         "arcforges.extensions.v1.ExtensionHostService": [
           "/arcforges.extensions.v1.ExtensionHostService/Handshake",

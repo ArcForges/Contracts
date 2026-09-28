@@ -29,6 +29,7 @@ if (args.Contains("--verify-foundation-exchange", StringComparer.Ordinal))
     FoundationCases.VerifyExchange(root);
     return 0;
 }
+CatalogCases.Run(root);
 var count = 0;
 foreach (var visibility in new[] { "public", "internal" })
 {

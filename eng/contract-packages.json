@@ -19,7 +19,8 @@
       "proto": [
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/publicapi/v1/content.proto",
-        "public/proto/arcforges/publicapi/v1/descriptors.proto"
+        "public/proto/arcforges/publicapi/v1/descriptors.proto",
+        "public/proto/arcforges/catalog/v1/catalog.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
@@ -152,7 +153,8 @@
         "public/proto/arcforges/foundation/v1/foundation.proto",
         "public/proto/arcforges/events/v1/events.proto",
         "public/proto/arcforges/publicapi/v1/content.proto",
-        "public/proto/arcforges/publicapi/v1/descriptors.proto"
+        "public/proto/arcforges/publicapi/v1/descriptors.proto",
+        "public/proto/arcforges/catalog/v1/catalog.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -219,7 +221,8 @@
         "public/proto/arcforges/foundation/v1/foundation.proto",
         "public/proto/arcforges/events/v1/events.proto",
         "public/proto/arcforges/publicapi/v1/content.proto",
-        "public/proto/arcforges/publicapi/v1/descriptors.proto"
+        "public/proto/arcforges/publicapi/v1/descriptors.proto",
+        "public/proto/arcforges/catalog/v1/catalog.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -230,7 +233,10 @@
       "kind": "maven",
       "access": "public",
       "sourceRoot": "src/public/kotlin/contracts-connect-client",
-      "proto": ["public/proto/arcforges/hello/v1/hello.proto"],
+      "proto": [
+        "public/proto/arcforges/hello/v1/hello.proto",
+        "public/proto/arcforges/catalog/v1/catalog.proto"
+      ],
       "dependencies": ["io.github.arcforges:contracts-proto"],
       "descriptor": "contracts.binpb",
       "jsonSchemas": []
