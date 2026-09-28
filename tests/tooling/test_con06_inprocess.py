@@ -73,6 +73,27 @@ class InprocessContractCases(unittest.TestCase):
             actual = {name for name in messages if re.match(r'\w+Service\w+(Request|Response|Value)$', name)}
             self.assertEqual(actual, expected)
 
+    def test_operation_exports_bind_every_actual_static_port(self):
+        rows = json.loads((ROOT / 'eng/operations/con-06.json').read_text())['operations']
+        indexed = {row['operationId']: row for row in rows}
+        self.assertEqual(len(rows), 38)
+        self.assertEqual(len(indexed), 38)
+        for owner, interfaces in self.fixture['ports'].items():
+            for interface, methods in interfaces.items():
+                for method in methods:
+                    row = indexed[f'{interface}.{method}']
+                    namespace = f'ArcForges.Contracts.LocalRpc.{owner}'
+                    self.assertEqual(row['binding'], f'{namespace}.Ports.{interface}.{method}Async')
+                    self.assertEqual(row['source'], f'src/internal/dotnet/{namespace}/Generated/InprocessPorts.g.cs')
+                    self.assertEqual((row['kind'], row['scope'], row['surface']), ('in-process',) * 3)
+                    self.assertFalse(row['authorization']['patEligible'])
+        self.assertEqual(indexed['IChatOperations.SubmitApproval']['profile'], 'human-approval-decision')
+        self.assertEqual(indexed['ICapabilityProvider.Invoke']['profile'], 'in-process-invocation')
+        for row in rows:
+            if row['profile'] == 'product-handler':
+                self.assertIsNone(row['authorization']['capability'])
+                self.assertEqual(row['authorization']['actorKinds'], ['human', 'product-handler'])
+
     def test_public_values_never_import_private_ports(self):
         for path in (ROOT / 'public/proto').rglob('*.proto'):
             source = path.read_text()

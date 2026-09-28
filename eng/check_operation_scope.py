@@ -123,6 +123,10 @@ def protected(operation: str) -> bool:
 
 def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[str]]:
     operation = row["operationId"]
+    required_profile = {"ICapabilityProvider.Invoke": "in-process-invocation",
+                        "IChatOperations.SubmitApproval": "human-approval-decision"}.get(operation)
+    require(required_profile is None or row.get("profile") == required_profile,
+            f"{operation}: required closed authorization profile")
     auth = row.get("authorization")
     require(isinstance(auth, dict) and set(auth) == FIELDS, f"{operation}: exactly eight authorization fields required")
     require(row.get("profile") in PROFILES, f"{operation}: unclassified source profile")
@@ -163,6 +167,9 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
         handler_guard = "requireRegisteredProductHandler" if row["profile"] == "in-process-invocation" else "requireLaunchRole"
         require(row.get("delegation") == {"intersectOriginalActor": True, "requireCurrentGrant": True,
                 "denyHumanOnly": True, handler_guard: True}, f"{operation}: incomplete delegated authority binding")
+        if row["profile"] == "in-process-invocation":
+            require(all(value is True for value in row["delegation"].values()),
+                    f"{operation}: incomplete delegated boolean authority binding")
         require(row["surface"] in {"private-helper", "in-process"}, f"{operation}: delegated binding exposed publicly")
     for field in ("stepUp", "localPresence", "patEligible"):
         require(field in derived or type(auth[field]) is bool, f"{operation}: ambiguous {field}")

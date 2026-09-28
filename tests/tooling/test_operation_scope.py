@@ -59,9 +59,10 @@ class OperationScopeTests(unittest.TestCase):
     def test_inprocess_invocation_requires_current_registered_handler(self):
         row = self.inprocess_row()
         for guard in row['delegation']:
-            hostile = copy.deepcopy(row); hostile['delegation'][guard] = False
-            with self.subTest(guard=guard), self.assertRaisesRegex(ValueError, 'incomplete delegated'):
-                gate.authorization(hostile, set())
+            for invalid in (False, 1, 1.0, None, 'true'):
+                hostile = copy.deepcopy(row); hostile['delegation'][guard] = invalid
+                with self.subTest(guard=guard, invalid=invalid), self.assertRaisesRegex(ValueError, 'incomplete delegated'):
+                    gate.authorization(hostile, set())
         hostile = copy.deepcopy(row)
         hostile['delegation']['requireLaunchRole'] = hostile['delegation'].pop('requireRegisteredProductHandler')
         with self.assertRaisesRegex(ValueError, 'incomplete delegated'):
@@ -81,6 +82,19 @@ class OperationScopeTests(unittest.TestCase):
         hostile = copy.deepcopy(row); hostile['delegation'] = self.inprocess_row()['delegation']
         with self.assertRaisesRegex(ValueError, 'metadata contradicts'):
             gate.authorization(hostile, set())
+
+    def test_closed_operations_cannot_downgrade_to_generic_profiles(self):
+        for approval in (False, True):
+            row = self.inprocess_row(approval)
+            row.pop('delegation', None)
+            row['idempotency'] = 'IW'
+            row['authorization'] = {'capability': None, 'risk': 'R1', 'approval': 'none',
+                'stepUp': False, 'localPresence': False, 'egress': 'none',
+                'patEligible': False, 'actorKinds': ['human']}
+            for profile in ('product-handler', 'human-owner', 'tool-delegation'):
+                row['profile'] = profile
+                with self.subTest(approval=approval, profile=profile), self.assertRaisesRegex(ValueError, 'required closed'):
+                    gate.authorization(row, set())
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
