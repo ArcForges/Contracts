@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "scope.getSession",
+      "binding": "arcforges.publicapi.v1.ScopeService/GetSession",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#52-arcscope-library-read-only",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "scope.listProjects",
+      "binding": "arcforges.publicapi.v1.ScopeService/ListProjects",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#52-arcscope-library-read-only",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "scope.listSessions",
+      "binding": "arcforges.publicapi.v1.ScopeService/ListSessions",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#52-arcscope-library-read-only",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    }
+  ]
+}

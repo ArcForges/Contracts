@@ -1,0 +1,81 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ScopeProto";
+
+// Read-only projections of committed ArcScope owner metadata.
+service ScopeService {
+  rpc ListProjects(ScopeServiceListProjectsRequest) returns (ScopeServiceListProjectsResponse);
+  rpc ListSessions(ScopeServiceListSessionsRequest) returns (ScopeServiceListSessionsResponse);
+  rpc GetSession(ScopeServiceGetSessionRequest) returns (ScopeServiceGetSessionResponse);
+}
+
+message ScopeServiceListProjectsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10;
+}
+message ScopeServiceListProjectsValue {
+  repeated ScopeProjectSummary items = 10;
+  arcforges.foundation.v1.PageState page = 11;
+}
+message ScopeServiceListProjectsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    ScopeServiceListProjectsValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}
+
+message ScopeServiceListSessionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id project_id = 10 [json_name = "projectId"];
+  arcforges.foundation.v1.PageRequest page = 11;
+}
+message ScopeServiceListSessionsValue {
+  repeated ScopeSessionSummary items = 10;
+  arcforges.foundation.v1.PageState page = 11;
+}
+message ScopeServiceListSessionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    ScopeServiceListSessionsValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}
+
+message ScopeServiceGetSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+  arcforges.foundation.v1.Revision min_revision = 11 [json_name = "minRevision"];
+}
+message ScopeServiceGetSessionValue {
+  ScopeMetadata session = 10;
+  arcforges.foundation.v1.Revision revision = 11;
+  arcforges.foundation.v1.Instant committed_at = 12 [json_name = "committedAt"];
+}
+message ScopeServiceGetSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    ScopeServiceGetSessionValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+
+  reserved 5 to 9;
+}
