@@ -42,6 +42,7 @@
       "fields": {
         "chat": {},
         "scopeMetadata": {},
+        "scopeProjectMetadata": {},
         "agentProfile": {},
         "skill": {},
         "chatProject": {},
@@ -1026,6 +1027,18 @@
         "metadata": {
           "items": {},
           "maxItems": 200
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeProjectMetadata": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeProjectMetadata",
+      "fields": {
+        "projectId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
         }
       }
     },

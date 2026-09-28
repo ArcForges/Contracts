@@ -122,5 +122,16 @@ public interface AggregateBodyOrBuilder extends
    */
   io.github.arcforges.contracts.foundation.v1.ResourceVersionRef getExternalBody();
 
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   * @return Whether the scopeProjectMetadata field is set.
+   */
+  boolean hasScopeProjectMetadata();
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   * @return The scopeProjectMetadata.
+   */
+  io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata getScopeProjectMetadata();
+
   public io.github.arcforges.contracts.publicapi.v1.AggregateBody.BodyCase getBodyCase();
 }

@@ -2412,6 +2412,10 @@ public static class ContractShapeValidation
         {
             if (!Check(value.ScopeMetadata, context)) return false;
         }
+        if ((int)value.BodyCase == 17)
+        {
+            if (!Check(value.ScopeProjectMetadata, context)) return false;
+        }
         if ((int)value.BodyCase == 9)
         {
             if (!Check(value.AgentProfile, context)) return false;
@@ -4215,6 +4219,25 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ScopeProjectMetadata.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ScopeProjectMetadata? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ScopeProjectMetadata? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ProjectId is null) return false;
+        if (!Check(value.ProjectId, context)) return false;
+        if (!value.HasName) return false;
+        if (value.HasName)
+        {
+            if (!ValidUnicode(value.Name)) return false;
+            if (ScalarLength(value.Name) > 256) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ScopeSelection.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ScopeSelection? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ScopeSelection? value, ValidationContext context)
@@ -5168,6 +5191,26 @@ public static class ContractShapeValidation
             }
         }
         return true;
+    }
+
+    /// <summary>
+    /// Applies the closed client-origin Sync body allowlist to an already-resolved body and
+    /// caller-supplied owner/revision facts. This performs no fetch, authorization, owner lookup,
+    /// persistence access or transaction work.
+    /// </summary>
+    public static bool IsSyncClientWriteAllowed(
+        global::ArcForges.Contracts.PublicApi.V1.AggregateBody? resolvedBody,
+        string? expectedOwner,
+        string? actualOwner,
+        long? expectedRevision,
+        long? actualRevision)
+    {
+        if (resolvedBody is null || !IsValid(resolvedBody)) return false;
+        if (string.IsNullOrEmpty(expectedOwner) || !global::System.StringComparer.Ordinal.Equals(expectedOwner, actualOwner)) return false;
+        if (expectedRevision is not long expected || actualRevision is not long actual || expected < 0 || actual < 0 || expected != actual) return false;
+        return resolvedBody.BodyCase is
+            global::ArcForges.Contracts.PublicApi.V1.AggregateBody.BodyOneofCase.ScopeMetadata or
+            global::ArcForges.Contracts.PublicApi.V1.AggregateBody.BodyOneofCase.ScopeProjectMetadata;
     }
 
 }

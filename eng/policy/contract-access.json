@@ -67,7 +67,7 @@
     {
       "path": "public/proto/arcforges/publicapi/v1/content.proto",
       "access": "public",
-      "sha256": "15acce6e5618843a24115f8e5ddf64aba5e4fb60ca55dcb926a1900dc46d078f"
+      "sha256": "1c912ac9fa37633a3e5d186cb6f3838bd886f09f935e1ce41c5a665640c54abd"
     },
     {
       "path": "public/proto/arcforges/publicapi/v1/descriptors.proto",
@@ -2422,6 +2422,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ScopeProjectMetadata",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.ScopeSelection",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -3613,6 +3619,7 @@
         "ScopeConfiguration",
         "ScopeFinding",
         "ScopeMetadata",
+        "ScopeProjectMetadata",
         "ScopeSelection",
         "ScopeTime",
         "SelectedSample",
@@ -3635,7 +3642,7 @@
         "ValueList",
         "ValueRecord"
       ],
-      "sha256": "f8d94bd4ad0eab553def1452212db81a498014186cc908dac1c54f5504883722",
+      "sha256": "41c2b123214d4e5261e6bfe5c7757a11da79ac7393f4ca154e38bb4fdd836105",
       "kind": "generated"
     },
     {
@@ -3977,7 +3984,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "0a0f20d480f169a5616fa69610608bbe6e39e70287a9119ba0d26cf7eb3be3db",
+      "sha256": "08630d720f37c0c4f838e4bc3dbeb34c706c703719eef7704cf72bae7ff08cd5",
       "kind": "generated"
     },
     {
@@ -5562,7 +5569,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["AggregateBody", "BodyCase", "Builder"],
-      "sha256": "2918bd401c3200e079e8bf113768d920287e72243c37a0e8d0febe6c04f0192f",
+      "sha256": "12a70698e22e9e24141455a75d8e8a22e0e2c0edafd51cb60173100a22ae1afb",
       "kind": "generated"
     },
     {
@@ -5570,7 +5577,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["AggregateBodyOrBuilder"],
-      "sha256": "897a610217c8da043e09fa6778e485db814900e3ccd6d747062c98ddfa1f2839",
+      "sha256": "57e4ff320d49c953cdf2c41d4eae40ba51b3e3da5af3d421e84af47f7dd0ce73",
       "kind": "generated"
     },
     {
@@ -6470,11 +6477,27 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadata.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectMetadata", "Builder"],
+      "sha256": "6b134b340b08e6ebfe2c9d85eeff32a894adafeffa2d12fc26705a044ef7db1b",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeMetadataOrBuilder.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["ScopeMetadataOrBuilder"],
       "sha256": "1b3bbbc616e7f9ea4a01ccdeeecf088fea58e878f8bf7e62c12f40de0e961c2e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadataOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectMetadataOrBuilder"],
+      "sha256": "a117e58e63489211053ebfb5577d26c5bc60592985af0c6b43424350b238ca2f",
       "kind": "generated"
     },
     {
@@ -7400,7 +7423,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["AggregateBodyKt", "Dsl"],
-      "sha256": "69b777adcf39f8b27530597ac02f54be9ae051d6f5ec37fba9b2bad7a0d1b563",
+      "sha256": "5bd46251cd0b0c6f3a061acee91ceecaf0ed90c405065ea4c3e0439ee16563ae",
       "kind": "generated"
     },
     {
@@ -7868,6 +7891,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadataKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectMetadataKt", "Dsl"],
+      "sha256": "223c14a89293ee121878dfdf2d2d361c6ceca78f4dfbf61b63f22c3469ae613a",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeSelectionKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -8273,7 +8304,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "68764fcce4ea18b250a5159ed5ac770563066979ffb46f0310b5031bf1234213",
+      "sha256": "72f88289c9686006a051628d61a1e63d9b1be9f25849968f5f623805ebd25c6a",
       "kind": "generated"
     },
     {
@@ -8452,6 +8483,7 @@
         "ScopeConfiguration",
         "ScopeFinding",
         "ScopeMetadata",
+        "ScopeProjectMetadata",
         "ScopeSelection",
         "ScopeTime",
         "SelectedSample",
@@ -8474,7 +8506,7 @@
         "TaskReasonFacet",
         "TaskState"
       ],
-      "sha256": "29b0edd012e3e76ff2c1b7223c8869224d6d0e9be2862ff78e5bc643901e599b",
+      "sha256": "3bb32e68c4e6724c2406bf29514c8ca44b6bde2b4949ac261483c24dceea7edc",
       "kind": "generated"
     },
     {
@@ -8537,7 +8569,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "1f7747ce1fa82613af93f30cb6f56441837368666de3aea8733298d8d37dd0ad",
+      "sha256": "650cdf0140e68dce7d47a352d13a7f854f9533282d86b5404f1d414ba962751f",
       "kind": "generated"
     },
     {
@@ -8714,7 +8746,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "379f6538646413c4fe9e4f372e0b6d2a745dd3ad2ac6687346740a7274350a63"
+      "sha256": "2b512bd8fb5ade16b7d2f5128f99fcc8f3a867790d28870ff2bfb61cf707617e"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
@@ -8746,7 +8778,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "bd3d00180e88a93b779adcee770821dd49b0c9857a4229d87e10025a081497d2"
+      "sha256": "643d8623949092ff37ab67efef5ebcae012f9bc96b89d08839822c7d2a67556b"
     },
     {
       "path": "public/proto/constraints/con-13-package-catalog.json",
@@ -8778,7 +8810,7 @@
     },
     {
       "path": "public/proto/constraints/publicapi-baseline.json",
-      "sha256": "0c4d1d95926ee51fdc649f7552d151b669fcdfecc2111a09e3ec3a63a7731e50"
+      "sha256": "03f8eeefc30386dafb56f29de5d77e4ef75c502ba153d082cf30480b54bdfd50"
     },
     {
       "path": "public/proto/value-boundaries.json",

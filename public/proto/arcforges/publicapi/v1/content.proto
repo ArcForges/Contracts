@@ -91,6 +91,7 @@ message AggregateBody {
     AutomationView automation = 14 [json_name = "automation"];
     MemoryRecord memory = 15 [json_name = "memory"];
     arcforges.foundation.v1.ResourceVersionRef external_body = 16 [json_name = "externalBody"];
+    ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];
   }
 
   reserved 1, 4, 5, 6, 7, 8;
@@ -592,6 +593,12 @@ message ScopeMetadata {
   repeated arcforges.foundation.v1.ArtifactRef reports = 9 [json_name = "reports"];
   repeated arcforges.foundation.v1.Id tags = 10 [json_name = "tags"];
   repeated MetadataEntry metadata = 11 [json_name = "metadata"];
+}
+
+// registry04: ScopeProjectMetadata; native project identity/name replica.
+message ScopeProjectMetadata {
+  arcforges.foundation.v1.Id project_id = 1 [json_name = "projectId"];
+  optional string name = 2 [json_name = "name"];
 }
 
 // registry04: ScopeSelection; complete selected WP03.01 projection.
