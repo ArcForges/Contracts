@@ -43,8 +43,20 @@ internal static class HostedPolicyGate
         var projects = ReadProjectGraph(root);
 
         setStage(PolicyGateStage.ReadProjectCompilations);
-        var compilations = projects.Where(project => project.Classification.Role is not (ProjectRole.BuildTool or ProjectRole.NativeLibrary or ProjectRole.NativeWorker))
-            .ToDictionary(project => project.Classification.Path, ProjectGraph.ReadCompilation, StringComparer.Ordinal);
+        var compilations = new Dictionary<string, CSharpCompilation>(StringComparer.Ordinal);
+        foreach (var project in projects.Where(project => project.Classification.Role is not (ProjectRole.BuildTool or ProjectRole.NativeLibrary or ProjectRole.NativeWorker)))
+        {
+            try
+            {
+                compilations.Add(project.Classification.Path, ProjectGraph.ReadCompilation(project));
+            }
+            catch (Exception exception)
+            {
+                PolicyGateStage diagnosticStage = ClassifyCompilationFailure(exception);
+                if (diagnosticStage != PolicyGateStage.ReadProjectCompilations) setStage(diagnosticStage);
+                throw;
+            }
+        }
 
         setStage(PolicyGateStage.ValidateProtoDtoSymbols);
         VerifyProtoDtoSymbols(root, projects, compilations);
@@ -76,6 +88,30 @@ internal static class HostedPolicyGate
             setStage(PolicyGateStage.ValidatePolicyResults);
             throw new InvalidOperationException("Shared architecture policy reported findings.");
         }
+    }
+
+    internal static PolicyGateStage ClassifyCompilationFailure(Exception exception)
+    {
+        if (exception is not InvalidOperationException invalidOperation) return PolicyGateStage.ReadProjectCompilations;
+
+        // These prefixes are emitted by the exact pinned Build.Policy producer. They are
+        // consumed only to select a fixed enum; the message itself is never displayed.
+        if (invalidOperation.Message.StartsWith("Completed source/reference inputs are required:", StringComparison.Ordinal))
+        {
+            return PolicyGateStage.MissingSourceOrReferenceInputs;
+        }
+
+        if (invalidOperation.Message.StartsWith("Unsupported managed output kind:", StringComparison.Ordinal))
+        {
+            return PolicyGateStage.UnsupportedOutputType;
+        }
+
+        if (invalidOperation.Message.StartsWith("Invalid owning compilation:", StringComparison.Ordinal))
+        {
+            return PolicyGateStage.ReconstructedCompilationDiagnostics;
+        }
+
+        return PolicyGateStage.ReadProjectCompilations;
     }
 
     private static string RequireHostedIdentity(string root)

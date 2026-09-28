@@ -38,6 +38,7 @@ internal static class ArchitectureFixtureTests
 
         ExternalPolicyEvidenceMustBeExactAndFailClosed();
         FailureDiagnosticsDoNotRevealExceptionDetails();
+        CompilationFailureCodesAreSpecificAndFailClosed();
     }
 
     private static void FailureDiagnosticsDoNotRevealExceptionDetails()
@@ -51,6 +52,35 @@ internal static class ArchitectureFixtureTests
             "Failure diagnostics must contain only a fixed stage code.");
         Checks.True(!message.Contains(privateDetail, StringComparison.Ordinal),
             "An exception detail escaped the redacted fail-closed diagnostic.");
+    }
+
+    private static void CompilationFailureCodesAreSpecificAndFailClosed()
+    {
+        const string missingInputsDetail = "Completed source/reference inputs are required: private/path";
+        const string outputTypeDetail = "Unsupported managed output kind: SecretOutputType";
+        const string compilationDetail = "Invalid owning compilation: private/path\nprivate compiler diagnostic";
+        const string unknownDetail = "unrecognized private producer detail";
+        var cases = new (Exception Exception, PolicyGateStage Stage, string Secret)[]
+        {
+            (new InvalidOperationException(missingInputsDetail), PolicyGateStage.MissingSourceOrReferenceInputs, "private/path"),
+            (new InvalidOperationException(outputTypeDetail), PolicyGateStage.UnsupportedOutputType, "SecretOutputType"),
+            (new InvalidOperationException(compilationDetail), PolicyGateStage.ReconstructedCompilationDiagnostics, "private compiler diagnostic"),
+            (new InvalidOperationException(unknownDetail), PolicyGateStage.ReadProjectCompilations, unknownDetail),
+            (new IOException("private I/O detail"), PolicyGateStage.ReadProjectCompilations, "private I/O detail"),
+        };
+
+        foreach (var test in cases)
+        {
+            Checks.Equal(test.Stage, HostedPolicyGate.ClassifyCompilationFailure(test.Exception),
+                "A compilation failure selected the wrong fixed diagnostic stage.");
+            using var output = new StringWriter();
+            Program.WriteFailure(output, test.Stage, test.Exception);
+            string message = output.ToString().Trim();
+            Checks.Equal($"Contracts architecture policy failed closed at stage {test.Stage}.", message,
+                "A compilation failure diagnostic did not contain only its fixed stage code.");
+            Checks.True(!message.Contains(test.Secret, StringComparison.Ordinal),
+                "A compilation failure detail escaped the redacted diagnostic.");
+        }
     }
 
     private static void ExternalPolicyEvidenceMustBeExactAndFailClosed()
