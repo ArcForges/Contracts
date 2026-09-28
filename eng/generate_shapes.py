@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import html
+import math
 from pathlib import Path
 import re
 
@@ -46,7 +47,20 @@ def schema_roots(schema: dict) -> list[dict]:
         if name not in definitions:
             raise ValueError(f"Missing root schema definition: {name}")
         root = dict(definitions[name])
-        if root.get("type") != "object" or not root.get("title"):
+        if root.get("oneOf") is not None:
+            if set(root) - {"title", "description", "$comment", "oneOf", "x-arcforges-max-bytes"} or not root.get("title") or not isinstance(root["oneOf"], list) or len(root["oneOf"]) < 2:
+                raise ValueError("A root bundle union must be titled and contain only oneOf alternatives")
+            byte_bound = root.get("x-arcforges-max-bytes")
+            if type(byte_bound) is not int or not 1 <= byte_bound <= 4194304:
+                raise ValueError("A root bundle union must declare a byte bound within the 4 MiB transport limit")
+            for branch in root["oneOf"]:
+                if set(branch) != {"$ref"} or not branch["$ref"].startswith("#/$defs/"):
+                    raise ValueError("Root union alternatives must be explicit local definition refs")
+                branch_name = branch["$ref"].removeprefix("#/$defs/")
+                target = definitions.get(branch_name)
+                if target is None or target.get("type") not in {"object", "string"} or not target.get("title"):
+                    raise ValueError("Root union alternatives must reference titled objects or strings")
+        elif root.get("type") != "object" or not root.get("title"):
             raise ValueError("Each root bundle alternative must be a titled object")
         if root["title"] in titles:
             raise ValueError(f"Duplicate root schema title: {root['title']}")
@@ -56,6 +70,39 @@ def schema_roots(schema: dict) -> list[dict]:
     if not roots:
         raise ValueError("Root schema bundle must contain alternatives")
     return roots
+
+
+def compile_bundle_roots(schema: dict, namespace: str) -> tuple[list[dict], list["JsonShapes"], dict[str, int]]:
+    """Find one canonical generated identity for each model shared by bundle roots."""
+    roots = schema_roots(schema)
+    compilers = [JsonShapes(root, namespace) for root in roots]
+    owners: dict[str, int] = {}
+    canonical: dict[str, str] = {}
+    for index, compiler in enumerate(compilers):
+        compiler.collect_models()
+        for name, node in compiler.models.items():
+            signature = compiler.canonical_schema(node)
+            if name in canonical and canonical[name] != signature:
+                raise ValueError(f"Conflicting canonical schema definitions for bundled model {name}")
+            canonical.setdefault(name, signature)
+            owners.setdefault(name, index)
+    return roots, compilers, owners
+
+
+def bundle_external_models(index: int, compiler: "JsonShapes", owners: dict[str, int]) -> set[str]:
+    return {name for name in compiler.collect_models() if owners[name] != index}
+
+
+def bundle_type_imports(index: int, compilers: list["JsonShapes"], owners: dict[str, int]) -> str:
+    imports: dict[int, list[str]] = {}
+    for name in compilers[index].collect_models():
+        owner = owners[name]
+        if owner != index:
+            imports.setdefault(owner, []).append(name)
+    return "".join(
+        f'import type {{ {", ".join(sorted(names))} }} from "./{compilers[owner].title}.js";\n'
+        for owner, names in sorted(imports.items())
+    )
 
 
 def string_map(node: dict) -> bool:
@@ -76,7 +123,23 @@ class JsonShapes:
         self.models: dict[str, dict] = {}
         self.visiting: set[int] = set()
         self.recursive = False
+        self.finite_numbers = False
         self.cs_symbols: set[str] = set()
+        self.model_names: set[str] | None = None
+        self.model_order: list[str] = []
+
+    @staticmethod
+    def canonical_schema(node: dict) -> str:
+        # Root bundles attach the shared definition table to each selected root.
+        # That lookup table is compiler context, not part of the generated model.
+        canonical = {key: value for key, value in node.items() if key != "$defs"}
+        return json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+    def add_model(self, name: str, node: dict) -> None:
+        previous = self.models.get(name)
+        if previous is not None and self.canonical_schema(previous) != self.canonical_schema(node):
+            raise ValueError(f"Conflicting generated schema definitions for model {name}")
+        self.models[name] = node
 
     def resolve(self, node: dict) -> dict:
         if "$ref" not in node:
@@ -99,10 +162,14 @@ class JsonShapes:
         allowed = {"$schema", "$id", "$defs", "title", "description", "type", "properties", "required",
                    "additionalProperties", "items", "minItems", "maxItems", "minLength", "maxLength",
                    "minimum", "maximum", "pattern", "enum", "const", "not", "x-arcforges-rules", "x-arcforges-schema-version",
-                   "x-arcforges-max-bytes", "$comment", "oneOf", "propertyNames", "minProperties", "maxProperties"}
+                   "x-arcforges-max-bytes", "x-arcforges-max-utf8-bytes", "$comment", "oneOf", "propertyNames", "minProperties", "maxProperties"}
         unknown = node.keys() - allowed
         if unknown:
             raise ValueError(f"Unimplemented JSON shape constraints: {sorted(unknown)}")
+        if "x-arcforges-max-utf8-bytes" in node:
+            byte_bound = node["x-arcforges-max-utf8-bytes"]
+            if node.get("type") != "string" or type(byte_bound) is not int or byte_bound <= 0:
+                raise ValueError("x-arcforges-max-utf8-bytes requires a string and a positive integer")
         if "enum" in node or "const" in node:
             if "enum" in node and "const" in node:
                 raise ValueError("Selected primitive constraints require either enum or const, not both")
@@ -111,10 +178,17 @@ class JsonShapes:
             if expected is None or not isinstance(values, list) or not values or any(type(value) is not expected for value in values):
                 raise ValueError("Enum/const values must match a supported primitive type")
         if "oneOf" in node:
-            if set(node) - {"title", "description", "$comment", "oneOf"}:
+            union_keys = {"title", "description", "$comment", "oneOf"}
+            if node is self.schema and "$defs" in node:
+                union_keys.update({"$defs", "x-arcforges-max-bytes"})
+            if set(node) - union_keys:
                 raise ValueError("Union nodes may only declare titled alternatives")
             if not node.get("title") or len(node["oneOf"]) < 2:
                 raise ValueError("Unions require a title and at least two alternatives")
+            if node is self.schema and "$defs" in node:
+                for child in node["oneOf"]:
+                    if set(child) != {"$ref"}:
+                        raise ValueError("Root union alternatives must be explicit definition refs")
             for child in node["oneOf"]:
                 target = self.resolve(child)
                 if target.get("type") not in {"object", "string"} or string_map(target) or not target.get("title"):
@@ -141,8 +215,20 @@ class JsonShapes:
                 self.visit(child)
         elif node.get("type") == "array":
             self.visit(node["items"])
-        elif node.get("type") not in {"string", "integer", "boolean"}:
+        elif node.get("type") not in {"string", "integer", "number", "boolean"}:
             raise ValueError(f"Unsupported JSON shape type: {node.get('type')}")
+        if node.get("type") == "number":
+            if "enum" in node or "const" in node:
+                raise ValueError("Finite-number shapes do not support enum or const")
+            for bound in ("minimum", "maximum"):
+                if bound in node:
+                    value = node[bound]
+                    try:
+                        finite = type(value) in {int, float} and math.isfinite(float(value))
+                    except OverflowError:
+                        finite = False
+                    if not finite:
+                        raise ValueError("Finite-number bounds must be finite JSON numbers")
         if not string_map(node) and {"propertyNames", "minProperties", "maxProperties"} & node.keys():
             raise ValueError("Map constraints require an explicitly typed map")
         self.visiting.remove(id(node))
@@ -153,35 +239,56 @@ class JsonShapes:
             name = node["$ref"].split("/")[-1]
             target = self.resolve(node)
             if (target.get("type") == "object" and not string_map(target)) or "oneOf" in target:
-                self.models[name] = target
+                self.add_model(name, target)
                 return name
             return self.typename(target, ts, name)
         if "oneOf" in node:
             name = node["title"]
-            self.models[name] = node
+            self.add_model(name, node)
             return name
         kind = node["type"]
         if string_map(node):
             return "Record<string, string>" if ts else "global::System.Collections.Generic.Dictionary<string, string>"
         if kind == "object":
             name = node.get("title", hint)
-            self.models[name] = node
+            self.add_model(name, node)
             return name
         if kind == "array":
             return self.typename(node["items"], ts, hint + "Item") + "[]"
-        return {"string": "string", "integer": "number" if ts else "long", "boolean": "boolean" if ts else "bool"}[kind]
+        return {"string": "string", "integer": "number" if ts else "long", "number": "number" if ts else "double",
+                "boolean": "boolean" if ts else "bool"}[kind]
 
-    def generate(self) -> tuple[str, str, str]:
+    def collect_models(self) -> set[str]:
+        if self.model_names is not None:
+            return self.model_names
         self.visit(self.schema)
-        self.models[self.title] = self.schema
-        model_cs: list[str] = []
-        model_ts: list[str] = []
+        self.finite_numbers = any(node.get("type") == "number" for node in self.nodes)
+        self.add_model(self.title, self.schema)
         done: set[str] = set()
-        unions: dict[str, dict] = {}
         while self.models.keys() - done:
             name = sorted(self.models.keys() - done)[0]
             node = self.models[name]
             done.add(name)
+            self.model_order.append(name)
+            if "oneOf" in node:
+                for child in node["oneOf"]:
+                    self.typename(child, False, name + "Alternative")
+            else:
+                for prop, child in node["properties"].items():
+                    self.typename(child, False, name + pascal(prop))
+        self.model_names = done
+        return done
+
+    def generate(self, external_models: set[str] | None = None) -> tuple[str, str, str]:
+        external_models = external_models or set()
+        done = self.collect_models()
+        model_cs: list[str] = []
+        model_ts: list[str] = []
+        unions: dict[str, dict] = {}
+        for name in self.model_order:
+            node = self.models[name]
+            if name in external_models:
+                continue
             if "oneOf" in node:
                 unions[name] = node
                 branches = [(self.branch_name(child), self.typename(child, False, name + "Alternative")) for child in node["oneOf"]]
@@ -215,7 +322,7 @@ class JsonShapes:
                 model_ts.append(f"  {tsprop}{'' if required else '?'}: {tstype};")
             model_cs.append("}\n")
             model_ts.append("}\n")
-        self.cs_symbols = set(done)
+        self.cs_symbols = set(done - external_models)
         generated_symbols = [self.title + "JsonContext"]
         if unions:
             generated_symbols.append(self.title + "UnionChecks")
@@ -263,7 +370,15 @@ class JsonShapes:
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": TS_PANEL_RULES, "policyBody": TS_POLICY_RULES, "canonicalDecimal": TS_DECIMAL_RULES,
                     "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES}
-        return TS_JSON_HELPERS + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
+        helpers = TS_JSON_HELPERS
+        if self.finite_numbers:
+            helpers = helpers.replace("/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */",
+                                      "/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; preserves number lexemes. */")
+            helpers = helpers.replace("class StrictJsonReader {", STRICT_JSON_NUMBER_HELPERS + "\nclass StrictJsonReader {")
+            helpers = helpers.replace("  private number(): number {", "  private number(): StrictJsonNumber {")
+            helpers = helpers.replace("    // Selected schemas have no fractional numbers; fraction/exponent lexemes never satisfy an integer.\n    return found[1] !== undefined || found[2] !== undefined ? Number.NaN : Number(found[0]);",
+                                      "    return new StrictJsonNumber(Number(found[0]), found[1] === undefined && found[2] === undefined);")
+        return helpers + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
 
     def union_converter(self, name: str, node: dict) -> str:
         lines = [f"internal sealed class {name}Converter : global::System.Text.Json.Serialization.JsonConverter<{name}>", "{",
@@ -303,6 +418,8 @@ class JsonShapes:
     def ts_codec(self, models: list[str]) -> str:
         stem = self.title[:1].lower() + self.title[1:]
         lines = [TS_CODEC.replace("__TITLE__", self.title).replace("__STEM__", stem).replace("__MAX__", str(self.max_bytes()))]
+        if self.finite_numbers:
+            lines[0] = lines[0].replace("value: parsed.value }", f"value: normalizeStrictJsonNumbers(parsed.value) as {self.title} }}")
         if self.recursive:
             lines[0] = lines[0].replace("  const bytes = new TextEncoder()", f"  if (!is{self.title}(value)) throw Object.assign(new Error('Invalid recursive shape'), {{ failure: 'invalid' }});\n  const bytes = new TextEncoder()")
         for name in models:
@@ -407,6 +524,10 @@ class JsonShapes:
                 if bound in node:
                     c.append(f"        if (ScalarLength(text) {op} {node[bound]}) return false;")
                     t.append(f"  if ([...value].length {op} {node[bound]}) return false;")
+            if "x-arcforges-max-utf8-bytes" in node:
+                byte_bound = node["x-arcforges-max-utf8-bytes"]
+                c.append(f"        if (global::System.Text.Encoding.UTF8.GetByteCount(text) > {byte_bound}) return false;")
+                t.append(f"  if (new TextEncoder().encode(value).byteLength > {byte_bound}) return false;")
             if "pattern" in node:
                 # Nonbacktracking with an explicit timeout; patterns remain authored inputs.
                 c.append(f"        if (!Matches(text, {literal(node['pattern'])})) return false;")
@@ -422,15 +543,28 @@ class JsonShapes:
                 t.append(f"  if (value === {literal(node['not']['const'])}) return false;")
         elif kind == "integer":
             c += ["        if (value.ValueKind != global::System.Text.Json.JsonValueKind.Number || !value.TryGetInt64(out var number)) return false;"]
-            t += ["  if (typeof value !== 'number' || !Number.isSafeInteger(value)) return false;"]
+            if self.finite_numbers:
+                t += ["  const number = strictJsonNumberValue(value);",
+                      "  if (number === undefined || !Number.isSafeInteger(number) || (value instanceof StrictJsonNumber && !value.integerLexeme)) return false;"]
+            else:
+                t += ["  if (typeof value !== 'number' || !Number.isSafeInteger(value)) return false;"]
             for bound, op in [("minimum", "<"), ("maximum", ">")]:
                 if bound in node:
                     c.append(f"        if (number {op} {node[bound]}L) return false;")
-                    t.append(f"  if (value {op} {node[bound]}) return false;")
+                    t.append(f"  if ({'number' if self.finite_numbers else 'value'} {op} {node[bound]}) return false;")
             values = node.get("enum", [node["const"]] if "const" in node else None)
             if values is not None:
                 c.append("        if (" + " && ".join(f"number != {v}L" for v in values) + ") return false;")
-                t.append("  if (" + " && ".join(f"value !== {v}" for v in values) + ") return false;")
+                t.append("  if (" + " && ".join(f"{'number' if self.finite_numbers else 'value'} !== {v}" for v in values) + ") return false;")
+        elif kind == "number":
+            c += ["        if (value.ValueKind != global::System.Text.Json.JsonValueKind.Number || !value.TryGetDouble(out var number) || !global::System.Double.IsFinite(number)) return false;"]
+            t += ["  const number = strictJsonNumberValue(value);",
+                  "  if (number === undefined || !Number.isFinite(number)) return false;"]
+            for bound, op in [("minimum", "<"), ("maximum", ">")]:
+                if bound in node:
+                    numeric = float(node[bound])
+                    c.append(f"        if (number {op} {numeric!r}D) return false;")
+                    t.append(f"  if (number {op} {json.dumps(node[bound], allow_nan=False)}) return false;")
         elif kind == "boolean":
             c += ["        if (value.ValueKind is not (global::System.Text.Json.JsonValueKind.True or global::System.Text.Json.JsonValueKind.False)) return false;"]
             t += ["  if (typeof value !== 'boolean') return false;"]
@@ -639,6 +773,29 @@ CS_JSON_HELPERS = r'''
     }
 '''
 
+STRICT_JSON_NUMBER_HELPERS = r'''
+class StrictJsonNumber {
+  constructor(readonly value: number, readonly integerLexeme: boolean) {}
+}
+
+function strictJsonNumberValue(value: unknown): number | undefined {
+  if (value instanceof StrictJsonNumber) return value.value;
+  return typeof value === "number" ? value : undefined;
+}
+
+function normalizeStrictJsonNumbers(value: unknown): unknown {
+  if (value instanceof StrictJsonNumber) return value.value;
+  if (Array.isArray(value)) return value.map(normalizeStrictJsonNumbers);
+  if (typeof value === "object" && value !== null) {
+    const normalized: Record<string, unknown> = {};
+    for (const [key, child] of Object.entries(value))
+      Object.defineProperty(normalized, key, { value: normalizeStrictJsonNumbers(child), enumerable: true, writable: true, configurable: true });
+    return normalized;
+  }
+  return value;
+}
+'''
+
 TS_JSON_HELPERS = r'''
 // WHATWG encoding APIs exist in every supported runtime; declared locally so no DOM/Node typings are required.
 declare const TextEncoder: { new (): { encode(input: string): Uint8Array } };
@@ -807,10 +964,23 @@ def generate(check: bool = False) -> None:
     planned: list[tuple[str, str, str, str, str]] = []
     for source, namespace, csroot, tsroot in mappings:
         authored = json.loads((ROOT / source).read_text(encoding="utf-8"))
-        for schema in schema_roots(authored):
-            compiler = JsonShapes(schema, namespace)
-            generated_cs, generated_validator, generated_ts = compiler.generate()
-            for known, key, names in [(cs_symbols, namespace, compiler.cs_symbols), (ts_symbols, tsroot, set(compiler.models))]:
+        is_bundle = "oneOf" in authored
+        if is_bundle:
+            schemas, compilers, owners = compile_bundle_roots(authored, namespace)
+        else:
+            schemas = schema_roots(authored)
+            compilers = [JsonShapes(schema, namespace) for schema in schemas]
+            owners = {}
+        for index, (schema, compiler) in enumerate(zip(schemas, compilers, strict=True)):
+            external = bundle_external_models(index, compiler, owners) if is_bundle else set()
+            generated_cs, generated_validator, generated_ts = compiler.generate(external)
+            if is_bundle:
+                imports = bundle_type_imports(index, compilers, owners)
+                if imports:
+                    generated_ts = generated_ts.replace(HEADER, HEADER + imports, 1)
+            generated_model_names = compiler.model_names - external
+            for known, key, names in [(cs_symbols, namespace, compiler.cs_symbols),
+                                      (ts_symbols, tsroot, generated_model_names)]:
                 duplicate = names & known.setdefault(key, set())
                 if duplicate:
                     raise ValueError(f"Duplicate generated schema model names in {key}: {sorted(duplicate)}; use distinct authored definition names")
