@@ -28,7 +28,8 @@ TOOL_ACTORS = {"agent", "automation", "extension"}
 SURFACES = {"public", "in-process", "private-helper", "operator", "cf-internal", "http-exception"}
 CLASSES = {"Q", "IW", "CC", "AP", "NI", "EX", "DE"}
 PROFILES = {"human-owner", "tool-delegation", "product-handler", "extension-peer", "helper-parent",
-            "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "launch-bootstrap-only"}
+            "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "launch-bootstrap-only",
+            "in-process-invocation", "human-approval-decision"}
 PAT_OPERATIONS = {"workspace.list", "workspace.get", "catalog.search", "catalog.getPackage",
                   "catalog.listVersions", "catalog.submitVersion", "catalog.getSubmission",
                   "resource.beginUpload", "resource.completeUpload", "resource.getUploadStatus",
@@ -125,12 +126,14 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     auth = row.get("authorization")
     require(isinstance(auth, dict) and set(auth) == FIELDS, f"{operation}: exactly eight authorization fields required")
     require(row.get("profile") in PROFILES, f"{operation}: unclassified source profile")
-    optional = {"delegated-invocation": {"delegation"}, "launch-bootstrap-only": {"launchRoles", "requireLaunchRole"},
+    optional = {"delegated-invocation": {"delegation"}, "in-process-invocation": {"delegation"},
+                "launch-bootstrap-only": {"launchRoles", "requireLaunchRole"},
                 "helper-parent": {"launchRoles"}}.get(row["profile"], set())
     require(set(row) & ROW_OPTIONAL <= optional, f"{operation}: metadata contradicts profile")
     require(isinstance(row.get("sourceRule"), str) and "#" in row["sourceRule"], f"{operation}: missing source rule")
     require(row.get("surface") in SURFACES, f"{operation}: unclassified surface")
-    delegated = row["profile"] == "delegated-invocation"
+    delegated = row["profile"] in {"delegated-invocation", "in-process-invocation"}
+    approval_decision = row["profile"] == "human-approval-decision"
     bootstrap = row["profile"] == "launch-bootstrap-only"
     retry = row.get("idempotency")
     require((delegated and retry == {"from": "admittedCapability.idempotency"}) or
@@ -138,20 +141,28 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     derived = []
     for field, value in auth.items():
         if isinstance(value, dict):
+            if approval_decision:
+                proposal_field = "effectiveRisk" if field == "risk" else field
+                require(field in {"risk", "stepUp", "localPresence"} and
+                        value == {"from": "verifiedApprovalProposal." + proposal_field},
+                        f"{operation}: unsupported approval proposal expression")
+                derived.append(field)
+                continue
             if bootstrap:
                 require(field == "actorKinds" and value == {"from": "verifiedLaunchProfile.actorKinds"},
                         f"{operation}: unsupported bootstrap expression")
                 derived.append(field)
                 continue
             descriptor_field = "operationId" if field == "capability" else field
-            require(row["profile"] == "delegated-invocation" and field != "patEligible"
+            require(delegated and field != "patEligible"
                     and value == {"from": "admittedCapability." + descriptor_field},
                     f"{operation}: ambiguous or unsupported derived {field}")
             derived.append(field)
-    if derived and not bootstrap:
+    if derived and not bootstrap and not approval_decision:
         require(set(derived) == FIELDS - {"patEligible"}, f"{operation}: partial delegated descriptor")
+        handler_guard = "requireRegisteredProductHandler" if row["profile"] == "in-process-invocation" else "requireLaunchRole"
         require(row.get("delegation") == {"intersectOriginalActor": True, "requireCurrentGrant": True,
-                "denyHumanOnly": True, "requireLaunchRole": True}, f"{operation}: incomplete delegated authority binding")
+                "denyHumanOnly": True, handler_guard: True}, f"{operation}: incomplete delegated authority binding")
         require(row["surface"] in {"private-helper", "in-process"}, f"{operation}: delegated binding exposed publicly")
     for field in ("stepUp", "localPresence", "patEligible"):
         require(field in derived or type(auth[field]) is bool, f"{operation}: ambiguous {field}")
@@ -172,7 +183,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                       "helper-parent": {"human", "helper-parent", "owning-parent"},
                       "operator": {"operator"}, "cf-service": {"service"},
                       "provider": {"provider"}, "one-use-auth": {"preauth"},
-                      "launch-bootstrap-only": set()}
+                      "launch-bootstrap-only": set(), "human-approval-decision": {"human"}}
     if row["profile"] in profile_actors:
         require(set(actors) <= profile_actors[row["profile"]], f"{operation}: profile identity mismatch")
     profile_surfaces = {"human-owner": {"public", "in-process", "http-exception"},
@@ -180,7 +191,8 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                         "extension-peer": {"private-helper"}, "helper-parent": {"private-helper"},
                         "operator": {"operator"}, "cf-service": {"cf-internal"},
                         "provider": {"http-exception"}, "one-use-auth": {"public", "http-exception"},
-                        "launch-bootstrap-only": {"private-helper"}, "delegated-invocation": {"private-helper"}}
+                        "launch-bootstrap-only": {"private-helper"}, "delegated-invocation": {"private-helper"},
+                        "in-process-invocation": {"in-process"}, "human-approval-decision": {"in-process"}}
     require(row["surface"] in profile_surfaces[row["profile"]], f"{operation}: profile surface mismatch")
     if row["scope"] in {"private-helper", "in-process"}:
         require(row["surface"] == row["scope"], f"{operation}: scope surface mismatch")
@@ -229,6 +241,23 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     if row["profile"] == "delegated-invocation":
         require(operation == "IExtensionHost.Invoke" and bool(derived) and auth["patEligible"] is False,
                 f"{operation}: delegated profile outside admitted Invoke")
+    if row["profile"] in {"in-process-invocation", "human-approval-decision"}:
+        owner, interface, method = (("Platform", "ICapabilityProvider", "Invoke")
+            if delegated else ("Chat", "IChatOperations", "SubmitApproval"))
+        namespace = f"ArcForges.Contracts.LocalRpc.{owner}"
+        require(operation == f"{interface}.{method}" and row["scope"] == "in-process" and
+                row["binding"] == f"{namespace}.Ports.{interface}.{method}Async" and
+                row["source"] == f"src/internal/dotnet/{namespace}/Generated/InprocessPorts.g.cs" and
+                row["kind"] == "in-process", f"{operation}: closed in-process binding mismatch")
+        if delegated:
+            require(set(derived) == FIELDS - {"patEligible"} and auth["patEligible"] is False,
+                    f"{operation}: incomplete in-process invocation descriptor")
+        else:
+            expected = {"capability": None, "risk": {"from": "verifiedApprovalProposal.effectiveRisk"},
+                        "approval": "foregroundProposal", "stepUp": {"from": "verifiedApprovalProposal.stepUp"},
+                        "localPresence": {"from": "verifiedApprovalProposal.localPresence"},
+                        "egress": "none", "patEligible": False, "actorKinds": ["human"]}
+            require(auth == expected and retry == "IW", f"{operation}: incomplete human approval proposal binding")
     if bootstrap:
         expected = {"capability": None, "risk": "R1", "approval": "none", "stepUp": False,
                     "localPresence": False, "egress": "none", "patEligible": False,

@@ -14,6 +14,74 @@ SPEC.loader.exec_module(gate)
 
 
 class OperationScopeTests(unittest.TestCase):
+    def inprocess_row(self, approval=False):
+        owner, interface, method = (('Chat', 'IChatOperations', 'SubmitApproval') if approval
+                                    else ('Platform', 'ICapabilityProvider', 'Invoke'))
+        namespace = f'ArcForges.Contracts.LocalRpc.{owner}'
+        row = {'operationId': f'{interface}.{method}', 'kind': 'in-process',
+               'binding': f'{namespace}.Ports.{interface}.{method}Async',
+               'source': f'src/internal/dotnet/{namespace}/Generated/InprocessPorts.g.cs',
+               'scope': 'in-process', 'surface': 'in-process',
+               'profile': 'human-approval-decision' if approval else 'in-process-invocation',
+               'sourceRule': 'docs/architecture/contracts/02-local-rpc-operations.md#closed-in-process-authorization-profiles'}
+        if approval:
+            row['idempotency'] = 'IW'
+            row['authorization'] = {'capability': None, 'risk': {'from': 'verifiedApprovalProposal.effectiveRisk'},
+                'approval': 'foregroundProposal', 'stepUp': {'from': 'verifiedApprovalProposal.stepUp'},
+                'localPresence': {'from': 'verifiedApprovalProposal.localPresence'},
+                'egress': 'none', 'patEligible': False, 'actorKinds': ['human']}
+        else:
+            row['idempotency'] = {'from': 'admittedCapability.idempotency'}
+            row['authorization'] = {field: {'from': 'admittedCapability.' +
+                ('operationId' if field == 'capability' else field)} for field in gate.FIELDS - {'patEligible'}}
+            row['authorization']['patEligible'] = False
+            row['delegation'] = {'intersectOriginalActor': True, 'requireCurrentGrant': True,
+                'denyHumanOnly': True, 'requireRegisteredProductHandler': True}
+        return row
+
+    def test_exact_inprocess_profiles_and_closed_bindings(self):
+        for approval in (False, True):
+            row = self.inprocess_row(approval)
+            actors, derived = gate.authorization(row, set())
+            self.assertEqual(actors, ['human'] if approval else [])
+            self.assertEqual(set(derived), {'risk', 'stepUp', 'localPresence'} if approval else gate.FIELDS - {'patEligible'})
+            for field, wrong in [('operationId', 'ICapabilityProvider.Describe'), ('surface', 'public'),
+                                 ('scope', 'account'), ('kind', 'proto'), ('binding', 'Invented.InvokeAsync'),
+                                 ('source', 'internal/proto/arcforges/local/platform/v1/inprocess.proto')]:
+                hostile = copy.deepcopy(row); hostile[field] = wrong
+                with self.subTest(approval=approval, field=field), self.assertRaises(ValueError):
+                    gate.authorization(hostile, set())
+            for field, wrong in [('patEligible', True), ('actorKinds', ['agent']), ('risk', {'from': 'caller.risk'})]:
+                hostile = copy.deepcopy(row); hostile['authorization'][field] = wrong
+                with self.subTest(approval=approval, field=field), self.assertRaises(ValueError):
+                    gate.authorization(hostile, set())
+
+    def test_inprocess_invocation_requires_current_registered_handler(self):
+        row = self.inprocess_row()
+        for guard in row['delegation']:
+            hostile = copy.deepcopy(row); hostile['delegation'][guard] = False
+            with self.subTest(guard=guard), self.assertRaisesRegex(ValueError, 'incomplete delegated'):
+                gate.authorization(hostile, set())
+        hostile = copy.deepcopy(row)
+        hostile['delegation']['requireLaunchRole'] = hostile['delegation'].pop('requireRegisteredProductHandler')
+        with self.assertRaisesRegex(ValueError, 'incomplete delegated'):
+            gate.authorization(hostile, set())
+        hostile = copy.deepcopy(row); hostile['profile'] = 'delegated-invocation'
+        with self.assertRaises(ValueError):
+            gate.authorization(hostile, set())
+
+    def test_approval_proposal_cannot_be_fixed_or_caller_claimed(self):
+        row = self.inprocess_row(True)
+        for field, wrong in [('risk', 'R1'), ('risk', 'R3'), ('risk', {'from': 'verifiedApprovalProposal.risk'}),
+                             ('stepUp', False), ('localPresence', False), ('approval', 'none'),
+                             ('capability', row['operationId']), ('egress', 'ownedContent')]:
+            hostile = copy.deepcopy(row); hostile['authorization'][field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+        hostile = copy.deepcopy(row); hostile['delegation'] = self.inprocess_row()['delegation']
+        with self.assertRaisesRegex(ValueError, 'metadata contradicts'):
+            gate.authorization(hostile, set())
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
