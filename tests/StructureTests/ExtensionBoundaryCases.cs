@@ -14,18 +14,24 @@ internal static class ExtensionBoundaryCases
 
     public static void Run(string root)
     {
-        var contractRoot = Path.Combine(root, "public", "proto", "arcforges");
-        if (!Directory.Exists(contractRoot)) throw new DirectoryNotFoundException(contractRoot);
-
+        var contractRoots = new[]
+        {
+            Path.Combine(root, "public", "proto", "arcforges"),
+            Path.Combine(root, "internal", "proto", "arcforges"),
+        };
         var scanned = 0;
         var violations = new List<string>();
-        foreach (var file in Directory.EnumerateFiles(contractRoot, "*.proto", SearchOption.AllDirectories))
+        foreach (var contractRoot in contractRoots)
         {
-            var relative = Path.GetRelativePath(root, file).Replace('\\', '/');
-            // The extension protocol is the intended dynamic boundary, not an inward leak.
-            if (relative.StartsWith("public/proto/arcforges/extensions/", StringComparison.Ordinal)) continue;
-            scanned++;
-            violations.AddRange(FindReferences(File.ReadAllText(file), relative));
+            if (!Directory.Exists(contractRoot)) throw new DirectoryNotFoundException(contractRoot);
+            foreach (var file in Directory.EnumerateFiles(contractRoot, "*.proto", SearchOption.AllDirectories))
+            {
+                var relative = Path.GetRelativePath(root, file).Replace('\\', '/');
+                // The extension protocol is the intended dynamic boundary, not an inward leak.
+                if (relative.StartsWith("public/proto/arcforges/extensions/", StringComparison.Ordinal)) continue;
+                scanned++;
+                violations.AddRange(FindReferences(File.ReadAllText(file), relative));
+            }
         }
 
         if (scanned == 0) throw new InvalidOperationException("No first-party proto contracts were scanned.");

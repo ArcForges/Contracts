@@ -1010,6 +1010,96 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.extensions.v1.ValueSchema.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Sdk.Contracts.V1.ValueSchema? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Sdk.Contracts.V1.ValueSchema? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.Kind != 1 && (int)value.Kind != 2 && (int)value.Kind != 3 && (int)value.Kind != 4 && (int)value.Kind != 5 && (int)value.Kind != 6 && (int)value.Kind != 7 && (int)value.Kind != 8 && (int)value.Kind != 9 && (int)value.Kind != 10) return false;
+        if (value.HasNullable)
+        {
+        }
+        if (value.ItemSchema is not null)
+        {
+            if (!Check(value.ItemSchema, context)) return false;
+        }
+        if (value.Fields.Count > 200) return false;
+        foreach (var item in value.Fields)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.HasUnknownFieldPolicy)
+        {
+            if ((int)value.UnknownFieldPolicy != 0 && (int)value.UnknownFieldPolicy != 1 && (int)value.UnknownFieldPolicy != 2) return false;
+        }
+        if (value.HasMinItems)
+        {
+            if (value.MinItems > 200) return false;
+        }
+        if (value.HasMaxItems)
+        {
+            if (value.MaxItems > 200) return false;
+        }
+        if (value.HasMinLength)
+        {
+            if (value.MinLength > 65536) return false;
+        }
+        if (value.HasMaxLength)
+        {
+            if (value.MaxLength > 65536) return false;
+        }
+        if (value.HasMinInteger)
+        {
+        }
+        if (value.HasMaxInteger)
+        {
+        }
+        if (value.MinDecimal is not null)
+        {
+            if (!Check(value.MinDecimal, context)) return false;
+        }
+        if (value.MaxDecimal is not null)
+        {
+            if (!Check(value.MaxDecimal, context)) return false;
+        }
+        if (value.HasMinNumber)
+        {
+            if (!double.IsFinite(value.MinNumber)) return false;
+        }
+        if (value.HasMaxNumber)
+        {
+            if (!double.IsFinite(value.MaxNumber)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.extensions.v1.ValueSchemaField.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Sdk.Contracts.V1.ValueSchemaField? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Sdk.Contracts.V1.ValueSchemaField? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasName) return false;
+        if (value.HasName)
+        {
+            if (!ValidUnicode(value.Name)) return false;
+            if (ScalarLength(value.Name) < 1) return false;
+            if (ScalarLength(value.Name) > 128) return false;
+            if (!Matches(value.Name, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Schema is null) return false;
+        if (!Check(value.Schema, context)) return false;
+        if (value.HasRequired)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ActionDescriptor.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ActionDescriptor? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ActionDescriptor? value, ValidationContext context)

@@ -116,25 +116,60 @@ namespace ArcForges.Sdk.Contracts.V1 {
             "AyABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJvckgAUgVl",
             "cnJvckIJCgdvdXRjb21lSgQIBBAKIlsKHUV4dGVuc2lvbkhvc3RTZXJ2aWNl",
             "U3RvcFZhbHVlEjoKB3JlY2VpcHQYCiABKAsyIC5hcmNmb3JnZXMuZm91bmRh",
-            "dGlvbi52MS5SZWNlaXB0UgdyZWNlaXB0MrQEChRFeHRlbnNpb25Ib3N0U2Vy",
-            "dmljZRKKAQoJSGFuZHNoYWtlEj0uYXJjZm9yZ2VzLmV4dGVuc2lvbnMudjEu",
-            "RXh0ZW5zaW9uSG9zdFNlcnZpY2VIYW5kc2hha2VSZXF1ZXN0Gj4uYXJjZm9y",
-            "Z2VzLmV4dGVuc2lvbnMudjEuRXh0ZW5zaW9uSG9zdFNlcnZpY2VIYW5kc2hh",
-            "a2VSZXNwb25zZRKBAQoGSW52b2tlEjouYXJjZm9yZ2VzLmV4dGVuc2lvbnMu",
-            "djEuRXh0ZW5zaW9uSG9zdFNlcnZpY2VJbnZva2VSZXF1ZXN0GjsuYXJjZm9y",
-            "Z2VzLmV4dGVuc2lvbnMudjEuRXh0ZW5zaW9uSG9zdFNlcnZpY2VJbnZva2VS",
-            "ZXNwb25zZRKNAQoKUmVuZXdMZWFzZRI+LmFyY2Zvcmdlcy5leHRlbnNpb25z",
-            "LnYxLkV4dGVuc2lvbkhvc3RTZXJ2aWNlUmVuZXdMZWFzZVJlcXVlc3QaPy5h",
-            "cmNmb3JnZXMuZXh0ZW5zaW9ucy52MS5FeHRlbnNpb25Ib3N0U2VydmljZVJl",
-            "bmV3TGVhc2VSZXNwb25zZRJ7CgRTdG9wEjguYXJjZm9yZ2VzLmV4dGVuc2lv",
-            "bnMudjEuRXh0ZW5zaW9uSG9zdFNlcnZpY2VTdG9wUmVxdWVzdBo5LmFyY2Zv",
-            "cmdlcy5leHRlbnNpb25zLnYxLkV4dGVuc2lvbkhvc3RTZXJ2aWNlU3RvcFJl",
-            "c3BvbnNlQl0KK2lvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLmV4dGVu",
-            "c2lvbnMudjFCD0V4dGVuc2lvbnNQcm90b1ABqgIaQXJjRm9yZ2VzLlNkay5D",
-            "b250cmFjdHMuVjFiBnByb3RvMw=="));
+            "dGlvbi52MS5SZWNlaXB0UgdyZWNlaXB0IqMHCgtWYWx1ZVNjaGVtYRI8CgRr",
+            "aW5kGAEgASgOMiguYXJjZm9yZ2VzLmV4dGVuc2lvbnMudjEuVmFsdWVTY2hl",
+            "bWFLaW5kUgRraW5kEh8KCG51bGxhYmxlGAIgASgISABSCG51bGxhYmxliAEB",
+            "EkUKC2l0ZW1fc2NoZW1hGAMgASgLMiQuYXJjZm9yZ2VzLmV4dGVuc2lvbnMu",
+            "djEuVmFsdWVTY2hlbWFSCml0ZW1TY2hlbWESQQoGZmllbGRzGAQgAygLMiku",
+            "YXJjZm9yZ2VzLmV4dGVuc2lvbnMudjEuVmFsdWVTY2hlbWFGaWVsZFIGZmll",
+            "bGRzEmcKFHVua25vd25fZmllbGRfcG9saWN5GAUgASgOMjAuYXJjZm9yZ2Vz",
+            "LmV4dGVuc2lvbnMudjEuVW5rbm93blZhbHVlRmllbGRQb2xpY3lIAVISdW5r",
+            "bm93bkZpZWxkUG9saWN5iAEBEiAKCW1pbl9pdGVtcxgGIAEoDUgCUghtaW5J",
+            "dGVtc4gBARIgCgltYXhfaXRlbXMYByABKA1IA1IIbWF4SXRlbXOIAQESIgoK",
+            "bWluX2xlbmd0aBgIIAEoDUgEUgltaW5MZW5ndGiIAQESIgoKbWF4X2xlbmd0",
+            "aBgJIAEoDUgFUgltYXhMZW5ndGiIAQESJAoLbWluX2ludGVnZXIYCiABKBJI",
+            "BlIKbWluSW50ZWdlcogBARIkCgttYXhfaW50ZWdlchgLIAEoEkgHUgptYXhJ",
+            "bnRlZ2VyiAEBEkEKC21pbl9kZWNpbWFsGAwgASgLMiAuYXJjZm9yZ2VzLmZv",
+            "dW5kYXRpb24udjEuRGVjaW1hbFIKbWluRGVjaW1hbBJBCgttYXhfZGVjaW1h",
+            "bBgNIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkRlY2ltYWxSCm1h",
+            "eERlY2ltYWwSIgoKbWluX251bWJlchgOIAEoAUgIUgltaW5OdW1iZXKIAQES",
+            "IgoKbWF4X251bWJlchgPIAEoAUgJUgltYXhOdW1iZXKIAQFCCwoJX251bGxh",
+            "YmxlQhcKFV91bmtub3duX2ZpZWxkX3BvbGljeUIMCgpfbWluX2l0ZW1zQgwK",
+            "Cl9tYXhfaXRlbXNCDQoLX21pbl9sZW5ndGhCDQoLX21heF9sZW5ndGhCDgoM",
+            "X21pbl9pbnRlZ2VyQg4KDF9tYXhfaW50ZWdlckINCgtfbWluX251bWJlckIN",
+            "CgtfbWF4X251bWJlciKgAQoQVmFsdWVTY2hlbWFGaWVsZBIXCgRuYW1lGAEg",
+            "ASgJSABSBG5hbWWIAQESPAoGc2NoZW1hGAIgASgLMiQuYXJjZm9yZ2VzLmV4",
+            "dGVuc2lvbnMudjEuVmFsdWVTY2hlbWFSBnNjaGVtYRIfCghyZXF1aXJlZBgD",
+            "IAEoCEgBUghyZXF1aXJlZIgBAUIHCgVfbmFtZUILCglfcmVxdWlyZWQq4AIK",
+            "D1ZhbHVlU2NoZW1hS2luZBIhCh1WQUxVRV9TQ0hFTUFfS0lORF9VTlNQRUNJ",
+            "RklFRBAAEhoKFlZBTFVFX1NDSEVNQV9LSU5EX05VTEwQARIdChlWQUxVRV9T",
+            "Q0hFTUFfS0lORF9CT09MRUFOEAISHQoZVkFMVUVfU0NIRU1BX0tJTkRfSU5U",
+            "RUdFUhADEh0KGVZBTFVFX1NDSEVNQV9LSU5EX0RFQ0lNQUwQBBIaChZWQUxV",
+            "RV9TQ0hFTUFfS0lORF9URVhUEAUSHQoZVkFMVUVfU0NIRU1BX0tJTkRfSU5T",
+            "VEFOVBAGEh4KGlZBTFVFX1NDSEVNQV9LSU5EX1JFU09VUkNFEAcSGgoWVkFM",
+            "VUVfU0NIRU1BX0tJTkRfTElTVBAIEhwKGFZBTFVFX1NDSEVNQV9LSU5EX1JF",
+            "Q09SRBAJEhwKGFZBTFVFX1NDSEVNQV9LSU5EX05VTUJFUhAKKpIBChdVbmtu",
+            "b3duVmFsdWVGaWVsZFBvbGljeRIqCiZVTktOT1dOX1ZBTFVFX0ZJRUxEX1BP",
+            "TElDWV9VTlNQRUNJRklFRBAAEiUKIVVOS05PV05fVkFMVUVfRklFTERfUE9M",
+            "SUNZX1JFSkVDVBABEiQKIFVOS05PV05fVkFMVUVfRklFTERfUE9MSUNZX0FM",
+            "TE9XEAIytAQKFEV4dGVuc2lvbkhvc3RTZXJ2aWNlEooBCglIYW5kc2hha2US",
+            "PS5hcmNmb3JnZXMuZXh0ZW5zaW9ucy52MS5FeHRlbnNpb25Ib3N0U2Vydmlj",
+            "ZUhhbmRzaGFrZVJlcXVlc3QaPi5hcmNmb3JnZXMuZXh0ZW5zaW9ucy52MS5F",
+            "eHRlbnNpb25Ib3N0U2VydmljZUhhbmRzaGFrZVJlc3BvbnNlEoEBCgZJbnZv",
+            "a2USOi5hcmNmb3JnZXMuZXh0ZW5zaW9ucy52MS5FeHRlbnNpb25Ib3N0U2Vy",
+            "dmljZUludm9rZVJlcXVlc3QaOy5hcmNmb3JnZXMuZXh0ZW5zaW9ucy52MS5F",
+            "eHRlbnNpb25Ib3N0U2VydmljZUludm9rZVJlc3BvbnNlEo0BCgpSZW5ld0xl",
+            "YXNlEj4uYXJjZm9yZ2VzLmV4dGVuc2lvbnMudjEuRXh0ZW5zaW9uSG9zdFNl",
+            "cnZpY2VSZW5ld0xlYXNlUmVxdWVzdBo/LmFyY2Zvcmdlcy5leHRlbnNpb25z",
+            "LnYxLkV4dGVuc2lvbkhvc3RTZXJ2aWNlUmVuZXdMZWFzZVJlc3BvbnNlEnsK",
+            "BFN0b3ASOC5hcmNmb3JnZXMuZXh0ZW5zaW9ucy52MS5FeHRlbnNpb25Ib3N0",
+            "U2VydmljZVN0b3BSZXF1ZXN0GjkuYXJjZm9yZ2VzLmV4dGVuc2lvbnMudjEu",
+            "RXh0ZW5zaW9uSG9zdFNlcnZpY2VTdG9wUmVzcG9uc2VCXQoraW8uZ2l0aHVi",
+            "LmFyY2Zvcmdlcy5jb250cmFjdHMuZXh0ZW5zaW9ucy52MUIPRXh0ZW5zaW9u",
+            "c1Byb3RvUAGqAhpBcmNGb3JnZXMuU2RrLkNvbnRyYWN0cy5WMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor, global::ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind), typeof(global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionLease), global::ArcForges.Sdk.Contracts.V1.ExtensionLease.Parser, new[]{ "LeaseId", "ExpiresAt", "RenewAfterSeconds", "NegotiatedContracts" }, new[]{ "RenewAfterSeconds" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseRequest.Parser, new[]{ "Meta", "LeaseId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceRenewLeaseResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
@@ -150,12 +185,41 @@ namespace ArcForges.Sdk.Contracts.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeValue), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceInvokeValue.Parser, new[]{ "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopRequest.Parser, new[]{ "Meta", "LeaseId", "Reason" }, new[]{ "Reason" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopResponse.Parser, new[]{ "Meta", "Value", "Error" }, new[]{ "Outcome" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopValue), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopValue.Parser, new[]{ "Receipt" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopValue), global::ArcForges.Sdk.Contracts.V1.ExtensionHostServiceStopValue.Parser, new[]{ "Receipt" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ValueSchema), global::ArcForges.Sdk.Contracts.V1.ValueSchema.Parser, new[]{ "Kind", "Nullable", "ItemSchema", "Fields", "UnknownFieldPolicy", "MinItems", "MaxItems", "MinLength", "MaxLength", "MinInteger", "MaxInteger", "MinDecimal", "MaxDecimal", "MinNumber", "MaxNumber" }, new[]{ "Nullable", "UnknownFieldPolicy", "MinItems", "MaxItems", "MinLength", "MaxLength", "MinInteger", "MaxInteger", "MinNumber", "MaxNumber" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Sdk.Contracts.V1.ValueSchemaField), global::ArcForges.Sdk.Contracts.V1.ValueSchemaField.Parser, new[]{ "Name", "Schema", "Required" }, new[]{ "Name", "Required" }, null, null, null)
           }));
     }
     #endregion
 
   }
+  #region Enums
+  /// <summary>
+  /// WP-41.02: a bounded schema for the existing PublicApi StructuredValue wire model.
+  /// It describes only the extension edge; first-party product contracts remain typed.
+  /// </summary>
+  public enum ValueSchemaKind {
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_UNSPECIFIED")] Unspecified = 0,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_NULL")] Null = 1,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_BOOLEAN")] Boolean = 2,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_INTEGER")] Integer = 3,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_DECIMAL")] Decimal = 4,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_TEXT")] Text = 5,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_INSTANT")] Instant = 6,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_RESOURCE")] Resource = 7,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_LIST")] List = 8,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_RECORD")] Record = 9,
+    [pbr::OriginalName("VALUE_SCHEMA_KIND_NUMBER")] Number = 10,
+  }
+
+  public enum UnknownValueFieldPolicy {
+    [pbr::OriginalName("UNKNOWN_VALUE_FIELD_POLICY_UNSPECIFIED")] Unspecified = 0,
+    [pbr::OriginalName("UNKNOWN_VALUE_FIELD_POLICY_REJECT")] Reject = 1,
+    [pbr::OriginalName("UNKNOWN_VALUE_FIELD_POLICY_ALLOW")] Allow = 2,
+  }
+
+  #endregion
+
   #region Messages
   /// <summary>
   /// Public extension protocol, generated only for the C# SDK in this slice.
@@ -5366,6 +5430,1221 @@ namespace ArcForges.Sdk.Contracts.V1 {
               Receipt = new global::ArcForges.Contracts.Foundation.V1.Receipt();
             }
             input.ReadMessage(Receipt);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ValueSchema : pb::IMessage<ValueSchema>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ValueSchema> _parser = new pb::MessageParser<ValueSchema>(() => new ValueSchema());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ValueSchema> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor.MessageTypes[16]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ValueSchema() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ValueSchema(ValueSchema other) : this() {
+      _hasBits0 = other._hasBits0;
+      kind_ = other.kind_;
+      nullable_ = other.nullable_;
+      itemSchema_ = other.itemSchema_ != null ? other.itemSchema_.Clone() : null;
+      fields_ = other.fields_.Clone();
+      unknownFieldPolicy_ = other.unknownFieldPolicy_;
+      minItems_ = other.minItems_;
+      maxItems_ = other.maxItems_;
+      minLength_ = other.minLength_;
+      maxLength_ = other.maxLength_;
+      minInteger_ = other.minInteger_;
+      maxInteger_ = other.maxInteger_;
+      minDecimal_ = other.minDecimal_ != null ? other.minDecimal_.Clone() : null;
+      maxDecimal_ = other.maxDecimal_ != null ? other.maxDecimal_.Clone() : null;
+      minNumber_ = other.minNumber_;
+      maxNumber_ = other.maxNumber_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ValueSchema Clone() {
+      return new ValueSchema(this);
+    }
+
+    /// <summary>Field number for the "kind" field.</summary>
+    public const int KindFieldNumber = 1;
+    private global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind kind_ = global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind.Unspecified;
+    /// <summary>
+    /// Exactly one declared kind. NUMBER is the finite binary64 variant only.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind Kind {
+      get { return kind_; }
+      set {
+        kind_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "nullable" field.</summary>
+    public const int NullableFieldNumber = 2;
+    private readonly static bool NullableDefaultValue = false;
+
+    private bool nullable_;
+    /// <summary>
+    /// Explicit null is rejected unless this is true, except for NULL schemas.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Nullable {
+      get { if ((_hasBits0 & 1) != 0) { return nullable_; } else { return NullableDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        nullable_ = value;
+      }
+    }
+    /// <summary>Gets whether the "nullable" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasNullable {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "nullable" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearNullable() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "item_schema" field.</summary>
+    public const int ItemSchemaFieldNumber = 3;
+    private global::ArcForges.Sdk.Contracts.V1.ValueSchema itemSchema_;
+    /// <summary>
+    /// LIST requires item_schema; RECORD requires fields. Other kinds forbid them.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Sdk.Contracts.V1.ValueSchema ItemSchema {
+      get { return itemSchema_; }
+      set {
+        itemSchema_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fields" field.</summary>
+    public const int FieldsFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::ArcForges.Sdk.Contracts.V1.ValueSchemaField> _repeated_fields_codec
+        = pb::FieldCodec.ForMessage(34, global::ArcForges.Sdk.Contracts.V1.ValueSchemaField.Parser);
+    private readonly pbc::RepeatedField<global::ArcForges.Sdk.Contracts.V1.ValueSchemaField> fields_ = new pbc::RepeatedField<global::ArcForges.Sdk.Contracts.V1.ValueSchemaField>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::ArcForges.Sdk.Contracts.V1.ValueSchemaField> Fields {
+      get { return fields_; }
+    }
+
+    /// <summary>Field number for the "unknown_field_policy" field.</summary>
+    public const int UnknownFieldPolicyFieldNumber = 5;
+    private readonly static global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy UnknownFieldPolicyDefaultValue = global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy.Unspecified;
+
+    private global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy unknownFieldPolicy_;
+    /// <summary>
+    /// Omission/UNSPECIFIED means reject; ALLOW is an explicit forward-compatible choice.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy UnknownFieldPolicy {
+      get { if ((_hasBits0 & 2) != 0) { return unknownFieldPolicy_; } else { return UnknownFieldPolicyDefaultValue; } }
+      set {
+        _hasBits0 |= 2;
+        unknownFieldPolicy_ = value;
+      }
+    }
+    /// <summary>Gets whether the "unknown_field_policy" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasUnknownFieldPolicy {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "unknown_field_policy" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearUnknownFieldPolicy() {
+      _hasBits0 &= ~2;
+    }
+
+    /// <summary>Field number for the "min_items" field.</summary>
+    public const int MinItemsFieldNumber = 6;
+    private readonly static uint MinItemsDefaultValue = 0;
+
+    private uint minItems_;
+    /// <summary>
+    /// Bounds narrow the fixed StructuredValue ceilings; item bounds apply to LIST/RECORD,
+    /// length bounds count Unicode scalar values in TEXT, and numeric bounds are inclusive.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MinItems {
+      get { if ((_hasBits0 & 4) != 0) { return minItems_; } else { return MinItemsDefaultValue; } }
+      set {
+        _hasBits0 |= 4;
+        minItems_ = value;
+      }
+    }
+    /// <summary>Gets whether the "min_items" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMinItems {
+      get { return (_hasBits0 & 4) != 0; }
+    }
+    /// <summary>Clears the value of the "min_items" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMinItems() {
+      _hasBits0 &= ~4;
+    }
+
+    /// <summary>Field number for the "max_items" field.</summary>
+    public const int MaxItemsFieldNumber = 7;
+    private readonly static uint MaxItemsDefaultValue = 0;
+
+    private uint maxItems_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxItems {
+      get { if ((_hasBits0 & 8) != 0) { return maxItems_; } else { return MaxItemsDefaultValue; } }
+      set {
+        _hasBits0 |= 8;
+        maxItems_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_items" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxItems {
+      get { return (_hasBits0 & 8) != 0; }
+    }
+    /// <summary>Clears the value of the "max_items" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxItems() {
+      _hasBits0 &= ~8;
+    }
+
+    /// <summary>Field number for the "min_length" field.</summary>
+    public const int MinLengthFieldNumber = 8;
+    private readonly static uint MinLengthDefaultValue = 0;
+
+    private uint minLength_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MinLength {
+      get { if ((_hasBits0 & 16) != 0) { return minLength_; } else { return MinLengthDefaultValue; } }
+      set {
+        _hasBits0 |= 16;
+        minLength_ = value;
+      }
+    }
+    /// <summary>Gets whether the "min_length" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMinLength {
+      get { return (_hasBits0 & 16) != 0; }
+    }
+    /// <summary>Clears the value of the "min_length" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMinLength() {
+      _hasBits0 &= ~16;
+    }
+
+    /// <summary>Field number for the "max_length" field.</summary>
+    public const int MaxLengthFieldNumber = 9;
+    private readonly static uint MaxLengthDefaultValue = 0;
+
+    private uint maxLength_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxLength {
+      get { if ((_hasBits0 & 32) != 0) { return maxLength_; } else { return MaxLengthDefaultValue; } }
+      set {
+        _hasBits0 |= 32;
+        maxLength_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_length" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxLength {
+      get { return (_hasBits0 & 32) != 0; }
+    }
+    /// <summary>Clears the value of the "max_length" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxLength() {
+      _hasBits0 &= ~32;
+    }
+
+    /// <summary>Field number for the "min_integer" field.</summary>
+    public const int MinIntegerFieldNumber = 10;
+    private readonly static long MinIntegerDefaultValue = 0L;
+
+    private long minInteger_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long MinInteger {
+      get { if ((_hasBits0 & 64) != 0) { return minInteger_; } else { return MinIntegerDefaultValue; } }
+      set {
+        _hasBits0 |= 64;
+        minInteger_ = value;
+      }
+    }
+    /// <summary>Gets whether the "min_integer" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMinInteger {
+      get { return (_hasBits0 & 64) != 0; }
+    }
+    /// <summary>Clears the value of the "min_integer" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMinInteger() {
+      _hasBits0 &= ~64;
+    }
+
+    /// <summary>Field number for the "max_integer" field.</summary>
+    public const int MaxIntegerFieldNumber = 11;
+    private readonly static long MaxIntegerDefaultValue = 0L;
+
+    private long maxInteger_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long MaxInteger {
+      get { if ((_hasBits0 & 128) != 0) { return maxInteger_; } else { return MaxIntegerDefaultValue; } }
+      set {
+        _hasBits0 |= 128;
+        maxInteger_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_integer" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxInteger {
+      get { return (_hasBits0 & 128) != 0; }
+    }
+    /// <summary>Clears the value of the "max_integer" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxInteger() {
+      _hasBits0 &= ~128;
+    }
+
+    /// <summary>Field number for the "min_decimal" field.</summary>
+    public const int MinDecimalFieldNumber = 12;
+    private global::ArcForges.Contracts.Foundation.V1.Decimal minDecimal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Decimal MinDecimal {
+      get { return minDecimal_; }
+      set {
+        minDecimal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_decimal" field.</summary>
+    public const int MaxDecimalFieldNumber = 13;
+    private global::ArcForges.Contracts.Foundation.V1.Decimal maxDecimal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Decimal MaxDecimal {
+      get { return maxDecimal_; }
+      set {
+        maxDecimal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "min_number" field.</summary>
+    public const int MinNumberFieldNumber = 14;
+    private readonly static double MinNumberDefaultValue = 0D;
+
+    private double minNumber_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double MinNumber {
+      get { if ((_hasBits0 & 256) != 0) { return minNumber_; } else { return MinNumberDefaultValue; } }
+      set {
+        _hasBits0 |= 256;
+        minNumber_ = value;
+      }
+    }
+    /// <summary>Gets whether the "min_number" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMinNumber {
+      get { return (_hasBits0 & 256) != 0; }
+    }
+    /// <summary>Clears the value of the "min_number" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMinNumber() {
+      _hasBits0 &= ~256;
+    }
+
+    /// <summary>Field number for the "max_number" field.</summary>
+    public const int MaxNumberFieldNumber = 15;
+    private readonly static double MaxNumberDefaultValue = 0D;
+
+    private double maxNumber_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double MaxNumber {
+      get { if ((_hasBits0 & 512) != 0) { return maxNumber_; } else { return MaxNumberDefaultValue; } }
+      set {
+        _hasBits0 |= 512;
+        maxNumber_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_number" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxNumber {
+      get { return (_hasBits0 & 512) != 0; }
+    }
+    /// <summary>Clears the value of the "max_number" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxNumber() {
+      _hasBits0 &= ~512;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ValueSchema);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ValueSchema other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Kind != other.Kind) return false;
+      if (Nullable != other.Nullable) return false;
+      if (!object.Equals(ItemSchema, other.ItemSchema)) return false;
+      if(!fields_.Equals(other.fields_)) return false;
+      if (UnknownFieldPolicy != other.UnknownFieldPolicy) return false;
+      if (MinItems != other.MinItems) return false;
+      if (MaxItems != other.MaxItems) return false;
+      if (MinLength != other.MinLength) return false;
+      if (MaxLength != other.MaxLength) return false;
+      if (MinInteger != other.MinInteger) return false;
+      if (MaxInteger != other.MaxInteger) return false;
+      if (!object.Equals(MinDecimal, other.MinDecimal)) return false;
+      if (!object.Equals(MaxDecimal, other.MaxDecimal)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(MinNumber, other.MinNumber)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(MaxNumber, other.MaxNumber)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Kind != global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind.Unspecified) hash ^= Kind.GetHashCode();
+      if (HasNullable) hash ^= Nullable.GetHashCode();
+      if (itemSchema_ != null) hash ^= ItemSchema.GetHashCode();
+      hash ^= fields_.GetHashCode();
+      if (HasUnknownFieldPolicy) hash ^= UnknownFieldPolicy.GetHashCode();
+      if (HasMinItems) hash ^= MinItems.GetHashCode();
+      if (HasMaxItems) hash ^= MaxItems.GetHashCode();
+      if (HasMinLength) hash ^= MinLength.GetHashCode();
+      if (HasMaxLength) hash ^= MaxLength.GetHashCode();
+      if (HasMinInteger) hash ^= MinInteger.GetHashCode();
+      if (HasMaxInteger) hash ^= MaxInteger.GetHashCode();
+      if (minDecimal_ != null) hash ^= MinDecimal.GetHashCode();
+      if (maxDecimal_ != null) hash ^= MaxDecimal.GetHashCode();
+      if (HasMinNumber) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(MinNumber);
+      if (HasMaxNumber) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(MaxNumber);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Kind != global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind.Unspecified) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Kind);
+      }
+      if (HasNullable) {
+        output.WriteRawTag(16);
+        output.WriteBool(Nullable);
+      }
+      if (itemSchema_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(ItemSchema);
+      }
+      fields_.WriteTo(output, _repeated_fields_codec);
+      if (HasUnknownFieldPolicy) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) UnknownFieldPolicy);
+      }
+      if (HasMinItems) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MinItems);
+      }
+      if (HasMaxItems) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(MaxItems);
+      }
+      if (HasMinLength) {
+        output.WriteRawTag(64);
+        output.WriteUInt32(MinLength);
+      }
+      if (HasMaxLength) {
+        output.WriteRawTag(72);
+        output.WriteUInt32(MaxLength);
+      }
+      if (HasMinInteger) {
+        output.WriteRawTag(80);
+        output.WriteSInt64(MinInteger);
+      }
+      if (HasMaxInteger) {
+        output.WriteRawTag(88);
+        output.WriteSInt64(MaxInteger);
+      }
+      if (minDecimal_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(MinDecimal);
+      }
+      if (maxDecimal_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(MaxDecimal);
+      }
+      if (HasMinNumber) {
+        output.WriteRawTag(113);
+        output.WriteDouble(MinNumber);
+      }
+      if (HasMaxNumber) {
+        output.WriteRawTag(121);
+        output.WriteDouble(MaxNumber);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Kind != global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind.Unspecified) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Kind);
+      }
+      if (HasNullable) {
+        output.WriteRawTag(16);
+        output.WriteBool(Nullable);
+      }
+      if (itemSchema_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(ItemSchema);
+      }
+      fields_.WriteTo(ref output, _repeated_fields_codec);
+      if (HasUnknownFieldPolicy) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) UnknownFieldPolicy);
+      }
+      if (HasMinItems) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MinItems);
+      }
+      if (HasMaxItems) {
+        output.WriteRawTag(56);
+        output.WriteUInt32(MaxItems);
+      }
+      if (HasMinLength) {
+        output.WriteRawTag(64);
+        output.WriteUInt32(MinLength);
+      }
+      if (HasMaxLength) {
+        output.WriteRawTag(72);
+        output.WriteUInt32(MaxLength);
+      }
+      if (HasMinInteger) {
+        output.WriteRawTag(80);
+        output.WriteSInt64(MinInteger);
+      }
+      if (HasMaxInteger) {
+        output.WriteRawTag(88);
+        output.WriteSInt64(MaxInteger);
+      }
+      if (minDecimal_ != null) {
+        output.WriteRawTag(98);
+        output.WriteMessage(MinDecimal);
+      }
+      if (maxDecimal_ != null) {
+        output.WriteRawTag(106);
+        output.WriteMessage(MaxDecimal);
+      }
+      if (HasMinNumber) {
+        output.WriteRawTag(113);
+        output.WriteDouble(MinNumber);
+      }
+      if (HasMaxNumber) {
+        output.WriteRawTag(121);
+        output.WriteDouble(MaxNumber);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Kind != global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind.Unspecified) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Kind);
+      }
+      if (HasNullable) {
+        size += 1 + 1;
+      }
+      if (itemSchema_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ItemSchema);
+      }
+      size += fields_.CalculateSize(_repeated_fields_codec);
+      if (HasUnknownFieldPolicy) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) UnknownFieldPolicy);
+      }
+      if (HasMinItems) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MinItems);
+      }
+      if (HasMaxItems) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxItems);
+      }
+      if (HasMinLength) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MinLength);
+      }
+      if (HasMaxLength) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxLength);
+      }
+      if (HasMinInteger) {
+        size += 1 + pb::CodedOutputStream.ComputeSInt64Size(MinInteger);
+      }
+      if (HasMaxInteger) {
+        size += 1 + pb::CodedOutputStream.ComputeSInt64Size(MaxInteger);
+      }
+      if (minDecimal_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MinDecimal);
+      }
+      if (maxDecimal_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MaxDecimal);
+      }
+      if (HasMinNumber) {
+        size += 1 + 8;
+      }
+      if (HasMaxNumber) {
+        size += 1 + 8;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ValueSchema other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Kind != global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind.Unspecified) {
+        Kind = other.Kind;
+      }
+      if (other.HasNullable) {
+        Nullable = other.Nullable;
+      }
+      if (other.itemSchema_ != null) {
+        if (itemSchema_ == null) {
+          ItemSchema = new global::ArcForges.Sdk.Contracts.V1.ValueSchema();
+        }
+        ItemSchema.MergeFrom(other.ItemSchema);
+      }
+      fields_.Add(other.fields_);
+      if (other.HasUnknownFieldPolicy) {
+        UnknownFieldPolicy = other.UnknownFieldPolicy;
+      }
+      if (other.HasMinItems) {
+        MinItems = other.MinItems;
+      }
+      if (other.HasMaxItems) {
+        MaxItems = other.MaxItems;
+      }
+      if (other.HasMinLength) {
+        MinLength = other.MinLength;
+      }
+      if (other.HasMaxLength) {
+        MaxLength = other.MaxLength;
+      }
+      if (other.HasMinInteger) {
+        MinInteger = other.MinInteger;
+      }
+      if (other.HasMaxInteger) {
+        MaxInteger = other.MaxInteger;
+      }
+      if (other.minDecimal_ != null) {
+        if (minDecimal_ == null) {
+          MinDecimal = new global::ArcForges.Contracts.Foundation.V1.Decimal();
+        }
+        MinDecimal.MergeFrom(other.MinDecimal);
+      }
+      if (other.maxDecimal_ != null) {
+        if (maxDecimal_ == null) {
+          MaxDecimal = new global::ArcForges.Contracts.Foundation.V1.Decimal();
+        }
+        MaxDecimal.MergeFrom(other.MaxDecimal);
+      }
+      if (other.HasMinNumber) {
+        MinNumber = other.MinNumber;
+      }
+      if (other.HasMaxNumber) {
+        MaxNumber = other.MaxNumber;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Kind = (global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            Nullable = input.ReadBool();
+            break;
+          }
+          case 26: {
+            if (itemSchema_ == null) {
+              ItemSchema = new global::ArcForges.Sdk.Contracts.V1.ValueSchema();
+            }
+            input.ReadMessage(ItemSchema);
+            break;
+          }
+          case 34: {
+            fields_.AddEntriesFrom(input, _repeated_fields_codec);
+            break;
+          }
+          case 40: {
+            UnknownFieldPolicy = (global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy) input.ReadEnum();
+            break;
+          }
+          case 48: {
+            MinItems = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            MaxItems = input.ReadUInt32();
+            break;
+          }
+          case 64: {
+            MinLength = input.ReadUInt32();
+            break;
+          }
+          case 72: {
+            MaxLength = input.ReadUInt32();
+            break;
+          }
+          case 80: {
+            MinInteger = input.ReadSInt64();
+            break;
+          }
+          case 88: {
+            MaxInteger = input.ReadSInt64();
+            break;
+          }
+          case 98: {
+            if (minDecimal_ == null) {
+              MinDecimal = new global::ArcForges.Contracts.Foundation.V1.Decimal();
+            }
+            input.ReadMessage(MinDecimal);
+            break;
+          }
+          case 106: {
+            if (maxDecimal_ == null) {
+              MaxDecimal = new global::ArcForges.Contracts.Foundation.V1.Decimal();
+            }
+            input.ReadMessage(MaxDecimal);
+            break;
+          }
+          case 113: {
+            MinNumber = input.ReadDouble();
+            break;
+          }
+          case 121: {
+            MaxNumber = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Kind = (global::ArcForges.Sdk.Contracts.V1.ValueSchemaKind) input.ReadEnum();
+            break;
+          }
+          case 16: {
+            Nullable = input.ReadBool();
+            break;
+          }
+          case 26: {
+            if (itemSchema_ == null) {
+              ItemSchema = new global::ArcForges.Sdk.Contracts.V1.ValueSchema();
+            }
+            input.ReadMessage(ItemSchema);
+            break;
+          }
+          case 34: {
+            fields_.AddEntriesFrom(ref input, _repeated_fields_codec);
+            break;
+          }
+          case 40: {
+            UnknownFieldPolicy = (global::ArcForges.Sdk.Contracts.V1.UnknownValueFieldPolicy) input.ReadEnum();
+            break;
+          }
+          case 48: {
+            MinItems = input.ReadUInt32();
+            break;
+          }
+          case 56: {
+            MaxItems = input.ReadUInt32();
+            break;
+          }
+          case 64: {
+            MinLength = input.ReadUInt32();
+            break;
+          }
+          case 72: {
+            MaxLength = input.ReadUInt32();
+            break;
+          }
+          case 80: {
+            MinInteger = input.ReadSInt64();
+            break;
+          }
+          case 88: {
+            MaxInteger = input.ReadSInt64();
+            break;
+          }
+          case 98: {
+            if (minDecimal_ == null) {
+              MinDecimal = new global::ArcForges.Contracts.Foundation.V1.Decimal();
+            }
+            input.ReadMessage(MinDecimal);
+            break;
+          }
+          case 106: {
+            if (maxDecimal_ == null) {
+              MaxDecimal = new global::ArcForges.Contracts.Foundation.V1.Decimal();
+            }
+            input.ReadMessage(MaxDecimal);
+            break;
+          }
+          case 113: {
+            MinNumber = input.ReadDouble();
+            break;
+          }
+          case 121: {
+            MaxNumber = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ValueSchemaField : pb::IMessage<ValueSchemaField>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ValueSchemaField> _parser = new pb::MessageParser<ValueSchemaField>(() => new ValueSchemaField());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ValueSchemaField> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor.MessageTypes[17]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ValueSchemaField() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ValueSchemaField(ValueSchemaField other) : this() {
+      _hasBits0 = other._hasBits0;
+      name_ = other.name_;
+      schema_ = other.schema_ != null ? other.schema_.Clone() : null;
+      required_ = other.required_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ValueSchemaField Clone() {
+      return new ValueSchemaField(this);
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 1;
+    private readonly static string NameDefaultValue = "";
+
+    private string name_;
+    /// <summary>
+    /// Keys use the same bounded ASCII key vocabulary as ValueEntry.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_ ?? NameDefaultValue; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "name" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasName {
+      get { return name_ != null; }
+    }
+    /// <summary>Clears the value of the "name" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearName() {
+      name_ = null;
+    }
+
+    /// <summary>Field number for the "schema" field.</summary>
+    public const int SchemaFieldNumber = 2;
+    private global::ArcForges.Sdk.Contracts.V1.ValueSchema schema_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Sdk.Contracts.V1.ValueSchema Schema {
+      get { return schema_; }
+      set {
+        schema_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "required" field.</summary>
+    public const int RequiredFieldNumber = 3;
+    private readonly static bool RequiredDefaultValue = false;
+
+    private bool required_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Required {
+      get { if ((_hasBits0 & 1) != 0) { return required_; } else { return RequiredDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        required_ = value;
+      }
+    }
+    /// <summary>Gets whether the "required" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasRequired {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "required" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearRequired() {
+      _hasBits0 &= ~1;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ValueSchemaField);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ValueSchemaField other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Name != other.Name) return false;
+      if (!object.Equals(Schema, other.Schema)) return false;
+      if (Required != other.Required) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasName) hash ^= Name.GetHashCode();
+      if (schema_ != null) hash ^= Schema.GetHashCode();
+      if (HasRequired) hash ^= Required.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasName) {
+        output.WriteRawTag(10);
+        output.WriteString(Name);
+      }
+      if (schema_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Schema);
+      }
+      if (HasRequired) {
+        output.WriteRawTag(24);
+        output.WriteBool(Required);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasName) {
+        output.WriteRawTag(10);
+        output.WriteString(Name);
+      }
+      if (schema_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Schema);
+      }
+      if (HasRequired) {
+        output.WriteRawTag(24);
+        output.WriteBool(Required);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasName) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (schema_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Schema);
+      }
+      if (HasRequired) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ValueSchemaField other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasName) {
+        Name = other.Name;
+      }
+      if (other.schema_ != null) {
+        if (schema_ == null) {
+          Schema = new global::ArcForges.Sdk.Contracts.V1.ValueSchema();
+        }
+        Schema.MergeFrom(other.Schema);
+      }
+      if (other.HasRequired) {
+        Required = other.Required;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Name = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (schema_ == null) {
+              Schema = new global::ArcForges.Sdk.Contracts.V1.ValueSchema();
+            }
+            input.ReadMessage(Schema);
+            break;
+          }
+          case 24: {
+            Required = input.ReadBool();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            Name = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (schema_ == null) {
+              Schema = new global::ArcForges.Sdk.Contracts.V1.ValueSchema();
+            }
+            input.ReadMessage(Schema);
+            break;
+          }
+          case 24: {
+            Required = input.ReadBool();
             break;
           }
         }
