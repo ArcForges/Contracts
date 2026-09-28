@@ -162,7 +162,7 @@
   ],
   "compatibleUnknownResponse": {
     "schema": "AggregateBody",
-    "wireHex": "8a01190a1000112233445566778899aabbccddeeff1205416c706861a00607",
+    "wireHex": "8a011b0a120a1000112233445566778899aabbccddeeff1205416c706861a00607",
     "note": "Known ScopeProjectMetadata plus an unknown future field survives decode/encode unchanged."
   }
 }

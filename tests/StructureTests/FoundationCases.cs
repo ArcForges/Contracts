@@ -272,6 +272,7 @@ internal static class FoundationCases
         "ScopeConfiguration" => Check<P.ScopeConfiguration>(json, binary, Validation.IsValid),
         "ScopeFinding" => Check<P.ScopeFinding>(json, binary, Validation.IsValid),
         "ScopeMetadata" => Check<P.ScopeMetadata>(json, binary, Validation.IsValid),
+        "ScopeProjectMetadata" => Check<P.ScopeProjectMetadata>(json, binary, Validation.IsValid),
         "ScopeSelection" => Check<P.ScopeSelection>(json, binary, Validation.IsValid),
         "ScopeTime" => Check<P.ScopeTime>(json, binary, Validation.IsValid),
         "SelectedSample" => Check<P.SelectedSample>(json, binary, Validation.IsValid),
