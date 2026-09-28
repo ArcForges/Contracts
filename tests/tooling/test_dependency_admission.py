@@ -382,6 +382,51 @@ class DependencyAdmission(unittest.TestCase):
         for wrong in [path + '.backup', path.replace('r10.json', 'r11.json'), 'secrets.json']:
             self.assertIsNone(re.fullmatch(group['paths'][0], wrong))
 
+    def test_con06_observed_public_hashes_are_exact_and_immutable(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        groups = [row for row in config['allowlists'] if row['description'].startswith('CON06 exact observed')]
+        self.assertEqual(len(groups), 3)
+        commit = '0b86db7e5375d60530404d87fcca4088bc9beba6'
+        targets = ['eng/policy/dependency-policy.json', 'eng/policy/dependency-reviews/con-06-r1.json',
+                   'eng/provenance/artifact-profiles/dokka-2-2-0-r11.json']
+        frozen = lambda path: subprocess.check_output(['git', 'show', commit + ':' + path], cwd=ROOT).replace(b'\r\n', b'\n')
+        prior = json.loads(frozen(targets[2].replace('r11.json', 'r10.json')))
+        prior_pages = {key: value for module in prior['modules'].values() for key, value in module['pages'].items()}
+        permissions, occurrences = set(), 0
+        for group, path, count in zip(groups, targets, [1, 4, 164], strict=True):
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], ['^' + re.escape(path) + '$'])
+            self.assertEqual(len(group['regexes']), count)
+            lines = frozen(path).decode().splitlines()
+            for pattern in group['regexes']:
+                matching = [line for line in lines if re.fullmatch(pattern, line)]
+                self.assertTrue(matching)
+                occurrences += len(matching)
+                pairs = {tuple(json.loads('{' + line.strip().rstrip(',') + '}').items())[0] for line in matching}
+                self.assertEqual(len(pairs), 1)
+                key, digest = pairs.pop()
+                expected = r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + digest + r'",?\s*$'
+                self.assertEqual(pattern, expected)
+                permissions.add((path, key, digest))
+                if path == targets[2]:
+                    self.assertEqual(prior_pages[key], digest)
+                else:
+                    self.assertEqual(hashlib.sha256(frozen(key)).hexdigest(), digest)
+                line = matching[0]
+                for wrong in [line.replace(digest, '0' * 64), line.replace(key, 'api_key'),
+                              line + ' "token": "synthetic-secret"', '"token": "synthetic-secret" ' + line,
+                              line.replace(digest, 'ghp_synthetic_credential')]:
+                    self.assertIsNone(re.fullmatch(pattern, wrong))
+            for wrong in [path + '.backup', 'secrets.json', path.replace('r11.json', 'r12.json') if path == targets[2] else 'eng/policy/other.json']:
+                self.assertIsNone(re.fullmatch(group['paths'][0], wrong))
+        self.assertEqual(occurrences, 170)
+        self.assertEqual(len(permissions), 169)
+        canonical = ''.join('\t'.join(row) + '\n' for row in sorted(permissions)).encode()
+        expected_digest = '9c1a63824bc8b29c9fb89a8b508c4b32b443167aa1b45b74ff551b4ec2a5857f'
+        self.assertEqual(hashlib.sha256(canonical).hexdigest(), expected_digest)
+
     def setUp(self):
         self.policy = json.loads((ROOT / POLICY).read_text())
         self.graph = inventory(ROOT)
