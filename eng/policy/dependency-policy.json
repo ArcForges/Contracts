@@ -198,7 +198,7 @@
     "tests/public/KotlinConnectClient/settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
     "tests/public/KotlinConnectClient/settings.gradle.kts": "997d5d04e67aafbd50d094c4aed81bcc239cf5a9c205a786f2847140474f61e5",
     "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
-    "tests/public/SerializationProbe/packages.lock.json": "8edb4f47a5f9fa43737b7ddcac4f425f37d073c480bfbbf2025eaeb66cd9811c"
+    "tests/public/SerializationProbe/packages.lock.json": "2e2ed64e005745d372cedc3356792c0e430527d73d01750f41c2fdb91992092c"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
@@ -2446,7 +2446,7 @@
     "owner": "w-20260927-contracts-lane",
     "reviewer": "Independent exact-head peer reviewer recorded in CON.06 PR before merge",
     "reviewedOn": "2026-09-28",
-    "baselineCommit": "1e0b868f78b474dc1267917022786436f6b42bd7",
+    "baselineCommit": "74e8dde058b11845184dfe397d4b34dc8bc377e1",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -2644,7 +2644,7 @@
       "tests/public/KotlinConnectClient/settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
       "tests/public/KotlinConnectClient/settings.gradle.kts": "997d5d04e67aafbd50d094c4aed81bcc239cf5a9c205a786f2847140474f61e5",
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
-      "tests/public/SerializationProbe/packages.lock.json": "8edb4f47a5f9fa43737b7ddcac4f425f37d073c480bfbbf2025eaeb66cd9811c"
+      "tests/public/SerializationProbe/packages.lock.json": "2e2ed64e005745d372cedc3356792c0e430527d73d01750f41c2fdb91992092c"
     },
     "maintenanceAssessment": "CON.06 adds existing PublicApi and Sdk.Contracts references to private LocalRpc.Platform and existing PublicApi/LocalRpc.Platform references to private Chat/Scope. All are the existing same-candidate family. Regenerated producer/test locks preserve the exact inherited external closure, coordinates, versions and integrity. PublicApi remains public-only. No framework, external package, toolchain or licence boundary change.",
     "checks": {
