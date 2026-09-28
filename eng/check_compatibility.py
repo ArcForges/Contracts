@@ -72,7 +72,7 @@ def text(message: dict, tag: int, default="") -> str:
 def descriptor(data: bytes) -> dict:
     if not data or len(data) > 64 * 1024 * 1024:
         raise ValueError("Descriptor set is empty or exceeds 64 MiB")
-    model = {"messages": {}, "enums": {}, "services": {}}
+    model = {"messages": {}, "enums": {}, "services": {}, "files": {}}
 
     def put(kind: str, name: str, value):
         if name in model[kind]:
@@ -127,6 +127,7 @@ def descriptor(data: bytes) -> dict:
             raise ValueError("Missing or duplicate descriptor file")
         seen_files.add(filename)
         prefix = "." + text(file, 2)
+        previous = {kind: set(model[kind]) for kind in ("messages", "enums", "services")}
         for raw in file.get(4, []):
             message(raw, prefix)
         for raw in file.get(5, []):
@@ -143,9 +144,52 @@ def descriptor(data: bytes) -> dict:
                                  "clientStreaming": one(method, 5, 0),
                                  "serverStreaming": one(method, 6, 0)}
             put("services", prefix + "." + text(service, 1), methods)
+        model["files"][filename] = {
+            "package": text(file, 2),
+            **{kind: {name: model[kind][name] for name in sorted(set(model[kind]) - previous[kind])}
+               for kind in ("messages", "enums", "services")},
+        }
     if not seen_files:
         raise ValueError("No files in descriptor set")
     return model
+
+
+def frozen_file_projection(file_model: dict) -> dict:
+    """Normalize one file's compiled declarations for an independently authored lock."""
+    return {
+        "package": file_model["package"],
+        "messages": {
+            name: [{"tag": tag, **field} for tag, field in sorted(fields.items())]
+            for name, fields in sorted(file_model["messages"].items())
+        },
+        "enums": {
+            name: [{"name": member, "number": number} for member, number in sorted(values.items())]
+            for name, values in sorted(file_model["enums"].items())
+        },
+        "services": {
+            name: {method: value for method, value in sorted(methods.items())}
+            for name, methods in sorted(file_model["services"].items())
+        },
+    }
+
+
+def con08_frozen_errors(root: Path, current: dict) -> list[str]:
+    fixture_path = root / "fixtures/public/con-08-entitlement-commerce.json"
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    if fixture.get("schemaVersion") != "con-08-entitlement-commerce.v1":
+        raise ValueError("Unsupported CON.08 compatibility fixture")
+    lock = fixture.get("frozenDescriptor")
+    if not isinstance(lock, dict) or set(lock) != {"file", "projection"}:
+        raise ValueError("Invalid CON.08 frozen descriptor envelope")
+    filename = "arcforges/publicapi/v1/commerce.proto"
+    if lock["file"] != filename or not isinstance(lock["projection"], dict):
+        raise ValueError("Invalid CON.08 frozen descriptor identity")
+    file_model = current.get("files", {}).get(filename)
+    if file_model is None:
+        return ["publicapi: CON.08 commerce.proto descriptor is missing"]
+    if frozen_file_projection(file_model) != lock["projection"]:
+        return ["publicapi: CON.08 frozen commerce.proto descriptor projection changed"]
+    return []
 
 
 def compare(previous: dict, current: dict) -> list[str]:
@@ -214,6 +258,8 @@ def check_window(root: Path) -> dict:
         previous = retained(descriptor(raw), inventory.get("retirement", {}))
         current = descriptor(safe_path(root, row["current"]).read_bytes())
         problems = compare(previous, current)
+        if row["package"] == "ArcForges.Contracts.PublicApi":
+            problems.extend(con08_frozen_errors(root, current))
         errors.extend(row["package"] + ": " + problem for problem in problems)
         results.append({"package": row["package"], "retainedDefinitions": {key: len(value) for key, value in previous.items()},
                         "check": "preserve published supported members used by both offline codec directions",

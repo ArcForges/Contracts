@@ -1,0 +1,542 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "CommerceProto";
+
+// Frozen per CC-04. These are read/projection and commercial-owner boundaries,
+// not checkout-provider adapters, payment credential transport or entitlement
+// admission logic.
+service EntitlementService {
+  rpc GetSnapshot(EntitlementServiceGetSnapshotRequest) returns (EntitlementServiceGetSnapshotResponse);
+  rpc GetServiceTerm(EntitlementServiceGetServiceTermRequest) returns (EntitlementServiceGetServiceTermResponse);
+  rpc GetCapacity(EntitlementServiceGetCapacityRequest) returns (EntitlementServiceGetCapacityResponse);
+  rpc ListGrants(EntitlementServiceListGrantsRequest) returns (EntitlementServiceListGrantsResponse);
+  rpc GetUsage(EntitlementServiceGetUsageRequest) returns (EntitlementServiceGetUsageResponse);
+  rpc Check(EntitlementServiceCheckRequest) returns (EntitlementServiceCheckResponse);
+}
+
+// Frozen per CC-04. Provider-facing webhook traffic stays on its separately
+// declared signed HTTP boundary and is not a customer RPC.
+service CommerceService {
+  rpc AuthoriseExtraUsage(CommerceServiceAuthoriseExtraUsageRequest) returns (CommerceServiceAuthoriseExtraUsageResponse);
+  rpc RevokeExtraUsage(CommerceServiceRevokeExtraUsageRequest) returns (CommerceServiceRevokeExtraUsageResponse);
+  rpc ExplainCharge(CommerceServiceExplainChargeRequest) returns (CommerceServiceExplainChargeResponse);
+  rpc GetCatalogue(CommerceServiceGetCatalogueRequest) returns (CommerceServiceGetCatalogueResponse);
+  rpc CreatePurchaseIntent(CommerceServiceCreatePurchaseIntentRequest) returns (CommerceServiceCreatePurchaseIntentResponse);
+  rpc CreateCheckoutAttempt(CommerceServiceCreateCheckoutAttemptRequest) returns (CommerceServiceCreateCheckoutAttemptResponse);
+  rpc GetPurchaseState(CommerceServiceGetPurchaseStateRequest) returns (CommerceServiceGetPurchaseStateResponse);
+  rpc GetSubscription(CommerceServiceGetSubscriptionRequest) returns (CommerceServiceGetSubscriptionResponse);
+  rpc CancelSubscription(CommerceServiceCancelSubscriptionRequest) returns (CommerceServiceCancelSubscriptionResponse);
+  rpc ReactivateSubscription(CommerceServiceReactivateSubscriptionRequest) returns (CommerceServiceReactivateSubscriptionResponse);
+  rpc GetCredits(CommerceServiceGetCreditsRequest) returns (CommerceServiceGetCreditsResponse);
+  rpc ListBillingHistory(CommerceServiceListBillingHistoryRequest) returns (CommerceServiceListBillingHistoryResponse);
+  rpc RequestRefund(CommerceServiceRequestRefundRequest) returns (CommerceServiceRequestRefundResponse);
+  rpc ExportEvidence(CommerceServiceExportEvidenceRequest) returns (CommerceServiceExportEvidenceResponse);
+}
+
+enum SubscriptionState {
+  SUBSCRIPTION_STATE_UNSPECIFIED = 0;
+  SUBSCRIPTION_STATE_PENDING = 1;
+  SUBSCRIPTION_STATE_ACTIVE = 2;
+  SUBSCRIPTION_STATE_GRACE = 3;
+  SUBSCRIPTION_STATE_CANCEL_SCHEDULED = 4;
+  SUBSCRIPTION_STATE_ENDED = 5;
+  SUBSCRIPTION_STATE_SUSPENDED = 6;
+}
+
+message EntitlementSnapshot {
+  optional int64 version = 1 [json_name = "version"];
+  repeated Availability capabilities = 2 [json_name = "capabilities"];
+  ServiceTerm service_term = 3 [json_name = "serviceTerm"];
+  repeated QuotaUsage quotas = 4 [json_name = "quotas"];
+}
+
+message ServiceTerm {
+  optional string kind = 1 [json_name = "kind"];
+  arcforges.foundation.v1.Instant starts_at = 2 [json_name = "startsAt"];
+  arcforges.foundation.v1.Instant ends_at = 3 [json_name = "endsAt"];
+  arcforges.foundation.v1.Instant grace_ends_at = 4 [json_name = "graceEndsAt"];
+  optional bool ai_admissible = 5 [json_name = "aiAdmissible"];
+}
+
+message Capacity {
+  optional uint64 available = 1 [json_name = "available"];
+  optional uint64 held = 2 [json_name = "held"];
+  optional uint64 burst = 3 [json_name = "burst"];
+  arcforges.foundation.v1.Rational recovery_rate = 4 [json_name = "recoveryRate"];
+  arcforges.foundation.v1.Instant recovery_at = 5 [json_name = "recoveryAt"];
+  optional string version = 6 [json_name = "version"];
+}
+
+message Grant {
+  arcforges.foundation.v1.Id grant_id = 1 [json_name = "grantId"];
+  optional string capability = 2 [json_name = "capability"];
+  optional string source = 3 [json_name = "source"];
+  arcforges.foundation.v1.Instant starts_at = 4 [json_name = "startsAt"];
+  arcforges.foundation.v1.Instant ends_at = 5 [json_name = "endsAt"];
+  arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];
+}
+
+message QuotaUsage {
+  optional string kind = 1 [json_name = "kind"];
+  optional uint64 used = 2 [json_name = "used"];
+  optional uint64 held = 3 [json_name = "held"];
+  optional uint64 limit = 4 [json_name = "limit"];
+  arcforges.foundation.v1.TimeRangeUtc period = 5 [json_name = "period"];
+}
+
+message SpendBudget {
+  arcforges.foundation.v1.Id authorisation_id = 1 [json_name = "authorisationId"];
+  optional uint64 maximum = 2 [json_name = "maximum"];
+  optional uint64 spent = 3 [json_name = "spent"];
+  optional uint64 held = 4 [json_name = "held"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];
+}
+
+message ChargeExplanation {
+  arcforges.foundation.v1.Id logical_request_id = 1 [json_name = "logicalRequestId"];
+  optional string state = 2 [json_name = "state"];
+  optional string reason = 3 [json_name = "reason"];
+  optional uint64 capacity_debit = 4 [json_name = "capacityDebit"];
+  optional uint64 compensation_debit = 5 [json_name = "compensationDebit"];
+  optional uint64 purchased_debit = 6 [json_name = "purchasedDebit"];
+  optional string tariff_version = 7 [json_name = "tariffVersion"];
+  optional string supplier_version = 8 [json_name = "supplierVersion"];
+  repeated AttemptCharge attempts = 9 [json_name = "attempts"];
+}
+
+message AttemptCharge {
+  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
+  optional string model_id = 2 [json_name = "modelId"];
+  ModelUsage usage = 3 [json_name = "usage"];
+  arcforges.foundation.v1.Decimal supplier_cost = 4 [json_name = "supplierCost"];
+  optional uint64 customer_debit = 5 [json_name = "customerDebit"];
+  optional arcforges.foundation.v1.EffectCertainty certainty = 6 [json_name = "certainty"];
+}
+
+message ModelUsage {
+  optional uint64 input_tokens = 1 [json_name = "inputTokens"];
+  optional uint64 output_tokens = 2 [json_name = "outputTokens"];
+  optional uint64 cached_input_tokens = 3 [json_name = "cachedInputTokens"];
+  arcforges.foundation.v1.Instant measured_at = 4 [json_name = "measuredAt"];
+  optional string source = 5 [json_name = "source"];
+
+  reserved 6;
+  reserved "audio_milliseconds";
+}
+
+message Offer {
+  arcforges.foundation.v1.Id offer_id = 1 [json_name = "offerId"];
+  optional string price_version = 2 [json_name = "priceVersion"];
+  optional string kind = 3 [json_name = "kind"];
+  optional string currency = 4 [json_name = "currency"];
+  arcforges.foundation.v1.Decimal amount = 5 [json_name = "amount"];
+  optional string interval = 6 [json_name = "interval"];
+  repeated string entitlements = 7 [json_name = "entitlements"];
+  optional string region = 8 [json_name = "region"];
+}
+
+message PurchaseView {
+  arcforges.foundation.v1.Id purchase_intent_id = 1 [json_name = "purchaseIntentId"];
+  optional string state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Id offer_id = 3 [json_name = "offerId"];
+  arcforges.foundation.v1.Id order_id = 4 [json_name = "orderId"];
+  optional string reason = 5 [json_name = "reason"];
+}
+
+message CheckoutView {
+  arcforges.foundation.v1.Id checkout_attempt_id = 1 [json_name = "checkoutAttemptId"];
+  arcforges.foundation.v1.Id purchase_intent_id = 2 [json_name = "purchaseIntentId"];
+  optional string url = 3 [json_name = "url"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+}
+
+message SubscriptionView {
+  arcforges.foundation.v1.Id subscription_id = 1 [json_name = "subscriptionId"];
+  optional SubscriptionState state = 2 [json_name = "state"];
+  arcforges.foundation.v1.TimeRangeUtc current_period = 3 [json_name = "currentPeriod"];
+  optional bool cancel_at_period_end = 4 [json_name = "cancelAtPeriodEnd"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+}
+
+message CreditPool {
+  optional uint64 available = 1 [json_name = "available"];
+  optional uint64 held = 2 [json_name = "held"];
+  repeated CreditLot lots = 3 [json_name = "lots"];
+}
+
+message CreditLot {
+  arcforges.foundation.v1.Id lot_id = 1 [json_name = "lotId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional uint64 amount = 3 [json_name = "amount"];
+  optional uint64 remaining = 4 [json_name = "remaining"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Id source_order_id = 6 [json_name = "sourceOrderId"];
+}
+
+message BillingItem {
+  arcforges.foundation.v1.Id item_id = 1 [json_name = "itemId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional string state = 3 [json_name = "state"];
+  arcforges.foundation.v1.Decimal amount = 4 [json_name = "amount"];
+  optional string currency = 5 [json_name = "currency"];
+  arcforges.foundation.v1.Instant occurred_at = 6 [json_name = "occurredAt"];
+  optional string document_url = 7 [json_name = "documentUrl"];
+}
+
+message RefundView {
+  arcforges.foundation.v1.Id refund_id = 1 [json_name = "refundId"];
+  optional string state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Id payment_id = 3 [json_name = "paymentId"];
+  arcforges.foundation.v1.Decimal amount = 4 [json_name = "amount"];
+  optional string reason = 5 [json_name = "reason"];
+}
+
+message ExportJob {
+  arcforges.foundation.v1.Id export_id = 1 [json_name = "exportId"];
+  optional string state = 2 [json_name = "state"];
+  optional int32 progress = 3 [json_name = "progress"];
+  repeated arcforges.foundation.v1.VersionedRef snapshot_refs = 4 [json_name = "snapshotRefs"];
+  arcforges.foundation.v1.ArtifactRef artifact = 5 [json_name = "artifact"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  optional string reason = 7 [json_name = "reason"];
+}
+
+message EntitlementServiceGetSnapshotRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message EntitlementServiceGetSnapshotValue { EntitlementSnapshot snapshot = 10 [json_name = "snapshot"]; }
+message EntitlementServiceGetSnapshotResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EntitlementServiceGetSnapshotValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message EntitlementServiceGetServiceTermRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message EntitlementServiceGetServiceTermValue { ServiceTerm term = 10 [json_name = "term"]; }
+message EntitlementServiceGetServiceTermResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EntitlementServiceGetServiceTermValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message EntitlementServiceGetCapacityRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message EntitlementServiceGetCapacityValue { Capacity capacity = 10 [json_name = "capacity"]; }
+message EntitlementServiceGetCapacityResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EntitlementServiceGetCapacityValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message EntitlementServiceListGrantsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message EntitlementServiceListGrantsValue {
+  repeated Grant items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message EntitlementServiceListGrantsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EntitlementServiceListGrantsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message EntitlementServiceGetUsageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.TimeRangeUtc period = 10 [json_name = "period"];
+}
+message EntitlementServiceGetUsageValue { repeated QuotaUsage usage = 10 [json_name = "usage"]; }
+message EntitlementServiceGetUsageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EntitlementServiceGetUsageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message EntitlementServiceCheckRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated string capabilities = 10 [json_name = "capabilities"];
+}
+message EntitlementServiceCheckValue { repeated Availability items = 10 [json_name = "items"]; }
+message EntitlementServiceCheckResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EntitlementServiceCheckValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceAuthoriseExtraUsageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id authorisation_id = 10 [json_name = "authorisationId"];
+  optional uint64 max_budget = 11 [json_name = "maxBudget"];
+  arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"];
+}
+message CommerceServiceAuthoriseExtraUsageValue { SpendBudget budget = 10 [json_name = "budget"]; }
+message CommerceServiceAuthoriseExtraUsageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceAuthoriseExtraUsageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceRevokeExtraUsageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id authorisation_id = 10 [json_name = "authorisationId"];
+}
+message CommerceServiceRevokeExtraUsageValue { arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"]; }
+message CommerceServiceRevokeExtraUsageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceRevokeExtraUsageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceExplainChargeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id logical_request_id = 10 [json_name = "logicalRequestId"];
+}
+message CommerceServiceExplainChargeValue { ChargeExplanation explanation = 10 [json_name = "explanation"]; }
+message CommerceServiceExplainChargeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceExplainChargeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceGetCatalogueRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string region = 10 [json_name = "region"];
+}
+message CommerceServiceGetCatalogueValue {
+  repeated Offer items = 10 [json_name = "items"];
+  optional string catalogue_version = 11 [json_name = "catalogueVersion"];
+}
+message CommerceServiceGetCatalogueResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceGetCatalogueValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceCreatePurchaseIntentRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id purchase_intent_id = 10 [json_name = "purchaseIntentId"];
+  arcforges.foundation.v1.Id offer_id = 11 [json_name = "offerId"];
+  optional string price_version = 12 [json_name = "priceVersion"];
+  optional string region = 13 [json_name = "region"];
+}
+message CommerceServiceCreatePurchaseIntentValue { PurchaseView purchase = 10 [json_name = "purchase"]; }
+message CommerceServiceCreatePurchaseIntentResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceCreatePurchaseIntentValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceCreateCheckoutAttemptRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id purchase_intent_id = 10 [json_name = "purchaseIntentId"];
+  arcforges.foundation.v1.Id checkout_attempt_id = 11 [json_name = "checkoutAttemptId"];
+  optional string return_route = 12 [json_name = "returnRoute"];
+}
+message CommerceServiceCreateCheckoutAttemptValue { CheckoutView checkout = 10 [json_name = "checkout"]; }
+message CommerceServiceCreateCheckoutAttemptResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceCreateCheckoutAttemptValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceGetPurchaseStateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id purchase_intent_id = 10 [json_name = "purchaseIntentId"];
+}
+message CommerceServiceGetPurchaseStateValue { PurchaseView purchase = 10 [json_name = "purchase"]; }
+message CommerceServiceGetPurchaseStateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceGetPurchaseStateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceGetSubscriptionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message CommerceServiceGetSubscriptionValue { SubscriptionView subscription = 10 [json_name = "subscription"]; }
+message CommerceServiceGetSubscriptionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceGetSubscriptionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceCancelSubscriptionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id subscription_id = 10 [json_name = "subscriptionId"];
+}
+message CommerceServiceCancelSubscriptionValue { SubscriptionView subscription = 10 [json_name = "subscription"]; }
+message CommerceServiceCancelSubscriptionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceCancelSubscriptionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceReactivateSubscriptionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id subscription_id = 10 [json_name = "subscriptionId"];
+}
+message CommerceServiceReactivateSubscriptionValue { SubscriptionView subscription = 10 [json_name = "subscription"]; }
+message CommerceServiceReactivateSubscriptionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceReactivateSubscriptionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceGetCreditsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+message CommerceServiceGetCreditsValue {
+  Capacity capacity = 10 [json_name = "capacity"];
+  repeated CreditLot compensation = 11 [json_name = "compensation"];
+  CreditPool purchased = 12 [json_name = "purchased"];
+}
+message CommerceServiceGetCreditsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceGetCreditsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceListBillingHistoryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.TimeRangeUtc period = 10 [json_name = "period"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+message CommerceServiceListBillingHistoryValue {
+  repeated BillingItem items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message CommerceServiceListBillingHistoryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceListBillingHistoryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message CommerceServiceRequestRefundRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id refund_id = 10 [json_name = "refundId"];
+  arcforges.foundation.v1.Id payment_id = 11 [json_name = "paymentId"];
+  optional string reason = 12 [json_name = "reason"];
+}
+message CommerceServiceRequestRefundValue { RefundView refund = 10 [json_name = "refund"]; }
+message CommerceServiceRequestRefundResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceRequestRefundValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message CommerceServiceExportEvidenceRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.TimeRangeUtc period = 10 [json_name = "period"];
+}
+message CommerceServiceExportEvidenceValue { ExportJob job = 10 [json_name = "job"]; }
+message CommerceServiceExportEvidenceResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    CommerceServiceExportEvidenceValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}

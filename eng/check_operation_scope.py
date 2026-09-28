@@ -20,6 +20,16 @@ FIELDS = {"capability", "risk", "approval", "stepUp", "localPresence", "egress",
 ROW_REQUIRED = {"operationId", "binding", "kind", "source", "scope", "surface", "profile",
                 "sourceRule", "idempotency", "authorization"}
 ROW_OPTIONAL = {"delegation", "launchRoles", "requireLaunchRole"}
+CON08_EXPORT = "eng/operations/con-08.json"
+CON08_OPERATIONS = frozenset({
+    "entitlement.getSnapshot", "entitlement.getServiceTerm", "entitlement.getCapacity",
+    "entitlement.listGrants", "entitlement.getUsage", "entitlement.check",
+    "commerce.authoriseExtraUsage", "commerce.revokeExtraUsage", "commerce.explainCharge",
+    "commerce.getCatalogue", "commerce.createPurchaseIntent", "commerce.createCheckoutAttempt",
+    "commerce.getPurchaseState", "commerce.getSubscription", "commerce.cancelSubscription",
+    "commerce.reactivateSubscription", "commerce.getCredits", "commerce.listBillingHistory",
+    "commerce.requestRefund", "commerce.exportEvidence",
+})
 SCOPES = {"account", "assistant", "product-owner", "resource-owner", "application-target",
           "in-process", "private-helper", "operator", "future"}
 ACTORS = {"human", "agent", "automation", "extension", "operator", "service", "provider",
@@ -66,6 +76,27 @@ def source_path(root: Path, source: str) -> Path:
     path = (root / source).resolve()
     require(path.is_relative_to(root.resolve()) and path.is_file(), f"invalid source path: {source}")
     return path
+
+
+def validate_compatibility_class(export_path: str, row: dict) -> None:
+    """Allow frozen metadata only on CON.08's exact export and owned operations."""
+    operation = row.get("operationId")
+    has_class = "compatibilityClass" in row
+    if export_path == CON08_EXPORT:
+        require(operation in CON08_OPERATIONS, f"unowned operation in CON.08 export: {operation}")
+        require(has_class and row["compatibilityClass"] == "frozen",
+                f"{operation}: CON.08 compatibilityClass must be literal frozen")
+    else:
+        require(not has_class, f"compatibilityClass is permitted only in {CON08_EXPORT}")
+
+
+def validate_operation_export_fields(export_path: str, row: dict) -> None:
+    validate_compatibility_class(export_path, row)
+    allowed_fields = ROW_REQUIRED | ROW_OPTIONAL
+    if export_path == CON08_EXPORT:
+        allowed_fields |= {"compatibilityClass"}
+    require(ROW_REQUIRED <= set(row) <= allowed_fields,
+            f"missing or unknown operation export fields: {export_path}")
 
 
 def oracle_rows(text: str) -> list[dict]:
@@ -308,8 +339,8 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
         require(isinstance(document.get("operations"), list), f"operation list required: {path}")
         for row in document["operations"]:
             require(isinstance(row, dict), f"operation row object required: {path}")
-            require(ROW_REQUIRED <= set(row) <= ROW_REQUIRED | ROW_OPTIONAL,
-                    f"missing or unknown operation export fields: {path}")
+            export_path = path.relative_to(root).as_posix()
+            validate_operation_export_fields(export_path, row)
             operation = row.get("operationId")
             require(isinstance(operation, str), "operation ID required")
             require(operation in oracle, f"unclassified operation: {operation}")
