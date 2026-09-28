@@ -274,6 +274,30 @@ public object AggregateBodyKt {
     public fun hasExternalBody(): kotlin.Boolean {
       return _builder.hasExternalBody()
     }
+
+    /**
+     * `.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];`
+     */
+    public var scopeProjectMetadata: io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata
+      @kotlin.jvm.JvmName("getScopeProjectMetadata")
+        get() = _builder.scopeProjectMetadata
+      @kotlin.jvm.JvmName("setScopeProjectMetadata")
+        set(value) {
+        _builder.scopeProjectMetadata = value
+      }
+    /**
+     * `.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];`
+     */
+    public fun clearScopeProjectMetadata() {
+      _builder.clearScopeProjectMetadata()
+    }
+    /**
+     * `.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];`
+     * @return Whether the scopeProjectMetadata field is set.
+     */
+    public fun hasScopeProjectMetadata(): kotlin.Boolean {
+      return _builder.hasScopeProjectMetadata()
+    }
     public val bodyCase: io.github.arcforges.contracts.publicapi.v1.AggregateBody.BodyCase
     @kotlin.jvm.JvmName("getBodyCase")
       get() = _builder.bodyCase
@@ -315,3 +339,6 @@ public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.mem
 
 public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.externalBodyOrNull: io.github.arcforges.contracts.foundation.v1.ResourceVersionRef?
   get() = if (hasExternalBody()) getExternalBody() else null
+
+public val io.github.arcforges.contracts.publicapi.v1.AggregateBodyOrBuilder.scopeProjectMetadataOrNull: io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata?
+  get() = if (hasScopeProjectMetadata()) getScopeProjectMetadata() else null

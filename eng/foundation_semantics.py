@@ -99,6 +99,49 @@ ts_rules = {
 }
 
 
+SYNC_ADMISSION_CS = r'''
+    /// <summary>
+    /// Applies the closed client-origin Sync body allowlist to an already-resolved body and
+    /// caller-supplied owner/revision facts. This performs no fetch, authorization, owner lookup,
+    /// persistence access or transaction work.
+    /// </summary>
+    public static bool IsSyncClientWriteAllowed(
+        global::ArcForges.Contracts.PublicApi.V1.AggregateBody? resolvedBody,
+        string? expectedOwner,
+        string? actualOwner,
+        long? expectedRevision,
+        long? actualRevision)
+    {
+        if (resolvedBody is null || !IsValid(resolvedBody)) return false;
+        if (string.IsNullOrEmpty(expectedOwner) || !global::System.StringComparer.Ordinal.Equals(expectedOwner, actualOwner)) return false;
+        if (expectedRevision is not long expected || actualRevision is not long actual || expected < 0 || actual < 0 || expected != actual) return false;
+        return resolvedBody.BodyCase is
+            global::ArcForges.Contracts.PublicApi.V1.AggregateBody.BodyOneofCase.ScopeMetadata or
+            global::ArcForges.Contracts.PublicApi.V1.AggregateBody.BodyOneofCase.ScopeProjectMetadata;
+    }
+'''
+
+SYNC_ADMISSION_TS = r'''
+/**
+ * Applies the closed client-origin Sync body allowlist to an already-resolved body and
+ * caller-supplied owner/revision facts. This performs no fetch, authorization, owner lookup,
+ * persistence access or transaction work.
+ */
+export function isSyncClientWriteAllowed(resolvedBody: unknown, facts: unknown): boolean {
+  if (!isAggregateBody(resolvedBody) || typeof facts !== "object" || facts === null || Array.isArray(facts)) return false;
+  const supplied = facts as Record<string, unknown>;
+  const expectedOwner = supplied.expectedOwner;
+  const actualOwner = supplied.actualOwner;
+  const expectedRevision = supplied.expectedRevision;
+  const actualRevision = supplied.actualRevision;
+  if (typeof expectedOwner !== "string" || expectedOwner.length === 0 || actualOwner !== expectedOwner) return false;
+  if (typeof expectedRevision !== "bigint" || typeof actualRevision !== "bigint" || expectedRevision < 0n || actualRevision < 0n || expectedRevision !== actualRevision) return false;
+  const bodyCase = ((resolvedBody as Profile).body as Profile | undefined)?.case;
+  return bodyCase === "scopeMetadata" || bodyCase === "scopeProjectMetadata";
+}
+'''
+
+
 def ts_imports(names: set[str]) -> str:
     lines = []
     if "arcforges.foundation.v1.ContentOrigin" in names:

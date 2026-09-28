@@ -2337,6 +2337,10 @@ function checkAggregateBody(input: unknown, context: ValidationContext): boolean
     const fieldValue = (value.body as {value: unknown}).value;
     if (!checkScopeMetadata(fieldValue, context)) return false;
   }
+  if ((value.body as {case?: string} | undefined)?.case === "scopeProjectMetadata") {
+    const fieldValue = (value.body as {value: unknown}).value;
+    if (!checkScopeProjectMetadata(fieldValue, context)) return false;
+  }
   if ((value.body as {case?: string} | undefined)?.case === "agentProfile") {
     const fieldValue = (value.body as {value: unknown}).value;
     if (!checkAgentProfile(fieldValue, context)) return false;
@@ -2370,7 +2374,7 @@ function checkAggregateBody(input: unknown, context: ValidationContext): boolean
     if (!checkResourceVersionRef(fieldValue, context)) return false;
   }
   if (value.body === undefined || typeof value.body !== 'object' || value.body === null) return false;
-  if ((value.body as {case?: string}).case !== "chat" && (value.body as {case?: string}).case !== "scopeMetadata" && (value.body as {case?: string}).case !== "agentProfile" && (value.body as {case?: string}).case !== "skill" && (value.body as {case?: string}).case !== "chatProject" && (value.body as {case?: string}).case !== "preferences" && (value.body as {case?: string}).case !== "task" && (value.body as {case?: string}).case !== "automation" && (value.body as {case?: string}).case !== "memory" && (value.body as {case?: string}).case !== "externalBody") return false;
+  if ((value.body as {case?: string}).case !== "chat" && (value.body as {case?: string}).case !== "scopeMetadata" && (value.body as {case?: string}).case !== "scopeProjectMetadata" && (value.body as {case?: string}).case !== "agentProfile" && (value.body as {case?: string}).case !== "skill" && (value.body as {case?: string}).case !== "chatProject" && (value.body as {case?: string}).case !== "preferences" && (value.body as {case?: string}).case !== "task" && (value.body as {case?: string}).case !== "automation" && (value.body as {case?: string}).case !== "memory" && (value.body as {case?: string}).case !== "externalBody") return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -4582,6 +4586,27 @@ function checkScopeMetadata(input: unknown, context: ValidationContext): boolean
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isScopeProjectMetadata(input: unknown): boolean { return checkScopeProjectMetadata(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeProjectMetadata(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.projectId === undefined) return false;
+  if (value.projectId !== undefined) {
+    const fieldValue = value.projectId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isScopeSelection(input: unknown): boolean { return checkScopeSelection(input, {active: new Set<object>(), depth: 0}); }
 function checkScopeSelection(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -5623,4 +5648,22 @@ function compareDescriptorVersions(left: string, right: string): number {
     else if (x !== y) return x < y ? -1 : 1;
   }
   return ap.length - bp.length;
+}
+
+/**
+ * Applies the closed client-origin Sync body allowlist to an already-resolved body and
+ * caller-supplied owner/revision facts. This performs no fetch, authorization, owner lookup,
+ * persistence access or transaction work.
+ */
+export function isSyncClientWriteAllowed(resolvedBody: unknown, facts: unknown): boolean {
+  if (!isAggregateBody(resolvedBody) || typeof facts !== "object" || facts === null || Array.isArray(facts)) return false;
+  const supplied = facts as Record<string, unknown>;
+  const expectedOwner = supplied.expectedOwner;
+  const actualOwner = supplied.actualOwner;
+  const expectedRevision = supplied.expectedRevision;
+  const actualRevision = supplied.actualRevision;
+  if (typeof expectedOwner !== "string" || expectedOwner.length === 0 || actualOwner !== expectedOwner) return false;
+  if (typeof expectedRevision !== "bigint" || typeof actualRevision !== "bigint" || expectedRevision < 0n || actualRevision < 0n || expectedRevision !== actualRevision) return false;
+  const bodyCase = ((resolvedBody as Profile).body as Profile | undefined)?.case;
+  return bodyCase === "scopeMetadata" || bodyCase === "scopeProjectMetadata";
 }

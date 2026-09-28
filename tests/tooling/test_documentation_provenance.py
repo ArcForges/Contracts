@@ -87,6 +87,9 @@ class DocumentationAdmissionTests(unittest.TestCase):
                             suffix = ''.join(word.title() for word in field['name'].split('_'))
                             retired_markers.update('anchor-label="' + prefix + suffix + '"' for prefix in ('get', 'has'))
                 expected[name] = [marker for marker in markers if marker not in retired_markers]
+                if name == "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-aggregate-body/index.html":
+                    expected[name].extend(['anchor-label="getScopeProjectMetadata"',
+                                           'anchor-label="hasScopeProjectMetadata"'])
             actual = current["modules"][module]["publicApi"]
             self.assertEqual({name: actual[name] for name in expected}, expected,
                              "Only explicitly retired message/field markers may be removed")
@@ -109,7 +112,8 @@ class DocumentationAdmissionTests(unittest.TestCase):
                              for name in catalog_messages}
             inprocess_messages = {"ContextRequest", "ContextContribution", "ContextItem", "Availability",
                                   "PreviewRequest", "ResourceMetadata", "ApprovalView", "TurnOptions",
-                                  "KnowledgePolicy", "KnowledgePolicyPatch", "SourcePolicyView", "SourceConsentSpec"}
+                                  "KnowledgePolicy", "KnowledgePolicyPatch", "SourcePolicyView", "SourceConsentSpec",
+                                  "ScopeProjectMetadata"}
             inprocess_pages = {"contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
                                for name in inprocess_messages}
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"

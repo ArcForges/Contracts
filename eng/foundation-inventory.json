@@ -36,6 +36,7 @@
     "RetryAdvice",
     "Revision",
     "RevisionConflict",
+    "ScopeProjectMetadata",
     "StateFailure",
     "TimeRangeUtc",
     "VersionFailure",
@@ -384,6 +385,16 @@
           "cardinality": "required",
           "wireType": "ResourceVersionRef",
           "protoName": "external_body",
+          "oneof": "body",
+          "presence": "oneof"
+        },
+        {
+          "tag": 17,
+          "name": "scopeProjectMetadata",
+          "type": "ScopeProjectMetadata",
+          "cardinality": "required",
+          "wireType": "ScopeProjectMetadata",
+          "protoName": "scope_project_metadata",
           "oneof": "body",
           "presence": "oneof"
         }
@@ -5671,6 +5682,42 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeMetadata.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeMetadataKt.kt"
+      }
+    },
+    {
+      "name": "ScopeProjectMetadata",
+      "protobufType": "arcforges.publicapi.v1.ScopeProjectMetadata",
+      "owner": "ArcForges.Contracts.PublicApi",
+      "source": "public/proto/arcforges/publicapi/v1/content.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "projectId",
+          "type": "Id",
+          "cardinality": "required",
+          "wireType": "Id",
+          "protoName": "project_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "name",
+          "type": "Name",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "name",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadata.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadataKt.kt"
       }
     },
     {

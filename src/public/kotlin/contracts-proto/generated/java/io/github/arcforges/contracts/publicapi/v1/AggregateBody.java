@@ -36,6 +36,7 @@ public  final class AggregateBody extends
     AUTOMATION(14),
     MEMORY(15),
     EXTERNAL_BODY(16),
+    SCOPE_PROJECT_METADATA(17),
     BODY_NOT_SET(0);
     private final int value;
     private BodyCase(int value) {
@@ -61,6 +62,7 @@ public  final class AggregateBody extends
         case 14: return AUTOMATION;
         case 15: return MEMORY;
         case 16: return EXTERNAL_BODY;
+        case 17: return SCOPE_PROJECT_METADATA;
         case 0: return BODY_NOT_SET;
         default: return null;
       }
@@ -597,6 +599,58 @@ public  final class AggregateBody extends
    */
   private void clearExternalBody() {
     if (bodyCase_ == 16) {
+      bodyCase_ = 0;
+      body_ = null;
+    }
+  }
+
+  public static final int SCOPE_PROJECT_METADATA_FIELD_NUMBER = 17;
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   */
+  @java.lang.Override
+  public boolean hasScopeProjectMetadata() {
+    return bodyCase_ == 17;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   */
+  @java.lang.Override
+  public io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata getScopeProjectMetadata() {
+    if (bodyCase_ == 17) {
+       return (io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata) body_;
+    }
+    return io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata.getDefaultInstance();
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   */
+  @java.lang.SuppressWarnings("ReturnValueIgnored")
+  private void setScopeProjectMetadata(io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata value) {
+    value.getClass();  // minimal bytecode null check
+    body_ = value;
+    bodyCase_ = 17;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   */
+  @java.lang.SuppressWarnings("ReturnValueIgnored")
+  private void mergeScopeProjectMetadata(io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata value) {
+    value.getClass();  // minimal bytecode null check
+    if (bodyCase_ == 17 &&
+        body_ != io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata.getDefaultInstance()) {
+      body_ = io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata.newBuilder((io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata) body_)
+          .mergeFrom(value).buildPartial();
+    } else {
+      body_ = value;
+    }
+    bodyCase_ = 17;
+  }
+  /**
+   * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+   */
+  private void clearScopeProjectMetadata() {
+    if (bodyCase_ == 17) {
       bodyCase_ = 0;
       body_ = null;
     }
@@ -1195,6 +1249,54 @@ public  final class AggregateBody extends
       return this;
     }
 
+    /**
+     * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+     */
+    @java.lang.Override
+    public boolean hasScopeProjectMetadata() {
+      return instance.hasScopeProjectMetadata();
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+     */
+    @java.lang.Override
+    public io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata getScopeProjectMetadata() {
+      return instance.getScopeProjectMetadata();
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+     */
+    public Builder setScopeProjectMetadata(io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata value) {
+      copyOnWrite();
+      instance.setScopeProjectMetadata(value);
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+     */
+    public Builder setScopeProjectMetadata(
+        io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata.Builder builderForValue) {
+      copyOnWrite();
+      instance.setScopeProjectMetadata(builderForValue.build());
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+     */
+    public Builder mergeScopeProjectMetadata(io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata value) {
+      copyOnWrite();
+      instance.mergeScopeProjectMetadata(value);
+      return this;
+    }
+    /**
+     * <code>.arcforges.publicapi.v1.ScopeProjectMetadata scope_project_metadata = 17 [json_name = "scopeProjectMetadata"];</code>
+     */
+    public Builder clearScopeProjectMetadata() {
+      copyOnWrite();
+      instance.clearScopeProjectMetadata();
+      return this;
+    }
+
     // @@protoc_insertion_point(builder_scope:arcforges.publicapi.v1.AggregateBody)
   }
   @java.lang.Override
@@ -1223,11 +1325,12 @@ public  final class AggregateBody extends
             io.github.arcforges.contracts.publicapi.v1.AutomationView.class,
             io.github.arcforges.contracts.publicapi.v1.MemoryRecord.class,
             io.github.arcforges.contracts.foundation.v1.ResourceVersionRef.class,
+            io.github.arcforges.contracts.publicapi.v1.ScopeProjectMetadata.class,
           };
           java.lang.String info =
-              "\u0000\n\u0001\u0000\u0002\u0010\n\u0000\u0000\u0000\u0002<\u0000\u0003<\u0000\t" +
-              "<\u0000\n<\u0000\u000b<\u0000\f<\u0000\r<\u0000\u000e<\u0000\u000f<\u0000\u0010<" +
-              "\u0000";
+              "\u0000\u000b\u0001\u0000\u0002\u0011\u000b\u0000\u0000\u0000\u0002<\u0000\u0003<" +
+              "\u0000\t<\u0000\n<\u0000\u000b<\u0000\f<\u0000\r<\u0000\u000e<\u0000\u000f<\u0000" +
+              "\u0010<\u0000\u0011<\u0000";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

@@ -326,6 +326,174 @@ export const publicFixtures = {
       ]
     }
   },
+  "con-03-sync-allowlist.json": {
+    "task": "CON.03",
+    "protocol": "sync.client-write-admission.v1",
+    "ownerAndRevisionFacts": "Already-resolved caller inputs; these vectors do not authorize the validator to fetch, authorize, infer ownership, or access persistence.",
+    "cases": [
+      {
+        "id": "scope-project-metadata-allowed",
+        "body": {
+          "kind": "scopeProjectMetadata",
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Project Alpha"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 4,
+        "bodyShapeValid": true,
+        "allowed": true
+      },
+      {
+        "id": "scope-metadata-allowed-with-explicit-project-identity",
+        "body": {
+          "kind": "scopeMetadata",
+          "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Session Alpha"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 8,
+        "actualRevision": 8,
+        "bodyShapeValid": true,
+        "allowed": true,
+        "note": "Project identity is explicit; it is not inferred from the different session ID."
+      },
+      {
+        "id": "cross-workspace-project-session-owner-refused",
+        "body": {
+          "kind": "scopeMetadata",
+          "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Session Alpha"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/session-b",
+        "expectedRevision": 8,
+        "actualRevision": 8,
+        "bodyShapeValid": true,
+        "allowed": false,
+        "note": "The owner mismatch is supplied by the caller after resolving the cross-workspace reference."
+      },
+      {
+        "id": "wrong-revision-precondition-refused",
+        "body": {
+          "kind": "scopeProjectMetadata",
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Project Alpha"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 5,
+        "bodyShapeValid": true,
+        "allowed": false
+      },
+      {
+        "id": "missing-revision-precondition-refused",
+        "body": {
+          "kind": "scopeProjectMetadata",
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Project Alpha"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": null,
+        "bodyShapeValid": true,
+        "allowed": false
+      },
+      {
+        "id": "opaque-aggregate-body-variant-refused",
+        "body": {
+          "kind": "opaque",
+          "wireHex": "920100"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 4,
+        "bodyShapeValid": false,
+        "allowed": false
+      },
+      {
+        "id": "cloud-authored-task-body-refused",
+        "body": {
+          "kind": "taskSnapshot",
+          "taskIdHex": "33333333333343338333333333333333"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 4,
+        "bodyShapeValid": true,
+        "allowed": false
+      },
+      {
+        "id": "external-body-reference-requires-resolution",
+        "body": {
+          "kind": "externalBody",
+          "resourceVersionRef": {
+            "realmIdHex": "44444444444444448444444444444444",
+            "resourceIdHex": "55555555555545558555555555555555",
+            "ownerAppId": "arcscope",
+            "resourceKind": "scope.projectMetadata"
+          }
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 4,
+        "bodyShapeValid": true,
+        "allowed": false
+      },
+      {
+        "id": "resolved-external-project-body-allowed",
+        "body": {
+          "kind": "externalBody",
+          "resourceVersionRef": {
+            "realmIdHex": "44444444444444448444444444444444",
+            "resourceIdHex": "55555555555545558555555555555555",
+            "ownerAppId": "arcscope",
+            "resourceKind": "scope.projectMetadata"
+          }
+        },
+        "resolvedBody": {
+          "kind": "scopeProjectMetadata",
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Project Alpha"
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 4,
+        "bodyShapeValid": true,
+        "allowed": true,
+        "note": "The fixture supplies already-resolved content; the admission validator performs no fetch."
+      },
+      {
+        "id": "bodyless-tombstone-refused-by-body-admission",
+        "body": {
+          "kind": "none",
+          "tombstone": true
+        },
+        "expectedOwner": "workspace/project-a",
+        "actualOwner": "workspace/project-a",
+        "expectedRevision": 4,
+        "actualRevision": 4,
+        "bodyShapeValid": false,
+        "allowed": false,
+        "note": "Tombstone policy is carried outside AggregateBody; body-less writes do not pass this body admission check."
+      }
+    ],
+    "compatibleUnknownResponse": {
+      "schema": "AggregateBody",
+      "wireHex": "8a011b0a120a1000112233445566778899aabbccddeeff1205416c706861a00607",
+      "note": "Known ScopeProjectMetadata plus an unknown future field survives decode/encode unchanged."
+    }
+  },
   "con-12-extension-policy.json": {
     "schemaVersion": "con-12-extension-policy-fixtures.v1",
     "evidenceBoundary": "Offline contract vectors only; no archive-byte, signature, broker, provider or activation runtime claim.",
@@ -68980,6 +69148,12 @@ export const publicFixtures = {
           }
         ]
       },
+      "ScopeProjectMetadata": {
+        "projectId": {
+          "$ref": "Id"
+        },
+        "name": "Project Alpha"
+      },
       "AggregateBody": {
         "scopeMetadata": {
           "$ref": "ScopeMetadata"
@@ -69420,6 +69594,12 @@ export const publicFixtures = {
         "sample": "ScopeMetadata"
       },
       {
+        "id": "ScopeProjectMetadata-complete",
+        "target": "ScopeProjectMetadata",
+        "valid": true,
+        "sample": "ScopeProjectMetadata"
+      },
+      {
         "id": "ScopeSelection-complete",
         "target": "ScopeSelection",
         "valid": true,
@@ -69550,6 +69730,16 @@ export const publicFixtures = {
         "value": {
           "scopeMetadata": {
             "$ref": "ScopeMetadata"
+          }
+        }
+      },
+      {
+        "id": "aggregate-scopeProjectMetadata",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "scopeProjectMetadata": {
+            "$ref": "ScopeProjectMetadata"
           }
         }
       },

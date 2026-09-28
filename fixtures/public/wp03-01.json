@@ -970,6 +970,12 @@
         }
       ]
     },
+    "ScopeProjectMetadata": {
+      "projectId": {
+        "$ref": "Id"
+      },
+      "name": "Project Alpha"
+    },
     "AggregateBody": {
       "scopeMetadata": {
         "$ref": "ScopeMetadata"
@@ -1410,6 +1416,12 @@
       "sample": "ScopeMetadata"
     },
     {
+      "id": "ScopeProjectMetadata-complete",
+      "target": "ScopeProjectMetadata",
+      "valid": true,
+      "sample": "ScopeProjectMetadata"
+    },
+    {
       "id": "ScopeSelection-complete",
       "target": "ScopeSelection",
       "valid": true,
@@ -1540,6 +1552,16 @@
       "value": {
         "scopeMetadata": {
           "$ref": "ScopeMetadata"
+        }
+      }
+    },
+    {
+      "id": "aggregate-scopeProjectMetadata",
+      "target": "AggregateBody",
+      "valid": true,
+      "value": {
+        "scopeProjectMetadata": {
+          "$ref": "ScopeProjectMetadata"
         }
       }
     },
