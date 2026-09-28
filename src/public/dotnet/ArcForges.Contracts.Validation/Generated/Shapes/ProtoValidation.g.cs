@@ -6056,8 +6056,6 @@ public static class ContractShapeValidation
         if (value.Version is not null)
         {
             if (!Check(value.Version, context)) return false;
-            if (value.Version.Length > 128) return false;
-            if (!Matches(value.Version, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
         return true;
         }
