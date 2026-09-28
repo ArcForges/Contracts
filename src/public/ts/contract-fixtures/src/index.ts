@@ -78421,7 +78421,9 @@ export const publicFixtures = {
       "csharp": {
         "ArcForges.Contracts.PublicApi": [
           "arcforges.hello.v1.HelloService",
-          "arcforges.catalog.v1.CatalogService"
+          "arcforges.catalog.v1.CatalogService",
+          "arcforges.publicapi.v1.EntitlementService",
+          "arcforges.publicapi.v1.CommerceService"
         ],
         "ArcForges.Sdk.Contracts": [
           "arcforges.extensions.v1.ExtensionHostService"
@@ -78451,6 +78453,30 @@ export const publicFixtures = {
           "/arcforges.extensions.v1.ExtensionHostService/Invoke",
           "/arcforges.extensions.v1.ExtensionHostService/RenewLease",
           "/arcforges.extensions.v1.ExtensionHostService/Stop"
+        ],
+        "arcforges.publicapi.v1.EntitlementService": [
+          "/arcforges.publicapi.v1.EntitlementService/GetSnapshot",
+          "/arcforges.publicapi.v1.EntitlementService/GetServiceTerm",
+          "/arcforges.publicapi.v1.EntitlementService/GetCapacity",
+          "/arcforges.publicapi.v1.EntitlementService/ListGrants",
+          "/arcforges.publicapi.v1.EntitlementService/GetUsage",
+          "/arcforges.publicapi.v1.EntitlementService/Check"
+        ],
+        "arcforges.publicapi.v1.CommerceService": [
+          "/arcforges.publicapi.v1.CommerceService/AuthoriseExtraUsage",
+          "/arcforges.publicapi.v1.CommerceService/RevokeExtraUsage",
+          "/arcforges.publicapi.v1.CommerceService/ExplainCharge",
+          "/arcforges.publicapi.v1.CommerceService/GetCatalogue",
+          "/arcforges.publicapi.v1.CommerceService/CreatePurchaseIntent",
+          "/arcforges.publicapi.v1.CommerceService/CreateCheckoutAttempt",
+          "/arcforges.publicapi.v1.CommerceService/GetPurchaseState",
+          "/arcforges.publicapi.v1.CommerceService/GetSubscription",
+          "/arcforges.publicapi.v1.CommerceService/CancelSubscription",
+          "/arcforges.publicapi.v1.CommerceService/ReactivateSubscription",
+          "/arcforges.publicapi.v1.CommerceService/GetCredits",
+          "/arcforges.publicapi.v1.CommerceService/ListBillingHistory",
+          "/arcforges.publicapi.v1.CommerceService/RequestRefund",
+          "/arcforges.publicapi.v1.CommerceService/ExportEvidence"
         ]
       }
     }

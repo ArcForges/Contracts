@@ -80,6 +80,8 @@ var binder = new RecordingBinder();
 ArcForges.Contracts.Hello.V1.HelloService.BindService(binder, new HelloEndpoint());
 ArcForges.Contracts.Catalog.V1.CatalogService.BindService(binder, new CatalogEndpoint());
 ArcForges.Sdk.Contracts.V1.ExtensionHostService.BindService(binder, new ExtensionEndpoint());
+ArcForges.Contracts.PublicApi.V1.EntitlementService.BindService(binder, new EntitlementEndpoint());
+ArcForges.Contracts.PublicApi.V1.CommerceService.BindService(binder, new CommerceEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -91,6 +93,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.Hello.V1.HelloReflection.Descriptor,
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.CommerceReflection.Descriptor,
     ArcForges.Contracts.Events.V1.EventsReflection.Descriptor,
     ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor,
@@ -290,4 +293,8 @@ internal sealed class HelloEndpoint : ArcForges.Contracts.Hello.V1.HelloService.
 internal sealed class CatalogEndpoint : ArcForges.Contracts.Catalog.V1.CatalogService.CatalogServiceBase;
 
 internal sealed class ExtensionEndpoint : ArcForges.Sdk.Contracts.V1.ExtensionHostService.ExtensionHostServiceBase;
+
+internal sealed class EntitlementEndpoint : ArcForges.Contracts.PublicApi.V1.EntitlementService.EntitlementServiceBase;
+
+internal sealed class CommerceEndpoint : ArcForges.Contracts.PublicApi.V1.CommerceService.CommerceServiceBase;
 
