@@ -59,9 +59,7 @@
         },
         "measurement": {}
       },
-      "oneofRequired": [
-        "projection"
-      ]
+      "oneofRequired": ["projection"]
     },
     "arcforges.publicapi.v1.Availability": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.Availability",
@@ -152,13 +150,7 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]+$",
-          "enumValues": [
-            "pending",
-            "approved",
-            "rejected",
-            "expired",
-            "withdrawn"
-          ]
+          "enumValues": ["pending", "approved", "rejected", "expired", "withdrawn"]
         },
         "expiresAt": {
           "required": true
@@ -178,11 +170,7 @@
         "maxBudget": {},
         "mode": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "turnId": {},
         "modelId": {
@@ -197,9 +185,7 @@
           "required": true
         }
       },
-      "rules": [
-        "turnOptions"
-      ]
+      "rules": ["turnOptions"]
     },
     "arcforges.publicapi.v1.KnowledgePolicy": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.KnowledgePolicy",
@@ -263,11 +249,7 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]+$",
-          "enumValues": [
-            "turnContext",
-            "webSearch",
-            "attachment"
-          ]
+          "enumValues": ["turnContext", "webSearch", "attachment"]
         },
         "sources": {
           "items": {},
@@ -285,9 +267,7 @@
           "pattern": "^[0-9a-f]{64}$"
         }
       },
-      "rules": [
-        "sourceConsentSpec"
-      ]
+      "rules": ["sourceConsentSpec"]
     }
   }
 }

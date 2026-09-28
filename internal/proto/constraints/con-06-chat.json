@@ -23,9 +23,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceListConversationsValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceListConversationsValue",
@@ -63,9 +61,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceGetConversationValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceGetConversationValue",
@@ -105,9 +101,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceCreateConversationValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceCreateConversationValue",
@@ -143,9 +137,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceAppendUserMessageValue",
@@ -177,9 +169,7 @@
           "required": true
         }
       },
-      "rules": [
-        "con06StartAgentTurn"
-      ]
+      "rules": ["con06StartAgentTurn"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnResponse": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnResponse",
@@ -190,9 +180,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceStartAgentTurnValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceStartAgentTurnValue",
@@ -213,10 +201,7 @@
         },
         "decision": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "proposalHash": {
           "required": true,
@@ -233,9 +218,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.chat.v1.ChatOperationsServiceSubmitApprovalValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Chat.V1.ChatOperationsServiceSubmitApprovalValue",
@@ -256,11 +239,7 @@
         },
         "intent": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         }
       }
     },
@@ -273,9 +252,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     }
   }
 }

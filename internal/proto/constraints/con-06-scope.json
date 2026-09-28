@@ -54,13 +54,7 @@
         },
         "analysisKind": {
           "required": true,
-          "enumValues": [
-            "spectrum",
-            "correlation",
-            "threshold",
-            "pattern",
-            "decode"
-          ]
+          "enumValues": ["spectrum", "correlation", "threshold", "pattern", "decode"]
         },
         "spectrum": {},
         "correlation": {},
@@ -68,12 +62,8 @@
         "pattern": {},
         "decode": {}
       },
-      "rules": [
-        "con06ScopeAnalysis"
-      ],
-      "oneofRequired": [
-        "options"
-      ]
+      "rules": ["con06ScopeAnalysis"],
+      "oneofRequired": ["options"]
     },
     "arcforges.local.scope.v1.CompareRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.CompareRequest",
@@ -94,9 +84,7 @@
         },
         "format": {
           "required": true,
-          "enumValues": [
-            "arcscope.report.pdf.v1"
-          ]
+          "enumValues": ["arcscope.report.pdf.v1"]
         },
         "title": {
           "required": true,
@@ -123,22 +111,14 @@
           "required": true
         }
       },
-      "rules": [
-        "con06CaptureRequest"
-      ]
+      "rules": ["con06CaptureRequest"]
     },
     "arcforges.local.scope.v1.AcquisitionSource": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.AcquisitionSource",
       "fields": {
         "kind": {
           "required": true,
-          "enumValues": [
-            "serial",
-            "tcp",
-            "udp",
-            "file",
-            "usb"
-          ]
+          "enumValues": ["serial", "tcp", "udp", "file", "usb"]
         },
         "deviceId": {
           "maxLength": 128,
@@ -149,9 +129,7 @@
         "file": {},
         "usb": {}
       },
-      "rules": [
-        "con06AcquisitionSource"
-      ]
+      "rules": ["con06AcquisitionSource"]
     },
     "arcforges.local.scope.v1.SerialSource": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.SerialSource",
@@ -167,26 +145,15 @@
         },
         "parity": {
           "required": true,
-          "enumValues": [
-            "none",
-            "odd",
-            "even"
-          ]
+          "enumValues": ["none", "odd", "even"]
         },
         "stopBits": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "flowControl": {
           "required": true,
-          "enumValues": [
-            "none",
-            "rtsCts",
-            "xonXoff"
-          ]
+          "enumValues": ["none", "rtsCts", "xonXoff"]
         }
       }
     },
@@ -228,10 +195,7 @@
         },
         "transferKind": {
           "required": true,
-          "enumValues": [
-            "bulk",
-            "interrupt"
-          ]
+          "enumValues": ["bulk", "interrupt"]
         },
         "timeoutMs": {
           "required": true
@@ -249,14 +213,10 @@
         "resampleRate": {},
         "profile": {
           "required": true,
-          "enumValues": [
-            "spectrum.v1"
-          ]
+          "enumValues": ["spectrum.v1"]
         }
       },
-      "rules": [
-        "con06Spectrum"
-      ]
+      "rules": ["con06Spectrum"]
     },
     "arcforges.local.scope.v1.CorrelationOptions": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.CorrelationOptions",
@@ -270,9 +230,7 @@
         },
         "profile": {
           "required": true,
-          "enumValues": [
-            "correlation.v1"
-          ]
+          "enumValues": ["correlation.v1"]
         }
       }
     },
@@ -281,12 +239,7 @@
       "fields": {
         "relation": {
           "required": true,
-          "enumValues": [
-            "gt",
-            "ge",
-            "lt",
-            "le"
-          ]
+          "enumValues": ["gt", "ge", "lt", "le"]
         },
         "threshold": {
           "required": true,
@@ -296,9 +249,7 @@
           "required": true
         }
       },
-      "rules": [
-        "con06Threshold"
-      ]
+      "rules": ["con06Threshold"]
     },
     "arcforges.local.scope.v1.EventPatternOptions": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.EventPatternOptions",
@@ -310,11 +261,7 @@
         },
         "edges": {
           "items": {
-            "enumValues": [
-              "rising",
-              "falling",
-              "either"
-            ]
+            "enumValues": ["rising", "falling", "either"]
           },
           "minItems": 1,
           "maxItems": 32
@@ -328,20 +275,14 @@
           "max": 10000
         }
       },
-      "rules": [
-        "con06EventPattern"
-      ]
+      "rules": ["con06EventPattern"]
     },
     "arcforges.local.scope.v1.DecoderOptions": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.DecoderOptions",
       "fields": {
         "kind": {
           "required": true,
-          "enumValues": [
-            "uart",
-            "i2c",
-            "spi"
-          ]
+          "enumValues": ["uart", "i2c", "spi"]
         },
         "channels": {
           "items": {},
@@ -358,18 +299,11 @@
         },
         "parity": {
           "required": true,
-          "enumValues": [
-            "none",
-            "odd",
-            "even"
-          ]
+          "enumValues": ["none", "odd", "even"]
         },
         "stopBits": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "mode": {
           "required": true,
@@ -386,18 +320,13 @@
         },
         "addressBits": {
           "required": true,
-          "enumValues": [
-            7,
-            10
-          ]
+          "enumValues": [7, 10]
         },
         "idleHigh": {
           "required": true
         }
       },
-      "rules": [
-        "con06Decoder"
-      ]
+      "rules": ["con06Decoder"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceListSessionsRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceListSessionsRequest",
@@ -431,9 +360,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceGetSessionRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceGetSessionRequest",
@@ -464,9 +391,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceListCapturesRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceListCapturesRequest",
@@ -503,9 +428,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceGetConfigurationSnapshotRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceGetConfigurationSnapshotRequest",
@@ -536,9 +459,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceRunMeasurementRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceRunMeasurementRequest",
@@ -568,9 +489,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceRunAnalysisRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceRunAnalysisRequest",
@@ -600,9 +519,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceCompareSessionsRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCompareSessionsRequest",
@@ -632,9 +549,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceCreateAnnotationRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateAnnotationRequest",
@@ -656,9 +571,7 @@
           "maxUtf8Bytes": 262144
         }
       },
-      "rules": [
-        "con06ScopeWriteMeta"
-      ]
+      "rules": ["con06ScopeWriteMeta"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceCreateAnnotationValue": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateAnnotationValue",
@@ -677,9 +590,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateFindingRequest",
@@ -701,9 +612,7 @@
           "maxUtf8Bytes": 262144
         }
       },
-      "rules": [
-        "con06ScopeWriteMeta"
-      ]
+      "rules": ["con06ScopeWriteMeta"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceCreateFindingResponse": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceCreateFindingResponse",
@@ -714,9 +623,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceGenerateReportRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceGenerateReportRequest",
@@ -746,9 +653,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceStartCaptureRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceStartCaptureRequest",
@@ -781,9 +686,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceStopCaptureRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceStopCaptureRequest",
@@ -813,9 +716,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.local.scope.v1.ScopeOperationsServiceGetStructuredContextRequest": {
       "csharpType": "ArcForges.Contracts.LocalRpc.Scope.V1.ScopeOperationsServiceGetStructuredContextRequest",
@@ -846,9 +747,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     }
   }
 }

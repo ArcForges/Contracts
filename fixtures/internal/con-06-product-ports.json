@@ -9,38 +9,13 @@
   "coverage": "Offline generated shape/descriptor checks only; no authorization, consent consumption, capture timing or transport execution proof.",
   "ports": {
     "Platform": {
-      "ICapabilityProvider": [
-        "Describe",
-        "EvaluateAvailability",
-        "Invoke"
-      ],
-      "IContextProvider": [
-        "DescribeContextKinds",
-        "ProvideContext"
-      ],
-      "IArtifactHandler": [
-        "DescribeArtifactKinds",
-        "Resolve",
-        "RenderPreview",
-        "Open"
-      ],
-      "IResourceAccess": [
-        "GetMetadata",
-        "OpenRead",
-        "Release",
-        "ReadChunk"
-      ],
-      "IProductLifecycle": [
-        "GetState",
-        "PrepareForShutdown",
-        "GetJob"
-      ],
-      "IDeepLinkTarget": [
-        "HandleDeepLink"
-      ],
-      "ILocalEvents": [
-        "Poll"
-      ]
+      "ICapabilityProvider": ["Describe", "EvaluateAvailability", "Invoke"],
+      "IContextProvider": ["DescribeContextKinds", "ProvideContext"],
+      "IArtifactHandler": ["DescribeArtifactKinds", "Resolve", "RenderPreview", "Open"],
+      "IResourceAccess": ["GetMetadata", "OpenRead", "Release", "ReadChunk"],
+      "IProductLifecycle": ["GetState", "PrepareForShutdown", "GetJob"],
+      "IDeepLinkTarget": ["HandleDeepLink"],
+      "ILocalEvents": ["Poll"]
     },
     "Chat": {
       "IChatOperations": [
