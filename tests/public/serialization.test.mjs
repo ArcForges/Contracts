@@ -189,14 +189,44 @@ test("serialization refuses values the closed schema rejects", () => {
 });
 
 test("generated service catalogue lists exactly the authored services", () => {
+  const con08Methods = {
+    "arcforges.publicapi.v1.EntitlementService": [
+      "/arcforges.publicapi.v1.EntitlementService/GetSnapshot",
+      "/arcforges.publicapi.v1.EntitlementService/GetServiceTerm",
+      "/arcforges.publicapi.v1.EntitlementService/GetCapacity",
+      "/arcforges.publicapi.v1.EntitlementService/ListGrants",
+      "/arcforges.publicapi.v1.EntitlementService/GetUsage",
+      "/arcforges.publicapi.v1.EntitlementService/Check",
+    ],
+    "arcforges.publicapi.v1.CommerceService": [
+      "/arcforges.publicapi.v1.CommerceService/AuthoriseExtraUsage",
+      "/arcforges.publicapi.v1.CommerceService/RevokeExtraUsage",
+      "/arcforges.publicapi.v1.CommerceService/ExplainCharge",
+      "/arcforges.publicapi.v1.CommerceService/GetCatalogue",
+      "/arcforges.publicapi.v1.CommerceService/CreatePurchaseIntent",
+      "/arcforges.publicapi.v1.CommerceService/CreateCheckoutAttempt",
+      "/arcforges.publicapi.v1.CommerceService/GetPurchaseState",
+      "/arcforges.publicapi.v1.CommerceService/GetSubscription",
+      "/arcforges.publicapi.v1.CommerceService/CancelSubscription",
+      "/arcforges.publicapi.v1.CommerceService/ReactivateSubscription",
+      "/arcforges.publicapi.v1.CommerceService/GetCredits",
+      "/arcforges.publicapi.v1.CommerceService/ListBillingHistory",
+      "/arcforges.publicapi.v1.CommerceService/RequestRefund",
+      "/arcforges.publicapi.v1.CommerceService/ExportEvidence",
+    ],
+  };
+  const expectedServices = [
+    ...fixture.services.typescript["@arcforges/proto"],
+    ...Object.keys(con08Methods),
+  ];
   assert.deepEqual(
     contractServices.map((service) => service.typeName),
-    fixture.services.typescript["@arcforges/proto"],
+    expectedServices,
   );
   for (const service of contractServices) {
     assert.deepEqual(
       service.methods.map((method) => `/${service.typeName}/${method.name}`),
-      fixture.services.methods[service.typeName],
+      con08Methods[service.typeName] ?? fixture.services.methods[service.typeName],
     );
   }
 });

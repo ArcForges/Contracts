@@ -71,11 +71,73 @@ class DocumentationAdmissionTests(unittest.TestCase):
         self.assertEqual(set(current["modules"]),
                          {"contracts-proto", "contracts-connect-client", "contract-fixtures"})
         self.assertEqual(set(documentation.MODULES), set(current["modules"]))
+        slug = lambda name: '-' + re.sub(r'(?<!^)([A-Z])', r'-\1', name).lower()
+        con08_message_names = {
+            "AttemptCharge", "BillingItem", "Capacity", "ChargeExplanation", "CheckoutView",
+            "CommerceServiceAuthoriseExtraUsageRequest", "CommerceServiceAuthoriseExtraUsageResponse",
+            "CommerceServiceAuthoriseExtraUsageValue", "CommerceServiceCancelSubscriptionRequest",
+            "CommerceServiceCancelSubscriptionResponse", "CommerceServiceCancelSubscriptionValue",
+            "CommerceServiceCreateCheckoutAttemptRequest", "CommerceServiceCreateCheckoutAttemptResponse",
+            "CommerceServiceCreateCheckoutAttemptValue", "CommerceServiceCreatePurchaseIntentRequest",
+            "CommerceServiceCreatePurchaseIntentResponse", "CommerceServiceCreatePurchaseIntentValue",
+            "CommerceServiceExplainChargeRequest", "CommerceServiceExplainChargeResponse",
+            "CommerceServiceExplainChargeValue", "CommerceServiceExportEvidenceRequest",
+            "CommerceServiceExportEvidenceResponse", "CommerceServiceExportEvidenceValue",
+            "CommerceServiceGetCatalogueRequest", "CommerceServiceGetCatalogueResponse",
+            "CommerceServiceGetCatalogueValue", "CommerceServiceGetCreditsRequest",
+            "CommerceServiceGetCreditsResponse", "CommerceServiceGetCreditsValue",
+            "CommerceServiceGetPurchaseStateRequest", "CommerceServiceGetPurchaseStateResponse",
+            "CommerceServiceGetPurchaseStateValue", "CommerceServiceGetSubscriptionRequest",
+            "CommerceServiceGetSubscriptionResponse", "CommerceServiceGetSubscriptionValue",
+            "CommerceServiceListBillingHistoryRequest", "CommerceServiceListBillingHistoryResponse",
+            "CommerceServiceListBillingHistoryValue", "CommerceServiceReactivateSubscriptionRequest",
+            "CommerceServiceReactivateSubscriptionResponse", "CommerceServiceReactivateSubscriptionValue",
+            "CommerceServiceRequestRefundRequest", "CommerceServiceRequestRefundResponse",
+            "CommerceServiceRequestRefundValue", "CommerceServiceRevokeExtraUsageRequest",
+            "CommerceServiceRevokeExtraUsageResponse", "CommerceServiceRevokeExtraUsageValue",
+            "CreditLot", "CreditPool", "EntitlementServiceCheckRequest", "EntitlementServiceCheckResponse",
+            "EntitlementServiceCheckValue", "EntitlementServiceGetCapacityRequest",
+            "EntitlementServiceGetCapacityResponse", "EntitlementServiceGetCapacityValue",
+            "EntitlementServiceGetServiceTermRequest", "EntitlementServiceGetServiceTermResponse",
+            "EntitlementServiceGetServiceTermValue", "EntitlementServiceGetSnapshotRequest",
+            "EntitlementServiceGetSnapshotResponse", "EntitlementServiceGetSnapshotValue",
+            "EntitlementServiceGetUsageRequest", "EntitlementServiceGetUsageResponse",
+            "EntitlementServiceGetUsageValue", "EntitlementServiceListGrantsRequest",
+            "EntitlementServiceListGrantsResponse", "EntitlementServiceListGrantsValue",
+            "EntitlementSnapshot", "ExportJob", "Grant", "ModelUsage", "Offer", "PurchaseView",
+            "QuotaUsage", "RefundView", "ServiceTerm", "SpendBudget", "SubscriptionView",
+        }
+        con08_constraints = json.loads(
+            (root / "public/proto/constraints/con-08-entitlement-commerce.json").read_bytes())
+        self.assertEqual(len(con08_message_names), 78)
+        self.assertEqual({name.rsplit(".", 1)[-1] for name in con08_constraints["messages"]},
+                         con08_message_names)
+        con08_proto_pages = {
+            "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
+            for name in con08_message_names
+        }
+        con08_entitlement_methods = {
+            "getSnapshot", "getServiceTerm", "getCapacity", "listGrants", "getUsage", "check"
+        }
+        con08_commerce_methods = {
+            "authoriseExtraUsage", "revokeExtraUsage", "explainCharge", "getCatalogue",
+            "createPurchaseIntent", "createCheckoutAttempt", "getPurchaseState", "getSubscription",
+            "cancelSubscription", "reactivateSubscription", "getCredits", "listBillingHistory",
+            "requestRefund", "exportEvidence",
+        }
+        self.assertEqual(len(con08_entitlement_methods), 6)
+        self.assertEqual(len(con08_commerce_methods), 14)
+        con08_client_pages = {}
+        for service, methods in (("EntitlementService", con08_entitlement_methods),
+                                 ("CommerceService", con08_commerce_methods)):
+            for suffix in ("Client", "ClientInterface"):
+                page = ("contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" +
+                        slug(service + suffix) + "/index.html")
+                con08_client_pages[page] = methods
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
             from check_foundation import RETIRED_MESSAGES, RETIRED_FIELDS
-            slug = lambda name: '-' + re.sub(r'(?<!^)([A-Z])', r'-\1', name).lower()
             expected = {}
             for name, markers in previous["modules"][module]["publicApi"].items():
                 if any('/' + slug(record) + '/' in name for record in RETIRED_MESSAGES):
@@ -118,15 +180,19 @@ class DocumentationAdmissionTests(unittest.TestCase):
                                for name in inprocess_messages}
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
-            permitted = descriptor_pages | catalog_pages | inprocess_pages if module == "contracts-proto" else (
-                clients if module == "contracts-connect-client" else set())
+            permitted = descriptor_pages | catalog_pages | inprocess_pages | con08_proto_pages \
+                if module == "contracts-proto" else (
+                    clients | set(con08_client_pages) if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:
                 if module == "contracts-proto":
                     self.assertIn('anchor-label="parser"', actual[name])
                     self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]))
                 else:
-                    self.assertEqual(set(actual[name]), {operation[0].lower() + operation[1:] for operation in operations})
+                    expected_methods = con08_client_pages[name] if name in con08_client_pages else {
+                        operation[0].lower() + operation[1:] for operation in operations
+                    }
+                    self.assertEqual(set(actual[name]), expected_methods)
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
         self.assertTrue(any("foundation.v1" in name for name in proto_pages))

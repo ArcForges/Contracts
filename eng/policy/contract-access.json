@@ -65,6 +65,11 @@
       "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9"
     },
     {
+      "path": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public",
+      "sha256": "e0ed5700197fdb20006c7ea699d9071dd8c4ac9d4248651f8a148363ad8af9dc"
+    },
+    {
       "path": "public/proto/arcforges/publicapi/v1/content.proto",
       "access": "public",
       "sha256": "1c912ac9fa37633a3e5d186cb6f3838bd886f09f935e1ce41c5a665640c54abd"
@@ -2092,6 +2097,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.AttemptCharge",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.AutomationSpec",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2107,6 +2118,12 @@
       "name": "arcforges.publicapi.v1.Availability",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.BillingItem",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -2128,6 +2145,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.Capacity",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.CaptureMetadata",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2137,6 +2160,12 @@
       "name": "arcforges.publicapi.v1.ChannelDefinition",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ChargeExplanation",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -2152,9 +2181,273 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.CheckoutView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.ChecksumSpec",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCancelSubscriptionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCancelSubscriptionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCancelSubscriptionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceExplainChargeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceExplainChargeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceExplainChargeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceExportEvidenceRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceExportEvidenceResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceExportEvidenceValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetCatalogueRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetCatalogueResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetCatalogueValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetCreditsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetCreditsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetCreditsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetPurchaseStateRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetPurchaseStateResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetPurchaseStateValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetSubscriptionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetSubscriptionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceGetSubscriptionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceListBillingHistoryRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceListBillingHistoryResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceListBillingHistoryValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceRequestRefundRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceRequestRefundResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceRequestRefundValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -2236,6 +2529,18 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.CreditLot",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.CreditPool",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.CursorResult",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2248,6 +2553,126 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.EntitlementService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceCheckRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceCheckResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceCheckValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetCapacityRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetCapacityResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetCapacityValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetServiceTermRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetServiceTermResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetServiceTermValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetSnapshotRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetSnapshotResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetSnapshotValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetUsageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetUsageResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceGetUsageValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceListGrantsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceListGrantsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementServiceListGrantsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.EntitlementSnapshot",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.EphemeralSelection",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2257,6 +2682,12 @@
       "name": "arcforges.publicapi.v1.EventTrigger",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ExportJob",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -2275,6 +2706,12 @@
       "name": "arcforges.publicapi.v1.FrameField",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.Grant",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -2368,6 +2805,18 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ModelUsage",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.Offer",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.PreferenceRecord",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2377,6 +2826,24 @@
       "name": "arcforges.publicapi.v1.PreviewRequest",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.PurchaseView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.QuotaUsage",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.RefundView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -2446,6 +2913,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ServiceTerm",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.SkillRecord",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2470,9 +2943,27 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.SpendBudget",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.StructuredValue",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SubscriptionState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SubscriptionView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
       "access": "public"
     },
     {
@@ -3555,6 +4046,152 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Commerce.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "CommerceReflection",
+        "SubscriptionState",
+        "EntitlementSnapshot",
+        "ServiceTerm",
+        "Capacity",
+        "Grant",
+        "QuotaUsage",
+        "SpendBudget",
+        "ChargeExplanation",
+        "AttemptCharge",
+        "ModelUsage",
+        "Offer",
+        "PurchaseView",
+        "CheckoutView",
+        "SubscriptionView",
+        "CreditPool",
+        "CreditLot",
+        "BillingItem",
+        "RefundView",
+        "ExportJob",
+        "EntitlementServiceGetSnapshotRequest",
+        "EntitlementServiceGetSnapshotValue",
+        "EntitlementServiceGetSnapshotResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "EntitlementServiceGetServiceTermRequest",
+        "EntitlementServiceGetServiceTermValue",
+        "EntitlementServiceGetServiceTermResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "EntitlementServiceGetCapacityRequest",
+        "EntitlementServiceGetCapacityValue",
+        "EntitlementServiceGetCapacityResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "EntitlementServiceListGrantsRequest",
+        "EntitlementServiceListGrantsValue",
+        "EntitlementServiceListGrantsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "EntitlementServiceGetUsageRequest",
+        "EntitlementServiceGetUsageValue",
+        "EntitlementServiceGetUsageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "EntitlementServiceCheckRequest",
+        "EntitlementServiceCheckValue",
+        "EntitlementServiceCheckResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceAuthoriseExtraUsageRequest",
+        "CommerceServiceAuthoriseExtraUsageValue",
+        "CommerceServiceAuthoriseExtraUsageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceRevokeExtraUsageRequest",
+        "CommerceServiceRevokeExtraUsageValue",
+        "CommerceServiceRevokeExtraUsageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceExplainChargeRequest",
+        "CommerceServiceExplainChargeValue",
+        "CommerceServiceExplainChargeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceGetCatalogueRequest",
+        "CommerceServiceGetCatalogueValue",
+        "CommerceServiceGetCatalogueResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceCreatePurchaseIntentRequest",
+        "CommerceServiceCreatePurchaseIntentValue",
+        "CommerceServiceCreatePurchaseIntentResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceCreateCheckoutAttemptRequest",
+        "CommerceServiceCreateCheckoutAttemptValue",
+        "CommerceServiceCreateCheckoutAttemptResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceGetPurchaseStateRequest",
+        "CommerceServiceGetPurchaseStateValue",
+        "CommerceServiceGetPurchaseStateResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceGetSubscriptionRequest",
+        "CommerceServiceGetSubscriptionValue",
+        "CommerceServiceGetSubscriptionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceCancelSubscriptionRequest",
+        "CommerceServiceCancelSubscriptionValue",
+        "CommerceServiceCancelSubscriptionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceReactivateSubscriptionRequest",
+        "CommerceServiceReactivateSubscriptionValue",
+        "CommerceServiceReactivateSubscriptionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceGetCreditsRequest",
+        "CommerceServiceGetCreditsValue",
+        "CommerceServiceGetCreditsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceListBillingHistoryRequest",
+        "CommerceServiceListBillingHistoryValue",
+        "CommerceServiceListBillingHistoryResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceRequestRefundRequest",
+        "CommerceServiceRequestRefundValue",
+        "CommerceServiceRequestRefundResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "CommerceServiceExportEvidenceRequest",
+        "CommerceServiceExportEvidenceValue",
+        "CommerceServiceExportEvidenceResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "b3e82e97410d48e214cb2acc65cc4d7fc5047858daa4c766652ae6c4bde76184",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/CommerceGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "EntitlementService",
+        "__Helper_MessageCache",
+        "EntitlementServiceBase",
+        "EntitlementServiceClient",
+        "CommerceService",
+        "__Helper_MessageCache",
+        "CommerceServiceBase",
+        "CommerceServiceClient"
+      ],
+      "sha256": "4f07be5f174b4750f4b687d9dca27f3a8cb3db04ed455a601922a13148b699a9",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -3700,7 +4337,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "ec2332a5e6211b36fcf0a6f91d1b86a36493ba024a5d8621331edc38716bd283",
+      "sha256": "f0123826660fe095b9a1469029c9652ac49339c71ab2d3002c022a1da2d670e9",
       "kind": "generated"
     },
     {
@@ -3984,7 +4621,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "08630d720f37c0c4f838e4bc3dbeb34c706c703719eef7704cf72bae7ff08cd5",
+      "sha256": "dc56f837d258932ee04360631dfc75e0f7137652056166ccd18b259a5128a660",
       "kind": "generated"
     },
     {
@@ -4298,6 +4935,38 @@
       "access": "public",
       "types": ["HelloServiceClientInterface"],
       "sha256": "32b55e844500d7d6ac0c081b4c3d50cb4feaaefe5b24bcba708d7e515d1f8e3b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["CommerceServiceClient"],
+      "sha256": "e63196a5b6e3cc24bffacbbdb6f49dcb56acd5b912a263298a814655bded9148",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["CommerceServiceClientInterface"],
+      "sha256": "f16a5270e81ab7488c00358d43b58a5a6a52f595b499ad7a8b23b011006d520e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["EntitlementServiceClient"],
+      "sha256": "b0c1da34e35767f6c9ad74ba01c98c714dc12064174d81fdbcbd66e6ded5b573",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["EntitlementServiceClientInterface"],
+      "sha256": "cade440a637b6cd4bf9c9e162e785584d9f2a7462dabd970f999a44fed6b9e76",
       "kind": "generated"
     },
     {
@@ -5477,22 +6146,6 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailure.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionFailure", "Builder"],
-      "sha256": "3862a2be735400af87a8aa57cde56572074b17d41b183f65315709fe58c30114",
-      "kind": "generated"
-    },
-    {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailureOrBuilder.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionFailureOrBuilder"],
-      "sha256": "657056a0bc0688efae70618ba0a541f0fd65782da26b597eb2b8700ce045192f",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5506,6 +6159,22 @@
       "access": "public",
       "types": ["VersionedRefOrBuilder"],
       "sha256": "1bbe39ad30027c20fcf206af6c9482802c9bc96adac899f83e6e2b9ba1b72465",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailure.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailure", "Builder"],
+      "sha256": "3862a2be735400af87a8aa57cde56572074b17d41b183f65315709fe58c30114",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionFailureOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailureOrBuilder"],
+      "sha256": "657056a0bc0688efae70618ba0a541f0fd65782da26b597eb2b8700ce045192f",
       "kind": "generated"
     },
     {
@@ -5621,6 +6290,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AttemptCharge.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AttemptCharge", "Builder"],
+      "sha256": "dccdeb0f4b38c262c1b1f775b4bfbe97a3a19e1834dd3a10d26b2c2ea9319f96",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AttemptChargeOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AttemptChargeOrBuilder"],
+      "sha256": "f542abb7440135e60aa2ec3a41402d0ce42269758f1235caf867254267ddbedc",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AutomationSpec.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5666,6 +6351,22 @@
       "access": "public",
       "types": ["AvailabilityOrBuilder"],
       "sha256": "5d4aceaf35b47060723ed3218c768e8d65cb58488d3495946e3a15f8c3e7b1f5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BillingItem.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BillingItem", "Builder"],
+      "sha256": "426644cec0d9f93ace9a5ee68ff861744491c19141d40d85cf4e0f98f8c10809",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BillingItemOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BillingItemOrBuilder"],
+      "sha256": "d854bd9d0eb1433e35e061079b4cdc3ac8bba891b369511151ffc70f0b2e2d4f",
       "kind": "generated"
     },
     {
@@ -5717,6 +6418,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Capacity.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Capacity", "Builder"],
+      "sha256": "3c51cca2d06e05043542cdf7aca042e4048a0a65b7d6f7a37ef28f3c5a6fd934",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CapacityOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CapacityOrBuilder"],
+      "sha256": "36c6d7da1525faa3c4c66b270566365f2b9f9383a636be461e6d1cc6ca99afe8",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CaptureMetadata.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5749,6 +6466,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChargeExplanation.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChargeExplanation", "Builder"],
+      "sha256": "c24aa74374f4aa7a66001c2b094e6a108050a612e17f08c451f9631e7e96b5ca",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChargeExplanationOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChargeExplanationOrBuilder"],
+      "sha256": "dcf7fb9920b221840e0147e5134d3c8d79e75708624322dcb1803a28034f5e04",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChatMode.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5773,6 +6506,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CheckoutView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CheckoutView", "Builder"],
+      "sha256": "1054480a5f5e0f42c878672a988502f101c2440e8ca809a51e9a2b54443410f2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CheckoutViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CheckoutViewOrBuilder"],
+      "sha256": "085f6372d61af0b88e36263058f63c717e593145b440f2e21e17eba32e9e667c",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChecksumSpec.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -5786,6 +6535,686 @@
       "access": "public",
       "types": ["ChecksumSpecOrBuilder"],
       "sha256": "70e5c9d396a6db567c0d0cb290b2cb0f94b3b3d17efd2af3452d6b7093c30564",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceProto"],
+      "sha256": "4e31f9065f3e856320e379a59475c0f1d106310ef7982edd21bb8633d4f32ef6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageRequest", "Builder"],
+      "sha256": "29ce8f6076d629e4537796a8f7eeda798bd894cc1c061d7fdb60c9c89af3aa47",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageRequestOrBuilder"],
+      "sha256": "0280e0ca43bb2e66fd4d5b5db140ff70357d85b51a9a16548b885e6160faddd6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageResponse", "OutcomeCase", "Builder"],
+      "sha256": "1c11fb19bad768464ecbbf73aa99d1786f1da5e581b880e77a3af94138e4c4ca",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageResponseOrBuilder"],
+      "sha256": "a1b21880e0d875beb6ca6774dafa0bff73287ad4163cc26135f4973c2f434031",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageValue", "Builder"],
+      "sha256": "4c3eab3bf2aef69ee9b3e4ec5ba8983bd1b629ad0feadd213520816de1119d48",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageValueOrBuilder"],
+      "sha256": "65b448838f5b06445e58eec710a7ebc57cb37b25044d0a383d5241801d30d07e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionRequest", "Builder"],
+      "sha256": "2f32fa036f426d48e18c757534f7af187d80a6ba1e7d4dfa1e7c63e3b731fb7b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionRequestOrBuilder"],
+      "sha256": "48c0060f4ea4a0ca750ba7a00089dcdd5bf6e50d5124da4b4b26d93419a7782a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionResponse", "OutcomeCase", "Builder"],
+      "sha256": "80ac76615520c359f912db0c0b2c723c20041137e0e7685fdeef3fd6b753c8a1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionResponseOrBuilder"],
+      "sha256": "f4748d6ffa0af8a9a7db17bad40f07695846219a49af715b6c7d5468be311228",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionValue", "Builder"],
+      "sha256": "161687764c61c0a40d334f991e14cd836caea472e7786309b106032d29bb56f1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionValueOrBuilder"],
+      "sha256": "bc7224c5fc324bc4fa7d69a43bfecd2a43bb50a31587117b23375de3ba98fe0b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptRequest", "Builder"],
+      "sha256": "73fed12630b10066b7688b20ae9d1c2d5c31b5447748d282f5b8bc69c26de089",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptRequestOrBuilder"],
+      "sha256": "bc25d6dd63efe4ae44ee2fd0a0256f67da102f1f3d0ec696e044bfbdb4e72226",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptResponse", "OutcomeCase", "Builder"],
+      "sha256": "6dec555488cba7291e7d352ba9c84a288418eba120f74a6785832a7658d2c93f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptResponseOrBuilder"],
+      "sha256": "2a4870469fccf6c0a5e583b5286e955348f7dcded8c480d9fd21b5dedc31b98b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptValue", "Builder"],
+      "sha256": "b0b8c770b18c145463ec04462e598a263ff7cb5bc17eb332699e5937cc03ddf0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptValueOrBuilder"],
+      "sha256": "f782f8ae4879adf0e01d392b662813521483a7d68f38514e2f3aca9a766b9ed4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentRequest", "Builder"],
+      "sha256": "80adb2a7b059b068c57503afedca6f6b5d4862eac9609b1b0fb50442a505cda3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentRequestOrBuilder"],
+      "sha256": "fa762073340ea433434102867a3e39ed07799f171e313aa98849c8abea521cde",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentResponse", "OutcomeCase", "Builder"],
+      "sha256": "0b383c1c632fc7a2848064b206e5ab5ee6e54ce2f19295feb554bc1d01b44d9c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentResponseOrBuilder"],
+      "sha256": "5ef9d9ecd5f9386796a0eb057b9f71a81b6ca7416bfc1608bf75d58d2af305ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentValue", "Builder"],
+      "sha256": "1eb269990a2dd3037cb951a9ca0dd341d19c63e30061c38c102ddf05bbb91bd0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentValueOrBuilder"],
+      "sha256": "da7521ecbdc52485ffdafec5a5d4c331303439e4ef166de12c1fc2a277def468",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeRequest", "Builder"],
+      "sha256": "b4c6ba220c5d9e040c443c691fff4f27920f73ced5be2f6aa080282718220677",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeRequestOrBuilder"],
+      "sha256": "013d5ba06d31f62acd127fe6e116e3a81a167af0578e35a80a1ac7ecea95f73b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeResponse", "OutcomeCase", "Builder"],
+      "sha256": "3d20e1820242a98d09bb09af6a9700f16e2a8a8d454a722a2ea24b5e1ec184c3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeResponseOrBuilder"],
+      "sha256": "c8df486e129376b6609c6c7b11a345fe8b5c3e928f930c11d8b2264e0b12b4e4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeValue", "Builder"],
+      "sha256": "83aaf6aeb89e2ea7fa05da79cd4a2fe29158db7be28e20a04b415cdccba11d33",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeValueOrBuilder"],
+      "sha256": "b704617679daab17bcf58915505cfa84b733a08b36b411f529894df0b71d45fc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceRequest", "Builder"],
+      "sha256": "2ddf777988035fdccfcd3bec91ff40e02ce79e6a34249848c3cc0d22a95bddd2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceRequestOrBuilder"],
+      "sha256": "518e39e36b1ed0039ed099542dfe92f8c41d1b32def40ca2b0ec7516856ab4e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceResponse", "OutcomeCase", "Builder"],
+      "sha256": "679bfc3f74129e64d26d6e3c235c2e8bef318dc296f7d7923639a731dbc50fc0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceResponseOrBuilder"],
+      "sha256": "3591cb81aef9f33b97a8a7cf8d06b1e5a211e5ccfc1d8cb10e2a3c0cbdd6f9b6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceValue", "Builder"],
+      "sha256": "14b27ace95b9e1915eec1baf02ef3d0fdfd04df5f91ec542d332b92fff90aada",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceValueOrBuilder"],
+      "sha256": "81e6a4a15429a18e53e48b47fe081c74b3b05bf36d95c5c32970140cfa9ae5f9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueRequest", "Builder"],
+      "sha256": "3ddad421d8f5182c6d4623cd25a473462aa3395365fecab2df9387c6c4a51c67",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueRequestOrBuilder"],
+      "sha256": "1ca79186857daa7b11d17a1854ac7776a72b73f9a80cb38470df7134b3ac47c6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueResponse", "OutcomeCase", "Builder"],
+      "sha256": "51bf6a222f062f14a3e2800de89bdedfe1f41421247e842b4b769d77ebdbbf36",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueResponseOrBuilder"],
+      "sha256": "4b8f903c59f754e33c86800b9665ac43dd9cb58b280a376347ad48d7a97ebd02",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueValue", "Builder"],
+      "sha256": "d09f113df8987d690a9781887621bd8b7c679cda94d0c3d221aa1ee30e4c9ed1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueValueOrBuilder"],
+      "sha256": "7f7b548882b4e83d2a48a5003eead4be4e432b71510c6237c1986a54e5bd6144",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsRequest", "Builder"],
+      "sha256": "dfe99b2cb014ce96d5605b97fc5fbe5b40b422e7ffc4e4c2f07c2c4266deaf3c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsRequestOrBuilder"],
+      "sha256": "f7a93843a58571ecc4fedbe0cd25f1a5620b8a1b60e7d6037eef00d342de6837",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsResponse", "OutcomeCase", "Builder"],
+      "sha256": "0ea10b04c9ae576809bf021697e685631c71163612e328df4ac1b0743531a756",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsResponseOrBuilder"],
+      "sha256": "b91c9e1617f62df575b44f9a217ad24197ece6636bfcd28f377607923755753a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsValue", "Builder"],
+      "sha256": "0caea4647eca088b3e61d2482e13f84d6a5b4617ce4deb5cd8f0e43d570628b4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsValueOrBuilder"],
+      "sha256": "b9f921f1284b953c819655fade8514b45567c588ddb908314c52ca8aad9d8fa9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateRequest", "Builder"],
+      "sha256": "ae551fcd556093c134e71e6bce730f0d60aa4b1a5dc72f0613adcd337ebeab53",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateRequestOrBuilder"],
+      "sha256": "ca5cc49eb0cb937bed2e40c579fcb75a09ec2caa19f37681654b8a28b16f4e48",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateResponse", "OutcomeCase", "Builder"],
+      "sha256": "404284b3b046b75f33aaa35b272026a256dee095ec58e4de00806f6287fb9496",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateResponseOrBuilder"],
+      "sha256": "7875f36dfdd37b74eac3f3bbfabeb7024d82b2c18dc0bb4211b4a832df84f98e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateValue", "Builder"],
+      "sha256": "952a368562abed1714a8a993aaac898953b6050e2ba61043b1af85a4c733589d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateValueOrBuilder"],
+      "sha256": "1ed97f14a35d5b24577d92ad5119e5321dd9ef63990453094a3b2845ef08f2cb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionRequest", "Builder"],
+      "sha256": "d254d00242171f32a60e12f467266167104d08c5cd577d1f3d6e6d976ac03840",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionRequestOrBuilder"],
+      "sha256": "baca7d1449519a37270de705a662f15f03d07526db2ef028c43c51e3b184ae5d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionResponse", "OutcomeCase", "Builder"],
+      "sha256": "b36638d6664ed260b1f05b48875e116db0da185317339fbab97c0c92961918ea",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionResponseOrBuilder"],
+      "sha256": "3a2052afd070e122876d44e972b3edc186f390a1087fc94237445b6253074557",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionValue", "Builder"],
+      "sha256": "447fcd72c169f721bbd0375b047ce160af2f757124e6fed81dbe46bd3192866f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionValueOrBuilder"],
+      "sha256": "d6d2aea1307505332997823b0d19b5eac07b6a9c80bdf2221cf4ebcfaf28d729",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryRequest", "Builder"],
+      "sha256": "d9ef33b98a3991842051920123d9fb26e2638612f476d0e6b17f2abc5eee2283",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryRequestOrBuilder"],
+      "sha256": "55b521e329c33290fae854508499009864723364c0285b752239c75d0a979521",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryResponse", "OutcomeCase", "Builder"],
+      "sha256": "03720e7dc73e3724b91e73dcc8146ed69feca1b081854a2941418b36b22d8223",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryResponseOrBuilder"],
+      "sha256": "3be86ed82d17926d3c5a55af56ad65465b6fb0152418c565534ed807182c7162",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryValue", "Builder"],
+      "sha256": "584b7e108f0f45b38f39081e78cb0df23856a736326afeaf020749afad978d1b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryValueOrBuilder"],
+      "sha256": "78596b4054c01352f6f8aeea62a6a7b0ac28ce1530dc5e31c6738b7c44b698da",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionRequest", "Builder"],
+      "sha256": "fbcdf6623119d6fe8ca54c1ef2e8ccfcbf6debc878e00c4393a15e000bb96c4a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionRequestOrBuilder"],
+      "sha256": "67b5eee7844654e60cab85b13006a1fa1e85c3f8bce2b54dba0de6db3e9c0b20",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionResponse", "OutcomeCase", "Builder"],
+      "sha256": "667b392499b445e62f88b264428a3b802456e9789585a11b2a52604cfd08d73e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionResponseOrBuilder"],
+      "sha256": "ddfbec6dfebc26afdc15727fe47b6b886e33609347ba809460d767c04db7636e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionValue", "Builder"],
+      "sha256": "0cbc60078407fd0038f85a0fdb4ea1b385112f19912ae91f20de58adf4302b5e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionValueOrBuilder"],
+      "sha256": "1e887ff881e1e8e8d2d5840e33c62a0011eb41dd8fbbfc13edfc3450dc34e4a1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundRequest", "Builder"],
+      "sha256": "03ce4bee4615d1535543f810b6fdd839d13e6089f683121b190cbe5852422c89",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundRequestOrBuilder"],
+      "sha256": "388d4a94721073978bed83603ac828eb6ad52e0331d077a98d944e918da63110",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundResponse", "OutcomeCase", "Builder"],
+      "sha256": "98a431ffc033c2fc3ae23bcaede736ec685ebc164e355af6d90d59d088eedfa7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundResponseOrBuilder"],
+      "sha256": "1a5b327438e9cefa138a7f94e996246b3ceb07928227846d5df28cfe8d117e8c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundValue", "Builder"],
+      "sha256": "55762bbd296e099d477301c5307516311949a7a7d545a366e2c1e2353fb4d70e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundValueOrBuilder"],
+      "sha256": "f0728e2905fda210ab6d2940b230e8f403650059f3cf8ec515a60c84ed4c2988",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageRequest", "Builder"],
+      "sha256": "a32b762c8e0567bd4461c2b113f5ba28beddac97e1b65fb7646fc9095ae92e14",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageRequestOrBuilder"],
+      "sha256": "443a2684bf860e09052c2cb4da8faaba8f885be67113a9c472be8571ef72400f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageResponse", "OutcomeCase", "Builder"],
+      "sha256": "2673b047049306babed6910da92fc54eb1cd345c7215438a3663d0a6f8d0c77d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageResponseOrBuilder"],
+      "sha256": "ce97b43b0e3ae0c402f6683bf3801e8b69abe19df159f027d22273b5422ff25d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageValue", "Builder"],
+      "sha256": "443e0b3cdd7498d46dcecc99c95438f06f3570bcb165f042a4df89d084fed16d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageValueOrBuilder"],
+      "sha256": "1395df70cb56d138a0b7e9b5d90b71c263b35ef81a8a7f2c8ca65e7dad6649b9",
       "kind": "generated"
     },
     {
@@ -5981,6 +7410,38 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CreditLot.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CreditLot", "Builder"],
+      "sha256": "1e69e23fbedbd2c32e78a59cf961730816c7be4aa60fc38da67f61f82ad83a9f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CreditLotOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CreditLotOrBuilder"],
+      "sha256": "2e89ea48f532a9f84e7322f49d75a078e2d69705bf8562e1e086e995c8eb7dae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CreditPool.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CreditPool", "Builder"],
+      "sha256": "c92ac0c3b4f88da710bb0b475bf74af159b74013ed0afd2890963a084dd36cbe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CreditPoolOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CreditPoolOrBuilder"],
+      "sha256": "769009ebb642813c517efafb5c868627672825d3ce753ace2faf43ad2e67c10a",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/CursorResult.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6021,6 +7482,310 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckRequest", "Builder"],
+      "sha256": "e8d48117b4dc348d30da8858bafada151330cc8161484861adc3e8ca051addb5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckRequestOrBuilder"],
+      "sha256": "96aaebc13a6fbe3d616049b870b9b3638c72812dc1e8e09b7af06780490450a1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckResponse", "OutcomeCase", "Builder"],
+      "sha256": "948f89a9e848e4340e8cde2f1dccdf5ac32a8e55d19d6bf23f47f63792674eb8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckResponseOrBuilder"],
+      "sha256": "5467b20d21c4eda457901381aee9dbb86dccbd8776075aece5894cab13235f51",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckValue", "Builder"],
+      "sha256": "160322f098e44af31d265406aaf6169b6e4f9e0dceec2227734b9bd59415ae01",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckValueOrBuilder"],
+      "sha256": "0f2793f4b291bbea20e57e2450d88727cbed1c9f12523901c89a323ef3639bba",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityRequest", "Builder"],
+      "sha256": "e3150f12ab3273a3654d47b2d3693bdc2a89339ecbbe2e374628ac47f1e7213d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityRequestOrBuilder"],
+      "sha256": "0a4297ef70ae9a9c2096bbd5455baa212033cfcbcc05ef680558b1a28288586e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityResponse", "OutcomeCase", "Builder"],
+      "sha256": "a8f86f3f454b4dc8d42c9edce8a693abbfe4eaaf3f24981b182ca87750eb2dfe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityResponseOrBuilder"],
+      "sha256": "24776b32e7ecf7d324c3d3758360e9df9edfa40f6dba5ef4ef0d3027b352105f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityValue", "Builder"],
+      "sha256": "e02290bcff76d87164c615229a5dcfd5701c134ef8ae4a5b52fd060c7430fc69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityValueOrBuilder"],
+      "sha256": "810e8427add4975bcb9652b5759c99864d82c493a7a1899062b0b27f0d09af99",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermRequest", "Builder"],
+      "sha256": "7ce6ab36f48fd706ea233206e9cb4b70bcc592f0bb855d2c06bf91f09d74a8ba",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermRequestOrBuilder"],
+      "sha256": "59b7caa70ed033a5215bd833665dffad4fa3df53a90c38e3dc428d3268617231",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermResponse", "OutcomeCase", "Builder"],
+      "sha256": "38551926b5ccabbc36d01cd97b0becee7599952d2b842f33c2d25f27d320ab0c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermResponseOrBuilder"],
+      "sha256": "7e5ce9a2e205c89268d2708e1c310f1266a03f5e10f352770976acf68f54e369",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermValue", "Builder"],
+      "sha256": "0a512f23fd5b9d2aca9217384b4232eab54cdfc1f26ce508b96b9c831ce49402",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermValueOrBuilder"],
+      "sha256": "ce33750187fdb9a72db1b268ea71b412aa24e4d8d44c3cfd781ca4f097591ff3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotRequest", "Builder"],
+      "sha256": "cfd46bf83d5353b3fa230d23c44f76d98790f527d6c460822db953d3c59fce64",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotRequestOrBuilder"],
+      "sha256": "59a7ba3a6de30106a1617ace8ed204e34576cfa92d2ca8f3047a63d8828e450f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotResponse", "OutcomeCase", "Builder"],
+      "sha256": "12042a1beea77b538981dec54da93f09cc74551c4a18e639147839afc2bde3de",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotResponseOrBuilder"],
+      "sha256": "6882c046898b9d264c917864173e759433f8abedf95342f76283aa74e4188d87",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotValue", "Builder"],
+      "sha256": "1303bc7c1f15ce5cf86bcb2ca55561756847303ad995dd3a09fd850d03965392",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotValueOrBuilder"],
+      "sha256": "b1d56c4f1b60c27fed1bbdeb7ec884ef93ba3314348af2c3313aa704ffeceb72",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageRequest", "Builder"],
+      "sha256": "6ff8d906f1cf05b283dfc062a68c728d1855b4aabd30d08e9bb3b942182d750f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageRequestOrBuilder"],
+      "sha256": "9035206bb88cb45834f5f8148f0e182ccc0e62e9654ddb74672a5086eaead448",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageResponse", "OutcomeCase", "Builder"],
+      "sha256": "b37ae89a07611854b0a0473153e3d640d4724c6a353cddb43e19445d34cb9cb9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageResponseOrBuilder"],
+      "sha256": "10151a38b6e76861b49e57733f7ef96c8ba2549c75e7e6ebec77fb9d6829beda",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageValue", "Builder"],
+      "sha256": "1db5b8ef962e65e977f41d01519ce53ec2784710aa35dfb701d9ebc8014066a8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageValueOrBuilder"],
+      "sha256": "7910e7771adc1669b9a25f151b9017945f30d74cf550129d135303583fa41252",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsRequest", "Builder"],
+      "sha256": "a72a5b8f3c133ccc68801e234c7a3c5793325c9c6a544e7ab247312b7f5b5809",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsRequestOrBuilder"],
+      "sha256": "f6012b43b0a3aa632551ac6dc9f0378c2443a2d4e40d83f79049ae4f10929c84",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsResponse", "OutcomeCase", "Builder"],
+      "sha256": "7352ba2097b5dca6bedd19e8189abe7e975d41e917bcb944705bcc7a8a0980e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsResponseOrBuilder"],
+      "sha256": "e686f228d13980081ceb53851d6a0fc00c31d999a4c4601dcf29e3d15c78187a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsValue", "Builder"],
+      "sha256": "03a0d18e2d825e2b7f49c07debb56452437506b859bcd8c0eb362c5fd3adfb6e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsValueOrBuilder"],
+      "sha256": "2db0fc1378b83791ac1268007a83c7b3ed8413c9900f9de8da8df2ea57272e98",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementSnapshot.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementSnapshot", "Builder"],
+      "sha256": "06d7c22098171eb3e83075db62354462948be7b2a820b5e73fc7b8e216ffdfc3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EntitlementSnapshotOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementSnapshotOrBuilder"],
+      "sha256": "a7ff5a81b0339fe88d5a238f461d0ec12abfa255144a013d44cc182de5900e9f",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/EphemeralSelection.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6050,6 +7815,22 @@
       "access": "public",
       "types": ["EventTriggerOrBuilder"],
       "sha256": "f4a23bd9525047e342e7eb329ac9508d0627f5c5ce52adb0c52a10496293a114",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ExportJob.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ExportJob", "Builder"],
+      "sha256": "01072b925ac9fabf899df730dfe227959e8fb84e17d5390723fae677d96ba2b8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ExportJobOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ExportJobOrBuilder"],
+      "sha256": "a14a3e0024cb281294c87be04c44d7aab876ec87cd96b3b5ea18361f0b37613b",
       "kind": "generated"
     },
     {
@@ -6098,6 +7879,22 @@
       "access": "public",
       "types": ["FrameFieldOrBuilder"],
       "sha256": "987984f7bc20dfe0cc4bde6fda5dbc63cb74be65bb86abd60f1634bceca8ae4e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Grant.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Grant", "Builder"],
+      "sha256": "a092550a58b2a37389fa079e2ea832be4b14733b0af8398c20bb718f32a6b940",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/GrantOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["GrantOrBuilder"],
+      "sha256": "79bd51ea4b8be05bc7c04044ec5689bf7aa446c3b4e71bb4eab4df54080450c0",
       "kind": "generated"
     },
     {
@@ -6341,6 +8138,38 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ModelUsage.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ModelUsage", "Builder"],
+      "sha256": "06bae8b21bf94a26cdb5901446e471d8c0f80d9625c01cdc8f26a5d9be5a7239",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ModelUsageOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ModelUsageOrBuilder"],
+      "sha256": "7b2276480ed1698ff73cf8e4a7fd8e96ed9a7f26b7eacee714ed3ad0d8eaa1f4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Offer.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["Offer", "Builder"],
+      "sha256": "95703342fb25e90ad36d8f7a0fb36d14b109c9995309ac0fc85700b98ba1c0b5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/OfferOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["OfferOrBuilder"],
+      "sha256": "abcf8f3e41be66b2cf6f760c68cd7cdeb6d758b9abd044c0662d509cc6c5d7ba",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PreferenceRecord.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6370,6 +8199,54 @@
       "access": "public",
       "types": ["PreviewRequestOrBuilder"],
       "sha256": "eb407a764c21b1c3681f78855dce8d4a5a30320b6867432cfe4b986542adcc2b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PurchaseView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PurchaseView", "Builder"],
+      "sha256": "daae829d72644e3530e59e7e9d1c091809b5bdcc5a7d393a18bdd22a59b3947b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PurchaseViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PurchaseViewOrBuilder"],
+      "sha256": "0de3d2972360f990b26b90e8fc46d93e9a19440aac904c201c21c2a6bb774d6e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/QuotaUsage.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["QuotaUsage", "Builder"],
+      "sha256": "ca7f4c44501de2e2019304409ffed1d52866c226453c1c8b879fac30d289d972",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/QuotaUsageOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["QuotaUsageOrBuilder"],
+      "sha256": "3050630c85b111f240a698d4e1a3476bfa455b306dacb2a1cd847ab133f567d6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RefundView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RefundView", "Builder"],
+      "sha256": "2df77e9a3bfd495b7c9caea3a3a32799497bf4bd22fa1823ecc88c0869761d1a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/RefundViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RefundViewOrBuilder"],
+      "sha256": "aa1eb679b8e7b17e4608a5e8395caca1ef217be800018bc09282c9dcce3b38b8",
       "kind": "generated"
     },
     {
@@ -6477,19 +8354,19 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadata.java",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["ScopeProjectMetadata", "Builder"],
-      "sha256": "6b134b340b08e6ebfe2c9d85eeff32a894adafeffa2d12fc26705a044ef7db1b",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeMetadataOrBuilder.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["ScopeMetadataOrBuilder"],
       "sha256": "1b3bbbc616e7f9ea4a01ccdeeecf088fea58e878f8bf7e62c12f40de0e961c2e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectMetadata.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectMetadata", "Builder"],
+      "sha256": "6b134b340b08e6ebfe2c9d85eeff32a894adafeffa2d12fc26705a044ef7db1b",
       "kind": "generated"
     },
     {
@@ -6546,6 +8423,22 @@
       "access": "public",
       "types": ["SelectedSampleOrBuilder"],
       "sha256": "3b0ce49c8562def6189bdb32cc7123759c359ebf323f34b07967396200936e02",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ServiceTerm.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ServiceTerm", "Builder"],
+      "sha256": "1abc77c736f4290971a78487dd7ca9665acc153234d882a8839c335c40e945be",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ServiceTermOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ServiceTermOrBuilder"],
+      "sha256": "95f10812268cd453f5471332bd01e6b23401c48b1000c2862a46dea560f23cb2",
       "kind": "generated"
     },
     {
@@ -6613,6 +8506,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SpendBudget.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SpendBudget", "Builder"],
+      "sha256": "edf69cfe54e07e90cc67a99024111d857aae2b096ca123bf7e3a553168ea856c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SpendBudgetOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SpendBudgetOrBuilder"],
+      "sha256": "104aefa5474d1d562cbeb9e01f90954e74cdef0b7735f4e4fa128ae97bccca2c",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/StructuredValue.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6626,6 +8535,30 @@
       "access": "public",
       "types": ["StructuredValueOrBuilder"],
       "sha256": "16c306202c2bd783be4f15eeffee96bf804d0c25374c04c6a24abdfd2fbc5231",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SubscriptionState.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SubscriptionState", "SubscriptionStateVerifier"],
+      "sha256": "e7326ff1250094bf2adb1c3dc5f5f4a73a0b4b0e01cedc572ffc80714ab3f220",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SubscriptionView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SubscriptionView", "Builder"],
+      "sha256": "5ba285b3efc285b4c42d3c0a67b65d2ffffed91ed4f1f39a28459a781b74ee02",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SubscriptionViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SubscriptionViewOrBuilder"],
+      "sha256": "2a9928ce24df0becae6eea4e98fbd5c7d6ceb6d486db873d51d29583cd98212c",
       "kind": "generated"
     },
     {
@@ -7371,19 +9304,19 @@
       "kind": "generated"
     },
     {
-      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionFailureKt.kt",
-      "package": "io.github.arcforges:contracts-proto",
-      "access": "public",
-      "types": ["VersionFailureKt", "Dsl"],
-      "sha256": "386340e2635090263d6dacda90bfe8334a923f2eb6a745d3d86bd39d54d867c1",
-      "kind": "generated"
-    },
-    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["VersionedRefKt", "Dsl"],
       "sha256": "5cfa97b24ceb9d067fbd6781f398e3c48d075ea0dd25dc4f12ff1956bf550e09",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionFailureKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["VersionFailureKt", "Dsl"],
+      "sha256": "386340e2635090263d6dacda90bfe8334a923f2eb6a745d3d86bd39d54d867c1",
       "kind": "generated"
     },
     {
@@ -7443,6 +9376,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AttemptChargeKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AttemptChargeKt", "Dsl"],
+      "sha256": "1f0782fce790a12a8589040976e50735a06cd2b557745f96fba8ec2126c92b68",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AutomationSpecKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7464,6 +9405,14 @@
       "access": "public",
       "types": ["AvailabilityKt", "Dsl", "ReasonsProxy"],
       "sha256": "6ae11cd997c6befbb9edc88a1ec9aa87992f6502b05f5a6f9f0cd38a04234104",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BillingItemKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BillingItemKt", "Dsl"],
+      "sha256": "5c21cb40019308dfe62bafbcb9773bb051f5d943927ab406c887398880fbd4cd",
       "kind": "generated"
     },
     {
@@ -7491,6 +9440,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CapacityKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CapacityKt", "Dsl"],
+      "sha256": "ca06482e6710577046712ccdbbb1d34bce23515f2858b983aeecb4efc6c3d7d6",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CaptureMetadataKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7507,6 +9464,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ChargeExplanationKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChargeExplanationKt", "Dsl", "AttemptsProxy"],
+      "sha256": "0146ebae2e90714be17542d56d88eb22849bffdcbc1ba29eb4968cc8da3df916",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ChatProjectRecordKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7515,11 +9480,363 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CheckoutViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CheckoutViewKt", "Dsl"],
+      "sha256": "a5230d1196d10b9e8464486082ea13ce8510e42ba113571d2dcbe1bcc4fa0e6e",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ChecksumSpecKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["ChecksumSpecKt", "Dsl"],
       "sha256": "fec1fd2861d531bed711a4afa2b0e548ddd6644133be1c32ed6cc1a473aa123c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "21b2e0664abf74d9771e0b74b678493246dba4b8833b181aec82ed4c2de41b7f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageRequestKt", "Dsl"],
+      "sha256": "9fade7408e16d0e9934cc96af93431ea3d12ee8561878534249a24565b09664d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageResponseKt", "Dsl"],
+      "sha256": "09ce664e1bd1a2b38e60964ea23d5bd3b4158c701d8971b6cc1b2224af17dee7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceAuthoriseExtraUsageValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceAuthoriseExtraUsageValueKt", "Dsl"],
+      "sha256": "25d08527e2de34e319bdb78270dfe2617324109ff5ada7e7cd2d55dd696f5084",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionRequestKt", "Dsl"],
+      "sha256": "afce49702d2e822fa996e8621e7b160c2e9bd3821495badab4a5929098e5d933",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionResponseKt", "Dsl"],
+      "sha256": "af9e4fb3fde15e508496b8fdd9f7b61235c1a5dbe5a4fad2bf1dde9c238c3083",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCancelSubscriptionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCancelSubscriptionValueKt", "Dsl"],
+      "sha256": "8efbb4e85874474fc528fc9e6ee8db65380078145c406d0d6290ff5a0150d852",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptRequestKt", "Dsl"],
+      "sha256": "464548f7462e61b8d018ad6f7c5a5b960be90fe030e433e37e1ec06f24f67117",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptResponseKt", "Dsl"],
+      "sha256": "81afa365f3cbdd7a3e54973a8709d6c961bf3c6f807be77d033be629b2dfdf25",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreateCheckoutAttemptValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreateCheckoutAttemptValueKt", "Dsl"],
+      "sha256": "c3b772bcee4faa32fa1d9359a38bc62f8ac1bd6aadf183f17ef77a4cf3a528f8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentRequestKt", "Dsl"],
+      "sha256": "b39ed3f2747ae13b47dc933405a876a5a4b871bb156d7006ff5dd99dc947b9d6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentResponseKt", "Dsl"],
+      "sha256": "3fe70c070e29c8ef8c0fa81d9e6bb0cd3d083c158efa1ddcbe9f2aa145fd6e57",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceCreatePurchaseIntentValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceCreatePurchaseIntentValueKt", "Dsl"],
+      "sha256": "fd7620fea4a0901ccec3ac8c7bf41a0fe95153f957990cdfdc0545b6b9d1e323",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeRequestKt", "Dsl"],
+      "sha256": "b4566e6561dc34acf1df390e93762c99b43dd0649d998a6abaa288f843770543",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeResponseKt", "Dsl"],
+      "sha256": "ac78ee18a99a22abecee7378ab628e1f452eac8f7522cefa6eebe146b454b231",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExplainChargeValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExplainChargeValueKt", "Dsl"],
+      "sha256": "ce0da5ae5047cfee542c40a0e3dbe31c96d3e13d9c69d91b5c211ea6250f274d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceRequestKt", "Dsl"],
+      "sha256": "3f4992d39b1c3079a9ca340103c7265642c37511a5bcdb1b59b1380cfd9eb340",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceResponseKt", "Dsl"],
+      "sha256": "4e8ba56bb62282bc9decd932065f6568ce4ca102b4b24a5bf2a5eff5c624d754",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceExportEvidenceValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceExportEvidenceValueKt", "Dsl"],
+      "sha256": "3a79bd9eff4902074a63a8c35c209c6d43a1170b7d8ca5ad83d77d2cee9fc14d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueRequestKt", "Dsl"],
+      "sha256": "c5ff408c9c6f07c9d4d4890cea31c2de1928e3a0f4f7afe7790005f5be8e5906",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueResponseKt", "Dsl"],
+      "sha256": "195da41ed31efda26e69b7de46860f9cfa420f44cbab423ef8ea71e990d29321",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCatalogueValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCatalogueValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "c3a206f80dee6ec5eb261a07ae27b94f27c9099be6c52a2aeb0118292ab68752",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsRequestKt", "Dsl"],
+      "sha256": "e7120bcc78f9dad6232c830b03dbd5bc0d9f2c58736c1882d972a509220c6a2a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsResponseKt", "Dsl"],
+      "sha256": "c53f3051a193f954b358e5905849f3c54f8cab6d292a75f84d12cb4662f3452c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetCreditsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetCreditsValueKt", "Dsl", "CompensationProxy"],
+      "sha256": "0bed720df2bf16d3a582f2c35606acd785775c7d7adabd6898de95af9b2f72f3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateRequestKt", "Dsl"],
+      "sha256": "a602aeeeeb5839582dcc064e766b9f1e49ac3ee478234623740921beed6a2b1d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateResponseKt", "Dsl"],
+      "sha256": "71ae6b6097f7240a926a57c67ed7eaf2cbe2bab3508dda17ed4ec53656f46410",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetPurchaseStateValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetPurchaseStateValueKt", "Dsl"],
+      "sha256": "afdb476dbadd423fbbfb94126dbb9ab0c941447976e78f7728884a252f425ce4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionRequestKt", "Dsl"],
+      "sha256": "97ca3fdd76ffe80850e9224f841a4f231a536ce27a320de709a58cad4d5f8394",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionResponseKt", "Dsl"],
+      "sha256": "263b646ae0d9067ce3518d271586f4d47f6da78037a811194448ef66aac57649",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceGetSubscriptionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceGetSubscriptionValueKt", "Dsl"],
+      "sha256": "71bdd4f617ff751aaed02fccb7c014c95a5299d77e81f740959d04c5d9361c6b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryRequestKt", "Dsl"],
+      "sha256": "66af6c8bb59b95070913737f9c06c64e6c76a11bfcd71bd7658b91c672ad885f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryResponseKt", "Dsl"],
+      "sha256": "7acd66b05d9f76b35e1644c0005b3f636cfb8226c2eb2d4611ad91048e7104ea",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceListBillingHistoryValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceListBillingHistoryValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "5f89f4838472718d2dd708c9ef52c217c55ce90b9bb555ad769958946512cdd1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionRequestKt", "Dsl"],
+      "sha256": "13ea38baf70fc03d2f87b4a38acac3b0a7bccf2a8889e23de3467f62e9a48105",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionResponseKt", "Dsl"],
+      "sha256": "d6768796c88fca7406ddb6543ecd1bf17fcedbe8d713f0b841ede677a05ff031",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceReactivateSubscriptionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceReactivateSubscriptionValueKt", "Dsl"],
+      "sha256": "1fb9d598a1f999b7f60e02b63040492ab7620a80e19b621360e237c0ca2ea033",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundRequestKt", "Dsl"],
+      "sha256": "2a102d8454e2eb2f8d4bdfb77caba7e2804a726e14e713c4224fa7781a7616f2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundResponseKt", "Dsl"],
+      "sha256": "18f01ae0be2aa9e6501ce70993dbd3095d244c20552019f8a45ab9eb2b8134e4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRequestRefundValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRequestRefundValueKt", "Dsl"],
+      "sha256": "b8c20d0447306b80338a0a9d4552e90638f7a1289f943ecae60d1be26d226855",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageRequestKt", "Dsl"],
+      "sha256": "eb0ba161e6efeca89df0671a99519c52536fda589a1014ec69ab48c00f315980",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageResponseKt", "Dsl"],
+      "sha256": "1d4c91355e452633dc5f4374a69959ad9de8d9964f2c929e9e8eed4fa2cedf07",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CommerceServiceRevokeExtraUsageValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CommerceServiceRevokeExtraUsageValueKt", "Dsl"],
+      "sha256": "6e9487c33c8c8e00373c3428bb3fd1deda57f74290339649e9e69c7cfd22ad38",
       "kind": "generated"
     },
     {
@@ -7611,6 +9928,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CreditLotKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CreditLotKt", "Dsl"],
+      "sha256": "499e798ff855012142f1e280c37d01cf3b6ad397c7b2dc044c5915c88df1095b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CreditPoolKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CreditPoolKt", "Dsl", "LotsProxy"],
+      "sha256": "977bfef0c335a5fabefd09cb5d250ce48f595c8fd062752489b23b2a5ec7f1e3",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CursorResultKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7635,6 +9968,158 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckRequestKt", "Dsl", "CapabilitiesProxy"],
+      "sha256": "ae94e18848b0a8e728c55b2e27dd502997a659d08bccaebfed3ec3fbf88ff1c4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckResponseKt", "Dsl"],
+      "sha256": "9828f1d368b494431791c8c62caf32c6d71f5ab88524ccb057604b210ebf4e9b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceCheckValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceCheckValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "3f78117281dcded5d3dad8a43a7bb661dfd74e2dae694fb2598c2548ba23be30",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityRequestKt", "Dsl"],
+      "sha256": "fd54ad807f48d673964bc2ab4c7f1962ffad1dcd1c5ea0edd13631b3d6bd3795",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityResponseKt", "Dsl"],
+      "sha256": "629a8fa1124063fc84c8591119137467e2d1a6cd0433a70cb35fc42beb01de57",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetCapacityValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetCapacityValueKt", "Dsl"],
+      "sha256": "975d046e15e1fdcc16a38161a832829d5388d76c865e2f39c5990490735141ce",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermRequestKt", "Dsl"],
+      "sha256": "06554af01deec4489aad75a2596619efd7afcb4de2dd26e78afa3b77f0d6ce1d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermResponseKt", "Dsl"],
+      "sha256": "6dc6a4a05d1dbf36abeb7841e1c09ccff9c9016292ad72f301f89040aa9ecb8a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetServiceTermValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetServiceTermValueKt", "Dsl"],
+      "sha256": "58361422d6766d45691675721962713bcdb5aedca790b3f3653f7376913e130a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotRequestKt", "Dsl"],
+      "sha256": "f0432d0d8a905be446498bd481f6724fec2bde4624e6ff80c63b70275a752557",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotResponseKt", "Dsl"],
+      "sha256": "a923172af410fad5eb4df1b0ce9e743c90f659bb2e766940ce0688e2685f3471",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetSnapshotValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetSnapshotValueKt", "Dsl"],
+      "sha256": "ee5e26bfa4feb84dd0e49b245a9504d9d93135bbd7ab5c180c766101b6798a2f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageRequestKt", "Dsl"],
+      "sha256": "9c40f1239125dd22935158f2452b0c41252d95ca1505808a542fdd15e5554c9f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageResponseKt", "Dsl"],
+      "sha256": "57df9212e6bfc12cbbe5697b08c68d8c0d4f13bac8ddb11c32dd2fa279e76ed5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceGetUsageValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceGetUsageValueKt", "Dsl", "UsageProxy"],
+      "sha256": "44f8bd206947eb117bc4965bec44f8c6dad5b8397d08b62381f7412c868a2fc1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsRequestKt", "Dsl"],
+      "sha256": "e1742c6d842b1186a9f67295ed50852ac0258f6f6ac5e17a22da30d1749185f8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsResponseKt", "Dsl"],
+      "sha256": "b9c4eddfb72708e826fdd88f6729a8f691befe28894711debbbf3a6a738df5e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementServiceListGrantsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementServiceListGrantsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "9e3fb52858b36f794122b8994292397ed4053ebcc5f1f804eb21c5c4d7e301e7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EntitlementSnapshotKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["EntitlementSnapshotKt", "Dsl", "CapabilitiesProxy", "QuotasProxy"],
+      "sha256": "9769d61c4f8f35f8b40a7ae5e04ac27c3e5de6b2ba059b4b014693745875bdbf",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/EphemeralSelectionKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7648,6 +10133,14 @@
       "access": "public",
       "types": ["EventTriggerKt", "Dsl"],
       "sha256": "c8f3a26748bef1f6b5324cb03930a0307e99315441444b20cf6d6fae4e3d45d1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ExportJobKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ExportJobKt", "Dsl", "SnapshotRefsProxy"],
+      "sha256": "c845b36532030d8ca5943460e4f07a30bc85ad893e986ea2c6f0dbb90ee6abfd",
       "kind": "generated"
     },
     {
@@ -7672,6 +10165,14 @@
       "access": "public",
       "types": ["FrameFieldKt", "Dsl", "JsonPathProxy"],
       "sha256": "3ac1bd94c1294852a1a785f64302a3c4e278c19ffc9986f7c08bbb6d484a983d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/GrantKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["GrantKt", "Dsl"],
+      "sha256": "aa1c0c8f3e0ffe122690269efc45339774444a5f1a68cfb2713af2ab9c64b97d",
       "kind": "generated"
     },
     {
@@ -7809,6 +10310,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ModelUsageKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ModelUsageKt", "Dsl"],
+      "sha256": "e57c617f18e832ba8f6f5ae8eb3c687ee70a7ef643ceae40cc67cce438784d8a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/OfferKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["OfferKt", "Dsl", "EntitlementsProxy"],
+      "sha256": "50bc176441cde326053c39f1e42eeea92d446927177936e00b1e2e6065ef9144",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PreferenceRecordKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7822,6 +10339,30 @@
       "access": "public",
       "types": ["PreviewRequestKt", "Dsl"],
       "sha256": "7151a6d5cb7b60f21ef7007110f2e3ed9ff96a8c2030e4ed185868c5e881b1d5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PurchaseViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PurchaseViewKt", "Dsl"],
+      "sha256": "defec072a6f73f11fd7ab5f491bb00fa37cbfcab3b7ec98f8f23186e0aadd85f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/QuotaUsageKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["QuotaUsageKt", "Dsl"],
+      "sha256": "20d764e8f28152077d02c49cb702249523f5ca7c10202af8baede716eb7146cd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/RefundViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["RefundViewKt", "Dsl"],
+      "sha256": "04b752981ce69d27d99ba8be25bf17aec68fff0b7e19942d8abe362a28db1ac7",
       "kind": "generated"
     },
     {
@@ -7923,6 +10464,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ServiceTermKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ServiceTermKt", "Dsl"],
+      "sha256": "4447c1deb27283b869261e43db972382064401f1cb57d1626d4a4f6021a6df95",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SkillRecordKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -7955,11 +10504,27 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SpendBudgetKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SpendBudgetKt", "Dsl"],
+      "sha256": "adb0c8d827b6d1ffee26bba8ab91129e9928fd409b20099590b1e427e63dab07",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/StructuredValueKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["StructuredValueKt", "Dsl"],
       "sha256": "58a4d915cc539604fc27419fc1ca148fa920c341f06f1d8c52f16dd66cbf9c98",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SubscriptionViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SubscriptionViewKt", "Dsl"],
+      "sha256": "9fa77eededd7ab4ea66d24d53fb7aeca13dcb03f40c2f4c04ca754c3282abd4c",
       "kind": "generated"
     },
     {
@@ -8304,7 +10869,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "19fb55926014b72e034470bb7b68772e5a40376b5b39a83a33598f06cdf00ce6",
+      "sha256": "233c7113f5f7b92c9e7e78670a1a2b38bd084d5132ff303a9696b71ab24cab8b",
       "kind": "generated"
     },
     {
@@ -8436,6 +11001,94 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/commerce_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "EntitlementSnapshot",
+        "ServiceTerm",
+        "Capacity",
+        "Grant",
+        "QuotaUsage",
+        "SpendBudget",
+        "ChargeExplanation",
+        "AttemptCharge",
+        "ModelUsage",
+        "Offer",
+        "PurchaseView",
+        "CheckoutView",
+        "SubscriptionView",
+        "CreditPool",
+        "CreditLot",
+        "BillingItem",
+        "RefundView",
+        "ExportJob",
+        "EntitlementServiceGetSnapshotRequest",
+        "EntitlementServiceGetSnapshotValue",
+        "EntitlementServiceGetSnapshotResponse",
+        "EntitlementServiceGetServiceTermRequest",
+        "EntitlementServiceGetServiceTermValue",
+        "EntitlementServiceGetServiceTermResponse",
+        "EntitlementServiceGetCapacityRequest",
+        "EntitlementServiceGetCapacityValue",
+        "EntitlementServiceGetCapacityResponse",
+        "EntitlementServiceListGrantsRequest",
+        "EntitlementServiceListGrantsValue",
+        "EntitlementServiceListGrantsResponse",
+        "EntitlementServiceGetUsageRequest",
+        "EntitlementServiceGetUsageValue",
+        "EntitlementServiceGetUsageResponse",
+        "EntitlementServiceCheckRequest",
+        "EntitlementServiceCheckValue",
+        "EntitlementServiceCheckResponse",
+        "CommerceServiceAuthoriseExtraUsageRequest",
+        "CommerceServiceAuthoriseExtraUsageValue",
+        "CommerceServiceAuthoriseExtraUsageResponse",
+        "CommerceServiceRevokeExtraUsageRequest",
+        "CommerceServiceRevokeExtraUsageValue",
+        "CommerceServiceRevokeExtraUsageResponse",
+        "CommerceServiceExplainChargeRequest",
+        "CommerceServiceExplainChargeValue",
+        "CommerceServiceExplainChargeResponse",
+        "CommerceServiceGetCatalogueRequest",
+        "CommerceServiceGetCatalogueValue",
+        "CommerceServiceGetCatalogueResponse",
+        "CommerceServiceCreatePurchaseIntentRequest",
+        "CommerceServiceCreatePurchaseIntentValue",
+        "CommerceServiceCreatePurchaseIntentResponse",
+        "CommerceServiceCreateCheckoutAttemptRequest",
+        "CommerceServiceCreateCheckoutAttemptValue",
+        "CommerceServiceCreateCheckoutAttemptResponse",
+        "CommerceServiceGetPurchaseStateRequest",
+        "CommerceServiceGetPurchaseStateValue",
+        "CommerceServiceGetPurchaseStateResponse",
+        "CommerceServiceGetSubscriptionRequest",
+        "CommerceServiceGetSubscriptionValue",
+        "CommerceServiceGetSubscriptionResponse",
+        "CommerceServiceCancelSubscriptionRequest",
+        "CommerceServiceCancelSubscriptionValue",
+        "CommerceServiceCancelSubscriptionResponse",
+        "CommerceServiceReactivateSubscriptionRequest",
+        "CommerceServiceReactivateSubscriptionValue",
+        "CommerceServiceReactivateSubscriptionResponse",
+        "CommerceServiceGetCreditsRequest",
+        "CommerceServiceGetCreditsValue",
+        "CommerceServiceGetCreditsResponse",
+        "CommerceServiceListBillingHistoryRequest",
+        "CommerceServiceListBillingHistoryValue",
+        "CommerceServiceListBillingHistoryResponse",
+        "CommerceServiceRequestRefundRequest",
+        "CommerceServiceRequestRefundValue",
+        "CommerceServiceRequestRefundResponse",
+        "CommerceServiceExportEvidenceRequest",
+        "CommerceServiceExportEvidenceValue",
+        "CommerceServiceExportEvidenceResponse",
+        "SubscriptionState"
+      ],
+      "sha256": "47903d3427078f8509ce9f74f65ba3fd457267becda6ba127acec293d001312a",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
       "package": "@arcforges/proto",
       "access": "public",
@@ -8545,7 +11198,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "14ad3dbe320cbaad9e772a223a9d46288fbd6ce88b0c533c7b04b0495312eb01",
+      "sha256": "b73df5bd801b769c49b42258c3f1827c70a304a3508fa3f2428187e35b468de0",
       "kind": "generated"
     },
     {
@@ -8561,7 +11214,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "c98f7758984cf4e5b04d5cb4b96986ed8fed55c620bb45cc0c85599ca2642941",
+      "sha256": "09b13ba1c7e26544f190c3eb9bb15ac34b7b10a1e59231e5174e98980d027db1",
       "kind": "generated"
     },
     {
@@ -8569,7 +11222,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "650cdf0140e68dce7d47a352d13a7f854f9533282d86b5404f1d414ba962751f",
+      "sha256": "ac30457d2c00c87a7cf7a5363201e2dd40c8523f3cc37bf91d3d5ec06c243329",
       "kind": "generated"
     },
     {
@@ -8657,6 +11310,10 @@
   ],
   "buildInputs": [
     {
+      "path": "build.gradle.kts",
+      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
+    },
+    {
       "path": "Directory.Build.props",
       "sha256": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b"
     },
@@ -8669,16 +11326,8 @@
       "sha256": "4a83ab07c4e26a69d5153e683d311fa667a1d40130f69358a59b512b55d5a8d1"
     },
     {
-      "path": "NuGet.config",
-      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
-    },
-    {
-      "path": "build.gradle.kts",
-      "sha256": "1cf3ae88a76f49c159e4ee1856e1d1e78a2f2f801bc07d5436391f745faac9c5"
-    },
-    {
       "path": "eng/contract-packages.json",
-      "sha256": "a67a507883d429c24e87f37c1ff399279ac8050a8b403e5ea2f40bf2f2c60ed8"
+      "sha256": "0791756b449506eb3e83f9c320d90c272d475219d48c10e1060d5a26afc91134"
     },
     {
       "path": "gradle.properties",
@@ -8741,6 +11390,10 @@
       "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe"
     },
     {
+      "path": "NuGet.config",
+      "sha256": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472"
+    },
+    {
       "path": "package-lock.json",
       "sha256": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c"
     },
@@ -8778,7 +11431,11 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "0cecda209c224dd8d0c7b3a86dc5559cd414aedc56752d2e4c8baf530c474ec9"
+      "sha256": "ba493dfbd1be39f35db16e0ddc3687d6560a05813d231a2f844c108e45fbb332"
+    },
+    {
+      "path": "public/proto/constraints/con-08-entitlement-commerce.json",
+      "sha256": "cfe0d37c15adef74153e1aac7fc6d17bf3f047d8496ec08ab97d5076f1d341c5"
     },
     {
       "path": "public/proto/constraints/con-13-package-catalog.json",

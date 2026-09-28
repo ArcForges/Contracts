@@ -1,12 +1,75 @@
 # SPDX-License-Identifier: Apache-2.0
 """Deliberate compiled-descriptor breaks must fail before publication."""
 from copy import deepcopy
+import json
 from pathlib import Path
 import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
-from check_compatibility import compare, descriptor, fields, retained
+from check_compatibility import (compare, con08_frozen_errors, descriptor, fields,
+                                 frozen_file_projection, retained)
+ROOT = Path(__file__).resolve().parents[2]
+
+
+CON08_METHODS = {
+    "entitlement.getSnapshot": ("EntitlementService", "GetSnapshot"),
+    "entitlement.getServiceTerm": ("EntitlementService", "GetServiceTerm"),
+    "entitlement.getCapacity": ("EntitlementService", "GetCapacity"),
+    "entitlement.listGrants": ("EntitlementService", "ListGrants"),
+    "entitlement.getUsage": ("EntitlementService", "GetUsage"),
+    "entitlement.check": ("EntitlementService", "Check"),
+    "commerce.authoriseExtraUsage": ("CommerceService", "AuthoriseExtraUsage"),
+    "commerce.revokeExtraUsage": ("CommerceService", "RevokeExtraUsage"),
+    "commerce.explainCharge": ("CommerceService", "ExplainCharge"),
+    "commerce.getCatalogue": ("CommerceService", "GetCatalogue"),
+    "commerce.createPurchaseIntent": ("CommerceService", "CreatePurchaseIntent"),
+    "commerce.createCheckoutAttempt": ("CommerceService", "CreateCheckoutAttempt"),
+    "commerce.getPurchaseState": ("CommerceService", "GetPurchaseState"),
+    "commerce.getSubscription": ("CommerceService", "GetSubscription"),
+    "commerce.cancelSubscription": ("CommerceService", "CancelSubscription"),
+    "commerce.reactivateSubscription": ("CommerceService", "ReactivateSubscription"),
+    "commerce.getCredits": ("CommerceService", "GetCredits"),
+    "commerce.listBillingHistory": ("CommerceService", "ListBillingHistory"),
+    "commerce.requestRefund": ("CommerceService", "RequestRefund"),
+    "commerce.exportEvidence": ("CommerceService", "ExportEvidence"),
+}
+CON08_ERROR_ROWS = {
+    "entitlement.no_service_term", "entitlement.not_entitled", "entitlement.quota_exceeded",
+    "entitlement.capacity_exhausted", "entitlement.extra_credits_required", "entitlement.credits_exhausted",
+    "entitlement.request_too_large", "commerce.supplier_budget_exhausted",
+}
+
+
+def consume_exactly_once(vectors, expected_ids):
+    seen = set()
+    for vector in vectors:
+        vector_id = vector.get("id")
+        if vector_id not in expected_ids:
+            raise ValueError(f"unknown vector: {vector_id}")
+        if vector_id in seen:
+            raise ValueError(f"duplicate vector: {vector_id}")
+        seen.add(vector_id)
+    missing = expected_ids - seen
+    if missing:
+        raise ValueError(f"unconsumed vectors: {', '.join(sorted(missing))}")
+    return seen
+
+
+def file_model_from_projection(projection):
+    return {
+        "package": projection["package"],
+        "messages": {
+            name: {field["tag"]: {key: value for key, value in field.items() if key != "tag"}
+                   for field in fields}
+            for name, fields in projection["messages"].items()
+        },
+        "enums": {
+            name: {member["name"]: member["number"] for member in members}
+            for name, members in projection["enums"].items()
+        },
+        "services": projection["services"],
+    }
 
 
 def integer(value):
@@ -88,6 +151,119 @@ class CompatibilityTests(unittest.TestCase):
         for raw in [b"\x09abc", b"\x0dabc"]:
             with self.assertRaises(ValueError):
                 fields(raw)
+
+    def test_con08_fixture_vectors_are_direct_and_exactly_once(self):
+        fixture_path = ROOT / "fixtures/public/con-08-entitlement-commerce.json"
+        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+        self.assertEqual(fixture["schemaVersion"], "con-08-entitlement-commerce.v1")
+        projection = fixture["frozenDescriptor"]["projection"]
+        positive = fixture["positiveVectors"]
+        self.assertEqual(consume_exactly_once(positive, set(CON08_METHODS)), set(CON08_METHODS))
+        errors = fixture["errorRowVectors"]
+        self.assertEqual(consume_exactly_once(errors, CON08_ERROR_ROWS), CON08_ERROR_ROWS)
+
+        for vector in positive:
+            expected_service, expected_method = CON08_METHODS[vector["operationId"]]
+            self.assertEqual((vector["service"], vector["method"]),
+                             (f".arcforges.publicapi.v1.{expected_service}", expected_method))
+            method = projection["services"][vector["service"]][vector["method"]]
+            self.assertEqual(method["input"], vector["requestType"])
+            self.assertEqual(method["output"], vector["responseType"])
+            self.assertIn(vector["requestType"], projection["messages"])
+            self.assertIn(vector["responseType"], projection["messages"])
+            response = projection["messages"][vector["responseType"]]
+            value = next(field for field in response if field["name"] == vector["successVariant"])
+            self.assertEqual(value["typeName"], vector["valueType"])
+            self.assertEqual(value["oneof"], "outcome")
+
+        for vector in errors:
+            self.assertEqual(vector["code"], vector["id"])
+            self.assertEqual(vector["category"], "entitlement")
+            self.assertEqual(vector["effectCertainty"], "Did not happen")
+            self.assertTrue(vector["retryDisposition"])
+
+    def test_con08_fixture_missing_duplicate_and_unknown_vectors_fail_closed(self):
+        expected = set(CON08_METHODS)
+        sample = {"id": "entitlement.getSnapshot"}
+        with self.assertRaisesRegex(ValueError, "unconsumed"):
+            consume_exactly_once([sample], expected)
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            consume_exactly_once([sample, sample], expected)
+        with self.assertRaisesRegex(ValueError, "unknown"):
+            consume_exactly_once([{"id": "invented.operation"}], expected)
+
+    def test_con08_frozen_projection_gate_rejects_any_declaration_change(self):
+        fixture = json.loads((ROOT / "fixtures/public/con-08-entitlement-commerce.json").read_text(encoding="utf-8"))
+        lock = fixture["frozenDescriptor"]
+        filename = lock["file"]
+        original = {"files": {filename: file_model_from_projection(lock["projection"])}}
+        self.assertEqual(frozen_file_projection(original["files"][filename]), lock["projection"])
+        self.assertEqual(con08_frozen_errors(ROOT, original), [])
+
+        mutations = []
+        added_field = deepcopy(original)
+        message = next(iter(added_field["files"][filename]["messages"].values()))
+        message[999] = {"name": "future", "type": 9, "typeName": "", "label": 1,
+                        "oneof": None, "optional": 0, "jsonName": "future"}
+        mutations.append(added_field)
+
+        changed_tag = deepcopy(original)
+        message = next(iter(changed_tag["files"][filename]["messages"].values()))
+        tag = next(iter(message))
+        field = message.pop(tag)
+        message[max(message, default=tag) + 1] = field
+        mutations.append(changed_tag)
+
+        changed_type = deepcopy(original)
+        message = next(iter(changed_type["files"][filename]["messages"].values()))
+        field = next(iter(message.values()))
+        field["type"] = 9 if field["type"] != 9 else 4
+        mutations.append(changed_type)
+
+        changed_presence = deepcopy(original)
+        messages = changed_presence["files"][filename]["messages"]
+        presence_field = next(
+            field for fields in messages.values() for field in fields.values()
+            if field["oneof"] is not None
+        )
+        presence_field["oneof"] = "_changed_presence"
+        mutations.append(changed_presence)
+
+        changed_optional_presence = deepcopy(original)
+        messages = changed_optional_presence["files"][filename]["messages"]
+        optional_field = next(
+            field for fields in messages.values() for field in fields.values()
+            if field["optional"] == 1
+        )
+        optional_field["optional"] = 0
+        mutations.append(changed_optional_presence)
+
+        added_method = deepcopy(original)
+        service = next(iter(added_method["files"][filename]["services"].values()))
+        service["UnreviewedMethod"] = {
+            "input": ".arcforges.publicapi.v1.AttemptCharge",
+            "output": ".arcforges.publicapi.v1.AttemptCharge",
+            "clientStreaming": 0,
+            "serverStreaming": 0,
+        }
+        mutations.append(added_method)
+
+        removed_method = deepcopy(original)
+        service = next(iter(removed_method["files"][filename]["services"].values()))
+        del service[next(iter(service))]
+        mutations.append(removed_method)
+
+        deleted_message = deepcopy(original)
+        messages = deleted_message["files"][filename]["messages"]
+        del messages[next(iter(messages))]
+        mutations.append(deleted_message)
+
+        added_message = deepcopy(original)
+        added_message["files"][filename]["messages"][".arcforges.publicapi.v1.Future"] = {}
+        mutations.append(added_message)
+        for current in mutations:
+            with self.subTest(current=current):
+                self.assertEqual(len(con08_frozen_errors(ROOT, current)), 1)
 
     def test_retirement_is_exact_and_does_not_waive_other_namespaces(self):
         model = deepcopy(self.old)

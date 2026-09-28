@@ -494,6 +494,3041 @@ export const publicFixtures = {
       "note": "Known ScopeProjectMetadata plus an unknown future field survives decode/encode unchanged."
     }
   },
+  "con-08-entitlement-commerce.json": {
+    "schemaVersion": "con-08-entitlement-commerce.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline-descriptor-and-error-catalogue-vectors-only",
+    "frozenDescriptor": {
+      "file": "arcforges/publicapi/v1/commerce.proto",
+      "projection": {
+        "package": "arcforges.publicapi.v1",
+        "messages": {
+          ".arcforges.publicapi.v1.AttemptCharge": [
+            {
+              "tag": 1,
+              "name": "attempt_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "attemptId"
+            },
+            {
+              "tag": 2,
+              "name": "model_id",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_model_id",
+              "optional": 1,
+              "jsonName": "modelId"
+            },
+            {
+              "tag": 3,
+              "name": "usage",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.ModelUsage",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "usage"
+            },
+            {
+              "tag": 4,
+              "name": "supplier_cost",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Decimal",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "supplierCost"
+            },
+            {
+              "tag": 5,
+              "name": "customer_debit",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_customer_debit",
+              "optional": 1,
+              "jsonName": "customerDebit"
+            },
+            {
+              "tag": 6,
+              "name": "certainty",
+              "type": 14,
+              "typeName": ".arcforges.foundation.v1.EffectCertainty",
+              "label": 1,
+              "oneof": "_certainty",
+              "optional": 1,
+              "jsonName": "certainty"
+            }
+          ],
+          ".arcforges.publicapi.v1.BillingItem": [
+            {
+              "tag": 1,
+              "name": "item_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "itemId"
+            },
+            {
+              "tag": 2,
+              "name": "kind",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_kind",
+              "optional": 1,
+              "jsonName": "kind"
+            },
+            {
+              "tag": 3,
+              "name": "state",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_state",
+              "optional": 1,
+              "jsonName": "state"
+            },
+            {
+              "tag": 4,
+              "name": "amount",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Decimal",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "amount"
+            },
+            {
+              "tag": 5,
+              "name": "currency",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_currency",
+              "optional": 1,
+              "jsonName": "currency"
+            },
+            {
+              "tag": 6,
+              "name": "occurred_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "occurredAt"
+            },
+            {
+              "tag": 7,
+              "name": "document_url",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_document_url",
+              "optional": 1,
+              "jsonName": "documentUrl"
+            }
+          ],
+          ".arcforges.publicapi.v1.Capacity": [
+            {
+              "tag": 1,
+              "name": "available",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_available",
+              "optional": 1,
+              "jsonName": "available"
+            },
+            {
+              "tag": 2,
+              "name": "held",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_held",
+              "optional": 1,
+              "jsonName": "held"
+            },
+            {
+              "tag": 3,
+              "name": "burst",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_burst",
+              "optional": 1,
+              "jsonName": "burst"
+            },
+            {
+              "tag": 4,
+              "name": "recovery_rate",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Rational",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "recoveryRate"
+            },
+            {
+              "tag": 5,
+              "name": "recovery_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "recoveryAt"
+            },
+            {
+              "tag": 6,
+              "name": "version",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_version",
+              "optional": 1,
+              "jsonName": "version"
+            }
+          ],
+          ".arcforges.publicapi.v1.ChargeExplanation": [
+            {
+              "tag": 1,
+              "name": "logical_request_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "logicalRequestId"
+            },
+            {
+              "tag": 2,
+              "name": "state",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_state",
+              "optional": 1,
+              "jsonName": "state"
+            },
+            {
+              "tag": 3,
+              "name": "reason",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_reason",
+              "optional": 1,
+              "jsonName": "reason"
+            },
+            {
+              "tag": 4,
+              "name": "capacity_debit",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_capacity_debit",
+              "optional": 1,
+              "jsonName": "capacityDebit"
+            },
+            {
+              "tag": 5,
+              "name": "compensation_debit",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_compensation_debit",
+              "optional": 1,
+              "jsonName": "compensationDebit"
+            },
+            {
+              "tag": 6,
+              "name": "purchased_debit",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_purchased_debit",
+              "optional": 1,
+              "jsonName": "purchasedDebit"
+            },
+            {
+              "tag": 7,
+              "name": "tariff_version",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_tariff_version",
+              "optional": 1,
+              "jsonName": "tariffVersion"
+            },
+            {
+              "tag": 8,
+              "name": "supplier_version",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_supplier_version",
+              "optional": 1,
+              "jsonName": "supplierVersion"
+            },
+            {
+              "tag": 9,
+              "name": "attempts",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.AttemptCharge",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "attempts"
+            }
+          ],
+          ".arcforges.publicapi.v1.CheckoutView": [
+            {
+              "tag": 1,
+              "name": "checkout_attempt_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "checkoutAttemptId"
+            },
+            {
+              "tag": 2,
+              "name": "purchase_intent_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchaseIntentId"
+            },
+            {
+              "tag": 3,
+              "name": "url",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_url",
+              "optional": 1,
+              "jsonName": "url"
+            },
+            {
+              "tag": 4,
+              "name": "expires_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "expiresAt"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "authorisation_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "authorisationId"
+            },
+            {
+              "tag": 11,
+              "name": "max_budget",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_max_budget",
+              "optional": 1,
+              "jsonName": "maxBudget"
+            },
+            {
+              "tag": 12,
+              "name": "expires_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "expiresAt"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageValue": [
+            {
+              "tag": 10,
+              "name": "budget",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.SpendBudget",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "budget"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "subscription_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "subscriptionId"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionValue": [
+            {
+              "tag": 10,
+              "name": "subscription",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.SubscriptionView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "subscription"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "purchase_intent_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchaseIntentId"
+            },
+            {
+              "tag": 11,
+              "name": "checkout_attempt_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "checkoutAttemptId"
+            },
+            {
+              "tag": 12,
+              "name": "return_route",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_return_route",
+              "optional": 1,
+              "jsonName": "returnRoute"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptValue": [
+            {
+              "tag": 10,
+              "name": "checkout",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CheckoutView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "checkout"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "purchase_intent_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchaseIntentId"
+            },
+            {
+              "tag": 11,
+              "name": "offer_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "offerId"
+            },
+            {
+              "tag": 12,
+              "name": "price_version",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_price_version",
+              "optional": 1,
+              "jsonName": "priceVersion"
+            },
+            {
+              "tag": 13,
+              "name": "region",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_region",
+              "optional": 1,
+              "jsonName": "region"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentValue": [
+            {
+              "tag": 10,
+              "name": "purchase",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.PurchaseView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchase"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceExplainChargeRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "logical_request_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "logicalRequestId"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceExplainChargeResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceExplainChargeValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceExplainChargeValue": [
+            {
+              "tag": 10,
+              "name": "explanation",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.ChargeExplanation",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "explanation"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceExportEvidenceRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "period",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.TimeRangeUtc",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "period"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceExportEvidenceResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceExportEvidenceValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceExportEvidenceValue": [
+            {
+              "tag": 10,
+              "name": "job",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.ExportJob",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "job"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetCatalogueRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "region",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_region",
+              "optional": 1,
+              "jsonName": "region"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetCatalogueResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceGetCatalogueValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetCatalogueValue": [
+            {
+              "tag": 10,
+              "name": "items",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.Offer",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "items"
+            },
+            {
+              "tag": 11,
+              "name": "catalogue_version",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_catalogue_version",
+              "optional": 1,
+              "jsonName": "catalogueVersion"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetCreditsRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetCreditsResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceGetCreditsValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetCreditsValue": [
+            {
+              "tag": 10,
+              "name": "capacity",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.Capacity",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "capacity"
+            },
+            {
+              "tag": 11,
+              "name": "compensation",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CreditLot",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "compensation"
+            },
+            {
+              "tag": 12,
+              "name": "purchased",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CreditPool",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchased"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "purchase_intent_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchaseIntentId"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateValue": [
+            {
+              "tag": 10,
+              "name": "purchase",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.PurchaseView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchase"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionValue": [
+            {
+              "tag": 10,
+              "name": "subscription",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.SubscriptionView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "subscription"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "period",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.TimeRangeUtc",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "period"
+            },
+            {
+              "tag": 11,
+              "name": "page",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.PageRequest",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "page"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryValue": [
+            {
+              "tag": 10,
+              "name": "items",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.BillingItem",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "items"
+            },
+            {
+              "tag": 11,
+              "name": "page",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.PageState",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "page"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "subscription_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "subscriptionId"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionValue": [
+            {
+              "tag": 10,
+              "name": "subscription",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.SubscriptionView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "subscription"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceRequestRefundRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "refund_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "refundId"
+            },
+            {
+              "tag": 11,
+              "name": "payment_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "paymentId"
+            },
+            {
+              "tag": 12,
+              "name": "reason",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_reason",
+              "optional": 1,
+              "jsonName": "reason"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceRequestRefundResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceRequestRefundValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceRequestRefundValue": [
+            {
+              "tag": 10,
+              "name": "refund",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.RefundView",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "refund"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "authorisation_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "authorisationId"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            }
+          ],
+          ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageValue": [
+            {
+              "tag": 10,
+              "name": "receipt",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Receipt",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "receipt"
+            }
+          ],
+          ".arcforges.publicapi.v1.CreditLot": [
+            {
+              "tag": 1,
+              "name": "lot_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "lotId"
+            },
+            {
+              "tag": 2,
+              "name": "kind",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_kind",
+              "optional": 1,
+              "jsonName": "kind"
+            },
+            {
+              "tag": 3,
+              "name": "amount",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_amount",
+              "optional": 1,
+              "jsonName": "amount"
+            },
+            {
+              "tag": 4,
+              "name": "remaining",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_remaining",
+              "optional": 1,
+              "jsonName": "remaining"
+            },
+            {
+              "tag": 5,
+              "name": "expires_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "expiresAt"
+            },
+            {
+              "tag": 6,
+              "name": "source_order_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "sourceOrderId"
+            }
+          ],
+          ".arcforges.publicapi.v1.CreditPool": [
+            {
+              "tag": 1,
+              "name": "available",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_available",
+              "optional": 1,
+              "jsonName": "available"
+            },
+            {
+              "tag": 2,
+              "name": "held",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_held",
+              "optional": 1,
+              "jsonName": "held"
+            },
+            {
+              "tag": 3,
+              "name": "lots",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.CreditLot",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "lots"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceCheckRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "capabilities",
+              "type": 9,
+              "typeName": "",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "capabilities"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceCheckResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementServiceCheckValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceCheckValue": [
+            {
+              "tag": 10,
+              "name": "items",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.Availability",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "items"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetCapacityRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetCapacityResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementServiceGetCapacityValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetCapacityValue": [
+            {
+              "tag": 10,
+              "name": "capacity",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.Capacity",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "capacity"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermValue": [
+            {
+              "tag": 10,
+              "name": "term",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.ServiceTerm",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "term"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotValue": [
+            {
+              "tag": 10,
+              "name": "snapshot",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementSnapshot",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "snapshot"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetUsageRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "period",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.TimeRangeUtc",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "period"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetUsageResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementServiceGetUsageValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceGetUsageValue": [
+            {
+              "tag": 10,
+              "name": "usage",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.QuotaUsage",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "usage"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceListGrantsRequest": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.RequestMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 10,
+              "name": "page",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.PageRequest",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "page"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceListGrantsResponse": [
+            {
+              "tag": 1,
+              "name": "meta",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ResponseMeta",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "meta"
+            },
+            {
+              "tag": 2,
+              "name": "value",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.EntitlementServiceListGrantsValue",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "value"
+            },
+            {
+              "tag": 3,
+              "name": "error",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArcError",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "error"
+            },
+            {
+              "tag": 4,
+              "name": "encoded_body",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.EncodedBodyRef",
+              "label": 1,
+              "oneof": "outcome",
+              "optional": 0,
+              "jsonName": "encodedBody"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementServiceListGrantsValue": [
+            {
+              "tag": 10,
+              "name": "items",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.Grant",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "items"
+            },
+            {
+              "tag": 11,
+              "name": "page",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.PageState",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "page"
+            }
+          ],
+          ".arcforges.publicapi.v1.EntitlementSnapshot": [
+            {
+              "tag": 1,
+              "name": "version",
+              "type": 3,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_version",
+              "optional": 1,
+              "jsonName": "version"
+            },
+            {
+              "tag": 2,
+              "name": "capabilities",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.Availability",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "capabilities"
+            },
+            {
+              "tag": 3,
+              "name": "service_term",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.ServiceTerm",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "serviceTerm"
+            },
+            {
+              "tag": 4,
+              "name": "quotas",
+              "type": 11,
+              "typeName": ".arcforges.publicapi.v1.QuotaUsage",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "quotas"
+            }
+          ],
+          ".arcforges.publicapi.v1.ExportJob": [
+            {
+              "tag": 1,
+              "name": "export_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "exportId"
+            },
+            {
+              "tag": 2,
+              "name": "state",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_state",
+              "optional": 1,
+              "jsonName": "state"
+            },
+            {
+              "tag": 3,
+              "name": "progress",
+              "type": 5,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_progress",
+              "optional": 1,
+              "jsonName": "progress"
+            },
+            {
+              "tag": 4,
+              "name": "snapshot_refs",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.VersionedRef",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "snapshotRefs"
+            },
+            {
+              "tag": 5,
+              "name": "artifact",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.ArtifactRef",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "artifact"
+            },
+            {
+              "tag": 6,
+              "name": "expires_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "expiresAt"
+            },
+            {
+              "tag": 7,
+              "name": "reason",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_reason",
+              "optional": 1,
+              "jsonName": "reason"
+            }
+          ],
+          ".arcforges.publicapi.v1.Grant": [
+            {
+              "tag": 1,
+              "name": "grant_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "grantId"
+            },
+            {
+              "tag": 2,
+              "name": "capability",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_capability",
+              "optional": 1,
+              "jsonName": "capability"
+            },
+            {
+              "tag": 3,
+              "name": "source",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_source",
+              "optional": 1,
+              "jsonName": "source"
+            },
+            {
+              "tag": 4,
+              "name": "starts_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "startsAt"
+            },
+            {
+              "tag": 5,
+              "name": "ends_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "endsAt"
+            },
+            {
+              "tag": 6,
+              "name": "revoked_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "revokedAt"
+            }
+          ],
+          ".arcforges.publicapi.v1.ModelUsage": [
+            {
+              "tag": 1,
+              "name": "input_tokens",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_input_tokens",
+              "optional": 1,
+              "jsonName": "inputTokens"
+            },
+            {
+              "tag": 2,
+              "name": "output_tokens",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_output_tokens",
+              "optional": 1,
+              "jsonName": "outputTokens"
+            },
+            {
+              "tag": 3,
+              "name": "cached_input_tokens",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_cached_input_tokens",
+              "optional": 1,
+              "jsonName": "cachedInputTokens"
+            },
+            {
+              "tag": 4,
+              "name": "measured_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "measuredAt"
+            },
+            {
+              "tag": 5,
+              "name": "source",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_source",
+              "optional": 1,
+              "jsonName": "source"
+            }
+          ],
+          ".arcforges.publicapi.v1.Offer": [
+            {
+              "tag": 1,
+              "name": "offer_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "offerId"
+            },
+            {
+              "tag": 2,
+              "name": "price_version",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_price_version",
+              "optional": 1,
+              "jsonName": "priceVersion"
+            },
+            {
+              "tag": 3,
+              "name": "kind",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_kind",
+              "optional": 1,
+              "jsonName": "kind"
+            },
+            {
+              "tag": 4,
+              "name": "currency",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_currency",
+              "optional": 1,
+              "jsonName": "currency"
+            },
+            {
+              "tag": 5,
+              "name": "amount",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Decimal",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "amount"
+            },
+            {
+              "tag": 6,
+              "name": "interval",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_interval",
+              "optional": 1,
+              "jsonName": "interval"
+            },
+            {
+              "tag": 7,
+              "name": "entitlements",
+              "type": 9,
+              "typeName": "",
+              "label": 3,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "entitlements"
+            },
+            {
+              "tag": 8,
+              "name": "region",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_region",
+              "optional": 1,
+              "jsonName": "region"
+            }
+          ],
+          ".arcforges.publicapi.v1.PurchaseView": [
+            {
+              "tag": 1,
+              "name": "purchase_intent_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "purchaseIntentId"
+            },
+            {
+              "tag": 2,
+              "name": "state",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_state",
+              "optional": 1,
+              "jsonName": "state"
+            },
+            {
+              "tag": 3,
+              "name": "offer_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "offerId"
+            },
+            {
+              "tag": 4,
+              "name": "order_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "orderId"
+            },
+            {
+              "tag": 5,
+              "name": "reason",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_reason",
+              "optional": 1,
+              "jsonName": "reason"
+            }
+          ],
+          ".arcforges.publicapi.v1.QuotaUsage": [
+            {
+              "tag": 1,
+              "name": "kind",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_kind",
+              "optional": 1,
+              "jsonName": "kind"
+            },
+            {
+              "tag": 2,
+              "name": "used",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_used",
+              "optional": 1,
+              "jsonName": "used"
+            },
+            {
+              "tag": 3,
+              "name": "held",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_held",
+              "optional": 1,
+              "jsonName": "held"
+            },
+            {
+              "tag": 4,
+              "name": "limit",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_limit",
+              "optional": 1,
+              "jsonName": "limit"
+            },
+            {
+              "tag": 5,
+              "name": "period",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.TimeRangeUtc",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "period"
+            }
+          ],
+          ".arcforges.publicapi.v1.RefundView": [
+            {
+              "tag": 1,
+              "name": "refund_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "refundId"
+            },
+            {
+              "tag": 2,
+              "name": "state",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_state",
+              "optional": 1,
+              "jsonName": "state"
+            },
+            {
+              "tag": 3,
+              "name": "payment_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "paymentId"
+            },
+            {
+              "tag": 4,
+              "name": "amount",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Decimal",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "amount"
+            },
+            {
+              "tag": 5,
+              "name": "reason",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_reason",
+              "optional": 1,
+              "jsonName": "reason"
+            }
+          ],
+          ".arcforges.publicapi.v1.ServiceTerm": [
+            {
+              "tag": 1,
+              "name": "kind",
+              "type": 9,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_kind",
+              "optional": 1,
+              "jsonName": "kind"
+            },
+            {
+              "tag": 2,
+              "name": "starts_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "startsAt"
+            },
+            {
+              "tag": 3,
+              "name": "ends_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "endsAt"
+            },
+            {
+              "tag": 4,
+              "name": "grace_ends_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "graceEndsAt"
+            },
+            {
+              "tag": 5,
+              "name": "ai_admissible",
+              "type": 8,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_ai_admissible",
+              "optional": 1,
+              "jsonName": "aiAdmissible"
+            }
+          ],
+          ".arcforges.publicapi.v1.SpendBudget": [
+            {
+              "tag": 1,
+              "name": "authorisation_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "authorisationId"
+            },
+            {
+              "tag": 2,
+              "name": "maximum",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_maximum",
+              "optional": 1,
+              "jsonName": "maximum"
+            },
+            {
+              "tag": 3,
+              "name": "spent",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_spent",
+              "optional": 1,
+              "jsonName": "spent"
+            },
+            {
+              "tag": 4,
+              "name": "held",
+              "type": 4,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_held",
+              "optional": 1,
+              "jsonName": "held"
+            },
+            {
+              "tag": 5,
+              "name": "expires_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "expiresAt"
+            },
+            {
+              "tag": 6,
+              "name": "revoked_at",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Instant",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "revokedAt"
+            }
+          ],
+          ".arcforges.publicapi.v1.SubscriptionView": [
+            {
+              "tag": 1,
+              "name": "subscription_id",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Id",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "subscriptionId"
+            },
+            {
+              "tag": 2,
+              "name": "state",
+              "type": 14,
+              "typeName": ".arcforges.publicapi.v1.SubscriptionState",
+              "label": 1,
+              "oneof": "_state",
+              "optional": 1,
+              "jsonName": "state"
+            },
+            {
+              "tag": 3,
+              "name": "current_period",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.TimeRangeUtc",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "currentPeriod"
+            },
+            {
+              "tag": 4,
+              "name": "cancel_at_period_end",
+              "type": 8,
+              "typeName": "",
+              "label": 1,
+              "oneof": "_cancel_at_period_end",
+              "optional": 1,
+              "jsonName": "cancelAtPeriodEnd"
+            },
+            {
+              "tag": 5,
+              "name": "revision",
+              "type": 11,
+              "typeName": ".arcforges.foundation.v1.Revision",
+              "label": 1,
+              "oneof": null,
+              "optional": 0,
+              "jsonName": "revision"
+            }
+          ]
+        },
+        "enums": {
+          ".arcforges.publicapi.v1.SubscriptionState": [
+            {
+              "name": "SUBSCRIPTION_STATE_ACTIVE",
+              "number": 2
+            },
+            {
+              "name": "SUBSCRIPTION_STATE_CANCEL_SCHEDULED",
+              "number": 4
+            },
+            {
+              "name": "SUBSCRIPTION_STATE_ENDED",
+              "number": 5
+            },
+            {
+              "name": "SUBSCRIPTION_STATE_GRACE",
+              "number": 3
+            },
+            {
+              "name": "SUBSCRIPTION_STATE_PENDING",
+              "number": 1
+            },
+            {
+              "name": "SUBSCRIPTION_STATE_SUSPENDED",
+              "number": 6
+            },
+            {
+              "name": "SUBSCRIPTION_STATE_UNSPECIFIED",
+              "number": 0
+            }
+          ]
+        },
+        "services": {
+          ".arcforges.publicapi.v1.CommerceService": {
+            "AuthoriseExtraUsage": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "CancelSubscription": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "CreateCheckoutAttempt": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "CreatePurchaseIntent": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "ExplainCharge": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceExplainChargeRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceExplainChargeResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "ExportEvidence": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceExportEvidenceRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceExportEvidenceResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetCatalogue": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceGetCatalogueRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceGetCatalogueResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetCredits": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceGetCreditsRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceGetCreditsResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetPurchaseState": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetSubscription": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "ListBillingHistory": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "ReactivateSubscription": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "RequestRefund": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceRequestRefundRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceRequestRefundResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "RevokeExtraUsage": {
+              "input": ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageRequest",
+              "output": ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            }
+          },
+          ".arcforges.publicapi.v1.EntitlementService": {
+            "Check": {
+              "input": ".arcforges.publicapi.v1.EntitlementServiceCheckRequest",
+              "output": ".arcforges.publicapi.v1.EntitlementServiceCheckResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetCapacity": {
+              "input": ".arcforges.publicapi.v1.EntitlementServiceGetCapacityRequest",
+              "output": ".arcforges.publicapi.v1.EntitlementServiceGetCapacityResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetServiceTerm": {
+              "input": ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermRequest",
+              "output": ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetSnapshot": {
+              "input": ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotRequest",
+              "output": ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "GetUsage": {
+              "input": ".arcforges.publicapi.v1.EntitlementServiceGetUsageRequest",
+              "output": ".arcforges.publicapi.v1.EntitlementServiceGetUsageResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            },
+            "ListGrants": {
+              "input": ".arcforges.publicapi.v1.EntitlementServiceListGrantsRequest",
+              "output": ".arcforges.publicapi.v1.EntitlementServiceListGrantsResponse",
+              "clientStreaming": 0,
+              "serverStreaming": 0
+            }
+          }
+        }
+      }
+    },
+    "positiveVectors": [
+      {
+        "id": "entitlement.getSnapshot",
+        "operationId": "entitlement.getSnapshot",
+        "service": ".arcforges.publicapi.v1.EntitlementService",
+        "method": "GetSnapshot",
+        "requestType": ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotRequest",
+        "responseType": ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotResponse",
+        "valueType": ".arcforges.publicapi.v1.EntitlementServiceGetSnapshotValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "entitlement.getServiceTerm",
+        "operationId": "entitlement.getServiceTerm",
+        "service": ".arcforges.publicapi.v1.EntitlementService",
+        "method": "GetServiceTerm",
+        "requestType": ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermRequest",
+        "responseType": ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermResponse",
+        "valueType": ".arcforges.publicapi.v1.EntitlementServiceGetServiceTermValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "entitlement.getCapacity",
+        "operationId": "entitlement.getCapacity",
+        "service": ".arcforges.publicapi.v1.EntitlementService",
+        "method": "GetCapacity",
+        "requestType": ".arcforges.publicapi.v1.EntitlementServiceGetCapacityRequest",
+        "responseType": ".arcforges.publicapi.v1.EntitlementServiceGetCapacityResponse",
+        "valueType": ".arcforges.publicapi.v1.EntitlementServiceGetCapacityValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "entitlement.listGrants",
+        "operationId": "entitlement.listGrants",
+        "service": ".arcforges.publicapi.v1.EntitlementService",
+        "method": "ListGrants",
+        "requestType": ".arcforges.publicapi.v1.EntitlementServiceListGrantsRequest",
+        "responseType": ".arcforges.publicapi.v1.EntitlementServiceListGrantsResponse",
+        "valueType": ".arcforges.publicapi.v1.EntitlementServiceListGrantsValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "entitlement.getUsage",
+        "operationId": "entitlement.getUsage",
+        "service": ".arcforges.publicapi.v1.EntitlementService",
+        "method": "GetUsage",
+        "requestType": ".arcforges.publicapi.v1.EntitlementServiceGetUsageRequest",
+        "responseType": ".arcforges.publicapi.v1.EntitlementServiceGetUsageResponse",
+        "valueType": ".arcforges.publicapi.v1.EntitlementServiceGetUsageValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "entitlement.check",
+        "operationId": "entitlement.check",
+        "service": ".arcforges.publicapi.v1.EntitlementService",
+        "method": "Check",
+        "requestType": ".arcforges.publicapi.v1.EntitlementServiceCheckRequest",
+        "responseType": ".arcforges.publicapi.v1.EntitlementServiceCheckResponse",
+        "valueType": ".arcforges.publicapi.v1.EntitlementServiceCheckValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.authoriseExtraUsage",
+        "operationId": "commerce.authoriseExtraUsage",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "AuthoriseExtraUsage",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.revokeExtraUsage",
+        "operationId": "commerce.revokeExtraUsage",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "RevokeExtraUsage",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.explainCharge",
+        "operationId": "commerce.explainCharge",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "ExplainCharge",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceExplainChargeRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceExplainChargeResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceExplainChargeValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.getCatalogue",
+        "operationId": "commerce.getCatalogue",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "GetCatalogue",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceGetCatalogueRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceGetCatalogueResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceGetCatalogueValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.createPurchaseIntent",
+        "operationId": "commerce.createPurchaseIntent",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "CreatePurchaseIntent",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.createCheckoutAttempt",
+        "operationId": "commerce.createCheckoutAttempt",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "CreateCheckoutAttempt",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.getPurchaseState",
+        "operationId": "commerce.getPurchaseState",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "GetPurchaseState",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceGetPurchaseStateValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.getSubscription",
+        "operationId": "commerce.getSubscription",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "GetSubscription",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceGetSubscriptionValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.cancelSubscription",
+        "operationId": "commerce.cancelSubscription",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "CancelSubscription",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceCancelSubscriptionValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.reactivateSubscription",
+        "operationId": "commerce.reactivateSubscription",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "ReactivateSubscription",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.getCredits",
+        "operationId": "commerce.getCredits",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "GetCredits",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceGetCreditsRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceGetCreditsResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceGetCreditsValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.listBillingHistory",
+        "operationId": "commerce.listBillingHistory",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "ListBillingHistory",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceListBillingHistoryValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.requestRefund",
+        "operationId": "commerce.requestRefund",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "RequestRefund",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceRequestRefundRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceRequestRefundResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceRequestRefundValue",
+        "successVariant": "value"
+      },
+      {
+        "id": "commerce.exportEvidence",
+        "operationId": "commerce.exportEvidence",
+        "service": ".arcforges.publicapi.v1.CommerceService",
+        "method": "ExportEvidence",
+        "requestType": ".arcforges.publicapi.v1.CommerceServiceExportEvidenceRequest",
+        "responseType": ".arcforges.publicapi.v1.CommerceServiceExportEvidenceResponse",
+        "valueType": ".arcforges.publicapi.v1.CommerceServiceExportEvidenceValue",
+        "successVariant": "value"
+      }
+    ],
+    "errorRowVectors": [
+      {
+        "id": "entitlement.no_service_term",
+        "code": "entitlement.no_service_term",
+        "meaning": "No active paid service term; returned before capacity or credit evaluation.",
+        "category": "entitlement",
+        "retryDisposition": "No \u2014 subscribe or activate a Cloud Pass; credit balance does not resolve it.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "entitlement.not_entitled",
+        "code": "entitlement.not_entitled",
+        "meaning": "No grant covers this capability.",
+        "category": "entitlement",
+        "retryDisposition": "No \u2014 purchase or grant.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "entitlement.quota_exceeded",
+        "code": "entitlement.quota_exceeded",
+        "meaning": "Quota reservation would exceed a named limit.",
+        "category": "entitlement",
+        "retryDisposition": "After remedy: release storage/holds, change plan, or a defined period reset; storage gauges do not reset.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "entitlement.capacity_exhausted",
+        "code": "entitlement.capacity_exhausted",
+        "meaning": "Included capacity is spent.",
+        "category": "entitlement",
+        "retryDisposition": "Yes, after recoveryAt; response carries a server-calculated time.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "entitlement.extra_credits_required",
+        "code": "entitlement.extra_credits_required",
+        "meaning": "Capacity is spent and purchased credits exist, but extra usage is not authorised.",
+        "category": "entitlement",
+        "retryDisposition": "No \u2014 user must opt in with a maximum budget.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "entitlement.credits_exhausted",
+        "code": "entitlement.credits_exhausted",
+        "meaning": "Authorised extra credits are spent \u2014 a hard stop.",
+        "category": "entitlement",
+        "retryDisposition": "No \u2014 purchase, or wait for capacity recovery.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "entitlement.request_too_large",
+        "code": "entitlement.request_too_large",
+        "meaning": "Bound can never fit authorised capacity/Run limit.",
+        "category": "entitlement",
+        "retryDisposition": "Reduce request or explicitly authorise a feasible budget.",
+        "effectCertainty": "Did not happen"
+      },
+      {
+        "id": "commerce.supplier_budget_exhausted",
+        "code": "commerce.supplier_budget_exhausted",
+        "meaning": "Supplier exposure/remaining budget cannot admit another attempt.",
+        "category": "entitlement",
+        "retryDisposition": "Operator recovery or declared budget period; uncertainty is not erased.",
+        "effectCertainty": "Did not happen"
+      }
+    ]
+  },
   "con-12-extension-policy.json": {
     "schemaVersion": "con-12-extension-policy-fixtures.v1",
     "evidenceBoundary": "Offline contract vectors only; no archive-byte, signature, broker, provider or activation runtime claim.",
@@ -75386,7 +78421,9 @@ export const publicFixtures = {
       "csharp": {
         "ArcForges.Contracts.PublicApi": [
           "arcforges.hello.v1.HelloService",
-          "arcforges.catalog.v1.CatalogService"
+          "arcforges.catalog.v1.CatalogService",
+          "arcforges.publicapi.v1.EntitlementService",
+          "arcforges.publicapi.v1.CommerceService"
         ],
         "ArcForges.Sdk.Contracts": [
           "arcforges.extensions.v1.ExtensionHostService"
@@ -75416,6 +78453,30 @@ export const publicFixtures = {
           "/arcforges.extensions.v1.ExtensionHostService/Invoke",
           "/arcforges.extensions.v1.ExtensionHostService/RenewLease",
           "/arcforges.extensions.v1.ExtensionHostService/Stop"
+        ],
+        "arcforges.publicapi.v1.EntitlementService": [
+          "/arcforges.publicapi.v1.EntitlementService/GetSnapshot",
+          "/arcforges.publicapi.v1.EntitlementService/GetServiceTerm",
+          "/arcforges.publicapi.v1.EntitlementService/GetCapacity",
+          "/arcforges.publicapi.v1.EntitlementService/ListGrants",
+          "/arcforges.publicapi.v1.EntitlementService/GetUsage",
+          "/arcforges.publicapi.v1.EntitlementService/Check"
+        ],
+        "arcforges.publicapi.v1.CommerceService": [
+          "/arcforges.publicapi.v1.CommerceService/AuthoriseExtraUsage",
+          "/arcforges.publicapi.v1.CommerceService/RevokeExtraUsage",
+          "/arcforges.publicapi.v1.CommerceService/ExplainCharge",
+          "/arcforges.publicapi.v1.CommerceService/GetCatalogue",
+          "/arcforges.publicapi.v1.CommerceService/CreatePurchaseIntent",
+          "/arcforges.publicapi.v1.CommerceService/CreateCheckoutAttempt",
+          "/arcforges.publicapi.v1.CommerceService/GetPurchaseState",
+          "/arcforges.publicapi.v1.CommerceService/GetSubscription",
+          "/arcforges.publicapi.v1.CommerceService/CancelSubscription",
+          "/arcforges.publicapi.v1.CommerceService/ReactivateSubscription",
+          "/arcforges.publicapi.v1.CommerceService/GetCredits",
+          "/arcforges.publicapi.v1.CommerceService/ListBillingHistory",
+          "/arcforges.publicapi.v1.CommerceService/RequestRefund",
+          "/arcforges.publicapi.v1.CommerceService/ExportEvidence"
         ]
       }
     }

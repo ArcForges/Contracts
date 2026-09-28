@@ -21,6 +21,7 @@
         "public/proto/arcforges/publicapi/v1/content.proto",
         "public/proto/arcforges/publicapi/v1/descriptors.proto",
         "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/commerce.proto",
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
@@ -171,6 +172,7 @@
         "public/proto/arcforges/publicapi/v1/content.proto",
         "public/proto/arcforges/publicapi/v1/descriptors.proto",
         "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/commerce.proto",
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
       ],
       "dependencies": [],
@@ -240,6 +242,7 @@
         "public/proto/arcforges/publicapi/v1/content.proto",
         "public/proto/arcforges/publicapi/v1/descriptors.proto",
         "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/commerce.proto",
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
       ],
       "dependencies": [],
@@ -253,7 +256,8 @@
       "sourceRoot": "src/public/kotlin/contracts-connect-client",
       "proto": [
         "public/proto/arcforges/hello/v1/hello.proto",
-        "public/proto/arcforges/catalog/v1/catalog.proto"
+        "public/proto/arcforges/catalog/v1/catalog.proto",
+        "public/proto/arcforges/publicapi/v1/commerce.proto"
       ],
       "dependencies": ["io.github.arcforges:contracts-proto"],
       "descriptor": "contracts.binpb",

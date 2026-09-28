@@ -139,6 +139,31 @@ class OperationScopeTests(unittest.TestCase):
         self.assertEqual(result, gate.audit(self.root, self.manifest))
         self.assertEqual((result["registered"], result["pending"], result["reserved"]), (1, 1, 1))
 
+    def test_compatibility_class_is_exactly_scoped_to_con08(self):
+        row = {name: None for name in gate.ROW_REQUIRED}
+        row.update(operationId="entitlement.getSnapshot", compatibilityClass="frozen")
+        gate.validate_operation_export_fields(gate.CON08_EXPORT, row)
+
+        for path, hostile in (
+            (gate.CON08_EXPORT, {**row, "compatibilityClass": None}),
+            (gate.CON08_EXPORT, {**row, "compatibilityClass": "additive-open"}),
+            (gate.CON08_EXPORT, {**row, "operationId": "invented.operation"}),
+            (gate.CON08_EXPORT, {key: value for key, value in row.items() if key != "compatibilityClass"}),
+            ("eng/operations/example.json", row),
+        ):
+            with self.subTest(path=path, row=hostile), self.assertRaises(ValueError):
+                gate.validate_operation_export_fields(path, hostile)
+
+        # A CON.08 operation in another export may not carry this task's metadata.
+        with self.assertRaisesRegex(ValueError, "permitted only"):
+            gate.validate_operation_export_fields("eng/operations/example.json", row)
+
+    def test_compatibility_class_unknown_extra_still_fails_closed(self):
+        row = {name: None for name in gate.ROW_REQUIRED}
+        row.update(operationId="entitlement.getSnapshot", compatibilityClass="frozen", futureClass="invented")
+        with self.assertRaisesRegex(ValueError, "unknown operation export fields"):
+            gate.validate_operation_export_fields(gate.CON08_EXPORT, row)
+
     def test_all_eight_fields_are_mandatory(self):
         original = copy.deepcopy(self.row)
         for field in gate.FIELDS:
