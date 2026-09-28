@@ -371,3 +371,14 @@ message TimeRangeUtc {
   Instant from = 1 [json_name = "from"];
   Instant until = 2 [json_name = "until"];
 }
+
+// registry04: opaque object-facade route, bound to the current session and
+// allowed verb. This public value never contains storage credentials.
+message TransferTicket {
+  Id ticket_id = 1 [json_name = "ticketId"];
+  string url = 2 [json_name = "url"];
+  Instant expires_at = 3 [json_name = "expiresAt"];
+  Id resource_id = 4 [json_name = "resourceId"];
+  ByteRange range = 5 [json_name = "range"];
+  uint32 max_part_bytes = 6 [json_name = "maxPartBytes"];
+}

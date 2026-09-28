@@ -17,15 +17,24 @@ const descriptorBytes = await readFile(
   new URL("../../fixtures/public/con-02-descriptors.json", import.meta.url),
 );
 const descriptorFixture = JSON.parse(descriptorBytes.toString("utf8")).exchange;
+const transferTicketBytes = await readFile(
+  new URL("../../fixtures/public/con-09-sync-transfer.json", import.meta.url),
+);
+const transferTicketFixture = JSON.parse(transferTicketBytes.toString("utf8")).transferTicket;
 for (const [name, sample] of Object.entries(descriptorFixture.samples)) {
   assert.ok(!Object.hasOwn(fixture.samples, name), `Duplicate independent fixture ${name}`);
   fixture.samples[name] = sample;
 }
 fixture.cases.push(...descriptorFixture.cases);
 fixture.foundationTypes.push(...descriptorFixture.foundationTypes);
+assert.ok(!Object.hasOwn(fixture.samples, "TransferTicket"), "Duplicate independent fixture TransferTicket");
+fixture.samples.TransferTicket = transferTicketFixture.sample;
+fixture.cases.push(...transferTicketFixture.cases);
+fixture.foundationTypes.push("TransferTicket");
 const fixtureDigest = createHash("sha256")
   .update(fixtureBytes)
   .update(descriptorBytes)
+  .update(transferTicketBytes)
   .digest("hex");
 const foundationNames = new Set(fixture.foundationTypes);
 const selectedNames = Object.keys(fixture.samples).filter((name) => !name.startsWith("$"));

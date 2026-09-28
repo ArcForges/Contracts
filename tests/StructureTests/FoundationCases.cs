@@ -18,6 +18,7 @@ internal static class FoundationCases
     {
         var original = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "wp03-01.json"));
         var descriptors = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "con-02-descriptors.json"));
+        var transferTicketBytes = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "con-09-sync-transfer.json"));
         var fixture = JsonNode.Parse(original)!.AsObject();
         var additions = JsonNode.Parse(descriptors)!["exchange"]!.AsObject();
         foreach (var (name, sample) in additions["samples"]!.AsObject())
@@ -26,7 +27,12 @@ internal static class FoundationCases
             fixture["samples"]![name] = sample!.DeepClone();
         }
         foreach (var item in additions["cases"]!.AsArray()) fixture["cases"]!.AsArray().Add(item!.DeepClone());
-        return (fixture, [.. original, .. descriptors]);
+        var transferTicket = JsonNode.Parse(transferTicketBytes)!["transferTicket"]!.AsObject();
+        Require(!fixture["samples"]!.AsObject().ContainsKey("TransferTicket"), "Duplicate independent fixture TransferTicket");
+        fixture["samples"]!["TransferTicket"] = transferTicket["sample"]!.DeepClone();
+        foreach (var item in transferTicket["cases"]!.AsArray()) fixture["cases"]!.AsArray().Add(item!.DeepClone());
+        fixture["foundationTypes"]!.AsArray().Add("TransferTicket");
+        return (fixture, [.. original, .. descriptors, .. transferTicketBytes]);
     }
 
     public static void Run(string root, bool exchange)
@@ -282,6 +288,7 @@ internal static class FoundationCases
         "StructuredValue" => Check<P.StructuredValue>(json, binary, Validation.IsValid),
         "TaskSnapshot" => Check<P.TaskSnapshot>(json, binary, Validation.IsValid),
         "TimeRangeUtc" => Check<F.TimeRangeUtc>(json, binary, Validation.IsValid),
+        "TransferTicket" => Check<F.TransferTicket>(json, binary, Validation.IsValid),
         "ToolProposal" => Check<P.ToolProposal>(json, binary, Validation.IsValid),
         "ToolResult" => Check<P.ToolResult>(json, binary, Validation.IsValid),
         "TriggerConfiguration" => Check<P.TriggerConfiguration>(json, binary, Validation.IsValid),

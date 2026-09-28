@@ -1,0 +1,459 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SyncProto";
+
+// Public Sync and resource-transfer contracts from registry04. These schemas
+// describe typed owner operations; they do not implement owner transactions.
+service SyncService {
+  rpc ListScopes(SyncServiceListScopesRequest) returns (SyncServiceListScopesResponse);
+  rpc SetScope(SyncServiceSetScopeRequest) returns (SyncServiceSetScopeResponse);
+  rpc PullChanges(SyncServicePullChangesRequest) returns (SyncServicePullChangesResponse);
+  rpc PushChange(SyncServicePushChangeRequest) returns (SyncServicePushChangeResponse);
+  rpc PushBatch(SyncServicePushBatchRequest) returns (SyncServicePushBatchResponse);
+  rpc GetAggregate(SyncServiceGetAggregateRequest) returns (SyncServiceGetAggregateResponse);
+  rpc ListConflicts(SyncServiceListConflictsRequest) returns (SyncServiceListConflictsResponse);
+  rpc ResolveConflict(SyncServiceResolveConflictRequest) returns (SyncServiceResolveConflictResponse);
+  rpc RequestFullResync(SyncServiceRequestFullResyncRequest) returns (SyncServiceRequestFullResyncResponse);
+  rpc GetBootstrapPage(SyncServiceGetBootstrapPageRequest) returns (SyncServiceGetBootstrapPageResponse);
+}
+
+service ResourceService {
+  rpc BeginUpload(ResourceServiceBeginUploadRequest) returns (ResourceServiceBeginUploadResponse);
+  rpc CompleteUpload(ResourceServiceCompleteUploadRequest) returns (ResourceServiceCompleteUploadResponse);
+  rpc GetDownloadTicket(ResourceServiceGetDownloadTicketRequest) returns (ResourceServiceGetDownloadTicketResponse);
+  rpc GetMetadata(ResourceServiceGetMetadataRequest) returns (ResourceServiceGetMetadataResponse);
+  rpc Release(ResourceServiceReleaseRequest) returns (ResourceServiceReleaseResponse);
+  rpc GetUploadStatus(ResourceServiceGetUploadStatusRequest) returns (ResourceServiceGetUploadStatusResponse);
+  rpc RenewUploadTicket(ResourceServiceRenewUploadTicketRequest) returns (ResourceServiceRenewUploadTicketResponse);
+}
+
+enum ResourcePurpose {
+  RESOURCE_PURPOSE_UNSPECIFIED = 0;
+  RESOURCE_PURPOSE_ATTACHMENT = 1;
+  RESOURCE_PURPOSE_EXPORT = 2;
+  RESOURCE_PURPOSE_SIMULATOR_SEGMENT = 3;
+  RESOURCE_PURPOSE_AI_OUTPUT = 4;
+  RESOURCE_PURPOSE_DIAGNOSTIC = 5;
+  RESOURCE_PURPOSE_MANAGED_ASSET = 6;
+  RESOURCE_PURPOSE_TRANSIENT_INPUT = 7;
+}
+
+message SyncScope {
+  arcforges.foundation.v1.Id scope_id = 1 [json_name = "scopeId"];
+  string kind = 2 [json_name = "kind"];
+  bool enabled = 3 [json_name = "enabled"];
+  repeated string exclusions = 4 [json_name = "exclusions"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+}
+
+message SyncChange {
+  arcforges.foundation.v1.AggregateRef root = 1 [json_name = "root"];
+  arcforges.foundation.v1.Revision revision = 2 [json_name = "revision"];
+  string schema_version = 3 [json_name = "schemaVersion"];
+  bool tombstone = 4 [json_name = "tombstone"];
+  arcforges.foundation.v1.Id origin_device_id = 5 [json_name = "originDeviceId"];
+  uint64 publication_sequence = 6 [json_name = "publicationSequence"];
+}
+
+message ChangeProposal {
+  arcforges.foundation.v1.AggregateRef root = 1 [json_name = "root"];
+  arcforges.foundation.v1.Revision base_rev = 2 [json_name = "baseRev"];
+  uint64 local_sequence = 3 [json_name = "localSequence"];
+  arcforges.foundation.v1.Id command_id = 4 [json_name = "commandId"];
+  string schema_version = 5 [json_name = "schemaVersion"];
+  AggregateBody body = 6 [json_name = "body"];
+  string content_hash = 7 [json_name = "contentHash"];
+}
+
+message ChangeReceipt {
+  arcforges.foundation.v1.Id command_id = 1 [json_name = "commandId"];
+  oneof outcome {
+    AggregateView accepted = 2 [json_name = "accepted"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+}
+
+message AggregateView {
+  arcforges.foundation.v1.AggregateRef root = 1 [json_name = "root"];
+  arcforges.foundation.v1.Revision revision = 2 [json_name = "revision"];
+  string schema_version = 3 [json_name = "schemaVersion"];
+  AggregateBody body = 4 [json_name = "body"];
+  bool tombstone = 5 [json_name = "tombstone"];
+  string content_hash = 6 [json_name = "contentHash"];
+}
+
+message ConflictView {
+  arcforges.foundation.v1.Id conflict_id = 1 [json_name = "conflictId"];
+  arcforges.foundation.v1.AggregateRef root = 2 [json_name = "root"];
+  arcforges.foundation.v1.Revision base_rev = 3 [json_name = "baseRev"];
+  arcforges.foundation.v1.Revision current_rev = 4 [json_name = "currentRev"];
+  ChangeProposal proposal = 5 [json_name = "proposal"];
+  string state = 6 [json_name = "state"];
+}
+
+message ConflictResolution {
+  string choice = 1 [json_name = "choice"];
+  AggregateBody merged_body = 2 [json_name = "mergedBody"];
+  string source_proposal_hash = 3 [json_name = "sourceProposalHash"];
+}
+
+message BootstrapManifest {
+  arcforges.foundation.v1.Id bootstrap_id = 1 [json_name = "bootstrapId"];
+  arcforges.foundation.v1.Id scope_id = 2 [json_name = "scopeId"];
+  string snapshot_token = 3 [json_name = "snapshotToken"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+  string resume_cursor = 5 [json_name = "resumeCursor"];
+}
+
+message PartReceipt {
+  uint32 part_number = 1 [json_name = "partNumber"];
+  uint64 size = 2 [json_name = "size"];
+  string sha256 = 3 [json_name = "sha256"];
+  string etag = 4 [json_name = "etag"];
+}
+
+message UploadTicket {
+  arcforges.foundation.v1.Id upload_id = 1 [json_name = "uploadId"];
+  arcforges.foundation.v1.Id resource_id = 2 [json_name = "resourceId"];
+  arcforges.foundation.v1.TransferTicket ticket = 3 [json_name = "ticket"];
+  uint32 part_bytes = 4 [json_name = "partBytes"];
+  repeated PartReceipt uploaded = 5 [json_name = "uploaded"];
+}
+
+message UploadStatus {
+  arcforges.foundation.v1.Id upload_id = 1 [json_name = "uploadId"];
+  string state = 2 [json_name = "state"];
+  repeated PartReceipt parts = 3 [json_name = "parts"];
+  arcforges.foundation.v1.ResourceRef resource = 4 [json_name = "resource"];
+  arcforges.foundation.v1.Id provisional_pin = 5 [json_name = "provisionalPin"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  optional string reason = 7 [json_name = "reason"];
+  arcforges.foundation.v1.PageState parts_page = 8 [json_name = "partsPage"];
+}
+
+message SyncServiceListScopesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message SyncServiceListScopesValue {
+  repeated SyncScope items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message SyncServiceListScopesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceListScopesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SyncServiceSetScopeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id scope_id = 10 [json_name = "scopeId"];
+  bool enabled = 11 [json_name = "enabled"];
+  repeated string exclusions = 12 [json_name = "exclusions"];
+}
+message SyncServiceSetScopeValue {
+  SyncScope scope = 10 [json_name = "scope"];
+}
+message SyncServiceSetScopeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceSetScopeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message SyncServicePullChangesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id scope_id = 10 [json_name = "scopeId"];
+  optional string cursor = 11 [json_name = "cursor"];
+  int32 limit = 12 [json_name = "limit"];
+}
+message SyncServicePullChangesValue {
+  repeated SyncChange changes = 10 [json_name = "changes"];
+  string next_cursor = 11 [json_name = "nextCursor"];
+  bool has_more = 12 [json_name = "hasMore"];
+}
+message SyncServicePullChangesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServicePullChangesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SyncServicePushChangeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ChangeProposal change = 10 [json_name = "change"];
+}
+message SyncServicePushChangeValue {
+  ChangeReceipt result = 10 [json_name = "result"];
+}
+message SyncServicePushChangeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServicePushChangeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SyncServicePushBatchRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  repeated ChangeProposal changes = 10 [json_name = "changes"];
+}
+message SyncServicePushBatchValue {
+  repeated ChangeReceipt results = 10 [json_name = "results"];
+}
+message SyncServicePushBatchResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServicePushBatchValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SyncServiceGetAggregateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.AggregateRef root = 10 [json_name = "root"];
+  arcforges.foundation.v1.Revision min_revision = 11 [json_name = "minRevision"];
+}
+message SyncServiceGetAggregateValue {
+  AggregateView aggregate = 10 [json_name = "aggregate"];
+}
+message SyncServiceGetAggregateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceGetAggregateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SyncServiceListConflictsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id scope_id = 10 [json_name = "scopeId"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+message SyncServiceListConflictsValue {
+  repeated ConflictView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message SyncServiceListConflictsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceListConflictsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SyncServiceResolveConflictRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id conflict_id = 10 [json_name = "conflictId"];
+  ConflictResolution resolution = 11 [json_name = "resolution"];
+}
+message SyncServiceResolveConflictValue {
+  ChangeReceipt result = 10 [json_name = "result"];
+}
+message SyncServiceResolveConflictResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceResolveConflictValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SyncServiceRequestFullResyncRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id scope_id = 10 [json_name = "scopeId"];
+}
+message SyncServiceRequestFullResyncValue {
+  BootstrapManifest bootstrap = 10 [json_name = "bootstrap"];
+}
+message SyncServiceRequestFullResyncResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceRequestFullResyncValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SyncServiceGetBootstrapPageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id bootstrap_id = 10 [json_name = "bootstrapId"];
+  optional string cursor = 11 [json_name = "cursor"];
+}
+message SyncServiceGetBootstrapPageValue {
+  repeated AggregateView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+  optional string resume_cursor = 12 [json_name = "resumeCursor"];
+}
+message SyncServiceGetBootstrapPageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SyncServiceGetBootstrapPageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ResourceServiceBeginUploadRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id upload_id = 10 [json_name = "uploadId"];
+  arcforges.foundation.v1.Id resource_id = 11 [json_name = "resourceId"];
+  uint64 size = 12 [json_name = "size"];
+  string sha256 = 13 [json_name = "sha256"];
+  string media_type = 14 [json_name = "mediaType"];
+  ResourcePurpose purpose = 15 [json_name = "purpose"];
+  arcforges.foundation.v1.AggregateRef owner = 16 [json_name = "owner"];
+}
+message ResourceServiceBeginUploadValue {
+  UploadTicket ticket = 10 [json_name = "ticket"];
+}
+message ResourceServiceBeginUploadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceBeginUploadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceCompleteUploadRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id upload_id = 10 [json_name = "uploadId"];
+  repeated PartReceipt parts = 11 [json_name = "parts"];
+}
+message ResourceServiceCompleteUploadValue {
+  UploadStatus status = 10 [json_name = "status"];
+}
+message ResourceServiceCompleteUploadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceCompleteUploadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceGetDownloadTicketRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id resource_id = 10 [json_name = "resourceId"];
+  arcforges.foundation.v1.ByteRange range = 11 [json_name = "range"];
+  arcforges.foundation.v1.ResourceVersionRef version = 12 [json_name = "version"];
+}
+message ResourceServiceGetDownloadTicketValue {
+  arcforges.foundation.v1.TransferTicket ticket = 10 [json_name = "ticket"];
+}
+message ResourceServiceGetDownloadTicketResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetDownloadTicketValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceGetMetadataRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id resource_id = 10 [json_name = "resourceId"];
+}
+message ResourceServiceGetMetadataValue {
+  ResourceMetadata metadata = 10 [json_name = "metadata"];
+}
+message ResourceServiceGetMetadataResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetMetadataValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceReleaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id resource_id = 10 [json_name = "resourceId"];
+  arcforges.foundation.v1.AggregateRef referrer = 11 [json_name = "referrer"];
+}
+message ResourceServiceReleaseValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+message ResourceServiceReleaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceReleaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceGetUploadStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id upload_id = 10 [json_name = "uploadId"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+message ResourceServiceGetUploadStatusValue {
+  UploadStatus status = 10 [json_name = "status"];
+}
+message ResourceServiceGetUploadStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceGetUploadStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ResourceServiceRenewUploadTicketRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id upload_id = 10 [json_name = "uploadId"];
+}
+message ResourceServiceRenewUploadTicketValue {
+  arcforges.foundation.v1.TransferTicket ticket = 10 [json_name = "ticket"];
+}
+message ResourceServiceRenewUploadTicketResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ResourceServiceRenewUploadTicketValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
