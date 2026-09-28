@@ -1,0 +1,357 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "approval.decide",
+      "binding": "arcforges.publicapi.v1.ApprovalService/Decide",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "public-human-approval-decision",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#rule-tk-02",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": {
+          "from": "verifiedApprovalProposal.effectiveRisk"
+        },
+        "approval": "foregroundProposal",
+        "stepUp": {
+          "from": "verifiedApprovalProposal.stepUp"
+        },
+        "localPresence": {
+          "from": "verifiedApprovalProposal.localPresence"
+        },
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.authorize",
+      "binding": "POST /internal/ai/v1/authorize",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.claim",
+      "binding": "POST /internal/ai/v1/claim",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.cloud-tool",
+      "binding": "POST /internal/ai/v1/cloud-tool",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.context",
+      "binding": "POST /internal/ai/v1/context",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.finalize",
+      "binding": "POST /internal/ai/v1/finalize",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.late-outcome",
+      "binding": "POST /internal/ai/v1/late-outcome",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.model-intent",
+      "binding": "POST /internal/ai/v1/model-intent",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.model-outcome",
+      "binding": "POST /internal/ai/v1/model-outcome",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.prepare-tools",
+      "binding": "POST /internal/ai/v1/prepare-tools",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.reconcile",
+      "binding": "POST /internal/ai/v1/reconcile",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.renew",
+      "binding": "POST /internal/ai/v1/renew",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.settle",
+      "binding": "POST /internal/ai/v1/settle",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.stream-state",
+      "binding": "POST /internal/ai/v1/stream-state",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    },
+    {
+      "operationId": "cf.ai.wait",
+      "binding": "POST /internal/ai/v1/wait",
+      "kind": "http",
+      "source": "internal/ai-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "service"
+        ]
+      }
+    }
+  ]
+}

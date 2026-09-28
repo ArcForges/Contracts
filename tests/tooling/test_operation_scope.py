@@ -14,6 +14,53 @@ SPEC.loader.exec_module(gate)
 
 
 class OperationScopeTests(unittest.TestCase):
+    def public_approval_row(self):
+        return {
+            'operationId': 'approval.decide',
+            'binding': 'arcforges.publicapi.v1.ApprovalService/Decide',
+            'kind': 'proto',
+            'source': 'public/proto/arcforges/publicapi/v1/chat.proto',
+            'scope': 'assistant',
+            'surface': 'public',
+            'profile': 'public-human-approval-decision',
+            'sourceRule': 'docs/architecture/contracts/01-public-api-operations.md#rule-tk-02',
+            'idempotency': 'IW',
+            'authorization': {
+                'capability': None,
+                'risk': {'from': 'verifiedApprovalProposal.effectiveRisk'},
+                'approval': 'foregroundProposal',
+                'stepUp': {'from': 'verifiedApprovalProposal.stepUp'},
+                'localPresence': {'from': 'verifiedApprovalProposal.localPresence'},
+                'egress': 'none',
+                'patEligible': False,
+                'actorKinds': ['human'],
+            },
+        }
+
+    def cf_service_row(self, operation):
+        scope, route, idempotency = gate.CF_SERVICE_OPERATIONS[operation]
+        return {
+            'operationId': operation,
+            'binding': f'POST /internal/ai/v1/{route}',
+            'kind': 'http',
+            'source': 'internal/ai-http/v1/schema.json',
+            'scope': scope,
+            'surface': 'cf-internal',
+            'profile': 'cf-service',
+            'sourceRule': 'docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports',
+            'idempotency': idempotency,
+            'authorization': {
+                'capability': None,
+                'risk': 'R1',
+                'approval': 'none',
+                'stepUp': False,
+                'localPresence': False,
+                'egress': 'none',
+                'patEligible': False,
+                'actorKinds': ['service'],
+            },
+        }
+
     def inprocess_row(self, approval=False):
         owner, interface, method = (('Chat', 'IChatOperations', 'SubmitApproval') if approval
                                     else ('Platform', 'ICapabilityProvider', 'Invoke'))
@@ -81,6 +128,65 @@ class OperationScopeTests(unittest.TestCase):
                 gate.authorization(hostile, set())
         hostile = copy.deepcopy(row); hostile['delegation'] = self.inprocess_row()['delegation']
         with self.assertRaisesRegex(ValueError, 'metadata contradicts'):
+            gate.authorization(hostile, set())
+
+    def test_public_approval_profile_is_separate_and_exact(self):
+        row = self.public_approval_row()
+        actors, derived = gate.authorization(row, set())
+        self.assertEqual(actors, ['human'])
+        self.assertEqual(set(derived), {'risk', 'stepUp', 'localPresence'})
+        for field, wrong in [('risk', 'R2'), ('risk', {'from': 'verifiedApprovalProposal.risk'}),
+                             ('approval', 'none'), ('stepUp', False), ('localPresence', False),
+                             ('egress', 'ownedContent'), ('patEligible', True),
+                             ('actorKinds', ['agent'])]:
+            hostile = copy.deepcopy(row)
+            hostile['authorization'][field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+        for field, wrong in [('operationId', 'approval.list'), ('profile', 'human-owner'),
+                             ('scope', 'account'), ('surface', 'in-process'),
+                             ('binding', 'arcforges.publicapi.v1.ApprovalService/List'),
+                             ('source', 'internal/proto/arcforges/local/chat/v1/inprocess.proto'),
+                             ('sourceRule', 'docs/architecture/contracts/02-local-rpc-operations.md#profiles'),
+                             ('idempotency', 'Q')]:
+            hostile = copy.deepcopy(row)
+            hostile[field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+
+    def test_cf_service_ports_are_exact_closed_transport_bindings(self):
+        for operation in gate.CF_SERVICE_OPERATIONS:
+            with self.subTest(operation=operation):
+                row = self.cf_service_row(operation)
+                self.assertEqual(gate.authorization(row, set()), (['service'], []))
+
+        row = self.cf_service_row('cf.ai.authorize')
+        mutations = [
+            ('operationId', 'cf.ai.legacy-authorize'),
+            ('binding', 'POST /internal/ai/v1/claim'),
+            ('binding', 'GET /internal/ai/v1/authorize'),
+            ('kind', 'proto'),
+            ('source', 'internal/ai/v1/schema.json'),
+            ('scope', 'assistant'),
+            ('surface', 'public'),
+            ('profile', 'human-owner'),
+            ('sourceRule', 'docs/architecture/contracts/05-cloudflare-integration.md#2-legacy'),
+            ('idempotency', 'IW'),
+        ]
+        for field, wrong in mutations:
+            hostile = copy.deepcopy(row)
+            hostile[field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+
+        hostile = copy.deepcopy(row)
+        hostile['authorization']['risk'] = 'R2'
+        with self.assertRaisesRegex(ValueError, 'exact CF HMAC transport binding mismatch'):
+            gate.authorization(hostile, set())
+
+        hostile = copy.deepcopy(row)
+        hostile['operationId'] = 'cf.ai.unknown'
+        with self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
             gate.authorization(hostile, set())
 
     def test_closed_operations_cannot_downgrade_to_generic_profiles(self):

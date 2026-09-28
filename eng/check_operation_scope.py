@@ -37,9 +37,25 @@ ACTORS = {"human", "agent", "automation", "extension", "operator", "service", "p
 TOOL_ACTORS = {"agent", "automation", "extension"}
 SURFACES = {"public", "in-process", "private-helper", "operator", "cf-internal", "http-exception"}
 CLASSES = {"Q", "IW", "CC", "AP", "NI", "EX", "DE"}
+CF_SERVICE_OPERATIONS = {
+    "cf.ai.authorize": ("resource-owner", "authorize", "Q"),
+    "cf.ai.claim": ("assistant", "claim", "IW"),
+    "cf.ai.renew": ("assistant", "renew", "IW"),
+    "cf.ai.reconcile": ("assistant", "reconcile", "Q"),
+    "cf.ai.context": ("assistant", "context", "Q"),
+    "cf.ai.model-intent": ("assistant", "model-intent", "IW"),
+    "cf.ai.model-outcome": ("assistant", "model-outcome", "IW"),
+    "cf.ai.settle": ("assistant", "settle", "IW"),
+    "cf.ai.prepare-tools": ("assistant", "prepare-tools", "IW"),
+    "cf.ai.cloud-tool": ("assistant", "cloud-tool", "IW"),
+    "cf.ai.wait": ("assistant", "wait", "IW"),
+    "cf.ai.finalize": ("assistant", "finalize", "IW"),
+    "cf.ai.stream-state": ("assistant", "stream-state", "IW"),
+    "cf.ai.late-outcome": ("assistant", "late-outcome", "IW"),
+}
 PROFILES = {"human-owner", "tool-delegation", "product-handler", "extension-peer", "helper-parent",
             "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "launch-bootstrap-only",
-            "in-process-invocation", "human-approval-decision"}
+            "in-process-invocation", "human-approval-decision", "public-human-approval-decision"}
 PAT_OPERATIONS = {"workspace.list", "workspace.get", "catalog.search", "catalog.getPackage",
                   "catalog.listVersions", "catalog.submitVersion", "catalog.getSubmission",
                   "resource.beginUpload", "resource.completeUpload", "resource.getUploadStatus",
@@ -155,7 +171,8 @@ def protected(operation: str) -> bool:
 def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[str]]:
     operation = row["operationId"]
     required_profile = {"ICapabilityProvider.Invoke": "in-process-invocation",
-                        "IChatOperations.SubmitApproval": "human-approval-decision"}.get(operation)
+                        "IChatOperations.SubmitApproval": "human-approval-decision",
+                        "approval.decide": "public-human-approval-decision"}.get(operation)
     require(required_profile is None or row.get("profile") == required_profile,
             f"{operation}: required closed authorization profile")
     auth = row.get("authorization")
@@ -168,7 +185,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     require(isinstance(row.get("sourceRule"), str) and "#" in row["sourceRule"], f"{operation}: missing source rule")
     require(row.get("surface") in SURFACES, f"{operation}: unclassified surface")
     delegated = row["profile"] in {"delegated-invocation", "in-process-invocation"}
-    approval_decision = row["profile"] == "human-approval-decision"
+    approval_decision = row["profile"] in {"human-approval-decision", "public-human-approval-decision"}
     bootstrap = row["profile"] == "launch-bootstrap-only"
     retry = row.get("idempotency")
     require((delegated and retry == {"from": "admittedCapability.idempotency"}) or
@@ -221,7 +238,8 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                       "helper-parent": {"human", "helper-parent", "owning-parent"},
                       "operator": {"operator"}, "cf-service": {"service"},
                       "provider": {"provider"}, "one-use-auth": {"preauth"},
-                      "launch-bootstrap-only": set(), "human-approval-decision": {"human"}}
+                      "launch-bootstrap-only": set(), "human-approval-decision": {"human"},
+                      "public-human-approval-decision": {"human"}}
     if row["profile"] in profile_actors:
         require(set(actors) <= profile_actors[row["profile"]], f"{operation}: profile identity mismatch")
     profile_surfaces = {"human-owner": {"public", "in-process", "http-exception"},
@@ -230,7 +248,8 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                         "operator": {"operator"}, "cf-service": {"cf-internal"},
                         "provider": {"http-exception"}, "one-use-auth": {"public", "http-exception"},
                         "launch-bootstrap-only": {"private-helper"}, "delegated-invocation": {"private-helper"},
-                        "in-process-invocation": {"in-process"}, "human-approval-decision": {"in-process"}}
+                        "in-process-invocation": {"in-process"}, "human-approval-decision": {"in-process"},
+                        "public-human-approval-decision": {"public"}}
     require(row["surface"] in profile_surfaces[row["profile"]], f"{operation}: profile surface mismatch")
     if row["scope"] in {"private-helper", "in-process"}:
         require(row["surface"] == row["scope"], f"{operation}: scope surface mismatch")
@@ -240,7 +259,7 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     require(auth["capability"] is None or derived or row["profile"] == "tool-delegation",
             f"{operation}: capability outside tool binding")
     if row["surface"] == "public":
-        require(row["profile"] in {"human-owner", "tool-delegation", "one-use-auth"},
+        require(row["profile"] in {"human-owner", "tool-delegation", "one-use-auth", "public-human-approval-decision"},
                 f"{operation}: wrong public identity profile")
     if row["surface"] == "operator" or row["scope"] == "operator":
         require(row["surface"] == "operator" and row["scope"] == "operator" and row["profile"] == "operator",
@@ -263,6 +282,19 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                 f"{operation}: wrong operator identity")
     if row["surface"] == "cf-internal":
         require(actors == ["service"] and auth["capability"] is None, f"{operation}: wrong CF service identity")
+    if operation in CF_SERVICE_OPERATIONS or row["profile"] == "cf-service":
+        require(operation in CF_SERVICE_OPERATIONS, f"{operation}: unregistered CF service operation")
+        scope, route, idempotency = CF_SERVICE_OPERATIONS[operation]
+        expected = {"capability": None, "risk": "R1", "approval": "none", "stepUp": False,
+                    "localPresence": False, "egress": "none", "patEligible": False,
+                    "actorKinds": ["service"]}
+        require(row["kind"] == "http" and row["scope"] == scope and
+                row["surface"] == "cf-internal" and row["profile"] == "cf-service" and
+                row["binding"] == f"POST /internal/ai/v1/{route}" and
+                row["source"] == "internal/ai-http/v1/schema.json" and
+                row["sourceRule"] == "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports" and
+                row["idempotency"] == idempotency and auth == expected,
+                f"{operation}: exact CF HMAC transport binding mismatch")
     if row["surface"] == "private-helper":
         human_parent = (row["profile"] == "helper-parent" and actors == ["human"]
                         and row.get("launchRoles") == ["owning-parent"] and not auth["patEligible"])
@@ -296,6 +328,18 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                         "localPresence": {"from": "verifiedApprovalProposal.localPresence"},
                         "egress": "none", "patEligible": False, "actorKinds": ["human"]}
             require(auth == expected and retry == "IW", f"{operation}: incomplete human approval proposal binding")
+    if row["profile"] == "public-human-approval-decision":
+        expected = {"capability": None, "risk": {"from": "verifiedApprovalProposal.effectiveRisk"},
+                    "approval": "foregroundProposal", "stepUp": {"from": "verifiedApprovalProposal.stepUp"},
+                    "localPresence": {"from": "verifiedApprovalProposal.localPresence"},
+                    "egress": "none", "patEligible": False, "actorKinds": ["human"]}
+        require(operation == "approval.decide" and row["scope"] == "assistant" and
+                row["surface"] == "public" and row["kind"] == "proto" and
+                row["binding"] == "arcforges.publicapi.v1.ApprovalService/Decide" and
+                row["source"] == "public/proto/arcforges/publicapi/v1/chat.proto" and
+                row["sourceRule"] == "docs/architecture/contracts/01-public-api-operations.md#rule-tk-02" and
+                auth == expected and retry == "IW",
+                f"{operation}: incomplete public human approval proposal binding")
     if bootstrap:
         expected = {"capability": None, "risk": "R1", "approval": "none", "stepUp": False,
                     "localPresence": False, "egress": "none", "patEligible": False,
