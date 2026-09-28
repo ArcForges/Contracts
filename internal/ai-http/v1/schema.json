@@ -1,50 +1,1729 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$comment": "SPDX-License-Identifier: Apache-2.0",
-  "title": "CommitReceipt",
-  "type": "object",
-  "properties": {
-    "commandId": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-      "not": {
-        "const": "00000000-0000-0000-0000-000000000000"
-      },
-      "x-arcforges-rules": ["nonzeroUuid"]
-    },
-    "operation": {
-      "type": "string",
-      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
-    },
-    "requestHash": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
-    },
-    "resultHash": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
-    },
-    "state": {
-      "type": "string",
-      "enum": ["committed", "rejected"]
-    },
-    "resultRef": {
-      "$ref": "#/$defs/VersionedRef"
-    }
-  },
-  "required": ["commandId", "operation", "requestHash", "resultHash", "state"],
-  "additionalProperties": false,
+  "$comment": "SPDX-License-Identifier: Apache-2.0; contracts05 section 3 and section 8. C# to Worker run contract shapes only; inference-job ports remain CON.15-owned.",
+  "title": "AiInternalContractBundle",
   "$defs": {
+    "VersionedRef": {
+      "title": "VersionedRef",
+      "type": "object",
+      "properties": {
+        "root": {
+          "$ref": "#/$defs/AggregateRef"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["root", "revision"],
+      "additionalProperties": false
+    },
+    "ScopeTime": {
+      "title": "ScopeTime",
+      "type": "object",
+      "properties": {
+        "ticks": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        },
+        "rate": {
+          "$ref": "#/$defs/Rational"
+        }
+      },
+      "required": ["ticks", "rate"],
+      "additionalProperties": false
+    },
+    "Rational": {
+      "title": "Rational",
+      "type": "object",
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        },
+        "denominator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["numerator", "denominator"],
+      "additionalProperties": false
+    },
+    "ValueEntry": {
+      "title": "ValueEntry",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "value": {
+          "$ref": "#/$defs/StructuredValue"
+        }
+      },
+      "required": ["name", "value"],
+      "additionalProperties": false
+    },
+    "ContextItemAsMeasurement": {
+      "title": "ContextItemAsMeasurement",
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/ContextRef"
+        },
+        "measurement": {
+          "$ref": "#/$defs/MeasurementResult"
+        }
+      },
+      "required": ["source", "measurement"],
+      "additionalProperties": false
+    },
+    "ContextItemAsText": {
+      "title": "ContextItemAsText",
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/ContextRef"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["source", "text"],
+      "additionalProperties": false
+    },
+    "ContextItem": {
+      "title": "ContextItem",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ContextItemAsMeasurement"
+        },
+        {
+          "$ref": "#/$defs/ContextItemAsText"
+        }
+      ]
+    },
+    "ValueRecord": {
+      "title": "ValueRecord",
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ValueEntry"
+          },
+          "maxItems": 200
+        }
+      },
+      "required": ["entries"],
+      "additionalProperties": false
+    },
+    "ContextSelectorAsByteRange": {
+      "title": "ContextSelectorAsByteRange",
+      "type": "object",
+      "properties": {
+        "byteRange": {
+          "$ref": "#/$defs/ByteRange"
+        }
+      },
+      "required": ["byteRange"],
+      "additionalProperties": false
+    },
+    "ContextSelectorAsScope": {
+      "title": "ContextSelectorAsScope",
+      "type": "object",
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeSelection"
+        }
+      },
+      "required": ["scope"],
+      "additionalProperties": false
+    },
+    "ContextSelectorAsWhole": {
+      "title": "ContextSelectorAsWhole",
+      "type": "object",
+      "properties": {
+        "whole": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "required": ["whole"],
+      "additionalProperties": false
+    },
+    "ContextSelector": {
+      "title": "ContextSelector",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ContextSelectorAsByteRange"
+        },
+        {
+          "$ref": "#/$defs/ContextSelectorAsScope"
+        },
+        {
+          "$ref": "#/$defs/ContextSelectorAsWhole"
+        }
+      ]
+    },
+    "ByteRange": {
+      "title": "ByteRange",
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "length": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["offset", "length"],
+      "additionalProperties": false
+    },
+    "CapabilityArguments": {
+      "title": "CapabilityArguments",
+      "type": "object",
+      "properties": {
+        "schemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "value": {
+          "$ref": "#/$defs/StructuredValue"
+        }
+      },
+      "required": ["schemaId", "value"],
+      "additionalProperties": false
+    },
+    "SourceConsentRef": {
+      "title": "SourceConsentRef",
+      "type": "object",
+      "properties": {
+        "consentId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "scopeHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["consentId", "scopeHash", "expiresAt"],
+      "additionalProperties": false
+    },
+    "TaskSnapshot": {
+      "title": "TaskSnapshot",
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "waiting",
+            "paused",
+            "interrupted",
+            "succeeded",
+            "partiallySucceeded",
+            "failed",
+            "canceled"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "currentStreamId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "finalMessage": {
+          "$ref": "#/$defs/VersionedRef"
+        },
+        "recoveryAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "control": {
+          "$ref": "#/$defs/ControlProgress"
+        },
+        "hasUnknownEffect": {
+          "type": "boolean"
+        },
+        "completedSteps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "totalSteps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "missingOutputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "reasonFacet": {
+          "type": "string",
+          "enum": ["none", "approval", "device", "capacity", "dependency", "reconciliation"]
+        }
+      },
+      "required": [
+        "taskId",
+        "state",
+        "revision",
+        "hasUnknownEffect",
+        "completedSteps",
+        "totalSteps",
+        "missingOutputs",
+        "reasonFacet"
+      ],
+      "additionalProperties": false
+    },
+    "ResourceVersionRefAsCloud": {
+      "title": "ResourceVersionRefAsCloud",
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/ResourceRef"
+        },
+        "cloud": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "blob": {
+          "$ref": "#/$defs/BlobRef"
+        }
+      },
+      "required": ["resource", "cloud"],
+      "additionalProperties": false
+    },
+    "ResourceVersionRefAsNative": {
+      "title": "ResourceVersionRefAsNative",
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/ResourceRef"
+        },
+        "native": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "blob": {
+          "$ref": "#/$defs/BlobRef"
+        }
+      },
+      "required": ["resource", "native"],
+      "additionalProperties": false
+    },
+    "ResourceVersionRef": {
+      "title": "ResourceVersionRef",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ResourceVersionRefAsCloud"
+        },
+        {
+          "$ref": "#/$defs/ResourceVersionRefAsNative"
+        }
+      ]
+    },
+    "BlobRef": {
+      "title": "BlobRef",
+      "type": "object",
+      "properties": {
+        "blobId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sizeBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["blobId", "contentHash", "sizeBytes"],
+      "additionalProperties": false
+    },
+    "MeasurementResult": {
+      "title": "MeasurementResult",
+      "type": "object",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["scope.measurement.v1"]
+        },
+        "inputHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FamilyResult"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "configuration": {
+          "$ref": "#/$defs/ScopeConfiguration"
+        },
+        "finiteCount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "excludedCount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "runCount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "requestedDuration": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "coveredDuration": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "timingUncertainty": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "source": {
+          "$ref": "#/$defs/MeasurementSource"
+        },
+        "resolvedThresholds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MeasurementThreshold"
+          }
+        },
+        "cursor": {
+          "$ref": "#/$defs/CursorResult"
+        }
+      },
+      "required": [
+        "profile",
+        "inputHash",
+        "families",
+        "warnings",
+        "configuration",
+        "finiteCount",
+        "excludedCount",
+        "runCount",
+        "requestedDuration",
+        "coveredDuration",
+        "timingUncertainty",
+        "source",
+        "resolvedThresholds"
+      ],
+      "additionalProperties": false
+    },
+    "CursorResult": {
+      "title": "CursorResult",
+      "type": "object",
+      "properties": {
+        "a": {
+          "$ref": "#/$defs/SelectedSample"
+        },
+        "b": {
+          "$ref": "#/$defs/SelectedSample"
+        },
+        "deltaTime": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "deltaValue": {
+          "type": "number"
+        }
+      },
+      "required": ["a", "b", "deltaTime", "deltaValue"],
+      "additionalProperties": false
+    },
+    "SelectedSample": {
+      "title": "SelectedSample",
+      "type": "object",
+      "properties": {
+        "captureId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "segmentId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "sampleIndex": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "time": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": ["captureId", "channelId", "segmentId", "sampleIndex", "time", "value"],
+      "additionalProperties": false
+    },
+    "MeasurementThreshold": {
+      "title": "MeasurementThreshold",
+      "type": "object",
+      "properties": {
+        "family": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["frequency", "dutyCycle", "riseTime", "fallTime"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["low", "high", "fraction10", "fraction50", "fraction90"]
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["family", "name", "value", "unit"],
+      "additionalProperties": false
+    },
+    "RunView": {
+      "title": "RunView",
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "taskId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "configVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "startedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "endedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "iteration": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        }
+      },
+      "required": ["runId", "state", "configVersion", "iteration", "owner"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsBoolean": {
+      "title": "StructuredValueAsBoolean",
+      "type": "object",
+      "properties": {
+        "boolean": {
+          "type": "boolean"
+        }
+      },
+      "required": ["boolean"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsDecimal": {
+      "title": "StructuredValueAsDecimal",
+      "type": "object",
+      "properties": {
+        "decimal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-rules": ["canonicalDecimal"]
+        }
+      },
+      "required": ["decimal"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsInstant": {
+      "title": "StructuredValueAsInstant",
+      "type": "object",
+      "properties": {
+        "instant": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["instant"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsInteger": {
+      "title": "StructuredValueAsInteger",
+      "type": "object",
+      "properties": {
+        "integer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        }
+      },
+      "required": ["integer"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsList": {
+      "title": "StructuredValueAsList",
+      "type": "object",
+      "properties": {
+        "list": {
+          "$ref": "#/$defs/ValueList"
+        }
+      },
+      "required": ["list"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsNull": {
+      "title": "StructuredValueAsNull",
+      "type": "object",
+      "properties": {
+        "null": {
+          "type": "boolean"
+        }
+      },
+      "required": ["null"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsNumber": {
+      "title": "StructuredValueAsNumber",
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "number"
+        }
+      },
+      "required": ["number"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsRecord": {
+      "title": "StructuredValueAsRecord",
+      "type": "object",
+      "properties": {
+        "record": {
+          "$ref": "#/$defs/ValueRecord"
+        }
+      },
+      "required": ["record"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsResource": {
+      "title": "StructuredValueAsResource",
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/ResourceRef"
+        }
+      },
+      "required": ["resource"],
+      "additionalProperties": false
+    },
+    "StructuredValueAsText": {
+      "title": "StructuredValueAsText",
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    },
+    "StructuredValue": {
+      "title": "StructuredValue",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/StructuredValueAsBoolean"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsDecimal"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsInstant"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsInteger"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsList"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsNull"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsNumber"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsRecord"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsResource"
+        },
+        {
+          "$ref": "#/$defs/StructuredValueAsText"
+        }
+      ]
+    },
+    "MeasurementSource": {
+      "title": "MeasurementSource",
+      "type": "object",
+      "properties": {
+        "capture": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        },
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "committedPrefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "configuration": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        },
+        "decoder": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        },
+        "timeMapping": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        },
+        "eventSet": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        }
+      },
+      "required": ["capture", "channelId", "committedPrefix", "configuration"],
+      "additionalProperties": false
+    },
+    "ToolResultAsError": {
+      "title": "ToolResultAsError",
+      "type": "object",
+      "properties": {
+        "invocationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "error": {
+          "$ref": "#/$defs/ArcError"
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ArtifactRef"
+          }
+        }
+      },
+      "required": ["invocationId", "effect", "error", "artifacts"],
+      "additionalProperties": false
+    },
+    "ToolResultAsSuccess": {
+      "title": "ToolResultAsSuccess",
+      "type": "object",
+      "properties": {
+        "invocationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "success": {
+          "$ref": "#/$defs/CapabilityResult"
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ArtifactRef"
+          }
+        }
+      },
+      "required": ["invocationId", "effect", "success", "artifacts"],
+      "additionalProperties": false
+    },
+    "ToolResult": {
+      "title": "ToolResult",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ToolResultAsError"
+        },
+        {
+          "$ref": "#/$defs/ToolResultAsSuccess"
+        }
+      ]
+    },
+    "ArcError": {
+      "title": "ArcError",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "validation",
+            "authentication",
+            "authorization",
+            "entitlement",
+            "conflict",
+            "state",
+            "resource",
+            "execution",
+            "internal"
+          ]
+        },
+        "messageKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "retry": {
+          "$ref": "#/$defs/RetryAdvice"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "details": {
+          "$ref": "#/$defs/ErrorDetails"
+        }
+      },
+      "required": ["code", "category", "messageKey", "retry", "effect", "correlationId"],
+      "additionalProperties": false
+    },
+    "ErrorDetailsAsLimit": {
+      "title": "ErrorDetailsAsLimit",
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/$defs/LimitFailure"
+        }
+      },
+      "required": ["limit"],
+      "additionalProperties": false
+    },
+    "ErrorDetailsAsRevision": {
+      "title": "ErrorDetailsAsRevision",
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/RevisionConflict"
+        }
+      },
+      "required": ["revision"],
+      "additionalProperties": false
+    },
+    "ErrorDetailsAsState": {
+      "title": "ErrorDetailsAsState",
+      "type": "object",
+      "properties": {
+        "state": {
+          "$ref": "#/$defs/StateFailure"
+        }
+      },
+      "required": ["state"],
+      "additionalProperties": false
+    },
+    "ErrorDetailsAsUpgrade": {
+      "title": "ErrorDetailsAsUpgrade",
+      "type": "object",
+      "properties": {
+        "upgrade": {
+          "$ref": "#/$defs/VersionFailure"
+        }
+      },
+      "required": ["upgrade"],
+      "additionalProperties": false
+    },
+    "ErrorDetails": {
+      "title": "ErrorDetails",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ErrorDetailsAsLimit"
+        },
+        {
+          "$ref": "#/$defs/ErrorDetailsAsRevision"
+        },
+        {
+          "$ref": "#/$defs/ErrorDetailsAsState"
+        },
+        {
+          "$ref": "#/$defs/ErrorDetailsAsUpgrade"
+        }
+      ]
+    },
+    "StateFailure": {
+      "title": "StateFailure",
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resource": {
+          "$ref": "#/$defs/AggregateRef"
+        },
+        "native": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["state", "reason"],
+      "additionalProperties": false
+    },
+    "VersionFailure": {
+      "title": "VersionFailure",
+      "type": "object",
+      "properties": {
+        "minReadable": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "minWritable": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "received": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["minReadable", "minWritable", "received"],
+      "additionalProperties": false
+    },
+    "LimitFailure": {
+      "title": "LimitFailure",
+      "type": "object",
+      "properties": {
+        "limitName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "maximum": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "available": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-rules": ["canonicalDecimal"]
+        },
+        "recoveryAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["limitName"],
+      "additionalProperties": false
+    },
+    "RevisionConflict": {
+      "title": "RevisionConflict",
+      "type": "object",
+      "properties": {
+        "expected": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "actual": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "conflictId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "RetryAdvice": {
+      "title": "RetryAdvice",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["never", "sameCommand", "afterTime", "reconcile"]
+        },
+        "retryAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "reconciliationOperation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["mode"],
+      "additionalProperties": false
+    },
+    "ToolProposal": {
+      "title": "ToolProposal",
+      "type": "object",
+      "properties": {
+        "proposalId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "capability": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "arguments": {
+          "$ref": "#/$defs/CapabilityArguments"
+        },
+        "sourceAttemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["proposalId", "capability", "arguments", "sourceAttemptId"],
+      "additionalProperties": false
+    },
+    "MessagePartAsResource": {
+      "title": "MessagePartAsResource",
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/ResourceRef"
+        },
+        "origin": {
+          "$ref": "#/$defs/ContentOrigin"
+        }
+      },
+      "required": ["resource"],
+      "additionalProperties": false
+    },
+    "MessagePartAsText": {
+      "title": "MessagePartAsText",
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "origin": {
+          "$ref": "#/$defs/ContentOrigin"
+        }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    },
+    "MessagePartAsToolProposal": {
+      "title": "MessagePartAsToolProposal",
+      "type": "object",
+      "properties": {
+        "toolProposal": {
+          "$ref": "#/$defs/ToolProposal"
+        },
+        "origin": {
+          "$ref": "#/$defs/ContentOrigin"
+        }
+      },
+      "required": ["toolProposal"],
+      "additionalProperties": false
+    },
+    "MessagePartAsToolResult": {
+      "title": "MessagePartAsToolResult",
+      "type": "object",
+      "properties": {
+        "toolResult": {
+          "$ref": "#/$defs/ToolResult"
+        },
+        "origin": {
+          "$ref": "#/$defs/ContentOrigin"
+        }
+      },
+      "required": ["toolResult"],
+      "additionalProperties": false
+    },
+    "MessagePart": {
+      "title": "MessagePart",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/MessagePartAsResource"
+        },
+        {
+          "$ref": "#/$defs/MessagePartAsText"
+        },
+        {
+          "$ref": "#/$defs/MessagePartAsToolProposal"
+        },
+        {
+          "$ref": "#/$defs/MessagePartAsToolResult"
+        }
+      ]
+    },
+    "ContentOrigin": {
+      "title": "ContentOrigin",
+      "type": "object",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["arcforges.content-origin.v1"]
+        },
+        "originId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "contentUnitId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "kinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+            "enum": ["aiGenerated", "aiManipulated", "nonAi", "unknown"]
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "payloadSha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "producerKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["model", "human", "deterministic", "import"]
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "parentOriginIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "not": {
+              "const": "00000000-0000-0000-0000-000000000000"
+            },
+            "x-arcforges-rules": ["nonzeroUuid"]
+          },
+          "maxItems": 32
+        },
+        "omittedParentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        }
+      },
+      "required": [
+        "profile",
+        "originId",
+        "contentUnitId",
+        "kinds",
+        "payloadSha256",
+        "producerKind",
+        "parentOriginIds",
+        "omittedParentCount"
+      ],
+      "additionalProperties": false
+    },
+    "FamilyResult": {
+      "title": "FamilyResult",
+      "type": "object",
+      "properties": {
+        "family": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": [
+            "minimum",
+            "maximum",
+            "mean",
+            "rms",
+            "peakToPeak",
+            "standardDeviation",
+            "count",
+            "duration",
+            "frequency",
+            "dutyCycle",
+            "riseTime",
+            "fallTime",
+            "cursorDelta",
+            "eventCount"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["ok", "insufficient", "invalid"]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MeasurementValue"
+          },
+          "maxItems": 2
+        },
+        "validCount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "invalidCount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": [
+            "noFiniteSamples",
+            "noCompleteCycle",
+            "noCompleteEdge",
+            "cursorUnavailable",
+            "invalidTimeOrder",
+            "invalidConfiguration",
+            "numericOverflow"
+          ]
+        },
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["family", "status", "values", "validCount", "invalidCount", "channelId"],
+      "additionalProperties": false
+    },
+    "CancelSupport": {
+      "title": "CancelSupport",
+      "type": "object",
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "beforeDispatchOnly": {
+          "type": "boolean"
+        },
+        "statusOperation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["accepted", "beforeDispatchOnly"],
+      "additionalProperties": false
+    },
+    "CapabilityDescriptor": {
+      "title": "CapabilityDescriptor",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "requestSchema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "responseSchema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "risk": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "locality": {
+          "type": "string",
+          "enum": ["cloud", "device"]
+        },
+        "idempotency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "statusOperation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "reads": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "writes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "exclusive": {
+          "type": "boolean"
+        },
+        "egress": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "approval": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "binding": {
+          "$ref": "#/$defs/OperationBinding"
+        },
+        "execution": {
+          "type": "string",
+          "enum": ["cloud", "device", "either"]
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["pureRead", "localWrite", "cloudWrite", "externalWrite"]
+        },
+        "retry": {
+          "type": "string",
+          "enum": ["never", "sameCommand", "afterTime", "reconcile"]
+        },
+        "cancel": {
+          "$ref": "#/$defs/CancelSupport"
+        },
+        "preview": {
+          "$ref": "#/$defs/OperationBinding"
+        },
+        "compensation": {
+          "$ref": "#/$defs/OperationBinding"
+        },
+        "checkpoint": {
+          "type": "boolean"
+        },
+        "limits": {
+          "$ref": "#/$defs/CapabilityLimits"
+        },
+        "acceptedContext": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "version",
+        "requestSchema",
+        "responseSchema",
+        "risk",
+        "locality",
+        "idempotency",
+        "reads",
+        "writes",
+        "exclusive",
+        "egress",
+        "approval",
+        "binding",
+        "execution",
+        "effect",
+        "retry",
+        "cancel",
+        "checkpoint",
+        "limits",
+        "acceptedContext"
+      ],
+      "additionalProperties": false
+    },
     "AggregateRef": {
       "title": "AggregateRef",
       "type": "object",
       "properties": {
         "kind": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "id": {
           "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
           "not": {
             "const": "00000000-0000-0000-0000-000000000000"
@@ -55,28 +1734,3998 @@
       "required": ["kind", "id"],
       "additionalProperties": false
     },
-    "VersionedRef": {
-      "title": "VersionedRef",
+    "ControlProgress": {
+      "title": "ControlProgress",
       "type": "object",
       "properties": {
-        "root": {
+        "commandId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["cancel", "pause", "resume"]
+        },
+        "state": {
+          "type": "string",
+          "enum": ["requested", "acknowledged", "refused", "completed"]
+        },
+        "requestedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "acknowledgedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["commandId", "kind", "state", "requestedAt"],
+      "additionalProperties": false
+    },
+    "ContextRef": {
+      "title": "ContextRef",
+      "type": "object",
+      "properties": {
+        "source": {
           "$ref": "#/$defs/AggregateRef"
         },
         "revision": {
           "type": "string",
-          "pattern": "^[1-9][0-9]*$",
+          "minLength": 1,
           "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
           "x-arcforges-rules": ["positiveInt64String"]
         },
-        "sha256": {
+        "resource": {
+          "$ref": "#/$defs/ResourceRef"
+        },
+        "selector": {
+          "$ref": "#/$defs/ContextSelector"
+        },
+        "origin": {
+          "$ref": "#/$defs/ContentOrigin"
+        },
+        "lifetime": {
           "type": "string",
+          "enum": ["pinned", "turn", "project", "selection"]
+        },
+        "ephemeral": {
+          "$ref": "#/$defs/EphemeralSelection"
+        },
+        "consent": {
+          "$ref": "#/$defs/SourceConsentRef"
+        }
+      },
+      "required": ["source", "lifetime"],
+      "additionalProperties": false
+    },
+    "StepView": {
+      "title": "StepView",
+      "type": "object",
+      "properties": {
+        "stepId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "capability": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "locality": {
+          "type": "string",
+          "enum": ["cloud", "device"]
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "not": {
+              "const": "00000000-0000-0000-0000-000000000000"
+            },
+            "x-arcforges-rules": ["nonzeroUuid"]
+          }
+        }
+      },
+      "required": ["stepId", "runId", "ordinal", "capability", "locality", "state", "dependencies"],
+      "additionalProperties": false
+    },
+    "ScopeConfiguration": {
+      "title": "ScopeConfiguration",
+      "type": "object",
+      "properties": {
+        "configurationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ChannelDefinition"
+          },
+          "minItems": 1
+        },
+        "parserProfile": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "framing": {
+          "$ref": "#/$defs/FrameConfiguration"
+        },
+        "trigger": {
+          "$ref": "#/$defs/TriggerConfiguration"
+        }
+      },
+      "required": ["configurationId", "channels", "parserProfile", "revision", "framing"],
+      "additionalProperties": false
+    },
+    "TriggerConfiguration": {
+      "title": "TriggerConfiguration",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["manual", "edge"]
+        },
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "direction": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["rising", "falling", "either"]
+        },
+        "hysteresis": {
+          "type": "number"
+        },
+        "holdoff": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "pre": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "post": {
+          "$ref": "#/$defs/ScopeTime"
+        },
+        "repeated": {
+          "type": "boolean"
+        },
+        "maxOccurrences": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        }
+      },
+      "required": ["kind", "hysteresis", "holdoff", "pre", "post", "repeated", "maxOccurrences"],
+      "additionalProperties": false
+    },
+    "FrameConfiguration": {
+      "title": "FrameConfiguration",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["delimitedText", "csvLine", "jsonLine", "fixedBinary", "canonicalReplay"]
+        },
+        "start": {
+          "type": "string",
+          "maxLength": 65536
+        },
+        "end": {
+          "type": "string",
+          "maxLength": 65536
+        },
+        "escapeByte": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "delimiter": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "header": {
+          "type": "boolean"
+        },
+        "frameBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "byteOrder": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FrameField"
+          },
+          "maxItems": 64
+        },
+        "checksum": {
+          "$ref": "#/$defs/ChecksumSpec"
+        }
+      },
+      "required": ["kind", "start", "end", "header", "byteOrder", "fields"],
+      "additionalProperties": false
+    },
+    "ChecksumSpec": {
+      "title": "ChecksumSpec",
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["xor8", "crc16CcittFalse", "crc32IsoHdlc"]
+        },
+        "input": {
+          "$ref": "#/$defs/ByteRange"
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "byteOrder": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["little", "big"]
+        }
+      },
+      "required": ["algorithm", "input", "offset", "byteOrder"],
+      "additionalProperties": false
+    },
+    "FrameField": {
+      "title": "FrameField",
+      "type": "object",
+      "properties": {
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "jsonPath": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "scalarType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": [
+            "bool",
+            "i8",
+            "u8",
+            "i16",
+            "u16",
+            "i32",
+            "u32",
+            "i64",
+            "u64",
+            "f32",
+            "f64",
+            "textNumber"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        }
+      },
+      "required": ["channelId", "jsonPath", "scalarType", "required"],
+      "additionalProperties": false
+    },
+    "ChannelDefinition": {
+      "title": "ChannelDefinition",
+      "type": "object",
+      "properties": {
+        "channelId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "sampleType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "rate": {
+          "$ref": "#/$defs/Rational"
+        },
+        "calibration": {
+          "$ref": "#/$defs/Calibration"
+        }
+      },
+      "required": ["channelId", "name", "unit", "sampleType", "rate"],
+      "additionalProperties": false
+    },
+    "Calibration": {
+      "title": "Calibration",
+      "type": "object",
+      "properties": {
+        "scale": {
+          "type": "number"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["scale", "offset", "unit"],
+      "additionalProperties": false
+    },
+    "OperationBinding": {
+      "title": "OperationBinding",
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "publicGrpc",
+            "localGrpc",
+            "extensionGrpc",
+            "providerHttp",
+            "machineTool",
+            "inProcess"
+          ]
+        },
+        "service": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "contractMajor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        }
+      },
+      "required": ["operationId", "protocol", "service", "method", "contractMajor"],
+      "additionalProperties": false
+    },
+    "ResourceRef": {
+      "title": "ResourceRef",
+      "type": "object",
+      "properties": {
+        "realmId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "workspaceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "ownerAppId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "displayHint": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["alwaysKeep", "availableOffline", "onDemand", "cloudOnly", "missingExternal"]
+        },
+        "holdingDeviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["realmId", "ownerAppId", "resourceKind", "resourceId", "availability"],
+      "additionalProperties": false
+    },
+    "CapabilityLimits": {
+      "title": "CapabilityLimits",
+      "type": "object",
+      "properties": {
+        "maxInputBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "maxOutputBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "maxDurationMs": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "maxConcurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "maxContextItems": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        }
+      },
+      "required": [
+        "maxInputBytes",
+        "maxOutputBytes",
+        "maxDurationMs",
+        "maxConcurrency",
+        "maxContextItems"
+      ],
+      "additionalProperties": false
+    },
+    "ScopeSelection": {
+      "title": "ScopeSelection",
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "captureId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "not": {
+              "const": "00000000-0000-0000-0000-000000000000"
+            },
+            "x-arcforges-rules": ["nonzeroUuid"]
+          },
+          "maxItems": 64
+        },
+        "range": {
+          "$ref": "#/$defs/MediaRange"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["sessionId", "captureId", "channels", "range", "revision"],
+      "additionalProperties": false
+    },
+    "MediaRange": {
+      "title": "MediaRange",
+      "type": "object",
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/MediaTime"
+        },
+        "duration": {
+          "$ref": "#/$defs/MediaTime"
+        }
+      },
+      "required": ["start", "duration"],
+      "additionalProperties": false
+    },
+    "MediaTime": {
+      "title": "MediaTime",
+      "type": "object",
+      "properties": {
+        "ticks": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        },
+        "rate": {
+          "$ref": "#/$defs/Rational"
+        }
+      },
+      "required": ["ticks", "rate"],
+      "additionalProperties": false
+    },
+    "ChatTurnView": {
+      "title": "ChatTurnView",
+      "type": "object",
+      "properties": {
+        "turnId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "conversationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "inputMessageId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "state": {
+          "type": "string",
+          "enum": ["queued", "running", "waiting", "succeeded", "failed", "canceled", "interrupted"]
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "streamId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "finalMessageId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "temporary": {
+          "type": "boolean"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "hasUnknownEffect": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "turnId",
+        "conversationId",
+        "inputMessageId",
+        "state",
+        "revision",
+        "temporary",
+        "hasUnknownEffect"
+      ],
+      "additionalProperties": false
+    },
+    "ActorChain": {
+      "title": "ActorChain",
+      "type": "object",
+      "properties": {
+        "initiator": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "actorKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "delegationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "deviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["initiator", "owner", "actorKind"],
+      "additionalProperties": false
+    },
+    "EphemeralSelection": {
+      "title": "EphemeralSelection",
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "generation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "selectionId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["instanceId", "generation", "selectionId", "expiresAt"],
+      "additionalProperties": false
+    },
+    "MeasurementValueAsCount": {
+      "title": "MeasurementValueAsCount",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": [
+            "minimum",
+            "maximum",
+            "mean",
+            "rms",
+            "peakToPeak",
+            "standardDeviation",
+            "count",
+            "duration",
+            "frequency",
+            "dutyCycle",
+            "riseTime",
+            "fallTime",
+            "cursorDelta",
+            "eventCount",
+            "deltaTime",
+            "deltaValue"
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "count": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["name", "unit", "count"],
+      "additionalProperties": false
+    },
+    "MeasurementValueAsValue": {
+      "title": "MeasurementValueAsValue",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": [
+            "minimum",
+            "maximum",
+            "mean",
+            "rms",
+            "peakToPeak",
+            "standardDeviation",
+            "count",
+            "duration",
+            "frequency",
+            "dutyCycle",
+            "riseTime",
+            "fallTime",
+            "cursorDelta",
+            "eventCount",
+            "deltaTime",
+            "deltaValue"
+          ]
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["name", "value", "unit"],
+      "additionalProperties": false
+    },
+    "MeasurementValue": {
+      "title": "MeasurementValue",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/MeasurementValueAsCount"
+        },
+        {
+          "$ref": "#/$defs/MeasurementValueAsValue"
+        }
+      ]
+    },
+    "ApprovalView": {
+      "title": "ApprovalView",
+      "type": "object",
+      "properties": {
+        "approvalId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "taskId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "proposalHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "risk": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["pending", "approved", "rejected", "expired", "withdrawn"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "context": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContextRef"
+          }
+        }
+      },
+      "required": ["approvalId", "taskId", "proposalHash", "risk", "state", "expiresAt", "context"],
+      "additionalProperties": false
+    },
+    "ToolRequest": {
+      "title": "ToolRequest",
+      "type": "object",
+      "properties": {
+        "toolRequestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "taskId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "stepId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "commandId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "targetDeviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "capability": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "arguments": {
+          "$ref": "#/$defs/CapabilityArguments"
+        },
+        "context": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContextRef"
+          }
+        },
+        "actor": {
+          "$ref": "#/$defs/ActorChain"
+        },
+        "approvalId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["queued", "delivered", "answered", "expired", "refused"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "targetApplication": {
+          "$ref": "#/$defs/ApplicationTarget"
+        }
+      },
+      "required": [
+        "toolRequestId",
+        "runId",
+        "stepId",
+        "attemptId",
+        "commandId",
+        "capability",
+        "arguments",
+        "context",
+        "actor",
+        "expiresAt",
+        "state",
+        "owner"
+      ],
+      "additionalProperties": false
+    },
+    "ValueList": {
+      "title": "ValueList",
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StructuredValue"
+          },
+          "maxItems": 200
+        }
+      },
+      "required": ["items"],
+      "additionalProperties": false
+    },
+    "ExecutionOwnerAsTaskId": {
+      "title": "ExecutionOwnerAsTaskId",
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["taskId"],
+      "additionalProperties": false
+    },
+    "ExecutionOwnerAsTurnId": {
+      "title": "ExecutionOwnerAsTurnId",
+      "type": "object",
+      "properties": {
+        "turnId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["turnId"],
+      "additionalProperties": false
+    },
+    "ExecutionOwner": {
+      "title": "ExecutionOwner",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ExecutionOwnerAsTaskId"
+        },
+        {
+          "$ref": "#/$defs/ExecutionOwnerAsTurnId"
+        }
+      ]
+    },
+    "ModelUsage": {
+      "title": "ModelUsage",
+      "type": "object",
+      "properties": {
+        "inputTokens": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "outputTokens": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "cachedInputTokens": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "measuredAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["measuredAt", "source"],
+      "additionalProperties": false
+    },
+    "AttemptView": {
+      "title": "AttemptView",
+      "type": "object",
+      "properties": {
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "stepId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "startedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "endedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["attemptId", "stepId", "state", "effect"],
+      "additionalProperties": false
+    },
+    "CapabilityResult": {
+      "title": "CapabilityResult",
+      "type": "object",
+      "properties": {
+        "schemaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "value": {
+          "$ref": "#/$defs/StructuredValue"
+        }
+      },
+      "required": ["schemaId", "value"],
+      "additionalProperties": false
+    },
+    "AgentProfile": {
+      "title": "AgentProfile",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "modelId": {
+          "type": "string",
+          "maxLength": 256,
+          "pattern": "^(?:[A-Za-z0-9._:/-]{1,128}|@cf/[a-z0-9._-]+/[a-zA-Z0-9._/-]+)$"
+        },
+        "instructions": {
+          "type": "string",
+          "maxLength": 262144
+        },
+        "skillIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "not": {
+              "const": "00000000-0000-0000-0000-000000000000"
+            },
+            "x-arcforges-rules": ["nonzeroUuid"]
+          }
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "context": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContextRef"
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          }
+        }
+      },
+      "required": [
+        "profileId",
+        "name",
+        "modelId",
+        "instructions",
+        "skillIds",
+        "revision",
+        "context",
+        "capabilities"
+      ],
+      "additionalProperties": false
+    },
+    "ArtifactRef": {
+      "title": "ArtifactRef",
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "owner": {
+          "$ref": "#/$defs/AggregateRef"
+        },
+        "resource": {
+          "$ref": "#/$defs/ResourceRef"
+        },
+        "jobId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "origin": {
+          "$ref": "#/$defs/ContentOrigin"
+        },
+        "producingTaskId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "producingRunId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "actor": {
+          "$ref": "#/$defs/ActorChain"
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "availability": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "provenance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VersionedRef"
+          }
+        }
+      },
+      "required": [
+        "artifactId",
+        "kind",
+        "owner",
+        "actor",
+        "createdAt",
+        "availability",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    "ApplicationTarget": {
+      "title": "ApplicationTarget",
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enum": ["arcscope", "companion"]
+        },
+        "deviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "installationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "instanceEpoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["productId", "deviceId", "installationId"],
+      "additionalProperties": false
+    },
+    "SessionBinding": {
+      "title": "SessionBinding",
+      "type": "object",
+      "properties": {
+        "realmId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "workspaceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "sessionId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "authEpoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "deviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "bindingMac": {
+          "type": "string",
+          "maxLength": 87384,
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+        }
+      },
+      "required": [
+        "realmId",
+        "userId",
+        "sessionId",
+        "authEpoch",
+        "recoveryGeneration",
+        "expiresAt",
+        "bindingMac"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "ExecutionSnapshotTask": {
+      "title": "ExecutionSnapshotTask",
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/$defs/TaskSnapshot"
+        }
+      },
+      "required": ["task"],
+      "additionalProperties": false
+    },
+    "ExecutionSnapshotTurn": {
+      "title": "ExecutionSnapshotTurn",
+      "type": "object",
+      "properties": {
+        "turn": {
+          "$ref": "#/$defs/ChatTurnView"
+        }
+      },
+      "required": ["turn"],
+      "additionalProperties": false
+    },
+    "ExecutionSnapshot": {
+      "title": "ExecutionSnapshot",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ExecutionSnapshotTask"
+        },
+        {
+          "$ref": "#/$defs/ExecutionSnapshotTurn"
+        }
+      ]
+    },
+    "ProductJobRef": {
+      "title": "ProductJobRef",
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "ownerInstanceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "progress": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "artifact": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["jobId", "kind", "state", "ownerInstanceId"],
+      "additionalProperties": false
+    },
+    "CommitReceipt": {
+      "title": "CommitReceipt",
+      "type": "object",
+      "properties": {
+        "commandId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "requestHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "resultHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["committed", "rejected"]
+        },
+        "resultRef": {
+          "$ref": "#/$defs/VersionedRef"
+        }
+      },
+      "required": ["commandId", "operation", "requestHash", "resultHash", "state"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 65536
+    },
+    "AiAuthorizeCredentialRequest": {
+      "title": "AiAuthorizeCredentialRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "credential": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8192
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["readOwner", "stream", "objectRead", "objectWrite", "dispatch"]
+        },
+        "target": {
+          "$ref": "#/$defs/AggregateRef"
+        },
+        "csrf": {
+          "type": "string",
+          "maxLength": 8192
+        }
+      },
+      "required": ["requestId", "correlationId", "credential", "purpose"],
+      "additionalProperties": false
+    },
+    "AiAuthorizeSessionBindingRequest": {
+      "title": "AiAuthorizeSessionBindingRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "sessionBinding": {
+          "$ref": "#/$defs/SessionBinding"
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["readOwner", "stream", "objectRead", "objectWrite", "dispatch"]
+        },
+        "target": {
+          "$ref": "#/$defs/AggregateRef"
+        },
+        "csrf": {
+          "type": "string",
+          "maxLength": 8192
+        }
+      },
+      "required": ["requestId", "correlationId", "sessionBinding", "purpose"],
+      "additionalProperties": false
+    },
+    "AiAuthorizeRequest": {
+      "title": "AiAuthorizeRequest",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AiAuthorizeCredentialRequest"
+        },
+        {
+          "$ref": "#/$defs/AiAuthorizeSessionBindingRequest"
+        }
+      ],
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiAuthorizeResponse": {
+      "title": "AiAuthorizeResponse",
+      "type": "object",
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/ActorChain"
+        },
+        "binding": {
+          "$ref": "#/$defs/SessionBinding"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "configVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["actor", "binding", "expiresAt", "configVersion"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiClaimRequest": {
+      "title": "AiClaimRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiClaimResponse": {
+      "title": "AiClaimResponse",
+      "type": "object",
+      "properties": {
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "run": {
+          "$ref": "#/$defs/RunView"
+        },
+        "execution": {
+          "$ref": "#/$defs/ExecutionSnapshot"
+        },
+        "configVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["epoch", "expiresAt", "run", "execution", "configVersion"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiRenewRequest": {
+      "title": "AiRenewRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiRenewResponse": {
+      "title": "AiRenewResponse",
+      "type": "object",
+      "properties": {
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "control": {
+          "type": "string",
+          "enum": ["continue", "pause", "cancel", "revoked"]
+        }
+      },
+      "required": ["expiresAt", "control"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiReconcileRequest": {
+      "title": "AiReconcileRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "knownReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "cursor": {
+          "type": "string",
+          "maxLength": 4096,
+          "x-arcforges-max-utf8-bytes": 4096
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiReconcileResponse": {
+      "title": "AiReconcileResponse",
+      "type": "object",
+      "properties": {
+        "execution": {
+          "$ref": "#/$defs/ExecutionSnapshot"
+        },
+        "run": {
+          "$ref": "#/$defs/RunView"
+        },
+        "attempts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AttemptView"
+          },
+          "maxItems": 200
+        },
+        "pendingApproval": {
+          "$ref": "#/$defs/ApprovalView"
+        },
+        "toolRequests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ToolRequest"
+          },
+          "maxItems": 200
+        },
+        "receipts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CommitReceipt"
+          },
+          "maxItems": 200
+        },
+        "nextCursor": {
+          "type": "string",
+          "maxLength": 4096,
+          "x-arcforges-max-utf8-bytes": 4096
+        }
+      },
+      "required": ["execution", "run", "attempts", "toolRequests", "receipts"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiContextRequest": {
+      "title": "AiContextRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContextRef"
+          },
+          "maxItems": 200
+        },
+        "maximumBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "maximumItems": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "cursor": {
+          "type": "string",
+          "maxLength": 4096,
+          "x-arcforges-max-utf8-bytes": 4096
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "sources",
+        "maximumBytes",
+        "maximumItems"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiContextResponse": {
+      "title": "AiContextResponse",
+      "type": "object",
+      "properties": {
+        "manifest": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContextRef"
+          },
+          "maxItems": 200
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContextItem"
+          },
+          "maxItems": 200
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CapabilityDescriptor"
+          },
+          "maxItems": 200
+        },
+        "profile": {
+          "$ref": "#/$defs/AgentProfile"
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "nextCursor": {
+          "type": "string",
+          "maxLength": 4096,
+          "x-arcforges-max-utf8-bytes": 4096
+        }
+      },
+      "required": ["manifest", "items", "tools", "profile", "contentHash", "truncated"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiModelIntentRequest": {
+      "title": "AiModelIntentRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "stepId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "logicalRequestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "modelId": {
+          "type": "string",
+          "maxLength": 256,
+          "pattern": "^(?:[A-Za-z0-9._:/-]{1,128}|@cf/[a-z0-9._-]+/[a-zA-Z0-9._/-]+)$"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["customerInference", "platformCompaction"]
+        },
+        "configVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "contextHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "inputBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "maxOutputTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "requestedBudget": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "stepId",
+        "attemptId",
+        "logicalRequestId",
+        "modelId",
+        "purpose",
+        "configVersion",
+        "contextHash",
+        "inputBytes",
+        "maxOutputTokens",
+        "requestedBudget"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiModelIntentResponse": {
+      "title": "AiModelIntentResponse",
+      "type": "object",
+      "properties": {
+        "dispatch": {
+          "type": "string",
+          "enum": ["allowed", "wait", "refused"]
+        },
+        "reservationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "intentReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["dispatch"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiModelOutcomePartsRequest": {
+      "title": "AiModelOutcomePartsRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "intentReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "state": {
+          "type": "string",
+          "enum": ["complete", "interrupted", "refused", "unknown"]
+        },
+        "usage": {
+          "$ref": "#/$defs/ModelUsage"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MessagePart"
+          },
+          "maxItems": 4096
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "attemptId",
+        "intentReceipt",
+        "state",
+        "effect",
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "AiModelOutcomeResourceRequest": {
+      "title": "AiModelOutcomeResourceRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "intentReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "state": {
+          "type": "string",
+          "enum": ["complete", "interrupted", "refused", "unknown"]
+        },
+        "usage": {
+          "$ref": "#/$defs/ModelUsage"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "outputResource": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "attemptId",
+        "intentReceipt",
+        "state",
+        "effect",
+        "outputResource"
+      ],
+      "additionalProperties": false
+    },
+    "AiModelOutcomeRequest": {
+      "title": "AiModelOutcomeRequest",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AiModelOutcomePartsRequest"
+        },
+        {
+          "$ref": "#/$defs/AiModelOutcomeResourceRequest"
+        }
+      ],
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiModelOutcomeResponse": {
+      "title": "AiModelOutcomeResponse",
+      "type": "object",
+      "properties": {
+        "outputRef": {
+          "$ref": "#/$defs/VersionedRef"
+        },
+        "outcomeReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
           "pattern": "^[0-9a-f]{64}$"
         }
       },
-      "required": ["root", "revision"],
+      "required": ["outcomeReceipt"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiSettleRequest": {
+      "title": "AiSettleRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "logicalRequestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "outcomeReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "logicalRequestId",
+        "outcomeReceipt"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiSettleResponse": {
+      "title": "AiSettleResponse",
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "customerState": {
+          "type": "string",
+          "enum": ["settled", "unknownPending", "closedNoLaterDebit"]
+        },
+        "remainingBudget": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["receipt", "customerState", "remainingBudget"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiPrepareToolsRequest": {
+      "title": "AiPrepareToolsRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "iterationReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "proposals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ToolProposal"
+          },
+          "maxItems": 200
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "iterationReceipt",
+        "proposals"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiPrepareToolsResponse": {
+      "title": "AiPrepareToolsResponse",
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StepView"
+          },
+          "maxItems": 200
+        },
+        "approval": {
+          "$ref": "#/$defs/ApprovalView"
+        },
+        "requests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ToolRequest"
+          },
+          "maxItems": 200
+        }
+      },
+      "required": ["steps", "requests"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiCloudToolRequest": {
+      "title": "AiCloudToolRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "toolRequestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "commandId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "toolRequestId",
+        "attemptId",
+        "commandId"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiCloudToolResult": {
+      "title": "AiCloudToolResult",
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/$defs/ToolResult"
+        }
+      },
+      "required": ["result"],
       "additionalProperties": false
+    },
+    "AiCloudToolPending": {
+      "title": "AiCloudToolPending",
+      "type": "object",
+      "properties": {
+        "pending": {
+          "$ref": "#/$defs/ProductJobRef"
+        }
+      },
+      "required": ["pending"],
+      "additionalProperties": false
+    },
+    "AiCloudToolResponse": {
+      "title": "AiCloudToolResponse",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AiCloudToolResult"
+        },
+        {
+          "$ref": "#/$defs/AiCloudToolPending"
+        }
+      ],
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiWaitRequest": {
+      "title": "AiWaitRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "approvalId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "toolRequestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "until": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiWaitResponse": {
+      "title": "AiWaitResponse",
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "execution": {
+          "$ref": "#/$defs/ExecutionSnapshot"
+        }
+      },
+      "required": ["receipt", "execution"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiFinalizeRequest": {
+      "title": "AiFinalizeRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "terminal": {
+          "type": "string",
+          "enum": ["succeeded", "partiallySucceeded", "failed", "canceled"]
+        },
+        "iterationRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VersionedRef"
+          },
+          "maxItems": 200
+        },
+        "noAnswerReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "terminal",
+        "iterationRefs"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiFinalizeResponse": {
+      "title": "AiFinalizeResponse",
+      "type": "object",
+      "properties": {
+        "execution": {
+          "$ref": "#/$defs/ExecutionSnapshot"
+        },
+        "finalMessage": {
+          "$ref": "#/$defs/VersionedRef"
+        },
+        "receipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["execution", "receipt"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiStreamStateRequest": {
+      "title": "AiStreamStateRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "streamId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "nextOffset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "streamId",
+        "attemptId",
+        "state",
+        "nextOffset"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiStreamStateResponse": {
+      "title": "AiStreamStateResponse",
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["receipt"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiLateOutcomePartsRequest": {
+      "title": "AiLateOutcomePartsRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "intentReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "state": {
+          "type": "string",
+          "enum": ["complete", "interrupted", "refused", "unknown"]
+        },
+        "usage": {
+          "$ref": "#/$defs/ModelUsage"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "originalEpoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "originalRecoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MessagePart"
+          },
+          "maxItems": 4096
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "attemptId",
+        "intentReceipt",
+        "state",
+        "effect",
+        "originalEpoch",
+        "originalRecoveryGeneration",
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "AiLateOutcomeResourceRequest": {
+      "title": "AiLateOutcomeResourceRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "correlationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "owner": {
+          "$ref": "#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "workflowId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "workerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": {
+            "const": "00000000-0000-0000-0000-000000000000"
+          },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "intentReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "state": {
+          "type": "string",
+          "enum": ["complete", "interrupted", "refused", "unknown"]
+        },
+        "usage": {
+          "$ref": "#/$defs/ModelUsage"
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        },
+        "originalEpoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "originalRecoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "outputResource": {
+          "$ref": "#/$defs/ResourceVersionRef"
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "attemptId",
+        "intentReceipt",
+        "state",
+        "effect",
+        "originalEpoch",
+        "originalRecoveryGeneration",
+        "outputResource"
+      ],
+      "additionalProperties": false
+    },
+    "AiLateOutcomeRequest": {
+      "title": "AiLateOutcomeRequest",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AiLateOutcomePartsRequest"
+        },
+        {
+          "$ref": "#/$defs/AiLateOutcomeResourceRequest"
+        }
+      ],
+      "x-arcforges-max-bytes": 262144
+    },
+    "AiLateOutcomeResponse": {
+      "title": "AiLateOutcomeResponse",
+      "type": "object",
+      "properties": {
+        "outcomeReceipt": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["outcomeReceipt"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
     }
   },
-  "x-arcforges-max-bytes": 65536,
+  "oneOf": [
+    {
+      "$ref": "#/$defs/SessionBinding"
+    },
+    {
+      "$ref": "#/$defs/CommitReceipt"
+    },
+    {
+      "$ref": "#/$defs/AiAuthorizeRequest"
+    },
+    {
+      "$ref": "#/$defs/AiAuthorizeResponse"
+    },
+    {
+      "$ref": "#/$defs/AiClaimRequest"
+    },
+    {
+      "$ref": "#/$defs/AiClaimResponse"
+    },
+    {
+      "$ref": "#/$defs/AiRenewRequest"
+    },
+    {
+      "$ref": "#/$defs/AiRenewResponse"
+    },
+    {
+      "$ref": "#/$defs/AiReconcileRequest"
+    },
+    {
+      "$ref": "#/$defs/AiReconcileResponse"
+    },
+    {
+      "$ref": "#/$defs/AiContextRequest"
+    },
+    {
+      "$ref": "#/$defs/AiContextResponse"
+    },
+    {
+      "$ref": "#/$defs/AiModelIntentRequest"
+    },
+    {
+      "$ref": "#/$defs/AiModelIntentResponse"
+    },
+    {
+      "$ref": "#/$defs/AiModelOutcomeRequest"
+    },
+    {
+      "$ref": "#/$defs/AiModelOutcomeResponse"
+    },
+    {
+      "$ref": "#/$defs/AiSettleRequest"
+    },
+    {
+      "$ref": "#/$defs/AiSettleResponse"
+    },
+    {
+      "$ref": "#/$defs/AiPrepareToolsRequest"
+    },
+    {
+      "$ref": "#/$defs/AiPrepareToolsResponse"
+    },
+    {
+      "$ref": "#/$defs/AiCloudToolRequest"
+    },
+    {
+      "$ref": "#/$defs/AiCloudToolResponse"
+    },
+    {
+      "$ref": "#/$defs/AiWaitRequest"
+    },
+    {
+      "$ref": "#/$defs/AiWaitResponse"
+    },
+    {
+      "$ref": "#/$defs/AiFinalizeRequest"
+    },
+    {
+      "$ref": "#/$defs/AiFinalizeResponse"
+    },
+    {
+      "$ref": "#/$defs/AiStreamStateRequest"
+    },
+    {
+      "$ref": "#/$defs/AiStreamStateResponse"
+    },
+    {
+      "$ref": "#/$defs/AiLateOutcomeRequest"
+    },
+    {
+      "$ref": "#/$defs/AiLateOutcomeResponse"
+    }
+  ],
   "x-arcforges-schema-version": "1"
 }

@@ -1,0 +1,517 @@
+{
+  "schemaVersion": "con-10-ai-internal.v1",
+  "license": "Apache-2.0",
+  "authority": [
+    "contracts05 §3 and §8",
+    "registry04 §1 and §4",
+    "annex10 ApplicationTarget and ChatTurnView"
+  ],
+  "evidenceClass": "offline JSON-shape vectors only; no Worker, Cloudflare, authorization, model, provider, or live-service proof",
+  "ports": [
+    {
+      "path": "POST /internal/ai/v1/authorize",
+      "request": "AiAuthorizeRequest",
+      "response": "AiAuthorizeResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/claim",
+      "request": "AiClaimRequest",
+      "response": "AiClaimResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/renew",
+      "request": "AiRenewRequest",
+      "response": "AiRenewResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/reconcile",
+      "request": "AiReconcileRequest",
+      "response": "AiReconcileResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/context",
+      "request": "AiContextRequest",
+      "response": "AiContextResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/model-intent",
+      "request": "AiModelIntentRequest",
+      "response": "AiModelIntentResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/model-outcome",
+      "request": "AiModelOutcomeRequest",
+      "response": "AiModelOutcomeResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/settle",
+      "request": "AiSettleRequest",
+      "response": "AiSettleResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/prepare-tools",
+      "request": "AiPrepareToolsRequest",
+      "response": "AiPrepareToolsResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/cloud-tool",
+      "request": "AiCloudToolRequest",
+      "response": "AiCloudToolResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/wait",
+      "request": "AiWaitRequest",
+      "response": "AiWaitResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/finalize",
+      "request": "AiFinalizeRequest",
+      "response": "AiFinalizeResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/stream-state",
+      "request": "AiStreamStateRequest",
+      "response": "AiStreamStateResponse"
+    },
+    {
+      "path": "POST /internal/ai/v1/late-outcome",
+      "request": "AiLateOutcomeRequest",
+      "response": "AiLateOutcomeResponse"
+    }
+  ],
+  "positiveVectors": [
+    {
+      "id": "authorize-credential-branch",
+      "schema": "AiAuthorizeRequest",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000011",
+        "correlationId": "40000000-0000-4000-8000-000000000012",
+        "credential": "fixture-only-bearer",
+        "purpose": "stream"
+      }
+    },
+    {
+      "id": "authorize-session-binding-branch",
+      "schema": "AiAuthorizeRequest",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000013",
+        "correlationId": "40000000-0000-4000-8000-000000000014",
+        "sessionBinding": {
+          "realmId": "40000000-0000-4000-8000-000000000001",
+          "userId": "40000000-0000-4000-8000-000000000002",
+          "sessionId": "40000000-0000-4000-8000-000000000003",
+          "authEpoch": "18446744073709551615",
+          "recoveryGeneration": "0",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "bindingMac": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+        },
+        "purpose": "stream"
+      }
+    },
+    {
+      "id": "model-outcome-parts-branch",
+      "schema": "AiModelOutcomeRequest",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000021",
+        "correlationId": "40000000-0000-4000-8000-000000000022",
+        "runId": "40000000-0000-4000-8000-000000000023",
+        "owner": { "taskId": "40000000-0000-4000-8000-000000000024" },
+        "epoch": "1",
+        "workflowId": "fixture.workflow",
+        "workerVersion": "fixture.worker.v1",
+        "recoveryGeneration": "0",
+        "attemptId": "40000000-0000-4000-8000-000000000025",
+        "intentReceipt": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "complete",
+        "effect": "happened",
+        "parts": []
+      }
+    },
+    {
+      "id": "model-outcome-resource-branch",
+      "schema": "AiModelOutcomeRequest",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000031",
+        "correlationId": "40000000-0000-4000-8000-000000000032",
+        "runId": "40000000-0000-4000-8000-000000000033",
+        "owner": { "turnId": "40000000-0000-4000-8000-000000000034" },
+        "epoch": "1",
+        "workflowId": "fixture.workflow",
+        "workerVersion": "fixture.worker.v1",
+        "recoveryGeneration": "0",
+        "attemptId": "40000000-0000-4000-8000-000000000035",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "state": "complete",
+        "effect": "happened",
+        "outputResource": {
+          "resource": {
+            "realmId": "40000000-0000-4000-8000-000000000036",
+            "ownerAppId": "fixture.app",
+            "resourceKind": "fixture.output",
+            "resourceId": "40000000-0000-4000-8000-000000000037",
+            "availability": "cloudOnly"
+          },
+          "cloud": "1"
+        }
+      }
+    },
+    {
+      "id": "cloud-tool-result-branch",
+      "schema": "AiCloudToolResponse",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "result": {
+          "invocationId": "40000000-0000-4000-8000-000000000041",
+          "effect": "happened",
+          "success": { "schemaId": "fixture.result.v1", "value": { "text": "ok" } },
+          "artifacts": []
+        }
+      }
+    },
+    {
+      "id": "cloud-tool-pending-branch",
+      "schema": "AiCloudToolResponse",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "pending": {
+          "jobId": "40000000-0000-4000-8000-000000000042",
+          "kind": "fixture.job",
+          "state": "running",
+          "ownerInstanceId": "40000000-0000-4000-8000-000000000043"
+        }
+      }
+    },
+    {
+      "id": "late-outcome-parts-branch",
+      "schema": "AiLateOutcomeRequest",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000051",
+        "correlationId": "40000000-0000-4000-8000-000000000052",
+        "runId": "40000000-0000-4000-8000-000000000053",
+        "owner": { "taskId": "40000000-0000-4000-8000-000000000054" },
+        "epoch": "1",
+        "workflowId": "fixture.workflow",
+        "workerVersion": "fixture.worker.v1",
+        "recoveryGeneration": "0",
+        "attemptId": "40000000-0000-4000-8000-000000000055",
+        "intentReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "state": "complete",
+        "effect": "happened",
+        "originalEpoch": "0",
+        "originalRecoveryGeneration": "0",
+        "parts": []
+      }
+    },
+    {
+      "id": "late-outcome-resource-branch",
+      "schema": "AiLateOutcomeRequest",
+      "valid": true,
+      "assertRoundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000061",
+        "correlationId": "40000000-0000-4000-8000-000000000062",
+        "runId": "40000000-0000-4000-8000-000000000063",
+        "owner": { "turnId": "40000000-0000-4000-8000-000000000064" },
+        "epoch": "1",
+        "workflowId": "fixture.workflow",
+        "workerVersion": "fixture.worker.v1",
+        "recoveryGeneration": "0",
+        "attemptId": "40000000-0000-4000-8000-000000000065",
+        "intentReceipt": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "state": "complete",
+        "effect": "happened",
+        "originalEpoch": "0",
+        "originalRecoveryGeneration": "0",
+        "outputResource": {
+          "resource": {
+            "realmId": "40000000-0000-4000-8000-000000000066",
+            "ownerAppId": "fixture.app",
+            "resourceKind": "fixture.output",
+            "resourceId": "40000000-0000-4000-8000-000000000067",
+            "availability": "cloudOnly"
+          },
+          "cloud": "1"
+        }
+      }
+    },
+    {
+      "id": "measurement-value-fractional-double",
+      "schema": "AiContextResponse",
+      "path": "items[].measurement.families[].values[].value",
+      "valid": true,
+      "value": 0.125
+    },
+    {
+      "id": "structured-value-fractional-double",
+      "schema": "AiModelOutcomeRequest",
+      "path": "parts[].toolProposal.arguments.value.number",
+      "valid": true,
+      "value": 0.125
+    },
+    {
+      "id": "uint64-max-remains-decimal-string",
+      "schema": "AiRenewRequest",
+      "path": "recoveryGeneration",
+      "valid": true,
+      "value": "18446744073709551615"
+    },
+    {
+      "id": "cursor-4096-ascii-bytes",
+      "schema": "AiReconcileRequest",
+      "path": "cursor",
+      "valid": true,
+      "valuePattern": { "repeat": "a", "count": 4096 },
+      "utf8Bytes": 4096
+    },
+    {
+      "id": "cursor-4096-multibyte-utf8-bytes",
+      "schema": "AiReconcileRequest",
+      "path": "cursor",
+      "valid": true,
+      "valuePattern": { "repeat": "é", "count": 2048 },
+      "utf8Bytes": 4096
+    }
+  ],
+  "negativeVectors": [
+    {
+      "id": "authorize-rejects-both-credential-alternatives",
+      "schema": "AiAuthorizeRequest",
+      "valid": false,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000071",
+        "correlationId": "40000000-0000-4000-8000-000000000072",
+        "credential": "fixture-only",
+        "sessionBinding": {
+          "realmId": "40000000-0000-4000-8000-000000000001",
+          "userId": "40000000-0000-4000-8000-000000000002",
+          "sessionId": "40000000-0000-4000-8000-000000000003",
+          "authEpoch": "1",
+          "recoveryGeneration": "0",
+          "expiresAt": "2026-09-28T00:00:00Z",
+          "bindingMac": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="
+        },
+        "purpose": "stream"
+      },
+      "expected": "exactly one closed authorize request profile"
+    },
+    {
+      "id": "authorize-empty-route-union-rejected",
+      "schema": "AiAuthorizeRequest",
+      "valid": false,
+      "input": {},
+      "expected": "exactly one closed authorize request profile"
+    },
+    {
+      "id": "model-outcome-empty-route-union-rejected",
+      "schema": "AiModelOutcomeRequest",
+      "valid": false,
+      "input": {},
+      "expected": "exactly one closed model-outcome request profile"
+    },
+    {
+      "id": "model-outcome-hybrid-route-union-rejected",
+      "schema": "AiModelOutcomeRequest",
+      "valid": false,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000081",
+        "correlationId": "40000000-0000-4000-8000-000000000082",
+        "runId": "40000000-0000-4000-8000-000000000083",
+        "owner": { "taskId": "40000000-0000-4000-8000-000000000084" },
+        "epoch": "1",
+        "workflowId": "fixture.workflow",
+        "workerVersion": "fixture.worker.v1",
+        "recoveryGeneration": "0",
+        "attemptId": "40000000-0000-4000-8000-000000000085",
+        "intentReceipt": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "state": "complete",
+        "effect": "happened",
+        "parts": [],
+        "outputResource": {
+          "resource": {
+            "realmId": "40000000-0000-4000-8000-000000000086",
+            "ownerAppId": "fixture.app",
+            "resourceKind": "fixture.output",
+            "resourceId": "40000000-0000-4000-8000-000000000087",
+            "availability": "cloudOnly"
+          },
+          "cloud": "1"
+        }
+      },
+      "expected": "hybrid fields match no closed route branch"
+    },
+    {
+      "id": "cloud-tool-empty-route-union-rejected",
+      "schema": "AiCloudToolResponse",
+      "valid": false,
+      "input": {},
+      "expected": "exactly one closed cloud-tool response profile"
+    },
+    {
+      "id": "cloud-tool-hybrid-route-union-rejected",
+      "schema": "AiCloudToolResponse",
+      "valid": false,
+      "input": {
+        "result": {
+          "invocationId": "40000000-0000-4000-8000-000000000091",
+          "effect": "happened",
+          "success": { "schemaId": "fixture.result.v1", "value": { "text": "ok" } },
+          "artifacts": []
+        },
+        "pending": {
+          "jobId": "40000000-0000-4000-8000-000000000092",
+          "kind": "fixture.job",
+          "state": "running",
+          "ownerInstanceId": "40000000-0000-4000-8000-000000000093"
+        }
+      },
+      "expected": "hybrid fields match no closed route branch"
+    },
+    {
+      "id": "late-outcome-empty-route-union-rejected",
+      "schema": "AiLateOutcomeRequest",
+      "valid": false,
+      "input": {},
+      "expected": "exactly one closed late-outcome request profile"
+    },
+    {
+      "id": "late-outcome-hybrid-route-union-rejected",
+      "schema": "AiLateOutcomeRequest",
+      "valid": false,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000101",
+        "correlationId": "40000000-0000-4000-8000-000000000102",
+        "runId": "40000000-0000-4000-8000-000000000103",
+        "owner": { "taskId": "40000000-0000-4000-8000-000000000104" },
+        "epoch": "1",
+        "workflowId": "fixture.workflow",
+        "workerVersion": "fixture.worker.v1",
+        "recoveryGeneration": "0",
+        "attemptId": "40000000-0000-4000-8000-000000000105",
+        "intentReceipt": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "state": "complete",
+        "effect": "happened",
+        "originalEpoch": "0",
+        "originalRecoveryGeneration": "0",
+        "parts": [],
+        "outputResource": {
+          "resource": {
+            "realmId": "40000000-0000-4000-8000-000000000106",
+            "ownerAppId": "fixture.app",
+            "resourceKind": "fixture.output",
+            "resourceId": "40000000-0000-4000-8000-000000000107",
+            "availability": "cloudOnly"
+          },
+          "cloud": "1"
+        }
+      },
+      "expected": "hybrid fields match no closed route branch"
+    },
+    {
+      "id": "tool-result-rejects-success-and-error",
+      "schema": "ToolResult",
+      "valid": false,
+      "input": {
+        "invocationId": "40000000-0000-4000-8000-000000000111",
+        "effect": "unknown",
+        "artifacts": [],
+        "success": {
+          "schemaId": "fixture.result.v1",
+          "value": { "text": "ok" }
+        },
+        "error": {
+          "code": "fixture.error",
+          "category": "execution",
+          "messageKey": "fixture.failed",
+          "retry": { "mode": "never" },
+          "effect": "unknown",
+          "correlationId": "40000000-0000-4000-8000-000000000112"
+        }
+      },
+      "expected": "the success/error oneof is exclusive"
+    },
+    {
+      "id": "structured-value-rejects-multiple-oneof-members",
+      "schema": "StructuredValue",
+      "valid": false,
+      "input": { "number": 0.125, "text": "not-a-second-variant" },
+      "expected": "exactly one typed value branch"
+    },
+    {
+      "id": "measurement-value-rejects-nan-spelling",
+      "schema": "AiContextResponse",
+      "path": "items[].measurement.families[].values[].value",
+      "valid": false,
+      "input": "NaN",
+      "expected": "binary64 accepts only finite JSON numbers, not strings"
+    },
+    {
+      "id": "structured-value-rejects-overflowing-number-lexeme",
+      "schema": "AiModelOutcomeRequest",
+      "path": "parts[].toolProposal.arguments.value.number",
+      "valid": false,
+      "rawJson": "{\"number\":1e999}",
+      "expected": "strict JSON shape decoder rejects numeric overflow to infinity"
+    },
+    {
+      "id": "uint64-rejects-number-encoding",
+      "schema": "AiRenewRequest",
+      "path": "recoveryGeneration",
+      "valid": false,
+      "input": 7,
+      "expected": "uint64 remains a canonical decimal string"
+    },
+    {
+      "id": "uint64-rejects-leading-zero",
+      "schema": "AiRenewRequest",
+      "path": "recoveryGeneration",
+      "valid": false,
+      "input": "07",
+      "expected": "uint64 decimal strings have no leading zero"
+    },
+    {
+      "id": "cursor-4097-ascii-bytes",
+      "schema": "AiReconcileRequest",
+      "path": "cursor",
+      "valid": false,
+      "valuePattern": { "repeat": "a", "count": 4097 },
+      "utf8Bytes": 4097,
+      "expected": "opaque cursor exceeds 4096 UTF-8 bytes"
+    },
+    {
+      "id": "cursor-multibyte-utf8-exceeds-by-one",
+      "schema": "AiReconcileRequest",
+      "path": "cursor",
+      "valid": false,
+      "valuePattern": { "repeat": "é", "count": 2048 },
+      "suffix": "a",
+      "utf8Bytes": 4097,
+      "expected": "opaque cursor is bounded by UTF-8 bytes, not Unicode scalar count"
+    },
+    {
+      "id": "cursor-rejects-unpaired-surrogate",
+      "schema": "AiReconcileRequest",
+      "valid": false,
+      "rawJson": "{\"cursor\":\"\\uD800\"}",
+      "expected": "the existing strict JSON parser rejects unpaired surrogate input"
+    },
+    {
+      "id": "cursor-rejects-invalid-utf8",
+      "schema": "AiReconcileRequest",
+      "valid": false,
+      "rawUtf8Hex": "7b22637572736f72223a22c328227d",
+      "expected": "the existing strict decoder rejects malformed UTF-8 before JSON parsing"
+    }
+  ]
+}

@@ -1,0 +1,1545 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ChatProto";
+
+// CON.10: registered public assistant operations and their owner projections.
+// Service names and numbered fields follow Design registry04; in-process IChatOperations
+// remains a distinct private surface and is not registered here.
+service TaskService {
+  rpc List(TaskServiceListRequest) returns (TaskServiceListResponse);
+  rpc Get(TaskServiceGetRequest) returns (TaskServiceGetResponse);
+  rpc Create(TaskServiceCreateRequest) returns (TaskServiceCreateResponse);
+  rpc Cancel(TaskServiceCancelRequest) returns (TaskServiceCancelResponse);
+  rpc Pause(TaskServicePauseRequest) returns (TaskServicePauseResponse);
+  rpc Resume(TaskServiceResumeRequest) returns (TaskServiceResumeResponse);
+  rpc RetryAttempt(TaskServiceRetryAttemptRequest) returns (TaskServiceRetryAttemptResponse);
+  rpc Steer(TaskServiceSteerRequest) returns (TaskServiceSteerResponse);
+  rpc GetDetails(TaskServiceGetDetailsRequest) returns (TaskServiceGetDetailsResponse);
+}
+
+service ApprovalService {
+  rpc List(ApprovalServiceListRequest) returns (ApprovalServiceListResponse);
+  rpc Decide(ApprovalServiceDecideRequest) returns (ApprovalServiceDecideResponse);
+}
+
+service BridgeService {
+  rpc PullRequests(BridgeServicePullRequestsRequest) returns (BridgeServicePullRequestsResponse);
+  rpc SubmitResult(BridgeServiceSubmitResultRequest) returns (BridgeServiceSubmitResultResponse);
+  rpc GetRequestState(BridgeServiceGetRequestStateRequest) returns (BridgeServiceGetRequestStateResponse);
+}
+
+service ChatService {
+  rpc ListConversations(ChatServiceListConversationsRequest) returns (ChatServiceListConversationsResponse);
+  rpc GetConversation(ChatServiceGetConversationRequest) returns (ChatServiceGetConversationResponse);
+  rpc AppendMessage(ChatServiceAppendMessageRequest) returns (ChatServiceAppendMessageResponse);
+  rpc CreateBranch(ChatServiceCreateBranchRequest) returns (ChatServiceCreateBranchResponse);
+  rpc RequestExport(ChatServiceRequestExportRequest) returns (ChatServiceRequestExportResponse);
+  rpc CreateConversation(ChatServiceCreateConversationRequest) returns (ChatServiceCreateConversationResponse);
+  rpc PutProject(ChatServicePutProjectRequest) returns (ChatServicePutProjectResponse);
+  rpc DeleteProject(ChatServiceDeleteProjectRequest) returns (ChatServiceDeleteProjectResponse);
+  rpc PutMemory(ChatServicePutMemoryRequest) returns (ChatServicePutMemoryResponse);
+  rpc DeleteMemory(ChatServiceDeleteMemoryRequest) returns (ChatServiceDeleteMemoryResponse);
+  rpc GetTurn(ChatServiceGetTurnRequest) returns (ChatServiceGetTurnResponse);
+  rpc CancelTurn(ChatServiceCancelTurnRequest) returns (ChatServiceCancelTurnResponse);
+  rpc PreviewPromotion(ChatServicePreviewPromotionRequest) returns (ChatServicePreviewPromotionResponse);
+  rpc PromoteTurn(ChatServicePromoteTurnRequest) returns (ChatServicePromoteTurnResponse);
+  rpc CloseTemporary(ChatServiceCloseTemporaryRequest) returns (ChatServiceCloseTemporaryResponse);
+  rpc SaveTemporary(ChatServiceSaveTemporaryRequest) returns (ChatServiceSaveTemporaryResponse);
+  rpc UpdateConversation(ChatServiceUpdateConversationRequest) returns (ChatServiceUpdateConversationResponse);
+  rpc ListProjects(ChatServiceListProjectsRequest) returns (ChatServiceListProjectsResponse);
+  rpc GetProject(ChatServiceGetProjectRequest) returns (ChatServiceGetProjectResponse);
+  rpc ListMemories(ChatServiceListMemoriesRequest) returns (ChatServiceListMemoriesResponse);
+  rpc GetMemory(ChatServiceGetMemoryRequest) returns (ChatServiceGetMemoryResponse);
+}
+
+service AgentService {
+  rpc ListModels(AgentServiceListModelsRequest) returns (AgentServiceListModelsResponse);
+  rpc ListProfiles(AgentServiceListProfilesRequest) returns (AgentServiceListProfilesResponse);
+  rpc GetUsage(AgentServiceGetUsageRequest) returns (AgentServiceGetUsageResponse);
+  rpc PutProfile(AgentServicePutProfileRequest) returns (AgentServicePutProfileResponse);
+  rpc DeleteProfile(AgentServiceDeleteProfileRequest) returns (AgentServiceDeleteProfileResponse);
+  rpc PutSkill(AgentServicePutSkillRequest) returns (AgentServicePutSkillResponse);
+  rpc DeleteSkill(AgentServiceDeleteSkillRequest) returns (AgentServiceDeleteSkillResponse);
+}
+
+service SearchService {
+  rpc Query(SearchServiceQueryRequest) returns (SearchServiceQueryResponse);
+}
+
+service AutomationService {
+  rpc List(AutomationServiceListRequest) returns (AutomationServiceListResponse);
+  rpc Get(AutomationServiceGetRequest) returns (AutomationServiceGetResponse);
+  rpc Create(AutomationServiceCreateRequest) returns (AutomationServiceCreateResponse);
+  rpc Update(AutomationServiceUpdateRequest) returns (AutomationServiceUpdateResponse);
+  rpc SetEnabled(AutomationServiceSetEnabledRequest) returns (AutomationServiceSetEnabledResponse);
+  rpc Delete(AutomationServiceDeleteRequest) returns (AutomationServiceDeleteResponse);
+  rpc RunNow(AutomationServiceRunNowRequest) returns (AutomationServiceRunNowResponse);
+  rpc SubmitEvent(AutomationServiceSubmitEventRequest) returns (AutomationServiceSubmitEventResponse);
+  rpc ResolveMissed(AutomationServiceResolveMissedRequest) returns (AutomationServiceResolveMissedResponse);
+}
+
+service SourceService {
+  rpc CreateConsent(SourceServiceCreateConsentRequest) returns (SourceServiceCreateConsentResponse);
+  rpc RevokeConsent(SourceServiceRevokeConsentRequest) returns (SourceServiceRevokeConsentResponse);
+  rpc GetPolicy(SourceServiceGetPolicyRequest) returns (SourceServiceGetPolicyResponse);
+  rpc SetPolicy(SourceServiceSetPolicyRequest) returns (SourceServiceSetPolicyResponse);
+  rpc ClearPolicy(SourceServiceClearPolicyRequest) returns (SourceServiceClearPolicyResponse);
+}
+
+message TaskServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  TaskFilter filter = 10 [json_name = "filter"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+
+message TaskServiceListValue {
+  repeated TaskSnapshot items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message TaskServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message TaskServiceGetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+}
+
+message TaskServiceGetValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+  repeated RunView runs = 11 [json_name = "runs"];
+  repeated StepView steps = 12 [json_name = "steps"];
+  repeated AttemptView attempts = 13 [json_name = "attempts"];
+  arcforges.foundation.v1.PageState detail_page = 14 [json_name = "detailPage"];
+}
+
+message TaskServiceGetResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceGetValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message TaskServiceCreateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+  arcforges.foundation.v1.Id conversation_id = 11 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id profile_id = 12 [json_name = "profileId"];
+  TurnInput input = 13 [json_name = "input"];
+  repeated StepSpec steps = 14 [json_name = "steps"];
+}
+
+message TaskServiceCreateValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message TaskServiceCreateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceCreateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message TaskServiceCancelRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+}
+
+message TaskServiceCancelValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message TaskServiceCancelResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceCancelValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message TaskServicePauseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+}
+
+message TaskServicePauseValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message TaskServicePauseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServicePauseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message TaskServiceResumeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+}
+
+message TaskServiceResumeValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message TaskServiceResumeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceResumeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message TaskServiceRetryAttemptRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+  arcforges.foundation.v1.Id attempt_id = 11 [json_name = "attemptId"];
+  optional ReconciliationDecision reconciliation_decision = 12 [json_name = "reconciliationDecision"];
+}
+
+message TaskServiceRetryAttemptValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message TaskServiceRetryAttemptResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceRetryAttemptValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message TaskServiceSteerRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+  optional string text = 11 [json_name = "text"];
+  repeated ContextRef context = 12 [json_name = "context"];
+}
+
+message TaskServiceSteerValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message TaskServiceSteerResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceSteerValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ApprovalServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+
+message ApprovalServiceListValue {
+  repeated ApprovalView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ApprovalServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ApprovalServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ApprovalServiceDecideRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id approval_id = 10 [json_name = "approvalId"];
+  optional ApprovalDecision decision = 11 [json_name = "decision"];
+  optional string proposal_hash = 12 [json_name = "proposalHash"];
+  PresenceEvidence local_evidence = 13 [json_name = "localEvidence"];
+}
+
+message ApprovalServiceDecideValue {
+  ApprovalView approval = 10 [json_name = "approval"];
+}
+
+message ApprovalServiceDecideResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ApprovalServiceDecideValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message BridgeServicePullRequestsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+  optional string cursor = 11 [json_name = "cursor"];
+  optional int32 limit = 12 [json_name = "limit"];
+}
+
+message BridgeServicePullRequestsValue {
+  repeated ToolRequest requests = 10 [json_name = "requests"];
+  optional string next_cursor = 11 [json_name = "nextCursor"];
+}
+
+message BridgeServicePullRequestsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    BridgeServicePullRequestsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message BridgeServiceSubmitResultRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id tool_request_id = 10 [json_name = "toolRequestId"];
+  arcforges.foundation.v1.Id attempt_id = 11 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id command_id = 12 [json_name = "commandId"];
+  ToolResult result = 13 [json_name = "result"];
+}
+
+message BridgeServiceSubmitResultValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message BridgeServiceSubmitResultResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    BridgeServiceSubmitResultValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message BridgeServiceGetRequestStateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id tool_request_id = 10 [json_name = "toolRequestId"];
+}
+
+message BridgeServiceGetRequestStateValue {
+  ToolRequest request = 10 [json_name = "request"];
+}
+
+message BridgeServiceGetRequestStateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    BridgeServiceGetRequestStateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceListConversationsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message ChatServiceListConversationsValue {
+  repeated ConversationView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ChatServiceListConversationsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceListConversationsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceGetConversationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id branch_id = 11 [json_name = "branchId"];
+  arcforges.foundation.v1.PageRequest page = 12 [json_name = "page"];
+}
+
+message ChatServiceGetConversationValue {
+  ConversationView conversation = 10 [json_name = "conversation"];
+  repeated MessageView messages = 11 [json_name = "messages"];
+  arcforges.foundation.v1.PageState page = 12 [json_name = "page"];
+}
+
+message ChatServiceGetConversationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceGetConversationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceAppendMessageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id message_id = 11 [json_name = "messageId"];
+  MessageDraft draft = 12 [json_name = "draft"];
+  TurnOptions options = 13 [json_name = "options"];
+}
+
+message ChatServiceAppendMessageValue {
+  MessageView message = 10 [json_name = "message"];
+  TaskSnapshot task = 11 [json_name = "task"];
+  ChatTurnView turn = 12 [json_name = "turn"];
+}
+
+message ChatServiceAppendMessageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceAppendMessageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceCreateBranchRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id branch_id = 10 [json_name = "branchId"];
+  arcforges.foundation.v1.Id conversation_id = 11 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id from_message_id = 12 [json_name = "fromMessageId"];
+}
+
+message ChatServiceCreateBranchValue {
+  ConversationView conversation = 10 [json_name = "conversation"];
+}
+
+message ChatServiceCreateBranchResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceCreateBranchValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceRequestExportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id export_id = 10 [json_name = "exportId"];
+  ExportRequest request = 11 [json_name = "request"];
+}
+
+message ChatServiceRequestExportValue {
+  ExportJob job = 10 [json_name = "job"];
+}
+
+message ChatServiceRequestExportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceRequestExportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AgentServiceListModelsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message AgentServiceListModelsValue {
+  repeated ModelView models = 10 [json_name = "models"];
+  optional string config_version = 11 [json_name = "configVersion"];
+}
+
+message AgentServiceListModelsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServiceListModelsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message AgentServiceListProfilesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message AgentServiceListProfilesValue {
+  repeated AgentProfile profiles = 10 [json_name = "profiles"];
+}
+
+message AgentServiceListProfilesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServiceListProfilesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message AgentServiceGetUsageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.TimeRangeUtc period = 10 [json_name = "period"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+
+message AgentServiceGetUsageValue {
+  repeated ChargeExplanation items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message AgentServiceGetUsageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServiceGetUsageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SearchServiceQueryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  SearchQuery query = 10 [json_name = "query"];
+}
+
+message SearchServiceQueryValue {
+  repeated SearchHit items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message SearchServiceQueryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SearchServiceQueryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message AutomationServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message AutomationServiceListValue {
+  repeated AutomationView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message AutomationServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message AutomationServiceGetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+}
+
+message AutomationServiceGetValue {
+  AutomationView automation = 10 [json_name = "automation"];
+}
+
+message AutomationServiceGetResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceGetValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message AutomationServiceCreateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+  AutomationSpec definition = 11 [json_name = "definition"];
+}
+
+message AutomationServiceCreateValue {
+  AutomationView automation = 10 [json_name = "automation"];
+}
+
+message AutomationServiceCreateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceCreateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AutomationServiceUpdateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+  AutomationSpec definition = 11 [json_name = "definition"];
+}
+
+message AutomationServiceUpdateValue {
+  AutomationView automation = 10 [json_name = "automation"];
+}
+
+message AutomationServiceUpdateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceUpdateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AutomationServiceSetEnabledRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+  optional bool enabled = 11 [json_name = "enabled"];
+}
+
+message AutomationServiceSetEnabledValue {
+  AutomationView automation = 10 [json_name = "automation"];
+}
+
+message AutomationServiceSetEnabledResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceSetEnabledValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AutomationServiceDeleteRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+}
+
+message AutomationServiceDeleteValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message AutomationServiceDeleteResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceDeleteValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AutomationServiceRunNowRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+  arcforges.foundation.v1.Id occurrence_id = 11 [json_name = "occurrenceId"];
+}
+
+message AutomationServiceRunNowValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message AutomationServiceRunNowResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceRunNowValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AutomationServiceSubmitEventRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id event_id = 10 [json_name = "eventId"];
+  optional string kind = 11 [json_name = "kind"];
+  arcforges.foundation.v1.AggregateRef source = 12 [json_name = "source"];
+  arcforges.foundation.v1.Revision source_revision = 13 [json_name = "sourceRevision"];
+  repeated arcforges.foundation.v1.Id causation = 14 [json_name = "causation"];
+}
+
+message AutomationServiceSubmitEventValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message AutomationServiceSubmitEventResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceSubmitEventValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AutomationServiceResolveMissedRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id automation_id = 10 [json_name = "automationId"];
+  repeated string occurrence_keys = 11 [json_name = "occurrenceKeys"];
+  optional string decision = 12 [json_name = "decision"];
+}
+
+message AutomationServiceResolveMissedValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message AutomationServiceResolveMissedResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AutomationServiceResolveMissedValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceCreateConversationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  optional string title = 11 [json_name = "title"];
+}
+
+message ChatServiceCreateConversationValue {
+  ConversationView conversation = 10 [json_name = "conversation"];
+}
+
+message ChatServiceCreateConversationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceCreateConversationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AgentServicePutProfileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  AgentProfile value = 10 [json_name = "value"];
+}
+
+message AgentServicePutProfileValue {
+  AgentProfile value = 10 [json_name = "value"];
+}
+
+message AgentServicePutProfileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServicePutProfileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AgentServiceDeleteProfileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id id = 10 [json_name = "id"];
+}
+
+message AgentServiceDeleteProfileValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message AgentServiceDeleteProfileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServiceDeleteProfileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AgentServicePutSkillRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  SkillRecord value = 10 [json_name = "value"];
+}
+
+message AgentServicePutSkillValue {
+  SkillRecord value = 10 [json_name = "value"];
+}
+
+message AgentServicePutSkillResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServicePutSkillValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message AgentServiceDeleteSkillRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id id = 10 [json_name = "id"];
+}
+
+message AgentServiceDeleteSkillValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message AgentServiceDeleteSkillResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    AgentServiceDeleteSkillValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServicePutProjectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ChatProjectRecord value = 10 [json_name = "value"];
+}
+
+message ChatServicePutProjectValue {
+  ChatProjectRecord value = 10 [json_name = "value"];
+}
+
+message ChatServicePutProjectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServicePutProjectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceDeleteProjectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id id = 10 [json_name = "id"];
+}
+
+message ChatServiceDeleteProjectValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ChatServiceDeleteProjectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceDeleteProjectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServicePutMemoryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  MemoryRecord value = 10 [json_name = "value"];
+}
+
+message ChatServicePutMemoryValue {
+  MemoryRecord value = 10 [json_name = "value"];
+}
+
+message ChatServicePutMemoryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServicePutMemoryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceDeleteMemoryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id id = 10 [json_name = "id"];
+}
+
+message ChatServiceDeleteMemoryValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ChatServiceDeleteMemoryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceDeleteMemoryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message SourceServiceCreateConsentRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id consent_id = 10 [json_name = "consentId"];
+  SourceConsentSpec scope = 11 [json_name = "scope"];
+}
+
+message SourceServiceCreateConsentValue {
+  SourceConsentRef consent = 10 [json_name = "consent"];
+}
+
+message SourceServiceCreateConsentResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SourceServiceCreateConsentValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message SourceServiceRevokeConsentRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id consent_id = 10 [json_name = "consentId"];
+}
+
+message SourceServiceRevokeConsentValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message SourceServiceRevokeConsentResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SourceServiceRevokeConsentValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceGetTurnRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id turn_id = 10 [json_name = "turnId"];
+}
+
+message ChatServiceGetTurnValue {
+  ChatTurnView turn = 10 [json_name = "turn"];
+}
+
+message ChatServiceGetTurnResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceGetTurnValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceCancelTurnRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id turn_id = 10 [json_name = "turnId"];
+}
+
+message ChatServiceCancelTurnValue {
+  ChatTurnView turn = 10 [json_name = "turn"];
+}
+
+message ChatServiceCancelTurnResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceCancelTurnValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServicePreviewPromotionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id turn_id = 10 [json_name = "turnId"];
+}
+
+message ChatServicePreviewPromotionValue {
+  TurnPromotionPreview preview = 10 [json_name = "preview"];
+}
+
+message ChatServicePreviewPromotionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServicePreviewPromotionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServicePromoteTurnRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id turn_id = 10 [json_name = "turnId"];
+  arcforges.foundation.v1.Id task_id = 11 [json_name = "taskId"];
+  optional string preview_hash = 12 [json_name = "previewHash"];
+}
+
+message ChatServicePromoteTurnValue {
+  TaskSnapshot task = 10 [json_name = "task"];
+}
+
+message ChatServicePromoteTurnResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServicePromoteTurnValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceCloseTemporaryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+}
+
+message ChatServiceCloseTemporaryValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message ChatServiceCloseTemporaryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceCloseTemporaryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceSaveTemporaryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id source_conversation_id = 10 [json_name = "sourceConversationId"];
+  arcforges.foundation.v1.Id conversation_id = 11 [json_name = "conversationId"];
+  repeated arcforges.foundation.v1.Id selected_messages = 12 [json_name = "selectedMessages"];
+}
+
+message ChatServiceSaveTemporaryValue {
+  ConversationView conversation = 10 [json_name = "conversation"];
+}
+
+message ChatServiceSaveTemporaryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceSaveTemporaryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceUpdateConversationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id conversation_id = 10 [json_name = "conversationId"];
+  ConversationPatch patch = 11 [json_name = "patch"];
+}
+
+message ChatServiceUpdateConversationValue {
+  ConversationView conversation = 10 [json_name = "conversation"];
+}
+
+message ChatServiceUpdateConversationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceUpdateConversationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ChatServiceListProjectsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message ChatServiceListProjectsValue {
+  repeated ChatProjectRecord items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ChatServiceListProjectsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceListProjectsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceGetProjectRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id project_id = 10 [json_name = "projectId"];
+}
+
+message ChatServiceGetProjectValue {
+  ChatProjectRecord project = 10 [json_name = "project"];
+}
+
+message ChatServiceGetProjectResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceGetProjectValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceListMemoriesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message ChatServiceListMemoriesValue {
+  repeated MemoryRecord items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ChatServiceListMemoriesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceListMemoriesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ChatServiceGetMemoryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id memory_id = 10 [json_name = "memoryId"];
+}
+
+message ChatServiceGetMemoryValue {
+  MemoryRecord memory = 10 [json_name = "memory"];
+}
+
+message ChatServiceGetMemoryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ChatServiceGetMemoryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message TaskServiceGetDetailsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id task_id = 10 [json_name = "taskId"];
+  arcforges.foundation.v1.Id run_id = 11 [json_name = "runId"];
+  arcforges.foundation.v1.PageRequest page = 12 [json_name = "page"];
+}
+
+message TaskServiceGetDetailsValue {
+  TaskDetailPage detail = 10 [json_name = "detail"];
+}
+
+message TaskServiceGetDetailsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    TaskServiceGetDetailsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SourceServiceGetPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.AggregateRef target = 10 [json_name = "target"];
+}
+
+message SourceServiceGetPolicyValue {
+  SourcePolicyView policy = 10 [json_name = "policy"];
+}
+
+message SourceServiceGetPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SourceServiceGetPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SourceServiceSetPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.AggregateRef target = 10 [json_name = "target"];
+  KnowledgePolicyPatch patch = 11 [json_name = "patch"];
+}
+
+message SourceServiceSetPolicyValue {
+  SourcePolicyView policy = 10 [json_name = "policy"];
+}
+
+message SourceServiceSetPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SourceServiceSetPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message SourceServiceClearPolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.AggregateRef target = 10 [json_name = "target"];
+}
+
+message SourceServiceClearPolicyValue {
+  SourcePolicyView policy = 10 [json_name = "policy"];
+}
+
+message SourceServiceClearPolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SourceServiceClearPolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+enum ChatTurnState {
+  CHAT_TURN_STATE_UNSPECIFIED = 0;
+  CHAT_TURN_STATE_QUEUED = 1;
+  CHAT_TURN_STATE_RUNNING = 2;
+  CHAT_TURN_STATE_WAITING = 3;
+  CHAT_TURN_STATE_SUCCEEDED = 4;
+  CHAT_TURN_STATE_FAILED = 5;
+  CHAT_TURN_STATE_CANCELED = 6;
+  CHAT_TURN_STATE_INTERRUPTED = 7;
+}
+
+enum ReconciliationDecision {
+  RECONCILIATION_DECISION_UNSPECIFIED = 0;
+  RECONCILIATION_DECISION_RETRY_AUTHORIZED = 1;
+  RECONCILIATION_DECISION_ACCEPT_OWNER_OUTCOME = 2;
+  RECONCILIATION_DECISION_ABANDON_UNRESOLVED = 3;
+}
+
+message ApplicationTarget {
+  optional string product_id = 1 [json_name = "productId"];
+  arcforges.foundation.v1.Id device_id = 2 [json_name = "deviceId"];
+  arcforges.foundation.v1.Id installation_id = 3 [json_name = "installationId"];
+  optional uint64 instance_epoch = 4 [json_name = "instanceEpoch"];
+}
+
+message ExecutionOwner {
+  oneof owner {
+    arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+    arcforges.foundation.v1.Id turn_id = 2 [json_name = "turnId"];
+  }
+}
+
+message ChatTurnProgress {
+  arcforges.foundation.v1.Id turn_id = 1 [json_name = "turnId"];
+  optional ChatTurnState state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"];
+  optional string reason = 4 [json_name = "reason"];
+  optional bool has_unknown_effect = 5 [json_name = "hasUnknownEffect"];
+}
+
+message ChatTurnView {
+  arcforges.foundation.v1.Id turn_id = 1 [json_name = "turnId"];
+  arcforges.foundation.v1.Id conversation_id = 2 [json_name = "conversationId"];
+  arcforges.foundation.v1.Id input_message_id = 3 [json_name = "inputMessageId"];
+  optional ChatTurnState state = 4 [json_name = "state"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+  arcforges.foundation.v1.Id run_id = 6 [json_name = "runId"];
+  arcforges.foundation.v1.Id stream_id = 7 [json_name = "streamId"];
+  arcforges.foundation.v1.Id final_message_id = 8 [json_name = "finalMessageId"];
+  optional string reason = 9 [json_name = "reason"];
+  optional bool temporary = 10 [json_name = "temporary"];
+  arcforges.foundation.v1.Instant expires_at = 11 [json_name = "expiresAt"];
+  optional bool has_unknown_effect = 12 [json_name = "hasUnknownEffect"];
+}
+
+message TurnPromotionPreview {
+  arcforges.foundation.v1.Id turn_id = 1 [json_name = "turnId"];
+  optional string preview_hash = 2 [json_name = "previewHash"];
+  TurnInput task_input = 3 [json_name = "taskInput"];
+  arcforges.foundation.v1.Id profile_id = 4 [json_name = "profileId"];
+  repeated ToolProposal proposals = 5 [json_name = "proposals"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+}
+
+message ToolRequest {
+  arcforges.foundation.v1.Id tool_request_id = 1 [json_name = "toolRequestId"];
+  arcforges.foundation.v1.Id task_id = 2 [json_name = "taskId"];
+  arcforges.foundation.v1.Id run_id = 3 [json_name = "runId"];
+  arcforges.foundation.v1.Id step_id = 4 [json_name = "stepId"];
+  arcforges.foundation.v1.Id attempt_id = 5 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id command_id = 6 [json_name = "commandId"];
+  arcforges.foundation.v1.Id target_device_id = 7 [json_name = "targetDeviceId"];
+  optional string capability = 8 [json_name = "capability"];
+  CapabilityArguments arguments = 9 [json_name = "arguments"];
+  repeated ContextRef context = 10 [json_name = "context"];
+  arcforges.foundation.v1.ActorChain actor = 11 [json_name = "actor"];
+  arcforges.foundation.v1.Id approval_id = 12 [json_name = "approvalId"];
+  arcforges.foundation.v1.Instant expires_at = 13 [json_name = "expiresAt"];
+  optional string state = 14 [json_name = "state"];
+  ExecutionOwner owner = 15 [json_name = "owner"];
+  ApplicationTarget target_application = 16 [json_name = "targetApplication"];
+}
+
+message TaskFilter {
+  repeated TaskState states = 1 [json_name = "states"];
+  arcforges.foundation.v1.Id conversation_id = 2 [json_name = "conversationId"];
+  arcforges.foundation.v1.TimeRangeUtc created = 3 [json_name = "created"];
+}
+
+message StepSpec {
+  arcforges.foundation.v1.Id step_id = 1 [json_name = "stepId"];
+  optional string capability = 2 [json_name = "capability"];
+  optional arcforges.foundation.v1.ToolLocality locality = 3 [json_name = "locality"];
+  arcforges.foundation.v1.Id target_device_id = 4 [json_name = "targetDeviceId"];
+  CapabilityArguments arguments = 5 [json_name = "arguments"];
+  repeated arcforges.foundation.v1.Id dependencies = 6 [json_name = "dependencies"];
+}
+
+message PresenceEvidence {
+  arcforges.foundation.v1.Id device_id = 1 [json_name = "deviceId"];
+  arcforges.foundation.v1.Id challenge_id = 2 [json_name = "challengeId"];
+  optional bytes signature = 3 [json_name = "signature"];
+}
+
+message RunView {
+  arcforges.foundation.v1.Id run_id = 1 [json_name = "runId"];
+  arcforges.foundation.v1.Id task_id = 2 [json_name = "taskId"];
+  optional string state = 3 [json_name = "state"];
+  optional string config_version = 4 [json_name = "configVersion"];
+  arcforges.foundation.v1.Instant started_at = 5 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant ended_at = 6 [json_name = "endedAt"];
+  optional uint32 iteration = 7 [json_name = "iteration"];
+  ExecutionOwner owner = 8 [json_name = "owner"];
+}
+
+message StepView {
+  arcforges.foundation.v1.Id step_id = 1 [json_name = "stepId"];
+  arcforges.foundation.v1.Id run_id = 2 [json_name = "runId"];
+  optional uint32 ordinal = 3 [json_name = "ordinal"];
+  optional string capability = 4 [json_name = "capability"];
+  optional arcforges.foundation.v1.ToolLocality locality = 5 [json_name = "locality"];
+  optional string state = 6 [json_name = "state"];
+  repeated arcforges.foundation.v1.Id dependencies = 7 [json_name = "dependencies"];
+}
+
+message AttemptView {
+  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id step_id = 2 [json_name = "stepId"];
+  optional string state = 3 [json_name = "state"];
+  optional arcforges.foundation.v1.EffectCertainty effect = 4 [json_name = "effect"];
+  arcforges.foundation.v1.Instant started_at = 5 [json_name = "startedAt"];
+  arcforges.foundation.v1.Instant ended_at = 6 [json_name = "endedAt"];
+  optional string reason = 7 [json_name = "reason"];
+}
+
+message TaskDetailPage {
+  RunView run = 1 [json_name = "run"];
+  repeated StepView steps = 2 [json_name = "steps"];
+  repeated AttemptView attempts = 3 [json_name = "attempts"];
+  repeated arcforges.foundation.v1.ArtifactRef artifacts = 4 [json_name = "artifacts"];
+  arcforges.foundation.v1.PageState page = 5 [json_name = "page"];
+}
+
+message ModelUsage {
+  optional uint64 input_tokens = 1 [json_name = "inputTokens"];
+  optional uint64 output_tokens = 2 [json_name = "outputTokens"];
+  optional uint64 cached_input_tokens = 3 [json_name = "cachedInputTokens"];
+  arcforges.foundation.v1.Instant measured_at = 4 [json_name = "measuredAt"];
+  optional string source = 5 [json_name = "source"];
+}
+
+message AttemptCharge {
+  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
+  optional string model_id = 2 [json_name = "modelId"];
+  ModelUsage usage = 3 [json_name = "usage"];
+  arcforges.foundation.v1.Decimal supplier_cost = 4 [json_name = "supplierCost"];
+  optional uint64 customer_debit = 5 [json_name = "customerDebit"];
+  optional arcforges.foundation.v1.EffectCertainty certainty = 6 [json_name = "certainty"];
+}
+
+message ChargeExplanation {
+  arcforges.foundation.v1.Id logical_request_id = 1 [json_name = "logicalRequestId"];
+  optional string state = 2 [json_name = "state"];
+  optional string reason = 3 [json_name = "reason"];
+  optional uint64 capacity_debit = 4 [json_name = "capacityDebit"];
+  optional uint64 compensation_debit = 5 [json_name = "compensationDebit"];
+  optional uint64 purchased_debit = 6 [json_name = "purchasedDebit"];
+  optional string tariff_version = 7 [json_name = "tariffVersion"];
+  optional string supplier_version = 8 [json_name = "supplierVersion"];
+  repeated AttemptCharge attempts = 9 [json_name = "attempts"];
+}
+
+message ModelView {
+  optional string model_id = 1 [json_name = "modelId"];
+  optional string supplier = 2 [json_name = "supplier"];
+  optional uint32 context_tokens = 3 [json_name = "contextTokens"];
+  optional uint32 output_tokens = 4 [json_name = "outputTokens"];
+  repeated string capabilities = 5 [json_name = "capabilities"];
+  Availability availability = 6 [json_name = "availability"];
+}
+
+message SearchQuery {
+  GeneralSearchQuery general = 2 [json_name = "general"];
+  reserved 1;
+  reserved "notes";
+}
+
+message GeneralSearchQuery {
+  optional string text = 1 [json_name = "text"];
+  optional string mode = 2 [json_name = "mode"];
+  repeated string products = 3 [json_name = "products"];
+  repeated arcforges.foundation.v1.AggregateRef sources = 4 [json_name = "sources"];
+  repeated arcforges.foundation.v1.Id tags = 5 [json_name = "tags"];
+  arcforges.foundation.v1.TimeRangeUtc changed = 6 [json_name = "changed"];
+  arcforges.foundation.v1.PageRequest page = 7 [json_name = "page"];
+  optional string dataset_token = 8 [json_name = "datasetToken"];
+  RetrievalBudget budget = 10 [json_name = "budget"];
+  reserved 9;
+  reserved "notes";
+}
+
+message RetrievalBudget {
+  optional uint32 candidates = 1 [json_name = "candidates"];
+  optional uint32 evidence = 2 [json_name = "evidence"];
+  optional uint32 context_tokens = 3 [json_name = "contextTokens"];
+  optional uint32 context_bytes = 4 [json_name = "contextBytes"];
+  optional uint32 per_source = 5 [json_name = "perSource"];
+  optional uint32 graph_depth = 6 [json_name = "graphDepth"];
+  optional uint32 graph_edges = 7 [json_name = "graphEdges"];
+}
+
+message SearchHit {
+  arcforges.foundation.v1.VersionedRef source = 1 [json_name = "source"];
+  optional string title = 2 [json_name = "title"];
+  optional string excerpt = 3 [json_name = "excerpt"];
+  optional double score = 4 [json_name = "score"];
+  ContextRef citation = 5 [json_name = "citation"];
+  repeated MetadataEntry properties = 6 [json_name = "properties"];
+}
+
+message ExportRequest {
+  repeated arcforges.foundation.v1.AggregateRef scope = 1 [json_name = "scope"];
+  optional string format = 2 [json_name = "format"];
+  optional bool include_managed_assets = 3 [json_name = "includeManagedAssets"];
+  optional bool acknowledged_only = 4 [json_name = "acknowledgedOnly"];
+}
+
+message ExportJob {
+  arcforges.foundation.v1.Id export_id = 1 [json_name = "exportId"];
+  optional string state = 2 [json_name = "state"];
+  optional int32 progress = 3 [json_name = "progress"];
+  repeated arcforges.foundation.v1.VersionedRef snapshot_refs = 4 [json_name = "snapshotRefs"];
+  arcforges.foundation.v1.ArtifactRef artifact = 5 [json_name = "artifact"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  optional string reason = 7 [json_name = "reason"];
+}
+
+message ConversationPatch {
+  optional string title = 1 [json_name = "title"];
+  arcforges.foundation.v1.Id project_id = 2 [json_name = "projectId"];
+  optional bool clear_project = 3 [json_name = "clearProject"];
+  optional bool pinned = 4 [json_name = "pinned"];
+  optional bool archived = 5 [json_name = "archived"];
+}
