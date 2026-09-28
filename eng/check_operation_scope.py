@@ -53,6 +53,7 @@ CF_SERVICE_OPERATIONS = {
     "cf.ai.stream-state": ("assistant", "stream-state", "IW"),
     "cf.ai.late-outcome": ("assistant", "late-outcome", "IW"),
 }
+TASK_CREATE_SOURCE_RULE = "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work"
 PROFILES = {"human-owner", "tool-delegation", "product-handler", "extension-peer", "helper-parent",
             "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "launch-bootstrap-only",
             "in-process-invocation", "human-approval-decision", "public-human-approval-decision"}
@@ -221,7 +222,9 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
         require(row["surface"] in {"private-helper", "in-process"}, f"{operation}: delegated binding exposed publicly")
     for field in ("stepUp", "localPresence", "patEligible"):
         require(field in derived or type(auth[field]) is bool, f"{operation}: ambiguous {field}")
-    require("risk" in derived or auth["risk"] in {"R0", "R1", "R2", "R3"}, f"{operation}: unclassified risk")
+    require("risk" in derived or auth["risk"] in {"R0", "R1", "R2", "R3"} or
+            (operation == "task.create" and auth["risk"] == "R2+"),
+            f"{operation}: unclassified risk")
     for field in ("approval", "egress"):
         require(field in derived or (isinstance(auth[field], str) and re.fullmatch(r"[A-Za-z][A-Za-z0-9.-]*", auth[field])
                 and auth[field].lower() not in {"pending", "unknown", "default", "tbd"}), f"{operation}: unclassified {field}")
@@ -295,6 +298,15 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                 row["sourceRule"] == "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports" and
                 row["idempotency"] == idempotency and auth == expected,
                 f"{operation}: exact CF HMAC transport binding mismatch")
+    if operation == "task.create" or auth["risk"] == "R2+":
+        require(operation == "task.create" and row["scope"] == "assistant" and
+                row["surface"] == "public" and row["profile"] == "human-owner" and
+                row["kind"] == "proto" and
+                row["binding"] == "arcforges.publicapi.v1.TaskService/Create" and
+                row["source"] == "public/proto/arcforges/publicapi/v1/chat.proto" and
+                row["sourceRule"] == TASK_CREATE_SOURCE_RULE and row["idempotency"] == "CC" and
+                auth["risk"] == "R2+",
+                f"{operation}: task.create may use R2+ only at the closed TaskService/Create binding")
     if row["surface"] == "private-helper":
         human_parent = (row["profile"] == "helper-parent" and actors == ["human"]
                         and row.get("launchRoles") == ["owning-parent"] and not auth["patEligible"])

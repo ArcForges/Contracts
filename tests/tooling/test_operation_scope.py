@@ -61,6 +61,29 @@ class OperationScopeTests(unittest.TestCase):
             },
         }
 
+    def task_create_row(self):
+        return {
+            'operationId': 'task.create',
+            'binding': 'arcforges.publicapi.v1.TaskService/Create',
+            'kind': 'proto',
+            'source': 'public/proto/arcforges/publicapi/v1/chat.proto',
+            'scope': 'assistant',
+            'surface': 'public',
+            'profile': 'human-owner',
+            'sourceRule': gate.TASK_CREATE_SOURCE_RULE,
+            'idempotency': 'CC',
+            'authorization': {
+                'capability': None,
+                'risk': 'R2+',
+                'approval': 'perPlanStep',
+                'stepUp': False,
+                'localPresence': False,
+                'egress': 'ownedContent',
+                'patEligible': False,
+                'actorKinds': ['human'],
+            },
+        }
+
     def inprocess_row(self, approval=False):
         owner, interface, method = (('Chat', 'IChatOperations', 'SubmitApproval') if approval
                                     else ('Platform', 'ICapabilityProvider', 'Invoke'))
@@ -187,6 +210,25 @@ class OperationScopeTests(unittest.TestCase):
         hostile = copy.deepcopy(row)
         hostile['operationId'] = 'cf.ai.unknown'
         with self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
+            gate.authorization(hostile, set())
+
+    def test_task_create_preserves_only_the_authoritative_dynamic_risk_literal(self):
+        row = self.task_create_row()
+        self.assertEqual(gate.authorization(row, set()), (['human'], []))
+        for field, wrong in [('risk', 'R2'), ('risk', 'R3')]:
+            hostile = copy.deepcopy(row)
+            hostile['authorization'][field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaisesRegex(ValueError, 'closed TaskService/Create'):
+                gate.authorization(hostile, set())
+        for field, wrong in [('binding', 'arcforges.publicapi.v1.TaskService/List'),
+                             ('sourceRule', 'docs/architecture/contracts/04-protobuf-wire-registry.md#5-public-business-operation-registry')]:
+            hostile = copy.deepcopy(row)
+            hostile[field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaisesRegex(ValueError, 'closed TaskService/Create'):
+                gate.authorization(hostile, set())
+        hostile = copy.deepcopy(row)
+        hostile['operationId'] = 'chat.getTurn'
+        with self.assertRaisesRegex(ValueError, 'unclassified risk'):
             gate.authorization(hostile, set())
 
     def test_closed_operations_cannot_downgrade_to_generic_profiles(self):

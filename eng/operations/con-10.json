@@ -3,6 +3,167 @@
   "license": "Apache-2.0",
   "operations": [
     {
+      "operationId": "agent.deleteProfile",
+      "binding": "arcforges.publicapi.v1.AgentService/DeleteProfile",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "agent.deleteSkill",
+      "binding": "arcforges.publicapi.v1.AgentService/DeleteSkill",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "agent.getUsage",
+      "binding": "arcforges.publicapi.v1.AgentService/GetUsage",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#8-chat-agent-and-knowledge",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "agent.listModels",
+      "binding": "arcforges.publicapi.v1.AgentService/ListModels",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#rule-ch-02",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "agent.listProfiles",
+      "binding": "arcforges.publicapi.v1.AgentService/ListProfiles",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#8-chat-agent-and-knowledge",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "agent.putProfile",
+      "binding": "arcforges.publicapi.v1.AgentService/PutProfile",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "agent.putSkill",
+      "binding": "arcforges.publicapi.v1.AgentService/PutSkill",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
       "operationId": "approval.decide",
       "binding": "arcforges.publicapi.v1.ApprovalService/Decide",
       "kind": "proto",
@@ -24,6 +185,305 @@
         "localPresence": {
           "from": "verifiedApprovalProposal.localPresence"
         },
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "approval.list",
+      "binding": "arcforges.publicapi.v1.ApprovalService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.create",
+      "binding": "arcforges.publicapi.v1.AutomationService/Create",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.delete",
+      "binding": "arcforges.publicapi.v1.AutomationService/Delete",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.get",
+      "binding": "arcforges.publicapi.v1.AutomationService/Get",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.list",
+      "binding": "arcforges.publicapi.v1.AutomationService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.resolveMissed",
+      "binding": "arcforges.publicapi.v1.AutomationService/ResolveMissed",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.runNow",
+      "binding": "arcforges.publicapi.v1.AutomationService/RunNow",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perPlanStep",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.setEnabled",
+      "binding": "arcforges.publicapi.v1.AutomationService/SetEnabled",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.submitEvent",
+      "binding": "arcforges.publicapi.v1.AutomationService/SubmitEvent",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "AP",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "automation.update",
+      "binding": "arcforges.publicapi.v1.AutomationService/Update",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "bridge.getRequestState",
+      "binding": "arcforges.publicapi.v1.BridgeService/GetRequestState",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "bridge.pullRequests",
+      "binding": "arcforges.publicapi.v1.BridgeService/PullRequests",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#rule-tk-04",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "bridge.submitResult",
+      "binding": "arcforges.publicapi.v1.BridgeService/SubmitResult",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#rule-tk-05",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
         "egress": "none",
         "patEligible": false,
         "actorKinds": [
@@ -350,6 +810,834 @@
         "patEligible": false,
         "actorKinds": [
           "service"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.appendMessage",
+      "binding": "arcforges.publicapi.v1.ChatService/AppendMessage",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#rule-ch-01",
+      "idempotency": "AP",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.cancelTurn",
+      "binding": "arcforges.publicapi.v1.ChatService/CancelTurn",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.closeTemporary",
+      "binding": "arcforges.publicapi.v1.ChatService/CloseTemporary",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.createBranch",
+      "binding": "arcforges.publicapi.v1.ChatService/CreateBranch",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#8-chat-agent-and-knowledge",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.createConversation",
+      "binding": "arcforges.publicapi.v1.ChatService/CreateConversation",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.deleteMemory",
+      "binding": "arcforges.publicapi.v1.ChatService/DeleteMemory",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.deleteProject",
+      "binding": "arcforges.publicapi.v1.ChatService/DeleteProject",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.getConversation",
+      "binding": "arcforges.publicapi.v1.ChatService/GetConversation",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#8-chat-agent-and-knowledge",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.getMemory",
+      "binding": "arcforges.publicapi.v1.ChatService/GetMemory",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.getProject",
+      "binding": "arcforges.publicapi.v1.ChatService/GetProject",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.getTurn",
+      "binding": "arcforges.publicapi.v1.ChatService/GetTurn",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.listConversations",
+      "binding": "arcforges.publicapi.v1.ChatService/ListConversations",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#8-chat-agent-and-knowledge",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.listMemories",
+      "binding": "arcforges.publicapi.v1.ChatService/ListMemories",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.listProjects",
+      "binding": "arcforges.publicapi.v1.ChatService/ListProjects",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.previewPromotion",
+      "binding": "arcforges.publicapi.v1.ChatService/PreviewPromotion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.promoteTurn",
+      "binding": "arcforges.publicapi.v1.ChatService/PromoteTurn",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "perPlanStep",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.putMemory",
+      "binding": "arcforges.publicapi.v1.ChatService/PutMemory",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.putProject",
+      "binding": "arcforges.publicapi.v1.ChatService/PutProject",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.requestExport",
+      "binding": "arcforges.publicapi.v1.ChatService/RequestExport",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#51-export-operations",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.saveTemporary",
+      "binding": "arcforges.publicapi.v1.ChatService/SaveTemporary",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "chat.updateConversation",
+      "binding": "arcforges.publicapi.v1.ChatService/UpdateConversation",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "search.query",
+      "binding": "arcforges.publicapi.v1.SearchService/Query",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#8-chat-agent-and-knowledge",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "source.clearPolicy",
+      "binding": "arcforges.publicapi.v1.SourceService/ClearPolicy",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "source.createConsent",
+      "binding": "arcforges.publicapi.v1.SourceService/CreateConsent",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "foreground-human-consent",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "source.getPolicy",
+      "binding": "arcforges.publicapi.v1.SourceService/GetPolicy",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "source.revokeConsent",
+      "binding": "arcforges.publicapi.v1.SourceService/RevokeConsent",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "source.setPolicy",
+      "binding": "arcforges.publicapi.v1.SourceService/SetPolicy",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#complete-initial-journey-operations",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.cancel",
+      "binding": "arcforges.publicapi.v1.TaskService/Cancel",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.create",
+      "binding": "arcforges.publicapi.v1.TaskService/Create",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2+",
+        "approval": "perPlanStep",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.get",
+      "binding": "arcforges.publicapi.v1.TaskService/Get",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.getDetails",
+      "binding": "arcforges.publicapi.v1.TaskService/GetDetails",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.list",
+      "binding": "arcforges.publicapi.v1.TaskService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.pause",
+      "binding": "arcforges.publicapi.v1.TaskService/Pause",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.resume",
+      "binding": "arcforges.publicapi.v1.TaskService/Resume",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perPlanStep",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.retryAttempt",
+      "binding": "arcforges.publicapi.v1.TaskService/RetryAttempt",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "perPlanStep",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "ownedContent",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "task.steer",
+      "binding": "arcforges.publicapi.v1.TaskService/Steer",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/chat.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#rule-tk-03",
+      "idempotency": "AP",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
         ]
       }
     }
