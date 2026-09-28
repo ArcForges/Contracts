@@ -206,10 +206,58 @@ class CompatibilityTests(unittest.TestCase):
         message[999] = {"name": "future", "type": 9, "typeName": "", "label": 1,
                         "oneof": None, "optional": 0, "jsonName": "future"}
         mutations.append(added_field)
+
+        changed_tag = deepcopy(original)
+        message = next(iter(changed_tag["files"][filename]["messages"].values()))
+        tag = next(iter(message))
+        field = message.pop(tag)
+        message[max(message, default=tag) + 1] = field
+        mutations.append(changed_tag)
+
+        changed_type = deepcopy(original)
+        message = next(iter(changed_type["files"][filename]["messages"].values()))
+        field = next(iter(message.values()))
+        field["type"] = 9 if field["type"] != 9 else 4
+        mutations.append(changed_type)
+
+        changed_presence = deepcopy(original)
+        messages = changed_presence["files"][filename]["messages"]
+        presence_field = next(
+            field for fields in messages.values() for field in fields.values()
+            if field["oneof"] is not None
+        )
+        presence_field["oneof"] = "_changed_presence"
+        mutations.append(changed_presence)
+
+        changed_optional_presence = deepcopy(original)
+        messages = changed_optional_presence["files"][filename]["messages"]
+        optional_field = next(
+            field for fields in messages.values() for field in fields.values()
+            if field["optional"] == 1
+        )
+        optional_field["optional"] = 0
+        mutations.append(changed_optional_presence)
+
+        added_method = deepcopy(original)
+        service = next(iter(added_method["files"][filename]["services"].values()))
+        service["UnreviewedMethod"] = {
+            "input": ".arcforges.publicapi.v1.AttemptCharge",
+            "output": ".arcforges.publicapi.v1.AttemptCharge",
+            "clientStreaming": 0,
+            "serverStreaming": 0,
+        }
+        mutations.append(added_method)
+
         removed_method = deepcopy(original)
         service = next(iter(removed_method["files"][filename]["services"].values()))
         del service[next(iter(service))]
         mutations.append(removed_method)
+
+        deleted_message = deepcopy(original)
+        messages = deleted_message["files"][filename]["messages"]
+        del messages[next(iter(messages))]
+        mutations.append(deleted_message)
+
         added_message = deepcopy(original)
         added_message["files"][filename]["messages"][".arcforges.publicapi.v1.Future"] = {}
         mutations.append(added_message)

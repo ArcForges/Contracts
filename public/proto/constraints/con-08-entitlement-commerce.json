@@ -156,9 +156,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceAuthoriseExtraUsageValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceAuthoriseExtraUsageValue",
@@ -188,9 +186,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceCancelSubscriptionValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceCancelSubscriptionValue",
@@ -228,9 +224,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceCreateCheckoutAttemptValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceCreateCheckoutAttemptValue",
@@ -273,9 +267,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceCreatePurchaseIntentValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceCreatePurchaseIntentValue",
@@ -306,9 +298,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceExplainChargeValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceExplainChargeValue",
@@ -338,9 +328,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceExportEvidenceValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceExportEvidenceValue",
@@ -373,9 +361,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceGetCatalogueValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceGetCatalogueValue",
@@ -408,9 +394,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceGetCreditsValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceGetCreditsValue",
@@ -447,9 +431,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceGetPurchaseStateValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceGetPurchaseStateValue",
@@ -477,9 +459,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceGetSubscriptionValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceGetSubscriptionValue",
@@ -511,9 +491,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceListBillingHistoryValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceListBillingHistoryValue",
@@ -546,9 +524,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceReactivateSubscriptionValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceReactivateSubscriptionValue",
@@ -585,9 +561,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceRequestRefundValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceRequestRefundValue",
@@ -617,9 +591,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.CommerceServiceRevokeExtraUsageValue",
@@ -688,9 +660,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.EntitlementServiceCheckValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EntitlementServiceCheckValue",
@@ -718,9 +688,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.EntitlementServiceGetCapacityValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EntitlementServiceGetCapacityValue",
@@ -748,9 +716,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.EntitlementServiceGetServiceTermValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EntitlementServiceGetServiceTermValue",
@@ -778,9 +744,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.EntitlementServiceGetSnapshotValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EntitlementServiceGetSnapshotValue",
@@ -811,9 +775,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.EntitlementServiceGetUsageValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EntitlementServiceGetUsageValue",
@@ -844,9 +806,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.EntitlementServiceListGrantsValue": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EntitlementServiceListGrantsValue",
@@ -1090,14 +1050,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6]
         },
         "currentPeriod": {
           "required": true

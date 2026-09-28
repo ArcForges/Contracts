@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 43)
+        self.assertEqual(len(config['allowlists']), 46)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,90 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 1, 4, 2, 5, 197])
+
+    def test_con08_secret_scan_allowlists_bind_only_observed_public_digest_lines(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
+        groups = [row for row in config['allowlists'] if row['description'].startswith('CON08 exact observed')]
+        self.assertEqual(len(groups), 3)
+        by_path = {row['paths'][0]: row for row in groups}
+
+        policy_path = 'eng/policy/dependency-policy.json'
+        receipt_path = 'eng/policy/dependency-reviews/con-08-r1.json'
+        dokka_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r13.json'
+        policy = json.loads((ROOT / policy_path).read_text())
+        receipt = json.loads((ROOT / receipt_path).read_text())
+        profile = json.loads((ROOT / dokka_path).read_text())
+        access_key = 'eng/policy/contract-access.json'
+        self.assertEqual(policy['review']['inputHashes'], policy['inputHashes'])
+        self.assertEqual(sum(line.strip().startswith('"' + access_key + '":')
+                             for line in (ROOT / policy_path).read_text().splitlines()), 2)
+
+        predecessor = '23f6b7496ef9fa6398c05ebadedf5301c675683e'
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        self.assertEqual(subprocess.run(['git', 'merge-base', '--is-ancestor', predecessor, head],
+                                        cwd=ROOT, check=False).returncode, 0)
+        historical_policy = json.loads(subprocess.check_output(
+            ['git', 'show', predecessor + ':' + policy_path], cwd=ROOT, text=True))
+        historical_receipt = json.loads(subprocess.check_output(
+            ['git', 'show', predecessor + ':' + receipt_path], cwd=ROOT, text=True))
+        committed_policy = json.loads(subprocess.check_output(
+            ['git', 'show', head + ':' + policy_path], cwd=ROOT, text=True))
+        committed_receipt = json.loads(subprocess.check_output(
+            ['git', 'show', head + ':' + receipt_path], cwd=ROOT, text=True))
+        self.assertEqual(committed_policy, policy)
+        self.assertEqual(committed_receipt, receipt)
+        old_access_digest = historical_policy['inputHashes'][access_key]
+        current_access_digest = policy['inputHashes'][access_key]
+        self.assertEqual(old_access_digest, historical_policy['review']['inputHashes'][access_key])
+        self.assertEqual(old_access_digest, historical_receipt['review']['inputHashes'][access_key])
+        self.assertNotEqual(old_access_digest, current_access_digest)
+
+        receipt_keys = [
+            'eng/policy/contract-access.json',
+            'eng/provenance/records/dokka-combokeys-licence-r1.json',
+            'eng/provenance/records/dokka-object-keys-licence-r1.json',
+            'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
+        ]
+        r13_pages = profile['modules']['contracts-proto']['pages']
+        omitted_page = 'contracts-proto/io.github.arcforges.contracts.foundation.v1/-action-descriptor/-builder/get-description-key.html'
+        dokka_rows = [(key, value) for key, value in sorted(r13_pages.items())
+                      if re.search(r'(key|token)', key, re.IGNORECASE) and key != omitted_page]
+        self.assertEqual(len(dokka_rows), 197)
+
+        expected_rows = {
+            policy_path: [(access_key, old_access_digest), (access_key, current_access_digest)],
+            receipt_path: [(access_key, old_access_digest),
+                           (access_key, current_access_digest)] +
+                          [(key, receipt['review']['inputHashes'][key])
+                           for key in receipt_keys[1:]],
+            dokka_path: dokka_rows,
+        }
+        self.assertEqual(set(by_path), {'^' + re.escape(path) + '$' for path in expected_rows})
+        for path, rows in expected_rows.items():
+            group = by_path['^' + re.escape(path) + '$']
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], ['^' + re.escape(path) + '$'])
+            unique_rows = sorted(set(rows))
+            expected = [r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + digest + r'",?\s*$'
+                        for key, digest in unique_rows]
+            self.assertEqual(group['regexes'], expected)
+            for (key, digest), pattern in zip(unique_rows, group['regexes'], strict=True):
+                line = f'  "{key}": "{digest}",'
+                self.assertIsNotNone(re.fullmatch(pattern, line))
+                for bad in [line.replace(digest, '0' * 64),
+                            line.replace('"' + key + '"', '"api_key"'),
+                            line.replace('"' + key + '"', '"api_token"'),
+                            line + ' "credential": "synthetic-secret"']:
+                    self.assertIsNone(re.fullmatch(pattern, bad))
+            for wrong_path in [path + '.backup', 'src/secrets.json']:
+                self.assertIsNone(re.fullmatch(group['paths'][0], wrong_path))
+
+        omitted_line = f'  "{omitted_page}": "{r13_pages[omitted_page]}",'
+        self.assertFalse(any(re.fullmatch(pattern, omitted_line)
+                             for pattern in by_path['^' + re.escape(dokka_path) + '$']['regexes']))
 
 
 if __name__ == '__main__':
