@@ -69734,6 +69734,16 @@ export const publicFixtures = {
         }
       },
       {
+        "id": "aggregate-scopeProjectMetadata",
+        "target": "AggregateBody",
+        "valid": true,
+        "value": {
+          "scopeProjectMetadata": {
+            "$ref": "ScopeProjectMetadata"
+          }
+        }
+      },
+      {
         "id": "aggregate-agentProfile",
         "target": "AggregateBody",
         "valid": true,
