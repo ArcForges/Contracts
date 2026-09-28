@@ -3,7 +3,7 @@
     "owner": "w-20260927-contracts-lane",
     "reviewer": "Independent exact-head peer reviewer recorded in CON.06 PR before merge",
     "reviewedOn": "2026-09-28",
-    "baselineCommit": "74e8dde058b11845184dfe397d4b34dc8bc377e1",
+    "baselineCommit": "3dab977e2e32d644e0e583cfab401dbfec935243",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
