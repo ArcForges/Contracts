@@ -88,6 +88,7 @@
       "modelAdmission": false,
       "taskCreated": false,
       "dispatchAllowed": false,
+      "userMessageCommitCount": 1,
       "expected": "one user-message commit only"
     },
     {
@@ -99,8 +100,13 @@
       },
       "modelAdmission": true,
       "taskCreated": false,
+      "runWorkflowCount": 1,
+      "resourcePinsRequired": true,
+      "sharedEntitlementCommerceAdmission": true,
+      "reconcilePorts": ["chat.getTurn", "canonical-conversation"],
       "readOnlyToolsAllowed": true,
       "writeToolsAllowed": false,
+      "outputCommitCount": 1,
       "expected": "ChatTurn is sole owner; read-only tools only; output commits once"
     },
     {
@@ -112,6 +118,8 @@
       },
       "modelAdmission": true,
       "taskCreated": true,
+      "taskReadPorts": ["task.get", "task.getDetails"],
+      "ordinaryTaskPoliciesApply": true,
       "writeToolsAllowedAfterApproval": true,
       "approvalRequiredForEffects": true,
       "expected": "Task owns plan, steps, attempts, and approvals"
@@ -125,6 +133,8 @@
       },
       "modelAdmission": true,
       "taskCreated": false,
+      "promotionPreviewStored": true,
+      "waitingReason": "promotion.required",
       "writeToolDispatchAllowed": false,
       "expected": "store TurnPromotionPreview and return promotion.required"
     },
@@ -137,6 +147,9 @@
       },
       "modelAdmission": true,
       "taskCreated": true,
+      "matchingPreviewAndRevisionRequired": true,
+      "linkedToSourceTurn": true,
+      "ordinaryApprovalAndAuthorizationRequiredForEffects": true,
       "writeToolDispatchAllowed": false,
       "expected": "linked AgentTask requires ordinary approval and authorization before write dispatch"
     },
@@ -152,8 +165,17 @@
       "readOnlyToolsAllowed": true,
       "writeToolsAllowed": false,
       "historyListed": false,
+      "ordinaryListProjectionVisible": false,
       "searchable": false,
+      "knowledgeProjectionVisible": false,
       "bodyStorage": "bounded encrypted transient execution storage, at most 24 hours",
+      "absoluteBodyRetentionHours": 24,
+      "explicitCloseCancelsWork": true,
+      "closePurgesTextWithinHours": 1,
+      "temporaryDraftsVolatile": true,
+      "compactionSummaryVolatile": true,
+      "crashCanInterrupt": true,
+      "metadataOnlyFinancialSecurityReceiptSurvives": true,
       "expected": "ordinary read-only history/list/knowledge projection excludes the body"
     },
     {
@@ -165,10 +187,14 @@
       "modelAdmission": false,
       "taskCreated": false,
       "dispatchAllowed": false,
+      "selectedMessagesCurrentlyAuthorized": true,
+      "newConversationId": true,
+      "durableOriginRecorded": true,
       "createsNewDurableContent": true,
       "copiesExecutionIdentity": false,
       "copiesChargeIdentity": false,
       "rerunsExecution": false,
+      "missingOrExpiredContentRefuses": true,
       "expected": "new conversation ID and durable origin; missing/expired temporary content refuses"
     },
     {
@@ -181,7 +207,10 @@
       "modelAdmission": false,
       "taskCreated": false,
       "dispatchAllowed": false,
+      "knownCompletedUsageSettlesNormally": true,
+      "controlReceiptSeparateFromEffectOutcome": true,
       "reconcileBeforeResume": true,
+      "unknownEffectTreatedAsZero": false,
       "duplicateDispatch": false,
       "expected": "control receipt remains separate from effect certainty; resume follows canonical reconciliation and uncertain dispatch is not treated as zero or repeated"
     },
@@ -195,7 +224,9 @@
       "modelAdmission": false,
       "taskCreated": true,
       "dispatchAllowed": false,
+      "controlReceiptSeparateFromEffectOutcome": true,
       "reconcileBeforeRetry": true,
+      "unknownEffectTreatedAsZero": false,
       "duplicateDispatch": false,
       "expected": "Task control is separate from effect certainty; uncertain dispatch is reconciled, not treated as zero or repeated"
     }
@@ -265,6 +296,17 @@
         "reconciled": false
       },
       "expected": "reconcile uncertain effect before any retry; do not duplicate dispatch"
+    },
+    {
+      "id": "save-expired-temporary-content-refuses",
+      "valid": false,
+      "input": {
+        "saveTemporary": true,
+        "temporaryContentExpired": true,
+        "saveAccepted": true,
+        "fabricatedReplacementCreated": true
+      },
+      "expected": "missing or expired temporary content refuses; it is never fabricated"
     }
   ]
 }

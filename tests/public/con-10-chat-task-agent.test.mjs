@@ -151,22 +151,99 @@ test("CON.10 public chat and task shape vectors are consumed by generated valida
     assert.equal(actual, vector.valid, vector.id);
   }
 
+  const journeyIds = publicFixture.journeyVectors.map((vector) => vector.id);
+  assert.equal(new Set(journeyIds).size, journeyIds.length, "journey vector IDs are unique");
+  assert.deepEqual(journeyIds.toSorted(), [
+    "agent-mode",
+    "agent-retry-reconciles-uncertainty",
+    "cancel-pause-turn-reconciles-uncertainty",
+    "explicit-promotion-creates-agent-task",
+    "ordinary-generated-reply",
+    "ordinary-write-proposal-awaits-promotion",
+    "plain-append-no-generation",
+    "save-temporary-content",
+    "temporary-reply",
+  ].toSorted());
   const journeys = new Map(publicFixture.journeyVectors.map((vector) => [vector.id, vector]));
-  assert.equal(journeys.get("plain-append-no-generation").taskCreated, false);
-  assert.equal(journeys.get("ordinary-generated-reply").owner.turnId !== undefined, true);
-  assert.equal(journeys.get("ordinary-generated-reply").taskCreated, false);
-  assert.equal(journeys.get("agent-mode").owner.taskId !== undefined, true);
-  assert.equal(journeys.get("agent-mode").approvalRequiredForEffects, true);
+  const plainAppend = journeys.get("plain-append-no-generation");
+  assert.equal(plainAppend.taskCreated, false);
+  assert.equal(plainAppend.userMessageCommitCount, 1);
+  const ordinary = journeys.get("ordinary-generated-reply");
+  assert.equal(ordinary.owner.turnId !== undefined, true);
+  assert.equal(ordinary.taskCreated, false);
+  assert.equal(ordinary.runWorkflowCount, 1);
+  assert.equal(ordinary.resourcePinsRequired, true);
+  assert.equal(ordinary.sharedEntitlementCommerceAdmission, true);
+  assert.deepEqual(ordinary.reconcilePorts, ["chat.getTurn", "canonical-conversation"]);
+  assert.equal(ordinary.readOnlyToolsAllowed, true);
+  assert.equal(ordinary.writeToolsAllowed, false);
+  assert.equal(ordinary.outputCommitCount, 1);
+  const agent = journeys.get("agent-mode");
+  assert.equal(agent.owner.taskId !== undefined, true);
+  assert.deepEqual(agent.taskReadPorts, ["task.get", "task.getDetails"]);
+  assert.equal(agent.ordinaryTaskPoliciesApply, true);
+  assert.equal(agent.approvalRequiredForEffects, true);
+  const proposedWrite = journeys.get("ordinary-write-proposal-awaits-promotion");
+  assert.equal(proposedWrite.promotionPreviewStored, true);
+  assert.equal(proposedWrite.waitingReason, "promotion.required");
+  assert.equal(proposedWrite.writeToolDispatchAllowed, false);
   assert.equal(
     journeys.get("explicit-promotion-creates-agent-task").writeToolDispatchAllowed,
     false,
   );
-  assert.equal(journeys.get("temporary-reply").historyListed, false);
-  assert.equal(journeys.get("temporary-reply").searchable, false);
-  assert.equal(journeys.get("save-temporary-content").copiesExecutionIdentity, false);
-  assert.equal(journeys.get("save-temporary-content").rerunsExecution, false);
-  assert.equal(journeys.get("cancel-pause-turn-reconciles-uncertainty").duplicateDispatch, false);
-  assert.equal(journeys.get("agent-retry-reconciles-uncertainty").duplicateDispatch, false);
+  const promotion = journeys.get("explicit-promotion-creates-agent-task");
+  assert.equal(promotion.matchingPreviewAndRevisionRequired, true);
+  assert.equal(promotion.linkedToSourceTurn, true);
+  assert.equal(promotion.ordinaryApprovalAndAuthorizationRequiredForEffects, true);
+  const temporary = journeys.get("temporary-reply");
+  assert.equal(temporary.historyListed, false);
+  assert.equal(temporary.ordinaryListProjectionVisible, false);
+  assert.equal(temporary.searchable, false);
+  assert.equal(temporary.knowledgeProjectionVisible, false);
+  assert.equal(temporary.absoluteBodyRetentionHours, 24);
+  assert.equal(temporary.explicitCloseCancelsWork, true);
+  assert.equal(temporary.closePurgesTextWithinHours, 1);
+  assert.equal(temporary.temporaryDraftsVolatile, true);
+  assert.equal(temporary.compactionSummaryVolatile, true);
+  assert.equal(temporary.crashCanInterrupt, true);
+  assert.equal(temporary.metadataOnlyFinancialSecurityReceiptSurvives, true);
+  const saved = journeys.get("save-temporary-content");
+  assert.equal(saved.selectedMessagesCurrentlyAuthorized, true);
+  assert.equal(saved.newConversationId, true);
+  assert.equal(saved.durableOriginRecorded, true);
+  assert.equal(saved.copiesExecutionIdentity, false);
+  assert.equal(saved.copiesChargeIdentity, false);
+  assert.equal(saved.rerunsExecution, false);
+  assert.equal(saved.missingOrExpiredContentRefuses, true);
+  const cancel = journeys.get("cancel-pause-turn-reconciles-uncertainty");
+  assert.equal(cancel.knownCompletedUsageSettlesNormally, true);
+  assert.equal(cancel.controlReceiptSeparateFromEffectOutcome, true);
+  assert.equal(cancel.unknownEffectTreatedAsZero, false);
+  assert.equal(cancel.reconcileBeforeResume, true);
+  assert.equal(cancel.duplicateDispatch, false);
+  const retry = journeys.get("agent-retry-reconciles-uncertainty");
+  assert.equal(retry.controlReceiptSeparateFromEffectOutcome, true);
+  assert.equal(retry.unknownEffectTreatedAsZero, false);
+  assert.equal(retry.reconcileBeforeRetry, true);
+  assert.equal(retry.duplicateDispatch, false);
+  const negativeIds = publicFixture.negativeVectors.map((vector) => vector.id);
+  assert.equal(new Set(negativeIds).size, negativeIds.length, "negative vector IDs are unique");
+  assert.deepEqual(negativeIds.toSorted(), [
+    "agent-mode-forges-turn-owner",
+    "ordinary-turn-forges-task-owner",
+    "ordinary-write-dispatched-before-promotion",
+    "retry-unknown-dispatch-without-reconciliation",
+    "save-copies-prior-execution-or-charge",
+    "save-expired-temporary-content-refuses",
+    "temporary-body-in-history-or-search",
+  ].toSorted());
+  const expiredSave = publicFixture.negativeVectors.find(
+    (vector) => vector.id === "save-expired-temporary-content-refuses",
+  );
+  assert.equal(expiredSave.valid, false);
+  assert.equal(expiredSave.input.temporaryContentExpired, true);
+  assert.equal(expiredSave.input.saveAccepted, true);
+  assert.equal(expiredSave.input.fabricatedReplacementCreated, true);
   for (const vector of publicFixture.journeyVectors) assert.equal(vector.valid, true, vector.id);
   for (const vector of publicFixture.negativeVectors) assert.equal(vector.valid, false, vector.id);
 });
