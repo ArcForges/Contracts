@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.extensions.v1.ValueSchema": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ValueSchema",
+      "fields": {
+        "kind": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        },
+        "nullable": {},
+        "itemSchema": {},
+        "fields": {
+          "items": {},
+          "maxItems": 200
+        },
+        "unknownFieldPolicy": {
+          "enumValues": [0, 1, 2]
+        },
+        "minItems": {
+          "max": 200
+        },
+        "maxItems": {
+          "max": 200
+        },
+        "minLength": {
+          "max": 65536
+        },
+        "maxLength": {
+          "max": 65536
+        },
+        "minInteger": {},
+        "maxInteger": {},
+        "minDecimal": {},
+        "maxDecimal": {},
+        "minNumber": {
+          "finite": true
+        },
+        "maxNumber": {
+          "finite": true
+        }
+      }
+    },
+    "arcforges.extensions.v1.ValueSchemaField": {
+      "csharpType": "ArcForges.Sdk.Contracts.V1.ValueSchemaField",
+      "fields": {
+        "name": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "schema": {
+          "required": true
+        },
+        "required": {}
+      }
+    }
+  }
+}
