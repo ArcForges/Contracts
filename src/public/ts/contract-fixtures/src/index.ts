@@ -69148,6 +69148,12 @@ export const publicFixtures = {
           }
         ]
       },
+      "ScopeProjectMetadata": {
+        "projectId": {
+          "$ref": "Id"
+        },
+        "name": "Project Alpha"
+      },
       "AggregateBody": {
         "scopeMetadata": {
           "$ref": "ScopeMetadata"
@@ -69586,6 +69592,12 @@ export const publicFixtures = {
         "target": "ScopeMetadata",
         "valid": true,
         "sample": "ScopeMetadata"
+      },
+      {
+        "id": "ScopeProjectMetadata-complete",
+        "target": "ScopeProjectMetadata",
+        "valid": true,
+        "sample": "ScopeProjectMetadata"
       },
       {
         "id": "ScopeSelection-complete",
