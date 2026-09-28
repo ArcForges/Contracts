@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 46)
+        self.assertEqual(len(config['allowlists']), 47)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,45 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 4])
+
+        ext02_groups = [row for row in config['allowlists']
+                        if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
+        self.assertEqual(len(ext02_groups), 1)
+        ext02 = ext02_groups[0]
+        self.assertEqual(ext02['targetRules'], ['generic-api-key'])
+        self.assertEqual(ext02['condition'], 'AND')
+        self.assertEqual(ext02['regexTarget'], 'line')
+        self.assertEqual(ext02['paths'], [r'^eng/policy/(dependency-policy\.json|dependency-reviews/ext-02-r1\.json)$'])
+        ext02_policy = json.loads((ROOT / 'eng/policy/dependency-policy.json').read_text(encoding='utf-8'))
+        ext02_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/ext-02-r1.json').read_text(encoding='utf-8'))
+        self.assertEqual(ext02_policy['inputHashes']['eng/policy/contract-access.json'],
+                         ext02_receipt['review']['inputHashes']['eng/policy/contract-access.json'])
+        ext02_rows = [
+            ('eng/policy/contract-access.json', ext02_policy['inputHashes']['eng/policy/contract-access.json']),
+            ('eng/provenance/records/dokka-combokeys-licence-r1.json',
+             ext02_receipt['review']['inputHashes']['eng/provenance/records/dokka-combokeys-licence-r1.json']),
+            ('eng/provenance/records/dokka-object-keys-licence-r1.json',
+             ext02_receipt['review']['inputHashes']['eng/provenance/records/dokka-object-keys-licence-r1.json']),
+            ('src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
+             ext02_receipt['review']['inputHashes']['src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']),
+        ]
+        self.assertEqual(ext02['regexes'], [
+            rf'(?s)^\s*"{re.escape(source)}":\s*"{digest}",?\s*$'
+            for source, digest in ext02_rows
+        ])
+        for (source, digest), pattern in zip(ext02_rows, ext02['regexes'], strict=True):
+            line = f'  "{source}": "{digest}",'
+            self.assertIsNotNone(re.fullmatch(pattern, line))
+            for bad in [line.replace(digest, '0' * 64),
+                        line.replace('"' + source + '"', '"credential"'),
+                        line + ' "credential": "synthetic-secret"']:
+                self.assertIsNone(re.fullmatch(pattern, bad))
+        self.assertTrue(re.fullmatch(ext02['paths'][0], 'eng/policy/dependency-policy.json'))
+        self.assertTrue(re.fullmatch(ext02['paths'][0], 'eng/policy/dependency-reviews/ext-02-r1.json'))
+        for wrong_path in ['eng/policy/dependency-reviews/con-08-r1.json',
+                           'eng/policy/dependency-reviews/ext-02-r2.json', 'src/secret.json']:
+            self.assertIsNone(re.fullmatch(ext02['paths'][0], wrong_path))
 
     def test_con08_secret_scan_allowlists_bind_only_observed_public_digest_lines(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
@@ -809,9 +847,18 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(committed_receipt, receipt)
         old_access_digest = historical_policy['inputHashes'][access_key]
         current_access_digest = policy['inputHashes'][access_key]
+        con08_access_digest = receipt['review']['inputHashes'][access_key]
         self.assertEqual(old_access_digest, historical_policy['review']['inputHashes'][access_key])
         self.assertEqual(old_access_digest, historical_receipt['review']['inputHashes'][access_key])
-        self.assertNotEqual(old_access_digest, current_access_digest)
+        self.assertNotEqual(old_access_digest, con08_access_digest)
+        self.assertNotEqual(con08_access_digest, current_access_digest)
+
+        ext02_group = next(row for row in config['allowlists']
+                           if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes')
+        active_access_line = f'  "{access_key}": "{current_access_digest}",'
+        self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in ext02_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, active_access_line)
+                             for pattern in by_path['^' + re.escape(policy_path) + '$']['regexes']))
 
         receipt_keys = [
             'eng/policy/contract-access.json',
@@ -826,9 +873,9 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(len(dokka_rows), 197)
 
         expected_rows = {
-            policy_path: [(access_key, old_access_digest), (access_key, current_access_digest)],
+            policy_path: [(access_key, old_access_digest), (access_key, con08_access_digest)],
             receipt_path: [(access_key, old_access_digest),
-                           (access_key, current_access_digest)] +
+                           (access_key, con08_access_digest)] +
                           [(key, receipt['review']['inputHashes'][key])
                            for key in receipt_keys[1:]],
             dokka_path: dokka_rows,
