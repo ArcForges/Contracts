@@ -1622,7 +1622,17 @@ regexes = [
 description = "Reviewed EXT.02 exact public dependency-input hashes"
 targetRules = ["generic-api-key"]
 condition = "AND"
-paths = ['''^eng/policy/(dependency-policy\.json|dependency-reviews/ext-02-r1\.json)$''']
+paths = ['''^eng/policy/dependency-policy\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"03fab0963311e375f6238ad59f7dc6f47cdb2107656e098333cd7c45f0dff8a7",?\s*$''',
+]
+
+[[allowlists]]
+description = "Reviewed EXT.02 exact public dependency-input hashes"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency-reviews/ext-02-r1\.json$''']
 regexTarget = "line"
 regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"03fab0963311e375f6238ad59f7dc6f47cdb2107656e098333cd7c45f0dff8a7",?\s*$''',

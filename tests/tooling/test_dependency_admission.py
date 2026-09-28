@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 47)
+        self.assertEqual(len(config['allowlists']), 48)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,22 +774,26 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 4])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
-        self.assertEqual(len(ext02_groups), 1)
-        ext02 = ext02_groups[0]
-        self.assertEqual(ext02['targetRules'], ['generic-api-key'])
-        self.assertEqual(ext02['condition'], 'AND')
-        self.assertEqual(ext02['regexTarget'], 'line')
-        self.assertEqual(ext02['paths'], [r'^eng/policy/(dependency-policy\.json|dependency-reviews/ext-02-r1\.json)$'])
+        self.assertEqual(len(ext02_groups), 2)
+        ext02_policy_path = r'^eng/policy/dependency-policy\.json$'
+        ext02_receipt_path = r'^eng/policy/dependency-reviews/ext-02-r1\.json$'
+        ext02_by_path = {row['paths'][0]: row for row in ext02_groups}
+        self.assertEqual(set(ext02_by_path), {ext02_policy_path, ext02_receipt_path})
+        ext02_policy_group = ext02_by_path[ext02_policy_path]
+        ext02_receipt_group = ext02_by_path[ext02_receipt_path]
         ext02_policy = json.loads((ROOT / 'eng/policy/dependency-policy.json').read_text(encoding='utf-8'))
         ext02_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/ext-02-r1.json').read_text(encoding='utf-8'))
         self.assertEqual(ext02_policy['inputHashes']['eng/policy/contract-access.json'],
                          ext02_receipt['review']['inputHashes']['eng/policy/contract-access.json'])
-        ext02_rows = [
+        ext02_policy_rows = [
             ('eng/policy/contract-access.json', ext02_policy['inputHashes']['eng/policy/contract-access.json']),
+        ]
+        ext02_receipt_rows = [
+            ('eng/policy/contract-access.json', ext02_receipt['review']['inputHashes']['eng/policy/contract-access.json']),
             ('eng/provenance/records/dokka-combokeys-licence-r1.json',
              ext02_receipt['review']['inputHashes']['eng/provenance/records/dokka-combokeys-licence-r1.json']),
             ('eng/provenance/records/dokka-object-keys-licence-r1.json',
@@ -797,22 +801,48 @@ class DependencyAdmission(unittest.TestCase):
             ('src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
              ext02_receipt['review']['inputHashes']['src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']),
         ]
-        self.assertEqual(ext02['regexes'], [
-            rf'(?s)^\s*"{re.escape(source)}":\s*"{digest}",?\s*$'
-            for source, digest in ext02_rows
-        ])
-        for (source, digest), pattern in zip(ext02_rows, ext02['regexes'], strict=True):
-            line = f'  "{source}": "{digest}",'
-            self.assertIsNotNone(re.fullmatch(pattern, line))
-            for bad in [line.replace(digest, '0' * 64),
-                        line.replace('"' + source + '"', '"credential"'),
-                        line + ' "credential": "synthetic-secret"']:
-                self.assertIsNone(re.fullmatch(pattern, bad))
-        self.assertTrue(re.fullmatch(ext02['paths'][0], 'eng/policy/dependency-policy.json'))
-        self.assertTrue(re.fullmatch(ext02['paths'][0], 'eng/policy/dependency-reviews/ext-02-r1.json'))
-        for wrong_path in ['eng/policy/dependency-reviews/con-08-r1.json',
-                           'eng/policy/dependency-reviews/ext-02-r2.json', 'src/secret.json']:
-            self.assertIsNone(re.fullmatch(ext02['paths'][0], wrong_path))
+        for group, path_pattern, rows in [
+            (ext02_policy_group, ext02_policy_path, ext02_policy_rows),
+            (ext02_receipt_group, ext02_receipt_path, ext02_receipt_rows),
+        ]:
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], [path_pattern])
+            self.assertEqual(group['regexes'], [
+                rf'(?s)^\s*"{re.escape(source)}":\s*"{digest}",?\s*$'
+                for source, digest in rows
+            ])
+            for (source, digest), pattern in zip(rows, group['regexes'], strict=True):
+                line = f'  "{source}": "{digest}",'
+                self.assertIsNotNone(re.fullmatch(pattern, line))
+                for bad in [line.replace(digest, '0' * 64),
+                            line.replace('"' + source + '"', '"credential"'),
+                            line + ' "credential": "synthetic-secret"']:
+                    self.assertIsNone(re.fullmatch(pattern, bad))
+
+        self.assertEqual(ext02_policy_path, r'^eng/policy/dependency-policy\.json$')
+        self.assertEqual(ext02_receipt_path, r'^eng/policy/dependency-reviews/ext-02-r1\.json$')
+        self.assertIsNotNone(re.fullmatch(ext02_policy_path, 'eng/policy/dependency-policy.json'))
+        self.assertIsNotNone(re.fullmatch(ext02_receipt_path, 'eng/policy/dependency-reviews/ext-02-r1.json'))
+        for path_pattern, wrong_path in [
+            (ext02_policy_path, 'eng/policy/dependency-reviews/ext-02-r1.json'),
+            (ext02_receipt_path, 'eng/policy/dependency-policy.json'),
+            (ext02_policy_path, 'eng/policy/dependency-reviews/con-08-r1.json'),
+            (ext02_receipt_path, 'eng/policy/dependency-reviews/ext-02-r2.json'),
+            (ext02_policy_path, 'src/secret.json'),
+            (ext02_receipt_path, 'src/secret.json'),
+        ]:
+            self.assertIsNone(re.fullmatch(path_pattern, wrong_path))
+
+        for path, group, expected_count in [
+            ('eng/policy/dependency-policy.json', ext02_policy_group, 2),
+            ('eng/policy/dependency-reviews/ext-02-r1.json', ext02_receipt_group, 4),
+        ]:
+            source_lines = (ROOT / path).read_text(encoding='utf-8').splitlines()
+            matched_lines = [line for line in source_lines
+                             if any(re.fullmatch(pattern, line) for pattern in group['regexes'])]
+            self.assertEqual(len(matched_lines), expected_count)
 
     def test_con08_secret_scan_allowlists_bind_only_observed_public_digest_lines(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
@@ -854,7 +884,8 @@ class DependencyAdmission(unittest.TestCase):
         self.assertNotEqual(con08_access_digest, current_access_digest)
 
         ext02_group = next(row for row in config['allowlists']
-                           if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes')
+                           if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes' and
+                           row['paths'] == [r'^eng/policy/dependency-policy\.json$'])
         active_access_line = f'  "{access_key}": "{current_access_digest}",'
         self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in ext02_group['regexes']))
         self.assertFalse(any(re.fullmatch(pattern, active_access_line)
