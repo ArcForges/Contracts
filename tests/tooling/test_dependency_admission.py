@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 48)
+        self.assertEqual(len(config['allowlists']), 51)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -785,10 +785,16 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(set(ext02_by_path), {ext02_policy_path, ext02_receipt_path})
         ext02_policy_group = ext02_by_path[ext02_policy_path]
         ext02_receipt_group = ext02_by_path[ext02_receipt_path]
-        ext02_policy = json.loads((ROOT / 'eng/policy/dependency-policy.json').read_text(encoding='utf-8'))
+        ext02_base = 'affeeae06e563340354698dd5e32d74891c96e78'
+        policy_path = 'eng/policy/dependency-policy.json'
+        ext02_policy = json.loads(subprocess.check_output(
+            ['git', 'show', ext02_base + ':' + policy_path], cwd=ROOT, text=True))
+        current_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
         ext02_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/ext-02-r1.json').read_text(encoding='utf-8'))
         self.assertEqual(ext02_policy['inputHashes']['eng/policy/contract-access.json'],
                          ext02_receipt['review']['inputHashes']['eng/policy/contract-access.json'])
+        self.assertNotEqual(current_policy['inputHashes']['eng/policy/contract-access.json'],
+                            ext02_receipt['review']['inputHashes']['eng/policy/contract-access.json'])
         ext02_policy_rows = [
             ('eng/policy/contract-access.json', ext02_policy['inputHashes']['eng/policy/contract-access.json']),
         ]
@@ -835,11 +841,12 @@ class DependencyAdmission(unittest.TestCase):
         ]:
             self.assertIsNone(re.fullmatch(path_pattern, wrong_path))
 
-        for path, group, expected_count in [
-            ('eng/policy/dependency-policy.json', ext02_policy_group, 2),
-            ('eng/policy/dependency-reviews/ext-02-r1.json', ext02_receipt_group, 4),
+        for path, group, expected_count, source_lines in [
+            (policy_path, ext02_policy_group, 2,
+             subprocess.check_output(['git', 'show', ext02_base + ':' + policy_path], cwd=ROOT, text=True).splitlines()),
+            ('eng/policy/dependency-reviews/ext-02-r1.json', ext02_receipt_group, 4,
+             (ROOT / 'eng/policy/dependency-reviews/ext-02-r1.json').read_text(encoding='utf-8').splitlines()),
         ]:
-            source_lines = (ROOT / path).read_text(encoding='utf-8').splitlines()
             matched_lines = [line for line in source_lines
                              if any(re.fullmatch(pattern, line) for pattern in group['regexes'])]
             self.assertEqual(len(matched_lines), expected_count)
@@ -886,8 +893,12 @@ class DependencyAdmission(unittest.TestCase):
         ext02_group = next(row for row in config['allowlists']
                            if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes' and
                            row['paths'] == [r'^eng/policy/dependency-policy\.json$'])
+        con09_policy_group = next(row for row in config['allowlists']
+                                  if row['description'].startswith('CON09 exact observed active dependency-policy') and
+                                  row['paths'] == [r'^eng/policy/dependency\-policy\.json$'])
         active_access_line = f'  "{access_key}": "{current_access_digest}",'
-        self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in ext02_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, active_access_line) for pattern in ext02_group['regexes']))
+        self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in con09_policy_group['regexes']))
         self.assertFalse(any(re.fullmatch(pattern, active_access_line)
                              for pattern in by_path['^' + re.escape(policy_path) + '$']['regexes']))
 
@@ -936,6 +947,145 @@ class DependencyAdmission(unittest.TestCase):
         omitted_line = f'  "{omitted_page}": "{r13_pages[omitted_page]}",'
         self.assertFalse(any(re.fullmatch(pattern, omitted_line)
                              for pattern in by_path['^' + re.escape(dokka_path) + '$']['regexes']))
+
+    def test_con09_secret_scan_allowlists_bind_only_observed_public_digest_lines(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        groups = [row for row in config['allowlists']
+                  if row['description'].startswith('CON09 exact observed')]
+        self.assertEqual(len(groups), 3)
+        by_path = {row['paths'][0]: row for row in groups}
+
+        docs_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r14.json'
+        receipt_path = 'eng/policy/dependency-reviews/con-09-r1.json'
+        policy_path = 'eng/policy/dependency-policy.json'
+        path_patterns = {path: '^' + re.escape(path) + '$'
+                         for path in [docs_path, receipt_path, policy_path]}
+        self.assertEqual(set(by_path), set(path_patterns.values()))
+
+        observed_intro = '14aa5d0a24e9fd5e622f2104599e9f70dd3e9b96'
+        observed_head = '48455ec708f66846581102395502b2425edd32ed'
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        for ancestor in [observed_intro, observed_head]:
+            self.assertEqual(subprocess.run(['git', 'merge-base', '--is-ancestor', ancestor, head],
+                                            cwd=ROOT, check=False).returncode, 0)
+
+        def committed_json(commit, path):
+            return json.loads(subprocess.check_output(['git', 'show', commit + ':' + path],
+                                                      cwd=ROOT, text=True))
+
+        initial_profile = committed_json(observed_intro, docs_path)
+        current_profile = committed_json(head, docs_path)
+        pages = initial_profile['modules']['contracts-proto']['pages']
+        current_pages = current_profile['modules']['contracts-proto']['pages']
+        omitted_page = ('contracts-proto/io.github.arcforges.contracts.foundation.v1/'
+                        '-action-descriptor/-builder/get-description-key.html')
+        docs_rows = {(key, digest) for key, digest in pages.items()
+                     if re.search(r'(key|token)', key, re.IGNORECASE) and key != omitted_page}
+        current_docs_rows = {(key, digest) for key, digest in current_pages.items()
+                             if re.search(r'(key|token)', key, re.IGNORECASE) and key != omitted_page}
+        digest_set_hash = lambda rows: hashlib.sha256(
+            ''.join(key + '\t' + value + '\n' for key, value in sorted(rows)).encode()).hexdigest()
+        self.assertEqual(len(docs_rows), 208)
+        self.assertEqual(current_docs_rows, docs_rows)
+        self.assertEqual(digest_set_hash(docs_rows),
+                         'd6c8ba4e9904aee40edbcaf5cc388ee6cfc1a19a65477ba68f5fa72295f72b4e')
+
+        receipt_keys = [
+            'eng/policy/contract-access.json',
+            'eng/provenance/records/dokka-combokeys-licence-r1.json',
+            'eng/provenance/records/dokka-object-keys-licence-r1.json',
+            'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
+        ]
+        initial_receipt = committed_json(observed_intro, receipt_path)['review']['inputHashes']
+        observed_receipt = committed_json(observed_head, receipt_path)['review']['inputHashes']
+        current_receipt = committed_json(head, receipt_path)['review']['inputHashes']
+        self.assertEqual(committed_json(head, receipt_path), committed_json(observed_head, receipt_path))
+        receipt_rows = {(key, initial_receipt[key]) for key in receipt_keys}
+        receipt_rows |= {(key, observed_receipt[key]) for key in receipt_keys}
+        self.assertEqual(len(receipt_rows), 5)
+        self.assertEqual(digest_set_hash(receipt_rows),
+                         '91299dfa0022fe0e7a57f19bc6d879bccfc0ae54293cc8ca69588a6664d44660')
+        self.assertEqual(current_receipt, observed_receipt)
+
+        access_key = 'eng/policy/contract-access.json'
+        base_policy = committed_json('affeeae06e563340354698dd5e32d74891c96e78', policy_path)
+        current_policy = committed_json(head, policy_path)
+        ext02_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/ext-02-r1.json')
+                                   .read_text(encoding='utf-8'))
+        old_access_digest = base_policy['inputHashes'][access_key]
+        active_access_digest = current_policy['inputHashes'][access_key]
+        self.assertEqual(old_access_digest,
+                         ext02_receipt['review']['inputHashes'][access_key])
+        self.assertEqual(active_access_digest,
+                         '86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533')
+        self.assertNotEqual(active_access_digest, old_access_digest)
+        policy_rows = {(access_key, active_access_digest)}
+        self.assertEqual(digest_set_hash(policy_rows),
+                         '9376bfc063d6056b2715a6da75899e4ef098f3e7ca916bc89b1c79a892a62e3a')
+        expected_rows = {
+            docs_path: docs_rows,
+            receipt_path: receipt_rows,
+            policy_path: policy_rows,
+        }
+
+        for path, rows in expected_rows.items():
+            group = by_path[path_patterns[path]]
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], [path_patterns[path]])
+            expected_patterns = [
+                r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + value + r'",?\s*$'
+                for key, value in sorted(rows)
+            ]
+            self.assertEqual(group['regexes'], expected_patterns)
+            for (key, value), pattern in zip(sorted(rows), group['regexes'], strict=True):
+                line = f'  "{key}": "{value}",'
+                self.assertIsNotNone(re.fullmatch(pattern, line))
+                wrong_digest = '0' * 64 if value != '0' * 64 else '1' * 64
+                self.assertIsNone(re.fullmatch(pattern, line.replace(value, wrong_digest)))
+                self.assertIsNone(re.fullmatch(pattern, line.replace('"' + key + '"', '"credential"')))
+                self.assertIsNone(re.fullmatch(pattern, line + ' "credential": "synthetic-secret"'))
+            for wrong_path in [path + '.backup', 'src/secrets.json']:
+                self.assertIsNone(re.fullmatch(group['paths'][0], wrong_path))
+
+        def matching_lines(text, group):
+            return [line for line in text.splitlines()
+                    if any(re.fullmatch(pattern, line) for pattern in group['regexes'])]
+
+        docs_group = by_path[path_patterns[docs_path]]
+        receipt_group = by_path[path_patterns[receipt_path]]
+        policy_group = by_path[path_patterns[policy_path]]
+        self.assertEqual(len(matching_lines(subprocess.check_output(
+            ['git', 'show', observed_intro + ':' + docs_path], cwd=ROOT, text=True), docs_group)), 208)
+        self.assertEqual(len(matching_lines(subprocess.check_output(
+            ['git', 'show', head + ':' + docs_path], cwd=ROOT, text=True), docs_group)), 208)
+        self.assertEqual(len(matching_lines(subprocess.check_output(
+            ['git', 'show', observed_intro + ':' + receipt_path], cwd=ROOT, text=True), receipt_group)), 4)
+        self.assertEqual(len(matching_lines(subprocess.check_output(
+            ['git', 'show', head + ':' + receipt_path], cwd=ROOT, text=True), receipt_group)), 4)
+        historical_policy_text = subprocess.check_output(
+            ['git', 'show', 'affeeae06e563340354698dd5e32d74891c96e78:' + policy_path], cwd=ROOT, text=True)
+        current_policy_text = subprocess.check_output(
+            ['git', 'show', head + ':' + policy_path], cwd=ROOT, text=True)
+        self.assertEqual(len(matching_lines(historical_policy_text, policy_group)), 0)
+        self.assertEqual(len(matching_lines(current_policy_text, policy_group)), 2)
+
+        ext02_policy_group = next(row for row in config['allowlists']
+                                  if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes' and
+                                  row['paths'] == [r'^eng/policy/dependency-policy\.json$'])
+        con08_policy_group = next(row for row in config['allowlists']
+                                  if row['description'].startswith('CON08 exact observed') and
+                                  row['paths'] == [path_patterns[policy_path]])
+        old_line = f'  "{access_key}": "{old_access_digest}",'
+        active_line = f'  "{access_key}": "{active_access_digest}",'
+        self.assertTrue(any(re.fullmatch(pattern, old_line) for pattern in ext02_policy_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, active_line) for pattern in ext02_policy_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, active_line) for pattern in con08_policy_group['regexes']))
+        self.assertTrue(any(re.fullmatch(pattern, active_line) for pattern in policy_group['regexes']))
+
+        self.assertEqual(sum(len(rows) for rows in expected_rows.values()), 214)
+        self.assertEqual(208 + 5 + 2, 215)
 
 
 if __name__ == '__main__':
