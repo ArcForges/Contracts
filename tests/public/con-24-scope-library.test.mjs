@@ -2,11 +2,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { ScopeService } from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/scope_pb.js";
-import {
-  ScopeProjectSummarySchema,
-  ScopeSessionSummarySchema,
-} from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/content_pb.js";
 
 const fixture = JSON.parse(
   await readFile(
@@ -36,7 +31,25 @@ function messageType(field) {
   return field.fieldKind.case === "message" ? field.fieldKind.message.typeName : undefined;
 }
 
-test("CON.24 generated Scope API and operation authorization match the public fixture", () => {
+test("CON.24 operation bindings match the fixture RPCs without generated outputs", () => {
+  assert.equal(fixture.operations.length, 3);
+  assert.equal(operations.length, 3);
+  for (const row of operations) {
+    const operation = fixture.operations.find(
+      (candidate) => candidate.operationId === row.operationId,
+    );
+    assert.ok(operation, `${row.operationId}: fixture operation exists`);
+    const methodName = operation.rpc.split("/")[1];
+    assert.equal(row.binding, `arcforges.publicapi.v1.ScopeService/${methodName}`);
+    assert.equal(row.source, "public/proto/arcforges/publicapi/v1/scope.proto");
+  }
+});
+
+test("CON.24 generated Scope API and operation authorization match the public fixture", async () => {
+  const { ScopeService } =
+    await import("../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/scope_pb.js");
+  const { ScopeProjectSummarySchema, ScopeSessionSummarySchema } =
+    await import("../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/content_pb.js");
   assert.equal(fixture.evidenceClass, "offline-contract-only-no-owner-service-or-live-workspace");
   assert.deepEqual(fixture.authorization, {
     scope: "product-owner",
@@ -136,6 +149,7 @@ test("CON.24 generated Scope API and operation authorization match the public fi
       (candidate) => candidate.operationId === row.operationId,
     );
     assert.ok(operation, `${row.operationId}: fixture operation exists`);
+    const methodName = operation.rpc.split("/")[1];
     assert.equal(row.binding, `${ScopeService.typeName}/${methodName}`);
     assert.equal(row.source, "public/proto/arcforges/publicapi/v1/scope.proto");
     assert.equal(row.scope, fixture.authorization.scope);
