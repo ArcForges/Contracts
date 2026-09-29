@@ -13,6 +13,26 @@ gate = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(gate)
 
 
+# Frozen, task-owned transport oracle. Do not derive expected rows from the gate's
+# CF_SERVICE_OPERATIONS table; the parity assertion below checks that table.
+CF_SERVICE_EXPECTATIONS = {
+    'cf.ai.authorize': ('resource-owner', 'authorize', 'Q'),
+    'cf.ai.claim': ('assistant', 'claim', 'IW'),
+    'cf.ai.renew': ('assistant', 'renew', 'IW'),
+    'cf.ai.reconcile': ('assistant', 'reconcile', 'Q'),
+    'cf.ai.context': ('assistant', 'context', 'Q'),
+    'cf.ai.model-intent': ('assistant', 'model-intent', 'IW'),
+    'cf.ai.model-outcome': ('assistant', 'model-outcome', 'IW'),
+    'cf.ai.settle': ('assistant', 'settle', 'IW'),
+    'cf.ai.prepare-tools': ('assistant', 'prepare-tools', 'IW'),
+    'cf.ai.cloud-tool': ('assistant', 'cloud-tool', 'IW'),
+    'cf.ai.wait': ('assistant', 'wait', 'IW'),
+    'cf.ai.finalize': ('assistant', 'finalize', 'IW'),
+    'cf.ai.stream-state': ('assistant', 'stream-state', 'IW'),
+    'cf.ai.late-outcome': ('assistant', 'late-outcome', 'IW'),
+}
+
+
 class OperationScopeTests(unittest.TestCase):
     def task_create_row(self):
         return {
@@ -61,7 +81,7 @@ class OperationScopeTests(unittest.TestCase):
         }
 
     def cf_service_row(self, operation):
-        scope, route, idempotency = gate.CF_SERVICE_OPERATIONS[operation]
+        scope, route, idempotency = CF_SERVICE_EXPECTATIONS[operation]
         return {
             'operationId': operation,
             'binding': f'POST /internal/ai/v1/{route}',
@@ -215,36 +235,53 @@ class OperationScopeTests(unittest.TestCase):
                 gate.authorization(hostile, set())
 
     def test_cf_service_ports_are_exact_closed_transport_bindings(self):
-        for operation in gate.CF_SERVICE_OPERATIONS:
+        self.assertEqual(gate.CF_SERVICE_OPERATIONS, CF_SERVICE_EXPECTATIONS)
+        operations = list(CF_SERVICE_EXPECTATIONS)
+        auth_mutations = {
+            'capability': 'capability.read',
+            'risk': 'R2',
+            'approval': 'foregroundProposal',
+            'stepUp': True,
+            'localPresence': True,
+            'egress': 'ownedContent',
+            'patEligible': True,
+            'actorKinds': ['human'],
+        }
+
+        for index, operation in enumerate(operations):
             with self.subTest(operation=operation):
                 row = self.cf_service_row(operation)
                 self.assertEqual(gate.authorization(row, set()), (['service'], []))
+            wrong_operation = operations[(index + 1) % len(operations)]
+            expected_scope, _, expected_idempotency = CF_SERVICE_EXPECTATIONS[operation]
+            wrong_scope = 'assistant' if expected_scope == 'resource-owner' else 'resource-owner'
+            wrong_idempotency = 'IW' if expected_idempotency == 'Q' else 'Q'
+            mutations = [
+                ('operationId', wrong_operation),
+                ('binding', 'POST /internal/ai/v1/' + CF_SERVICE_EXPECTATIONS[wrong_operation][1]),
+                ('kind', 'proto'),
+                ('source', 'internal/ai/v1/schema.json'),
+                ('scope', wrong_scope),
+                ('surface', 'public'),
+                ('profile', 'human-owner'),
+                ('sourceRule', 'docs/architecture/contracts/05-cloudflare-integration.md#2-legacy'),
+                ('idempotency', wrong_idempotency),
+            ]
+            for field, wrong in mutations:
+                hostile = copy.deepcopy(row)
+                hostile[field] = wrong
+                with self.subTest(operation=operation, field=field, wrong=wrong):
+                    with self.assertRaises(ValueError):
+                        gate.authorization(hostile, set())
 
-        row = self.cf_service_row('cf.ai.authorize')
-        mutations = [
-            ('operationId', 'cf.ai.legacy-authorize'),
-            ('binding', 'POST /internal/ai/v1/claim'),
-            ('binding', 'GET /internal/ai/v1/authorize'),
-            ('kind', 'proto'),
-            ('source', 'internal/ai/v1/schema.json'),
-            ('scope', 'assistant'),
-            ('surface', 'public'),
-            ('profile', 'human-owner'),
-            ('sourceRule', 'docs/architecture/contracts/05-cloudflare-integration.md#2-legacy'),
-            ('idempotency', 'IW'),
-        ]
-        for field, wrong in mutations:
-            hostile = copy.deepcopy(row)
-            hostile[field] = wrong
-            with self.subTest(field=field, wrong=wrong), self.assertRaises(ValueError):
-                gate.authorization(hostile, set())
+            for field, wrong in auth_mutations.items():
+                hostile = copy.deepcopy(row)
+                hostile['authorization'][field] = wrong
+                with self.subTest(operation=operation, authorization_field=field, wrong=wrong):
+                    with self.assertRaises(ValueError):
+                        gate.authorization(hostile, set())
 
-        hostile = copy.deepcopy(row)
-        hostile['authorization']['risk'] = 'R2'
-        with self.assertRaisesRegex(ValueError, 'exact CF HMAC transport binding mismatch'):
-            gate.authorization(hostile, set())
-
-        hostile = copy.deepcopy(row)
+        hostile = self.cf_service_row('cf.ai.authorize')
         hostile['operationId'] = 'cf.ai.unknown'
         with self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
             gate.authorization(hostile, set())
