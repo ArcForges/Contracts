@@ -39,6 +39,11 @@ internal static class SimulationCases
                 && registered.GetProperty("profile").GetString() == profile.GetProperty("profile").GetString()
                 && registered.GetProperty("sourceRule").GetString() == profile.GetProperty("sourceRule").GetString()
                 && registered.GetProperty("idempotency").GetString() == item.GetProperty("class").GetString(), operationId + ": operation profile");
+            var idempotency = item.GetProperty("class").GetString();
+            var expectedRisk = idempotency switch { "Q" or "NI" => "R1", "CC" or "IW" => "R2", _ => throw new InvalidOperationException("Unknown simulation idempotency class") };
+            var expectedCompatibility = idempotency switch { "Q" => "AO", "CC" or "IW" or "NI" => "FR", _ => throw new InvalidOperationException("Unknown simulation idempotency class") };
+            Require(item.GetProperty("risk").GetString() == expectedRisk
+                && item.GetProperty("compatibility").GetString() == expectedCompatibility, operationId + ": compatibility classification");
             var authorization = registered.GetProperty("authorization");
             Require(profile.GetProperty("capability").ValueKind == JsonValueKind.Null
                 && authorization.GetProperty("capability").ValueKind == JsonValueKind.Null

@@ -49,6 +49,10 @@ test("generated SimulationService catalogue is exactly the independent 13-operat
       assert.equal(metadata[key], profile[key], `${item.operationId}: ${key}`);
     }
     assert.equal(metadata.idempotency, item.class, `${item.operationId}: idempotency`);
+    const expectedRisk = item.class === "Q" || item.class === "NI" ? "R1" : "R2";
+    const expectedCompatibility = item.class === "Q" ? "AO" : "FR";
+    assert.equal(item.risk, expectedRisk, `${item.operationId}: risk`);
+    assert.equal(item.compatibility, expectedCompatibility, `${item.operationId}: compatibility`);
     assert.deepEqual(metadata.authorization, {
       capability: profile.capability,
       risk: item.risk,
