@@ -7,8 +7,12 @@ import { contractServices } from "../../src/public/ts/proto/dist/services/gen/ca
 import { PageRequestSchema } from "../../src/public/ts/proto/dist/gen/arcforges/foundation/v1/foundation_pb.js";
 import {
   AstNodeSchema,
+  CsvReplaySchemaSchema,
+  FaultSpecSchema,
+  PulseSpecSchema,
   SimulationProfileSchema,
   SimulationRunSchema,
+  StepPointSchema,
 } from "../../src/public/ts/proto/dist/gen/arcforges/simulation/v1/simulation_pb.js";
 import * as shapes from "../../src/public/ts/proto/dist/shapes/gen/proto.js";
 
@@ -107,6 +111,30 @@ test("profile, run state/extent and AST vectors pass through generated closed sh
   for (const item of fixture.astVectors) {
     const valid = tryShape(AstNodeSchema, shapes.isAstNode, item.value);
     assert.equal(valid, item.valid, item.id);
+  }
+});
+
+test("Registry04 scalar presence and optionality vectors use generated simulation shapes", () => {
+  const vectors = fixture.presenceVectors;
+  const groups = [
+    ["pulseSpec", PulseSpecSchema, shapes.isPulseSpec, ["pulse-value-zero-present", "pulse-missing-value-refused"]],
+    ["stepPoint", StepPointSchema, shapes.isStepPoint, ["step-value-zero-present", "step-missing-value-refused"]],
+    ["faultSpec", FaultSpecSchema, shapes.isFaultSpec, [
+      "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused",
+    ]],
+    ["csvReplaySchema", CsvReplaySchemaSchema, shapes.isCsvReplaySchema, ["csv-timestampUnit-omitted-accepted"]],
+  ];
+  for (const [key, schema, validate, expectedIds] of groups) {
+    const entries = vectors[key];
+    assert.deepEqual(entries.map((item) => item.id), expectedIds, `${key}: exact presence vectors`);
+    for (const item of entries) {
+      const valid = tryShape(schema, validate, item.value);
+      assert.equal(valid, item.valid, item.id);
+      if (!valid) continue;
+      const message = fromJson(schema, item.value);
+      const bytes = toBinary(schema, message);
+      assert.deepEqual(toBinary(schema, fromBinary(schema, bytes)), bytes, `${item.id}: binary round-trip`);
+    }
   }
 });
 

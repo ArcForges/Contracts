@@ -96,5 +96,23 @@
     { "id": "unrecognized-expression", "expression": "script", "value": { "script": "sin(time)" }, "valid": false },
     { "id": "missing-expression", "expression": null, "value": {}, "valid": false },
     { "id": "multiple-oneof-arms-refused", "expression": "constant+variable", "value": { "constant": 1.0, "variable": "time" }, "valid": false }
-  ]
+  ],
+  "presenceVectors": {
+    "pulseSpec": [
+      { "id": "pulse-value-zero-present", "valid": true, "value": { "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "duration": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } }, "value": 0.0 } },
+      { "id": "pulse-missing-value-refused", "valid": false, "value": { "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "duration": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } } } }
+    ],
+    "stepPoint": [
+      { "id": "step-value-zero-present", "valid": true, "value": { "at": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "value": 0.0 } },
+      { "id": "step-missing-value-refused", "valid": false, "value": { "at": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } } } }
+    ],
+    "faultSpec": [
+      { "id": "fault-channel-omitted-accepted", "valid": true, "value": { "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" }, "kind": "latency", "window": { "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } } }, "everyTicks": "1", "probabilityPpm": 0, "delayTicks": "1" } },
+      { "id": "fault-missing-everyTicks-refused", "valid": false, "value": { "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" }, "kind": "latency", "window": { "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } } }, "probabilityPpm": 0, "delayTicks": "1" } },
+      { "id": "fault-missing-probabilityPpm-refused", "valid": false, "value": { "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" }, "kind": "latency", "window": { "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } } }, "everyTicks": "1", "delayTicks": "1" } }
+    ],
+    "csvReplaySchema": [
+      { "id": "csv-timestampUnit-omitted-accepted", "valid": true, "value": { "encoding": "utf8", "delimiter": ",", "hasHeader": true, "columns": [] } }
+    ]
+  }
 }

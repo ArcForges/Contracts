@@ -12,11 +12,17 @@ import io.github.arcforges.contracts.foundation.v1.Rational
 import io.github.arcforges.contracts.foundation.v1.Revision
 import io.github.arcforges.contracts.simulation.v1.AstNode
 import io.github.arcforges.contracts.simulation.v1.BinaryExpression
+import io.github.arcforges.contracts.simulation.v1.CsvReplaySchema
+import io.github.arcforges.contracts.simulation.v1.FaultSpec
 import io.github.arcforges.contracts.simulation.v1.FunctionExpression
+import io.github.arcforges.contracts.simulation.v1.PulseSpec
 import io.github.arcforges.contracts.simulation.v1.SimulationProfile
 import io.github.arcforges.contracts.simulation.v1.SimulationRun
 import io.github.arcforges.contracts.simulation.v1.SimulationServiceClientInterface
+import io.github.arcforges.contracts.simulation.v1.StepPoint
 import io.github.arcforges.contracts.simulation.v1.UnaryExpression
+import io.github.arcforges.contracts.publicapi.v1.MeasurementWindow
+import io.github.arcforges.contracts.publicapi.v1.ScopeTime
 import java.lang.reflect.Modifier
 import java.util.Base64
 
@@ -144,6 +150,73 @@ internal object SimulationCases {
             }
         }
 
+        val presence = fixture.getAsJsonObject("presenceVectors")
+        val pulseVectors = presence.getAsJsonArray("pulseSpec").map { it.asJsonObject }
+        check(pulseVectors.map { it.get("id").asString } == listOf("pulse-value-zero-present", "pulse-missing-value-refused"))
+        for (item in pulseVectors) {
+            val value = item.getAsJsonObject("value")
+            val messageBuilder = PulseSpec.newBuilder()
+                .setStart(scopeTime(value.getAsJsonObject("start")))
+                .setDuration(scopeTime(value.getAsJsonObject("duration")))
+            if (value.has("value")) messageBuilder.setValue(value.get("value").asDouble)
+            val message = messageBuilder.build()
+            val valid = message.hasStart() && message.hasDuration() && message.hasValue()
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) check(PulseSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val stepVectors = presence.getAsJsonArray("stepPoint").map { it.asJsonObject }
+        check(stepVectors.map { it.get("id").asString } == listOf("step-value-zero-present", "step-missing-value-refused"))
+        for (item in stepVectors) {
+            val value = item.getAsJsonObject("value")
+            val messageBuilder = StepPoint.newBuilder().setAt(scopeTime(value.getAsJsonObject("at")))
+            if (value.has("value")) messageBuilder.setValue(value.get("value").asDouble)
+            val message = messageBuilder.build()
+            val valid = message.hasAt() && message.hasValue()
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) check(StepPoint.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val faultVectors = presence.getAsJsonArray("faultSpec").map { it.asJsonObject }
+        check(faultVectors.map { it.get("id").asString } == listOf(
+            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused"))
+        for (item in faultVectors) {
+            val value = item.getAsJsonObject("value")
+            val window = value.getAsJsonObject("window")
+            val messageBuilder = FaultSpec.newBuilder()
+                .setFaultId(id(value.getAsJsonObject("faultId")))
+                .setKind(value.get("kind").asString)
+                .setWindow(MeasurementWindow.newBuilder()
+                    .setStart(scopeTime(window.getAsJsonObject("start")))
+                    .setEnd(scopeTime(window.getAsJsonObject("end"))))
+            if (value.has("channelId")) messageBuilder.setChannelId(id(value.getAsJsonObject("channelId")))
+            if (value.has("everyTicks")) messageBuilder.setEveryTicks(value.get("everyTicks").asString.toLong())
+            if (value.has("probabilityPpm")) messageBuilder.setProbabilityPpm(value.get("probabilityPpm").asInt)
+            if (value.has("delayTicks")) messageBuilder.setDelayTicks(value.get("delayTicks").asString.toLong())
+            val message = messageBuilder.build()
+            val valid = message.hasFaultId() && message.hasKind() && message.hasWindow()
+                && message.hasEveryTicks() && message.hasProbabilityPpm()
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (item.get("id").asString == "fault-channel-omitted-accepted") check(!message.hasChannelId())
+            if (valid) check(FaultSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val csvVectors = presence.getAsJsonArray("csvReplaySchema").map { it.asJsonObject }
+        check(csvVectors.map { it.get("id").asString } == listOf("csv-timestampUnit-omitted-accepted"))
+        for (item in csvVectors) {
+            val value = item.getAsJsonObject("value")
+            val messageBuilder = CsvReplaySchema.newBuilder()
+                .setEncoding(value.get("encoding").asString)
+                .setDelimiter(value.get("delimiter").asString)
+                .setHasHeader(value.get("hasHeader").asBoolean)
+            if (value.has("timestampUnit")) messageBuilder.setTimestampUnit(value.get("timestampUnit").asString)
+            val message = messageBuilder.build()
+            val valid = message.hasEncoding() && message.hasDelimiter() && message.hasHasHeader()
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) check(!message.hasTimestampUnit()) { "timestampUnit remains optional" }
+            if (valid) check(CsvReplaySchema.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
         val pageLimits = fixture.getAsJsonObject("listRuns").getAsJsonArray("pageLimits").map { it.asJsonObject }
         check(pageLimits.map { it.get("id").asString } == listOf("default", "minimum", "maximum", "zero", "above-maximum"))
         for (item in pageLimits) {
@@ -171,10 +244,7 @@ internal object SimulationCases {
     }
 
     private fun simulationRun(base: JsonObject, state: String, extent: String, logicalEnd: Long): SimulationRun {
-        fun id(key: String): Id {
-            val encoded = base.getAsJsonObject(key).get("value").asString
-            return Id.newBuilder().setValue(ByteString.copyFrom(Base64.getDecoder().decode(encoded))).build()
-        }
+        fun id(key: String): Id = id(base.getAsJsonObject(key))
         val revision = base.getAsJsonObject("revision").get("value").asString.toLong()
         val createdAt = base.getAsJsonObject("createdAt")
         return SimulationRun.newBuilder()
@@ -188,6 +258,20 @@ internal object SimulationCases {
             .setState(state)
             .setExtent(extent)
             .setLogicalEnd(logicalEnd)
+            .build()
+    }
+
+    private fun id(value: JsonObject): Id = Id.newBuilder()
+        .setValue(ByteString.copyFrom(Base64.getDecoder().decode(value.get("value").asString)))
+        .build()
+
+    private fun scopeTime(value: JsonObject): ScopeTime {
+        val rate = value.getAsJsonObject("rate")
+        return ScopeTime.newBuilder()
+            .setTicks(value.get("ticks").asString.toLong())
+            .setRate(Rational.newBuilder()
+                .setNumerator(rate.get("numerator").asString.toLong())
+                .setDenominator(rate.get("denominator").asString.toLong()))
             .build()
     }
 

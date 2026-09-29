@@ -139,6 +139,41 @@ internal static class SimulationCases
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
 
+        var presenceVectors = fixture.GetProperty("presenceVectors");
+        var pulseVectors = presenceVectors.GetProperty("pulseSpec");
+        Require(VectorIds(pulseVectors).SequenceEqual(new[] { "pulse-value-zero-present", "pulse-missing-value-refused" }),
+            "exact PulseSpec required-value vectors");
+        foreach (var item in pulseVectors.EnumerateArray())
+        {
+            bool valid = TryValid(item.GetProperty("value"), PulseSpec.Parser, ContractShapeValidation.IsValid);
+            Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
+        }
+        var stepVectors = presenceVectors.GetProperty("stepPoint");
+        Require(VectorIds(stepVectors).SequenceEqual(new[] { "step-value-zero-present", "step-missing-value-refused" }),
+            "exact StepPoint required-value vectors");
+        foreach (var item in stepVectors.EnumerateArray())
+        {
+            bool valid = TryValid(item.GetProperty("value"), StepPoint.Parser, ContractShapeValidation.IsValid);
+            Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
+        }
+        var faultVectors = presenceVectors.GetProperty("faultSpec");
+        Require(VectorIds(faultVectors).SequenceEqual(new[] {
+            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused"
+        }), "exact FaultSpec optional-channel/required-scalar vectors");
+        foreach (var item in faultVectors.EnumerateArray())
+        {
+            bool valid = TryValid(item.GetProperty("value"), FaultSpec.Parser, ContractShapeValidation.IsValid);
+            Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
+        }
+        var csvVectors = presenceVectors.GetProperty("csvReplaySchema");
+        Require(VectorIds(csvVectors).SequenceEqual(new[] { "csv-timestampUnit-omitted-accepted" }),
+            "exact CsvReplaySchema optional timestampUnit vector");
+        foreach (var item in csvVectors.EnumerateArray())
+        {
+            bool valid = TryValid(item.GetProperty("value"), CsvReplaySchema.Parser, ContractShapeValidation.IsValid);
+            Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
+        }
+
         var pageLimits = fixture.GetProperty("listRuns").GetProperty("pageLimits");
         Require(VectorIds(pageLimits).SequenceEqual(new[] { "default", "minimum", "maximum", "zero", "above-maximum" }), "exact page bound vectors");
         foreach (var item in pageLimits.EnumerateArray())

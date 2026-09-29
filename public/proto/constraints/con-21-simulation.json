@@ -132,14 +132,14 @@
       "fields": {
         "start": { "required": true },
         "duration": { "required": true },
-        "value": { "finite": true }
+        "value": { "required": true, "finite": true }
       }
     },
     "arcforges.simulation.v1.StepPoint": {
       "csharpType": "ArcForges.Contracts.Simulation.V1.StepPoint",
       "fields": {
         "at": { "required": true },
-        "value": { "finite": true }
+        "value": { "required": true, "finite": true }
       }
     },
     "arcforges.simulation.v1.FaultSpec": {
@@ -147,10 +147,10 @@
       "fields": {
         "faultId": { "required": true },
         "kind": { "required": true, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$", "enumValues": ["latency", "jitter", "drop", "duplicate", "reorder", "disconnect", "malformed", "outlier"] },
-        "channelId": { "required": true },
+        "channelId": {},
         "window": { "required": true },
-        "everyTicks": { "min": 1 },
-        "probabilityPpm": { "min": 0, "max": 1000000 },
+        "everyTicks": { "required": true, "min": 1 },
+        "probabilityPpm": { "required": true, "min": 0, "max": 1000000 },
         "delayTicks": {},
         "amount": { "finite": true },
         "reorderWindow": { "min": 1 }
@@ -164,7 +164,7 @@
         "hasHeader": { "required": true },
         "timestampColumn": {},
         "columns": { "maxItems": 64 },
-        "timestampUnit": { "required": true, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" }
+        "timestampUnit": { "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" }
       }
     },
     "arcforges.simulation.v1.CsvColumn": {
