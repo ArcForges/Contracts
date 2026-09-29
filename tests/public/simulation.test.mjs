@@ -34,18 +34,42 @@ function tryShape(schema, validate, value) {
 test("generated SimulationService catalogue is exactly the independent 13-operation fixture", () => {
   assert.equal(fixture.operationCount, 13);
   assert.equal(new Set(fixture.operations.map((item) => item.operationId)).size, 13);
-  assert.deepEqual(fixture.operations.map((item) => item.method), [
-    "ListDefinitions", "GetDefinition", "CreateDefinition", "PublishScenarioVersion", "StartRun", "PauseRun",
-    "ResumeRun", "CancelRun", "GetRun", "ListRuns", "ListSegments", "GetSegmentTicket", "PollState",
-  ]);
+  assert.deepEqual(
+    fixture.operations.map((item) => item.method),
+    [
+      "ListDefinitions",
+      "GetDefinition",
+      "CreateDefinition",
+      "PublishScenarioVersion",
+      "StartRun",
+      "PauseRun",
+      "ResumeRun",
+      "CancelRun",
+      "GetRun",
+      "ListRuns",
+      "ListSegments",
+      "GetSegmentTicket",
+      "PollState",
+    ],
+  );
   assert.equal(operationMetadata.operations.length, fixture.operationCount);
   const service = contractServices.find((item) => item.typeName === fixture.service);
-  assert.ok(service, "SimulationService is registered in the generated TypeScript package catalogue");
-  const expected = fixture.operations.map((item) => item.method[0].toLowerCase() + item.method.slice(1));
-  assert.deepEqual(service.methods.map((item) => item.name), expected);
+  assert.ok(
+    service,
+    "SimulationService is registered in the generated TypeScript package catalogue",
+  );
+  const expected = fixture.operations.map(
+    (item) => item.method[0].toLowerCase() + item.method.slice(1),
+  );
+  assert.deepEqual(
+    service.methods.map((item) => item.name),
+    expected,
+  );
 
   for (const item of fixture.operations) {
-    const metadata = operationMetadata.operations.find((row) => row.operationId === item.operationId);
+    const metadata = operationMetadata.operations.find(
+      (row) => row.operationId === item.operationId,
+    );
     assert.ok(metadata, `operation scope row exists for ${item.operationId}`);
     const profile = fixture.operationProfile;
     assert.equal(metadata.binding, `${fixture.service}/${item.method}`);
@@ -57,24 +81,36 @@ test("generated SimulationService catalogue is exactly the independent 13-operat
     const expectedCompatibility = item.class === "Q" ? "AO" : "FR";
     assert.equal(item.risk, expectedRisk, `${item.operationId}: risk`);
     assert.equal(item.compatibility, expectedCompatibility, `${item.operationId}: compatibility`);
-    assert.deepEqual(metadata.authorization, {
-      capability: profile.capability,
-      risk: item.risk,
-      approval: profile.approval,
-      stepUp: profile.stepUp,
-      localPresence: profile.localPresence,
-      egress: profile.egress,
-      patEligible: profile.patEligible,
-      actorKinds: profile.actorKinds,
-    }, `${item.operationId}: exact authorization`);
+    assert.deepEqual(
+      metadata.authorization,
+      {
+        capability: profile.capability,
+        risk: item.risk,
+        approval: profile.approval,
+        stepUp: profile.stepUp,
+        localPresence: profile.localPresence,
+        egress: profile.egress,
+        patEligible: profile.patEligible,
+        actorKinds: profile.actorKinds,
+      },
+      `${item.operationId}: exact authorization`,
+    );
   }
 });
 
 test("profile, run state/extent and AST vectors pass through generated closed shapes", () => {
-  assert.deepEqual(fixture.profile.vectors.map((item) => item.id), [
-    "minimum-profile", "maximum-batch-profile", "zero-sample-count-refused", "zero-batch-refused",
-    "oversized-batch-refused", "zero-rate-denominator-refused", "unsupported-execution-profile-refused",
-  ]);
+  assert.deepEqual(
+    fixture.profile.vectors.map((item) => item.id),
+    [
+      "minimum-profile",
+      "maximum-batch-profile",
+      "zero-sample-count-refused",
+      "zero-batch-refused",
+      "oversized-batch-refused",
+      "zero-rate-denominator-refused",
+      "unsupported-execution-profile-refused",
+    ],
+  );
   for (const item of fixture.profile.vectors) {
     const value = item.value;
     const valid = tryShape(SimulationProfileSchema, shapes.isSimulationProfile, value);
@@ -82,18 +118,35 @@ test("profile, run state/extent and AST vectors pass through generated closed sh
     if (!valid) continue;
     const message = fromJson(SimulationProfileSchema, value);
     const bytes = toBinary(SimulationProfileSchema, message);
-    assert.deepEqual(toBinary(SimulationProfileSchema, fromBinary(SimulationProfileSchema, bytes)), bytes, item.id);
+    assert.deepEqual(
+      toBinary(SimulationProfileSchema, fromBinary(SimulationProfileSchema, bytes)),
+      bytes,
+      item.id,
+    );
   }
 
   const states = new Set(fixture.states);
   const extents = new Set(fixture.extents);
   assert.deepEqual(fixture.stateRejected, ["active", "completed", "cancelled", "unknown"]);
   assert.deepEqual(fixture.extentRejected, ["terminal", "full", "unknown"]);
-  assert.equal(fixture.stateRejected.some((value) => states.has(value)), false);
-  assert.equal(fixture.extentRejected.some((value) => extents.has(value)), false);
-  assert.deepEqual(fixture.runExtentVectors.map((item) => item.id), [
-    "active-partial-prefix", "succeeded-complete-range", "canceled-partial-range", "unknown-state-refused", "unsupported-extent-refused",
-  ]);
+  assert.equal(
+    fixture.stateRejected.some((value) => states.has(value)),
+    false,
+  );
+  assert.equal(
+    fixture.extentRejected.some((value) => extents.has(value)),
+    false,
+  );
+  assert.deepEqual(
+    fixture.runExtentVectors.map((item) => item.id),
+    [
+      "active-partial-prefix",
+      "succeeded-complete-range",
+      "canceled-partial-range",
+      "unknown-state-refused",
+      "unsupported-extent-refused",
+    ],
+  );
   for (const item of fixture.runExtentVectors) {
     const valid = tryShape(SimulationRunSchema, shapes.isSimulationRun, {
       ...fixture.runShapeBase,
@@ -104,10 +157,19 @@ test("profile, run state/extent and AST vectors pass through generated closed sh
     assert.equal(valid, item.valid, item.id);
   }
 
-  assert.deepEqual(fixture.astVectors.map((item) => item.id), [
-    "constant-expression", "variable-expression", "unary-expression", "binary-expression", "function-expression",
-    "unrecognized-expression", "missing-expression", "multiple-oneof-arms-refused",
-  ]);
+  assert.deepEqual(
+    fixture.astVectors.map((item) => item.id),
+    [
+      "constant-expression",
+      "variable-expression",
+      "unary-expression",
+      "binary-expression",
+      "function-expression",
+      "unrecognized-expression",
+      "missing-expression",
+      "multiple-oneof-arms-refused",
+    ],
+  );
   for (const item of fixture.astVectors) {
     const valid = tryShape(AstNodeSchema, shapes.isAstNode, item.value);
     assert.equal(valid, item.valid, item.id);
@@ -117,29 +179,62 @@ test("profile, run state/extent and AST vectors pass through generated closed sh
 test("Registry04 scalar presence and optionality vectors use generated simulation shapes", () => {
   const vectors = fixture.presenceVectors;
   const groups = [
-    ["pulseSpec", PulseSpecSchema, shapes.isPulseSpec, ["pulse-value-zero-present", "pulse-missing-value-refused"]],
-    ["stepPoint", StepPointSchema, shapes.isStepPoint, ["step-value-zero-present", "step-missing-value-refused"]],
-    ["faultSpec", FaultSpecSchema, shapes.isFaultSpec, [
-      "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused",
-    ]],
-    ["csvReplaySchema", CsvReplaySchemaSchema, shapes.isCsvReplaySchema, ["csv-timestampUnit-omitted-accepted"]],
+    [
+      "pulseSpec",
+      PulseSpecSchema,
+      shapes.isPulseSpec,
+      ["pulse-value-zero-present", "pulse-missing-value-refused"],
+    ],
+    [
+      "stepPoint",
+      StepPointSchema,
+      shapes.isStepPoint,
+      ["step-value-zero-present", "step-missing-value-refused"],
+    ],
+    [
+      "faultSpec",
+      FaultSpecSchema,
+      shapes.isFaultSpec,
+      [
+        "fault-channel-omitted-accepted",
+        "fault-missing-everyTicks-refused",
+        "fault-missing-probabilityPpm-refused",
+      ],
+    ],
+    [
+      "csvReplaySchema",
+      CsvReplaySchemaSchema,
+      shapes.isCsvReplaySchema,
+      ["csv-timestampUnit-omitted-accepted"],
+    ],
   ];
   for (const [key, schema, validate, expectedIds] of groups) {
     const entries = vectors[key];
-    assert.deepEqual(entries.map((item) => item.id), expectedIds, `${key}: exact presence vectors`);
+    assert.deepEqual(
+      entries.map((item) => item.id),
+      expectedIds,
+      `${key}: exact presence vectors`,
+    );
     for (const item of entries) {
       const valid = tryShape(schema, validate, item.value);
       assert.equal(valid, item.valid, item.id);
       if (!valid) continue;
       const message = fromJson(schema, item.value);
       const bytes = toBinary(schema, message);
-      assert.deepEqual(toBinary(schema, fromBinary(schema, bytes)), bytes, `${item.id}: binary round-trip`);
+      assert.deepEqual(
+        toBinary(schema, fromBinary(schema, bytes)),
+        bytes,
+        `${item.id}: binary round-trip`,
+      );
     }
   }
 });
 
 test("listRuns page bounds and workspace snapshot declarations are exact", () => {
-  assert.deepEqual(fixture.listRuns.pageLimits.map((item) => item.id), ["default", "minimum", "maximum", "zero", "above-maximum"]);
+  assert.deepEqual(
+    fixture.listRuns.pageLimits.map((item) => item.id),
+    ["default", "minimum", "maximum", "zero", "above-maximum"],
+  );
   for (const item of fixture.listRuns.pageLimits) {
     const value = item.limit === null ? {} : { limit: item.limit };
     assert.equal(tryShape(PageRequestSchema, shapes.isPageRequest, value), item.valid, item.id);
@@ -153,7 +248,16 @@ test("listRuns page bounds and workspace snapshot declarations are exact", () =>
   });
   assert.deepEqual(filters, ["exact scenarioVersionId", "exact simulation_run state"]);
   assert.deepEqual(order, ["createdAt descending", "runId descending"]);
-  assert.deepEqual(pageStateBinds, ["realm", "workspace", "actor", "recoveryGeneration", "filters", "sort", "schema", "snapshot"]);
+  assert.deepEqual(pageStateBinds, [
+    "realm",
+    "workspace",
+    "actor",
+    "recoveryGeneration",
+    "filters",
+    "sort",
+    "schema",
+    "snapshot",
+  ]);
   assert.equal(fixture.listRuns.includesRetainedPartialAndTerminalRuns, true);
   assert.equal(fixture.listRuns.requiresKnownRunId, false);
   assert.equal(fixture.listRuns.requiresTerminalNotification, false);
