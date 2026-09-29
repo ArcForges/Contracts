@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 56)
+        self.assertEqual(len(config['allowlists']), 58)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -1359,6 +1359,102 @@ class DependencyAdmission(unittest.TestCase):
         ]
         rows = [row for row in config['allowlists']
                 if row['description'].startswith('CON10 exact observed r2 ')]
+        self.assertEqual(len(rows), 2)
+        by_description = {row['description']: row for row in rows}
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        self.assertEqual(
+            subprocess.run(['git', 'merge-base', '--is-ancestor', source_commit, head],
+                           cwd=ROOT, check=False).returncode,
+            0,
+        )
+
+        for case in cases:
+            with self.subTest(path=case['path']):
+                group = by_description[case['description']]
+                path = case['path']
+                self.assertEqual(group['targetRules'], ['generic-api-key'])
+                self.assertEqual(group['condition'], 'AND')
+                self.assertEqual(group['regexTarget'], 'line')
+                self.assertEqual(group['paths'], ['^' + re.escape(path) + '$'])
+
+                source_blob = subprocess.check_output(
+                    ['git', 'show', source_commit + ':' + path], cwd=ROOT)
+                self.assertEqual(hashlib.sha256(source_blob).hexdigest(), case['file_sha'])
+                source_text = source_blob.decode('utf-8')
+                expected_rows = set(case['rows'].items())
+                expected_patterns = [
+                    r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + digest + r'",?\s*$'
+                    for key, digest in sorted(expected_rows)
+                ]
+                self.assertEqual(group['regexes'], expected_patterns)
+
+                matched_rows = []
+                fingerprints = []
+                for line_number, line in enumerate(source_text.splitlines(), start=1):
+                    matches = [pattern for pattern in group['regexes'] if re.fullmatch(pattern, line)]
+                    self.assertLessEqual(len(matches), 1)
+                    if matches:
+                        row = re.fullmatch(r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})"\s*,?\s*', line)
+                        self.assertIsNotNone(row)
+                        matched_rows.append((row.group(1), row.group(2)))
+                        fingerprints.append(
+                            f'{source_commit}:{path}:generic-api-key:{line_number}')
+                self.assertEqual(set(matched_rows), expected_rows)
+                self.assertEqual(len(matched_rows), case['count'])
+                canonical = '\n'.join(sorted(set(fingerprints))) + '\n'
+                self.assertEqual(
+                    hashlib.sha256(canonical.encode('utf-8')).hexdigest(),
+                    case['fingerprint_sha'],
+                )
+
+                for (key, digest), pattern in zip(sorted(expected_rows), group['regexes'], strict=True):
+                    line = f'  "{key}": "{digest}",'
+                    self.assertIsNotNone(re.fullmatch(pattern, line))
+                    wrong_digest = '0' * 64 if digest != '0' * 64 else '1' * 64
+                    for rejected_line in [
+                        line.replace(digest, wrong_digest),
+                        line.replace('"' + key + '"', '"unrelated-key"'),
+                        line + ' "synthetic-secret": "redacted"',
+                    ]:
+                        self.assertIsNone(re.fullmatch(pattern, rejected_line))
+                self.assertIsNone(re.fullmatch(group['paths'][0], path + '.backup'))
+                self.assertIsNone(re.fullmatch(group['paths'][0], 'src/secrets.json'))
+
+    def test_con10_r3_allowlists_bind_exact_observed_historical_fingerprints(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        source_commit = 'd849aedf31cd1cf6a23f8421634e9ce52d35471a'
+        cases = [
+            {
+                'description': 'CON10 exact observed r3 dependency-policy findings (Security run 36604131513)',
+                'path': 'eng/policy/dependency-policy.json',
+                'file_sha': '1ae59af258c6362ed809a6cd8479f878d7169b013870b316ee2cd93f839be296',
+                'fingerprint_sha': '1f0e3209bdb0598591ac6777d9b644464f2d1ae40cacbc6dfa4043e4f7a39e85',
+                'count': 2,
+                'rows': {
+                    'eng/policy/contract-access.json':
+                        '02cee466238c9827849dc43788ccbb93736ec1268003936154939399eac4e127',
+                },
+            },
+            {
+                'description': 'CON10 exact observed r3 dependency-review findings (Security run 36604131513)',
+                'path': 'eng/policy/dependency-reviews/con-10-r3.json',
+                'file_sha': '890fefb85962202b2abc476d7b458c768ee88ec7cd4a48c6fb9d35d6b52b8267',
+                'fingerprint_sha': 'a6025c646a5fca7910b4d4f980c13492938ddd1202609200ec38414863c6c3e7',
+                'count': 4,
+                'rows': {
+                    'eng/policy/contract-access.json':
+                        '02cee466238c9827849dc43788ccbb93736ec1268003936154939399eac4e127',
+                    'eng/provenance/records/dokka-combokeys-licence-r1.json':
+                        '75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41',
+                    'eng/provenance/records/dokka-object-keys-licence-r1.json':
+                        '55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096',
+                    'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj':
+                        '986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c',
+                },
+            },
+        ]
+        rows = [row for row in config['allowlists']
+                if row['description'].startswith('CON10 exact observed r3 ')]
         self.assertEqual(len(rows), 2)
         by_description = {row['description']: row for row in rows}
         head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
