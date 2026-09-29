@@ -2137,68 +2137,6 @@
         }
       }
     },
-    "arcforges.publicapi.v1.ModelUsage": {
-      "csharpType": "ArcForges.Contracts.PublicApi.V1.ModelUsage",
-      "fields": {
-        "inputTokens": {},
-        "outputTokens": {},
-        "cachedInputTokens": {},
-        "measuredAt": {
-          "required": true
-        },
-        "source": {
-          "required": true
-        }
-      }
-    },
-    "arcforges.publicapi.v1.AttemptCharge": {
-      "csharpType": "ArcForges.Contracts.PublicApi.V1.AttemptCharge",
-      "fields": {
-        "attemptId": {
-          "required": true
-        },
-        "modelId": {
-          "required": true
-        },
-        "usage": {},
-        "supplierCost": {},
-        "customerDebit": {
-          "required": true
-        },
-        "certainty": {
-          "required": true,
-          "enumValues": [1, 2, 3]
-        }
-      }
-    },
-    "arcforges.publicapi.v1.ChargeExplanation": {
-      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChargeExplanation",
-      "fields": {
-        "logicalRequestId": {
-          "required": true
-        },
-        "state": {
-          "required": true
-        },
-        "reason": {},
-        "capacityDebit": {
-          "required": true
-        },
-        "compensationDebit": {
-          "required": true
-        },
-        "purchasedDebit": {
-          "required": true
-        },
-        "tariffVersion": {
-          "required": true
-        },
-        "supplierVersion": {
-          "required": true
-        },
-        "attempts": {}
-      }
-    },
     "arcforges.publicapi.v1.ModelView": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ModelView",
       "fields": {
@@ -2317,23 +2255,6 @@
         "acknowledgedOnly": {
           "required": true
         }
-      }
-    },
-    "arcforges.publicapi.v1.ExportJob": {
-      "csharpType": "ArcForges.Contracts.PublicApi.V1.ExportJob",
-      "fields": {
-        "exportId": {
-          "required": true
-        },
-        "state": {
-          "required": true,
-          "enumValues": ["queued", "running", "succeeded", "failed", "cancelled"]
-        },
-        "progress": {},
-        "snapshotRefs": {},
-        "artifact": {},
-        "expiresAt": {},
-        "reason": {}
       }
     },
     "arcforges.publicapi.v1.ConversationPatch": {

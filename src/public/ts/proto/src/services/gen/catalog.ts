@@ -5,9 +5,17 @@ import { HelloService } from "../../gen/arcforges/hello/v1/hello_pb.js";
 import { CatalogService } from "../../gen/arcforges/catalog/v1/catalog_pb.js";
 import { EntitlementService } from "../../gen/arcforges/publicapi/v1/commerce_pb.js";
 import { CommerceService } from "../../gen/arcforges/publicapi/v1/commerce_pb.js";
+import { TaskService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { ApprovalService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { BridgeService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { ChatService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { AgentService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { SearchService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { AutomationService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
+import { SourceService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
 import { SyncService } from "../../gen/arcforges/publicapi/v1/sync_pb.js";
 import { ResourceService } from "../../gen/arcforges/publicapi/v1/sync_pb.js";
 import { TransferService } from "../../gen/arcforges/publicapi/v1/transfer_pb.js";
 
 /** Generated services owned by this package, in schema order; nothing is discovered at runtime. */
-export const contractServices = Object.freeze([HelloService, CatalogService, EntitlementService, CommerceService, SyncService, ResourceService, TransferService] as const);
+export const contractServices = Object.freeze([HelloService, CatalogService, EntitlementService, CommerceService, TaskService, ApprovalService, BridgeService, ChatService, AgentService, SearchService, AutomationService, SourceService, SyncService, ResourceService, TransferService] as const);

@@ -4,6 +4,7 @@ syntax = "proto3";
 package arcforges.publicapi.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/commerce.proto";
 import "arcforges/publicapi/v1/content.proto";
 import "arcforges/publicapi/v1/inprocess-values.proto";
 
@@ -1442,35 +1443,6 @@ message TaskDetailPage {
   arcforges.foundation.v1.PageState page = 5 [json_name = "page"];
 }
 
-message ModelUsage {
-  optional uint64 input_tokens = 1 [json_name = "inputTokens"];
-  optional uint64 output_tokens = 2 [json_name = "outputTokens"];
-  optional uint64 cached_input_tokens = 3 [json_name = "cachedInputTokens"];
-  arcforges.foundation.v1.Instant measured_at = 4 [json_name = "measuredAt"];
-  optional string source = 5 [json_name = "source"];
-}
-
-message AttemptCharge {
-  arcforges.foundation.v1.Id attempt_id = 1 [json_name = "attemptId"];
-  optional string model_id = 2 [json_name = "modelId"];
-  ModelUsage usage = 3 [json_name = "usage"];
-  arcforges.foundation.v1.Decimal supplier_cost = 4 [json_name = "supplierCost"];
-  optional uint64 customer_debit = 5 [json_name = "customerDebit"];
-  optional arcforges.foundation.v1.EffectCertainty certainty = 6 [json_name = "certainty"];
-}
-
-message ChargeExplanation {
-  arcforges.foundation.v1.Id logical_request_id = 1 [json_name = "logicalRequestId"];
-  optional string state = 2 [json_name = "state"];
-  optional string reason = 3 [json_name = "reason"];
-  optional uint64 capacity_debit = 4 [json_name = "capacityDebit"];
-  optional uint64 compensation_debit = 5 [json_name = "compensationDebit"];
-  optional uint64 purchased_debit = 6 [json_name = "purchasedDebit"];
-  optional string tariff_version = 7 [json_name = "tariffVersion"];
-  optional string supplier_version = 8 [json_name = "supplierVersion"];
-  repeated AttemptCharge attempts = 9 [json_name = "attempts"];
-}
-
 message ModelView {
   optional string model_id = 1 [json_name = "modelId"];
   optional string supplier = 2 [json_name = "supplier"];
@@ -1524,16 +1496,6 @@ message ExportRequest {
   optional string format = 2 [json_name = "format"];
   optional bool include_managed_assets = 3 [json_name = "includeManagedAssets"];
   optional bool acknowledged_only = 4 [json_name = "acknowledgedOnly"];
-}
-
-message ExportJob {
-  arcforges.foundation.v1.Id export_id = 1 [json_name = "exportId"];
-  optional string state = 2 [json_name = "state"];
-  optional int32 progress = 3 [json_name = "progress"];
-  repeated arcforges.foundation.v1.VersionedRef snapshot_refs = 4 [json_name = "snapshotRefs"];
-  arcforges.foundation.v1.ArtifactRef artifact = 5 [json_name = "artifact"];
-  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
-  optional string reason = 7 [json_name = "reason"];
 }
 
 message ConversationPatch {

@@ -3706,6 +3706,354 @@ export const publicFixtures = {
       }
     ]
   },
+  "con-10-chat-task-agent.json": {
+    "schemaVersion": "con-10-chat-task-agent.v1",
+    "license": "Apache-2.0",
+    "authority": "registry04 \u00a75; contracts07 \u00a72; annex10",
+    "evidenceClass": "offline public-contract journey vectors only; no live Worker, owner handler, model, provider, or authorization proof",
+    "contractShapeVectors": [
+      {
+        "id": "application-target-selection-without-delivery-epoch",
+        "shape": "ApplicationTarget",
+        "valid": true,
+        "input": {
+          "productId": "arcscope",
+          "deviceId": {
+            "value": "ABEiM0RVZneImaq7zN3vAA=="
+          },
+          "installationId": {
+            "value": "ABEiM0RVZneImaq7zN3u/w=="
+          }
+        },
+        "expected": "selection may omit instanceEpoch; it cannot authorize delivery, claim, or result"
+      },
+      {
+        "id": "application-target-delivery-epoch-is-uint64-string",
+        "shape": "ApplicationTarget",
+        "valid": true,
+        "input": {
+          "productId": "arcscope",
+          "deviceId": {
+            "value": "ABEiM0RVZneImaq7zN3vAA=="
+          },
+          "installationId": {
+            "value": "ABEiM0RVZneImaq7zN3u/w=="
+          },
+          "instanceEpoch": "18446744073709551615"
+        },
+        "expected": "the optional epoch is a canonical uint64 decimal string and is bound for delivery"
+      },
+      {
+        "id": "application-target-rejects-number-encoded-epoch",
+        "shape": "ApplicationTarget",
+        "valid": false,
+        "input": {
+          "productId": "arcscope",
+          "deviceId": {
+            "value": "ABEiM0RVZneImaq7zN3vAA=="
+          },
+          "installationId": {
+            "value": "ABEiM0RVZneImaq7zN3u/w=="
+          },
+          "instanceEpoch": 7
+        },
+        "expected": "uint64 stays the established decimal-string JSON encoding"
+      },
+      {
+        "id": "application-target-rejects-missing-installation",
+        "shape": "ApplicationTarget",
+        "valid": false,
+        "input": {
+          "productId": "arcscope",
+          "deviceId": {
+            "value": "ABEiM0RVZneImaq7zN3vAA=="
+          }
+        },
+        "expected": "productId, deviceId, and installationId are required; only instanceEpoch is optional"
+      },
+      {
+        "id": "chat-turn-view-complete-required-projection",
+        "shape": "ChatTurnView",
+        "valid": true,
+        "input": {
+          "turnId": {
+            "value": "ABEiM0RVZneImaq7zN3vAA=="
+          },
+          "conversationId": {
+            "value": "ABEiM0RVZneImaq7zN3u/w=="
+          },
+          "inputMessageId": {
+            "value": "ABEiM0RVZneImaq7zN3vAQ=="
+          },
+          "state": "CHAT_TURN_STATE_RUNNING",
+          "revision": {
+            "value": "1"
+          },
+          "temporary": false,
+          "hasUnknownEffect": false
+        },
+        "expected": "registry04 \u00a74 requires the complete canonical turn owner projection"
+      },
+      {
+        "id": "chat-turn-view-rejects-omitted-required-state",
+        "shape": "ChatTurnView",
+        "valid": false,
+        "input": {
+          "turnId": {
+            "value": "ABEiM0RVZneImaq7zN3vAA=="
+          },
+          "conversationId": {
+            "value": "ABEiM0RVZneImaq7zN3u/w=="
+          },
+          "inputMessageId": {
+            "value": "ABEiM0RVZneImaq7zN3vAQ=="
+          },
+          "revision": {
+            "value": "1"
+          },
+          "temporary": false,
+          "hasUnknownEffect": false
+        },
+        "expected": "state is required even when it is a proto3 optional scalar for presence preservation"
+      }
+    ],
+    "journeyVectors": [
+      {
+        "id": "plain-append-no-generation",
+        "valid": true,
+        "trigger": "chat.appendMessage without TurnOptions",
+        "owner": null,
+        "modelAdmission": false,
+        "taskCreated": false,
+        "dispatchAllowed": false,
+        "userMessageCommitCount": 1,
+        "expected": "one user-message commit only"
+      },
+      {
+        "id": "ordinary-generated-reply",
+        "valid": true,
+        "trigger": "ordinary TurnOptions with caller turnId",
+        "owner": {
+          "turnId": "10000000-0000-4000-8000-000000000001"
+        },
+        "modelAdmission": true,
+        "taskCreated": false,
+        "runWorkflowCount": 1,
+        "resourcePinsRequired": true,
+        "sharedEntitlementCommerceAdmission": true,
+        "reconcilePorts": [
+          "chat.getTurn",
+          "canonical-conversation"
+        ],
+        "readOnlyToolsAllowed": true,
+        "writeToolsAllowed": false,
+        "outputCommitCount": 1,
+        "expected": "ChatTurn is sole owner; read-only tools only; output commits once"
+      },
+      {
+        "id": "agent-mode",
+        "valid": true,
+        "trigger": "agent TurnOptions with caller taskId or task.create",
+        "owner": {
+          "taskId": "20000000-0000-4000-8000-000000000001"
+        },
+        "modelAdmission": true,
+        "taskCreated": true,
+        "taskReadPorts": [
+          "task.get",
+          "task.getDetails"
+        ],
+        "ordinaryTaskPoliciesApply": true,
+        "writeToolsAllowedAfterApproval": true,
+        "approvalRequiredForEffects": true,
+        "expected": "Task owns plan, steps, attempts, and approvals"
+      },
+      {
+        "id": "ordinary-write-proposal-awaits-promotion",
+        "valid": true,
+        "trigger": "write proposal during ordinary ChatTurn",
+        "owner": {
+          "turnId": "10000000-0000-4000-8000-000000000002"
+        },
+        "modelAdmission": true,
+        "taskCreated": false,
+        "promotionPreviewStored": true,
+        "waitingReason": "promotion.required",
+        "writeToolDispatchAllowed": false,
+        "expected": "store TurnPromotionPreview and return promotion.required"
+      },
+      {
+        "id": "explicit-promotion-creates-agent-task",
+        "valid": true,
+        "trigger": "chat.promoteTurn with matching preview/revision",
+        "owner": {
+          "taskId": "20000000-0000-4000-8000-000000000002"
+        },
+        "modelAdmission": true,
+        "taskCreated": true,
+        "matchingPreviewAndRevisionRequired": true,
+        "linkedToSourceTurn": true,
+        "ordinaryApprovalAndAuthorizationRequiredForEffects": true,
+        "writeToolDispatchAllowed": false,
+        "expected": "linked AgentTask requires ordinary approval and authorization before write dispatch"
+      },
+      {
+        "id": "temporary-reply",
+        "valid": true,
+        "trigger": "ChatTurn in temporary conversation",
+        "owner": {
+          "turnId": "10000000-0000-4000-8000-000000000003"
+        },
+        "modelAdmission": true,
+        "taskCreated": false,
+        "readOnlyToolsAllowed": true,
+        "writeToolsAllowed": false,
+        "historyListed": false,
+        "ordinaryListProjectionVisible": false,
+        "searchable": false,
+        "knowledgeProjectionVisible": false,
+        "bodyStorage": "bounded encrypted transient execution storage, at most 24 hours",
+        "absoluteBodyRetentionHours": 24,
+        "explicitCloseCancelsWork": true,
+        "closePurgesTextWithinHours": 1,
+        "temporaryDraftsVolatile": true,
+        "compactionSummaryVolatile": true,
+        "crashCanInterrupt": true,
+        "metadataOnlyFinancialSecurityReceiptSurvives": true,
+        "expected": "ordinary read-only history/list/knowledge projection excludes the body"
+      },
+      {
+        "id": "save-temporary-content",
+        "valid": true,
+        "trigger": "explicit saveTemporary with selected currently authorized messages",
+        "owner": null,
+        "sourceTurnId": "10000000-0000-4000-8000-000000000003",
+        "modelAdmission": false,
+        "taskCreated": false,
+        "dispatchAllowed": false,
+        "selectedMessagesCurrentlyAuthorized": true,
+        "newConversationId": true,
+        "durableOriginRecorded": true,
+        "createsNewDurableContent": true,
+        "copiesExecutionIdentity": false,
+        "copiesChargeIdentity": false,
+        "rerunsExecution": false,
+        "missingOrExpiredContentRefuses": true,
+        "expected": "new conversation ID and durable origin; missing/expired temporary content refuses"
+      },
+      {
+        "id": "cancel-pause-turn-reconciles-uncertainty",
+        "valid": true,
+        "trigger": "cancelTurn or pause during uncertain dispatch",
+        "owner": {
+          "turnId": "10000000-0000-4000-8000-000000000004"
+        },
+        "modelAdmission": false,
+        "taskCreated": false,
+        "dispatchAllowed": false,
+        "knownCompletedUsageSettlesNormally": true,
+        "controlReceiptSeparateFromEffectOutcome": true,
+        "reconcileBeforeResume": true,
+        "unknownEffectTreatedAsZero": false,
+        "duplicateDispatch": false,
+        "expected": "control receipt remains separate from effect certainty; resume follows canonical reconciliation and uncertain dispatch is not treated as zero or repeated"
+      },
+      {
+        "id": "agent-retry-reconciles-uncertainty",
+        "valid": true,
+        "trigger": "Task retry after uncertain dispatch",
+        "owner": {
+          "taskId": "20000000-0000-4000-8000-000000000004"
+        },
+        "modelAdmission": false,
+        "taskCreated": true,
+        "dispatchAllowed": false,
+        "controlReceiptSeparateFromEffectOutcome": true,
+        "reconcileBeforeRetry": true,
+        "unknownEffectTreatedAsZero": false,
+        "duplicateDispatch": false,
+        "expected": "Task control is separate from effect certainty; uncertain dispatch is reconciled, not treated as zero or repeated"
+      }
+    ],
+    "negativeVectors": [
+      {
+        "id": "ordinary-turn-forges-task-owner",
+        "valid": false,
+        "input": {
+          "turnOptions": "ordinary",
+          "owner": {
+            "taskId": "20000000-0000-4000-8000-000000000003"
+          }
+        },
+        "expected": "reject owner mismatch; ordinary execution requires turnId"
+      },
+      {
+        "id": "agent-mode-forges-turn-owner",
+        "valid": false,
+        "input": {
+          "turnOptions": "agent",
+          "owner": {
+            "turnId": "10000000-0000-4000-8000-000000000005"
+          }
+        },
+        "expected": "reject owner mismatch; agent execution requires taskId"
+      },
+      {
+        "id": "ordinary-write-dispatched-before-promotion",
+        "valid": false,
+        "input": {
+          "owner": {
+            "turnId": "10000000-0000-4000-8000-000000000006"
+          },
+          "writeProposal": true,
+          "promotionAccepted": false,
+          "dispatchAllowed": true
+        },
+        "expected": "no write tool dispatch before explicit promotion and ordinary approval"
+      },
+      {
+        "id": "temporary-body-in-history-or-search",
+        "valid": false,
+        "input": {
+          "temporary": true,
+          "historyListed": true,
+          "searchable": true
+        },
+        "expected": "temporary content remains excluded from ordinary history/list/knowledge projections"
+      },
+      {
+        "id": "save-copies-prior-execution-or-charge",
+        "valid": false,
+        "input": {
+          "saveTemporary": true,
+          "copiesExecutionIdentity": true,
+          "copiesChargeIdentity": true
+        },
+        "expected": "saved content is a new durable object and never copies execution/charge identity"
+      },
+      {
+        "id": "retry-unknown-dispatch-without-reconciliation",
+        "valid": false,
+        "input": {
+          "dispatchOutcome": "unknown",
+          "retryDispatched": true,
+          "reconciled": false
+        },
+        "expected": "reconcile uncertain effect before any retry; do not duplicate dispatch"
+      },
+      {
+        "id": "save-expired-temporary-content-refuses",
+        "valid": false,
+        "input": {
+          "saveTemporary": true,
+          "temporaryContentExpired": true,
+          "saveAccepted": true,
+          "fabricatedReplacementCreated": true
+        },
+        "expected": "missing or expired temporary content refuses; it is never fabricated"
+      }
+    ]
+  },
   "con-12-extension-policy.json": {
     "schemaVersion": "con-12-extension-policy-fixtures.v1",
     "evidenceBoundary": "Offline contract vectors only; no archive-byte, signature, broker, provider or activation runtime claim.",
