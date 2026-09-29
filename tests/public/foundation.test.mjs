@@ -23,6 +23,12 @@ const transferTicketBytes = await readFile(
 const con09Fixture = JSON.parse(transferTicketBytes.toString("utf8"));
 const transferTicketFixture = con09Fixture.transferTicket;
 const syncTransferVectors = con09Fixture.syncTransferVectors;
+const con22Fixture = JSON.parse(
+  await readFile(
+    new URL("../../fixtures/public/con-22-account-support.json", import.meta.url),
+    "utf8",
+  ),
+);
 const expectedSyncTransferVectors = [
   {
     id: "con09-sync-stale-revision-preserves-conflict-proposal",
@@ -226,7 +232,38 @@ assert.deepEqual(
 const inventory = JSON.parse(
   await readFile(new URL("../../eng/foundation-inventory.json", import.meta.url), "utf8"),
 );
-assertFoundationCoverage(inventory, output);
+const con22ExpectedCoverage = new Map([
+  ["support-case-valid", "SupportCase"],
+  ["support-message-forward-compatible-actor-key", "SupportMessage"],
+]);
+const con22CoverageById = new Map();
+for (const item of con22Fixture.cases) {
+  if (!con22ExpectedCoverage.has(item.id)) continue;
+  assert.ok(!con22CoverageById.has(item.id), `Duplicate CON.22 coverage case ${item.id}`);
+  con22CoverageById.set(item.id, item);
+}
+assert.deepEqual(
+  [...con22CoverageById.keys()].sort(),
+  [...con22ExpectedCoverage.keys()].sort(),
+  "Only the two authorized CON.22 positive content cases extend Foundation coverage",
+);
+const con22Coverage = [];
+for (const [id, target] of con22ExpectedCoverage) {
+  const item = con22CoverageById.get(id);
+  assert.equal(item.target, target, `${id}: exact content.proto target`);
+  assert.equal(item.valid, true, `${id}: existing independently authored positive case`);
+  const schema = content[`${target}Schema`];
+  assert.ok(schema, `${id}: generated content.proto schema exists`);
+  const json = materialize(item);
+  const message = fromJson(schema, json);
+  assert.equal(checks[`is${target}`](message), true, `${id}: generated content validator`);
+  const decoded = fromBinary(schema, toBinary(schema, message));
+  const roundTripped = toJson(schema, decoded);
+  assert.deepEqual(roundTripped, toJson(schema, message), `${id}: content semantic round trip`);
+  assert.equal(checks[`is${target}`](decoded), true, `${id}: validation after content round trip`);
+  con22Coverage.push({ id, target, json: roundTripped });
+}
+assertFoundationCoverage(inventory, [...output, ...con22Coverage]);
 assert.equal(
   Object.keys(fixture.aggregateVariants).length,
   10,
