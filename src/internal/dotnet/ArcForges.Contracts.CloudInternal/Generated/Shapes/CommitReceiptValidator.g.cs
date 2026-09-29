@@ -98,6 +98,8 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 36) return false;
+        if (ScalarLength(text) > 36) return false;
         if (!Matches(text, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
         if (text == "00000000-0000-0000-0000-000000000000") return false;
         if (text == "00000000-0000-0000-0000-000000000000") return false;
@@ -108,6 +110,8 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 1) return false;
+        if (ScalarLength(text) > 128) return false;
         if (!Matches(text, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         return true;
     }
@@ -116,6 +120,8 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 64) return false;
+        if (ScalarLength(text) > 64) return false;
         if (!Matches(text, "^[0-9a-f]{64}$")) return false;
         return true;
     }
@@ -124,6 +130,8 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 64) return false;
+        if (ScalarLength(text) > 64) return false;
         if (!Matches(text, "^[0-9a-f]{64}$")) return false;
         return true;
     }
@@ -178,6 +186,7 @@ public static class CommitReceiptJson
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
         if (ScalarLength(text) < 1) return false;
+        if (!Matches(text, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         return true;
     }
     private static bool Check9(global::System.Text.Json.JsonElement value)
@@ -185,6 +194,8 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 36) return false;
+        if (ScalarLength(text) > 36) return false;
         if (!Matches(text, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
         if (text == "00000000-0000-0000-0000-000000000000") return false;
         if (text == "00000000-0000-0000-0000-000000000000") return false;
@@ -195,6 +206,7 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 1) return false;
         if (ScalarLength(text) > 19) return false;
         if (!Matches(text, "^[1-9][0-9]*$")) return false;
         if (!global::System.Int64.TryParse(text, global::System.Globalization.NumberStyles.AllowLeadingSign, global::System.Globalization.CultureInfo.InvariantCulture, out _)) return false;
@@ -206,6 +218,8 @@ public static class CommitReceiptJson
         if (value.ValueKind != global::System.Text.Json.JsonValueKind.String) return false;
         var text = value.GetString()!;
         if (!ValidText(text)) return false;
+        if (ScalarLength(text) < 64) return false;
+        if (ScalarLength(text) > 64) return false;
         if (!Matches(text, "^[0-9a-f]{64}$")) return false;
         return true;
     }

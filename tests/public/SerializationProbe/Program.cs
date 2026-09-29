@@ -82,6 +82,14 @@ ArcForges.Contracts.Catalog.V1.CatalogService.BindService(binder, new CatalogEnd
 ArcForges.Sdk.Contracts.V1.ExtensionHostService.BindService(binder, new ExtensionEndpoint());
 ArcForges.Contracts.PublicApi.V1.EntitlementService.BindService(binder, new EntitlementEndpoint());
 ArcForges.Contracts.PublicApi.V1.CommerceService.BindService(binder, new CommerceEndpoint());
+ArcForges.Contracts.PublicApi.V1.TaskService.BindService(binder, new TaskEndpoint());
+ArcForges.Contracts.PublicApi.V1.ApprovalService.BindService(binder, new ApprovalEndpoint());
+ArcForges.Contracts.PublicApi.V1.BridgeService.BindService(binder, new BridgeEndpoint());
+ArcForges.Contracts.PublicApi.V1.ChatService.BindService(binder, new ChatEndpoint());
+ArcForges.Contracts.PublicApi.V1.AgentService.BindService(binder, new AgentEndpoint());
+ArcForges.Contracts.PublicApi.V1.SearchService.BindService(binder, new SearchEndpoint());
+ArcForges.Contracts.PublicApi.V1.AutomationService.BindService(binder, new AutomationEndpoint());
+ArcForges.Contracts.PublicApi.V1.SourceService.BindService(binder, new SourceEndpoint());
 ArcForges.Contracts.PublicApi.V1.SyncService.BindService(binder, new SyncEndpoint());
 ArcForges.Contracts.PublicApi.V1.ResourceService.BindService(binder, new ResourceEndpoint());
 ArcForges.Contracts.PublicApi.V1.TransferService.BindService(binder, new TransferEndpoint());
@@ -97,6 +105,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.CommerceReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SyncReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.TransferReflection.Descriptor,
     ArcForges.Contracts.Events.V1.EventsReflection.Descriptor,
@@ -303,9 +312,24 @@ internal sealed class EntitlementEndpoint : ArcForges.Contracts.PublicApi.V1.Ent
 
 internal sealed class CommerceEndpoint : ArcForges.Contracts.PublicApi.V1.CommerceService.CommerceServiceBase;
 
+internal sealed class TaskEndpoint : ArcForges.Contracts.PublicApi.V1.TaskService.TaskServiceBase;
+
+internal sealed class ApprovalEndpoint : ArcForges.Contracts.PublicApi.V1.ApprovalService.ApprovalServiceBase;
+
+internal sealed class BridgeEndpoint : ArcForges.Contracts.PublicApi.V1.BridgeService.BridgeServiceBase;
+
+internal sealed class ChatEndpoint : ArcForges.Contracts.PublicApi.V1.ChatService.ChatServiceBase;
+
+internal sealed class AgentEndpoint : ArcForges.Contracts.PublicApi.V1.AgentService.AgentServiceBase;
+
+internal sealed class SearchEndpoint : ArcForges.Contracts.PublicApi.V1.SearchService.SearchServiceBase;
+
+internal sealed class AutomationEndpoint : ArcForges.Contracts.PublicApi.V1.AutomationService.AutomationServiceBase;
+
+internal sealed class SourceEndpoint : ArcForges.Contracts.PublicApi.V1.SourceService.SourceServiceBase;
+
 internal sealed class SyncEndpoint : ArcForges.Contracts.PublicApi.V1.SyncService.SyncServiceBase;
 
 internal sealed class ResourceEndpoint : ArcForges.Contracts.PublicApi.V1.ResourceService.ResourceServiceBase;
 
 internal sealed class TransferEndpoint : ArcForges.Contracts.PublicApi.V1.TransferService.TransferServiceBase;
-

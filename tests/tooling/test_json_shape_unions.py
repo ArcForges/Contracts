@@ -12,7 +12,8 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "eng"))
-from generate_shapes import JsonShapes, schema_roots, generate
+from generate_shapes import (JsonShapes, bundle_external_models, bundle_type_imports,
+                             compile_bundle_roots, schema_roots, generate)
 
 
 def record(title, properties):
@@ -31,12 +32,48 @@ def sample():
     return schema
 
 
+def bundle_of_roots(definitions, *names):
+    return {"title": "RouteBundle", "$defs": definitions,
+            "oneOf": [{"$ref": f"#/$defs/{name}"} for name in names]}
+
+
+def reachable_number_fields(root):
+    definitions = root.get("$defs", {})
+    fields = set()
+    visited_refs = set()
+
+    def visit(node, owner=None, field=None):
+        if "$ref" in node:
+            name = node["$ref"].removeprefix("#/$defs/")
+            if name in visited_refs:
+                return
+            visited_refs.add(name)
+            target = definitions[name]
+            visit(target, target.get("title", owner), field)
+            return
+        if node.get("type") == "number":
+            fields.add((owner, field))
+            return
+        if node.get("type") == "object":
+            current = node.get("title", owner)
+            for name, child in node.get("properties", {}).items():
+                visit(child, current, name)
+        elif node.get("type") == "array":
+            visit(node["items"], owner, field)
+        elif "oneOf" in node:
+            for child in node["oneOf"]:
+                visit(child, owner, field)
+
+    visit(root, root.get("title"))
+    return fields
+
+
 class JsonShapeUnions(unittest.TestCase):
     def test_accepted_seed_outputs_unchanged(self):
         mappings = [
             ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/dotnet/ArcForges.Contracts.Validation", "src/public/ts/api-client"),
             ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/dotnet/ArcForges.Contracts.Validation", "src/public/ts/api-client"),
-            ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
+            ("internal/ai-http/v1/configuration.schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ]
         for source, namespace, models, checks, tsroot in mappings:
             schema = json.loads((ROOT / source).read_text())
@@ -115,7 +152,193 @@ class JsonShapeUnions(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Duplicate root"):
             schema_roots({"$defs": {"A": root, "B": root}, "oneOf": [{"$ref": "#/$defs/A"}, {"$ref": "#/$defs/B"}]})
 
-    def test_shared_bundle_model_collision_refused_before_any_output_write(self):
+    def test_root_bundle_can_select_named_closed_route_unions(self):
+        definitions = {
+            "StartRequest": record("StartRequest", {"start": {"type": "string"}}),
+            "ContinueRequest": record("ContinueRequest", {"continuation": {"type": "string"}}),
+            "RouteRequest": {"title": "RouteRequest", "oneOf": [
+                {"$ref": "#/$defs/StartRequest"}, {"$ref": "#/$defs/ContinueRequest"}], "x-arcforges-max-bytes": 1024},
+            "TextA": {"title": "TextA", "type": "string", "pattern": "^.+$"},
+            "TextB": {"title": "TextB", "type": "string", "pattern": "^.+$"},
+            "AmbiguousText": {"title": "AmbiguousText", "oneOf": [
+                {"$ref": "#/$defs/TextA"}, {"$ref": "#/$defs/TextB"}], "x-arcforges-max-bytes": 1024},
+        }
+        roots = schema_roots(bundle_of_roots(definitions, "RouteRequest", "AmbiguousText"))
+        self.assertEqual([root["title"] for root in roots], ["RouteRequest", "AmbiguousText"])
+        request_models, _, request_ts = JsonShapes(roots[0], "Example").generate()
+        self.assertIn("public abstract record RouteRequest;", request_models)
+        self.assertIn("export type RouteRequest = StartRequest | ContinueRequest;", request_ts)
+        self.assertIn("RouteRequest", request_models)
+
+    def test_root_bundle_rejects_open_or_non_reference_union_branches(self):
+        definitions = {
+            "Open": record("Open", {"name": {"type": "string"}}),
+            "Route": {"title": "Route", "oneOf": [{"$ref": "#/$defs/Open"}, {"type": "string", "title": "Inline"}],
+                      "x-arcforges-max-bytes": 1024},
+        }
+        with self.assertRaisesRegex(ValueError, "explicit local definition refs"):
+            schema_roots(bundle_of_roots(definitions, "Route"))
+        definitions["Route"]["oneOf"] = [{"$ref": "#/$defs/Open"}, {"$ref": "#/$defs/Open"}]
+        with self.assertRaisesRegex(ValueError, "Duplicate union branch type"):
+            # Duplicate branch refs are rejected as an ambiguous exact-one profile.
+            JsonShapes(schema_roots(bundle_of_roots(definitions, "Route"))[0], "Example").generate()
+
+    def test_bundle_roots_emit_one_canonical_shared_model_and_union(self):
+        definitions = {
+            "RootA": record("RootA", {"choice": {"$ref": "#/$defs/SharedChoice"}}),
+            "RootB": record("RootB", {"choice": {"$ref": "#/$defs/SharedChoice"}}),
+            "SharedChoice": {"title": "SharedChoice", "oneOf": [
+                {"$ref": "#/$defs/ChoiceA"}, {"$ref": "#/$defs/ChoiceB"}]},
+            "ChoiceA": record("ChoiceA", {"first": {"type": "string"}}),
+            "ChoiceB": record("ChoiceB", {"second": {"type": "string"}}),
+        }
+        for name in ("RootA", "RootB"):
+            definitions[name]["x-arcforges-max-bytes"] = 1024
+        roots, compilers, owners = compile_bundle_roots(
+            bundle_of_roots(definitions, "RootA", "RootB"), "Example")
+        self.assertEqual([root["title"] for root in roots], ["RootA", "RootB"])
+        self.assertEqual(owners["SharedChoice"], 0)
+        generated = []
+        for index, compiler in enumerate(compilers):
+            external = bundle_external_models(index, compiler, owners)
+            cs, _, ts = compiler.generate(external)
+            imports = bundle_type_imports(index, compilers, owners)
+            if imports:
+                ts = ts.replace("// Generated by eng/generate_shapes.py; do not edit.\n",
+                                "// Generated by eng/generate_shapes.py; do not edit.\n" + imports, 1)
+            generated.append((cs, ts))
+        csharp, typescript = zip(*generated, strict=True)
+        self.assertEqual(sum(code.count("public abstract record SharedChoice;") for code in csharp), 1)
+        self.assertEqual(sum(code.count("internal sealed class SharedChoiceConverter") for code in csharp), 1)
+        self.assertEqual(sum(code.count("public sealed record SharedChoiceChoiceA") for code in csharp), 1)
+        self.assertEqual(sum(code.count("export type SharedChoice =") for code in typescript), 1)
+        self.assertEqual(sum(code.count("export interface ChoiceA {") for code in typescript), 1)
+        self.assertIn('import type { ChoiceA, ChoiceB, SharedChoice } from "./RootA.js";', typescript[1])
+
+    def test_bundle_rejects_same_model_name_with_different_canonical_schema(self):
+        definitions = {
+            "RootA": record("RootA", {"shared": {
+                "title": "SharedRecord", "type": "object", "properties": {"left": {"type": "string"}},
+                "required": ["left"], "additionalProperties": False}}),
+            "RootB": record("RootB", {"shared": {
+                "title": "SharedRecord", "type": "object", "properties": {"right": {"type": "string"}},
+                "required": ["right"], "additionalProperties": False}}),
+        }
+        for name in ("RootA", "RootB"):
+            definitions[name]["x-arcforges-max-bytes"] = 1024
+        with self.assertRaisesRegex(ValueError, "Conflicting canonical schema definitions for bundled model SharedRecord"):
+            compile_bundle_roots(bundle_of_roots(definitions, "RootA", "RootB"), "Example")
+
+    def test_con10_bundle_reaches_only_its_nine_finite_number_fields(self):
+        authored = json.loads((ROOT / "internal/ai-http/v1/schema.json").read_text(encoding="utf-8"))
+        roots, compilers, owners = compile_bundle_roots(
+            authored, "ArcForges.Contracts.CloudInternal.Http.V1")
+        expected = {
+            ("StructuredValueAsNumber", "number"),
+            ("MeasurementValueAsValue", "value"),
+            ("Calibration", "scale"),
+            ("Calibration", "offset"),
+            ("TriggerConfiguration", "threshold"),
+            ("TriggerConfiguration", "hysteresis"),
+            ("MeasurementThreshold", "value"),
+            ("SelectedSample", "value"),
+            ("CursorResult", "deltaValue"),
+        }
+        self.assertEqual(len(roots), 30)
+        self.assertEqual(set().union(*(reachable_number_fields(root) for root in roots)), expected)
+
+        for index, (root, compiler) in enumerate(zip(roots, compilers, strict=True)):
+            expected_count = len(reachable_number_fields(root))
+            _, validator, typescript = compiler.generate(bundle_external_models(index, compiler, owners))
+            self.assertEqual(validator.count("!global::System.Double.IsFinite(number)"), expected_count,
+                             root["title"])
+            self.assertEqual(typescript.count("!Number.isFinite(number)"), expected_count,
+                             root["title"])
+            if expected_count:
+                self.assertIn("StrictJsonNumber", typescript, root["title"])
+            else:
+                self.assertNotIn("StrictJsonNumber", typescript, root["title"])
+
+    def test_finite_numbers_and_utf8_byte_bounds_are_compiled_narrowly(self):
+        schema = record("NumericEnvelope", {
+            "count": {"type": "integer", "minimum": 1, "maximum": 4},
+            "value": {"type": "number", "minimum": -10.5, "maximum": 10.5},
+            "cursor": {"type": "string", "maxLength": 8192, "x-arcforges-max-utf8-bytes": 4096},
+        })
+        schema["x-arcforges-max-bytes"] = 16384
+        models, checks, ts = JsonShapes(schema, "Example").generate()
+        self.assertIn("public required double Value", models)
+        self.assertIn("global::System.Double.IsFinite(number)", checks)
+        self.assertIn("global::System.Text.Encoding.UTF8.GetByteCount(text) > 4096", checks)
+        self.assertIn("new TextEncoder().encode(value).byteLength > 4096", ts)
+        self.assertIn("Number.isFinite(number)", ts)
+
+        for invalid in [
+            {"type": "integer", "x-arcforges-max-utf8-bytes": 4},
+            {"type": "string", "x-arcforges-max-utf8-bytes": True},
+            {"type": "string", "x-arcforges-max-utf8-bytes": 0},
+            {"type": "number", "minimum": float("inf")},
+            {"type": "number", "enum": [1.25]},
+        ]:
+            candidate = record("Invalid", {"value": invalid})
+            candidate["x-arcforges-max-bytes"] = 1024
+            with self.subTest(schema=invalid), self.assertRaises(ValueError):
+                JsonShapes(candidate, "Example").generate()
+
+    @unittest.skipUnless(shutil.which("node"), "Existing pinned Node runtime required for generated TypeScript diagnostic")
+    def test_generated_typescript_finite_number_integer_lexeme_utf8_and_union_runtime(self):
+        numeric = record("NumericEnvelope", {
+            "count": {"type": "integer", "minimum": 1, "maximum": 4},
+            "value": {"type": "number", "minimum": -10.5, "maximum": 10.5},
+            "cursor": {"type": "string", "maxLength": 8192, "x-arcforges-max-utf8-bytes": 4096},
+        })
+        numeric["x-arcforges-max-bytes"] = 16384
+        definitions = {
+            "StartRequest": record("StartRequest", {"start": {"type": "string"}}),
+            "ContinueRequest": record("ContinueRequest", {"continuation": {"type": "string"}}),
+            "RouteRequest": {"title": "RouteRequest", "oneOf": [
+                {"$ref": "#/$defs/StartRequest"}, {"$ref": "#/$defs/ContinueRequest"}], "x-arcforges-max-bytes": 1024},
+            "TextA": {"title": "TextA", "type": "string", "pattern": "^.+$"},
+            "TextB": {"title": "TextB", "type": "string", "pattern": "^.+$"},
+            "AmbiguousText": {"title": "AmbiguousText", "oneOf": [
+                {"$ref": "#/$defs/TextA"}, {"$ref": "#/$defs/TextB"}], "x-arcforges-max-bytes": 1024},
+        }
+        roots = schema_roots(bundle_of_roots(definitions, "RouteRequest", "AmbiguousText"))
+        with tempfile.TemporaryDirectory(prefix="arcforges-json-numeric-") as directory:
+            folder = Path(directory)
+            for schema in [numeric, *roots]:
+                (folder / (schema["title"] + ".ts")).write_text(JsonShapes(schema, "Example").generate()[2], encoding="utf-8")
+            runner = folder / "run.mjs"
+            runner.write_text('''import assert from "node:assert/strict";
+import * as numeric from "./NumericEnvelope.ts";
+import * as route from "./RouteRequest.ts";
+import * as ambiguous from "./AmbiguousText.ts";
+const valid = {count: 2, value: 1.25, cursor: "é".repeat(2048)};
+assert.equal(numeric.isNumericEnvelope(valid), true);
+assert.deepEqual(numeric.tryParseNumericEnvelopeJson(JSON.stringify(valid)), {ok: true, value: valid});
+assert.equal(numeric.tryParseNumericEnvelopeJson(JSON.stringify({...valid, cursor: "a".repeat(4097)})).ok, false);
+assert.equal(numeric.tryParseNumericEnvelopeJson(JSON.stringify({...valid, cursor: "é".repeat(2048) + "a"})).ok, false);
+assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2.0,"value":1,"cursor":""}').ok, false);
+assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2e0,"value":1,"cursor":""}').ok, false);
+assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2,"value":1e0,"cursor":""}').ok, true);
+assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2,"value":1e999,"cursor":""}').ok, false);
+assert.equal(numeric.isNumericEnvelope({...valid, value: Number.NaN}), false);
+assert.equal(numeric.isNumericEnvelope({...valid, value: Number.POSITIVE_INFINITY}), false);
+assert.equal(numeric.isNumericEnvelope({...valid, value: Number.NEGATIVE_INFINITY}), false);
+assert.equal(numeric.isNumericEnvelope({...valid, value: 10.5001}), false);
+assert.equal(numeric.isNumericEnvelope({...valid, count: 2.5}), false);
+assert.equal(numeric.tryParseNumericEnvelopeJson('{"count":2,"value":1,"cursor":"\\ud800"}').failure, "malformed");
+assert.equal(numeric.tryParseNumericEnvelopeJson(Uint8Array.of(0x22, 0xc3, 0x28, 0x22)).failure, "malformed");
+for (const item of [{start:"x"}, {continuation:"y"}])
+  assert.deepEqual(route.tryParseRouteRequestJson(route.serializeRouteRequestJson(item)), {ok:true, value:item});
+assert.equal(route.isRouteRequest({}), false);
+assert.equal(route.isRouteRequest({start:"x", continuation:"y"}), false);
+assert.equal(ambiguous.isAmbiguousText("both"), false);
+''', encoding="utf-8")
+            result = subprocess.run([shutil.which("node"), "--experimental-transform-types", str(runner)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_nonbundle_duplicate_model_collision_refused_before_any_output_write(self):
         first = sample()
         second = copy.deepcopy(first)
         second["title"] = "Other"

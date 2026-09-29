@@ -2238,6 +2238,2273 @@
         }
       }
     },
+    "arcforges.publicapi.v1.TaskServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "filter": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceListValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceListValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceGetRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceGetRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceGetValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceGetValue",
+      "fields": {
+        "task": {
+          "required": true
+        },
+        "runs": {},
+        "steps": {},
+        "attempts": {},
+        "detailPage": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceGetResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceGetResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceCreateRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceCreateRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        },
+        "conversationId": {},
+        "profileId": {
+          "required": true
+        },
+        "input": {
+          "required": true
+        },
+        "steps": {}
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceCreateValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceCreateValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceCreateResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceCreateResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceCancelRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceCancelRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceCancelValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceCancelValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceCancelResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceCancelResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServicePauseRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServicePauseRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServicePauseValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServicePauseValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServicePauseResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServicePauseResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceResumeRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceResumeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceResumeValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceResumeValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceResumeResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceResumeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceRetryAttemptRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceRetryAttemptRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        },
+        "attemptId": {
+          "required": true
+        },
+        "reconciliationDecision": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceRetryAttemptValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceRetryAttemptValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceRetryAttemptResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceRetryAttemptResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceSteerRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceSteerRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        },
+        "text": {
+          "required": true
+        },
+        "context": {}
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceSteerValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceSteerValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceSteerResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceSteerResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ApprovalServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApprovalServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ApprovalServiceListValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApprovalServiceListValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ApprovalServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApprovalServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ApprovalServiceDecideRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApprovalServiceDecideRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "approvalId": {
+          "required": true
+        },
+        "decision": {
+          "required": true,
+          "enumValues": [1, 2]
+        },
+        "proposalHash": {
+          "required": true
+        },
+        "localEvidence": {}
+      }
+    },
+    "arcforges.publicapi.v1.ApprovalServiceDecideValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApprovalServiceDecideValue",
+      "fields": {
+        "approval": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ApprovalServiceDecideResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApprovalServiceDecideResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.BridgeServicePullRequestsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServicePullRequestsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "cursor": {},
+        "limit": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.BridgeServicePullRequestsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServicePullRequestsValue",
+      "fields": {
+        "requests": {},
+        "nextCursor": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.BridgeServicePullRequestsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServicePullRequestsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.BridgeServiceSubmitResultRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServiceSubmitResultRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "toolRequestId": {
+          "required": true
+        },
+        "attemptId": {
+          "required": true
+        },
+        "commandId": {
+          "required": true
+        },
+        "result": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.BridgeServiceSubmitResultValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServiceSubmitResultValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.BridgeServiceSubmitResultResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServiceSubmitResultResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.BridgeServiceGetRequestStateRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServiceGetRequestStateRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "toolRequestId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.BridgeServiceGetRequestStateValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServiceGetRequestStateValue",
+      "fields": {
+        "request": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.BridgeServiceGetRequestStateResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.BridgeServiceGetRequestStateResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceListConversationsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListConversationsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceListConversationsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListConversationsValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceListConversationsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListConversationsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceGetConversationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetConversationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "branchId": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetConversationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetConversationValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        },
+        "messages": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetConversationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetConversationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceAppendMessageRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceAppendMessageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "messageId": {
+          "required": true
+        },
+        "draft": {
+          "required": true
+        },
+        "options": {}
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceAppendMessageValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceAppendMessageValue",
+      "fields": {
+        "message": {
+          "required": true
+        },
+        "task": {},
+        "turn": {}
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceAppendMessageResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceAppendMessageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceCreateBranchRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCreateBranchRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "branchId": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "fromMessageId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCreateBranchValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCreateBranchValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCreateBranchResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCreateBranchResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceRequestExportRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceRequestExportRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "exportId": {
+          "required": true
+        },
+        "request": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceRequestExportValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceRequestExportValue",
+      "fields": {
+        "job": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceRequestExportResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceRequestExportResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServiceListModelsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceListModelsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceListModelsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceListModelsValue",
+      "fields": {
+        "models": {},
+        "configVersion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceListModelsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceListModelsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServiceListProfilesRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceListProfilesRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceListProfilesValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceListProfilesValue",
+      "fields": {
+        "profiles": {}
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceListProfilesResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceListProfilesResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServiceGetUsageRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceGetUsageRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "period": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceGetUsageValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceGetUsageValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceGetUsageResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceGetUsageResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.SearchServiceQueryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SearchServiceQueryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "query": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SearchServiceQueryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SearchServiceQueryValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SearchServiceQueryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SearchServiceQueryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceListValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceListValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceGetRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceGetRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceGetValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceGetValue",
+      "fields": {
+        "automation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceGetResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceGetResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceCreateRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceCreateRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        },
+        "definition": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceCreateValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceCreateValue",
+      "fields": {
+        "automation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceCreateResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceCreateResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceUpdateRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceUpdateRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        },
+        "definition": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceUpdateValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceUpdateValue",
+      "fields": {
+        "automation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceUpdateResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceUpdateResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceSetEnabledRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceSetEnabledRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        },
+        "enabled": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceSetEnabledValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceSetEnabledValue",
+      "fields": {
+        "automation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceSetEnabledResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceSetEnabledResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceDeleteRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceDeleteRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceDeleteValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceDeleteValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceDeleteResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceDeleteResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceRunNowRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceRunNowRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        },
+        "occurrenceId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceRunNowValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceRunNowValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceRunNowResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceRunNowResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceSubmitEventRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceSubmitEventRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "eventId": {
+          "required": true
+        },
+        "kind": {
+          "required": true
+        },
+        "source": {
+          "required": true
+        },
+        "sourceRevision": {
+          "required": true
+        },
+        "causation": {}
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceSubmitEventValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceSubmitEventValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceSubmitEventResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceSubmitEventResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AutomationServiceResolveMissedRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceResolveMissedRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "automationId": {
+          "required": true
+        },
+        "occurrenceKeys": {},
+        "decision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceResolveMissedValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceResolveMissedValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AutomationServiceResolveMissedResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AutomationServiceResolveMissedResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceCreateConversationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCreateConversationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "title": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCreateConversationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCreateConversationValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCreateConversationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCreateConversationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServicePutProfileRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServicePutProfileRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServicePutProfileValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServicePutProfileValue",
+      "fields": {
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServicePutProfileResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServicePutProfileResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServiceDeleteProfileRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceDeleteProfileRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "id": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceDeleteProfileValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceDeleteProfileValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceDeleteProfileResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceDeleteProfileResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServicePutSkillRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServicePutSkillRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServicePutSkillValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServicePutSkillValue",
+      "fields": {
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServicePutSkillResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServicePutSkillResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.AgentServiceDeleteSkillRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceDeleteSkillRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "id": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceDeleteSkillValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceDeleteSkillValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AgentServiceDeleteSkillResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AgentServiceDeleteSkillResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServicePutProjectRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePutProjectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePutProjectValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePutProjectValue",
+      "fields": {
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePutProjectResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePutProjectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceDeleteProjectRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceDeleteProjectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "id": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceDeleteProjectValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceDeleteProjectValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceDeleteProjectResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceDeleteProjectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServicePutMemoryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePutMemoryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePutMemoryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePutMemoryValue",
+      "fields": {
+        "value": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePutMemoryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePutMemoryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceDeleteMemoryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceDeleteMemoryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "id": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceDeleteMemoryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceDeleteMemoryValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceDeleteMemoryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceDeleteMemoryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.SourceServiceCreateConsentRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceCreateConsentRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "consentId": {
+          "required": true
+        },
+        "scope": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceCreateConsentValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceCreateConsentValue",
+      "fields": {
+        "consent": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceCreateConsentResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceCreateConsentResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.SourceServiceRevokeConsentRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceRevokeConsentRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "consentId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceRevokeConsentValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceRevokeConsentValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceRevokeConsentResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceRevokeConsentResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceGetTurnRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetTurnRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "turnId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetTurnValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetTurnValue",
+      "fields": {
+        "turn": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetTurnResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetTurnResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceCancelTurnRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCancelTurnRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "turnId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCancelTurnValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCancelTurnValue",
+      "fields": {
+        "turn": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCancelTurnResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCancelTurnResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServicePreviewPromotionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePreviewPromotionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "turnId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePreviewPromotionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePreviewPromotionValue",
+      "fields": {
+        "preview": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePreviewPromotionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePreviewPromotionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServicePromoteTurnRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePromoteTurnRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "turnId": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        },
+        "previewHash": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePromoteTurnValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePromoteTurnValue",
+      "fields": {
+        "task": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServicePromoteTurnResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServicePromoteTurnResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceCloseTemporaryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCloseTemporaryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCloseTemporaryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCloseTemporaryValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceCloseTemporaryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceCloseTemporaryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceSaveTemporaryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceSaveTemporaryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sourceConversationId": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "selectedMessages": {}
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceSaveTemporaryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceSaveTemporaryValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceSaveTemporaryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceSaveTemporaryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceUpdateConversationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceUpdateConversationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "patch": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceUpdateConversationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceUpdateConversationValue",
+      "fields": {
+        "conversation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceUpdateConversationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceUpdateConversationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceListProjectsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListProjectsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceListProjectsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListProjectsValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceListProjectsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListProjectsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceGetProjectRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetProjectRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "projectId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetProjectValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetProjectValue",
+      "fields": {
+        "project": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetProjectResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetProjectResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceListMemoriesRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListMemoriesRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceListMemoriesValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListMemoriesValue",
+      "fields": {
+        "items": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceListMemoriesResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceListMemoriesResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ChatServiceGetMemoryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetMemoryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "memoryId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetMemoryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetMemoryValue",
+      "fields": {
+        "memory": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatServiceGetMemoryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatServiceGetMemoryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.TaskServiceGetDetailsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceGetDetailsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "taskId": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceGetDetailsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceGetDetailsValue",
+      "fields": {
+        "detail": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TaskServiceGetDetailsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskServiceGetDetailsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.SourceServiceGetPolicyRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceGetPolicyRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "target": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceGetPolicyValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceGetPolicyValue",
+      "fields": {
+        "policy": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceGetPolicyResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceGetPolicyResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.SourceServiceSetPolicyRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceSetPolicyRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "target": {
+          "required": true
+        },
+        "patch": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceSetPolicyValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceSetPolicyValue",
+      "fields": {
+        "policy": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceSetPolicyResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceSetPolicyResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.SourceServiceClearPolicyRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceClearPolicyRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "target": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceClearPolicyValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceClearPolicyValue",
+      "fields": {
+        "policy": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SourceServiceClearPolicyResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SourceServiceClearPolicyResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ApplicationTarget": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApplicationTarget",
+      "fields": {
+        "productId": {
+          "required": true,
+          "enumValues": ["arcscope", "companion"]
+        },
+        "deviceId": {
+          "required": true
+        },
+        "installationId": {
+          "required": true
+        },
+        "instanceEpoch": {}
+      }
+    },
+    "arcforges.publicapi.v1.ExecutionOwner": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ExecutionOwner",
+      "fields": {
+        "taskId": {},
+        "turnId": {}
+      },
+      "oneofRequired": ["owner"]
+    },
+    "arcforges.publicapi.v1.ChatTurnProgress": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatTurnProgress",
+      "fields": {
+        "turnId": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6, 7]
+        },
+        "revision": {
+          "required": true
+        },
+        "reason": {},
+        "hasUnknownEffect": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ChatTurnView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ChatTurnView",
+      "fields": {
+        "turnId": {
+          "required": true
+        },
+        "conversationId": {
+          "required": true
+        },
+        "inputMessageId": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6, 7]
+        },
+        "revision": {
+          "required": true
+        },
+        "runId": {},
+        "streamId": {},
+        "finalMessageId": {},
+        "reason": {},
+        "temporary": {
+          "required": true
+        },
+        "expiresAt": {},
+        "hasUnknownEffect": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.TurnPromotionPreview": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TurnPromotionPreview",
+      "fields": {
+        "turnId": {
+          "required": true
+        },
+        "previewHash": {
+          "required": true
+        },
+        "taskInput": {
+          "required": true
+        },
+        "profileId": {
+          "required": true
+        },
+        "proposals": {},
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ToolRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ToolRequest",
+      "fields": {
+        "toolRequestId": {
+          "required": true
+        },
+        "taskId": {},
+        "runId": {
+          "required": true
+        },
+        "stepId": {
+          "required": true
+        },
+        "attemptId": {
+          "required": true
+        },
+        "commandId": {
+          "required": true
+        },
+        "targetDeviceId": {},
+        "capability": {
+          "required": true
+        },
+        "arguments": {
+          "required": true
+        },
+        "context": {},
+        "actor": {
+          "required": true
+        },
+        "approvalId": {},
+        "expiresAt": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "enumValues": ["queued", "delivered", "answered", "expired", "refused"]
+        },
+        "owner": {
+          "required": true
+        },
+        "targetApplication": {}
+      }
+    },
+    "arcforges.publicapi.v1.TaskFilter": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskFilter",
+      "fields": {
+        "states": {
+          "items": {
+            "enumValues": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+          }
+        },
+        "conversationId": {},
+        "created": {}
+      }
+    },
+    "arcforges.publicapi.v1.StepSpec": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.StepSpec",
+      "fields": {
+        "stepId": {
+          "required": true
+        },
+        "capability": {
+          "required": true
+        },
+        "locality": {
+          "required": true,
+          "enumValues": [1, 2]
+        },
+        "targetDeviceId": {},
+        "arguments": {
+          "required": true
+        },
+        "dependencies": {}
+      }
+    },
+    "arcforges.publicapi.v1.PresenceEvidence": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.PresenceEvidence",
+      "fields": {
+        "deviceId": {
+          "required": true
+        },
+        "challengeId": {
+          "required": true
+        },
+        "signature": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.RunView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.RunView",
+      "fields": {
+        "runId": {
+          "required": true
+        },
+        "taskId": {},
+        "state": {
+          "required": true
+        },
+        "configVersion": {
+          "required": true
+        },
+        "startedAt": {},
+        "endedAt": {},
+        "iteration": {
+          "required": true
+        },
+        "owner": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.StepView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.StepView",
+      "fields": {
+        "stepId": {
+          "required": true
+        },
+        "runId": {
+          "required": true
+        },
+        "ordinal": {
+          "required": true
+        },
+        "capability": {
+          "required": true
+        },
+        "locality": {
+          "required": true,
+          "enumValues": [1, 2]
+        },
+        "state": {
+          "required": true
+        },
+        "dependencies": {}
+      }
+    },
+    "arcforges.publicapi.v1.AttemptView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AttemptView",
+      "fields": {
+        "attemptId": {
+          "required": true
+        },
+        "stepId": {
+          "required": true
+        },
+        "state": {
+          "required": true
+        },
+        "effect": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        },
+        "startedAt": {},
+        "endedAt": {},
+        "reason": {}
+      }
+    },
+    "arcforges.publicapi.v1.TaskDetailPage": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.TaskDetailPage",
+      "fields": {
+        "run": {
+          "required": true
+        },
+        "steps": {},
+        "attempts": {},
+        "artifacts": {},
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ModelView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ModelView",
+      "fields": {
+        "modelId": {
+          "required": true,
+          "maxLength": 256
+        },
+        "supplier": {
+          "required": true
+        },
+        "contextTokens": {
+          "required": true
+        },
+        "outputTokens": {
+          "required": true
+        },
+        "capabilities": {},
+        "availability": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SearchQuery": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SearchQuery",
+      "fields": {
+        "general": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.GeneralSearchQuery": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.GeneralSearchQuery",
+      "fields": {
+        "text": {
+          "required": true,
+          "maxLength": 4096
+        },
+        "mode": {
+          "required": true,
+          "enumValues": ["keyword", "metadata", "semantic", "hybrid"]
+        },
+        "products": {},
+        "sources": {
+          "maxItems": 200
+        },
+        "tags": {},
+        "changed": {},
+        "page": {
+          "required": true
+        },
+        "datasetToken": {},
+        "budget": {}
+      }
+    },
+    "arcforges.publicapi.v1.RetrievalBudget": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.RetrievalBudget",
+      "fields": {
+        "candidates": {
+          "required": true,
+          "min": 1
+        },
+        "evidence": {
+          "required": true,
+          "min": 1
+        },
+        "contextTokens": {
+          "required": true,
+          "min": 1
+        },
+        "contextBytes": {
+          "required": true,
+          "min": 1
+        },
+        "perSource": {
+          "required": true,
+          "min": 1
+        },
+        "graphDepth": {
+          "required": true
+        },
+        "graphEdges": {
+          "required": true,
+          "min": 1
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SearchHit": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SearchHit",
+      "fields": {
+        "source": {
+          "required": true
+        },
+        "title": {
+          "required": true
+        },
+        "excerpt": {},
+        "score": {
+          "finite": true
+        },
+        "citation": {
+          "required": true
+        },
+        "properties": {}
+      }
+    },
+    "arcforges.publicapi.v1.ExportRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ExportRequest",
+      "fields": {
+        "scope": {},
+        "format": {
+          "required": true
+        },
+        "includeManagedAssets": {
+          "required": true
+        },
+        "acknowledgedOnly": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ConversationPatch": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ConversationPatch",
+      "fields": {
+        "title": {},
+        "projectId": {},
+        "clearProject": {
+          "required": true
+        },
+        "pinned": {},
+        "archived": {}
+      }
+    },
     "arcforges.catalog.v1.PublisherView": {
       "csharpType": "ArcForges.Contracts.Catalog.V1.PublisherView",
       "fields": {

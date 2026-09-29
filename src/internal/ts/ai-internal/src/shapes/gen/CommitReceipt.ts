@@ -95,6 +95,8 @@ function check0(value: unknown): boolean {
 }
 function check1(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 36) return false;
+  if ([...value].length > 36) return false;
   if ((new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 'u')).exec(value)?.[0] !== value) return false;
   if (value === "00000000-0000-0000-0000-000000000000") return false;
   if (value === '00000000-0000-0000-0000-000000000000') return false;
@@ -102,16 +104,22 @@ function check1(value: unknown): boolean {
 }
 function check2(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 1) return false;
+  if ([...value].length > 128) return false;
   if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 function check3(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 64) return false;
+  if ([...value].length > 64) return false;
   if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 function check4(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 64) return false;
+  if ([...value].length > 64) return false;
   if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
@@ -152,10 +160,13 @@ function check7(value: unknown): boolean {
 function check8(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
   if ([...value].length < 1) return false;
+  if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 function check9(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 36) return false;
+  if ([...value].length > 36) return false;
   if ((new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 'u')).exec(value)?.[0] !== value) return false;
   if (value === "00000000-0000-0000-0000-000000000000") return false;
   if (value === '00000000-0000-0000-0000-000000000000') return false;
@@ -163,6 +174,7 @@ function check9(value: unknown): boolean {
 }
 function check10(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 1) return false;
   if ([...value].length > 19) return false;
   if ((new RegExp("^[1-9][0-9]*$", 'u')).exec(value)?.[0] !== value) return false;
   if (BigInt(value as string) < -9223372036854775808n || BigInt(value as string) > 9223372036854775807n) return false;
@@ -171,6 +183,8 @@ function check10(value: unknown): boolean {
 }
 function check11(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
+  if ([...value].length < 64) return false;
+  if ([...value].length > 64) return false;
   if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }

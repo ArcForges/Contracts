@@ -3,9 +3,9 @@
   "license": "Apache-2.0",
   "oracle": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "4a068c5b8185fd64493a34132b5692f1418c3653",
+    "commit": "0be7751de96c5d79401d4cc8fed620c6b557a309",
     "path": "docs/architecture/contracts/11-operation-scope-manifest.md",
-    "sha256": "6c5ef41a9ea09074fbd183275a95c96812b20bcb8db587d661b1c98c1cbfef17"
+    "sha256": "816f514508e463431da975906b42a41afcd8b64e0257df89fbb9830a0b6ae862"
   },
   "idempotencyExamples": [
     "IScopeOperations.StartCapture",
@@ -442,6 +442,62 @@
     {
       "operationId": "catalog.verifyPublisher",
       "scope": "account"
+    },
+    {
+      "operationId": "cf.ai.authorize",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.ai.claim",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.cloud-tool",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.context",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.finalize",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.late-outcome",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.model-intent",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.model-outcome",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.prepare-tools",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.reconcile",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.renew",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.settle",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.stream-state",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.wait",
+      "scope": "assistant"
     },
     {
       "operationId": "chat.appendMessage",
