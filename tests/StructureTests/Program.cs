@@ -87,6 +87,7 @@ ExtensionBoundaryCases.Run(root);
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 SemanticHashCases.Run(root);
 Con02Cases.Run(root);
+SupportCases.Run(root);
 return 0;
 
 static bool Proto<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()
