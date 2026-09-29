@@ -59,6 +59,15 @@ internal static class SimulationCases
             Require(!method.IsClientStreaming && !method.IsServerStreaming, item.GetProperty("operationId").GetString()! + ": unary");
             Require(method.InputType.FindFieldByNumber(1).MessageType.FullName == "arcforges.foundation.v1.RequestMeta", "request envelope");
             Require(method.OutputType.FindFieldByNumber(1).MessageType.FullName == "arcforges.foundation.v1.ResponseMeta", "response envelope");
+            var expectedRequestTags = new[] { 1 }.Concat(Enumerable.Range(10, ExpectedFields(item.GetProperty("requestFields")).Length));
+            Require(method.InputType.Fields.InFieldNumberOrder().Select(field => field.FieldNumber).SequenceEqual(expectedRequestTags),
+                operationId + ": exact request tags/reserved gap");
+            Require(method.OutputType.FindFieldByNumber(2).JsonName == "value"
+                && method.OutputType.FindFieldByNumber(2).ContainingOneof?.Name == "outcome"
+                && method.OutputType.FindFieldByNumber(3).JsonName == "error"
+                && method.OutputType.FindFieldByNumber(3).ContainingOneof?.Name == "outcome"
+                && method.OutputType.FindFieldByNumber(3).MessageType.FullName == "arcforges.foundation.v1.ArcError",
+                operationId + ": outcome and error tags");
             Require(BusinessFields(method.InputType).SequenceEqual(ExpectedFields(item.GetProperty("requestFields"))),
                 item.GetProperty("operationId").GetString()! + ": request fields");
             Require(BusinessTagNumbers(method.InputType).SequenceEqual(
@@ -71,8 +80,16 @@ internal static class SimulationCases
             Require(BusinessTagNumbers(valueType!).SequenceEqual(
                 Enumerable.Range(10, ExpectedFields(item.GetProperty("responseFields")).Length)),
                 item.GetProperty("operationId").GetString()! + ": response tag allocation");
-            Require((method.OutputType.FindFieldByNumber(4) is not null) == item.GetProperty("encodedBody").GetBoolean(),
-                item.GetProperty("operationId").GetString()! + ": read projection tag");
+            var encodedBody = item.GetProperty("encodedBody").GetBoolean();
+            var expectedResponseTags = encodedBody ? new[] { 1, 2, 3, 4 } : new[] { 1, 2, 3 };
+            Require(method.OutputType.Fields.InFieldNumberOrder().Select(field => field.FieldNumber).SequenceEqual(expectedResponseTags),
+                operationId + ": exact response tags/reserved gap");
+            if (encodedBody)
+            {
+                var field = method.OutputType.FindFieldByNumber(4);
+                Require(field.JsonName == "encodedBody" && field.ContainingOneof?.Name == "outcome"
+                    && field.MessageType.FullName == "arcforges.foundation.v1.EncodedBodyRef", operationId + ": read projection tag");
+            }
         }
 
         var states = Strings(fixture.GetProperty("states"));
