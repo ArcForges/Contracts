@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.cf.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/chat.proto";
+import "arcforges/events/v1/events.proto";
+
+option csharp_namespace = "ArcForges.Contracts.CloudInternal.Cf.V1";
+option java_package = "io.github.arcforges.contracts.cf.v1";
+option java_multiple_files = true;
+option java_outer_classname = "StreamProto";
+
+// Private, service-bound Worker-to-host projection. It does not define a
+// public route or grant authority; the host rechecks the existing owner.
+service RunStreamService {
+  rpc Run(RunStreamRequest) returns (stream arcforges.events.v1.StreamFrame);
+}
+
+message RunStreamRequest {
+  arcforges.publicapi.v1.ExecutionOwner execution = 1 [json_name = "execution"];
+  arcforges.foundation.v1.Id attempt_id = 2 [json_name = "attemptId"];
+  uint64 generation = 3 [json_name = "generation"];
+}
