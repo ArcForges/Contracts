@@ -153,17 +153,20 @@ test("CON.10 public chat and task shape vectors are consumed by generated valida
 
   const journeyIds = publicFixture.journeyVectors.map((vector) => vector.id);
   assert.equal(new Set(journeyIds).size, journeyIds.length, "journey vector IDs are unique");
-  assert.deepEqual(journeyIds.toSorted(), [
-    "agent-mode",
-    "agent-retry-reconciles-uncertainty",
-    "cancel-pause-turn-reconciles-uncertainty",
-    "explicit-promotion-creates-agent-task",
-    "ordinary-generated-reply",
-    "ordinary-write-proposal-awaits-promotion",
-    "plain-append-no-generation",
-    "save-temporary-content",
-    "temporary-reply",
-  ].toSorted());
+  assert.deepEqual(
+    journeyIds.toSorted(),
+    [
+      "agent-mode",
+      "agent-retry-reconciles-uncertainty",
+      "cancel-pause-turn-reconciles-uncertainty",
+      "explicit-promotion-creates-agent-task",
+      "ordinary-generated-reply",
+      "ordinary-write-proposal-awaits-promotion",
+      "plain-append-no-generation",
+      "save-temporary-content",
+      "temporary-reply",
+    ].toSorted(),
+  );
   const journeys = new Map(publicFixture.journeyVectors.map((vector) => [vector.id, vector]));
   const plainAppend = journeys.get("plain-append-no-generation");
   assert.equal(plainAppend.taskCreated, false);
@@ -228,15 +231,18 @@ test("CON.10 public chat and task shape vectors are consumed by generated valida
   assert.equal(retry.duplicateDispatch, false);
   const negativeIds = publicFixture.negativeVectors.map((vector) => vector.id);
   assert.equal(new Set(negativeIds).size, negativeIds.length, "negative vector IDs are unique");
-  assert.deepEqual(negativeIds.toSorted(), [
-    "agent-mode-forges-turn-owner",
-    "ordinary-turn-forges-task-owner",
-    "ordinary-write-dispatched-before-promotion",
-    "retry-unknown-dispatch-without-reconciliation",
-    "save-copies-prior-execution-or-charge",
-    "save-expired-temporary-content-refuses",
-    "temporary-body-in-history-or-search",
-  ].toSorted());
+  assert.deepEqual(
+    negativeIds.toSorted(),
+    [
+      "agent-mode-forges-turn-owner",
+      "ordinary-turn-forges-task-owner",
+      "ordinary-write-dispatched-before-promotion",
+      "retry-unknown-dispatch-without-reconciliation",
+      "save-copies-prior-execution-or-charge",
+      "save-expired-temporary-content-refuses",
+      "temporary-body-in-history-or-search",
+    ].toSorted(),
+  );
   const expiredSave = publicFixture.negativeVectors.find(
     (vector) => vector.id === "save-expired-temporary-content-refuses",
   );

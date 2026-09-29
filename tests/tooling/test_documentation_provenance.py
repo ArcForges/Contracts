@@ -13,6 +13,22 @@ import documentation_tools as documentation
 from maven_tools import zip_contents
 
 
+CON10_PUBLIC_SERVICE_METHODS = {
+    "AgentService": ["deleteProfile", "deleteSkill", "getUsage", "listModels", "listProfiles", "putProfile", "putSkill"],
+    "ApprovalService": ["decide", "list"],
+    "AutomationService": ["create", "delete", "get", "list", "resolveMissed", "runNow", "setEnabled",
+                          "submitEvent", "update"],
+    "BridgeService": ["getRequestState", "pullRequests", "submitResult"],
+    "ChatService": ["appendMessage", "cancelTurn", "closeTemporary", "createBranch", "createConversation",
+                    "deleteMemory", "deleteProject", "getConversation", "getMemory", "getProject", "getTurn",
+                    "listConversations", "listMemories", "listProjects", "previewPromotion", "promoteTurn",
+                    "putMemory", "putProject", "requestExport", "saveTemporary", "updateConversation"],
+    "SearchService": ["query"],
+    "SourceService": ["clearPolicy", "createConsent", "getPolicy", "revokeConsent", "setPolicy"],
+    "TaskService": ["cancel", "create", "get", "getDetails", "list", "pause", "resume", "retryAttempt", "steer"],
+}
+
+
 class DocumentationAdmissionTests(unittest.TestCase):
     def setUp(self):
         self.raw = {"index.html": b"API 1.0.0-ci.1.1", "script.js": b"reviewed script",
@@ -159,6 +175,20 @@ class DocumentationAdmissionTests(unittest.TestCase):
             },
         }
         self.assertEqual(len(con09_client_pages), 6)
+        con10_message_names = {name.rsplit(".", 1)[-1] for name in json.loads(
+            (root / "public/proto/constraints/con-10-chat-task-agent.json").read_bytes())["messages"]}
+        self.assertEqual(len(con10_message_names), 191)
+        con10_proto_pages = {
+            "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
+            for name in con10_message_names
+        }
+        con10_client_pages = {
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" + slug(service + suffix) + "/index.html": methods
+            for service, methods in CON10_PUBLIC_SERVICE_METHODS.items()
+            for suffix in ("Client", "ClientInterface")
+        }
+        self.assertEqual(len(con10_client_pages), 16)
+        self.assertEqual(sum(len(methods) for methods in CON10_PUBLIC_SERVICE_METHODS.values()), 57)
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
@@ -295,8 +325,9 @@ class DocumentationAdmissionTests(unittest.TestCase):
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
             permitted = descriptor_pages | catalog_pages | inprocess_pages | con08_proto_pages \
-                | con09_proto_pages if module == "contracts-proto" else (
+                | con09_proto_pages | con10_proto_pages if module == "contracts-proto" else (
                     clients | set(con08_client_pages) | set(con09_client_pages)
+                    | set(con10_client_pages)
                     if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:
@@ -308,10 +339,11 @@ class DocumentationAdmissionTests(unittest.TestCase):
                     else:
                         self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]), name)
                 else:
-                    expected_methods = con09_client_pages[name] if name in con09_client_pages else (
+                    expected_methods = set(con10_client_pages[name]) if name in con10_client_pages else (
+                        con09_client_pages[name] if name in con09_client_pages else (
                         con08_client_pages[name] if name in con08_client_pages else {
                         operation[0].lower() + operation[1:] for operation in operations
-                    })
+                    }))
                     self.assertEqual(set(actual[name]), expected_methods)
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
@@ -320,6 +352,114 @@ class DocumentationAdmissionTests(unittest.TestCase):
         self.assertTrue(any("publicapi.v1/-aggregate-body/" in name for name in proto_pages))
         self.assertFalse(any("publicapi.v1/-notes-query/" in name for name in proto_pages))
         self.assertTrue(any("publicapi.v1/-measurement-result/" in name for name in proto_pages))
+
+    def test_con10_dokka_r15_is_only_the_frozen_r14_successor_delta(self):
+        root = Path(__file__).resolve().parents[2]
+        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json").read_bytes())
+        current = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r15.json").read_bytes())
+        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r15.json")
+
+        def key_fingerprint(keys):
+            return documentation.sha(("".join(key + "\n" for key in sorted(keys))).encode("utf-8"))
+
+        def row_fingerprint(rows):
+            return documentation.sha(("".join(row + "\n" for row in sorted(rows))).encode("utf-8"))
+
+        def slug(name):
+            return "-" + re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
+
+        for section in ("source", "fixed", "excluded", "components", "fontTransform"):
+            self.assertEqual(current[section], previous[section], section)
+        self.assertEqual(set(previous["inputs"]) - set(current["inputs"]), set())
+        self.assertEqual({key for key in previous["inputs"] if current["inputs"][key] != previous["inputs"][key]}, set())
+        added_inputs = set(current["inputs"]) - set(previous["inputs"])
+        self.assertEqual(len(added_inputs), 593)
+        self.assertEqual(key_fingerprint(added_inputs),
+                         "6f6d3c245464b992b42854d2a9db4e7ba81e2e911fc3e892c071f03e8493fb73")
+
+        expected_page_deltas = {
+            "contracts-proto": (11092, "3bfbc4bc5408b6d2ab40283e6b9b0d44e8f3f3414daaf3ef7fb58d49ba242e66"),
+            "contracts-connect-client": (138, "f204448d1cedbae377907d6ada5708d3bf08947eae9ae35e66532b0979845059"),
+            "contract-fixtures": (0, None),
+        }
+        for module, (expected_added_count, expected_added_hash) in expected_page_deltas.items():
+            old_pages = previous["modules"][module]["pages"]
+            new_pages = current["modules"][module]["pages"]
+            added = set(new_pages) - set(old_pages)
+            removed = set(old_pages) - set(new_pages)
+            changed = {key for key in set(old_pages) & set(new_pages) if old_pages[key] != new_pages[key]}
+            self.assertEqual(len(added), expected_added_count, module)
+            self.assertEqual(removed, set(), module)
+            if expected_added_hash is not None:
+                self.assertEqual(key_fingerprint(added), expected_added_hash, module)
+
+            if module == "contracts-proto":
+                navigation = {
+                    "contracts-proto/io.github.arcforges.contracts.publicapi.v1/index.html",
+                    "contracts-proto/package-list", "navigation.html", "scripts/pages.json",
+                }
+                self.assertEqual(changed & navigation, navigation)
+                helpers = changed - navigation
+                self.assertEqual(len(helpers), 45)
+                self.assertEqual(key_fingerprint(helpers),
+                                 "0cc2b363d57649e759c7dcfe3fb11abc013ef72d1388e8defdfa3f698bd70df8")
+                self.assertEqual(row_fingerprint([f"{key}\t{old_pages[key]}\t{new_pages[key]}" for key in helpers]),
+                                 "23b33af3ca8b66aeaca29507a5168069d0c18487a2ca43a17f6468fc3439012e")
+                self.assertEqual(len(navigation), 4)
+                self.assertEqual(key_fingerprint(navigation),
+                                 "1e58942c13917382318dd90004308d4580a9e93101a8093afd757dacb2704ea2")
+                self.assertEqual(row_fingerprint([f"{key}\t{old_pages[key]}\t{new_pages[key]}" for key in navigation]),
+                                 "ac594eb5c0d5991c4614a3137fe41c413657aa3214b48519ceb6dbe4952ad3e0")
+            elif module == "contracts-connect-client":
+                self.assertEqual(len(changed), 4)
+                self.assertEqual(key_fingerprint(changed),
+                                 "22df5067ed7b3d4cc68b208d5fc85b26cec76af496776eda49eac131136145e6")
+                self.assertEqual(row_fingerprint([f"{key}\t{old_pages[key]}\t{new_pages[key]}" for key in changed]),
+                                 "f93e35b73f8fcedd0d880bf034ca8cf1896bf7cf8b55483a551c4453c6158e98")
+            else:
+                self.assertEqual(changed, set(), module)
+
+        previous_proto_api = previous["modules"]["contracts-proto"]["publicApi"]
+        current_proto_api = current["modules"]["contracts-proto"]["publicApi"]
+        shard = json.loads((root / "public/proto/constraints/con-10-chat-task-agent.json").read_bytes())
+        full_names = set(shard["messages"])
+        self.assertEqual(len(full_names), 191)
+        self.assertTrue(all(name.startswith("arcforges.publicapi.v1.") for name in full_names))
+        message_names = {name.rsplit(".", 1)[-1] for name in full_names}
+        expected_proto_pages = {
+            "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
+            for name in message_names
+        }
+        self.assertEqual(len(expected_proto_pages), 191)
+        self.assertEqual(key_fingerprint(expected_proto_pages),
+                         "269804486cd1b9fcd720314bb86e21a0d56676f254afe097a46f19f51d758684")
+        added_proto_api = set(current_proto_api) - set(previous_proto_api)
+        self.assertEqual(added_proto_api, expected_proto_pages)
+        proto_markers = [f"{page}\t" + "\t".join(sorted(current_proto_api[page])) for page in added_proto_api]
+        self.assertEqual(sum(len(current_proto_api[page]) for page in added_proto_api), 1673)
+        self.assertEqual(row_fingerprint(proto_markers),
+                         "77b075a8b8847f736629c0fe2c6e1d247b7b181cb0c024dbb46f6961d2e8bcad")
+
+        previous_connect_api = previous["modules"]["contracts-connect-client"]["publicApi"]
+        current_connect_api = current["modules"]["contracts-connect-client"]["publicApi"]
+        expected_connect_pages = {
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" + slug(service + suffix) + "/index.html": methods
+            for service, methods in CON10_PUBLIC_SERVICE_METHODS.items()
+            for suffix in ("Client", "ClientInterface")
+        }
+        added_connect_api = set(current_connect_api) - set(previous_connect_api)
+        self.assertEqual(added_connect_api, set(expected_connect_pages))
+        self.assertEqual(len(added_connect_api), 16)
+        self.assertEqual(sum(len(methods) for methods in CON10_PUBLIC_SERVICE_METHODS.values()), 57)
+        for page, expected_methods in expected_connect_pages.items():
+            self.assertEqual(len(current_connect_api[page]), len(expected_methods), page)
+            self.assertEqual(set(current_connect_api[page]), set(expected_methods), page)
+        connect_markers = [page + "\t" + "\t".join(sorted(current_connect_api[page]))
+                           for page in added_connect_api]
+        self.assertEqual(row_fingerprint(connect_markers),
+                         "65ffed3465912724cac3460d9554e262c077b5bc200ae65601e4d091029217ff")
+        self.assertEqual(current["modules"]["contract-fixtures"]["publicApi"],
+                         previous["modules"]["contract-fixtures"]["publicApi"])
 
     def test_distinct_npm_names_cannot_share_a_normalized_record_id(self):
         # object-assign and object.assign are different MIT implementations.

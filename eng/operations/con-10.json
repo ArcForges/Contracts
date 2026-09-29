@@ -20,9 +20,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -43,9 +41,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -66,9 +62,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -89,9 +83,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -112,9 +104,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -135,9 +125,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -158,9 +146,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -187,9 +173,7 @@
         },
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -210,9 +194,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -233,9 +215,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -256,9 +236,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -279,9 +257,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -302,9 +278,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -325,9 +299,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -348,9 +320,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -371,9 +341,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -394,9 +362,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -417,9 +383,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -440,9 +404,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -463,9 +425,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -486,9 +446,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -509,9 +467,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -532,9 +488,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -555,9 +509,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -578,9 +530,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -601,9 +551,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -624,9 +572,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -647,9 +593,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -670,9 +614,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -693,9 +635,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -716,9 +656,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -739,9 +677,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -762,9 +698,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -785,9 +719,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -808,9 +740,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "service"
-        ]
+        "actorKinds": ["service"]
       }
     },
     {
@@ -831,9 +761,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -854,9 +782,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -877,9 +803,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -900,9 +824,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -923,9 +845,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -946,9 +866,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -969,9 +887,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -992,9 +908,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1015,9 +929,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1038,9 +950,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1061,9 +971,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1084,9 +992,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1107,9 +1013,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1130,9 +1034,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1153,9 +1055,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1176,9 +1076,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1199,9 +1097,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1222,9 +1118,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1245,9 +1139,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1268,9 +1160,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1291,9 +1181,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1314,9 +1202,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1337,9 +1223,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1360,9 +1244,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1383,9 +1265,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1406,9 +1286,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1429,9 +1307,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1452,9 +1328,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1475,9 +1349,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1498,9 +1370,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1521,9 +1391,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1544,9 +1412,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1567,9 +1433,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1590,9 +1454,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1613,9 +1475,7 @@
         "localPresence": false,
         "egress": "ownedContent",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     },
     {
@@ -1636,9 +1496,7 @@
         "localPresence": false,
         "egress": "none",
         "patEligible": false,
-        "actorKinds": [
-          "human"
-        ]
+        "actorKinds": ["human"]
       }
     }
   ]
