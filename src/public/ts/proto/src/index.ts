@@ -8,6 +8,8 @@ export * from "./gen/arcforges/publicapi/v1/commerce_pb.js";
 export * from "./gen/arcforges/publicapi/v1/content_pb.js";
 export * from "./gen/arcforges/publicapi/v1/descriptors_pb.js";
 export * from "./gen/arcforges/publicapi/v1/inprocess-values_pb.js";
+export * from "./gen/arcforges/publicapi/v1/sync_pb.js";
+export * from "./gen/arcforges/publicapi/v1/transfer_pb.js";
 export * from "./shapes/gen/proto.js";
 export * from "./values.js";
 export * from "./wire.js";

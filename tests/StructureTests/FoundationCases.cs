@@ -18,6 +18,7 @@ internal static class FoundationCases
     {
         var original = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "wp03-01.json"));
         var descriptors = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "con-02-descriptors.json"));
+        var transferTicketBytes = File.ReadAllBytes(Path.Combine(root, "fixtures", "public", "con-09-sync-transfer.json"));
         var fixture = JsonNode.Parse(original)!.AsObject();
         var additions = JsonNode.Parse(descriptors)!["exchange"]!.AsObject();
         foreach (var (name, sample) in additions["samples"]!.AsObject())
@@ -26,7 +27,48 @@ internal static class FoundationCases
             fixture["samples"]![name] = sample!.DeepClone();
         }
         foreach (var item in additions["cases"]!.AsArray()) fixture["cases"]!.AsArray().Add(item!.DeepClone());
-        return (fixture, [.. original, .. descriptors]);
+        var con09 = JsonNode.Parse(transferTicketBytes)!.AsObject();
+        ValidateSyncTransferVectors(con09["syncTransferVectors"]!.AsArray());
+        var transferTicket = con09["transferTicket"]!.AsObject();
+        Require(!fixture["samples"]!.AsObject().ContainsKey("TransferTicket"), "Duplicate independent fixture TransferTicket");
+        fixture["samples"]!["TransferTicket"] = transferTicket["sample"]!.DeepClone();
+        foreach (var item in transferTicket["cases"]!.AsArray()) fixture["cases"]!.AsArray().Add(item!.DeepClone());
+        fixture["foundationTypes"]!.AsArray().Add((JsonNode?)JsonValue.Create("TransferTicket"));
+        return (fixture, [.. original, .. descriptors, .. transferTicketBytes]);
+    }
+
+    private static void ValidateSyncTransferVectors(JsonArray vectors)
+    {
+        const string evidenceClass = "declarative-owner-runtime-vector-not-executed-by-con09";
+        var expected = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["con09-sync-stale-revision-preserves-conflict-proposal"] = """
+                {"id":"con09-sync-stale-revision-preserves-conflict-proposal","evidenceClass":"declarative-owner-runtime-vector-not-executed-by-con09","operation":"sync.pushChange","given":{"baseRevision":"17","currentRevision":"18","proposalHash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},"expect":{"result":"revision-conflict","proposalPreserved":true,"ownerMutation":false}}
+                """,
+            ["con09-resource-absent-hash-never-promotes"] = """
+                {"id":"con09-resource-absent-hash-never-promotes","evidenceClass":"declarative-owner-runtime-vector-not-executed-by-con09","operation":"resource.completeUpload","given":{"expectedContentHash":null,"allPartsPresent":true},"expect":{"verified":false,"ownerPinCreated":false}}
+                """,
+            ["con09-resource-expired-pin-blocks-adoption"] = """
+                {"id":"con09-resource-expired-pin-blocks-adoption","evidenceClass":"declarative-owner-runtime-vector-not-executed-by-con09","ownerBoundary":"verified-resource adoption","given":{"pinExpired":true,"contentHashPresent":true},"expect":{"ownerAdoption":false,"verifiedObjectRetained":true}}
+                """,
+            ["con09-transfer-exclusions-are-per-root-issues"] = """
+                {"id":"con09-transfer-exclusions-are-per-root-issues","evidenceClass":"declarative-owner-runtime-vector-not-executed-by-con09","operation":"transfer.requestExport","given":{"includedRoots":["conversation","memory","scopeSession"],"excludedAuthority":["credentials","deviceTrust","activeExecution","policy","deletionTombstones"]},"expect":{"manifestRootsContainOnlyIncludedRoots":true,"exclusionsUseTransferJobIssues":true,"inventedExcludedRootsField":false}}
+                """,
+            ["con09-transfer-resume-uses-bounded-root-mappings"] = """
+                {"id":"con09-transfer-resume-uses-bounded-root-mappings","evidenceClass":"declarative-owner-runtime-vector-not-executed-by-con09","operation":"transfer.commitImport","given":{"requestRootLimit":100,"committedRoots":1,"totalRoots":2,"mappings":["committed","planned"],"previewHashBound":true},"expect":{"resumeUsesSameTargetIds":true,"dependentRootsRemainHiddenUntilCommitted":true,"workspaceWideAtomicityClaim":false}}
+                """
+        };
+        Require(vectors.Count == expected.Count, "All five declarative CON.09 vectors must be present.");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var node in vectors)
+        {
+            var vector = node!.AsObject();
+            var id = vector["id"]!.GetValue<string>();
+            Require(expected.ContainsKey(id) && seen.Add(id), "Unknown, missing, or duplicate declarative CON.09 vector.");
+            Require(vector["evidenceClass"]?.GetValue<string>() == evidenceClass, id + ": preserve declarative-only evidence boundary.");
+            Require(JsonNode.DeepEquals(JsonNode.Parse(expected[id]!), vector), id + ": exact declarative binding, shape, and expected disposition.");
+        }
+        Require(seen.SetEquals(expected.Keys), "Every authorized declarative CON.09 vector must be consumed exactly once.");
     }
 
     public static void Run(string root, bool exchange)
@@ -282,6 +324,7 @@ internal static class FoundationCases
         "StructuredValue" => Check<P.StructuredValue>(json, binary, Validation.IsValid),
         "TaskSnapshot" => Check<P.TaskSnapshot>(json, binary, Validation.IsValid),
         "TimeRangeUtc" => Check<F.TimeRangeUtc>(json, binary, Validation.IsValid),
+        "TransferTicket" => Check<F.TransferTicket>(json, binary, Validation.IsValid),
         "ToolProposal" => Check<P.ToolProposal>(json, binary, Validation.IsValid),
         "ToolResult" => Check<P.ToolResult>(json, binary, Validation.IsValid),
         "TriggerConfiguration" => Check<P.TriggerConfiguration>(json, binary, Validation.IsValid),

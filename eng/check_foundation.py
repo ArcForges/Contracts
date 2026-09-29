@@ -26,7 +26,7 @@ PUBLISHED_COMMIT = "30ddcad2bcb3634e089abb5e29d6c9ce05d38386"
 PUBLISHED_RECORDS = set("Id Revision LocalNotesVersion NativeContentRev Instant Decimal AggregateRef VersionedRef Receipt ApplicationScope RequestMeta ResponseMeta ArcError RetryAdvice ErrorDetails RevisionConflict LimitFailure VersionFailure StateFailure".split())
 PUBLISHED_ENUMS = {"EffectCertainty", "RetryMode", "ErrorCategory"}
 EXTRA_SEEDS = set("PageRequest PageState Rational MediaTime MediaRange ByteRange TimeRangeUtc ContentOrigin NotesQuery MeasurementRequest MeasurementResult AggregateBody".split())
-EXTRA_SEEDS |= set("CapabilityDescriptor ActionDescriptor CompatibilityDescriptor HealthSnapshot EncodedBodyRef ContextProvider ContextDescriptor ScopeProjectMetadata".split())
+EXTRA_SEEDS |= set("CapabilityDescriptor ActionDescriptor CompatibilityDescriptor HealthSnapshot EncodedBodyRef ContextProvider ContextDescriptor ScopeProjectMetadata TransferTicket".split())
 SCALARS = set("string bytes int32 int64 sint32 sint64 uint32 uint64 fixed32 fixed64 sfixed32 sfixed64 double float bool".split())
 ALIASES = {name: "string" for name in "Name Text Email SecretText Key CountryCode Cursor ReasonCode Hash ModelId".split()}
 ALIASES.update(Bytes="bytes", Int32="int32", Int64="int64", UInt64="uint64", Bool="bool")

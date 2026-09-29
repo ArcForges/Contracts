@@ -57,7 +57,7 @@
     {
       "path": "public/proto/arcforges/foundation/v1/foundation.proto",
       "access": "public",
-      "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5"
+      "sha256": "e7e634103664dcca4c63383dd0eda5d90b408edb4786bfdf4a148856fed92736"
     },
     {
       "path": "public/proto/arcforges/hello/v1/hello.proto",
@@ -83,6 +83,16 @@
       "path": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
       "access": "public",
       "sha256": "24921ae4f54f48800ea1201a9eee27a4e23a476b738cc3903665dff137a10eea"
+    },
+    {
+      "path": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public",
+      "sha256": "2e7861c2cbb6d55aa36c9703b4409f3149365f2f1f53741f2dce3f0589cb84d6"
+    },
+    {
+      "path": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public",
+      "sha256": "f7d53346a43cd977224154b33d8f1f3f3f4b973c67e513caf384b195654abc0e"
     }
   ],
   "types": [
@@ -677,6 +687,12 @@
     {
       "name": "arcforges.foundation.v1.ToolLocality",
       "kind": "enum",
+      "file": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.foundation.v1.TransferTicket",
+      "kind": "message",
       "file": "public/proto/arcforges/foundation/v1/foundation.proto",
       "access": "public"
     },
@@ -2103,6 +2119,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.AggregateView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.AlignmentSpec",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2151,6 +2173,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.BootstrapManifest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.Calibration",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2178,6 +2206,18 @@
       "name": "arcforges.publicapi.v1.CaptureMetadata",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ChangeProposal",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ChangeReceipt",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
       "access": "public"
     },
     {
@@ -2472,6 +2512,18 @@
       "name": "arcforges.publicapi.v1.CommerceServiceRevokeExtraUsageValue",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/commerce.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConflictResolution",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConflictView",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
       "access": "public"
     },
     {
@@ -2841,6 +2893,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.PartReceipt",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.PreferenceRecord",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -2874,6 +2932,144 @@
       "name": "arcforges.publicapi.v1.ResourceMetadata",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourcePurpose",
+      "kind": "enum",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceBeginUploadRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceBeginUploadResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceBeginUploadValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceCompleteUploadRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceCompleteUploadResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceCompleteUploadValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetDownloadTicketRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetDownloadTicketResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetDownloadTicketValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetMetadataRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetMetadataResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetMetadataValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetUploadStatusRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetUploadStatusResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceGetUploadStatusValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceReleaseRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceReleaseResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceReleaseValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceRenewUploadTicketRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceRenewUploadTicketResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ResourceServiceRenewUploadTicketValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
       "access": "public"
     },
     {
@@ -2991,6 +3187,204 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.SyncChange",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncScope",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceGetAggregateRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceGetAggregateResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceGetAggregateValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceGetBootstrapPageRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceGetBootstrapPageResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceGetBootstrapPageValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceListConflictsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceListConflictsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceListConflictsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceListScopesRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceListScopesResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceListScopesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePullChangesRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePullChangesResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePullChangesValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePushBatchRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePushBatchResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePushBatchValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePushChangeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePushChangeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServicePushChangeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceRequestFullResyncRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceRequestFullResyncResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceRequestFullResyncValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceResolveConflictRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceResolveConflictResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceResolveConflictValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceSetScopeRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceSetScopeResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.SyncServiceSetScopeValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.TaskReasonFacet",
       "kind": "enum",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -3021,6 +3415,156 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.TransferIssue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferJob",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferManifest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferMapping",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferRoot",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceCancelRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceCancelResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceCancelValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceCommitImportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceCommitImportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceCommitImportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceGetRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceGetResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceGetValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceListRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceListResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceListValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServicePreviewImportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServicePreviewImportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServicePreviewImportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceRequestExportRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceRequestExportResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferServiceRequestExportValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.TransferState",
+      "kind": "enum",
+      "file": "public/proto/arcforges/publicapi/v1/transfer.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.TriggerConfiguration",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
@@ -3042,6 +3586,18 @@
       "name": "arcforges.publicapi.v1.TurnOptions",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.UploadStatus",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.UploadTicket",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/sync.proto",
       "access": "public"
     },
     {
@@ -3959,9 +4515,10 @@
         "ResourceVersionRef",
         "revision_",
         "RevisionOneofCase",
-        "TimeRangeUtc"
+        "TimeRangeUtc",
+        "TransferTicket"
       ],
-      "sha256": "3f0bb22158579a7daa1f767f9e1dcb1c134f7a879eadffa286ab501b1599abbb",
+      "sha256": "e6fbd30cca777005a48875d279614024babe6f3b339f087c56bc539af160fa9c",
       "kind": "generated"
     },
     {
@@ -4357,11 +4914,196 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Sync.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "SyncReflection",
+        "ResourcePurpose",
+        "SyncScope",
+        "SyncChange",
+        "ChangeProposal",
+        "ChangeReceipt",
+        "outcome_",
+        "OutcomeOneofCase",
+        "AggregateView",
+        "ConflictView",
+        "ConflictResolution",
+        "BootstrapManifest",
+        "PartReceipt",
+        "UploadTicket",
+        "UploadStatus",
+        "SyncServiceListScopesRequest",
+        "SyncServiceListScopesValue",
+        "SyncServiceListScopesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServiceSetScopeRequest",
+        "SyncServiceSetScopeValue",
+        "SyncServiceSetScopeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServicePullChangesRequest",
+        "SyncServicePullChangesValue",
+        "SyncServicePullChangesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServicePushChangeRequest",
+        "SyncServicePushChangeValue",
+        "SyncServicePushChangeResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServicePushBatchRequest",
+        "SyncServicePushBatchValue",
+        "SyncServicePushBatchResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServiceGetAggregateRequest",
+        "SyncServiceGetAggregateValue",
+        "SyncServiceGetAggregateResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServiceListConflictsRequest",
+        "SyncServiceListConflictsValue",
+        "SyncServiceListConflictsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServiceResolveConflictRequest",
+        "SyncServiceResolveConflictValue",
+        "SyncServiceResolveConflictResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServiceRequestFullResyncRequest",
+        "SyncServiceRequestFullResyncValue",
+        "SyncServiceRequestFullResyncResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SyncServiceGetBootstrapPageRequest",
+        "SyncServiceGetBootstrapPageValue",
+        "SyncServiceGetBootstrapPageResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceBeginUploadRequest",
+        "ResourceServiceBeginUploadValue",
+        "ResourceServiceBeginUploadResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceCompleteUploadRequest",
+        "ResourceServiceCompleteUploadValue",
+        "ResourceServiceCompleteUploadResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceGetDownloadTicketRequest",
+        "ResourceServiceGetDownloadTicketValue",
+        "ResourceServiceGetDownloadTicketResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceGetMetadataRequest",
+        "ResourceServiceGetMetadataValue",
+        "ResourceServiceGetMetadataResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceReleaseRequest",
+        "ResourceServiceReleaseValue",
+        "ResourceServiceReleaseResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceGetUploadStatusRequest",
+        "ResourceServiceGetUploadStatusValue",
+        "ResourceServiceGetUploadStatusResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ResourceServiceRenewUploadTicketRequest",
+        "ResourceServiceRenewUploadTicketValue",
+        "ResourceServiceRenewUploadTicketResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "78eb86b4ca3c0eb59ed333a395e0f2c48523791c39a3554558fd7a44617cf629",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/SyncGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "SyncService",
+        "__Helper_MessageCache",
+        "SyncServiceBase",
+        "SyncServiceClient",
+        "ResourceService",
+        "__Helper_MessageCache",
+        "ResourceServiceBase",
+        "ResourceServiceClient"
+      ],
+      "sha256": "df79ca1d2c63412695af2f7b169e32cd63769beb71343d86997d36f0bd374706",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Transfer.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "TransferReflection",
+        "TransferState",
+        "TransferManifest",
+        "TransferRoot",
+        "TransferIssue",
+        "TransferJob",
+        "TransferMapping",
+        "TransferServiceRequestExportRequest",
+        "TransferServiceRequestExportValue",
+        "TransferServiceRequestExportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "TransferServicePreviewImportRequest",
+        "TransferServicePreviewImportValue",
+        "TransferServicePreviewImportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "TransferServiceCommitImportRequest",
+        "TransferServiceCommitImportValue",
+        "TransferServiceCommitImportResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "TransferServiceGetRequest",
+        "TransferServiceGetValue",
+        "TransferServiceGetResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "TransferServiceListRequest",
+        "TransferServiceListValue",
+        "TransferServiceListResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "TransferServiceCancelRequest",
+        "TransferServiceCancelValue",
+        "TransferServiceCancelResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "e594d01f815897a92bbe8e69ae668295328cc44b34b26a960a149bb00db866de",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/TransferGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "TransferService",
+        "__Helper_MessageCache",
+        "TransferServiceBase",
+        "TransferServiceClient"
+      ],
+      "sha256": "bf0964006b0eac64f3e47ce0b324969a3f8f828ce6efa9ddc64ba7650a6ddbaf",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Services/ContractServices.g.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "f0123826660fe095b9a1469029c9652ac49339c71ab2d3002c022a1da2d670e9",
+      "sha256": "932eb7cd9aeadfce183a5d1387db7695ce821e97a3745f33623a240b6346d9a2",
       "kind": "generated"
     },
     {
@@ -4645,7 +5387,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "64c60c63b638810faa727616963a1a96824c379f585bfb0e16a238904302a132",
+      "sha256": "5534f09313425ff6b54b20c0a039b23390bcce3d1959f1768900bec7690490e8",
       "kind": "generated"
     },
     {
@@ -4995,6 +5737,54 @@
       "access": "public",
       "types": ["EntitlementServiceClientInterface"],
       "sha256": "cade440a637b6cd4bf9c9e162e785584d9f2a7462dabd970f999a44fed6b9e76",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["ResourceServiceClient"],
+      "sha256": "3032f6a8feef72d748bfc5087d05596b3956216cda572f394ae6eda037057e21",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["ResourceServiceClientInterface"],
+      "sha256": "0a19e88ba78abddce70aac880804ec3172709c2d51cb5904be9d9895e311c9b3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["SyncServiceClient"],
+      "sha256": "2b870453e4edba0a4ecefa57f359f37974bf849a363fb93c8df0e679cecffacb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["SyncServiceClientInterface"],
+      "sha256": "a802389ce75518e9c48ecc4ed9941fb93c63e6a6e7309f404d3cfe31e221bf0e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["TransferServiceClient"],
+      "sha256": "31f96c6567fda4a90ae321ebc54c1e3a9ed5bda16e683733eb80a73b354a94c1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["TransferServiceClientInterface"],
+      "sha256": "95075b58bbc98351e4196d3b3612ae1d629ec4d4176f5975be4b21d1890fa7dd",
       "kind": "generated"
     },
     {
@@ -6174,6 +6964,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TransferTicket.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferTicket", "Builder"],
+      "sha256": "b5c8ede88428c3daf9f3839485eadd1c4e70b40b5d45a04b6101106a6df73a08",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TransferTicketOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferTicketOrBuilder"],
+      "sha256": "07c7295eb90c275b5471454b738979c4353d5308c2df6b7f45b8027786f8719d",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6275,6 +7081,22 @@
       "access": "public",
       "types": ["AggregateBodyOrBuilder"],
       "sha256": "57e4ff320d49c953cdf2c41d4eae40ba51b3e3da5af3d421e84af47f7dd0ce73",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AggregateView", "Builder"],
+      "sha256": "be4f0e3e43f6a0b079da5c91ab2c92ecedf733bd4fdf217d96dcbc166abe527a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/AggregateViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AggregateViewOrBuilder"],
+      "sha256": "18ea49988d7b4315b7c833f06bd004e9fc0473a0cfa8a9881233306b72985ce7",
       "kind": "generated"
     },
     {
@@ -6398,6 +7220,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BootstrapManifest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BootstrapManifest", "Builder"],
+      "sha256": "99e8338556e21aec8b312f2d0278c984d4109d3c5ab850aac41f7f05f4d27a83",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/BootstrapManifestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BootstrapManifestOrBuilder"],
+      "sha256": "8054d0eb92c26f13a5a6fcc44caafa88eec279d1f81ba556006863835bcda88e",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/Calibration.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -6475,6 +7313,38 @@
       "access": "public",
       "types": ["CaptureMetadataOrBuilder"],
       "sha256": "ef5dc9a1f829d0baa7d0198de42f20129547ab6884ad1b085a21bc750cbb3ba1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChangeProposal.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChangeProposal", "Builder"],
+      "sha256": "ed3ec44be0c7ae08d2b3b62d8e9e8057cfbf86ea4b993dfbc7010b2aa9453b88",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChangeProposalOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChangeProposalOrBuilder"],
+      "sha256": "2820de06b3a7addcf775e7cc8257dd100eeeae9c1077486a83bc8b5d0e957c62",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChangeReceipt.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChangeReceipt", "OutcomeCase", "Builder"],
+      "sha256": "b3f688e115a5eb864d7fed07f877e33e257399e8ca500f63bf326d8e220bde1e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ChangeReceiptOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChangeReceiptOrBuilder"],
+      "sha256": "9566fa46e4fd250ae5f3de2ca3a7b924d16616e8cbf8e6cf15b318b05c203816",
       "kind": "generated"
     },
     {
@@ -7243,6 +8113,38 @@
       "access": "public",
       "types": ["CommerceServiceRevokeExtraUsageValueOrBuilder"],
       "sha256": "1395df70cb56d138a0b7e9b5d90b71c263b35ef81a8a7f2c8ca65e7dad6649b9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConflictResolution.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConflictResolution", "Builder"],
+      "sha256": "53664219e990eeada0f4f87007e8f7d7aabe2dbe07df769f374ef26cb7235221",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConflictResolutionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConflictResolutionOrBuilder"],
+      "sha256": "f6a5cd3b35c613c1fb3edde1450a1bb00be035219ae67d409725f619d54acdef",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConflictView.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConflictView", "Builder"],
+      "sha256": "f29f8a0b15fb5739a4157de0d5fa32a861e35282f17d8820766b3fe32fe52f80",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConflictViewOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConflictViewOrBuilder"],
+      "sha256": "979364aaea1fb5aa8e7c817ec4e9552769dc9aa50a190060d052fc735b27e419",
       "kind": "generated"
     },
     {
@@ -8198,6 +9100,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PartReceipt.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PartReceipt", "Builder"],
+      "sha256": "22cd1959d661089162fec2378e078f39ce7c122365e90f2824cd5bf2e5da367b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PartReceiptOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PartReceiptOrBuilder"],
+      "sha256": "b5bd36ebd0023233593d64ed2fba5c7102ca1f37667ba08bbccd02b3d2b2fc79",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/PreferenceRecord.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -8291,6 +9209,350 @@
       "access": "public",
       "types": ["ResourceMetadataOrBuilder"],
       "sha256": "2eca431eaa171dbbc0408bca74988b789e253b53a4d5a62d0c7f37acd74e9cb2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourcePurpose.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourcePurpose", "ResourcePurposeVerifier"],
+      "sha256": "3220b3dd36cde8f98ac7a2305d8a26ff3a410b36f1a515a9044fd211b66cb385",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadRequest", "Builder"],
+      "sha256": "d59f1e5441697915283e0d0d3cff5c8972fb655aedbfd0b9e3709fd348289400",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadRequestOrBuilder"],
+      "sha256": "63e528b3ef15fd96bde3aade05c94e3d5a1b5ee0d7568251e14132ee8ddebe6d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadResponse", "OutcomeCase", "Builder"],
+      "sha256": "d4d05ba9a605e036fbef7463b80b04a0158dd2eb462e91904749590519c7564e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadResponseOrBuilder"],
+      "sha256": "c9076e9a44cec79075fdadd1e49680be25bdad7c8d3ae0b21695efee71d8dd7d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadValue", "Builder"],
+      "sha256": "d8b02cbda8cfeabd9805a9b50885b97c54056c6d301e60651a4025bb22166391",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadValueOrBuilder"],
+      "sha256": "2651fbba70a920e335833aa6db3704e84d047d62651767c20a4b610e9eec515a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadRequest", "Builder"],
+      "sha256": "31a45f06b64f66de44ba4b2147221e2deb3c12892b47a290c6ede50f7f5839d9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadRequestOrBuilder"],
+      "sha256": "472b07db4ebcd500eb3b7c6cba6407cf57937e020d41b795a6b961efde7349a2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadResponse", "OutcomeCase", "Builder"],
+      "sha256": "a94574771b8a7f9cc29536b36ef0a5f19afa3dacc39207137872a66598f01a48",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadResponseOrBuilder"],
+      "sha256": "509cbe043e11581896700bf38dee5b3f252f321bfde90b938f5be4b19dbdc9f8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadValue", "Builder"],
+      "sha256": "985a7684aaf9b69c260e785c50c4a83b9019a59288548eac49871c3ffdae6e32",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadValueOrBuilder"],
+      "sha256": "94f1cecdfd540d8f3f99daf7dfa9f19402d320c3f7a2833d301acf753c02255c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketRequest", "Builder"],
+      "sha256": "646c460212777ba99a5c204ed2b9e52c073fde60b2bd07f5fb4da994982049c8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketRequestOrBuilder"],
+      "sha256": "216368b1868292f09b918bf0cfb17f15c38c85530041a2635edada6dd0cce87e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketResponse", "OutcomeCase", "Builder"],
+      "sha256": "8ee2ab8dad04cee022b8c68d12e6b9d5ee5869c4568fe94c23707881b7db7ddd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketResponseOrBuilder"],
+      "sha256": "12a3ae4326e9a7893001bd43b0073ea38a866407e7e96de75b0e7f8de7dbdac8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketValue", "Builder"],
+      "sha256": "21a6327986b9a01de3bd5974d2ab40aa46b609d891a4468d5a0cd26ff06c4f40",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketValueOrBuilder"],
+      "sha256": "da4b0075e7c78a5de1b930bb54b785463b61980a8b596689d5b69cc369bb5f67",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataRequest", "Builder"],
+      "sha256": "cfcc353ed8a2736bc903201a9ad2dbef0588ef8464d0d7542283a624708e2956",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataRequestOrBuilder"],
+      "sha256": "7ef754ca8cbdb75b1efd0dbedce451eea43b03b4e80456b7a663c03873b1fca8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataResponse", "OutcomeCase", "Builder"],
+      "sha256": "3bc17e7f6270f21712d6d5aef075bbedf7bd293732d4b6551eca89e6ce00ba07",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataResponseOrBuilder"],
+      "sha256": "a15ef6d12270327fd6fda9af0c7b4cda5b657a079ac64a669743da5e7c1f71f7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataValue", "Builder"],
+      "sha256": "386b97a1a3cc1135a991a1a2cf88f7126fe7a03bb93e6288b6d7389ad7236afd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataValueOrBuilder"],
+      "sha256": "45472645d55ee8822424c81a14cd4a0b6ac1004fed861980e1916197508a663f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusRequest", "Builder"],
+      "sha256": "7be0c4c25f2dc23556e84432357a1287f9b39389fb189933558eaaf76ec2739e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusRequestOrBuilder"],
+      "sha256": "9bb0815ece78048a3f07a693a732203f7f20384460825f7cb949f0c2df014374",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusResponse", "OutcomeCase", "Builder"],
+      "sha256": "5a3e6176c6621dc3cf74ba4d5e0ec570b31418d63c5421d1657a68d7bb467015",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusResponseOrBuilder"],
+      "sha256": "92ffb3dcff6334524db530623810d6a9647e3538d31418a1f5d6a7b5131dea20",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusValue", "Builder"],
+      "sha256": "4729ae4a12908e1f2cdc7ddfe73e4547282b56f129cf506d35248b62fae944d6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusValueOrBuilder"],
+      "sha256": "1f0a13f7d68b585c521416f951c8e4ae393747f3bd8be43bc20994442180f129",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseRequest", "Builder"],
+      "sha256": "645258a858add2ca592ee5e5f3a2dff20ee5dc0365df2125a2f0a8206877be66",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseRequestOrBuilder"],
+      "sha256": "435fe37f36279bd55cf171dd34c1e3b89df83aa870006007ca703599db4a1edd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseResponse", "OutcomeCase", "Builder"],
+      "sha256": "2ba0f51a7bc53dbb8546215e0c3ff6117d63df5e961bc470cb5d59e5d5c961f2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseResponseOrBuilder"],
+      "sha256": "eb3a31e4a5de6a8bbe564e667a94dda96f5cf1e013892bcbcc304a25a552361b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseValue", "Builder"],
+      "sha256": "e059f730cc58ae4e18ae82096ed42879cf2460509bfae8b45f06df77738b1d55",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseValueOrBuilder"],
+      "sha256": "03c24e4999723a16662c18efa3d09ffabed1379e4349cbff24b256cccd976c70",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketRequest", "Builder"],
+      "sha256": "72dc012370b726ec308efbb73b787570db5050347ccfd1f319eae3d08609f319",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketRequestOrBuilder"],
+      "sha256": "c45eb74c2d04c2112235e5a0bef1d7578b166c6e0cd5d16993d27d3414c8d2ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketResponse", "OutcomeCase", "Builder"],
+      "sha256": "a21113ad210c11af450574473fe1bb7e958bb144a43349eecf84c2bfb21ccb7b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketResponseOrBuilder"],
+      "sha256": "d2b4c5bbca10d1054943da1a69b8413c0833bd4d1409a1971a4ef30d8100b582",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketValue", "Builder"],
+      "sha256": "deb8e4068b656317ff84d51e33cad6f8cffa037fa9883a0fb5b771a15951dce7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketValueOrBuilder"],
+      "sha256": "1205d606da8b769e3bda221fc765da00f9f3029db933e06bf2fa62b24e208e42",
       "kind": "generated"
     },
     {
@@ -8590,6 +9852,526 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncChange.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncChange", "Builder"],
+      "sha256": "278a9deb28d2ffd93fc456e2dc4f8ccdd06c897967f8be9aa6da7f9cd5593a46",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncChangeOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncChangeOrBuilder"],
+      "sha256": "95affd17a3771591fd7c590b0c06f5dbe0ad02279bc29a094a4a90e5e87bd518",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncProto"],
+      "sha256": "8d8a53706c7eb4eb115cd4fb77023cd9a566044d782bccc4e009327b62122c0a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncScope.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncScope", "Builder"],
+      "sha256": "8300d2184e150e3cee91223edc8a2a7a6f2fba0ad708d08c00cd8189d0cd8388",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncScopeOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncScopeOrBuilder"],
+      "sha256": "eb28c825f2d8cb63b8446307dea942bc9bcca0041b9e4ada061af3f8e726f3fd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateRequest", "Builder"],
+      "sha256": "44551fe315f9d78986dc096df765efca1192825d3ef343b74bd0388275262791",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateRequestOrBuilder"],
+      "sha256": "5cd3915c9c2a6fff2dbf9cc3813bdda157ec26602213d693d87c26282df75b84",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateResponse", "OutcomeCase", "Builder"],
+      "sha256": "91386f9494e1a2c0feb1d8380fb8a4dcc42e6cee486b2c91cd9d36aedd77b9f7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateResponseOrBuilder"],
+      "sha256": "caa5a0319f04fe2a3fb68e06fdbf044acca887b8f5fe8636a40ee7b6ded62899",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateValue", "Builder"],
+      "sha256": "71bbcea540fd7e468890d168837ec21e783538d880528608b6d41d744a1a69e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateValueOrBuilder"],
+      "sha256": "521b2db129790f757bdc0e2317f941abef849764fa0ee495768fcac62f8b09c2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageRequest", "Builder"],
+      "sha256": "4710b90262cb669ac651b9d6b79b31bd998f29e990d4347e2d51f765dc422a1a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageRequestOrBuilder"],
+      "sha256": "6dc1fd055ef3b43de7aa048509c14e703184e2b8cf90cedc7c6f5fb441619727",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageResponse", "OutcomeCase", "Builder"],
+      "sha256": "24d6304c5d85181a108d74348ffcb92e33b6a1c0cf264452d67fcf4953842e1d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageResponseOrBuilder"],
+      "sha256": "eb8c6909e0d26d4a588b46023dd2e2984bedadbc287f8822807296726f63e45d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageValue", "Builder"],
+      "sha256": "039b32d657d03180679475d3d1abe0faa45587db799250796aa732a4061263c4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageValueOrBuilder"],
+      "sha256": "73e65a004cdc396fc6b0f7ab831ba07c4326e0a56880f24d7df4bba85d931d29",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsRequest", "Builder"],
+      "sha256": "d467c25b7220e8485477a9d938fc50db0aa6d0a4f1440956808d63a0a68a5a1c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsRequestOrBuilder"],
+      "sha256": "eda6fdeb8938d268340a35a0e828c0cdee4ef03a935d92e42511f78afae049f3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsResponse", "OutcomeCase", "Builder"],
+      "sha256": "a1ae66d08049ef80014da0036579cc75dd7dd7b97c95c35ee946e838ca89c2bc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsResponseOrBuilder"],
+      "sha256": "312d5a0b768c785f1ac0680e23f08f3bebffb1f81386a4c2213075b88e87ccb7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsValue", "Builder"],
+      "sha256": "9859c327adf3b707148878758873755f0c710b539cb2323f9f0bcbf75bc73578",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsValueOrBuilder"],
+      "sha256": "35e25188635f6449b1cabb800553aacd9c6956cf75fe9a4d644c40f12dd32238",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesRequest", "Builder"],
+      "sha256": "89af83e10d157d12d036c360ccc59d9ab0a5a7b3a28a1e848ccd0dce986bc1a9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesRequestOrBuilder"],
+      "sha256": "e9790e266b867d1fe6803b26adf7a5e4fe25431be7d7c8016af916f79c0c1c8a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesResponse", "OutcomeCase", "Builder"],
+      "sha256": "5776cc994ee6d3161674b2ecb29ee2691484ece3cd0087b7110cf55f452995d3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesResponseOrBuilder"],
+      "sha256": "3e57b4fc8d54bdd54d8f7dcefb67e56bf432ba627fa093f580601115ad599773",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesValue", "Builder"],
+      "sha256": "4b264b4b1905fcd571aac5f7cb12375ee54d1391ed9a9ba3ec173b039ce686d1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesValueOrBuilder"],
+      "sha256": "1dbeba8d643ded93bafe6e0077bb6a75712b3aa2f07524dfa576d6e79d756a2c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesRequest", "Builder"],
+      "sha256": "f0b0031c3c036d1820698ec33fcd0f3ed9a5f4367ad2a445b4cd6df8906d7757",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesRequestOrBuilder"],
+      "sha256": "34310f4163bc51adf088836c8fb03ecb7d330c4d07b984144bc4b8c7709d3dd8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesResponse", "OutcomeCase", "Builder"],
+      "sha256": "087d5dbbdefb12470fc066138582df305095232b92e931934ca0647edead99b2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesResponseOrBuilder"],
+      "sha256": "1f7574421b55df87dc21e9dc52504c0c39a80125d6d5e0acce0325b66ceef976",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesValue", "Builder"],
+      "sha256": "2064d18a78af192f81b5ee5e386bb79e89394b1f783b2b4daf0f089c4acf6d66",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesValueOrBuilder"],
+      "sha256": "ad6939a39f9746c0eed5c00b6195f892a1a48625d4e7bf6c3bd5189be758f309",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchRequest", "Builder"],
+      "sha256": "81ed7ff6f573a317aced01fcc8800dc4dbde558512ae2106d8279d47adf30c66",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchRequestOrBuilder"],
+      "sha256": "9727a505cd2632c3164e8295b28ee4835cd00055fe0cea185dbbf1b6475e6bde",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchResponse", "OutcomeCase", "Builder"],
+      "sha256": "aa7356c2863a75a74bce64b90b1c702ebd4dec05a8c1f42795d9bce067306eb3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchResponseOrBuilder"],
+      "sha256": "b99142f56c2c029973f5e106650af0efa9bc6d5d5562efd8ce5f7e4fda7a3eed",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchValue", "Builder"],
+      "sha256": "750413bff5644bbd3e916b976f0dfb46497b09254da32b3de480176c6a70c079",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchValueOrBuilder"],
+      "sha256": "b98f9eee54b5d32ba8cf5317f47b294ae884d6ac844ae0586380c8541c20b6d9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeRequest", "Builder"],
+      "sha256": "b4d8212bd0cc5a74b9cea533ce9b3e4aa64d9906f3027cbbf1b9860d12efb3a0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeRequestOrBuilder"],
+      "sha256": "5d67f92cdfe12901486c5c14d63bc81f70b37ec8487680d267a4d7598a07229c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeResponse", "OutcomeCase", "Builder"],
+      "sha256": "91f09205bac49932810addeb6f5b1469b2b2f1ca46a1ccc71cb2c30c9913c133",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeResponseOrBuilder"],
+      "sha256": "b85aa364730cf02e536faa1cd8cf31857edba7019d05e7c18f4555903c40ae3e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeValue", "Builder"],
+      "sha256": "5d845c2fb20aefa88b160a6f63127161ba5aedf03644ed9a53ccf662d0edf000",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeValueOrBuilder"],
+      "sha256": "6ee9aa77f1eb5771c2865fc3aa1d72706a6c23b8e7854536d0c5b1e47ca76e44",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncRequest", "Builder"],
+      "sha256": "5a02bd9a4a50e9a856ab190e6fbb313fcaf854b4f4f0c8db3eff1569b498f435",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncRequestOrBuilder"],
+      "sha256": "82a3d0e268af2eedd41721c9862da9d7ffd4af22d05b5179d123fc6f29113fe2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncResponse", "OutcomeCase", "Builder"],
+      "sha256": "39f55e22d734a9378d0716c8f063325e69a639e3b1cd773146b062256345ee56",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncResponseOrBuilder"],
+      "sha256": "46e23bfdd916ae10a497feff962c0e50895ab9848aabe9851f8b6d685a53fee9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncValue", "Builder"],
+      "sha256": "48a697472324a1b90384064242973244ce6552bb1d2289321f0e9352a0c0c19b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncValueOrBuilder"],
+      "sha256": "6b8e3bd1cfade8239d07ec114be9f89d52fabae42a2be28c1e5ac6e337756f28",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictRequest", "Builder"],
+      "sha256": "f9b5026c7620553bba40d569e9d93662d73c4365ed5d760350a2e37ba7e584ab",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictRequestOrBuilder"],
+      "sha256": "183dc3b2c1d2c4922a2cbbbba37eb4badec48e0afaa2cd8803f62f6e68604b17",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictResponse", "OutcomeCase", "Builder"],
+      "sha256": "7c4f710e97a794d4c329dc91692bbc63ccae2f67e395236390c4c0711b990637",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictResponseOrBuilder"],
+      "sha256": "5fdb8bb2dc1ce83d76e9d53595baa148214952f7016e4fef42ad57f1e6eb5fa3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictValue", "Builder"],
+      "sha256": "c6f92bd098e11422140df1732c1518c202d419bd1a1188bdc7707b7d3d9a0642",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictValueOrBuilder"],
+      "sha256": "3442f3698f8c512a57b0668ba5c39976f1bf6cedc72f5e14999ae64770f2cf0f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeRequest", "Builder"],
+      "sha256": "6dc02de1cc34230a57c3dfd96e65312b847d7c2ec8ac52aa37f061a2c6bb4aae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeRequestOrBuilder"],
+      "sha256": "c497b47a7e9c88a64f198a687d1c72d2ec75fa0f5021009975670bad83565809",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeResponse", "OutcomeCase", "Builder"],
+      "sha256": "e8059bb73a62a7502747e82fa95d909e72b37c0aa1c411ca3169ca944d694923",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeResponseOrBuilder"],
+      "sha256": "2a52c86714aab93aa6068a3a0ee71ab5f3f0ccfd9f36a5399152852bce7058cc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeValue", "Builder"],
+      "sha256": "e5f0d1ab05d8570c1dc7bb4feeab5aea4b3463d1e0f83e6fc29a785cb4c32cce",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeValueOrBuilder"],
+      "sha256": "cfacdd32d685acf24d00776524c05c622321d2eb53ca5d3385472055140afa12",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TaskReasonFacet.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -8654,6 +10436,390 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferIssue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferIssue", "Builder"],
+      "sha256": "513b8f401f45d4e9dc58f9f3c268de49117ff63389b464b68cdbbfe27f644953",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferIssueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferIssueOrBuilder"],
+      "sha256": "73498aca86fccec3ce64e21ff74b28d4bd9d2059cd9cb1fab3762c8407402809",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferJob.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferJob", "Builder"],
+      "sha256": "574c99c0ea20da275a2d5cfac8c7b1045dd0ac55bc73632cd360116f2b605bca",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferJobOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferJobOrBuilder"],
+      "sha256": "1075f96ff913e4e1436231156e3446ff14576e315a7e2d95dc57865ef5fddb13",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferManifest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferManifest", "Builder"],
+      "sha256": "1b331111ea3ee71fd4c605b7626147698090d1301346640f8feb4366f5c3b53a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferManifestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferManifestOrBuilder"],
+      "sha256": "de44b1d99be0d23a615b317e5aa0886a1ef1c6440b8ba128d9def58515f7b36d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferMapping.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferMapping", "Builder"],
+      "sha256": "84dd6b309d41d8664337b05559b54a735160e50ca5ead25fb346d87313da4dfb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferMappingOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferMappingOrBuilder"],
+      "sha256": "ab85ea37f72dbe8e09c059c01b3d4f875515580bf160cfe98b1c91d86a3d0552",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferProto"],
+      "sha256": "155082f335b29f9fea6275463a0095d43fd98430c8a8a731230f554a10e61af1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferRoot.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferRoot", "Builder"],
+      "sha256": "2c09dbaf51b886f1f9d510cfd15874a9be59816b998f5f6ac37be3bacf641a45",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferRootOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferRootOrBuilder"],
+      "sha256": "99ec851eed37a773c4d58d5aeb9898af71af4cf46a8501af2e59c902151bcf0c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelRequest", "Builder"],
+      "sha256": "d53456b9fbd73a5c0195812e6bf84763284e0d57f26c980313ccb5dbb30d32c2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelRequestOrBuilder"],
+      "sha256": "2b301c02795d4f62108bd2ca8fabeb2452184cbc1ad92ed90b4c7b810e7e6099",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelResponse", "OutcomeCase", "Builder"],
+      "sha256": "c5b8a752c13f5d56ab94fa1628f7d495a5037dd7724ec6e4876600bc18bf0cef",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelResponseOrBuilder"],
+      "sha256": "ee9886c36b4d9972076287625608f48014dd169b3b7ea999284f12f0d50f77bf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelValue", "Builder"],
+      "sha256": "3e4dbe1a181b1c6547ebec2911ef9bb6170089b2a3355a4bbc004b54e4db378a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelValueOrBuilder"],
+      "sha256": "7f64f4c1d88b119960432bf552e3ccb78ed0a56097ac27f198522de63d1fa4d2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportRequest", "Builder"],
+      "sha256": "d628ca3e007e52778397d80156c548ddf8812a6bd6e43c24b1e537d675f95755",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportRequestOrBuilder"],
+      "sha256": "bf14e561f5539c333b7e2e5b79e47528dce6139a32c048f85cebb35caf523af5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportResponse", "OutcomeCase", "Builder"],
+      "sha256": "ab603d71ab9d5abd51fc3a137386e9f1f5b15c5d843c904f0196b3d29aa03a51",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportResponseOrBuilder"],
+      "sha256": "799f190a519297113e4c157f7fc6b5bd104623fd184847759f1231560b7d5b7f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportValue", "Builder"],
+      "sha256": "f9e04c28f52159ebef302f3b78e3b33421997498dd46c2c3e54d63298066de82",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportValueOrBuilder"],
+      "sha256": "85191643e0eaf0fa11d9357b3e8e202f3a8b46e62b2035db0e5febca2c5c9c2b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetRequest", "Builder"],
+      "sha256": "ee7dce7d42df482670bbbae62f1bc33773152612254a551a98b187d9f1f3b202",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetRequestOrBuilder"],
+      "sha256": "c1b11acc82db95c7106559ae45da0e036d385755b258210f1f7caba1f97f5f7b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetResponse", "OutcomeCase", "Builder"],
+      "sha256": "ba95fdd0257c37706fafd77622f82b66cf49605badd384d5c3d5b177e5be07b2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetResponseOrBuilder"],
+      "sha256": "7ff7cffa238dab552e60528fcd9f8069b67658f90b709bb43988b34993479b7a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetValue", "Builder"],
+      "sha256": "43475ea9a0b04dabe141ad75886d6217ccb97eed6b5012b9a7556478bdd675c0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetValueOrBuilder"],
+      "sha256": "c5284cb5fdb2d75bf2c924d263a1298a6ed3e07bba4bb8daaca09a8d6ff6359f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceListRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListRequest", "Builder"],
+      "sha256": "d2a2b779565a64233ab44d242f9a2401bcd82c6f1bb03ad019277c7fe38f147c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceListRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListRequestOrBuilder"],
+      "sha256": "7d53868e3c14b6c7f4c4f903ac87bc6327d8a8257dc328f28a3ccff2d52792f9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceListResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListResponse", "OutcomeCase", "Builder"],
+      "sha256": "48881e76b6cc65a615d724b3d1b971797d1612e3f2bf90cc0bc1e8c965e5043a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceListResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListResponseOrBuilder"],
+      "sha256": "6adb8cb267fc851d92e7c5ba3f08cebead585ff9c2683a0e745bc9eba9b3b15b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceListValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListValue", "Builder"],
+      "sha256": "92a789b48e842d053a8603236c43d173e1d19ab84cd4c5472c40537d0a28b7be",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceListValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListValueOrBuilder"],
+      "sha256": "9f9694e4b489517aacc86fd4bc22852e3295d8b9c9237bcb7bbdf1b2a6820ed7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportRequest", "Builder"],
+      "sha256": "3f66697b84c8eb20721ad52cbd67142d50d2fb5738eb5b44651af6cd33bdaae7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportRequestOrBuilder"],
+      "sha256": "0273be84fbbc08d9816dee9a3803012a6ad4c8dde00c1a3ca9a07471cbc20b69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportResponse", "OutcomeCase", "Builder"],
+      "sha256": "639a8b56febaf7b675e4430246dae63facd68446d469967d22c7390cbd8ddacb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportResponseOrBuilder"],
+      "sha256": "fa15e1e20ad25c6878954613c1743907b702216d24aede966cec4887146c9ef4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportValue", "Builder"],
+      "sha256": "977a20dac75ae45cae7d0d3fe7045c314f3427f7ff55b66faf58f821f9cca065",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportValueOrBuilder"],
+      "sha256": "8c0b12ab86ff0e767cce1d0c43db24e2718e9e060f3df36f95a464aa9f66fbfc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportRequest", "Builder"],
+      "sha256": "05a494d2dfdc91ad3a0b20f9d5dee05adb1e005fe4dcb362e72cb02c4092c746",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportRequestOrBuilder"],
+      "sha256": "f7b9ad4aeac28a64cc5b0f27f4b12cdb609cb3bcb50b02277219d58bfdfb7478",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportResponse", "OutcomeCase", "Builder"],
+      "sha256": "e6bdde7bd4fc4af0b419916ff898ade267b5c4e2a2b0ccfa09544e2afa4dd545",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportResponseOrBuilder"],
+      "sha256": "c699a3dbfd94e5f2e708b8d64b49d5a89c598a5541568f5df195be3505b57d75",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportValue", "Builder"],
+      "sha256": "fcd8c51b29fad29d8bddda05fe8109efac4e9c897f0f6f1e529ef92c39784084",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportValueOrBuilder"],
+      "sha256": "21ce03389b43984690196908578e24ee4fc31f0c693eda6fe8d285d0a592224b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TransferState.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferState", "TransferStateVerifier"],
+      "sha256": "0a6b5a6e1f260696eb32b79025c96e1b516c4b994c4460c22c9051ea924bfda7",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/TriggerConfiguration.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -8715,6 +10881,38 @@
       "access": "public",
       "types": ["TurnOptionsOrBuilder"],
       "sha256": "002939ed42f34a4c3d04d9b1363c02877a8242b1014ef0f6c723aa6ea8c59c12",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/UploadStatus.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UploadStatus", "Builder"],
+      "sha256": "d1eac6b7a02af52d7b06141c1cbaf50f8a7cd9cec81b7b3e0c8aa28d4df36473",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/UploadStatusOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UploadStatusOrBuilder"],
+      "sha256": "a12dedf9b89e42e64cc51f97a5a7e6445b7769e60b719a9d2e48e96eedfc3d44",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/UploadTicket.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UploadTicket", "Builder"],
+      "sha256": "d9369479f2179f95bc25284d16e6df2bcaa283f13a3be2673a1a5f023197110c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/UploadTicketOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UploadTicketOrBuilder"],
+      "sha256": "87986d707790a23c7b206f2c402d562ce35149eaefb2022329027cc3b56e7c17",
       "kind": "generated"
     },
     {
@@ -9332,6 +11530,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/TransferTicketKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferTicketKt", "Dsl"],
+      "sha256": "2836a8027bb8f2af952f3044759b056b30202e33ad1532b3d3b6d82352cd6e50",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -9385,6 +11591,14 @@
       "access": "public",
       "types": ["AggregateBodyKt", "Dsl"],
       "sha256": "5bd46251cd0b0c6f3a061acee91ceecaf0ed90c405065ea4c3e0439ee16563ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/AggregateViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AggregateViewKt", "Dsl"],
+      "sha256": "cc3fdc6df2ecdfd34ec1aa4577e8d52019b7036e0c53d76e5ec90bf6d2c31c55",
       "kind": "generated"
     },
     {
@@ -9444,6 +11658,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/BootstrapManifestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BootstrapManifestKt", "Dsl"],
+      "sha256": "ffab89e32db2de6122540328f4c6b99d719b0c15c0360fe24fb49f9a407c1c9b",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/CalibrationKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -9481,6 +11703,22 @@
       "access": "public",
       "types": ["CaptureMetadataKt", "Dsl", "ChannelsProxy"],
       "sha256": "f199fe8818771fd6f32503e006747cefba7a8aca29fc1d2923145bb512bf7022",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ChangeProposalKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChangeProposalKt", "Dsl"],
+      "sha256": "b39d86974ef56c50d3316bc0053d757e173288fd24d25cafa052edfb6005d4e0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ChangeReceiptKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ChangeReceiptKt", "Dsl"],
+      "sha256": "5a4c5bff1e948b364a5a22ed8ac5b3f0496cf6e1d24a41a862c56a462f0019d8",
       "kind": "generated"
     },
     {
@@ -9865,6 +12103,22 @@
       "access": "public",
       "types": ["CommerceServiceRevokeExtraUsageValueKt", "Dsl"],
       "sha256": "6e9487c33c8c8e00373c3428bb3fd1deda57f74290339649e9e69c7cfd22ad38",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConflictResolutionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConflictResolutionKt", "Dsl"],
+      "sha256": "52d472412f0d3eb8f5ff4baf8e343284ca2613823945ee2d730409af52a6236f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConflictViewKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConflictViewKt", "Dsl"],
+      "sha256": "361af10a6623ee8d4de4a1bdc7025e1e97d7836bffc46cfaf6c028b2f20745d0",
       "kind": "generated"
     },
     {
@@ -10354,6 +12608,14 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PartReceiptKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PartReceiptKt", "Dsl"],
+      "sha256": "3cf0980b5f31d06c21508edd13d03dbf6b19cd45675c05daa6a4cdb31e1a2c82",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/PreferenceRecordKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -10399,6 +12661,174 @@
       "access": "public",
       "types": ["ResourceMetadataKt", "Dsl"],
       "sha256": "5eae2be9deaea557703fa0d3caadc7d11ab5f08a0d5ad130b84407d4350abcea",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadRequestKt", "Dsl"],
+      "sha256": "2d8fdfeff6b0cc35e0c639ee68aaea3e8195e12e90da1e1f3ce5c17434d9c205",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadResponseKt", "Dsl"],
+      "sha256": "20e599768cb1287306b1199ec4f391dd428872dd2498cbb51f55394ec204a6c8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceBeginUploadValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceBeginUploadValueKt", "Dsl"],
+      "sha256": "aaa287407fccd3ece5a37e9ffc64ff14d88b1782bfb2388eef6dff65b035e02b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadRequestKt", "Dsl", "PartsProxy"],
+      "sha256": "3c9d3d0c34c84e53ae212138fe8cfb0cf19d6c897fa4b036b6d0ada738eca2a7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadResponseKt", "Dsl"],
+      "sha256": "8cff07bf3a88d5c550d56c8e3a989f3ac23119ad543238a9739dd400e73b0c4e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceCompleteUploadValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceCompleteUploadValueKt", "Dsl"],
+      "sha256": "b02383b46d814bb1dae53f89814452d038e90057c49b0d36fe3eddde5bfa9bc8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketRequestKt", "Dsl"],
+      "sha256": "ff3cc1ae379fc21e86074e00958c346ad3b6cffab59de891a930ef16eb2a330e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketResponseKt", "Dsl"],
+      "sha256": "1abfd2d24f6e05838bfdae379d50221bb91bbeb52c89d2434e18f673f945097c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetDownloadTicketValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetDownloadTicketValueKt", "Dsl"],
+      "sha256": "af26130d1ae0e4e86f4280905fc5d124b816b98c5849ccda7d72ed90fee0f32b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataRequestKt", "Dsl"],
+      "sha256": "a74accbfbdb452da7e099707876c3ba245edf8ae542b9a53207b49fc66f96261",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataResponseKt", "Dsl"],
+      "sha256": "488a18a1696cd49e169180b53156f4d8dca0e3667f8ba92ca8a4d59f712b2ca6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetMetadataValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetMetadataValueKt", "Dsl"],
+      "sha256": "8c4e5733036f8425af2f34e97376cbbdf4f3002e5572e86611f7954a010961b8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusRequestKt", "Dsl"],
+      "sha256": "9e6afa579536e09ae4a0115a7a61494afab45d38c26570c94190ee769be99305",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusResponseKt", "Dsl"],
+      "sha256": "bfcc7499672c7b03aa7ec60292f69830c8b7c464756be5d9e6f4a1780e181edd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceGetUploadStatusValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceGetUploadStatusValueKt", "Dsl"],
+      "sha256": "fc40f0bde6fab0fab7f66d4c748e03425572e66eae3439957d33d23b69967ce4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseRequestKt", "Dsl"],
+      "sha256": "89c0b5fff8caeff2a93ed6cf84bc3040539a3f5c5147bfc4c97d95907748a4f1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseResponseKt", "Dsl"],
+      "sha256": "d67b490acd01a77d03782a0a90e9701082f949303dc0ba98c0a46254e94f1918",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceReleaseValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceReleaseValueKt", "Dsl"],
+      "sha256": "db79cd5c0dd49f1b11b42664916076722b2bd26dfc69055a1c67b9441645e4a8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketRequestKt", "Dsl"],
+      "sha256": "8dcb137e928094a9687849788955c3803b7c3e1fafc819ea33fa3976af6dbe29",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketResponseKt", "Dsl"],
+      "sha256": "da5c88c09cf97bf34a0118abeecfaceac7a90d62a4d6bcf30e4a40e459280f72",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ResourceServiceRenewUploadTicketValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ResourceServiceRenewUploadTicketValueKt", "Dsl"],
+      "sha256": "468f8ffe653b0197020401bb79315d368f97eb3606a5fd050274a17e6a374ff2",
       "kind": "generated"
     },
     {
@@ -10556,6 +12986,270 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncChangeKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncChangeKt", "Dsl"],
+      "sha256": "52dbed06d9da006a7f6939eb91d290ad8ad55b57c251a504316efea78a63cfbb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "406f3f951d9f414c8d5e3219a95abd3d934d191c1086662973e76a024554d4df",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncScopeKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncScopeKt", "Dsl", "ExclusionsProxy"],
+      "sha256": "7b509601c6f91728f9939914cfa4a8afc0cd83dfa0cc476563568d21566d10e2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateRequestKt", "Dsl"],
+      "sha256": "db1b229027e5f117f8720e304ea471e21cb682ff599cfa2000033c8a7f0972d9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateResponseKt", "Dsl"],
+      "sha256": "38f6c6fa53a63a2f058709d0faf7096b14d12819f8143a62e9dd07a9ac71a595",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetAggregateValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetAggregateValueKt", "Dsl"],
+      "sha256": "8b58dc63b6c3e51b4dbf1f8ef94e5379e3f0c6f3e4483630bf46c407851621c0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageRequestKt", "Dsl"],
+      "sha256": "06bb1c626aaaa22aec4d2c24c2b3bd5aa49a19431f4103530cc2d801e58035da",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageResponseKt", "Dsl"],
+      "sha256": "e8cfbea922b862d39b60d60c4e4d1c7a6e7ba9719956e3712989c4a1f73c53e1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceGetBootstrapPageValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceGetBootstrapPageValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "4af59d57ccfd4a82c0af032d7abdffc0c0839df1a98d23a58cd643db9dd39bb6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsRequestKt", "Dsl"],
+      "sha256": "1fc4345f1ef035c0a1e840663c6294606c647325d826f99b9a0d8e5e2eafca58",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsResponseKt", "Dsl"],
+      "sha256": "5089526ce798940e899cb857a4dd8d5c722ecd5ee8f23aaa3bdcfa07d5cf7233",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceListConflictsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListConflictsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "b679c038c1bf06e362f41ce80cde5bd0b6484f273caca05368074378e1b9a1b4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesRequestKt", "Dsl"],
+      "sha256": "698e76293381465d2f69843c98c714b91add6beae11e598a9ef1eab1dbd60855",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesResponseKt", "Dsl"],
+      "sha256": "fbb4dfd08e03bc6c072dbd815823cb2c2ca883e4b542af7f7770fed3ea1bc692",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceListScopesValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceListScopesValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "df9a8b724904d258cbb914ce02e0a20c0f761664a6df542f1dbcf8201f2e594e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesRequestKt", "Dsl"],
+      "sha256": "7354bffcf7e93cbc54ea9280d91ba4999dfed55dc6c5038f28dbcf8dd8f0b745",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesResponseKt", "Dsl"],
+      "sha256": "c0c86c741bfcad1f1a875b860c74534e86273807d64ef722d1d5ddf291b82ab0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePullChangesValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePullChangesValueKt", "Dsl", "ChangesProxy"],
+      "sha256": "c7259f4faa3f48b4051bcb6c27bddfc6c4d692023f2c885d97e00549ba62c9aa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchRequestKt", "Dsl", "ChangesProxy"],
+      "sha256": "4147a58a1b40e4ed86c6de3b117c8cab9dde5f60481a4cf43def750768539b07",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchResponseKt", "Dsl"],
+      "sha256": "589d42ced3cd4c8bbad3cafe16523939914173a71fb607d1a5af6bc231091fe2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePushBatchValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushBatchValueKt", "Dsl", "ResultsProxy"],
+      "sha256": "266154092d75912729b7149ef06cfc249a25864e0ce34dcf50925609ec2da856",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeRequestKt", "Dsl"],
+      "sha256": "c0e08834cb54290e4b3d9f387b43980a82c5933088fac55cf2b7440d1e1ab193",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeResponseKt", "Dsl"],
+      "sha256": "6e05adc1ef7ff4ee49fbb288ba6dadb5a0aa18797c2be9996f6ff214c6efc0a4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServicePushChangeValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServicePushChangeValueKt", "Dsl"],
+      "sha256": "1474da585fd97501bcf012097a4d54dba7162949fddcb5b1b6da78c712ddc3af",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncRequestKt", "Dsl"],
+      "sha256": "705d5f1364690c5183d7e341fea06a2546af0349bba9eac3d4c125290fe043f9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncResponseKt", "Dsl"],
+      "sha256": "02f13ec90961b79e48fdc32ea8e76487a393cca07bf59867ea9e42df1dd29dee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceRequestFullResyncValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceRequestFullResyncValueKt", "Dsl"],
+      "sha256": "e76d0831f9f22b5ca33361b21c8bfa15ac5231b8c724a9fd68152df67b074616",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictRequestKt", "Dsl"],
+      "sha256": "fb5940de90d97cde2cfbb1543f3fd4befdd5c211434b2f1535f5fefc8d8894b5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictResponseKt", "Dsl"],
+      "sha256": "dc2a52325013f04aecacbaeae9643532d456039e916d57335b13280494a68ce3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceResolveConflictValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceResolveConflictValueKt", "Dsl"],
+      "sha256": "d86ded020d1b46ceb1ebb8977197fe1d6f79946f28b7b656adff0b4a5c881f2d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeRequestKt", "Dsl", "ExclusionsProxy"],
+      "sha256": "b4919c72cb4bd3bf8d061c927ca3237bfeabcc1954f9b1aef4331c7fc146eedb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeResponseKt", "Dsl"],
+      "sha256": "743d79ac2669c1c60976fa51943e9077198d7627f4d797256a87a7aee598ec6a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SyncServiceSetScopeValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SyncServiceSetScopeValueKt", "Dsl"],
+      "sha256": "7ace4e3bd4873c16bd243d606d5d3bd0f873338406ee484961651039ac23f684",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TaskSnapshotKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -10577,6 +13271,198 @@
       "access": "public",
       "types": ["ToolResultKt", "Dsl", "ArtifactsProxy"],
       "sha256": "a54378b2e31f4cd2bee7671403cb3d55bab2cde124b45df19275b80fcc1bcd59",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferIssueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferIssueKt", "Dsl"],
+      "sha256": "f48f4f3d4e9509e4e3c1b31df93de33d4239f0218ed91f80bf058c50e293c351",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferJobKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferJobKt", "Dsl", "IssuesProxy"],
+      "sha256": "5cd42d9201692c948287da536cf5648507b592d0851562ddafd2d3cb8699ec95",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferManifestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferManifestKt", "Dsl", "RootsProxy", "BlobsProxy"],
+      "sha256": "f067cd1cab7924532eed4efdc58ffebae11fd2bc0c00fdd6178eacd811e1f4b2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferMappingKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferMappingKt", "Dsl"],
+      "sha256": "2fc582ec4c89aa1c12382cade60c15d2971aaa22bdde6bdac7a14ec6c2fc5dc2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "61ca7d74593a4d512f1266fef67c8da19bddd0b3e7c7a851ad3496b01c401f22",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferRootKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferRootKt", "Dsl", "DependenciesProxy"],
+      "sha256": "344e185b81276a6336c00ddcb5eeca56bc8646a35c72500036eafb2bec630b8b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelRequestKt", "Dsl"],
+      "sha256": "71f0cea06803e2704b20fdcde37638b438dd3b3fee2f0e19aa3e1c6f16ea8f0a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelResponseKt", "Dsl"],
+      "sha256": "04997d9572e8528cd6f78cbab8ac0be0b336caef6b2fe454017f0a56aed61dcb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceCancelValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCancelValueKt", "Dsl"],
+      "sha256": "fc491d180d0c1a2ccb9ba0faba9314776da55d760b482da644bf344af89f9f09",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportRequestKt", "Dsl", "AcceptedIssuesProxy"],
+      "sha256": "120a6a222a5b578494e15821276fc52f284b9f0db22a26428da2b52fa0aab310",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportResponseKt", "Dsl"],
+      "sha256": "740b4040c657ab36e4125e19f40e4e32e6275c875444217dfd5d8455f0e0a4f5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceCommitImportValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceCommitImportValueKt", "Dsl"],
+      "sha256": "988b1abf09706766349fee8b1ea60a02127e85f0228cd63056c2a21f72bab0e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetRequestKt", "Dsl"],
+      "sha256": "aa89561e03daf45d10a8cd6a5c7f29f488d64f37b26e48cfabddbd0493764e7b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetResponseKt", "Dsl"],
+      "sha256": "eb559a50cc234a4c5b5534a8a1314719ac05e6e95cf69d8a6db45eeffbff8671",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceGetValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceGetValueKt", "Dsl", "MappingsProxy"],
+      "sha256": "2e16ad916a3615683ab60b80784bc4ca850728fd76e256431a9040a1dea827e8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceListRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListRequestKt", "Dsl"],
+      "sha256": "f731afd254360e6dddf222550a5cbb72673a4160c9f7b4eb51a31306566784ad",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceListResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListResponseKt", "Dsl"],
+      "sha256": "fc104c285f38117126cdb9c7e7f0d06c83d2d03e3937a8d81ac6ae2d4a1b3af4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceListValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceListValueKt", "Dsl", "JobsProxy"],
+      "sha256": "e4334031fe51300f96e785b3bb2810feedacd45258b427f68c8734a0a2f40ec9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportRequestKt", "Dsl"],
+      "sha256": "0eca590c1f47f686d2b27d7c5cb6701ca0f42c67cfff41dc93ebd625d4c7655d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportResponseKt", "Dsl"],
+      "sha256": "ac7ba64abd15b690d36c840cca5c62353992ed54c2a06bbca86b44512b874344",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServicePreviewImportValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServicePreviewImportValueKt", "Dsl"],
+      "sha256": "d04b36c6661a8888eedd037d8ede156621935562851a9f048e33c843bd941350",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportRequestKt", "Dsl", "RootsProxy"],
+      "sha256": "bb5582b64ab3eef692ca912b035a093127524204ea832317b504cf885b43777a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportResponseKt", "Dsl"],
+      "sha256": "b38a4af4c2cb49a3185097fcd8825f7ad1ef136c28f8eff5e30b9af947620f4f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/TransferServiceRequestExportValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["TransferServiceRequestExportValueKt", "Dsl"],
+      "sha256": "2df9a8649f00f8065b7b36f92a78ddfd2739cd733adb77a0d7150bf8dd1bac85",
       "kind": "generated"
     },
     {
@@ -10609,6 +13495,22 @@
       "access": "public",
       "types": ["TurnOptionsKt", "Dsl"],
       "sha256": "a602bc0c5c553305de734eed90f28f71b43e8417a726574471ed15210ac36cf8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/UploadStatusKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UploadStatusKt", "Dsl", "PartsProxy"],
+      "sha256": "26333f363e66ffec8eed2778e9039e55e511d01d5ea6e3efe945129aa71d70bd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/UploadTicketKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UploadTicketKt", "Dsl", "UploadedProxy"],
+      "sha256": "9611202088a60615db5dc973e164df784c2e0e58577df2ed872196cc2cca6d28",
       "kind": "generated"
     },
     {
@@ -10897,7 +13799,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "233c7113f5f7b92c9e7e78670a1a2b38bd084d5132ff303a9696b71ab24cab8b",
+      "sha256": "ac7f1044b72248e9b4685043b1b029fa6a84f259ff1df6a403d0dfaeb68f4075",
       "kind": "generated"
     },
     {
@@ -11007,6 +13909,7 @@
         "ResourceRef",
         "ResourceVersionRef",
         "TimeRangeUtc",
+        "TransferTicket",
         "ToolLocality",
         "ExecutionLocus",
         "EffectKind",
@@ -11017,7 +13920,7 @@
         "ErrorCategory",
         "ResourceAvailability"
       ],
-      "sha256": "cb69f5a70efc8dbada614a083cebc41a49e5d59bd907d0098def195b65622c47",
+      "sha256": "8866f06f9ca84ece5c8455a34ffc62bed346a5876804d3f5d1a383884354bb2d",
       "kind": "generated"
     },
     {
@@ -11222,11 +14125,116 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/sync_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "SyncScope",
+        "SyncChange",
+        "ChangeProposal",
+        "ChangeReceipt",
+        "AggregateView",
+        "ConflictView",
+        "ConflictResolution",
+        "BootstrapManifest",
+        "PartReceipt",
+        "UploadTicket",
+        "UploadStatus",
+        "SyncServiceListScopesRequest",
+        "SyncServiceListScopesValue",
+        "SyncServiceListScopesResponse",
+        "SyncServiceSetScopeRequest",
+        "SyncServiceSetScopeValue",
+        "SyncServiceSetScopeResponse",
+        "SyncServicePullChangesRequest",
+        "SyncServicePullChangesValue",
+        "SyncServicePullChangesResponse",
+        "SyncServicePushChangeRequest",
+        "SyncServicePushChangeValue",
+        "SyncServicePushChangeResponse",
+        "SyncServicePushBatchRequest",
+        "SyncServicePushBatchValue",
+        "SyncServicePushBatchResponse",
+        "SyncServiceGetAggregateRequest",
+        "SyncServiceGetAggregateValue",
+        "SyncServiceGetAggregateResponse",
+        "SyncServiceListConflictsRequest",
+        "SyncServiceListConflictsValue",
+        "SyncServiceListConflictsResponse",
+        "SyncServiceResolveConflictRequest",
+        "SyncServiceResolveConflictValue",
+        "SyncServiceResolveConflictResponse",
+        "SyncServiceRequestFullResyncRequest",
+        "SyncServiceRequestFullResyncValue",
+        "SyncServiceRequestFullResyncResponse",
+        "SyncServiceGetBootstrapPageRequest",
+        "SyncServiceGetBootstrapPageValue",
+        "SyncServiceGetBootstrapPageResponse",
+        "ResourceServiceBeginUploadRequest",
+        "ResourceServiceBeginUploadValue",
+        "ResourceServiceBeginUploadResponse",
+        "ResourceServiceCompleteUploadRequest",
+        "ResourceServiceCompleteUploadValue",
+        "ResourceServiceCompleteUploadResponse",
+        "ResourceServiceGetDownloadTicketRequest",
+        "ResourceServiceGetDownloadTicketValue",
+        "ResourceServiceGetDownloadTicketResponse",
+        "ResourceServiceGetMetadataRequest",
+        "ResourceServiceGetMetadataValue",
+        "ResourceServiceGetMetadataResponse",
+        "ResourceServiceReleaseRequest",
+        "ResourceServiceReleaseValue",
+        "ResourceServiceReleaseResponse",
+        "ResourceServiceGetUploadStatusRequest",
+        "ResourceServiceGetUploadStatusValue",
+        "ResourceServiceGetUploadStatusResponse",
+        "ResourceServiceRenewUploadTicketRequest",
+        "ResourceServiceRenewUploadTicketValue",
+        "ResourceServiceRenewUploadTicketResponse",
+        "ResourcePurpose"
+      ],
+      "sha256": "b92d3b9efd8ab7e754179888c9d821fa09895bdb092093df0ce5e2f525cf559a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/transfer_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "TransferManifest",
+        "TransferRoot",
+        "TransferIssue",
+        "TransferJob",
+        "TransferMapping",
+        "TransferServiceRequestExportRequest",
+        "TransferServiceRequestExportValue",
+        "TransferServiceRequestExportResponse",
+        "TransferServicePreviewImportRequest",
+        "TransferServicePreviewImportValue",
+        "TransferServicePreviewImportResponse",
+        "TransferServiceCommitImportRequest",
+        "TransferServiceCommitImportValue",
+        "TransferServiceCommitImportResponse",
+        "TransferServiceGetRequest",
+        "TransferServiceGetValue",
+        "TransferServiceGetResponse",
+        "TransferServiceListRequest",
+        "TransferServiceListValue",
+        "TransferServiceListResponse",
+        "TransferServiceCancelRequest",
+        "TransferServiceCancelValue",
+        "TransferServiceCancelResponse",
+        "TransferState"
+      ],
+      "sha256": "00ff41632e621aa8ac1faeb61eda780bb2087edb38c141da91ef966ff334fdf2",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/ts/proto/src/index.ts",
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "b73df5bd801b769c49b42258c3f1827c70a304a3508fa3f2428187e35b468de0",
+      "sha256": "981a810a351bbf7558862e60239fde1113e9979b768650ba250ea30daeeaea83",
       "kind": "generated"
     },
     {
@@ -11242,7 +14250,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "09b13ba1c7e26544f190c3eb9bb15ac34b7b10a1e59231e5174e98980d027db1",
+      "sha256": "2a35c1a8ee88027979345496e8f9c2ccf0398136e6451c9496f3e988843910a7",
       "kind": "generated"
     },
     {
@@ -11250,7 +14258,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "ac30457d2c00c87a7cf7a5363201e2dd40c8523f3cc37bf91d3d5ec06c243329",
+      "sha256": "990cdb8ab66b4534d4f5d3034aa0436fc94142f5e8d4b8843e1f48af7cf3b7fb",
       "kind": "generated"
     },
     {
@@ -11355,7 +14363,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "0791756b449506eb3e83f9c320d90c272d475219d48c10e1060d5a26afc91134"
+      "sha256": "53cad65cc9193582590efc9a799d1d9ac6a1e4b29e5a764f1553c720dd5c6941"
     },
     {
       "path": "gradle.properties",
@@ -11459,11 +14467,19 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "7ac3644b76feb4273ecd682a05ff79a815f9c6d38f6aebef3697d973d19d084f"
+      "sha256": "8fd4aa27cbf33468cd92afc086976ecf2ba2ee53c2cee3b007c4d36dd6d1799f"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",
       "sha256": "cfe0d37c15adef74153e1aac7fc6d17bf3f047d8496ec08ab97d5076f1d341c5"
+    },
+    {
+      "path": "public/proto/constraints/con-09-sync-transfer.json",
+      "sha256": "3381887e5758c654c3605829867eabdd2c3aafd62efbf8fce905536c2293aea4"
+    },
+    {
+      "path": "public/proto/constraints/con-09-transfer-ticket.json",
+      "sha256": "adb310afc743ba64f4cbb60314a7a061eb6748848d909fb98b39b2dcb529f348"
     },
     {
       "path": "public/proto/constraints/con-13-package-catalog.json",

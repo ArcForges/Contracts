@@ -276,47 +276,55 @@ namespace ArcForges.Contracts.Foundation.V1 {
             "aGFzaEoECAQQBVIFbG9jYWwifAoMVGltZVJhbmdlVXRjEjQKBGZyb20YASAB",
             "KAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50UgRmcm9tEjYK",
             "BXVudGlsGAIgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFu",
-            "dFIFdW50aWwqYAoMVG9vbExvY2FsaXR5Eh0KGVRPT0xfTE9DQUxJVFlfVU5T",
-            "UEVDSUZJRUQQABIXChNUT09MX0xPQ0FMSVRZX0NMT1VEEAESGAoUVE9PTF9M",
-            "T0NBTElUWV9ERVZJQ0UQAiqEAQoORXhlY3V0aW9uTG9jdXMSHwobRVhFQ1VU",
-            "SU9OX0xPQ1VTX1VOU1BFQ0lGSUVEEAASGQoVRVhFQ1VUSU9OX0xPQ1VTX0NM",
-            "T1VEEAESGgoWRVhFQ1VUSU9OX0xPQ1VTX0RFVklDRRACEhoKFkVYRUNVVElP",
-            "Tl9MT0NVU19FSVRIRVIQAyqeAQoKRWZmZWN0S2luZBIbChdFRkZFQ1RfS0lO",
-            "RF9VTlNQRUNJRklFRBAAEhkKFUVGRkVDVF9LSU5EX1BVUkVfUkVBRBABEhsK",
-            "F0VGRkVDVF9LSU5EX0xPQ0FMX1dSSVRFEAISGwoXRUZGRUNUX0tJTkRfQ0xP",
-            "VURfV1JJVEUQAxIeChpFRkZFQ1RfS0lORF9FWFRFUk5BTF9XUklURRAEKoMC",
-            "Cg9CaW5kaW5nUHJvdG9jb2wSIAocQklORElOR19QUk9UT0NPTF9VTlNQRUNJ",
-            "RklFRBAAEiAKHEJJTkRJTkdfUFJPVE9DT0xfUFVCTElDX0dSUEMQARIfChtC",
-            "SU5ESU5HX1BST1RPQ09MX0xPQ0FMX0dSUEMQAhIjCh9CSU5ESU5HX1BST1RP",
-            "Q09MX0VYVEVOU0lPTl9HUlBDEAMSIgoeQklORElOR19QUk9UT0NPTF9QUk9W",
-            "SURFUl9IVFRQEAQSIQodQklORElOR19QUk9UT0NPTF9NQUNISU5FX1RPT0wQ",
-            "BRIfChtCSU5ESU5HX1BST1RPQ09MX0lOX1BST0NFU1MQBiqiAQoOSW5zdGFu",
-            "Y2VIZWFsdGgSHwobSU5TVEFOQ0VfSEVBTFRIX1VOU1BFQ0lGSUVEEAASGQoV",
-            "SU5TVEFOQ0VfSEVBTFRIX1JFQURZEAESGAoUSU5TVEFOQ0VfSEVBTFRIX0JV",
-            "U1kQAhIcChhJTlNUQU5DRV9IRUFMVEhfREVHUkFERUQQAxIcChhJTlNUQU5D",
-            "RV9IRUFMVEhfRFJBSU5JTkcQBCqVAQoPRWZmZWN0Q2VydGFpbnR5EiAKHEVG",
-            "RkVDVF9DRVJUQUlOVFlfVU5TUEVDSUZJRUQQABIjCh9FRkZFQ1RfQ0VSVEFJ",
-            "TlRZX0RJRF9OT1RfSEFQUEVOEAESHQoZRUZGRUNUX0NFUlRBSU5UWV9IQVBQ",
-            "RU5FRBACEhwKGEVGRkVDVF9DRVJUQUlOVFlfVU5LTk9XThADKo8BCglSZXRy",
-            "eU1vZGUSGgoWUkVUUllfTU9ERV9VTlNQRUNJRklFRBAAEhQKEFJFVFJZX01P",
-            "REVfTkVWRVIQARIbChdSRVRSWV9NT0RFX1NBTUVfQ09NTUFORBACEhkKFVJF",
-            "VFJZX01PREVfQUZURVJfVElNRRADEhgKFFJFVFJZX01PREVfUkVDT05DSUxF",
-            "EAQqwgIKDUVycm9yQ2F0ZWdvcnkSHgoaRVJST1JfQ0FURUdPUllfVU5TUEVD",
-            "SUZJRUQQABIdChlFUlJPUl9DQVRFR09SWV9WQUxJREFUSU9OEAESIQodRVJS",
-            "T1JfQ0FURUdPUllfQVVUSEVOVElDQVRJT04QAhIgChxFUlJPUl9DQVRFR09S",
-            "WV9BVVRIT1JJWkFUSU9OEAMSHgoaRVJST1JfQ0FURUdPUllfRU5USVRMRU1F",
-            "TlQQBBIbChdFUlJPUl9DQVRFR09SWV9DT05GTElDVBAFEhgKFEVSUk9SX0NB",
-            "VEVHT1JZX1NUQVRFEAYSGwoXRVJST1JfQ0FURUdPUllfUkVTT1VSQ0UQBxIc",
-            "ChhFUlJPUl9DQVRFR09SWV9FWEVDVVRJT04QCBIbChdFUlJPUl9DQVRFR09S",
-            "WV9JTlRFUk5BTBAJKogCChRSZXNvdXJjZUF2YWlsYWJpbGl0eRIlCiFSRVNP",
-            "VVJDRV9BVkFJTEFCSUxJVFlfVU5TUEVDSUZJRUQQABIlCiFSRVNPVVJDRV9B",
-            "VkFJTEFCSUxJVFlfQUxXQVlTX0tFRVAQARIrCidSRVNPVVJDRV9BVkFJTEFC",
-            "SUxJVFlfQVZBSUxBQkxFX09GRkxJTkUQAhIjCh9SRVNPVVJDRV9BVkFJTEFC",
-            "SUxJVFlfT05fREVNQU5EEAMSJAogUkVTT1VSQ0VfQVZBSUxBQklMSVRZX0NM",
-            "T1VEX09OTFkQBBIqCiZSRVNPVVJDRV9BVkFJTEFCSUxJVFlfTUlTU0lOR19F",
-            "WFRFUk5BTBAFQmQKK2lvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLmZv",
-            "dW5kYXRpb24udjFCD0ZvdW5kYXRpb25Qcm90b1ABqgIhQXJjRm9yZ2VzLkNv",
-            "bnRyYWN0cy5Gb3VuZGF0aW9uLlYxYgZwcm90bzM="));
+            "dFIFdW50aWwi4AIKDlRyYW5zZmVyVGlja2V0EjgKCXRpY2tldF9pZBgBIAEo",
+            "CzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgh0aWNrZXRJZBIVCgN1",
+            "cmwYAiABKAlIAFIDdXJsiAEBEj8KCmV4cGlyZXNfYXQYAyABKAsyIC5hcmNm",
+            "b3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50UglleHBpcmVzQXQSPAoLcmVz",
+            "b3VyY2VfaWQYBCABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZFIK",
+            "cmVzb3VyY2VJZBI4CgVyYW5nZRgFIAEoCzIiLmFyY2Zvcmdlcy5mb3VuZGF0",
+            "aW9uLnYxLkJ5dGVSYW5nZVIFcmFuZ2USKQoObWF4X3BhcnRfYnl0ZXMYBiAB",
+            "KA1IAVIMbWF4UGFydEJ5dGVziAEBQgYKBF91cmxCEQoPX21heF9wYXJ0X2J5",
+            "dGVzKmAKDFRvb2xMb2NhbGl0eRIdChlUT09MX0xPQ0FMSVRZX1VOU1BFQ0lG",
+            "SUVEEAASFwoTVE9PTF9MT0NBTElUWV9DTE9VRBABEhgKFFRPT0xfTE9DQUxJ",
+            "VFlfREVWSUNFEAIqhAEKDkV4ZWN1dGlvbkxvY3VzEh8KG0VYRUNVVElPTl9M",
+            "T0NVU19VTlNQRUNJRklFRBAAEhkKFUVYRUNVVElPTl9MT0NVU19DTE9VRBAB",
+            "EhoKFkVYRUNVVElPTl9MT0NVU19ERVZJQ0UQAhIaChZFWEVDVVRJT05fTE9D",
+            "VVNfRUlUSEVSEAMqngEKCkVmZmVjdEtpbmQSGwoXRUZGRUNUX0tJTkRfVU5T",
+            "UEVDSUZJRUQQABIZChVFRkZFQ1RfS0lORF9QVVJFX1JFQUQQARIbChdFRkZF",
+            "Q1RfS0lORF9MT0NBTF9XUklURRACEhsKF0VGRkVDVF9LSU5EX0NMT1VEX1dS",
+            "SVRFEAMSHgoaRUZGRUNUX0tJTkRfRVhURVJOQUxfV1JJVEUQBCqDAgoPQmlu",
+            "ZGluZ1Byb3RvY29sEiAKHEJJTkRJTkdfUFJPVE9DT0xfVU5TUEVDSUZJRUQQ",
+            "ABIgChxCSU5ESU5HX1BST1RPQ09MX1BVQkxJQ19HUlBDEAESHwobQklORElO",
+            "R19QUk9UT0NPTF9MT0NBTF9HUlBDEAISIwofQklORElOR19QUk9UT0NPTF9F",
+            "WFRFTlNJT05fR1JQQxADEiIKHkJJTkRJTkdfUFJPVE9DT0xfUFJPVklERVJf",
+            "SFRUUBAEEiEKHUJJTkRJTkdfUFJPVE9DT0xfTUFDSElORV9UT09MEAUSHwob",
+            "QklORElOR19QUk9UT0NPTF9JTl9QUk9DRVNTEAYqogEKDkluc3RhbmNlSGVh",
+            "bHRoEh8KG0lOU1RBTkNFX0hFQUxUSF9VTlNQRUNJRklFRBAAEhkKFUlOU1RB",
+            "TkNFX0hFQUxUSF9SRUFEWRABEhgKFElOU1RBTkNFX0hFQUxUSF9CVVNZEAIS",
+            "HAoYSU5TVEFOQ0VfSEVBTFRIX0RFR1JBREVEEAMSHAoYSU5TVEFOQ0VfSEVB",
+            "TFRIX0RSQUlOSU5HEAQqlQEKD0VmZmVjdENlcnRhaW50eRIgChxFRkZFQ1Rf",
+            "Q0VSVEFJTlRZX1VOU1BFQ0lGSUVEEAASIwofRUZGRUNUX0NFUlRBSU5UWV9E",
+            "SURfTk9UX0hBUFBFThABEh0KGUVGRkVDVF9DRVJUQUlOVFlfSEFQUEVORUQQ",
+            "AhIcChhFRkZFQ1RfQ0VSVEFJTlRZX1VOS05PV04QAyqPAQoJUmV0cnlNb2Rl",
+            "EhoKFlJFVFJZX01PREVfVU5TUEVDSUZJRUQQABIUChBSRVRSWV9NT0RFX05F",
+            "VkVSEAESGwoXUkVUUllfTU9ERV9TQU1FX0NPTU1BTkQQAhIZChVSRVRSWV9N",
+            "T0RFX0FGVEVSX1RJTUUQAxIYChRSRVRSWV9NT0RFX1JFQ09OQ0lMRRAEKsIC",
+            "Cg1FcnJvckNhdGVnb3J5Eh4KGkVSUk9SX0NBVEVHT1JZX1VOU1BFQ0lGSUVE",
+            "EAASHQoZRVJST1JfQ0FURUdPUllfVkFMSURBVElPThABEiEKHUVSUk9SX0NB",
+            "VEVHT1JZX0FVVEhFTlRJQ0FUSU9OEAISIAocRVJST1JfQ0FURUdPUllfQVVU",
+            "SE9SSVpBVElPThADEh4KGkVSUk9SX0NBVEVHT1JZX0VOVElUTEVNRU5UEAQS",
+            "GwoXRVJST1JfQ0FURUdPUllfQ09ORkxJQ1QQBRIYChRFUlJPUl9DQVRFR09S",
+            "WV9TVEFURRAGEhsKF0VSUk9SX0NBVEVHT1JZX1JFU09VUkNFEAcSHAoYRVJS",
+            "T1JfQ0FURUdPUllfRVhFQ1VUSU9OEAgSGwoXRVJST1JfQ0FURUdPUllfSU5U",
+            "RVJOQUwQCSqIAgoUUmVzb3VyY2VBdmFpbGFiaWxpdHkSJQohUkVTT1VSQ0Vf",
+            "QVZBSUxBQklMSVRZX1VOU1BFQ0lGSUVEEAASJQohUkVTT1VSQ0VfQVZBSUxB",
+            "QklMSVRZX0FMV0FZU19LRUVQEAESKwonUkVTT1VSQ0VfQVZBSUxBQklMSVRZ",
+            "X0FWQUlMQUJMRV9PRkZMSU5FEAISIwofUkVTT1VSQ0VfQVZBSUxBQklMSVRZ",
+            "X09OX0RFTUFORBADEiQKIFJFU09VUkNFX0FWQUlMQUJJTElUWV9DTE9VRF9P",
+            "TkxZEAQSKgomUkVTT1VSQ0VfQVZBSUxBQklMSVRZX01JU1NJTkdfRVhURVJO",
+            "QUwQBUJkCitpby5naXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5mb3VuZGF0",
+            "aW9uLnYxQg9Gb3VuZGF0aW9uUHJvdG9QAaoCIUFyY0Zvcmdlcy5Db250cmFj",
+            "dHMuRm91bmRhdGlvbi5WMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::ArcForges.Contracts.Foundation.V1.ToolLocality), typeof(global::ArcForges.Contracts.Foundation.V1.ExecutionLocus), typeof(global::ArcForges.Contracts.Foundation.V1.EffectKind), typeof(global::ArcForges.Contracts.Foundation.V1.BindingProtocol), typeof(global::ArcForges.Contracts.Foundation.V1.InstanceHealth), typeof(global::ArcForges.Contracts.Foundation.V1.EffectCertainty), typeof(global::ArcForges.Contracts.Foundation.V1.RetryMode), typeof(global::ArcForges.Contracts.Foundation.V1.ErrorCategory), typeof(global::ArcForges.Contracts.Foundation.V1.ResourceAvailability), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -362,7 +370,8 @@ namespace ArcForges.Contracts.Foundation.V1 {
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.Rational), global::ArcForges.Contracts.Foundation.V1.Rational.Parser, new[]{ "Numerator", "Denominator" }, new[]{ "Numerator", "Denominator" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.ResourceRef), global::ArcForges.Contracts.Foundation.V1.ResourceRef.Parser, new[]{ "RealmId", "WorkspaceId", "OwnerAppId", "ResourceKind", "ResourceId", "DisplayHint", "Availability", "HoldingDeviceId" }, new[]{ "OwnerAppId", "ResourceKind", "DisplayHint", "Availability" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.ResourceVersionRef), global::ArcForges.Contracts.Foundation.V1.ResourceVersionRef.Parser, new[]{ "Resource", "ContentHash", "Blob", "Cloud", "Native" }, new[]{ "Revision", "ContentHash" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc), global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc.Parser, new[]{ "From", "Until" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc), global::ArcForges.Contracts.Foundation.V1.TimeRangeUtc.Parser, new[]{ "From", "Until" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ArcForges.Contracts.Foundation.V1.TransferTicket), global::ArcForges.Contracts.Foundation.V1.TransferTicket.Parser, new[]{ "TicketId", "Url", "ExpiresAt", "ResourceId", "Range", "MaxPartBytes" }, new[]{ "Url", "MaxPartBytes" }, null, null, null)
           }));
     }
     #endregion
@@ -15874,6 +15883,460 @@ namespace ArcForges.Contracts.Foundation.V1 {
               Until = new global::ArcForges.Contracts.Foundation.V1.Instant();
             }
             input.ReadMessage(Until);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
+  /// registry04: opaque object-facade route, bound to the current session and
+  /// allowed verb. This public value never contains storage credentials.
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class TransferTicket : pb::IMessage<TransferTicket>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<TransferTicket> _parser = new pb::MessageParser<TransferTicket>(() => new TransferTicket());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<TransferTicket> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor.MessageTypes[43]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public TransferTicket() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public TransferTicket(TransferTicket other) : this() {
+      _hasBits0 = other._hasBits0;
+      ticketId_ = other.ticketId_ != null ? other.ticketId_.Clone() : null;
+      url_ = other.url_;
+      expiresAt_ = other.expiresAt_ != null ? other.expiresAt_.Clone() : null;
+      resourceId_ = other.resourceId_ != null ? other.resourceId_.Clone() : null;
+      range_ = other.range_ != null ? other.range_.Clone() : null;
+      maxPartBytes_ = other.maxPartBytes_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public TransferTicket Clone() {
+      return new TransferTicket(this);
+    }
+
+    /// <summary>Field number for the "ticket_id" field.</summary>
+    public const int TicketIdFieldNumber = 1;
+    private global::ArcForges.Contracts.Foundation.V1.Id ticketId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id TicketId {
+      get { return ticketId_; }
+      set {
+        ticketId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "url" field.</summary>
+    public const int UrlFieldNumber = 2;
+    private readonly static string UrlDefaultValue = "";
+
+    private string url_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Url {
+      get { return url_ ?? UrlDefaultValue; }
+      set {
+        url_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "url" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasUrl {
+      get { return url_ != null; }
+    }
+    /// <summary>Clears the value of the "url" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearUrl() {
+      url_ = null;
+    }
+
+    /// <summary>Field number for the "expires_at" field.</summary>
+    public const int ExpiresAtFieldNumber = 3;
+    private global::ArcForges.Contracts.Foundation.V1.Instant expiresAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Instant ExpiresAt {
+      get { return expiresAt_; }
+      set {
+        expiresAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "resource_id" field.</summary>
+    public const int ResourceIdFieldNumber = 4;
+    private global::ArcForges.Contracts.Foundation.V1.Id resourceId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.Id ResourceId {
+      get { return resourceId_; }
+      set {
+        resourceId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "range" field.</summary>
+    public const int RangeFieldNumber = 5;
+    private global::ArcForges.Contracts.Foundation.V1.ByteRange range_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ArcForges.Contracts.Foundation.V1.ByteRange Range {
+      get { return range_; }
+      set {
+        range_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_part_bytes" field.</summary>
+    public const int MaxPartBytesFieldNumber = 6;
+    private readonly static uint MaxPartBytesDefaultValue = 0;
+
+    private uint maxPartBytes_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint MaxPartBytes {
+      get { if ((_hasBits0 & 1) != 0) { return maxPartBytes_; } else { return MaxPartBytesDefaultValue; } }
+      set {
+        _hasBits0 |= 1;
+        maxPartBytes_ = value;
+      }
+    }
+    /// <summary>Gets whether the "max_part_bytes" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasMaxPartBytes {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "max_part_bytes" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearMaxPartBytes() {
+      _hasBits0 &= ~1;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as TransferTicket);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(TransferTicket other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(TicketId, other.TicketId)) return false;
+      if (Url != other.Url) return false;
+      if (!object.Equals(ExpiresAt, other.ExpiresAt)) return false;
+      if (!object.Equals(ResourceId, other.ResourceId)) return false;
+      if (!object.Equals(Range, other.Range)) return false;
+      if (MaxPartBytes != other.MaxPartBytes) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ticketId_ != null) hash ^= TicketId.GetHashCode();
+      if (HasUrl) hash ^= Url.GetHashCode();
+      if (expiresAt_ != null) hash ^= ExpiresAt.GetHashCode();
+      if (resourceId_ != null) hash ^= ResourceId.GetHashCode();
+      if (range_ != null) hash ^= Range.GetHashCode();
+      if (HasMaxPartBytes) hash ^= MaxPartBytes.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (ticketId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(TicketId);
+      }
+      if (HasUrl) {
+        output.WriteRawTag(18);
+        output.WriteString(Url);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (resourceId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(ResourceId);
+      }
+      if (range_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Range);
+      }
+      if (HasMaxPartBytes) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxPartBytes);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ticketId_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(TicketId);
+      }
+      if (HasUrl) {
+        output.WriteRawTag(18);
+        output.WriteString(Url);
+      }
+      if (expiresAt_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(ExpiresAt);
+      }
+      if (resourceId_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(ResourceId);
+      }
+      if (range_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Range);
+      }
+      if (HasMaxPartBytes) {
+        output.WriteRawTag(48);
+        output.WriteUInt32(MaxPartBytes);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (ticketId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TicketId);
+      }
+      if (HasUrl) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
+      }
+      if (expiresAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExpiresAt);
+      }
+      if (resourceId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ResourceId);
+      }
+      if (range_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Range);
+      }
+      if (HasMaxPartBytes) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxPartBytes);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(TransferTicket other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ticketId_ != null) {
+        if (ticketId_ == null) {
+          TicketId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        TicketId.MergeFrom(other.TicketId);
+      }
+      if (other.HasUrl) {
+        Url = other.Url;
+      }
+      if (other.expiresAt_ != null) {
+        if (expiresAt_ == null) {
+          ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+        }
+        ExpiresAt.MergeFrom(other.ExpiresAt);
+      }
+      if (other.resourceId_ != null) {
+        if (resourceId_ == null) {
+          ResourceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+        }
+        ResourceId.MergeFrom(other.ResourceId);
+      }
+      if (other.range_ != null) {
+        if (range_ == null) {
+          Range = new global::ArcForges.Contracts.Foundation.V1.ByteRange();
+        }
+        Range.MergeFrom(other.Range);
+      }
+      if (other.HasMaxPartBytes) {
+        MaxPartBytes = other.MaxPartBytes;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (ticketId_ == null) {
+              TicketId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TicketId);
+            break;
+          }
+          case 18: {
+            Url = input.ReadString();
+            break;
+          }
+          case 26: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 34: {
+            if (resourceId_ == null) {
+              ResourceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ResourceId);
+            break;
+          }
+          case 42: {
+            if (range_ == null) {
+              Range = new global::ArcForges.Contracts.Foundation.V1.ByteRange();
+            }
+            input.ReadMessage(Range);
+            break;
+          }
+          case 48: {
+            MaxPartBytes = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (ticketId_ == null) {
+              TicketId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(TicketId);
+            break;
+          }
+          case 18: {
+            Url = input.ReadString();
+            break;
+          }
+          case 26: {
+            if (expiresAt_ == null) {
+              ExpiresAt = new global::ArcForges.Contracts.Foundation.V1.Instant();
+            }
+            input.ReadMessage(ExpiresAt);
+            break;
+          }
+          case 34: {
+            if (resourceId_ == null) {
+              ResourceId = new global::ArcForges.Contracts.Foundation.V1.Id();
+            }
+            input.ReadMessage(ResourceId);
+            break;
+          }
+          case 42: {
+            if (range_ == null) {
+              Range = new global::ArcForges.Contracts.Foundation.V1.ByteRange();
+            }
+            input.ReadMessage(Range);
+            break;
+          }
+          case 48: {
+            MaxPartBytes = input.ReadUInt32();
             break;
           }
         }

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.foundation.v1.TransferTicket": {
+      "csharpType": "ArcForges.Contracts.Foundation.V1.TransferTicket",
+      "fields": {
+        "ticketId": { "required": true },
+        "url": { "required": true },
+        "expiresAt": { "required": true },
+        "resourceId": { "required": true },
+        "range": {},
+        "maxPartBytes": { "required": true, "min": 1, "max": 8388608 }
+      }
+    }
+  }
+}

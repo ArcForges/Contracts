@@ -39,6 +39,7 @@
     "ScopeProjectMetadata",
     "StateFailure",
     "TimeRangeUtc",
+    "TransferTicket",
     "VersionFailure",
     "VersionedRef"
   ],
@@ -6394,6 +6395,82 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TimeRangeUtc.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/TimeRangeUtcKt.kt"
+      }
+    },
+    {
+      "name": "TransferTicket",
+      "protobufType": "arcforges.foundation.v1.TransferTicket",
+      "owner": "ArcForges.Contracts.Foundation",
+      "source": "public/proto/arcforges/foundation/v1/foundation.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "ticketId",
+          "type": "Id",
+          "cardinality": "required",
+          "wireType": "Id",
+          "protoName": "ticket_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "url",
+          "type": "string",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "url",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "expiresAt",
+          "type": "Instant",
+          "cardinality": "required",
+          "wireType": "Instant",
+          "protoName": "expires_at",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "resourceId",
+          "type": "Id",
+          "cardinality": "required",
+          "wireType": "Id",
+          "protoName": "resource_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "range",
+          "type": "ByteRange",
+          "cardinality": "?",
+          "wireType": "ByteRange",
+          "protoName": "range",
+          "oneof": null,
+          "presence": "optional"
+        },
+        {
+          "tag": 6,
+          "name": "maxPartBytes",
+          "type": "uint32",
+          "cardinality": "required",
+          "wireType": "uint32",
+          "protoName": "max_part_bytes",
+          "oneof": null,
+          "presence": "required"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TransferTicket.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/TransferTicketKt.kt"
       }
     },
     {

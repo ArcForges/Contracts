@@ -823,7 +823,10 @@
         "arcforges.hello.v1.HelloService",
         "arcforges.catalog.v1.CatalogService",
         "arcforges.publicapi.v1.EntitlementService",
-        "arcforges.publicapi.v1.CommerceService"
+        "arcforges.publicapi.v1.CommerceService",
+        "arcforges.publicapi.v1.SyncService",
+        "arcforges.publicapi.v1.ResourceService",
+        "arcforges.publicapi.v1.TransferService"
       ],
       "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"]
     },
@@ -870,6 +873,35 @@
         "/arcforges.publicapi.v1.CommerceService/ListBillingHistory",
         "/arcforges.publicapi.v1.CommerceService/RequestRefund",
         "/arcforges.publicapi.v1.CommerceService/ExportEvidence"
+      ],
+      "arcforges.publicapi.v1.SyncService": [
+        "/arcforges.publicapi.v1.SyncService/ListScopes",
+        "/arcforges.publicapi.v1.SyncService/SetScope",
+        "/arcforges.publicapi.v1.SyncService/PullChanges",
+        "/arcforges.publicapi.v1.SyncService/PushChange",
+        "/arcforges.publicapi.v1.SyncService/PushBatch",
+        "/arcforges.publicapi.v1.SyncService/GetAggregate",
+        "/arcforges.publicapi.v1.SyncService/ListConflicts",
+        "/arcforges.publicapi.v1.SyncService/ResolveConflict",
+        "/arcforges.publicapi.v1.SyncService/RequestFullResync",
+        "/arcforges.publicapi.v1.SyncService/GetBootstrapPage"
+      ],
+      "arcforges.publicapi.v1.ResourceService": [
+        "/arcforges.publicapi.v1.ResourceService/BeginUpload",
+        "/arcforges.publicapi.v1.ResourceService/CompleteUpload",
+        "/arcforges.publicapi.v1.ResourceService/GetDownloadTicket",
+        "/arcforges.publicapi.v1.ResourceService/GetMetadata",
+        "/arcforges.publicapi.v1.ResourceService/Release",
+        "/arcforges.publicapi.v1.ResourceService/GetUploadStatus",
+        "/arcforges.publicapi.v1.ResourceService/RenewUploadTicket"
+      ],
+      "arcforges.publicapi.v1.TransferService": [
+        "/arcforges.publicapi.v1.TransferService/RequestExport",
+        "/arcforges.publicapi.v1.TransferService/PreviewImport",
+        "/arcforges.publicapi.v1.TransferService/CommitImport",
+        "/arcforges.publicapi.v1.TransferService/Get",
+        "/arcforges.publicapi.v1.TransferService/List",
+        "/arcforges.publicapi.v1.TransferService/Cancel"
       ]
     }
   }
