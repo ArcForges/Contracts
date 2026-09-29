@@ -78949,6 +78949,9 @@ export const publicFixtures = {
           "arcforges.catalog.v1.CatalogService",
           "arcforges.publicapi.v1.EntitlementService",
           "arcforges.publicapi.v1.CommerceService",
+          "arcforges.publicapi.v1.SyncService",
+          "arcforges.publicapi.v1.ResourceService",
+          "arcforges.publicapi.v1.TransferService",
           "arcforges.publicapi.v1.TaskService",
           "arcforges.publicapi.v1.ApprovalService",
           "arcforges.publicapi.v1.BridgeService",
@@ -78956,10 +78959,7 @@ export const publicFixtures = {
           "arcforges.publicapi.v1.AgentService",
           "arcforges.publicapi.v1.SearchService",
           "arcforges.publicapi.v1.AutomationService",
-          "arcforges.publicapi.v1.SourceService",
-          "arcforges.publicapi.v1.SyncService",
-          "arcforges.publicapi.v1.ResourceService",
-          "arcforges.publicapi.v1.TransferService"
+          "arcforges.publicapi.v1.SourceService"
         ],
         "ArcForges.Sdk.Contracts": [
           "arcforges.extensions.v1.ExtensionHostService"

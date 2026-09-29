@@ -266,9 +266,7 @@ test("generated service catalogue lists exactly the authored services", () => {
       "/arcforges.publicapi.v1.AgentService/PutSkill",
       "/arcforges.publicapi.v1.AgentService/DeleteSkill",
     ],
-    "arcforges.publicapi.v1.SearchService": [
-      "/arcforges.publicapi.v1.SearchService/Query",
-    ],
+    "arcforges.publicapi.v1.SearchService": ["/arcforges.publicapi.v1.SearchService/Query"],
     "arcforges.publicapi.v1.AutomationService": [
       "/arcforges.publicapi.v1.AutomationService/List",
       "/arcforges.publicapi.v1.AutomationService/Get",
