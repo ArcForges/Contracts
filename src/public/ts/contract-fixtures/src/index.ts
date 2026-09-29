@@ -70857,6 +70857,208 @@ export const publicFixtures = {
       }
     ]
   },
+  "con-22-account-support.json": {
+    "schemaVersion": "con-22-account-support.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline public-contract shape and serialization vectors only",
+    "cases": [
+      {
+        "id": "support-case-valid",
+        "target": "SupportCase",
+        "valid": true,
+        "value": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "subject": "Account support",
+          "state": "open",
+          "messages": [
+            {
+              "messageId": {
+                "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+              },
+              "actorKind": "future.owner-kind",
+              "text": "Please help with this account.",
+              "createdAt": {
+                "unixSeconds": "1",
+                "nanos": 0
+              }
+            }
+          ],
+          "revision": {
+            "value": "1"
+          },
+          "category": "support",
+          "messagePage": {
+            "hasMore": false
+          }
+        }
+      },
+      {
+        "id": "support-case-unknown-state",
+        "target": "SupportCase",
+        "valid": false,
+        "value": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "subject": "Account support",
+          "state": "futureState",
+          "messages": [],
+          "revision": {
+            "value": "1"
+          },
+          "category": "support",
+          "messagePage": {
+            "hasMore": false
+          }
+        }
+      },
+      {
+        "id": "support-case-unknown-category",
+        "target": "SupportCase",
+        "valid": false,
+        "value": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "subject": "Account support",
+          "state": "open",
+          "messages": [],
+          "revision": {
+            "value": "1"
+          },
+          "category": "other",
+          "messagePage": {
+            "hasMore": false
+          }
+        }
+      },
+      {
+        "id": "support-message-forward-compatible-actor-key",
+        "target": "SupportMessage",
+        "valid": true,
+        "value": {
+          "messageId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "actorKind": "future.owner-kind",
+          "text": "Explicit support text.",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      },
+      {
+        "id": "support-message-invalid-key",
+        "target": "SupportMessage",
+        "valid": false,
+        "value": {
+          "messageId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "actorKind": "not valid",
+          "text": "Explicit support text.",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      },
+      {
+        "id": "notification-view-forward-compatible-keys",
+        "target": "NotificationView",
+        "valid": true,
+        "value": {
+          "notificationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "kind": "future.notification",
+          "durability": "durable",
+          "messageKey": "future.message-key",
+          "state": "unread",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      },
+      {
+        "id": "notification-view-invalid-key",
+        "target": "NotificationView",
+        "valid": false,
+        "value": {
+          "notificationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "kind": "bad key",
+          "durability": "durable",
+          "messageKey": "future.message-key",
+          "state": "unread",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      },
+      {
+        "id": "policy-bundle-body-v1",
+        "target": "PolicyBundle",
+        "valid": true,
+        "value": {
+          "version": "policy.1",
+          "issuedAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          },
+          "expiresAt": {
+            "unixSeconds": "2",
+            "nanos": 0
+          },
+          "body": "eyJzY2hlbWFWZXJzaW9uIjoicG9saWN5LmJvZHkudjEiLCJ2ZXJzaW9uIjoiZml4dHVyZS12MSIsImlzc3VlZEF0IjoiMjAyNi0wOS0yOVQwMDowMDowMFoiLCJleHBpcmVzQXQiOiIyMDI2LTA5LTI5VDAxOjAwOjAwWiIsInJ1bGVzIjpbXSwiZXhwZXJpbWVudHMiOltdLCJyZWFzb24iOiJmaXh0dXJlIG9ubHk7IG5vdCBzaWduZWQgb3IgYWN0aXZhdGVkIn0=",
+          "signature": "AQ==",
+          "keyId": "key.1"
+        }
+      },
+      {
+        "id": "policy-bundle-requires-body-presence",
+        "target": "PolicyBundle",
+        "valid": false,
+        "value": {
+          "version": "policy.1",
+          "issuedAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          },
+          "expiresAt": {
+            "unixSeconds": "2",
+            "nanos": 0
+          },
+          "signature": "AQ==",
+          "keyId": "key.1"
+        }
+      },
+      {
+        "id": "policy-bundle-requires-signature-presence",
+        "target": "PolicyBundle",
+        "valid": false,
+        "value": {
+          "version": "policy.1",
+          "issuedAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          },
+          "expiresAt": {
+            "unixSeconds": "2",
+            "nanos": 0
+          },
+          "body": "eyJzY2hlbWFWZXJzaW9uIjoicG9saWN5LmJvZHkudjEiLCJ2ZXJzaW9uIjoiZml4dHVyZS12MSIsImlzc3VlZEF0IjoiMjAyNi0wOS0yOVQwMDowMDowMFoiLCJleHBpcmVzQXQiOiIyMDI2LTA5LTI5VDAxOjAwOjAwWiIsInJ1bGVzIjpbXSwiZXhwZXJpbWVudHMiOltdLCJyZWFzb24iOiJmaXh0dXJlIG9ubHk7IG5vdCBzaWduZWQgb3IgYWN0aXZhdGVkIn0=",
+          "keyId": "key.1"
+        }
+      }
+    ]
+  },
   "hello.json": {
     "cases": [
       {

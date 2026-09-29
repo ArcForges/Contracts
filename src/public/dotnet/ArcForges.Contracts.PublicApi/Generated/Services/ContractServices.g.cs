@@ -25,5 +25,11 @@ public static class ContractServices
         global::ArcForges.Contracts.PublicApi.V1.SearchService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.AutomationService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.SourceService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.SupportService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.NotificationService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.PreferenceService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.PolicyService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.DataService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.ExportService.Descriptor,
     ];
 }
