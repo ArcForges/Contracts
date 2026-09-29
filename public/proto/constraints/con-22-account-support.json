@@ -43,9 +43,7 @@
           ]
         },
         "relatedActionId": {},
-        "messagePage": {
-          "required": true
-        }
+        "messagePage": {}
       }
     },
     "arcforges.publicapi.v1.SupportMessage": {

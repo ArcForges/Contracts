@@ -111,9 +111,6 @@ internal static class SupportCases
         var missingRevision = validCase.Clone();
         missingRevision.ClearRevision();
         Require(!ContractShapeValidation.IsValid(missingRevision), "SupportCase revision presence");
-        var missingPage = validCase.Clone();
-        missingPage.ClearMessagePage();
-        Require(!ContractShapeValidation.IsValid(missingPage), "SupportCase messagePage presence");
         validCase.Subject += "x";
         Require(!ContractShapeValidation.IsValid(validCase), "Name rejects 257 scalars");
         Require(!ContractShapeValidation.IsValid(Case("futureState", "support", 1, 0)), "closed support case state meanings");

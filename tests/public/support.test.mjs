@@ -93,9 +93,6 @@ test("CON.22 names, text, keys, repeated messages and policy body retain declare
   const missingRevision = caseValue();
   delete missingRevision.revision;
   assert.equal(shapes.isSupportCase(missingRevision), false);
-  const missingMessagePage = caseValue();
-  delete missingMessagePage.messagePage;
-  assert.equal(shapes.isSupportCase(missingMessagePage), false);
   assert.equal(shapes.isSupportCase(caseValue("Case", "futureState")), false);
   assert.equal(shapes.isSupportCase(caseValue("Case", "open", "futureCategory")), false);
   assert.equal(shapes.isSupportCase(caseValue("Case", "open", "support", 100)), true);

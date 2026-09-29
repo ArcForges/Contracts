@@ -50,7 +50,6 @@ internal object SupportCases {
         check(!validCase(sample.toBuilder().setSubject("😀".repeat(257)).build())) { "Oversized Name was accepted" }
         check(!validCase(sample.toBuilder().clearSubject().build())) { "Absent SupportCase subject was accepted" }
         check(!validCase(sample.toBuilder().clearRevision().build())) { "Absent SupportCase revision was accepted" }
-        check(!validCase(sample.toBuilder().clearMessagePage().build())) { "Absent SupportCase message page was accepted" }
         check(!validCase(sample.toBuilder().setState("futureState").build())) { "Unknown SupportCase state was accepted" }
         check(!validCase(sample.toBuilder().setCategory("futureCategory").build())) { "Unknown SupportCase category was accepted" }
         val tooManyMessages = sample.toBuilder().clearMessages().apply {
@@ -98,7 +97,6 @@ internal object SupportCases {
             value.state in caseStates &&
             value.category in caseCategories &&
             value.hasRevision() &&
-            value.hasMessagePage() &&
             value.messagesCount <= 100 &&
             value.messagesList.all(::validMessage)
 
