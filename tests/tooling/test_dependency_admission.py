@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 51)
+        self.assertEqual(len(config['allowlists']), 52)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -896,9 +896,13 @@ class DependencyAdmission(unittest.TestCase):
         con09_policy_group = next(row for row in config['allowlists']
                                   if row['description'].startswith('CON09 exact observed active dependency-policy') and
                                   row['paths'] == [r'^eng/policy/dependency\-policy\.json$'])
+        con10_policy_group = next(row for row in config['allowlists']
+                                  if row['description'].startswith('CON10 exact observed active dependency-policy') and
+                                  row['paths'] == [r'^eng/policy/dependency\-policy\.json$'])
         active_access_line = f'  "{access_key}": "{current_access_digest}",'
         self.assertFalse(any(re.fullmatch(pattern, active_access_line) for pattern in ext02_group['regexes']))
-        self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in con09_policy_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, active_access_line) for pattern in con09_policy_group['regexes']))
+        self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in con10_policy_group['regexes']))
         self.assertFalse(any(re.fullmatch(pattern, active_access_line)
                              for pattern in by_path['^' + re.escape(policy_path) + '$']['regexes']))
 
@@ -1009,17 +1013,22 @@ class DependencyAdmission(unittest.TestCase):
 
         access_key = 'eng/policy/contract-access.json'
         base_policy = committed_json('affeeae06e563340354698dd5e32d74891c96e78', policy_path)
+        con09_policy = committed_json(observed_head, policy_path)
         current_policy = committed_json(head, policy_path)
         ext02_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/ext-02-r1.json')
                                    .read_text(encoding='utf-8'))
         old_access_digest = base_policy['inputHashes'][access_key]
-        active_access_digest = current_policy['inputHashes'][access_key]
+        con09_access_digest = con09_policy['inputHashes'][access_key]
+        current_access_digest = current_policy['inputHashes'][access_key]
         self.assertEqual(old_access_digest,
                          ext02_receipt['review']['inputHashes'][access_key])
-        self.assertEqual(active_access_digest,
+        self.assertEqual(con09_access_digest,
                          '86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533')
-        self.assertNotEqual(active_access_digest, old_access_digest)
-        policy_rows = {(access_key, active_access_digest)}
+        self.assertEqual(current_access_digest,
+                         '466e30f0c4f4e5cb426b9cd63c8c00a46b084d0f885ec54af774da3cd66c0615')
+        self.assertNotEqual(con09_access_digest, old_access_digest)
+        self.assertNotEqual(current_access_digest, con09_access_digest)
+        policy_rows = {(access_key, con09_access_digest)}
         self.assertEqual(digest_set_hash(policy_rows),
                          '9376bfc063d6056b2715a6da75899e4ef098f3e7ca916bc89b1c79a892a62e3a')
         expected_rows = {
@@ -1066,10 +1075,13 @@ class DependencyAdmission(unittest.TestCase):
             ['git', 'show', head + ':' + receipt_path], cwd=ROOT, text=True), receipt_group)), 4)
         historical_policy_text = subprocess.check_output(
             ['git', 'show', 'affeeae06e563340354698dd5e32d74891c96e78:' + policy_path], cwd=ROOT, text=True)
+        con09_policy_text = subprocess.check_output(
+            ['git', 'show', observed_head + ':' + policy_path], cwd=ROOT, text=True)
         current_policy_text = subprocess.check_output(
             ['git', 'show', head + ':' + policy_path], cwd=ROOT, text=True)
         self.assertEqual(len(matching_lines(historical_policy_text, policy_group)), 0)
-        self.assertEqual(len(matching_lines(current_policy_text, policy_group)), 2)
+        self.assertEqual(len(matching_lines(con09_policy_text, policy_group)), 2)
+        self.assertEqual(len(matching_lines(current_policy_text, policy_group)), 0)
 
         ext02_policy_group = next(row for row in config['allowlists']
                                   if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes' and
@@ -1077,17 +1089,83 @@ class DependencyAdmission(unittest.TestCase):
         con08_policy_group = next(row for row in config['allowlists']
                                   if row['description'].startswith('CON08 exact observed') and
                                   row['paths'] == [path_patterns[policy_path]])
+        con09_policy_group = next(row for row in config['allowlists']
+                                  if row['description'].startswith('CON09 exact observed active dependency-policy') and
+                                  row['paths'] == [path_patterns[policy_path]])
         old_line = f'  "{access_key}": "{old_access_digest}",'
-        active_line = f'  "{access_key}": "{active_access_digest}",'
+        con09_line = f'  "{access_key}": "{con09_access_digest}",'
+        current_line = f'  "{access_key}": "{current_access_digest}",'
         self.assertTrue(any(re.fullmatch(pattern, old_line) for pattern in ext02_policy_group['regexes']))
-        self.assertFalse(any(re.fullmatch(pattern, active_line) for pattern in ext02_policy_group['regexes']))
-        self.assertFalse(any(re.fullmatch(pattern, active_line) for pattern in con08_policy_group['regexes']))
-        self.assertTrue(any(re.fullmatch(pattern, active_line) for pattern in policy_group['regexes']))
-
+        self.assertFalse(any(re.fullmatch(pattern, current_line) for pattern in ext02_policy_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, con09_line) for pattern in con08_policy_group['regexes']))
+        self.assertTrue(any(re.fullmatch(pattern, con09_line) for pattern in con09_policy_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, current_line) for pattern in con09_policy_group['regexes']))
         self.assertEqual(sum(len(rows) for rows in expected_rows.values()), 214)
         self.assertEqual(208 + 5 + 2, 215)
+
+    def test_con10_secret_scan_allowlist_binds_exact_old_and_current_policy_lines(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        policy_path = 'eng/policy/dependency-policy.json'
+        access_key = 'eng/policy/contract-access.json'
+        path_pattern = r'^eng/policy/dependency\-policy\.json$'
+        current_digest = '466e30f0c4f4e5cb426b9cd63c8c00a46b084d0f885ec54af774da3cd66c0615'
+        con09_digest = '86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533'
+
+        con09_group = next(row for row in config['allowlists']
+                           if row['description'].startswith('CON09 exact observed active dependency-policy') and
+                           row['paths'] == [path_pattern])
+        con10_groups = [row for row in config['allowlists']
+                        if row['description'] == 'CON10 exact observed active dependency-policy digest row']
+        self.assertEqual(len(con10_groups), 1)
+        con10_group = con10_groups[0]
+        for group in [con09_group, con10_group]:
+            self.assertEqual(group['targetRules'], ['generic-api-key'])
+            self.assertEqual(group['condition'], 'AND')
+            self.assertEqual(group['regexTarget'], 'line')
+            self.assertEqual(group['paths'], [path_pattern])
+        old_pattern = r'(?s)^\s*"' + re.escape(access_key) + r'":\s*"' + con09_digest + r'",?\s*$'
+        current_pattern = r'(?s)^\s*"' + re.escape(access_key) + r'":\s*"' + current_digest + r'",?\s*$'
+        self.assertEqual(con09_group['regexes'], [old_pattern])
+        self.assertEqual(con10_group['regexes'], [current_pattern])
+
+        predecessor = 'bf42fef5e4fd28792004c8a16623465784e2bfb7'
+        previous_policy = json.loads(subprocess.check_output(
+            ['git', 'show', predecessor + ':' + policy_path], cwd=ROOT, text=True))
+        current_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
+        current_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/con-10-r1.json')
+                                     .read_text(encoding='utf-8'))
+        self.assertEqual(previous_policy['inputHashes'][access_key], con09_digest)
+        self.assertEqual(previous_policy['review']['inputHashes'][access_key], con09_digest)
+        self.assertEqual(current_policy['inputHashes'][access_key], current_digest)
+        self.assertEqual(current_policy['review']['inputHashes'][access_key], current_digest)
+        self.assertEqual(current_receipt['review']['inputHashes'][access_key], current_digest)
+        self.assertEqual(hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest(), current_digest)
+
+        old_line = f'  "{access_key}": "{con09_digest}",'
+        current_line = f'  "{access_key}": "{current_digest}",'
+        self.assertIsNotNone(re.fullmatch(old_pattern, old_line))
+        self.assertIsNotNone(re.fullmatch(current_pattern, current_line))
+        for group, pattern, allowed, rejected in [
+            (con09_group, old_pattern, old_line, current_line),
+            (con10_group, current_pattern, current_line, old_line),
+        ]:
+            allowed_digest = con09_digest if group is con09_group else current_digest
+            self.assertTrue(any(re.fullmatch(candidate, allowed) for candidate in group['regexes']))
+            self.assertFalse(any(re.fullmatch(candidate, rejected) for candidate in group['regexes']))
+            for bad_line in [
+                allowed.replace(allowed_digest, '0' * 64 if allowed_digest != '0' * 64 else '1' * 64),
+                allowed.replace('"' + access_key + '"', '"credential"'),
+                allowed + ' "credential": "synthetic-secret"',
+            ]:
+                self.assertFalse(any(re.fullmatch(candidate, bad_line) for candidate in group['regexes']))
+            self.assertFalse(re.fullmatch(group['paths'][0], policy_path + '.backup'))
+            self.assertFalse(re.fullmatch(group['paths'][0], 'src/secrets.json'))
+
+        current_policy_text = (ROOT / policy_path).read_text(encoding='utf-8')
+        current_matches = [line for line in current_policy_text.splitlines()
+                           if any(re.fullmatch(pattern, line) for pattern in con10_group['regexes'])]
+        self.assertEqual(len(current_matches), 2)
 
 
 if __name__ == '__main__':
     unittest.main()
-

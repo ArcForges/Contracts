@@ -1878,3 +1878,13 @@ regexTarget = "line"
 regexes = [
   '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533",?\s*$''',
 ]
+
+[[allowlists]]
+description = "CON10 exact observed active dependency-policy digest row"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency\-policy\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"466e30f0c4f4e5cb426b9cd63c8c00a46b084d0f885ec54af774da3cd66c0615",?\s*$''',
+]
