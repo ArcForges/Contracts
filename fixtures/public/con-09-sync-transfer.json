@@ -129,7 +129,13 @@
       "operation": "transfer.requestExport",
       "given": {
         "includedRoots": ["conversation", "memory", "scopeSession"],
-        "excludedAuthority": ["credentials", "deviceTrust", "activeExecution", "policy", "deletionTombstones"]
+        "excludedAuthority": [
+          "credentials",
+          "deviceTrust",
+          "activeExecution",
+          "policy",
+          "deletionTombstones"
+        ]
       },
       "expect": {
         "manifestRootsContainOnlyIncludedRoots": true,

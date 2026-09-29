@@ -12,7 +12,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.setScope",
@@ -24,7 +33,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.pullChanges",
@@ -36,7 +54,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.pushChange",
@@ -48,7 +75,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.pushBatch",
@@ -60,7 +96,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.getAggregate",
@@ -72,7 +117,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.listConflicts",
@@ -84,7 +138,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.resolveConflict",
@@ -96,7 +159,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.requestFullResync",
@@ -108,7 +180,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-sync",
       "idempotency": "NI",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "sync.getBootstrapPage",
@@ -120,7 +201,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.beginUpload",
@@ -132,7 +222,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#6-resource-transfer",
       "idempotency": "CC",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": true, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.completeUpload",
@@ -144,7 +243,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#6-resource-transfer",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": true, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.getDownloadTicket",
@@ -156,7 +264,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#6-resource-transfer",
       "idempotency": "NI",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.getMetadata",
@@ -168,7 +285,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#6-resource-transfer",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.release",
@@ -180,7 +306,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#6-resource-transfer",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.getUploadStatus",
@@ -192,7 +327,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": true, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "resource.renewUploadTicket",
@@ -204,7 +348,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
       "idempotency": "NI",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": true, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "transfer.requestExport",
@@ -216,7 +369,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/07-client-journeys-and-ports.md#5-realm-transfer-and-data-health",
       "idempotency": "CC",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "transfer.previewImport",
@@ -228,7 +390,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/07-client-journeys-and-ports.md#5-realm-transfer-and-data-health",
       "idempotency": "CC",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "transfer.commitImport",
@@ -240,7 +411,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/07-client-journeys-and-ports.md#5-realm-transfer-and-data-health",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "transfer.get",
@@ -252,7 +432,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/07-client-journeys-and-ports.md#5-realm-transfer-and-data-health",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "transfer.list",
@@ -264,7 +453,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/07-client-journeys-and-ports.md#5-realm-transfer-and-data-health",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "transfer.cancel",
@@ -276,7 +474,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/07-client-journeys-and-ports.md#5-realm-transfer-and-data-health",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     }
   ]
 }
