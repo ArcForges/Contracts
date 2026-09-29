@@ -78949,6 +78949,14 @@ export const publicFixtures = {
           "arcforges.catalog.v1.CatalogService",
           "arcforges.publicapi.v1.EntitlementService",
           "arcforges.publicapi.v1.CommerceService",
+          "arcforges.publicapi.v1.TaskService",
+          "arcforges.publicapi.v1.ApprovalService",
+          "arcforges.publicapi.v1.BridgeService",
+          "arcforges.publicapi.v1.ChatService",
+          "arcforges.publicapi.v1.AgentService",
+          "arcforges.publicapi.v1.SearchService",
+          "arcforges.publicapi.v1.AutomationService",
+          "arcforges.publicapi.v1.SourceService",
           "arcforges.publicapi.v1.SyncService",
           "arcforges.publicapi.v1.ResourceService",
           "arcforges.publicapi.v1.TransferService"
@@ -79005,6 +79013,79 @@ export const publicFixtures = {
           "/arcforges.publicapi.v1.CommerceService/ListBillingHistory",
           "/arcforges.publicapi.v1.CommerceService/RequestRefund",
           "/arcforges.publicapi.v1.CommerceService/ExportEvidence"
+        ],
+        "arcforges.publicapi.v1.TaskService": [
+          "/arcforges.publicapi.v1.TaskService/List",
+          "/arcforges.publicapi.v1.TaskService/Get",
+          "/arcforges.publicapi.v1.TaskService/Create",
+          "/arcforges.publicapi.v1.TaskService/Cancel",
+          "/arcforges.publicapi.v1.TaskService/Pause",
+          "/arcforges.publicapi.v1.TaskService/Resume",
+          "/arcforges.publicapi.v1.TaskService/RetryAttempt",
+          "/arcforges.publicapi.v1.TaskService/Steer",
+          "/arcforges.publicapi.v1.TaskService/GetDetails"
+        ],
+        "arcforges.publicapi.v1.ApprovalService": [
+          "/arcforges.publicapi.v1.ApprovalService/List",
+          "/arcforges.publicapi.v1.ApprovalService/Decide"
+        ],
+        "arcforges.publicapi.v1.BridgeService": [
+          "/arcforges.publicapi.v1.BridgeService/PullRequests",
+          "/arcforges.publicapi.v1.BridgeService/SubmitResult",
+          "/arcforges.publicapi.v1.BridgeService/GetRequestState"
+        ],
+        "arcforges.publicapi.v1.ChatService": [
+          "/arcforges.publicapi.v1.ChatService/ListConversations",
+          "/arcforges.publicapi.v1.ChatService/GetConversation",
+          "/arcforges.publicapi.v1.ChatService/AppendMessage",
+          "/arcforges.publicapi.v1.ChatService/CreateBranch",
+          "/arcforges.publicapi.v1.ChatService/RequestExport",
+          "/arcforges.publicapi.v1.ChatService/CreateConversation",
+          "/arcforges.publicapi.v1.ChatService/PutProject",
+          "/arcforges.publicapi.v1.ChatService/DeleteProject",
+          "/arcforges.publicapi.v1.ChatService/PutMemory",
+          "/arcforges.publicapi.v1.ChatService/DeleteMemory",
+          "/arcforges.publicapi.v1.ChatService/GetTurn",
+          "/arcforges.publicapi.v1.ChatService/CancelTurn",
+          "/arcforges.publicapi.v1.ChatService/PreviewPromotion",
+          "/arcforges.publicapi.v1.ChatService/PromoteTurn",
+          "/arcforges.publicapi.v1.ChatService/CloseTemporary",
+          "/arcforges.publicapi.v1.ChatService/SaveTemporary",
+          "/arcforges.publicapi.v1.ChatService/UpdateConversation",
+          "/arcforges.publicapi.v1.ChatService/ListProjects",
+          "/arcforges.publicapi.v1.ChatService/GetProject",
+          "/arcforges.publicapi.v1.ChatService/ListMemories",
+          "/arcforges.publicapi.v1.ChatService/GetMemory"
+        ],
+        "arcforges.publicapi.v1.AgentService": [
+          "/arcforges.publicapi.v1.AgentService/ListModels",
+          "/arcforges.publicapi.v1.AgentService/ListProfiles",
+          "/arcforges.publicapi.v1.AgentService/GetUsage",
+          "/arcforges.publicapi.v1.AgentService/PutProfile",
+          "/arcforges.publicapi.v1.AgentService/DeleteProfile",
+          "/arcforges.publicapi.v1.AgentService/PutSkill",
+          "/arcforges.publicapi.v1.AgentService/DeleteSkill"
+        ],
+        "arcforges.publicapi.v1.SearchService": [
+          "/arcforges.publicapi.v1.SearchService/Query"
+        ],
+        "arcforges.publicapi.v1.AutomationService": [
+          "/arcforges.publicapi.v1.AutomationService/List",
+          "/arcforges.publicapi.v1.AutomationService/Get",
+          "/arcforges.publicapi.v1.AutomationService/Create",
+          "/arcforges.publicapi.v1.AutomationService/Update",
+          "/arcforges.publicapi.v1.AutomationService/SetEnabled",
+          "/arcforges.publicapi.v1.AutomationService/Delete",
+          "/arcforges.publicapi.v1.AutomationService/RunNow",
+          "/arcforges.publicapi.v1.AutomationService/SubmitEvent",
+          "/arcforges.publicapi.v1.AutomationService/ResolveMissed"
+        ],
+        "arcforges.publicapi.v1.SourceService": [
+          "/arcforges.publicapi.v1.SourceService/CreateConsent",
+          "/arcforges.publicapi.v1.SourceService/RevokeConsent",
+          "/arcforges.publicapi.v1.SourceService/GetPolicy",
+          "/arcforges.publicapi.v1.SourceService/SetPolicy",
+          "/arcforges.publicapi.v1.SourceService/ClearPolicy"
         ],
         "arcforges.publicapi.v1.SyncService": [
           "/arcforges.publicapi.v1.SyncService/ListScopes",

@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 52)
+        self.assertEqual(len(config['allowlists']), 54)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -1165,6 +1165,142 @@ class DependencyAdmission(unittest.TestCase):
         current_matches = [line for line in current_policy_text.splitlines()
                            if any(re.fullmatch(pattern, line) for pattern in con10_group['regexes'])]
         self.assertEqual(len(current_matches), 2)
+
+    def test_con10_secret_scan_allowlists_bind_exact_hosted_fingerprint_sets(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        docs_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r15.json'
+        receipt_path = 'eng/policy/dependency-reviews/con-10-r1.json'
+        docs_commit = '3be95f260dbee990c1e35a94c99122bfa96c539e'
+        receipt_commit = '300105355db421cb74c186f72d2bcba97b03d896'
+        docs_file_sha = '31c4b9a5d5fd2185680258ea649d03137d3d8cf48982d13737b72d8b6e29eeb8'
+        receipt_file_sha = '638410d18b0dfe3a6f5c1eed0d125333ec6d5ea41112d16b1a2068507483b89b'
+        docs_fingerprint_sha = 'a308bfa4defb2c696b800e3d4c9c0e5b5150e98ea3321065ca1717cfdd4dc68b'
+        receipt_fingerprint_sha = '9270f889d976afc16b5727700cb376c142cd248e6abf15192cb23e47608dcca4'
+        descriptions = [
+            'CON10 exact observed r15 Dokka findings (Security run 36572854175)',
+            'CON10 exact observed dependency-review findings (Security run 36572854175)',
+        ]
+        groups = [row for row in config['allowlists'] if row['description'] in descriptions]
+        self.assertEqual(len(groups), 2)
+        by_description = {row['description']: row for row in groups}
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+
+        docs_excluded_candidates = {
+            ('contracts-proto/io.github.arcforges.contracts.foundation.v1/'
+             '-action-descriptor/-builder/get-description-key.html'),
+            ('contracts-proto/io.github.arcforges.contracts.publicapi.v1/'
+             '-automation-service-resolve-missed-request-kt/-dsl/-occurrence-keys-proxy/index.html'),
+            ('contracts-proto/io.github.arcforges.contracts.publicapi.v1/'
+             '-general-search-query/get-dataset-token-bytes.html'),
+        }
+        receipt_keys = {
+            'eng/policy/contract-access.json',
+            'eng/provenance/records/dokka-combokeys-licence-r1.json',
+            'eng/provenance/records/dokka-object-keys-licence-r1.json',
+            'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
+        }
+        cases = [
+            {
+                'description': descriptions[0],
+                'path': docs_path,
+                'commit': docs_commit,
+                'file_sha': docs_file_sha,
+                'fingerprint_sha': docs_fingerprint_sha,
+                'count': 273,
+            },
+            {
+                'description': descriptions[1],
+                'path': receipt_path,
+                'commit': receipt_commit,
+                'file_sha': receipt_file_sha,
+                'fingerprint_sha': receipt_fingerprint_sha,
+                'count': 4,
+            },
+        ]
+
+        for case in cases:
+            with self.subTest(path=case['path']):
+                group = by_description[case['description']]
+                path = case['path']
+                source_commit = case['commit']
+                path_pattern = '^' + re.escape(path) + '$'
+                self.assertEqual(group['targetRules'], ['generic-api-key'])
+                self.assertEqual(group['condition'], 'AND')
+                self.assertEqual(group['regexTarget'], 'line')
+                self.assertEqual(group['paths'], [path_pattern])
+                self.assertEqual(
+                    subprocess.run(['git', 'merge-base', '--is-ancestor', source_commit, head],
+                                   cwd=ROOT, check=False).returncode,
+                    0,
+                )
+
+                source_blob = subprocess.check_output(
+                    ['git', 'show', source_commit + ':' + path], cwd=ROOT)
+                self.assertEqual(hashlib.sha256(source_blob).hexdigest(), case['file_sha'])
+                self.assertEqual((ROOT / path).read_bytes(), source_blob)
+                source_text = source_blob.decode('utf-8')
+                source_json = json.loads(source_text)
+                if path == docs_path:
+                    source_rows = source_json['modules']['contracts-proto']['pages']
+                    candidates = {
+                        (key, digest) for key, digest in source_rows.items()
+                        if re.search(r'(key|token)', key, re.IGNORECASE)
+                    }
+                    self.assertEqual(len(candidates), 276)
+                    self.assertEqual(
+                        {key for key, _ in candidates} & docs_excluded_candidates,
+                        docs_excluded_candidates,
+                    )
+                    expected_rows = {
+                        (key, digest) for key, digest in candidates
+                        if key not in docs_excluded_candidates
+                    }
+                else:
+                    source_rows = source_json['review']['inputHashes']
+                    self.assertTrue(receipt_keys.issubset(source_rows))
+                    expected_rows = {(key, source_rows[key]) for key in receipt_keys}
+
+                self.assertEqual(len(expected_rows), case['count'])
+                ordered_rows = sorted(expected_rows)
+                expected_patterns = [
+                    r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + digest + r'",?\s*$'
+                    for key, digest in ordered_rows
+                ]
+                self.assertEqual(group['regexes'], expected_patterns)
+
+                matched_rows = []
+                fingerprints = []
+                for line_number, line in enumerate(source_text.splitlines(), start=1):
+                    matches = [pattern for pattern in group['regexes'] if re.fullmatch(pattern, line)]
+                    self.assertLessEqual(len(matches), 1)
+                    if matches:
+                        row = re.fullmatch(r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})"\s*,?\s*', line)
+                        self.assertIsNotNone(row)
+                        matched_rows.append((row.group(1), row.group(2)))
+                        fingerprints.append(
+                            f"{source_commit}:{path}:generic-api-key:{line_number}"
+                        )
+                self.assertEqual(set(matched_rows), expected_rows)
+                self.assertEqual(len(matched_rows), case['count'])
+                self.assertEqual(len(set(fingerprints)), case['count'])
+                canonical_fingerprints = '\n'.join(sorted(set(fingerprints))) + '\n'
+                self.assertEqual(
+                    hashlib.sha256(canonical_fingerprints.encode('utf-8')).hexdigest(),
+                    case['fingerprint_sha'],
+                )
+
+                for (key, digest), pattern in zip(ordered_rows, group['regexes'], strict=True):
+                    line = f'  "{key}": "{digest}",'
+                    self.assertIsNotNone(re.fullmatch(pattern, line))
+                    wrong_digest = '0' * 64 if digest != '0' * 64 else '1' * 64
+                    for rejected_line in [
+                        line.replace(digest, wrong_digest),
+                        line.replace('"' + key + '"', '"credential"'),
+                        line + ' "credential": "synthetic-secret"',
+                    ]:
+                        self.assertIsNone(re.fullmatch(pattern, rejected_line))
+                self.assertIsNone(re.fullmatch(group['paths'][0], path + '.backup'))
+                self.assertIsNone(re.fullmatch(group['paths'][0], 'src/secrets.json'))
 
 
 if __name__ == '__main__':
