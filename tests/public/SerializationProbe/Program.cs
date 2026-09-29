@@ -82,6 +82,9 @@ ArcForges.Contracts.Catalog.V1.CatalogService.BindService(binder, new CatalogEnd
 ArcForges.Sdk.Contracts.V1.ExtensionHostService.BindService(binder, new ExtensionEndpoint());
 ArcForges.Contracts.PublicApi.V1.EntitlementService.BindService(binder, new EntitlementEndpoint());
 ArcForges.Contracts.PublicApi.V1.CommerceService.BindService(binder, new CommerceEndpoint());
+ArcForges.Contracts.PublicApi.V1.SyncService.BindService(binder, new SyncEndpoint());
+ArcForges.Contracts.PublicApi.V1.ResourceService.BindService(binder, new ResourceEndpoint());
+ArcForges.Contracts.PublicApi.V1.TransferService.BindService(binder, new TransferEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -94,6 +97,8 @@ FileDescriptor[] files =
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.CommerceReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.SyncReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.TransferReflection.Descriptor,
     ArcForges.Contracts.Events.V1.EventsReflection.Descriptor,
     ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor,
@@ -297,4 +302,10 @@ internal sealed class ExtensionEndpoint : ArcForges.Sdk.Contracts.V1.ExtensionHo
 internal sealed class EntitlementEndpoint : ArcForges.Contracts.PublicApi.V1.EntitlementService.EntitlementServiceBase;
 
 internal sealed class CommerceEndpoint : ArcForges.Contracts.PublicApi.V1.CommerceService.CommerceServiceBase;
+
+internal sealed class SyncEndpoint : ArcForges.Contracts.PublicApi.V1.SyncService.SyncServiceBase;
+
+internal sealed class ResourceEndpoint : ArcForges.Contracts.PublicApi.V1.ResourceService.ResourceServiceBase;
+
+internal sealed class TransferEndpoint : ArcForges.Contracts.PublicApi.V1.TransferService.TransferServiceBase;
 

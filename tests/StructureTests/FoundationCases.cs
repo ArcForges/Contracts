@@ -33,7 +33,7 @@ internal static class FoundationCases
         Require(!fixture["samples"]!.AsObject().ContainsKey("TransferTicket"), "Duplicate independent fixture TransferTicket");
         fixture["samples"]!["TransferTicket"] = transferTicket["sample"]!.DeepClone();
         foreach (var item in transferTicket["cases"]!.AsArray()) fixture["cases"]!.AsArray().Add(item!.DeepClone());
-        fixture["foundationTypes"]!.AsArray().Add("TransferTicket");
+        fixture["foundationTypes"]!.AsArray().Add((JsonNode?)JsonValue.Create("TransferTicket"));
         return (fixture, [.. original, .. descriptors, .. transferTicketBytes]);
     }
 

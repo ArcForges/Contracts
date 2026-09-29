@@ -3,7 +3,7 @@
   "id": "contract-bindings-con-09-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "2bfaa72da6a32c2b6ddb43a1b5b4062e3f3a2937",
+  "sourceCommit": "e045bacb3370d211e557d14e9fc611ac820600ab",
   "sourcePaths": [
     "eng/con06_inprocess.py",
     "eng/contract-packages.json",
@@ -77,6 +77,7 @@
     "public/proto/constraints/con-09-transfer-ticket.json",
     "public/proto/constraints/con-13-package-catalog.json",
     "public/proto/constraints/events-baseline.json",
+    "public/proto/constraints/ext-02-dual-capability.json",
     "public/proto/constraints/extensions-baseline.json",
     "public/proto/constraints/extensions.json",
     "public/proto/constraints/foundation-baseline.json",
@@ -95,7 +96,7 @@
         "finding": "All selected authored schemas, shape rules, fixtures and orchestration carry the repository Apache-2.0 terms; exact source identities and hashes are bound below."
       }
     ],
-    "scope": "CON.08 adds only its authored EntitlementService/CommerceService public schema, owned constraints and compatibility fixtures plus regenerated public bindings and exact operation-metadata export. The existing Apache-2.0 source ownership, generator identities, dependency versions, closure, package identities and external boundaries remain unchanged.",
+    "scope": "CON.09 adds one canonical TransferTicket Foundation message, the authorized Sync/Resource/Transfer public schemas, task-owned constraints, fixtures and operation export, plus regenerated bindings. The existing Apache-2.0 source ownership, generator identities, dependency versions, closure, package identities and external boundaries remain unchanged.",
     "copyingPermission": null
   },
   "attribution": [
@@ -253,7 +254,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Foundation/Generated/Proto/Foundation.cs",
-      "sha256": "c49098c420ab9f324a94d8aafbac9609f3ceb4dbdc092f292b5b133a81fabd4f",
+      "sha256": "e6fbd30cca777005a48875d279614024babe6f3b339f087c56bc539af160fa9c",
       "normalization": "lf"
     },
     {
@@ -418,7 +419,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Contracts.Validation/Generated/Shapes/ProtoValidation.g.cs",
-      "sha256": "7f8dd4ceead5702bee38331e7bbc9bcb832c0907c641f0132d7abcd2809e236f",
+      "sha256": "5534f09313425ff6b54b20c0a039b23390bcce3d1959f1768900bec7690490e8",
       "normalization": "lf"
     },
     {
@@ -428,7 +429,7 @@
     },
     {
       "path": "src/public/dotnet/ArcForges.Sdk.Contracts/Generated/Proto/Extensions.cs",
-      "sha256": "43fab39d309834a6745afecf14373e5f395cfcc69039c10adaaf66e88670d556",
+      "sha256": "bcdbd9f82c4a8c0fa3bfa97a46c4b950fdbeb3c0441e072ee982133b0913dfcf",
       "normalization": "lf"
     },
     {
@@ -1268,12 +1269,12 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TransferTicket.java",
-      "sha256": "f8bcc92fb64ba64d2d3e479463f9901929d0aa885aa9244c62a856b5c4518eb8",
+      "sha256": "b5c8ede88428c3daf9f3839485eadd1c4e70b40b5d45a04b6101106a6df73a08",
       "normalization": "lf"
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/TransferTicketOrBuilder.java",
-      "sha256": "82942e647384082c237f1a48031763b559fc3bf92707d665636f4ebd82ff25b2",
+      "sha256": "07c7295eb90c275b5471454b738979c4353d5308c2df6b7f45b8027786f8719d",
       "normalization": "lf"
     },
     {
@@ -4118,7 +4119,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/TransferTicketKt.kt",
-      "sha256": "c4f00cfe43ef9a1255414de1e269e5876407f8bec76e12e3841f83c2390f0c7e",
+      "sha256": "2836a8027bb8f2af952f3044759b056b30202e33ad1532b3d3b6d82352cd6e50",
       "normalization": "lf"
     },
     {
@@ -5413,7 +5414,7 @@
     },
     {
       "path": "src/public/ts/contract-fixtures/src/index.ts",
-      "sha256": "3cde5be89488f168f9a869c36c03d16ee71861a85af470bf13b990353f285eb2",
+      "sha256": "ac7f1044b72248e9b4685043b1b029fa6a84f259ff1df6a403d0dfaeb68f4075",
       "normalization": "lf"
     },
     {
@@ -5428,7 +5429,7 @@
     },
     {
       "path": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
-      "sha256": "2283997f1e2f5cdc7d7cecb2b0a6f5ac4145291a264b3a81628eabb0c41cc1e1",
+      "sha256": "8866f06f9ca84ece5c8455a34ffc62bed346a5876804d3f5d1a383884354bb2d",
       "normalization": "lf"
     },
     {
@@ -5491,7 +5492,7 @@
   "verification": {
     "kind": "regeneration",
     "command": "python eng/contracts.py generate --check",
-    "expected": "All 800 predecessor generated targets remain present; 8 existing targets have current hashes and exactly 276 task-owned generated outputs are added. CON.09 adds only the TransferTicket Foundation message plus Sync/Resource/Transfer public proto services and their task-owned constraint shards, operation export and declarative fixture vectors. Generated C#, TypeScript, Kotlin protobuf and Connect-client outputs match the pinned generators; package identities, dependency versions/closure, and existing licence obligations remain unchanged. Dokka r14 records the exact generated Kotlin/Java public API pages.",
+    "expected": "All 800 active EXT.02 predecessor targets remain present and byte-bound, with exactly 276 CON.09-owned generated outputs in the 1,076-target successor snapshot. The record binds only current source/input and generated output bytes. CON.09 adds one canonical TransferTicket Foundation message plus Sync/Resource/Transfer public proto services and their task-owned constraint shards, operation export and declarative fixture vectors. Proto3 required url and maxPartBytes presence is represented by optional fields plus absent/zero/out-of-range fixture evidence. Generated C#, TypeScript, Kotlin protobuf and Connect-client outputs match the pinned generators; exact r14 Dokka admits the optional presence pages and exact owned RPC/API pages. Existing package identities, dependency versions/closure and licence obligations remain unchanged. The five sync/resource/transfer vectors are exact-once declarative owner-runtime evidence consumed by the existing C#/TS Foundation tests only; no Cloud/runtime behavior is claimed.",
     "artifacts": []
   },
   "notice": {
@@ -5665,7 +5666,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "2bfaa72da6a32c2b6ddb43a1b5b4062e3f3a2937",
+        "commit": "e045bacb3370d211e557d14e9fc611ac820600ab",
         "paths": [
           "eng/con06_inprocess.py",
           "eng/contract-packages.json",
@@ -5739,6 +5740,7 @@
           "public/proto/constraints/con-09-transfer-ticket.json",
           "public/proto/constraints/con-13-package-catalog.json",
           "public/proto/constraints/events-baseline.json",
+          "public/proto/constraints/ext-02-dual-capability.json",
           "public/proto/constraints/extensions-baseline.json",
           "public/proto/constraints/extensions.json",
           "public/proto/constraints/foundation-baseline.json",
@@ -5752,367 +5754,402 @@
           {
             "path": "eng/con06_inprocess.py",
             "sha256": "318a5fdd0002738b3b379478e4080e96bbae9a5aa0326d3aa12338379a955113",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/contract-packages.json",
-            "sha256": "0791756b449506eb3e83f9c320d90c272d475219d48c10e1060d5a26afc91134",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "sha256": "53cad65cc9193582590efc9a799d1d9ac6a1e4b29e5a764f1553c720dd5c6941",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/contracts.py",
             "sha256": "dfd78af27b98f1c341da169793797c6e1bec034d88d1a04f142376c5efdb3ca8",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/foundation_semantics.py",
             "sha256": "fd480dfb86321def209f6be1d823fb588c8ebeb5d66ce1ab25b116be6758b7d9",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/generate_fixtures.py",
             "sha256": "0417ade78531767c655d27d72999ec3916929283a8acf2d63b8af214af16ff88",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/generate_shapes.py",
             "sha256": "322567228fa1e90c6db8273bc25ab94aa62f24ac23fef1708b76b39520ad2ff6",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/generate_values.py",
             "sha256": "0c3316bcd3402399ac24f3513a919818044509d8510f2eebf5719f16b3201355",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/kotlin_tools.py",
             "sha256": "219ff48ab12c421b63942047d16e61c6282ee6fa1af69c4148337be8e52d3325",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/operations/con-08.json",
             "sha256": "c11059b523d470980817b23b0b5d920e02319ac1aef97a52a9cce01cc340feea",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "eng/operations/con-09.json",
+            "sha256": "2cdd58bc29b5cefab71c8905e000ac14d6ca06b3685bc9d0a24d38638a501c7f",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "eng/package_catalog.py",
             "sha256": "d045214fa515fbe9f5f9e7ed2b9a4ad566524b7e53ed93292c35af6edac4bd6b",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/internal/con-04-content-sandbox.json",
             "sha256": "1236e801853115ae8d2c93145dfb9db965687247ecf1eeeddbe45ea771accd05",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/internal/con-05-extension-connector-bootstrap.json",
             "sha256": "bea95aa3351a9d73558ee9d39b13eda69b5ff20aee3c0235e106f3ef5cba626d",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/internal/con-06-product-ports.json",
             "sha256": "e7b2fe9a2a1819a54f54f74f80f610cba58100a88353fe7abbca4350450ecaa4",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/internal/con-12-configuration.json",
             "sha256": "090d8ea1bc452154a13b6525510600c542f99c8dc2acb0926e059b9f523b92bc",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/internal/wp03-00.json",
             "sha256": "165a82cf362ff2b05a220724e042915769f467697261035d71bb0c6ffce5fe96",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-02-descriptors.json",
-            "sha256": "e44e99c4599597166846177ad481e12e1a0a0d3e31a2baa0fd7347180dca3c8a",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-03-sync-allowlist.json",
-            "sha256": "ddec1d85fa5775edb3d0f0e75adb407c06296aa828aa459ec8e613dd207e3b9d",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-08-entitlement-commerce.json",
-            "sha256": "b282e64940abe9fabd2441afdd8b269a52fd9a81e35e4aae3c74691bf1562022",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-12-extension-policy.json",
-            "sha256": "645fa316847c69272f1a2f2177285e8ad434a1b06e31b1c52859105fccabe174",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-13-package-catalog.json",
-            "sha256": "ce4ae82ab4b5d9215bcd1aceb01641b94fab7f6ca18e92fb95290a8045a37dc2",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-16-signed-formats.json",
-            "sha256": "c4f5da613be1adec783d7ba9a12217f55a93705e22c180a02c043c1662ee310c",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/con-17-compat-hash.json",
-            "sha256": "61272b4e1bb12f83eadc4b60384c2734918e1814db829b02d9a127ef532d43b4",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
-          },
-          {
-            "path": "fixtures/public/hello.json",
-            "sha256": "5e1fe5f94dfad301514a341b1f52f5a113943dc1837c7c4f817caaa4ea886b4e",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/public/LICENSE",
             "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-02-descriptors.json",
+            "sha256": "e44e99c4599597166846177ad481e12e1a0a0d3e31a2baa0fd7347180dca3c8a",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-03-sync-allowlist.json",
+            "sha256": "ddec1d85fa5775edb3d0f0e75adb407c06296aa828aa459ec8e613dd207e3b9d",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-08-entitlement-commerce.json",
+            "sha256": "b282e64940abe9fabd2441afdd8b269a52fd9a81e35e4aae3c74691bf1562022",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-09-sync-transfer.json",
+            "sha256": "34145d37b4154301addf4a5d5c8979ef718b9529cf1532a119f8e2a13ee65d17",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-12-extension-policy.json",
+            "sha256": "645fa316847c69272f1a2f2177285e8ad434a1b06e31b1c52859105fccabe174",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-13-package-catalog.json",
+            "sha256": "ce4ae82ab4b5d9215bcd1aceb01641b94fab7f6ca18e92fb95290a8045a37dc2",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-16-signed-formats.json",
+            "sha256": "c4f5da613be1adec783d7ba9a12217f55a93705e22c180a02c043c1662ee310c",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/con-17-compat-hash.json",
+            "sha256": "61272b4e1bb12f83eadc4b60384c2734918e1814db829b02d9a127ef532d43b4",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "fixtures/public/hello.json",
+            "sha256": "5e1fe5f94dfad301514a341b1f52f5a113943dc1837c7c4f817caaa4ea886b4e",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/public/wp03-00.json",
             "sha256": "919b5585f9c403648dbe797e71a4da4d3dbd85eecd5dede2b3f5f9b948ec6a69",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/public/wp03-01.json",
             "sha256": "76ee416ce202ea0df28cc16d594f0317ac2fae365a64619fa599d27023b2684e",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "fixtures/public/wp03-02.json",
-            "sha256": "7bf852907c242a882bbff315ee810155f7749461c9383c52b2d8810b97a3f04b",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "sha256": "87e0ff5fcd80e255c0a67727cbf164f735d162b2ab458856cae352a2d00b78d1",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/ai-http/v1/configuration.schema.json",
             "sha256": "4c021409496cf2aa57beb2f7b004fd3041bc5bb8768a06f5e2eef6511a371e41",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/ai-http/v1/schema.json",
             "sha256": "d74b35c88fcc220d23b2d94dd48d3e3a6a53f0bf5b4cafe93f75c09ba6b07831",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
             "sha256": "4d77656ed1a31141706328e69bd7050a9e426b0460cd97890838eecfb021f6f6",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
             "sha256": "485be994a178fee8fb323dc58f5903a83b4f098ee5c8b658872e29b1cf439e2a",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
             "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
             "sha256": "2276569cf048bc33f84f6e8d4114fdb4ffdf520fd25e0fb67b37c3ab8d25f5ba",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
             "sha256": "387e6924688cc7f343a3273618549451784e5a9384a44150ca7d7fa23ab22219",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/arcforges/operator/v1/operator.proto",
             "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints.json",
             "sha256": "f527309486fa65983be671f47889aa92ac4576edc072606a33d8466d4240fb52",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/chat-baseline.json",
             "sha256": "f62ce64e6b34287498ff617083ac4bb40558713216ad4c4d13655c50dff09117",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/con-04-content-sandbox.json",
             "sha256": "88fc4ce159f686a263f3cf87598e51b6ebea5667002aabcb525ee7c548747977",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/con-06-chat.json",
             "sha256": "40879c5c4c590422815201ef830f8d7bbbba8f688e67570e0a2df5ec8e03b058",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/con-06-inprocess.json",
             "sha256": "7a81f19428de28e7b1969862335c8b76b201863141885db2fc14c6da8cb1e9b8",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/con-06-scope.json",
             "sha256": "365230c0fe9156118591983535ab676065a728d33357eda7700061ba3c2e2bd7",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/operator-baseline.json",
             "sha256": "d874f39980cf62d2bf5f146679175c7a87b06bce90ff0c319a44240725957edd",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/platform-baseline.json",
             "sha256": "8e5e98b105cfdd48071c364cce5209916eeb3576509c18320d9d10dd3c60140a",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/platform.json",
             "sha256": "e9ad7135d6c37bd0845c6b407d72f9ee88338d27ad6614f5518da4a75ae61fa2",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/sandbox-baseline.json",
             "sha256": "a95f4cd0ec774ffe5954165357c621241dae4593851e97b023322e879c6277af",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "internal/proto/constraints/scope-baseline.json",
             "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/inventory.schema.json",
             "sha256": "2d17acc663de43ff847e522ddb16f32b1e7ec356df7db7dcafe8342d3fb014ce",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/manifest.schema.json",
             "sha256": "1f768f3d5cd7ffba35c2f2460914d6a7ab7f2b6988cb90abd02c8e49065ba844",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/panel.schema.json",
             "sha256": "e47e3fcad128918ca888c7f2a61ac03876ab50467a46b7597cda5cce53de21ce",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/policy-body.schema.json",
             "sha256": "62509c5a2f104b4d84fcbee28a0bf41946e49a89a3c5baf1e609700e05f24f68",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/schema.json",
             "sha256": "8d4c1282c0f93452a0304e44c832179d4c6f65fa563ae53517aa324af87105ce",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/signed-formats.schema.json",
             "sha256": "9719004a495ae2475841dc3506b86a7ba8faa2eeb33d774dbf12effa5d495a03",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/http/v1/workflow.schema.json",
             "sha256": "a23961e89badb790abca4f7fef01a833d647394b16194c51d7b4f79352181b42",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/catalog/v1/catalog.proto",
             "sha256": "ff77d24be445e107d4fb4a0b3f7fd6b205664317e856a3696e471be1a18f0828",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/events/v1/events.proto",
             "sha256": "ea0ac740c06bbb5b81724b4a7e601110424cabc4940b07e579cf97d852880f43",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/extensions/v1/extensions.proto",
-            "sha256": "675025c66cca55cf3771c0a4aadc6731501119f406bf5337001b8c8fb29a3703",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "sha256": "73e66d8130a01db43f963386fead900ca910f4ba143f3102968d0c82e90d14a7",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/foundation/v1/foundation.proto",
-            "sha256": "adff62f65799bc5523965caf40f1f6bf11cbb4e2d769f46d9e3183a72a6d24d5",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "sha256": "e7e634103664dcca4c63383dd0eda5d90b408edb4786bfdf4a148856fed92736",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/hello/v1/hello.proto",
             "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/publicapi/v1/commerce.proto",
             "sha256": "e0ed5700197fdb20006c7ea699d9071dd8c4ac9d4248651f8a148363ad8af9dc",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/publicapi/v1/content.proto",
             "sha256": "1c912ac9fa37633a3e5d186cb6f3838bd886f09f935e1ce41c5a665640c54abd",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/publicapi/v1/descriptors.proto",
             "sha256": "d8a43c27fd345d55786a67ce9776efa0b4bc089f57361c3e532dd1b5f9326161",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
             "sha256": "24921ae4f54f48800ea1201a9eee27a4e23a476b738cc3903665dff137a10eea",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/sync.proto",
+            "sha256": "2e7861c2cbb6d55aa36c9703b4409f3149365f2f1f53741f2dce3f0589cb84d6",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/transfer.proto",
+            "sha256": "f7d53346a43cd977224154b33d8f1f3f3f4b973c67e513caf384b195654abc0e",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "86644e595cbeb6c4fe0584d6e432add690ef27a0de892a36327f7b5364d82ea2",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "sha256": "8fd4aa27cbf33468cd92afc086976ecf2ba2ee53c2cee3b007c4d36dd6d1799f",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/con-08-entitlement-commerce.json",
-            "sha256": "f31ab943f44024b025c010504005254670acb6c240754f62ac88fb15cf98fd75",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "sha256": "cfe0d37c15adef74153e1aac7fc6d17bf3f047d8496ec08ab97d5076f1d341c5",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "public/proto/constraints/con-09-sync-transfer.json",
+            "sha256": "3381887e5758c654c3605829867eabdd2c3aafd62efbf8fce905536c2293aea4",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "public/proto/constraints/con-09-transfer-ticket.json",
+            "sha256": "adb310afc743ba64f4cbb60314a7a061eb6748848d909fb98b39b2dcb529f348",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/con-13-package-catalog.json",
             "sha256": "2648d051ff85a7b657c8fa5fe2614cece043efba3ec6b9284b7b38ac4c293d67",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/events-baseline.json",
             "sha256": "346d458859cf734650911cd0875b85925f4bd1c5c6335b5ba53f7f914ba6c311",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
+          },
+          {
+            "path": "public/proto/constraints/ext-02-dual-capability.json",
+            "sha256": "6b84a8a0ca79ce8dae22f18f537351ea76a5f5769f91f736c2c1545935a8ccf0",
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/extensions-baseline.json",
             "sha256": "b990d9c9587000052031d657230feb4ad425fe7811c899c7f948e33ee82dbc8e",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/extensions.json",
             "sha256": "b95557fa95e7726ea348aaa1ce99c2d71fa7e307eb9fbf097b409d104ac220ae",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/foundation-baseline.json",
             "sha256": "99c0d68fa83c3722e45b58a2158a108c63c18e62f13a76da173dba9d4c9235a9",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/foundation-descriptors.json",
             "sha256": "d9814a41ab37da37f9c387f52891929d839d7109e0d0540f5a322a3abdf00427",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/inprocess-values.json",
             "sha256": "12cb914278ec1b99523805fe5b710bf19fa2e82ad5a4acffa5128b50490304e2",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/constraints/publicapi-baseline.json",
             "sha256": "03f8eeefc30386dafb56f29de5d77e4ef75c502ba153d082cf30480b54bdfd50",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           },
           {
             "path": "public/proto/value-boundaries.json",
             "sha256": "b4d7eaa24ec864c69426fa5d679cf1e2d4536b8ed720e4371fb4a3ee94bc5111",
-            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.08 source snapshot."
+            "finding": "Exact Apache-2.0 authored input or generator at the bound CON.09 source checkpoint."
           }
         ]
       }
@@ -6125,10 +6162,10 @@
     "reviewer": "CON.09 implementation owner; independent exact-head peer review required before merge",
     "reviewedOn": "2026-09-28",
     "decision": "approved",
-    "rationale": "CON.09 adds one canonical TransferTicket Foundation message and its authorized Sync/Resource/Transfer contract surface, task-owned generated bindings and declarative vectors. Existing package identities, dependency closure, source ownership, generator pins and licence obligations remain unchanged. Exact inputs and generated outputs are immutably bound; independent exact-head review and CI remain required before merge.",
-    "baselineCommit": "063762f32c551449fb01936d9ec30fedb77260de",
+    "rationale": "CON.09 binds one canonical TransferTicket Foundation message, the authorized Sync/Resource/Transfer proto surface, exact owned constraint/operation scopes, generated bindings, and declarative fixtures. The active EXT.02 successor closure and all 800 predecessor generated targets are retained; only the exact CON.09 target additions and current generated-byte hashes are bound. Required scalar presence is represented by proto3 optional markers without changing tags or adding value constraints. The five owner-runtime vectors are declarative-only and are checked exactly once by the two existing Foundation consumers; CON.09 does not implement owner runtime behavior. Package identities, dependency versions/closure, generator pins and licence obligations remain unchanged.",
+    "baselineCommit": "affeeae06e563340354698dd5e32d74891c96e78",
     "reconciliation": false
   },
-  "supersedes": "contract-bindings-con-08-r1",
+  "supersedes": "contract-bindings-ext-02-r1",
   "artifactTargets": []
 }

@@ -3,7 +3,7 @@
     "owner": "af-20260928-c04",
     "reviewer": "CON.09 input-binding successor; independent exact-head review required before merge",
     "reviewedOn": "2026-09-28",
-    "baselineCommit": "063762f32c551449fb01936d9ec30fedb77260de",
+    "baselineCommit": "affeeae06e563340354698dd5e32d74891c96e78",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -19,13 +19,13 @@
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
       "eng/contract-packages.json": "53cad65cc9193582590efc9a799d1d9ac6a1e4b29e5a764f1553c720dd5c6941",
-      "eng/policy/contract-access.json": "0ffa496942f3cf8b3f9b4a7b39ee5f83ae5c87e0aee7d4febdf58cd72a9389cc",
+      "eng/policy/contract-access.json": "86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r12.json": "ec2e185c1112a37219c20313b440d26ae6a73a64b7a0fdba140fde57021819ba",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r13.json": "86ac84ee4bf10aad1fa223e4d767ce8967f8076894e5fb670ff358d890848617",
-      "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json": "86119cf14a7586df8bb58d3c71a6c9d2b7d0229ceca6371e4cb256f06d870b12",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json": "510cd4c09f2005fa13b07e85517ddac07893323322ff961c23cb13c9fa92fc2e",
@@ -41,12 +41,13 @@
       "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
-      "eng/provenance/records/contract-bindings-con-09-r1.json": "8f908505bdabe539f58cb132da5719005974f2005b9a460487d8b1381323e4ee",
+      "eng/provenance/records/contract-bindings-con-09-r1.json": "e2a88abb498776d235d595edc50198d703b03448c9da5d4da73a070675c1478a",
       "eng/provenance/records/contract-bindings-con-13-r1.json": "f310c64cc003c246cb0f286b808c5369b0870721d9ea51bcbfe540dd01eba331",
       "eng/provenance/records/contract-bindings-con04-r1.json": "f900403e0f5f1f82ab86e51201815089fd7e29d4b61e3301628845e70aae1747",
       "eng/provenance/records/contract-bindings-con05-r1.json": "08e180d1d7da82af50f9886464285da044c30f0719e8c4c3a00e552aeab0e704",
       "eng/provenance/records/contract-bindings-con06-r1.json": "10c807b936a0af8a5a4651c2c06ea4042e4fcee989793d9e5e59df9e6ffdfde3",
       "eng/provenance/records/contract-bindings-con16-r1.json": "369f1d77e97b6e7e1db9db65d94595925aff218c5179817b954e3a6a3c2c62ae",
+      "eng/provenance/records/contract-bindings-ext-02-r1.json": "4b03cf02e9ea907a1e83e6e32ea5532f84904fdfcabd57ae22ed542fce363fa4",
       "eng/provenance/records/contract-bindings-r2.json": "95d2bde3b8d00c03061866838bc28b907bcec0e29a0ede996a42e79b7bb53221",
       "eng/provenance/records/contract-bindings-r3.json": "ba8adc87164b16804cad6525c50674d4f1b05da89d1d300a9b4f770576906878",
       "eng/provenance/records/contract-bindings-r4.json": "0918c490633e7205d66af8fe7bd825cb4f6db259c12b4ba33ee08aa4e55e57aa",
@@ -72,7 +73,7 @@
       "eng/provenance/records/dokka-documentation-resources-r11.json": "cdc12e115466f223cdfcecad01af388f6d085d92a22825af1c409f685508e18a",
       "eng/provenance/records/dokka-documentation-resources-r12.json": "89bdbdda091ca9d19699c809d8551363be45bcec7bb5d1861a7fb13f589e4c87",
       "eng/provenance/records/dokka-documentation-resources-r13.json": "9e1819f35c137fb50f9cb08ec1095af257c7e32b0a744e9cd4cd011cd7e48b77",
-      "eng/provenance/records/dokka-documentation-resources-r14.json": "3ad827f6c7ebe2a17a0a477288d2bb0da8a363fe3cc935b0b2c1e44691118a7c",
+      "eng/provenance/records/dokka-documentation-resources-r14.json": "334130b6c94d2f7642b8a17234197dc2a51ff1a5109c949564f1711a3f684686",
       "eng/provenance/records/dokka-documentation-resources-r2.json": "7ff0f30361298e2df58dc7180294007f0b27e20b1ff7c70a33d351c1328115c8",
       "eng/provenance/records/dokka-documentation-resources-r3.json": "0cae2f2168ca3eb8f92303a95812e8fbd4dd82cacce49e574d46078f94c9c169",
       "eng/provenance/records/dokka-documentation-resources-r4.json": "79c3dcfb45b78b005baffc4c6b44f6cbf9f1175f7060cd6500d784fc26098b66",
@@ -212,14 +213,14 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "2e2ed64e005745d372cedc3356792c0e430527d73d01750f41c2fdb91992092c"
     },
-    "maintenanceAssessment": "CON.08 adds only first-party frozen Entitlement/Commerce contract schemas, generated bindings, task-owned fixtures, and their exact reviewed access/provenance/documentation inputs. No dependency coordinate, version, artifact integrity, licence, dependency closure, publisher/feed configuration, or framework/toolchain selection changes. The complete predecessor closure, immutable artifact coordinates, and receipt history are retained; exact-head CI and independent review remain required before merge.",
+    "maintenanceAssessment": "CON.09 adds only the authorized Foundation TransferTicket and public Sync/Resource/Transfer contract schemas, task-owned constraints/operation metadata, generated bindings and fixture evidence. No dependency coordinate, version, artifact integrity, licence, closure, publisher/feed configuration or framework/toolchain selection changes. The full active EXT.02 predecessor closure and immutable receipt history are retained; all exact source and generated-input hashes are rebound from the merged EXT.02 baseline, and independent exact-head review plus hosted CI remain required before merge.",
     "checks": {
-      "compilation": "No dependency, lockfile package, framework or SDK version changed; run pinned generation, compilation and focused tests, then require hosted Verify green on the exact PR head.",
-      "aot-trim": "No runtime package or AOT/trimming posture changed; retained hosted AOT checks must pass on the exact PR head.",
-      "compatibility": "The dependency closure is unchanged; CON.08 frozen compatibility metadata, constraints and generated bindings must pass all focused and hosted compatibility gates.",
-      "licence-provenance": "No dependency coordinates, artifact integrity, licence or closure changed; exact current provenance, dependency-input and documentation profile gates must pass.",
-      "security-sbom": "No dependency or package composition changed; retained hosted security/SBOM scans must pass on the exact PR head.",
-      "runtime-performance-migration": "No runtime dependency or product-runtime expansion; CON.08 is contract schema, generated bindings and fixture coverage only.",
+      "compilation": "No dependency, lockfile package, framework or SDK version changed; run pinned all-language generation, compilation and focused Foundation tests, then require hosted Verify green on the exact PR head.",
+      "aot-trim": "No runtime package or AOT/trimming posture changed; applicable hosted AOT checks must pass on the exact PR head.",
+      "compatibility": "TransferTicket url and maxPartBytes required presence is preserved by proto3 optional fields and exact absent/zero/range evidence; owned Sync/Resource/Transfer schema and declarative vector gates must pass. No owner runtime is implemented by CON.09.",
+      "licence-provenance": "No dependency coordinates, artifact integrity, licence or closure changed; exact current access, dependency-input, provenance/NOTICE, generator and Dokka r14 checks must pass.",
+      "security-sbom": "No dependency or package composition changed; hosted secret scan and Security/SBOM checks must pass on the exact PR head. Local native Gitleaks is unavailable and is not claimed as passed.",
+      "runtime-performance-migration": "This task adds public contract schemas, generated contract outputs and fixture assertions only; it does not implement sync, resource, realm-transfer or other owner runtime behavior, nor migration/runtime expansion.",
       "framework-runtime-posture": "All pinned framework and toolchain versions remain unchanged; no major-upgrade review is triggered."
     },
     "frameworkVersions": {
@@ -234,7 +235,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-08-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/ext-02-r1.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
@@ -438,12 +439,8 @@
     },
     "maven:com.google.code.gson:gson:2.14.0": {
       "integrity": {
-        "gson-2.14.0.jar": [
-          "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
-        ],
-        "gson-2.14.0.pom": [
-          "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
-        ]
+        "gson-2.14.0.jar": ["2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"],
+        "gson-2.14.0.pom": ["1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -536,12 +533,8 @@
     },
     "maven:com.squareup.moshi:moshi:1.15.2": {
       "integrity": {
-        "moshi-1.15.2.jar": [
-          "767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"
-        ],
-        "moshi-1.15.2.module": [
-          "d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"
-        ]
+        "moshi-1.15.2.jar": ["767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"],
+        "moshi-1.15.2.module": ["d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -572,9 +565,7 @@
     },
     "maven:com.squareup.okhttp3:okhttp:5.4.0": {
       "integrity": {
-        "okhttp-5.4.0.module": [
-          "63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"
-        ]
+        "okhttp-5.4.0.module": ["63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -587,9 +578,7 @@
     },
     "maven:com.squareup.okio:okio-jvm:3.17.0": {
       "integrity": {
-        "okio-jvm-3.17.0.jar": [
-          "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"
-        ],
+        "okio-jvm-3.17.0.jar": ["3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"],
         "okio-jvm-3.17.0.module": [
           "d4617d0df71f202e7299471848e625f4f36d7fa64d46c3503f70acf4821a45de"
         ]
@@ -605,9 +594,7 @@
     },
     "maven:com.squareup.okio:okio:3.17.0": {
       "integrity": {
-        "okio-3.17.0.module": [
-          "3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"
-        ]
+        "okio-3.17.0.module": ["3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -693,9 +680,7 @@
     },
     "maven:io.ktor:ktor-io:3.5.0": {
       "integrity": {
-        "ktor-io-3.5.0.module": [
-          "cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"
-        ]
+        "ktor-io-3.5.0.module": ["cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -741,12 +726,8 @@
     },
     "maven:org.codehaus.woodstox:stax2-api:4.2.1": {
       "integrity": {
-        "stax2-api-4.2.1.jar": [
-          "678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"
-        ],
-        "stax2-api-4.2.1.pom": [
-          "79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"
-        ]
+        "stax2-api-4.2.1.jar": ["678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"],
+        "stax2-api-4.2.1.pom": ["79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"]
       },
       "licence": "BSD-2-Clause",
       "evidence": [
@@ -892,9 +873,7 @@
         "abi-tools-2.3.21.jar": [
           "6761656205c3514050f68fde7c32b2beb47246786247dacfb279db432a70562b"
         ],
-        "abi-tools-2.3.21.pom": [
-          "e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"
-        ]
+        "abi-tools-2.3.21.pom": ["e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1837,9 +1816,7 @@
         "annotations-13.0.jar": [
           "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478"
         ],
-        "annotations-13.0.pom": [
-          "965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"
-        ]
+        "annotations-13.0.pom": ["965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1903,12 +1880,8 @@
     },
     "maven:org.jsoup:jsoup:1.16.1": {
       "integrity": {
-        "jsoup-1.16.1.jar": [
-          "1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"
-        ],
-        "jsoup-1.16.1.pom": [
-          "6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"
-        ]
+        "jsoup-1.16.1.jar": ["1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"],
+        "jsoup-1.16.1.pom": ["6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"]
       },
       "licence": "MIT",
       "evidence": [
@@ -1924,9 +1897,7 @@
         "slf4j-api-2.0.18.jar": [
           "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
         ],
-        "slf4j-api-2.0.18.pom": [
-          "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"
-        ]
+        "slf4j-api-2.0.18.pom": ["6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"]
       },
       "licence": "MIT",
       "evidence": [

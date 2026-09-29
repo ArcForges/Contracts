@@ -134,6 +134,31 @@ class DocumentationAdmissionTests(unittest.TestCase):
                 page = ("contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" +
                         slug(service + suffix) + "/index.html")
                 con08_client_pages[page] = methods
+        con09_client_pages = {
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/-resource-service-client/index.html": {
+                "beginUpload", "completeUpload", "getDownloadTicket", "getMetadata", "release",
+                "getUploadStatus", "renewUploadTicket",
+            },
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/-resource-service-client-interface/index.html": {
+                "beginUpload", "completeUpload", "getDownloadTicket", "getMetadata", "release",
+                "getUploadStatus", "renewUploadTicket",
+            },
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/-sync-service-client/index.html": {
+                "listScopes", "setScope", "pullChanges", "pushChange", "pushBatch", "getAggregate",
+                "listConflicts", "resolveConflict", "requestFullResync", "getBootstrapPage",
+            },
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/-sync-service-client-interface/index.html": {
+                "listScopes", "setScope", "pullChanges", "pushChange", "pushBatch", "getAggregate",
+                "listConflicts", "resolveConflict", "requestFullResync", "getBootstrapPage",
+            },
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/-transfer-service-client/index.html": {
+                "requestExport", "previewImport", "commitImport", "get", "list", "cancel",
+            },
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/-transfer-service-client-interface/index.html": {
+                "requestExport", "previewImport", "commitImport", "get", "list", "cancel",
+            },
+        }
+        self.assertEqual(len(con09_client_pages), 6)
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
@@ -178,20 +203,115 @@ class DocumentationAdmissionTests(unittest.TestCase):
                                   "ScopeProjectMetadata"}
             inprocess_pages = {"contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
                                for name in inprocess_messages}
+            con09_proto_pages = {
+                "contracts-proto/io.github.arcforges.contracts.foundation.v1/-transfer-ticket/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-aggregate-view/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-bootstrap-manifest/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-change-proposal/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-change-receipt/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-conflict-resolution/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-conflict-view/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-part-receipt/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-begin-upload-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-begin-upload-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-begin-upload-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-complete-upload-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-complete-upload-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-complete-upload-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-download-ticket-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-download-ticket-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-download-ticket-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-metadata-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-metadata-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-metadata-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-upload-status-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-upload-status-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-get-upload-status-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-release-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-release-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-release-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-renew-upload-ticket-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-renew-upload-ticket-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-resource-service-renew-upload-ticket-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-change/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-scope/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-get-aggregate-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-get-aggregate-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-get-aggregate-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-get-bootstrap-page-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-get-bootstrap-page-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-get-bootstrap-page-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-list-conflicts-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-list-conflicts-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-list-conflicts-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-list-scopes-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-list-scopes-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-list-scopes-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-pull-changes-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-pull-changes-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-pull-changes-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-push-batch-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-push-batch-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-push-batch-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-push-change-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-push-change-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-push-change-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-request-full-resync-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-request-full-resync-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-request-full-resync-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-resolve-conflict-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-resolve-conflict-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-resolve-conflict-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-set-scope-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-set-scope-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-sync-service-set-scope-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-issue/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-job/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-manifest/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-mapping/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-root/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-cancel-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-cancel-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-cancel-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-commit-import-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-commit-import-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-commit-import-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-get-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-get-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-get-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-list-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-list-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-list-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-preview-import-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-preview-import-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-preview-import-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-request-export-request/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-request-export-response/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-transfer-service-request-export-value/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-upload-status/index.html",
+                "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-upload-ticket/index.html",
+            }
+            self.assertEqual(len(con09_proto_pages), 86)
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
             permitted = descriptor_pages | catalog_pages | inprocess_pages | con08_proto_pages \
-                if module == "contracts-proto" else (
-                    clients | set(con08_client_pages) if module == "contracts-connect-client" else set())
+                | con09_proto_pages if module == "contracts-proto" else (
+                    clients | set(con08_client_pages) | set(con09_client_pages)
+                    if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:
                 if module == "contracts-proto":
                     self.assertIn('anchor-label="parser"', actual[name])
-                    self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]))
+                    if name in con09_proto_pages:
+                        self.assertTrue(any(marker.startswith('anchor-label="get') or marker.startswith("get")
+                                            for marker in actual[name]), name)
+                    else:
+                        self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]), name)
                 else:
-                    expected_methods = con08_client_pages[name] if name in con08_client_pages else {
+                    expected_methods = con09_client_pages[name] if name in con09_client_pages else (
+                        con08_client_pages[name] if name in con08_client_pages else {
                         operation[0].lower() + operation[1:] for operation in operations
-                    }
+                    })
                     self.assertEqual(set(actual[name]), expected_methods)
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]

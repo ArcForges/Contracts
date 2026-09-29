@@ -15,13 +15,14 @@
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
     "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-    "eng/contract-packages.json": "0791756b449506eb3e83f9c320d90c272d475219d48c10e1060d5a26afc91134",
-    "eng/policy/contract-access.json": "03fab0963311e375f6238ad59f7dc6f47cdb2107656e098333cd7c45f0dff8a7",
+    "eng/contract-packages.json": "53cad65cc9193582590efc9a799d1d9ac6a1e4b29e5a764f1553c720dd5c6941",
+    "eng/policy/contract-access.json": "86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r12.json": "ec2e185c1112a37219c20313b440d26ae6a73a64b7a0fdba140fde57021819ba",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r13.json": "86ac84ee4bf10aad1fa223e4d767ce8967f8076894e5fb670ff358d890848617",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json": "510cd4c09f2005fa13b07e85517ddac07893323322ff961c23cb13c9fa92fc2e",
@@ -37,6 +38,7 @@
     "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
     "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
     "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
+    "eng/provenance/records/contract-bindings-con-09-r1.json": "e2a88abb498776d235d595edc50198d703b03448c9da5d4da73a070675c1478a",
     "eng/provenance/records/contract-bindings-con-13-r1.json": "f310c64cc003c246cb0f286b808c5369b0870721d9ea51bcbfe540dd01eba331",
     "eng/provenance/records/contract-bindings-con04-r1.json": "f900403e0f5f1f82ab86e51201815089fd7e29d4b61e3301628845e70aae1747",
     "eng/provenance/records/contract-bindings-con05-r1.json": "08e180d1d7da82af50f9886464285da044c30f0719e8c4c3a00e552aeab0e704",
@@ -68,6 +70,7 @@
     "eng/provenance/records/dokka-documentation-resources-r11.json": "cdc12e115466f223cdfcecad01af388f6d085d92a22825af1c409f685508e18a",
     "eng/provenance/records/dokka-documentation-resources-r12.json": "89bdbdda091ca9d19699c809d8551363be45bcec7bb5d1861a7fb13f589e4c87",
     "eng/provenance/records/dokka-documentation-resources-r13.json": "9e1819f35c137fb50f9cb08ec1095af257c7e32b0a744e9cd4cd011cd7e48b77",
+    "eng/provenance/records/dokka-documentation-resources-r14.json": "334130b6c94d2f7642b8a17234197dc2a51ff1a5109c949564f1711a3f684686",
     "eng/provenance/records/dokka-documentation-resources-r2.json": "7ff0f30361298e2df58dc7180294007f0b27e20b1ff7c70a33d351c1328115c8",
     "eng/provenance/records/dokka-documentation-resources-r3.json": "0cae2f2168ca3eb8f92303a95812e8fbd4dd82cacce49e574d46078f94c9c169",
     "eng/provenance/records/dokka-documentation-resources-r4.json": "79c3dcfb45b78b005baffc4c6b44f6cbf9f1175f7060cd6500d784fc26098b66",
@@ -2450,10 +2453,10 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
   },
   "review": {
-    "owner": "af-20260928-c01",
-    "reviewer": "EXT.02 dependency-input successor assessment; independent exact-head peer review required before merge",
+    "owner": "af-20260928-c04",
+    "reviewer": "CON.09 input-binding successor; independent exact-head review required before merge",
     "reviewedOn": "2026-09-28",
-    "baselineCommit": "063762f32c551449fb01936d9ec30fedb77260de",
+    "baselineCommit": "affeeae06e563340354698dd5e32d74891c96e78",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -2468,13 +2471,14 @@
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-      "eng/contract-packages.json": "0791756b449506eb3e83f9c320d90c272d475219d48c10e1060d5a26afc91134",
-      "eng/policy/contract-access.json": "03fab0963311e375f6238ad59f7dc6f47cdb2107656e098333cd7c45f0dff8a7",
+      "eng/contract-packages.json": "53cad65cc9193582590efc9a799d1d9ac6a1e4b29e5a764f1553c720dd5c6941",
+      "eng/policy/contract-access.json": "86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r12.json": "ec2e185c1112a37219c20313b440d26ae6a73a64b7a0fdba140fde57021819ba",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r13.json": "86ac84ee4bf10aad1fa223e4d767ce8967f8076894e5fb670ff358d890848617",
+      "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json": "08347bde226256422e640c1db3a7eb7f8d882390a7dfa66445974344e241e13e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json": "a1a4cf880b287c6b8f9a9707d9226168584772b13e5ecd579c527873b0351521",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json": "510cd4c09f2005fa13b07e85517ddac07893323322ff961c23cb13c9fa92fc2e",
@@ -2490,6 +2494,7 @@
       "eng/provenance/records/con17-semantic-export-r1.json": "9ae65ee01b25241105c986f5f696eb3bc99c23e165613ba227e094424b64d720",
       "eng/provenance/records/contract-bindings-con-03-r1.json": "914a030ea0bd086235c79816410fe3db079d66ede0d3f3857c12b274b177f5af",
       "eng/provenance/records/contract-bindings-con-08-r1.json": "d9e48066204ab57a6baf78c9bfd2bf5dbe82b11812e1baca418bbff7159a0482",
+      "eng/provenance/records/contract-bindings-con-09-r1.json": "e2a88abb498776d235d595edc50198d703b03448c9da5d4da73a070675c1478a",
       "eng/provenance/records/contract-bindings-con-13-r1.json": "f310c64cc003c246cb0f286b808c5369b0870721d9ea51bcbfe540dd01eba331",
       "eng/provenance/records/contract-bindings-con04-r1.json": "f900403e0f5f1f82ab86e51201815089fd7e29d4b61e3301628845e70aae1747",
       "eng/provenance/records/contract-bindings-con05-r1.json": "08e180d1d7da82af50f9886464285da044c30f0719e8c4c3a00e552aeab0e704",
@@ -2521,6 +2526,7 @@
       "eng/provenance/records/dokka-documentation-resources-r11.json": "cdc12e115466f223cdfcecad01af388f6d085d92a22825af1c409f685508e18a",
       "eng/provenance/records/dokka-documentation-resources-r12.json": "89bdbdda091ca9d19699c809d8551363be45bcec7bb5d1861a7fb13f589e4c87",
       "eng/provenance/records/dokka-documentation-resources-r13.json": "9e1819f35c137fb50f9cb08ec1095af257c7e32b0a744e9cd4cd011cd7e48b77",
+      "eng/provenance/records/dokka-documentation-resources-r14.json": "334130b6c94d2f7642b8a17234197dc2a51ff1a5109c949564f1711a3f684686",
       "eng/provenance/records/dokka-documentation-resources-r2.json": "7ff0f30361298e2df58dc7180294007f0b27e20b1ff7c70a33d351c1328115c8",
       "eng/provenance/records/dokka-documentation-resources-r3.json": "0cae2f2168ca3eb8f92303a95812e8fbd4dd82cacce49e574d46078f94c9c169",
       "eng/provenance/records/dokka-documentation-resources-r4.json": "79c3dcfb45b78b005baffc4c6b44f6cbf9f1175f7060cd6500d784fc26098b66",
@@ -2660,14 +2666,14 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "2e2ed64e005745d372cedc3356792c0e430527d73d01750f41c2fdb91992092c"
     },
-    "maintenanceAssessment": "EXT.02 adds one additive typed extension value-model schema, an owned constraint shard and generated C# binding/validator outputs under existing package identities. No dependency coordinate, version, artifact integrity, licence, dependency closure, publisher/feed configuration or framework/toolchain selection changes. The active predecessor closure and immutable history are retained; exact-head CI and independent review remain required before merge.",
+    "maintenanceAssessment": "CON.09 adds only the authorized Foundation TransferTicket and public Sync/Resource/Transfer contract schemas, task-owned constraints/operation metadata, generated bindings and fixture evidence. No dependency coordinate, version, artifact integrity, licence, closure, publisher/feed configuration or framework/toolchain selection changes. The full active EXT.02 predecessor closure and immutable receipt history are retained; all exact source and generated-input hashes are rebound from the merged EXT.02 baseline, and independent exact-head review plus hosted CI remain required before merge.",
     "checks": {
-      "compilation": "No dependency, lockfile package, framework or SDK version changed; run pinned generation, compilation and focused extension tests, then require hosted Verify green on the exact PR head.",
-      "aot-trim": "No runtime package or AOT/trimming posture changed; retained hosted AOT checks must pass on the exact PR head.",
-      "compatibility": "The additive extension messages and ValueSchema are checked by exact generated compatibility, shape and negative containment gates; no prior wire field or package identity is changed.",
-      "licence-provenance": "No dependency coordinates, artifact integrity, licence or closure changed; exact current provenance, dependency-input, access and generated-binding gates must pass.",
-      "security-sbom": "No dependency or package composition changed; retained hosted security/SBOM scans must pass on the exact PR head.",
-      "runtime-performance-migration": "This task adds typed extension contract/validation schema only; no runtime, transport, security algorithm or migration surface changes.",
+      "compilation": "No dependency, lockfile package, framework or SDK version changed; run pinned all-language generation, compilation and focused Foundation tests, then require hosted Verify green on the exact PR head.",
+      "aot-trim": "No runtime package or AOT/trimming posture changed; applicable hosted AOT checks must pass on the exact PR head.",
+      "compatibility": "TransferTicket url and maxPartBytes required presence is preserved by proto3 optional fields and exact absent/zero/range evidence; owned Sync/Resource/Transfer schema and declarative vector gates must pass. No owner runtime is implemented by CON.09.",
+      "licence-provenance": "No dependency coordinates, artifact integrity, licence or closure changed; exact current access, dependency-input, provenance/NOTICE, generator and Dokka r14 checks must pass.",
+      "security-sbom": "No dependency or package composition changed; hosted secret scan and Security/SBOM checks must pass on the exact PR head. Local native Gitleaks is unavailable and is not claimed as passed.",
+      "runtime-performance-migration": "This task adds public contract schemas, generated contract outputs and fixture assertions only; it does not implement sync, resource, realm-transfer or other owner runtime behavior, nor migration/runtime expansion.",
       "framework-runtime-posture": "All pinned framework and toolchain versions remain unchanged; no major-upgrade review is triggered."
     },
     "frameworkVersions": {
@@ -2682,7 +2688,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-08-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/ext-02-r1.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/ext-02-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/con-09-r1.json"
 }

@@ -45,28 +45,28 @@
       "package": "io.github.arcforges:contracts-proto",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json",
-      "sha256": "86119cf14a7586df8bb58d3c71a6c9d2b7d0229ceca6371e4cb256f06d870b12"
+      "sha256": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2"
     },
     {
       "project": "contracts-connect-client",
       "package": "io.github.arcforges:contracts-connect-client",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json",
-      "sha256": "86119cf14a7586df8bb58d3c71a6c9d2b7d0229ceca6371e4cb256f06d870b12"
+      "sha256": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2"
     },
     {
       "project": "contract-fixtures",
       "package": "io.github.arcforges:contract-fixtures",
       "kind": "maven-javadoc",
       "profile": "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json",
-      "sha256": "86119cf14a7586df8bb58d3c71a6c9d2b7d0229ceca6371e4cb256f06d870b12"
+      "sha256": "55dac3d0fb2159fdc26cb55639f407767579d96f491a406f19437ebd2bc2ddf2"
     }
   ],
   "disposition": "Improve",
   "verification": {
     "kind": "regeneration",
     "command": "python eng/contracts.py pack; python -m unittest discover -s tests/tooling -v",
-    "expected": "Pinned Dokka 2.2.0 output admits the exact r14 member/page set. CON.09 adds 5210 contracts-proto page records and 55 contracts-connect-client page records; no predecessor page is removed. The 86 new protobuf message pages include the class, parser and all declared field getter/presence markers; the six new Sync/Resource/Transfer Connect client/interface pages expose exactly the 10/7/6 owned RPC methods. The contract-fixtures module, all 42 fixed and 10 excluded resource bytes, font transform, upstream source identity, package identities, and Apache/MIT component closure remain unchanged.",
+    "expected": "Pinned Dokka 2.2.0 output admits the exact r14 member/page set. CON.09 adds 5210 contracts-proto API pages and 55 contracts-connect-client API pages; the optional proto3 presence repair adds exactly eight TransferTicket has-url/has-max-part-bytes pages. Only the 24 affected contracts-proto hashes (TransferTicket API, package-list and page index) and three corresponding Kotlin producer input hashes are refreshed; the connect-client and contract-fixtures page/input bytes remain unchanged. The class page binds hasUrl and hasMaxPartBytes; all other 86 message schemas, six owned Connect clients, 42 fixed and 10 excluded resource bytes, font transform, upstream source identity, package identities, and Apache/MIT component closure remain unchanged.",
     "artifacts": [
       {
         "url": "https://codeload.github.com/Kotlin/dokka/tar.gz/656ca46fbbd676d872b0bd383042fc12ae7adcdd",
