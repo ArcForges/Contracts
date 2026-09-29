@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "fixtureId": "CON.15-cf-internal-offline-v1",
+  "evidenceClass": "offline-contract-vectors-not-runtime-or-provider-evidence",
+  "transport": {
+    "serviceAuthenticated": true,
+    "userBearerOrPatForwarding": false,
+    "publicRouteAdmission": false,
+    "hmacNonceKeyReplayAndRealmChecks": "server-side-per-request",
+    "networkAccess": "none"
+  },
+  "positiveVectors": [
+    {
+      "id": "objects-authorize-exact-range",
+      "schema": "ObjectAuthorizeRequest",
+      "input": {
+        "requestId": "req-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "origin": "https://app.example.test",
+        "sessionBinding": {
+          "realmId": "12345678-1234-4234-8234-123456789abc",
+          "workspaceId": "22345678-1234-4234-8234-123456789abc",
+          "userId": "32345678-1234-4234-8234-123456789abc",
+          "sessionId": "42345678-1234-4234-8234-123456789abc",
+          "authEpoch": "4",
+          "recoveryGeneration": "9",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "bindingMac": "AQ=="
+        },
+          "ticketId": "ticket-17",
+          "verb": "read",
+        "range": {"offset": "0", "length": "8388608"},
+        "length": "8388608"
+      }
+    },
+    {
+      "id": "object-verification-submit",
+      "schema": "ObjectVerificationRequest",
+      "input": {
+        "requestId": "verify-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "uploadId": "upload-17",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "size": "8388608",
+        "mediaType": "application/octet-stream",
+        "verificationState": "verifying"
+      }
+    },
+    {
+      "id": "verified-object-reuses-resource-ref",
+      "schema": "ObjectVerificationResponse",
+      "input": {
+        "resource": {
+          "realmId": "12345678-1234-4234-8234-123456789abc",
+          "ownerAppId": "ArcForges.Cloud.Search",
+          "resourceKind": "search.source",
+          "resourceId": "62345678-1234-4234-8234-123456789abc",
+          "availability": "cloudOnly"
+        },
+        "provisionalPin": "pin-17",
+        "expiresAt": "2026-09-30T20:00:00Z"
+      }
+    },
+    {
+      "id": "read-job-grant-reuses-resource-version",
+      "schema": "ObjectJobGrantRequest",
+      "input": {
+        "requestId": "grant-read-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "ownerKind": "search",
+        "ownerJobId": "job-17",
+        "attemptId": "attempt-2",
+        "epoch": "7",
+        "recoveryGeneration": "11",
+        "direction": "read",
+        "resource": {
+          "resource": {
+            "realmId": "12345678-1234-4234-8234-123456789abc",
+            "ownerAppId": "ArcForges.Cloud.Search",
+            "resourceKind": "search.source",
+            "resourceId": "62345678-1234-4234-8234-123456789abc",
+            "availability": "cloudOnly"
+          },
+          "cloud": "3"
+        },
+        "declaredBytes": "8388608",
+        "expectedHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "id": "write-job-grant-has-one-purpose-and-bound",
+      "schema": "ObjectJobGrantRequest",
+      "input": {
+        "requestId": "grant-write-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "ownerKind": "task",
+        "ownerJobId": "task-17",
+        "attemptId": "attempt-3",
+        "epoch": "4",
+        "recoveryGeneration": "11",
+        "direction": "write",
+        "purpose": "aiOutput",
+        "declaredBytes": "8388608",
+        "expectedHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "read-job-grant-response-preserves-one-grant-identity",
+      "schema": "ObjectJobGrantResponse",
+      "input": {
+        "grant": {"grantId": "grant-read", "realmId": "realm-1", "workspaceId": "workspace-1", "ownerKind": "search", "ownerJobId": "job-17", "attemptId": "attempt-2", "epoch": "7", "recoveryGeneration": "11", "direction": "read", "resourceId": "resource-19", "byteLimit": "8388608", "expiresAt": "2026-09-29T20:00:00Z", "mac": "AQ=="}
+      }
+    },
+    {
+      "id": "write-job-grant-response-is-provisional-only",
+      "schema": "ObjectJobGrantResponse",
+      "input": {
+        "grant": {"grantId": "grant-write", "realmId": "realm-1", "workspaceId": "workspace-1", "ownerKind": "task", "ownerJobId": "task-17", "attemptId": "attempt-3", "epoch": "4", "recoveryGeneration": "11", "direction": "write", "resourceId": "resource-20", "uploadId": "upload-9", "byteLimit": "8388608", "expiresAt": "2026-09-29T20:00:00Z", "mac": "AQ=="},
+        "uploadId": "upload-9",
+        "provisionalResource": {"realmId": "12345678-1234-4234-8234-123456789abc", "ownerAppId": "ArcForges.Cloud.Search", "resourceKind": "search.source", "resourceId": "62345678-1234-4234-8234-123456789abc", "availability": "cloudOnly"},
+        "storageHoldId": "hold-12"
+      }
+    },
+    {
+      "id": "job-authorize-requires-service-grant",
+      "schema": "ObjectJobAuthorizeRequest",
+      "input": {
+        "requestId": "authorize-job-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "grant": {"grantId": "grant-write", "realmId": "realm-1", "workspaceId": "workspace-1", "ownerKind": "task", "ownerJobId": "task-17", "attemptId": "attempt-3", "epoch": "4", "recoveryGeneration": "11", "direction": "write", "resourceId": "resource-19", "uploadId": "upload-9", "byteLimit": "8388608", "expiresAt": "2026-09-29T20:00:00Z", "mac": "AQ=="},
+        "verb": "PUT",
+        "partNumber": 1,
+        "length": "8388608"
+      }
+    },
+    {
+      "id": "job-authorize-returns-bounded-private-key-binding",
+      "schema": "ObjectJobAuthorizeResponse",
+      "input": {"objectKey": "realm/r1/workspace/w1/object/o1", "binding": "job-grant-binding", "allowedRange": {"offset": "0", "length": "8388608"}, "allowedPartNumber": 1, "expiresAt": "2026-09-29T20:00:00Z", "expectedHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+    },
+    {
+      "id": "worker-object-facade-does-not-inline-bytes",
+      "schema": "WorkerObjectJobRequest",
+      "input": {
+        "requestId": "worker-object-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "grantId": "grant-read",
+        "grant": {"grantId": "grant-read", "realmId": "realm-1", "workspaceId": "workspace-1", "ownerKind": "search", "ownerJobId": "job-17", "attemptId": "attempt-2", "epoch": "7", "recoveryGeneration": "11", "direction": "read", "resourceId": "resource-19", "byteLimit": "8388608", "expiresAt": "2026-09-29T20:00:00Z", "mac": "AQ=="},
+        "method": "GET",
+        "range": {"offset": "0", "length": "8388608"}
+      }
+    },
+    {
+      "id": "worker-object-facade-write-binds-verified-part-metadata",
+      "schema": "WorkerObjectJobRequest",
+      "input": {
+        "requestId": "worker-object-02",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "grantId": "grant-write",
+        "grant": {"grantId": "grant-write", "realmId": "realm-1", "workspaceId": "workspace-1", "ownerKind": "task", "ownerJobId": "task-17", "attemptId": "attempt-3", "epoch": "4", "recoveryGeneration": "11", "direction": "write", "resourceId": "resource-20", "uploadId": "upload-9", "byteLimit": "8388608", "expiresAt": "2026-09-29T20:00:00Z", "mac": "AQ=="},
+        "method": "PUT",
+        "partNumber": 1,
+        "declaredLength": 8388608,
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "worker-object-facade-returns-stream-metadata-not-content",
+      "schema": "WorkerObjectJobResponse",
+      "input": {"grantId": "grant-read", "length": 8388608, "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "range": {"offset": "0", "length": "8388608"}}
+    },
+    {
+      "id": "worker-object-write-returns-immutable-part-receipt",
+      "schema": "WorkerObjectJobResponse",
+      "input": {"grantId": "grant-write", "partReceipt": {"partNumber": 1, "size": "8388608", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "etag": "r2-etag"}}
+    },
+    {
+      "id": "worker-dispatch-durable-identity",
+      "schema": "WorkerDispatchRequest",
+      "input": {
+        "requestId": "dispatch-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "runId": "run-17",
+        "requiredWorkerVersion": "worker-v3",
+        "recoveryGeneration": "8",
+        "outboxId": "outbox-91"
+      }
+    },
+    {
+      "id": "worker-delete-bounded-target-page",
+      "schema": "WorkerDeleteRequest",
+      "input": {
+        "requestId": "delete-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "workspaceId": "workspace-7",
+        "deletionId": "deletion-17",
+        "recoveryGeneration": "11",
+        "targets": [{"kind": "runWorkflow", "instanceId": "af-17-11", "workerVersion": "worker-v3", "recoveryGeneration": "11"}],
+        "inventoryHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "page": 0
+      }
+    },
+    {
+      "id": "inference-job-canonical-resource-version",
+      "schema": "InferenceJobRequest",
+      "input": {
+        "requestId": "inference-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "jobId": "job-17",
+        "attemptId": "attempt-2",
+        "kind": "embedding",
+        "modelId": "embed-v1",
+        "configVersion": "config-28",
+        "sourceManifest": {
+          "resource": {
+            "realmId": "12345678-1234-4234-8234-123456789abc",
+            "ownerAppId": "ArcForges.Cloud.Search",
+            "resourceKind": "search.source",
+            "resourceId": "62345678-1234-4234-8234-123456789abc",
+            "availability": "cloudOnly"
+          },
+          "cloud": "3"
+        },
+        "inputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "intentReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "deadline": "2026-09-29T20:00:00Z",
+        "recoveryGeneration": "11"
+      }
+    },
+    {
+      "id": "inference-outcome-reuses-model-usage",
+      "schema": "InferenceOutcomeRequest",
+      "input": {
+        "requestId": "outcome-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "jobId": "job-17",
+        "attemptId": "attempt-2",
+        "intentReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "epoch": "7",
+        "recoveryGeneration": "11",
+        "state": "unknown",
+        "usage": {"measuredAt": "2026-09-29T19:59:00Z", "source": "workers-ai"}
+      }
+    },
+    {
+      "id": "complete-inference-outcome-requires-full-result",
+      "schema": "InferenceOutcomeRequest",
+      "input": {
+        "requestId": "outcome-02",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "jobId": "job-17",
+        "attemptId": "attempt-2",
+        "intentReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "epoch": "7",
+        "recoveryGeneration": "11",
+        "state": "complete",
+        "result": {"modelId": "rerank-v1", "profile": "profile-1", "items": [{"itemId": "source-17", "score": 0.75}]}
+      }
+    },
+    {
+      "id": "web-search-reuses-execution-owner",
+      "schema": "WorkerWebSearchRequest",
+      "input": {
+        "requestId": "search-01",
+        "correlationId": "92345678-1234-4234-8234-123456789abc",
+        "runId": "run-17",
+        "owner": {"taskId": "72345678-1234-4234-8234-123456789abc"},
+        "workflowId": "af-run-17-11",
+        "workerVersion": "worker-v3",
+        "recoveryGeneration": "11",
+        "toolRequestId": "tool-9",
+        "attemptId": "attempt-2",
+        "commandId": "command-51",
+        "search": {"query": "bounded test", "count": 5, "searchLang": "en", "country": "GB", "safesearch": "strict", "offset": 0}
+      }
+    },
+    {
+      "id": "web-search-uses-canonical-arc-error",
+      "schema": "WorkerWebSearchResponse",
+      "input": {
+        "error": {
+          "code": "search.unavailable",
+          "category": "resource",
+          "messageKey": "search.unavailable",
+          "retry": {"mode": "afterTime", "retryAt": "2026-09-29T20:00:00Z"},
+          "effect": "didNotHappen",
+          "correlationId": "82345678-1234-4234-8234-123456789abc"
+        }
+      }
+    },
+    {
+      "id": "backup-manifest-closed-version-map",
+      "schema": "BackupManifest",
+      "input": {
+        "backupId": "backup-17",
+        "realmId": "realm-1",
+        "recoveryGeneration": "11",
+        "dbBaseId": "db-base-9",
+        "walStart": "30",
+        "walEnd": "35",
+        "publicationWatermark": "35",
+        "objectRefs": [{"id": "object-17", "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "size": "4", "versionId": "v-3"}],
+        "workerVersion": "worker-v3",
+        "contractVersions": {"ArcForges.Contracts.CloudInternal": "1.0.0", "@arcforges/ai-internal": "1.0.0"},
+        "configVersion": "config-28",
+        "createdAt": "2026-09-29T19:59:00Z",
+        "retainedUntil": "2026-10-29T19:59:00Z",
+        "signature": "AQID_w"
+      }
+    }
+  ],
+  "negativeVectors": [
+    {"id": "dispatch-rejects-unregistered-field", "schema": "WorkerDispatchRequest", "input": {"requestId": "dispatch-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "runId": "run-17", "requiredWorkerVersion": "worker-v3", "recoveryGeneration": "8", "outboxId": "outbox-91", "customerToken": "never-forward"}},
+    {"id": "delete-rejects-wildcard-target", "schema": "WorkerDeleteRequest", "input": {"requestId": "delete-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "workspaceId": "workspace-7", "deletionId": "deletion-17", "recoveryGeneration": "11", "targets": [{"kind": "*", "instanceId": "*", "workerVersion": "worker-v3", "recoveryGeneration": "11"}], "inventoryHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "page": 0}},
+    {"id": "job-grant-rejects-undeclared-owner-kind", "schema": "ObjectJobGrantRequest", "input": {"requestId": "grant-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "ownerKind": "arbitrary", "ownerJobId": "job-17", "epoch": "7", "recoveryGeneration": "11", "direction": "read", "resource": {"resource": {"realmId": "12345678-1234-4234-8234-123456789abc", "ownerAppId": "ArcForges.Cloud.Search", "resourceKind": "search.source", "resourceId": "62345678-1234-4234-8234-123456789abc", "availability": "cloudOnly"}, "cloud": "3"}, "declaredBytes": "8388608"}},
+    {"id": "write-job-grant-requires-purpose", "schema": "ObjectJobGrantRequest", "input": {"requestId": "grant-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "ownerKind": "task", "ownerJobId": "task-17", "epoch": "7", "recoveryGeneration": "11", "direction": "write", "declaredBytes": "8388608"}},
+    {"id": "worker-facade-rejects-ambient-bearer", "schema": "WorkerObjectJobRequest", "input": {"requestId": "worker-object-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "grantId": "grant-read", "grant": {"grantId": "grant-read", "realmId": "realm-1", "workspaceId": "workspace-1", "ownerKind": "search", "ownerJobId": "job-17", "epoch": "7", "recoveryGeneration": "11", "direction": "read", "resourceId": "resource-19", "byteLimit": "8388608", "expiresAt": "2026-09-29T20:00:00Z", "mac": "AQ=="}, "method": "GET", "customerBearer": "never-forward"}},
+    {"id": "delete-rejects-201-targets", "schema": "WorkerDeleteRequest", "repeatItems": 201, "input": {"requestId": "delete-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "workspaceId": "workspace-7", "deletionId": "deletion-17", "recoveryGeneration": "11", "targets": [{"kind": "runWorkflow", "instanceId": "af-17-11", "workerVersion": "worker-v3", "recoveryGeneration": "11"}], "inventoryHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "page": 0}},
+    {"id": "web-search-rejects-provider-controls", "schema": "WebSearchRequest", "input": {"query": "q", "count": 11, "searchLang": "en", "country": "GB", "safesearch": "off", "offset": 1, "url": "https://attacker.example/"}},
+    {"id": "inference-rejects-unpinned-result-shape", "schema": "EmbeddingResult", "repeatVectorItems": 1024, "input": {"modelId": "embed-v1", "profile": "profile-1", "dimension": 768, "items": [{"itemId": "source-17", "vector": []}]}},
+    {"id": "complete-inference-outcome-requires-result", "schema": "InferenceOutcomeRequest", "input": {"requestId": "outcome-02", "correlationId": "92345678-1234-4234-8234-123456789abc", "jobId": "job-17", "attemptId": "attempt-2", "intentReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "epoch": "7", "recoveryGeneration": "11", "state": "complete"}},
+    {"id": "late-outcome-requires-original-fence", "schema": "InferenceLateOutcomeRequest", "input": {"requestId": "outcome-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "jobId": "job-17", "attemptId": "attempt-2", "intentReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "epoch": "7", "recoveryGeneration": "11", "state": "unknown"}},
+    {"id": "object-part-receipt-rejects-missing-digest", "schema": "PartReceipt", "input": {"partNumber": 1, "size": "8388608", "etag": "r2-etag"}}
+  ],
+  "stateVectors": [
+    {"id": "duplicate-dispatch-same-command", "case": "same runId, requiredWorkerVersion, recoveryGeneration and outboxId", "expected": "return the same durable Workflow identity; never create a second Workflow", "newExternalEffectPermitted": false},
+    {"id": "conflicting-dispatch-command", "case": "same command identity with a different canonical payload", "expected": "refuse as conflict", "newExternalEffectPermitted": false},
+    {"id": "inference-lease-takeover", "case": "a newer lease epoch replaces an expired epoch", "expected": "old epoch cannot dispatch or publish; a current epoch is required", "newExternalEffectPermitted": false},
+    {"id": "r2-part-mismatch", "case": "same upload part number is retried with a different length or SHA-256", "expected": "refuse without replacing the immutable accepted part receipt", "newExternalEffectPermitted": false},
+    {"id": "stale-inference-result", "case": "an outcome has an old epoch or recovery generation", "expected": "late receipt may reconcile prior supplier liability only; it cannot publish a Search result", "newExternalEffectPermitted": false},
+    {"id": "worker-delete-page-replay", "case": "same deletionId, page, inventoryHash and exact targets", "expected": "return the same terminal target receipts", "newExternalEffectPermitted": false},
+    {"id": "service-object-grant-binds-stable-owner-fence", "case": "grantId is stable across receipt retries and every use presents its ownerKind/job/attempt/epoch/recoveryGeneration", "expected": "validate against the current owner and active lease on every call; never accept ambient customer bearer authorization", "newExternalEffectPermitted": false},
+    {"id": "service-object-grant-expires-before-owner-lease", "case": "grant lifetime is at most 60 seconds and cannot outlive its current owner lease", "expected": "expiry or owner-fence mismatch refuses each range/part", "maximumLifetimeSeconds": 60, "newExternalEffectPermitted": false},
+    {"id": "worker-object-facade-streams-only-bounded-authorized-bytes", "case": "GET/PUT /internal/objects/v1/jobs/{grantId} uses service HMAC plus matching grant; parts are <=8 MiB and range/part authorization is refreshed", "expected": "stream verified bytes only; no raw R2 key, customer bearer, arbitrary object key or unbounded body", "maximumPartBytes": 8388608, "newExternalEffectPermitted": false}
+  ]
+}
