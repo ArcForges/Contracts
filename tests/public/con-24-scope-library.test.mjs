@@ -198,8 +198,27 @@ test("CON.24 public vectors are consumed exactly once with their independent exp
         assert.deepEqual(vector.expected.mustNotUse, ["session.name", "max(session.revision)"]);
         break;
       }
-      case expectedIds[1]:
+      case expectedIds[1]: {
         assert.equal(vector.operationId, "scope.listProjects");
+        assert.equal(vector.source.projects.length, 3);
+        assert.equal(
+          new Set(
+            vector.source.projects.map(
+              (project) => `${project.updatedAt.unixSeconds}:${project.updatedAt.nanos}`,
+            ),
+          ).size,
+          1,
+          "the ordering vector must use equal commit times",
+        );
+        const derivedVisibleProjectIds = vector.source.projects
+          .filter((project) => project.hasVisibleLiveSessions === true)
+          .map((project) => project.projectIdHex)
+          .sort((left, right) => (left === right ? 0 : left > right ? -1 : 1));
+        assert.deepEqual(
+          derivedVisibleProjectIds,
+          vector.expectedProjectIdsHex,
+          "expected project order derives from visible source projects",
+        );
         assert.deepEqual(vector.expectedProjectIdsHex, [
           "00000000000000000000000000000002",
           "00000000000000000000000000000001",
@@ -209,6 +228,7 @@ test("CON.24 public vectors are consumed exactly once with their independent exp
           2,
         );
         break;
+      }
       case expectedIds[2]: {
         assert.equal(vector.operationId, "scope.listSessions");
         const visible = vector.source.sessionsInListSnapshot.filter(

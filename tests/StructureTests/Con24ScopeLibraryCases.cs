@@ -117,8 +117,24 @@ internal static class Con24ScopeLibraryCases
                         break;
                     }
                 case "projects-order-equal-commit-times-by-project-id-descending":
-                    Require(operation == "scope.listProjects" && vector.GetProperty("expectedProjectIdsHex").EnumerateArray().Select(value => value.GetString()).SequenceEqual(new[] { "00000000000000000000000000000002", "00000000000000000000000000000001" }), id + " stable tie order");
-                    break;
+                    {
+                        Require(operation == "scope.listProjects", id + " operation");
+                        var sourceProjects = vector.GetProperty("source").GetProperty("projects").EnumerateArray().ToArray();
+                        Require(sourceProjects.Length == 3, id + " exact source project count");
+                        var commitTimes = sourceProjects.Select(project => (
+                            project.GetProperty("updatedAt").GetProperty("unixSeconds").GetString() ?? throw new InvalidOperationException(id + " missing commit time"),
+                            project.GetProperty("updatedAt").GetProperty("nanos").GetInt32())).Distinct().ToArray();
+                        Require(commitTimes.Length == 1, id + " equal commit times");
+                        var derivedVisibleIds = sourceProjects
+                            .Where(project => project.GetProperty("hasVisibleLiveSessions").GetBoolean())
+                            .OrderByDescending(project => project.GetProperty("projectIdHex").GetString(), StringComparer.Ordinal)
+                            .Select(project => project.GetProperty("projectIdHex").GetString() ?? throw new InvalidOperationException(id + " missing project id"))
+                            .ToArray();
+                        var expectedIds = vector.GetProperty("expectedProjectIdsHex").EnumerateArray().Select(value => value.GetString() ?? throw new InvalidOperationException(id + " missing expected project id")).ToArray();
+                        Require(derivedVisibleIds.SequenceEqual(expectedIds, StringComparer.Ordinal), id + " source-derived tie order");
+                        Require(expectedIds.SequenceEqual(new[] { "00000000000000000000000000000002", "00000000000000000000000000000001" }, StringComparer.Ordinal), id + " stable tie order");
+                        break;
+                    }
                 case "sessions-count-findings-and-reports-from-committed-owner-filtered-aggregate":
                     {
                         Require(operation == "scope.listSessions", id + " operation");

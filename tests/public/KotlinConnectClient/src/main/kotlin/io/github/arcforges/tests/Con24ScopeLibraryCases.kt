@@ -101,7 +101,22 @@ internal object Con24ScopeLibraryCases {
                 }
                 expectedIds[1] -> {
                     check(vector["operationId"].asString == "scope.listProjects")
-                    check(vector.getAsJsonArray("expectedProjectIdsHex").map { it.asString } == listOf(
+                    val sourceProjects = vector.getAsJsonObject("source").getAsJsonArray("projects").map { it.asJsonObject }
+                    check(sourceProjects.size == 3)
+                    val commitTimes = sourceProjects.map { project ->
+                        val updatedAt = project.getAsJsonObject("updatedAt")
+                        updatedAt["unixSeconds"].asString to updatedAt["nanos"].asInt
+                    }.distinct()
+                    check(commitTimes.size == 1) { "The ordering vector must use equal commit times" }
+                    val derivedVisibleProjectIds = sourceProjects
+                        .filter { it["hasVisibleLiveSessions"].asBoolean }
+                        .map { it["projectIdHex"].asString }
+                        .sortedDescending()
+                    val expectedProjectIds = vector.getAsJsonArray("expectedProjectIdsHex").map { it.asString }
+                    check(derivedVisibleProjectIds == expectedProjectIds) {
+                        "Expected project order must derive from visible source projects"
+                    }
+                    check(expectedProjectIds == listOf(
                         "00000000000000000000000000000002", "00000000000000000000000000000001",
                     ))
                 }
