@@ -2,7 +2,23 @@
   "schemaVersion": "simulation-fixtures.v1",
   "license": "Apache-2.0",
   "evidenceClass": "offline-contract-vectors-only-no-simulator-execution-or-cloud-authorization-proof",
+  "service": "arcforges.simulation.v1.SimulationService",
   "operationCount": 13,
+  "operationProfile": {
+    "kind": "proto",
+    "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+    "scope": "product-owner",
+    "surface": "public",
+    "profile": "human-owner",
+    "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+    "capability": null,
+    "approval": "none",
+    "stepUp": false,
+    "localPresence": false,
+    "egress": "none",
+    "patEligible": false,
+    "actorKinds": ["human"]
+  },
   "operations": [
     { "operationId": "simulation.listDefinitions", "method": "ListDefinitions", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["page"], "responseFields": ["items", "page"], "encodedBody": true },
     { "operationId": "simulation.getDefinition", "method": "GetDefinition", "class": "Q", "risk": "R1", "compatibility": "AO", "requestFields": ["definitionId"], "responseFields": ["definition", "versions"], "encodedBody": true },
@@ -21,10 +37,20 @@
   "states": ["queued", "starting", "running", "pausing", "paused", "stopping", "canceled", "succeeded", "failed"],
   "stateRejected": ["active", "completed", "cancelled", "unknown"],
   "extents": ["complete", "partial"],
+  "extentRejected": ["terminal", "full", "unknown"],
+  "runShapeBase": {
+    "runId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+    "scenarioVersionId": { "value": "EBESExQVFhcYGRobHB0eHw==" },
+    "revision": { "value": "1" },
+    "committedSequence": "0",
+    "createdAt": { "unixSeconds": "1", "nanos": 0 }
+  },
   "runExtentVectors": [
     { "id": "active-partial-prefix", "state": "running", "extent": "partial", "logicalEnd": "4096", "valid": true },
     { "id": "succeeded-complete-range", "state": "succeeded", "extent": "complete", "logicalEnd": "65536", "valid": true },
-    { "id": "canceled-partial-range", "state": "canceled", "extent": "partial", "logicalEnd": "2048", "valid": true }
+    { "id": "canceled-partial-range", "state": "canceled", "extent": "partial", "logicalEnd": "2048", "valid": true },
+    { "id": "unknown-state-refused", "state": "active", "extent": "partial", "logicalEnd": "4096", "valid": false },
+    { "id": "unsupported-extent-refused", "state": "succeeded", "extent": "terminal", "logicalEnd": "4096", "valid": false }
   ],
   "listRuns": {
     "authorization": { "membership": "current-workspace", "role": "read", "productId": "arcscope", "recheckEveryPage": true },
@@ -48,14 +74,27 @@
     "clockModes": ["realTime", "accelerated"],
     "sampleCount": { "minimum": 1 },
     "batchSamples": { "default": 4096, "minimum": 1, "maximum": 65536 },
-    "finiteDurationHoursMaximum": 24
+    "finiteDurationHoursMaximum": 24,
+    "vectors": [
+      { "id": "minimum-profile", "valid": true, "value": { "sampleCount": "1", "batchSamples": 1, "rate": { "numerator": "1", "denominator": "1" }, "executionProfile": "af-sim.v1", "encodingProfile": "af-segment.v1", "clockMode": "realTime", "generatorVersion": "1" } },
+      { "id": "maximum-batch-profile", "valid": true, "value": { "sampleCount": "1", "batchSamples": 65536, "rate": { "numerator": "1", "denominator": "1" }, "executionProfile": "af-sim.v1", "encodingProfile": "af-segment.v1", "clockMode": "accelerated", "generatorVersion": "1" } },
+      { "id": "zero-sample-count-refused", "valid": false, "value": { "sampleCount": "0", "batchSamples": 1, "rate": { "numerator": "1", "denominator": "1" }, "executionProfile": "af-sim.v1", "encodingProfile": "af-segment.v1", "clockMode": "realTime", "generatorVersion": "1" } },
+      { "id": "zero-batch-refused", "valid": false, "value": { "sampleCount": "1", "batchSamples": 0, "rate": { "numerator": "1", "denominator": "1" }, "executionProfile": "af-sim.v1", "encodingProfile": "af-segment.v1", "clockMode": "realTime", "generatorVersion": "1" } },
+      { "id": "oversized-batch-refused", "valid": false, "value": { "sampleCount": "1", "batchSamples": 65537, "rate": { "numerator": "1", "denominator": "1" }, "executionProfile": "af-sim.v1", "encodingProfile": "af-segment.v1", "clockMode": "realTime", "generatorVersion": "1" } },
+      { "id": "zero-rate-denominator-refused", "valid": false, "value": { "sampleCount": "1", "batchSamples": 1, "rate": { "numerator": "1", "denominator": "0" }, "executionProfile": "af-sim.v1", "encodingProfile": "af-segment.v1", "clockMode": "realTime", "generatorVersion": "1" } },
+      { "id": "unsupported-execution-profile-refused", "valid": false, "value": { "sampleCount": "1", "batchSamples": 1, "rate": { "numerator": "1", "denominator": "1" }, "executionProfile": "af-sim.v2", "encodingProfile": "af-segment.v1", "clockMode": "realTime", "generatorVersion": "1" } }
+    ]
   },
   "generatorKinds": ["constant", "sine", "square", "triangle", "sawtooth", "noise", "randomWalk", "pulse", "stepSequence", "csv"],
   "faultKinds": ["latency", "jitter", "drop", "duplicate", "reorder", "disconnect", "malformed", "outlier"],
   "astVectors": [
-    { "id": "constant-expression", "expression": "constant", "valid": true },
-    { "id": "binary-expression", "expression": "binary", "valid": true },
-    { "id": "unrecognized-expression", "expression": "script", "valid": false },
-    { "id": "missing-expression", "expression": null, "valid": false }
+    { "id": "constant-expression", "expression": "constant", "value": { "constant": 1.5 }, "valid": true },
+    { "id": "variable-expression", "expression": "variable", "value": { "variable": "time" }, "valid": true },
+    { "id": "unary-expression", "expression": "unary", "value": { "unary": { "operator": "negate", "operand": { "constant": 2.0 } } }, "valid": true },
+    { "id": "binary-expression", "expression": "binary", "value": { "binary": { "operator": "add", "left": { "constant": 1.0 }, "right": { "constant": 2.0 } } }, "valid": true },
+    { "id": "function-expression", "expression": "function", "value": { "function": { "function": "sin", "arguments": [{ "variable": "time" }] } }, "valid": true },
+    { "id": "unrecognized-expression", "expression": "script", "value": { "script": "sin(time)" }, "valid": false },
+    { "id": "missing-expression", "expression": null, "value": {}, "valid": false },
+    { "id": "multiple-oneof-arms-refused", "expression": "constant+variable", "value": { "constant": 1.0, "variable": "time" }, "valid": false }
   ]
 }
