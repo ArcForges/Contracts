@@ -1,0 +1,351 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "support.createCase",
+      "binding": "arcforges.publicapi.v1.SupportService/CreateCase",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "support.listCases",
+      "binding": "arcforges.publicapi.v1.SupportService/ListCases",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "support.appendMessage",
+      "binding": "arcforges.publicapi.v1.SupportService/AppendMessage",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "AP",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "support.decideAccess",
+      "binding": "arcforges.publicapi.v1.SupportService/DecideAccess",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "notification.list",
+      "binding": "arcforges.publicapi.v1.NotificationService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "notification.acknowledge",
+      "binding": "arcforges.publicapi.v1.NotificationService/Acknowledge",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "notification.registerPush",
+      "binding": "arcforges.publicapi.v1.NotificationService/RegisterPush",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "notification.unregisterPush",
+      "binding": "arcforges.publicapi.v1.NotificationService/UnregisterPush",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "data.requestExport",
+      "binding": "arcforges.publicapi.v1.DataService/RequestExport",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/export.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "data.getExportState",
+      "binding": "arcforges.publicapi.v1.DataService/GetExportState",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/export.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "preference.put",
+      "binding": "arcforges.publicapi.v1.PreferenceService/Put",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#supporting-operations-under-the-selected-wire-profile",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "policy.getBundle",
+      "binding": "arcforges.publicapi.v1.PolicyService/GetBundle",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/support.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#9-policy-notification-and-support",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "export.getStatus",
+      "binding": "arcforges.publicapi.v1.ExportService/GetStatus",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/export.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-1-export-operations",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "export.cancel",
+      "binding": "arcforges.publicapi.v1.ExportService/Cancel",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/export.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-1-export-operations",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "export.getDownload",
+      "binding": "arcforges.publicapi.v1.ExportService/GetDownload",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/export.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#5-1-export-operations",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    }
+  ]
+}
