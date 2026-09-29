@@ -2183,3 +2183,26 @@ regexes = [
   '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
   '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
 ]
+
+[[allowlists]]
+description = "CON10 exact observed r2 dependency-policy findings (Security run 36593612384)"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency\-policy\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"06f5b1673ad4663796667bc198ce9336b71b11b0d50553f32ff29614f010cd17",?\s*$''',
+]
+
+[[allowlists]]
+description = "CON10 exact observed r2 dependency-review findings (Security run 36593612384)"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency\-reviews/con\-10\-r2\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"06f5b1673ad4663796667bc198ce9336b71b11b0d50553f32ff29614f010cd17",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]
