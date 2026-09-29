@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0; D1 profile 04 section 3. Private typed named-plan bridge only; no public SQL, table names, or duplicated C# decisions.",
+  "title": "D1ExecutePlanContractBundle",
+  "$defs": {
+    "D1NullValue": {
+      "title": "D1NullValue",
+      "type": "object",
+      "properties": { "kind": { "type": "string", "const": "null" } },
+      "required": ["kind"],
+      "additionalProperties": false
+    },
+    "D1BooleanValue": {
+      "title": "D1BooleanValue",
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "boolean" },
+        "value": { "type": "boolean" }
+      },
+      "required": ["kind", "value"],
+      "additionalProperties": false
+    },
+    "D1Int64Value": {
+      "title": "D1Int64Value",
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "int64" },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "x-arcforges-rules": ["int64"]
+        }
+      },
+      "required": ["kind", "value"],
+      "additionalProperties": false
+    },
+    "D1Uint64Value": {
+      "title": "D1Uint64Value",
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "uint64" },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["kind", "value"],
+      "additionalProperties": false
+    },
+    "D1DecimalValue": {
+      "title": "D1DecimalValue",
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "decimal" },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "x-arcforges-rules": ["canonicalDecimal"]
+        }
+      },
+      "required": ["kind", "value"],
+      "additionalProperties": false
+    },
+    "D1TextValue": {
+      "title": "D1TextValue",
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "text" },
+        "value": { "type": "string", "maxLength": 262144 }
+      },
+      "required": ["kind", "value"],
+      "additionalProperties": false
+    },
+    "D1BytesValue": {
+      "title": "D1BytesValue",
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "bytes" },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]*$",
+          "maxLength": 349528
+        }
+      },
+      "required": ["kind", "value"],
+      "additionalProperties": false
+    },
+    "D1Scalar": {
+      "title": "D1Scalar",
+      "oneOf": [
+        { "$ref": "#/$defs/D1NullValue" },
+        { "$ref": "#/$defs/D1BooleanValue" },
+        { "$ref": "#/$defs/D1Int64Value" },
+        { "$ref": "#/$defs/D1Uint64Value" },
+        { "$ref": "#/$defs/D1DecimalValue" },
+        { "$ref": "#/$defs/D1TextValue" },
+        { "$ref": "#/$defs/D1BytesValue" }
+      ]
+    },
+    "PlanArguments": {
+      "title": "PlanArguments",
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "array",
+        "maxItems": 100,
+        "items": { "$ref": "#/$defs/D1Scalar" }
+      }
+    },
+    "D1Row": {
+      "title": "D1Row",
+      "type": "array",
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/D1Scalar" }
+    },
+    "ExecutePlanRequest": {
+      "title": "ExecutePlanRequest",
+      "type": "object",
+      "properties": {
+        "planId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "planVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+        "manifestHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": { "const": "00000000-0000-0000-0000-000000000000" },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "ownerScope": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "arguments": { "$ref": "#/$defs/PlanArguments" },
+        "deadlineUtc": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 28,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,7})?Z$"
+        }
+      },
+      "required": ["planId", "planVersion", "manifestHash", "requestId", "recoveryGeneration", "ownerScope", "arguments", "deadlineUtc"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "ExecutePlanSuccess": {
+      "title": "ExecutePlanSuccess",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": { "const": "00000000-0000-0000-0000-000000000000" },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "manifestHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "rows": { "type": "array", "maxItems": 200, "items": { "$ref": "#/$defs/D1Row" } },
+        "changes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "bookmark": { "type": "string", "maxLength": 8192 }
+      },
+      "required": ["requestId", "manifestHash", "rows", "changes"],
+      "additionalProperties": false
+    },
+    "ExecutePlanFailure": {
+      "title": "ExecutePlanFailure",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "not": { "const": "00000000-0000-0000-0000-000000000000" },
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "manifestHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "failure": {
+          "type": "string",
+          "enum": ["invalidPlan", "staleGeneration", "precondition", "constraint", "overloaded", "unavailable", "unknownOutcome"]
+        }
+      },
+      "required": ["requestId", "manifestHash", "failure"],
+      "additionalProperties": false
+    },
+    "ExecutePlanResponse": {
+      "title": "ExecutePlanResponse",
+      "oneOf": [
+        { "$ref": "#/$defs/ExecutePlanSuccess" },
+        { "$ref": "#/$defs/ExecutePlanFailure" }
+      ],
+      "x-arcforges-max-bytes": 262144
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/ExecutePlanRequest" },
+    { "$ref": "#/$defs/ExecutePlanResponse" }
+  ],
+  "x-arcforges-schema-version": "1"
+}

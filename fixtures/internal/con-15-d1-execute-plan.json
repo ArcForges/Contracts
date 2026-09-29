@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "con-15-d1-execute-plan.v1",
+  "license": "Apache-2.0",
+  "authority": [
+    "ArcForges-Design architecture/data-model/04-d1-execution-profile.md §3",
+    "ArcForges-Design architecture/contracts/05-cloudflare-integration.md §2"
+  ],
+  "evidenceClass": "offline schema, guard and error vectors only; no deployed Container, Worker, D1, SQL plan, authorization or live-service proof",
+  "encoding": {
+    "arguments": "Ordered outer entries map to the fixed statement order in the registered named plan; each inner array contains that statement's ordered typed parameters. No statement text, table name or client-selected operation is accepted.",
+    "scalars": "Every D1 scalar is tagged; int64, uint64 and decimal use canonical strings; bytes use unpadded base64url; SQLite JSON text remains a text scalar for the typed plan consumer.",
+    "ownerScope": "Opaque bounded nonempty route binding only; trusted Container identity, active deployment generation and owner authorization remain mandatory server-side checks. The field alone never grants or proves authority.",
+    "unknownOutcome": "After an ambiguous timeout, reconcile by the same requestId/receipt; do not retry with a new requestId or assume no effect."
+  },
+  "positiveVectors": [
+    {
+      "id": "execute-plan-typed-parameters",
+      "schema": "ExecutePlanRequest",
+      "valid": true,
+      "roundTrip": true,
+      "input": {
+        "planId": "task.claim.v1",
+        "planVersion": 1,
+        "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requestId": "40000000-0000-4000-8000-000000000151",
+        "recoveryGeneration": "7",
+        "ownerScope": "fixture-owner-scope",
+        "arguments": [
+          [
+            { "kind": "text", "value": "fixture-row" },
+            { "kind": "uint64", "value": "18446744073709551615" }
+          ],
+          [
+            { "kind": "bytes", "value": "AQID_w" },
+            { "kind": "text", "value": "{\"active\":true,\"count\":2}" }
+          ]
+        ],
+        "deadlineUtc": "2026-09-29T19:30:00Z"
+      }
+    },
+    {
+      "id": "execute-plan-tagged-result-scalars",
+      "schema": "ExecutePlanResponse",
+      "valid": true,
+      "roundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000151",
+        "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rows": [
+          [
+            { "kind": "int64", "value": "-9223372036854775808" },
+            { "kind": "decimal", "value": "12345678901234567890.125" },
+            { "kind": "boolean", "value": true },
+            { "kind": "null" }
+          ]
+        ],
+        "changes": "1",
+        "bookmark": "fixture-bookmark"
+      }
+    },
+    {
+      "id": "execute-plan-typed-failure",
+      "schema": "ExecutePlanResponse",
+      "valid": true,
+      "roundTrip": true,
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000152",
+        "manifestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "failure": "unknownOutcome"
+      }
+    }
+  ],
+  "negativeVectors": [
+    {
+      "id": "request-rejects-public-sql-and-table-name",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "sql": "select * from owner_table", "tableName": "owner_table" },
+      "reason": "Closed request accepts only the registered plan identity, typed arguments and bounded authority fields."
+    },
+    {
+      "id": "request-rejects-unknown-plan-argument-shape",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "arguments": [[{ "kind": "integer", "value": 1 }]] },
+      "reason": "Scalar parameters must use the exact tagged-value registry and canonical exact-value encoding."
+    },
+    {
+      "id": "response-rejects-unknown-failure",
+      "schema": "ExecutePlanResponse",
+      "valid": false,
+      "patch": { "failure": "sqlException" },
+      "reason": "Only invalidPlan, staleGeneration, precondition, constraint, overloaded, unavailable and unknownOutcome are representable."
+    },
+    {
+      "id": "response-rejects-success-and-failure-together",
+      "schema": "ExecutePlanResponse",
+      "valid": false,
+      "patch": { "rows": [], "changes": "0", "failure": "precondition" },
+      "reason": "The response is one typed success or one typed failure, never both."
+    },
+    {
+      "id": "request-rejects-101-statements",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "arguments": "fixture-generated 101 ordered statement argument groups" },
+      "reason": "The private batch limit is at most 100 statements."
+    },
+    {
+      "id": "request-rejects-101-parameters-per-statement",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "arguments": "fixture-generated first statement with 101 tagged values" },
+      "reason": "Each fixed statement accepts at most 100 bound arguments."
+    },
+    {
+      "id": "request-rejects-stale-recovery-generation",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "recoveryGeneration": "18446744073709551616" },
+      "reason": "Generation is an exact uint64 string; the active-generation guard rejects any stale value before effects."
+    },
+    {
+      "id": "request-rejects-noncanonical-deadline",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "deadlineUtc": "2026-09-29 19:30:00" },
+      "reason": "Deadline must be an explicit UTC timestamp ending in Z."
+    },
+    {
+      "id": "request-requires-owner-scope",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "remove": ["ownerScope"],
+      "reason": "An opaque scope value is required to bind the request; it is not itself an authorization credential."
+    },
+    {
+      "id": "request-rejects-oversized-owner-scope",
+      "schema": "ExecutePlanRequest",
+      "valid": false,
+      "patch": { "ownerScope": "fixture-generated 257-character scope value" },
+      "reason": "The owner scope binding is bounded and the request must still pass trusted server-side identity and owner checks."
+    }
+  ],
+  "guardAndErrorVectors": [
+    {
+      "id": "unknown-plan",
+      "guard": "registered-plan-identity-and-version",
+      "input": { "planId": "unregistered.fixture.v1", "planVersion": 1 },
+      "outcome": "invalidPlan",
+      "effects": false
+    },
+    {
+      "id": "unsupported-plan-version",
+      "guard": "mutually-supported-plan-manifest",
+      "input": { "planId": "task.claim.v1", "planVersion": 2 },
+      "outcome": "invalidPlan",
+      "effects": false
+    },
+    {
+      "id": "manifest-hash-mismatch",
+      "guard": "exact-plan-manifest-hash",
+      "input": { "manifestHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" },
+      "outcome": "invalidPlan",
+      "effects": false
+    },
+    {
+      "id": "stale-generation-before-execution",
+      "guard": "active-deployment-recovery-generation",
+      "input": { "recoveryGeneration": "6" },
+      "outcome": "staleGeneration",
+      "effects": false
+    },
+    {
+      "id": "owner-precondition-failed",
+      "guard": "typed-owner-scope-and-current-owner-guards",
+      "input": { "ownerScope": "different-fixture-owner" },
+      "outcome": "precondition",
+      "effects": false
+    },
+    {
+      "id": "owner-scope-is-not-authorization",
+      "guard": "trusted-container-identity-active-generation-and-current-owner-authorization",
+      "input": { "ownerScope": "fixture-owner-scope" },
+      "outcome": "validate-server-side-before-plan-execution",
+      "effects": false
+    },
+    {
+      "id": "expired-deadline-before-admission",
+      "guard": "caller-deadline-and-container-readiness",
+      "input": { "deadlineUtc": "2026-09-29T19:00:00Z" },
+      "outcome": "unavailable",
+      "effects": false
+    },
+    {
+      "id": "constraint-refusal-is-typed",
+      "guard": "owner-revision-lease-generation-constraints",
+      "input": { "requestId": "40000000-0000-4000-8000-000000000153" },
+      "outcome": "constraint",
+      "effects": false
+    },
+    {
+      "id": "ambiguous-timeout-remains-unknown",
+      "guard": "receipt-lookup-after-unknown-outcome",
+      "input": { "requestId": "40000000-0000-4000-8000-000000000154" },
+      "outcome": "unknownOutcome",
+      "retryRequestId": "40000000-0000-4000-8000-000000000154",
+      "newEffectPermitted": false
+    },
+    {
+      "id": "untrusted-container-or-public-ingress-refused",
+      "guard": "private-container-identity-and-no-public-route",
+      "input": { "publicRoute": true, "trustedContainer": false },
+      "outcome": "refuse-before-plan-execution",
+      "effects": false
+    }
+  ]
+}
