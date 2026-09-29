@@ -876,15 +876,18 @@ class DependencyAdmission(unittest.TestCase):
             ['git', 'show', predecessor + ':' + policy_path], cwd=ROOT, text=True))
         historical_receipt = json.loads(subprocess.check_output(
             ['git', 'show', predecessor + ':' + receipt_path], cwd=ROOT, text=True))
-        committed_policy = json.loads(subprocess.check_output(
-            ['git', 'show', head + ':' + policy_path], cwd=ROOT, text=True))
         committed_receipt = json.loads(subprocess.check_output(
             ['git', 'show', head + ':' + receipt_path], cwd=ROOT, text=True))
-        self.assertEqual(committed_policy, policy)
+        # The policy is intentionally a mutable active pointer. Later CON.09/10
+        # successors must not make this historical CON.08 fixture compare the
+        # whole current policy object with its predecessor snapshot.
         self.assertEqual(committed_receipt, receipt)
         old_access_digest = historical_policy['inputHashes'][access_key]
         current_access_digest = policy['inputHashes'][access_key]
         con08_access_digest = receipt['review']['inputHashes'][access_key]
+        con10_r1_receipt = json.loads(
+            (ROOT / 'eng/policy/dependency-reviews/con-10-r1.json').read_text(encoding='utf-8'))
+        con10_r1_access_digest = con10_r1_receipt['review']['inputHashes'][access_key]
         self.assertEqual(old_access_digest, historical_policy['review']['inputHashes'][access_key])
         self.assertEqual(old_access_digest, historical_receipt['review']['inputHashes'][access_key])
         self.assertNotEqual(old_access_digest, con08_access_digest)
@@ -900,9 +903,13 @@ class DependencyAdmission(unittest.TestCase):
                                   if row['description'].startswith('CON10 exact observed active dependency-policy') and
                                   row['paths'] == [r'^eng/policy/dependency\-policy\.json$'])
         active_access_line = f'  "{access_key}": "{current_access_digest}",'
+        historical_con10_line = f'  "{access_key}": "{con10_r1_access_digest}",'
         self.assertFalse(any(re.fullmatch(pattern, active_access_line) for pattern in ext02_group['regexes']))
         self.assertFalse(any(re.fullmatch(pattern, active_access_line) for pattern in con09_policy_group['regexes']))
-        self.assertTrue(any(re.fullmatch(pattern, active_access_line) for pattern in con10_policy_group['regexes']))
+        self.assertTrue(any(re.fullmatch(pattern, historical_con10_line)
+                            for pattern in con10_policy_group['regexes']))
+        self.assertFalse(any(re.fullmatch(pattern, active_access_line)
+                             for pattern in con10_policy_group['regexes']))
         self.assertFalse(any(re.fullmatch(pattern, active_access_line)
                              for pattern in by_path['^' + re.escape(policy_path) + '$']['regexes']))
 
@@ -1103,12 +1110,12 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(sum(len(rows) for rows in expected_rows.values()), 214)
         self.assertEqual(208 + 5 + 2, 215)
 
-    def test_con10_secret_scan_allowlist_binds_exact_old_and_current_policy_lines(self):
+    def test_con10_secret_scan_allowlist_binds_r1_history_not_unobserved_r2_policy(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
         policy_path = 'eng/policy/dependency-policy.json'
         access_key = 'eng/policy/contract-access.json'
         path_pattern = r'^eng/policy/dependency\-policy\.json$'
-        current_digest = '466e30f0c4f4e5cb426b9cd63c8c00a46b084d0f885ec54af774da3cd66c0615'
+        r1_digest = '466e30f0c4f4e5cb426b9cd63c8c00a46b084d0f885ec54af774da3cd66c0615'
         con09_digest = '86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533'
 
         con09_group = next(row for row in config['allowlists']
@@ -1124,32 +1131,43 @@ class DependencyAdmission(unittest.TestCase):
             self.assertEqual(group['regexTarget'], 'line')
             self.assertEqual(group['paths'], [path_pattern])
         old_pattern = r'(?s)^\s*"' + re.escape(access_key) + r'":\s*"' + con09_digest + r'",?\s*$'
-        current_pattern = r'(?s)^\s*"' + re.escape(access_key) + r'":\s*"' + current_digest + r'",?\s*$'
+        r1_pattern = r'(?s)^\s*"' + re.escape(access_key) + r'":\s*"' + r1_digest + r'",?\s*$'
         self.assertEqual(con09_group['regexes'], [old_pattern])
-        self.assertEqual(con10_group['regexes'], [current_pattern])
+        self.assertEqual(con10_group['regexes'], [r1_pattern])
 
         predecessor = 'bf42fef5e4fd28792004c8a16623465784e2bfb7'
         previous_policy = json.loads(subprocess.check_output(
             ['git', 'show', predecessor + ':' + policy_path], cwd=ROOT, text=True))
         current_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
-        current_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/con-10-r1.json')
+        r1_source = 'b6f0bad2b2876544eda836741f574a61e8c44ea0'
+        r1_policy_text = subprocess.check_output(
+            ['git', 'show', r1_source + ':' + policy_path], cwd=ROOT, text=True)
+        r1_policy = json.loads(r1_policy_text)
+        r1_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/con-10-r1.json')
                                      .read_text(encoding='utf-8'))
+        current_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/con-10-r2.json')
+                                     .read_text(encoding='utf-8'))
+        current_digest = current_policy['inputHashes'][access_key]
         self.assertEqual(previous_policy['inputHashes'][access_key], con09_digest)
         self.assertEqual(previous_policy['review']['inputHashes'][access_key], con09_digest)
         self.assertEqual(current_policy['inputHashes'][access_key], current_digest)
         self.assertEqual(current_policy['review']['inputHashes'][access_key], current_digest)
         self.assertEqual(current_receipt['review']['inputHashes'][access_key], current_digest)
+        self.assertEqual(r1_policy['inputHashes'][access_key], r1_digest)
+        self.assertEqual(r1_policy['review']['inputHashes'][access_key], r1_digest)
+        self.assertEqual(r1_receipt['review']['inputHashes'][access_key], r1_digest)
         self.assertEqual(hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest(), current_digest)
 
         old_line = f'  "{access_key}": "{con09_digest}",'
+        r1_line = f'  "{access_key}": "{r1_digest}",'
         current_line = f'  "{access_key}": "{current_digest}",'
         self.assertIsNotNone(re.fullmatch(old_pattern, old_line))
-        self.assertIsNotNone(re.fullmatch(current_pattern, current_line))
+        self.assertIsNotNone(re.fullmatch(r1_pattern, r1_line))
         for group, pattern, allowed, rejected in [
-            (con09_group, old_pattern, old_line, current_line),
-            (con10_group, current_pattern, current_line, old_line),
+            (con09_group, old_pattern, old_line, r1_line),
+            (con10_group, r1_pattern, r1_line, old_line),
         ]:
-            allowed_digest = con09_digest if group is con09_group else current_digest
+            allowed_digest = con09_digest if group is con09_group else r1_digest
             self.assertTrue(any(re.fullmatch(candidate, allowed) for candidate in group['regexes']))
             self.assertFalse(any(re.fullmatch(candidate, rejected) for candidate in group['regexes']))
             for bad_line in [
@@ -1164,7 +1182,11 @@ class DependencyAdmission(unittest.TestCase):
         current_policy_text = (ROOT / policy_path).read_text(encoding='utf-8')
         current_matches = [line for line in current_policy_text.splitlines()
                            if any(re.fullmatch(pattern, line) for pattern in con10_group['regexes'])]
-        self.assertEqual(len(current_matches), 2)
+        self.assertEqual(len(current_matches), 0)
+        r1_matches = [line for line in r1_policy_text.splitlines()
+                      if any(re.fullmatch(pattern, line) for pattern in con10_group['regexes'])]
+        self.assertEqual(len(r1_matches), 2)
+        self.assertFalse(any(re.fullmatch(pattern, current_line) for pattern in con10_group['regexes']))
 
     def test_con10_secret_scan_allowlists_bind_exact_hosted_fingerprint_sets(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
