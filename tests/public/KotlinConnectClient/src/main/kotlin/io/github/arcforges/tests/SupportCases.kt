@@ -31,6 +31,8 @@ internal object SupportCases {
         check(validMessage(forwardActor)) { "Forward-compatible actorKind Key was rejected" }
         check(SupportMessage.parseFrom(forwardActor.toByteArray()) == forwardActor) { "SupportMessage binary round-trip changed" }
         check(!validMessage(forwardActor.toBuilder().setActorKind("not valid").build())) { "Invalid actorKind Key was accepted" }
+        check(!validMessage(forwardActor.toBuilder().clearText().build())) { "Absent support text was accepted" }
+        check(!validMessage(forwardActor.toBuilder().clearCreatedAt().build())) { "Absent support message timestamp was accepted" }
         check(!validMessage(forwardActor.toBuilder().setText("é".repeat(131073)).build())) { "Oversized support text was accepted" }
         check(validMessage(forwardActor.toBuilder().setText("é".repeat(131072)).build())) { "Text at the UTF-8 boundary was rejected" }
 
@@ -46,6 +48,9 @@ internal object SupportCases {
         check(validCase(sample)) { "SupportCase at declared boundaries was rejected" }
         check(SupportCase.parseFrom(sample.toByteArray()) == sample) { "SupportCase binary round-trip changed" }
         check(!validCase(sample.toBuilder().setSubject("😀".repeat(257)).build())) { "Oversized Name was accepted" }
+        check(!validCase(sample.toBuilder().clearSubject().build())) { "Absent SupportCase subject was accepted" }
+        check(!validCase(sample.toBuilder().clearRevision().build())) { "Absent SupportCase revision was accepted" }
+        check(!validCase(sample.toBuilder().clearMessagePage().build())) { "Absent SupportCase message page was accepted" }
         check(!validCase(sample.toBuilder().setState("futureState").build())) { "Unknown SupportCase state was accepted" }
         check(!validCase(sample.toBuilder().setCategory("futureCategory").build())) { "Unknown SupportCase category was accepted" }
         val tooManyMessages = sample.toBuilder().clearMessages().apply {
@@ -64,6 +69,7 @@ internal object SupportCases {
         check(validNotification(notification)) { "Forward-compatible notification Key was rejected" }
         check(NotificationView.parseFrom(notification.toByteArray()) == notification) { "NotificationView binary round-trip changed" }
         check(!validNotification(notification.toBuilder().setKind("bad key").build())) { "Invalid notification Key was accepted" }
+        check(!validNotification(notification.toBuilder().clearCreatedAt().build())) { "Absent notification timestamp was accepted" }
 
         val bundle = PolicyBundle.newBuilder()
             .setVersion("policy.1")
@@ -77,6 +83,8 @@ internal object SupportCases {
         check(PolicyBundle.parseFrom(bundle.toByteArray()) == bundle) { "PolicyBundle binary round-trip changed" }
         check(!validBundle(bundle.toBuilder().clearBody().build())) { "Absent PolicyBundle body was accepted" }
         check(!validBundle(bundle.toBuilder().clearSignature().build())) { "Absent PolicyBundle signature was accepted" }
+        check(!validBundle(bundle.toBuilder().clearIssuedAt().build())) { "Absent PolicyBundle issuedAt was accepted" }
+        check(!validBundle(bundle.toBuilder().clearExpiresAt().build())) { "Absent PolicyBundle expiresAt was accepted" }
         check(!validBundle(bundle.toBuilder().setBody(ByteString.copyFrom(ByteArray(1048577))).build())) {
             "PolicyBundle body above 1 MiB was accepted"
         }
@@ -85,15 +93,20 @@ internal object SupportCases {
 
     private fun validCase(value: SupportCase): Boolean =
         value.caseId.value.size() == 16 &&
+            value.hasSubject() &&
             value.subject.codePointCount(0, value.subject.length) <= 256 &&
             value.state in caseStates &&
             value.category in caseCategories &&
+            value.hasRevision() &&
+            value.hasMessagePage() &&
             value.messagesCount <= 100 &&
             value.messagesList.all(::validMessage)
 
     private fun validMessage(value: SupportMessage): Boolean =
         value.messageId.value.size() == 16 &&
+            value.hasText() &&
             keyPattern.matches(value.actorKind) &&
+            value.hasCreatedAt() &&
             value.text.toByteArray(Charsets.UTF_8).size <= 262144
 
     private fun validNotification(value: NotificationView): Boolean =
@@ -101,11 +114,14 @@ internal object SupportCases {
             keyPattern.matches(value.kind) &&
             keyPattern.matches(value.durability) &&
             keyPattern.matches(value.messageKey) &&
-            keyPattern.matches(value.state)
+            keyPattern.matches(value.state) &&
+            value.hasCreatedAt()
 
     private fun validBundle(value: PolicyBundle): Boolean =
         value.hasBody() &&
             value.hasSignature() &&
+            value.hasIssuedAt() &&
+            value.hasExpiresAt() &&
             keyPattern.matches(value.version) &&
             keyPattern.matches(value.keyId) &&
             value.body.size() <= 1048576

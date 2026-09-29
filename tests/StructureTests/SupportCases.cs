@@ -105,6 +105,15 @@ internal static class SupportCases
         var id = Id();
         var validCase = Case("open", "support", 256, 100);
         Require(ContractShapeValidation.IsValid(validCase), "Name 256 scalars and one message page at max 100");
+        var missingSubject = validCase.Clone();
+        missingSubject.ClearSubject();
+        Require(!ContractShapeValidation.IsValid(missingSubject), "SupportCase subject presence");
+        var missingRevision = validCase.Clone();
+        missingRevision.ClearRevision();
+        Require(!ContractShapeValidation.IsValid(missingRevision), "SupportCase revision presence");
+        var missingPage = validCase.Clone();
+        missingPage.ClearMessagePage();
+        Require(!ContractShapeValidation.IsValid(missingPage), "SupportCase messagePage presence");
         validCase.Subject += "x";
         Require(!ContractShapeValidation.IsValid(validCase), "Name rejects 257 scalars");
         Require(!ContractShapeValidation.IsValid(Case("futureState", "support", 1, 0)), "closed support case state meanings");
@@ -113,6 +122,12 @@ internal static class SupportCases
 
         var message = Message(new string('é', 131072));
         Require(ContractShapeValidation.IsValid(message), "Text exact UTF-8 maximum");
+        var missingText = message.Clone();
+        missingText.ClearText();
+        Require(!ContractShapeValidation.IsValid(missingText), "SupportMessage text presence");
+        var missingCreatedAt = message.Clone();
+        missingCreatedAt.ClearCreatedAt();
+        Require(!ContractShapeValidation.IsValid(missingCreatedAt), "SupportMessage createdAt presence");
         message.Text += "é";
         Require(!ContractShapeValidation.IsValid(message), "Text exceeds UTF-8 maximum");
         message = Message("forward.compatible.actor");
@@ -138,6 +153,12 @@ internal static class SupportCases
         Require(!ContractShapeValidation.IsValid(missingSignature), "PolicyBundle signature presence");
         bundle.Body = ByteString.CopyFrom(new byte[1048577]);
         Require(!ContractShapeValidation.IsValid(bundle), "PolicyBundle body exceeds 1 MiB");
+        var missingIssuedAt = new PolicyBundle
+        {
+            Version = "policy.1", ExpiresAt = new Instant { UnixSeconds = 2 },
+            Body = ByteString.CopyFrom(new byte[] { 1 }), Signature = ByteString.CopyFrom(new byte[] { 1 }), KeyId = "key.1"
+        };
+        Require(!ContractShapeValidation.IsValid(missingIssuedAt), "PolicyBundle issuedAt presence");
 
         var request = new SupportServiceAppendMessageRequest
         {

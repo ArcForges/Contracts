@@ -49,7 +49,10 @@
         "revision": {
           "value": "1"
         },
-        "category": "support"
+        "category": "support",
+        "messagePage": {
+          "hasMore": false
+        }
       }
     },
     {
@@ -66,7 +69,10 @@
         "revision": {
           "value": "1"
         },
-        "category": "other"
+        "category": "other",
+        "messagePage": {
+          "hasMore": false
+        }
       }
     },
     {

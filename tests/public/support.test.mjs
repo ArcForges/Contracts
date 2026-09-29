@@ -87,6 +87,15 @@ test("CON.22 names, text, keys, repeated messages and policy body retain declare
     });
   assert.equal(shapes.isSupportCase(caseValue("😀".repeat(256))), true);
   assert.equal(shapes.isSupportCase(caseValue("😀".repeat(257))), false);
+  const missingSubject = caseValue();
+  delete missingSubject.subject;
+  assert.equal(shapes.isSupportCase(missingSubject), false);
+  const missingRevision = caseValue();
+  delete missingRevision.revision;
+  assert.equal(shapes.isSupportCase(missingRevision), false);
+  const missingMessagePage = caseValue();
+  delete missingMessagePage.messagePage;
+  assert.equal(shapes.isSupportCase(missingMessagePage), false);
   assert.equal(shapes.isSupportCase(caseValue("Case", "futureState")), false);
   assert.equal(shapes.isSupportCase(caseValue("Case", "open", "futureCategory")), false);
   assert.equal(shapes.isSupportCase(caseValue("Case", "open", "support", 100)), true);
@@ -96,6 +105,12 @@ test("CON.22 names, text, keys, repeated messages and policy body retain declare
     create(SupportMessageSchema, { messageId: id(), actorKind, text, createdAt: instant(1) });
   assert.equal(shapes.isSupportMessage(message("é".repeat(131072))), true);
   assert.equal(shapes.isSupportMessage(message("é".repeat(131073))), false);
+  const missingText = message("present");
+  delete missingText.text;
+  assert.equal(shapes.isSupportMessage(missingText), false);
+  const missingMessageTime = message("present");
+  delete missingMessageTime.createdAt;
+  assert.equal(shapes.isSupportMessage(missingMessageTime), false);
   assert.equal(shapes.isSupportMessage(message("explicit support text", "future.actor-kind")), true);
   assert.equal(shapes.isSupportMessage(message("text", "not valid")), false);
 
@@ -104,6 +119,9 @@ test("CON.22 names, text, keys, repeated messages and policy body retain declare
   });
   assert.equal(shapes.isNotificationView(notice("future.notification-kind")), true);
   assert.equal(shapes.isNotificationView(notice("bad key")), false);
+  const missingNotificationTime = notice("notice.kind");
+  delete missingNotificationTime.createdAt;
+  assert.equal(shapes.isNotificationView(missingNotificationTime), false);
 
   const bundle = (length) => create(PolicyBundleSchema, {
     version: "policy.1", issuedAt: instant(1), expiresAt: instant(2),
@@ -111,6 +129,9 @@ test("CON.22 names, text, keys, repeated messages and policy body retain declare
   });
   assert.equal(shapes.isPolicyBundle(bundle(1048576)), true);
   assert.equal(shapes.isPolicyBundle(bundle(1048577)), false);
+  const missingIssuedAt = bundle(1);
+  delete missingIssuedAt.issuedAt;
+  assert.equal(shapes.isPolicyBundle(missingIssuedAt), false);
   const noBody = create(PolicyBundleSchema, {
     version: "policy.1", issuedAt: instant(1), expiresAt: instant(2), signature: Uint8Array.of(1), keyId: "key.1",
   });
