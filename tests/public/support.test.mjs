@@ -13,7 +13,10 @@ import {
 import * as shapes from "../../src/public/ts/proto/dist/shapes/gen/proto.js";
 
 const fixture = JSON.parse(
-  await readFile(new URL("../../fixtures/public/con-22-account-support.json", import.meta.url), "utf8"),
+  await readFile(
+    new URL("../../fixtures/public/con-22-account-support.json", import.meta.url),
+    "utf8",
+  ),
 );
 const idBytes = Uint8Array.from(Buffer.from("112233445566478899aabbccddeeff00", "hex"));
 const instant = (seconds) => ({ unixSeconds: BigInt(seconds), nanos: 0 });
@@ -27,8 +30,18 @@ const validators = {
 
 test("CON.22 emits only the six Registry04 public services and exact method maps", () => {
   const expected = {
-    "arcforges.publicapi.v1.SupportService": ["CreateCase", "ListCases", "AppendMessage", "DecideAccess"],
-    "arcforges.publicapi.v1.NotificationService": ["List", "Acknowledge", "RegisterPush", "UnregisterPush"],
+    "arcforges.publicapi.v1.SupportService": [
+      "CreateCase",
+      "ListCases",
+      "AppendMessage",
+      "DecideAccess",
+    ],
+    "arcforges.publicapi.v1.NotificationService": [
+      "List",
+      "Acknowledge",
+      "RegisterPush",
+      "UnregisterPush",
+    ],
     "arcforges.publicapi.v1.PreferenceService": ["Put"],
     "arcforges.publicapi.v1.PolicyService": ["GetBundle"],
     "arcforges.publicapi.v1.DataService": ["RequestExport", "GetExportState"],
@@ -44,7 +57,10 @@ test("CON.22 emits only the six Registry04 public services and exact method maps
   for (const [typeName, methods] of Object.entries(expected)) {
     const service = contractServices.find((candidate) => candidate.typeName === typeName);
     assert.ok(service, `missing ${typeName}`);
-    assert.deepEqual(service.methods.map((method) => method.name), methods);
+    assert.deepEqual(
+      service.methods.map((method) => method.name),
+      methods,
+    );
     for (const method of service.methods) {
       assert.equal(method.methodKind, "unary");
       assert.equal(method.input.typeName, `${typeName}${method.name}Request`);
@@ -108,33 +124,55 @@ test("CON.22 names, text, keys, repeated messages and policy body retain declare
   const missingMessageTime = message("present");
   delete missingMessageTime.createdAt;
   assert.equal(shapes.isSupportMessage(missingMessageTime), false);
-  assert.equal(shapes.isSupportMessage(message("explicit support text", "future.actor-kind")), true);
+  assert.equal(
+    shapes.isSupportMessage(message("explicit support text", "future.actor-kind")),
+    true,
+  );
   assert.equal(shapes.isSupportMessage(message("text", "not valid")), false);
 
-  const notice = (kind) => create(NotificationViewSchema, {
-    notificationId: id(), kind, durability: "durable", messageKey: "future.message-key", state: "unread", createdAt: instant(1),
-  });
+  const notice = (kind) =>
+    create(NotificationViewSchema, {
+      notificationId: id(),
+      kind,
+      durability: "durable",
+      messageKey: "future.message-key",
+      state: "unread",
+      createdAt: instant(1),
+    });
   assert.equal(shapes.isNotificationView(notice("future.notification-kind")), true);
   assert.equal(shapes.isNotificationView(notice("bad key")), false);
   const missingNotificationTime = notice("notice.kind");
   delete missingNotificationTime.createdAt;
   assert.equal(shapes.isNotificationView(missingNotificationTime), false);
 
-  const bundle = (length) => create(PolicyBundleSchema, {
-    version: "policy.1", issuedAt: instant(1), expiresAt: instant(2),
-    body: new Uint8Array(length), signature: Uint8Array.of(1), keyId: "key.1",
-  });
+  const bundle = (length) =>
+    create(PolicyBundleSchema, {
+      version: "policy.1",
+      issuedAt: instant(1),
+      expiresAt: instant(2),
+      body: new Uint8Array(length),
+      signature: Uint8Array.of(1),
+      keyId: "key.1",
+    });
   assert.equal(shapes.isPolicyBundle(bundle(1048576)), true);
   assert.equal(shapes.isPolicyBundle(bundle(1048577)), false);
   const missingIssuedAt = bundle(1);
   delete missingIssuedAt.issuedAt;
   assert.equal(shapes.isPolicyBundle(missingIssuedAt), false);
   const noBody = create(PolicyBundleSchema, {
-    version: "policy.1", issuedAt: instant(1), expiresAt: instant(2), signature: Uint8Array.of(1), keyId: "key.1",
+    version: "policy.1",
+    issuedAt: instant(1),
+    expiresAt: instant(2),
+    signature: Uint8Array.of(1),
+    keyId: "key.1",
   });
   assert.equal(shapes.isPolicyBundle(noBody), false);
   const noSignature = create(PolicyBundleSchema, {
-    version: "policy.1", issuedAt: instant(1), expiresAt: instant(2), body: Uint8Array.of(1), keyId: "key.1",
+    version: "policy.1",
+    issuedAt: instant(1),
+    expiresAt: instant(2),
+    body: Uint8Array.of(1),
+    keyId: "key.1",
   });
   assert.equal(shapes.isPolicyBundle(noSignature), false);
 });

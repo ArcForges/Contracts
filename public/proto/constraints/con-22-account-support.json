@@ -16,13 +16,7 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "open",
-            "inProgress",
-            "awaitingUser",
-            "resolved",
-            "closed"
-          ]
+          "enumValues": ["open", "inProgress", "awaitingUser", "resolved", "closed"]
         },
         "messages": {
           "maxItems": 100
@@ -34,13 +28,7 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "support",
-            "bug",
-            "communityReport",
-            "appeal",
-            "security"
-          ]
+          "enumValues": ["support", "bug", "communityReport", "appeal", "security"]
         },
         "relatedActionId": {},
         "messagePage": {}
@@ -149,13 +137,7 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "support",
-            "bug",
-            "communityReport",
-            "appeal",
-            "security"
-          ]
+          "enumValues": ["support", "bug", "communityReport", "appeal", "security"]
         },
         "relatedActionId": {}
       }
@@ -177,9 +159,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.SupportServiceListCasesRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportServiceListCasesRequest",
@@ -213,9 +193,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.SupportServiceAppendMessageRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportServiceAppendMessageRequest",
@@ -252,9 +230,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.SupportServiceDecideAccessRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.SupportServiceDecideAccessRequest",
@@ -292,9 +268,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.NotificationServiceListRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.NotificationServiceListRequest",
@@ -328,9 +302,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.NotificationServiceAcknowledgeRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.NotificationServiceAcknowledgeRequest",
@@ -360,9 +332,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.NotificationServiceRegisterPushRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.NotificationServiceRegisterPushRequest",
@@ -401,9 +371,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.NotificationServiceUnregisterPushRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.NotificationServiceUnregisterPushRequest",
@@ -433,9 +401,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.PreferenceServicePutRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.PreferenceServicePutRequest",
@@ -465,9 +431,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.PolicyServiceGetBundleRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.PolicyServiceGetBundleRequest",
@@ -502,9 +466,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DataServiceRequestExportRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DataServiceRequestExportRequest",
@@ -534,9 +496,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DataServiceGetExportStateRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DataServiceGetExportStateRequest",
@@ -567,9 +527,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.ExportServiceGetStatusRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ExportServiceGetStatusRequest",
@@ -600,9 +558,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.ExportServiceCancelRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ExportServiceCancelRequest",
@@ -632,9 +588,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.ExportServiceGetDownloadRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ExportServiceGetDownloadRequest",
@@ -664,9 +618,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     }
   }
 }
