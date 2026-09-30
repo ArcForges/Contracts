@@ -345,6 +345,30 @@ internal static class Con11ApplicationStreamsCases
                     Require(parsed.HasHistoryMode && (int)parsed.HistoryMode == 0, "explicit HistoryMode zero keeps optional tag-11 presence");
                     break;
                 }
+                case "stream-position-required-default-presence":
+                {
+                    var wire = new E.StreamPosition { Cursor = "", Sequence = 0, Generation = 0 }.ToByteArray();
+                    Require(wire.SequenceEqual([0x0a, 0x00, 0x10, 0x00, 0x18, 0x00]),
+                        "required StreamPosition default values serialize at tags 1/2/3");
+                    var parsed = E.StreamPosition.Parser.ParseFrom(wire);
+                    Require(parsed.HasCursor && parsed.Cursor == "" && parsed.HasSequence && parsed.Sequence == 0
+                        && parsed.HasGeneration && parsed.Generation == 0 && !parsed.HasContentHash,
+                        "required StreamPosition values preserve default presence while optional contentHash stays absent");
+                    break;
+                }
+                case "event-service-poll-value-default-presence":
+                {
+                    var value = new E.EventServicePollValue { NextCursor = "", ResetRequired = false };
+                    value.Events.Add(new E.Event());
+                    var wire = value.ToByteArray();
+                    Require(wire.SequenceEqual([0x52, 0x00, 0x5a, 0x00, 0x60, 0x00]),
+                        "PollValue success fields serialize at tags 10/11/12");
+                    var parsed = E.EventServicePollValue.Parser.ParseFrom(wire);
+                    Require(parsed.Events.Count == 1 && parsed.HasNextCursor && parsed.NextCursor == ""
+                        && parsed.HasResetRequired && !parsed.ResetRequired,
+                        "PollValue success fields and optional default values survive exact wire round trip");
+                    break;
+                }
                 default:
                     throw new InvalidOperationException("Unknown CON.11 presence vector: " + S(vector, "id"));
             }

@@ -10,6 +10,7 @@ import com.google.gson.JsonParser
 import com.google.protobuf.ByteString
 import io.github.arcforges.contracts.events.v1.EventServiceClient
 import io.github.arcforges.contracts.events.v1.Event
+import io.github.arcforges.contracts.events.v1.EventServicePollValue
 import io.github.arcforges.contracts.events.v1.EventServicePollRequest
 import io.github.arcforges.contracts.events.v1.EventServiceWatchRequest
 import io.github.arcforges.contracts.events.v1.ExecutionServiceAcknowledgeOutputRequest
@@ -254,6 +255,26 @@ object Con11ApplicationStreamsCases {
                     }
                     requireCon11(parsed.hasHistoryMode() && parsed.historyModeValue == 0,
                         "explicit HistoryMode zero remains present at tag 11")
+                }
+                "stream-position-required-default-presence" -> {
+                    val wire = StreamPosition.newBuilder().setCursor("").setSequence(0L).setGeneration(0L).build().toByteArray()
+                    requireCon11(wire.contentEquals(byteArrayOf(0x0a, 0x00, 0x10, 0x00, 0x18, 0x00)),
+                        "required StreamPosition default values serialize at tags 1/2/3")
+                    val parsed = StreamPosition.parseFrom(wire)
+                    requireCon11(parsed.hasCursor() && parsed.cursor.isEmpty() && parsed.hasSequence() && parsed.sequence == 0L
+                        && parsed.hasGeneration() && parsed.generation == 0L && !parsed.hasContentHash(),
+                        "required StreamPosition values preserve default presence while optional contentHash stays absent")
+                }
+                "event-service-poll-value-default-presence" -> {
+                    val value = EventServicePollValue.newBuilder()
+                        .addEvents(Event.getDefaultInstance()).setNextCursor("").setResetRequired(false).build()
+                    val wire = value.toByteArray()
+                    requireCon11(wire.contentEquals(byteArrayOf(0x52, 0x00, 0x5a, 0x00, 0x60, 0x00)),
+                        "PollValue success fields serialize at tags 10/11/12")
+                    val parsed = EventServicePollValue.parseFrom(wire)
+                    requireCon11(parsed.eventsCount == 1 && parsed.hasNextCursor() && parsed.nextCursor.isEmpty()
+                        && parsed.hasResetRequired() && !parsed.resetRequired,
+                        "PollValue success fields and optional default values survive exact wire round trip")
                 }
                 else -> throw IllegalStateException("Unknown CON.11 presence vector: ${string(vector, "id")}")
             }

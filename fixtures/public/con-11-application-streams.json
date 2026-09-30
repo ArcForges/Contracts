@@ -46,7 +46,8 @@
     { "id": "history-branch-fields", "message": "HistoryBranch", "fields": [["branchId", 1], ["parentBranchId", 2], ["forkMessageId", 3]] },
     { "id": "history-archive-end-fields", "message": "HistoryArchiveEnd", "fields": [["recordCount", 1], ["precedingBytesHash", 2]] },
     { "id": "event-envelope-fields", "message": "Event", "fields": [["subscriptionKey", 1], ["seq", 2], ["workspaceId", 3], ["occurredAt", 4], ["correlationId", 5]], "payloadOneof": "payload" },
-    { "id": "stream-position-fields", "message": "StreamPosition", "fields": [["cursor", 1], ["sequence", 2], ["generation", 3], ["contentHash", 4]] },
+    { "id": "stream-position-fields", "message": "StreamPosition", "fields": [["cursor", 1], ["sequence", 2], ["generation", 3], ["contentHash", 4]], "presenceFields": ["cursor", "sequence", "generation"] },
+    { "id": "event-service-poll-value-fields", "message": "EventServicePollValue", "fields": [["events", 10], ["nextCursor", 11], ["resetRequired", 12]], "presenceFields": ["nextCursor", "resetRequired"] },
     { "id": "stream-frame-fields", "message": "StreamFrame", "fields": [["meta", 1], ["position", 2], ["hint", 10], ["output", 11], ["reset", 12], ["terminal", 13], ["heartbeat", 14], ["error", 15], ["progress", 16]], "oneofFields": { "frame": ["hint", "output", "reset", "terminal", "heartbeat", "error", "progress"] } },
     { "id": "output-chunk-fields", "message": "OutputChunk", "fields": [["execution", 1], ["offset", 2], ["data", 3], ["chunkHash", 4], ["kind", 5], ["attemptId", 6], ["streamId", 7]] },
     { "id": "stream-reset-fields", "message": "StreamReset", "fields": [["reason", 1], ["resumeFrom", 2], ["snapshotRequired", 3], ["successorStreamId", 4], ["truncated", 5]] },
@@ -156,6 +157,8 @@
     { "id": "application-target-zero-epoch-presence", "message": "arcforges.publicapi.v1.ApplicationTarget", "field": "instanceEpoch", "kind": "optionalUint64", "value": "0" },
     { "id": "request-meta-empty-application-scope-presence", "message": "arcforges.foundation.v1.RequestMeta", "field": "applicationScope", "kind": "message" },
     { "id": "conversation-view-empty-application-scope-presence", "message": "arcforges.publicapi.v1.ConversationView", "field": "applicationScope", "kind": "message" },
-    { "id": "conversation-view-unspecified-history-mode-presence", "message": "arcforges.publicapi.v1.ConversationView", "field": "historyMode", "kind": "optionalEnum", "value": 0 }
+    { "id": "conversation-view-unspecified-history-mode-presence", "message": "arcforges.publicapi.v1.ConversationView", "field": "historyMode", "kind": "optionalEnum", "value": 0 },
+    { "id": "stream-position-required-default-presence", "message": "arcforges.events.v1.StreamPosition", "field": "cursor", "kind": "requiredDefaultValues" },
+    { "id": "event-service-poll-value-default-presence", "message": "arcforges.events.v1.EventServicePollValue", "field": "nextCursor", "kind": "optionalDefaultValues" }
   ]
 }

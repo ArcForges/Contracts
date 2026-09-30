@@ -323,6 +323,20 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
         input = { historyMode: vector.value };
         encodedExpected = [0x58, 0x00];
         break;
+      case "stream-position-required-default-presence":
+        schema = events.StreamPositionSchema;
+        input = { cursor: "", sequence: 0n, generation: 0n };
+        encodedExpected = [0x0a, 0x00, 0x10, 0x00, 0x18, 0x00];
+        break;
+      case "event-service-poll-value-default-presence":
+        schema = events.EventServicePollValueSchema;
+        input = {
+          events: [create(events.EventSchema, {})],
+          nextCursor: "",
+          resetRequired: false,
+        };
+        encodedExpected = [0x52, 0x00, 0x5a, 0x00, 0x60, 0x00];
+        break;
       default:
         assert.fail(`unknown explicit-presence fixture: ${vector.id}`);
     }
@@ -330,6 +344,18 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     assert.deepEqual([...encoded], encodedExpected, `explicit default/presence wire bytes: ${vector.id}`);
     const parsed = fromBinary(schema, encoded);
     assert.ok(Object.hasOwn(parsed, vector.field), `present field survives decode: ${vector.id}`);
+    if (vector.id === "stream-position-required-default-presence") {
+      assert.ok(Object.hasOwn(parsed, "sequence") && Object.hasOwn(parsed, "generation"),
+        "required StreamPosition zero values remain explicitly present");
+      assert.equal(Object.hasOwn(parsed, "contentHash"), false,
+        "optional StreamPosition contentHash remains absent when omitted");
+    }
+    if (vector.id === "event-service-poll-value-default-presence") {
+      assert.equal(parsed.events.length, 1, "PollValue preserves its success event at tag 10");
+      assert.equal(Object.hasOwn(parsed, "resetRequired"), true,
+        "explicit PollValue resetRequired=false remains present at tag 12");
+      assert.equal(parsed.resetRequired, false);
+    }
   }
 
   for (const vector of fixture.ownerBoundaryVectors) {
