@@ -1,0 +1,205 @@
+{
+  "schemaVersion": "con-14-operator-fixtures.v1",
+  "license": "Apache-2.0",
+  "authority": [
+    "Registry04 §9.1",
+    "Registry04 §9.2",
+    "Plan CON.14 validation"
+  ],
+  "evidenceClass": "Independent declarative schema/protocol expectations only; no owner/runtime authorization, persistence, transaction, concurrency, identity-provider, or external-provider behavior is executed.",
+  "protocolExpectations": {
+    "proposalLifetimeMinutes": 15,
+    "proposalStates": ["pending", "approved", "rejected", "expired", "invalidated", "executed"],
+    "approvalBinds": [
+      "distinct eligible operator identity",
+      "exact proposal hash",
+      "expected proposal revision",
+      "current step-up",
+      "unchanged owner and governing configuration"
+    ],
+    "executionBinds": [
+      "original proposer",
+      "exact executing operation and typed mutation body",
+      "approved proposal reference and revision",
+      "captured owner revision",
+      "current permitted proposer and approver roles",
+      "case or incident context",
+      "recovery generation"
+    ],
+    "atomicExecutionEffects": [
+      "owner write through the owner port",
+      "approval consumption",
+      "result receipt",
+      "audit",
+      "notification/outbox",
+      "proposal state executed"
+    ],
+    "sameCommandAndHashAfterLostResponse": "return the original receipt without repeating the owner effect",
+    "changedContentWithReusedCommand": "refuse with command.reused_identifier"
+  },
+  "mutationVectors": [
+    {
+      "id": "mutation-grant",
+      "variant": "grant",
+      "executingOperation": "operator.grantEntitlement",
+      "proposerRoles": ["customerSupport", "recoverySpecialist"],
+      "distinctApproverRole": "operations",
+      "ownerRevisionGuard": "absent grant=0 plus captured configuration/profile hash",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-revoke-grant",
+      "variant": "revokeGrant",
+      "executingOperation": "operator.revokeEntitlement",
+      "proposerRoles": ["customerSupport", "recoverySpecialist"],
+      "distinctApproverRole": "security",
+      "ownerRevisionGuard": "entitlement snapshot version and exact unrevoked grant identity",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-issue-credit",
+      "variant": "issueCredit",
+      "executingOperation": "operator.issueCompensation",
+      "proposerRoles": ["customerSupport"],
+      "distinctApproverRole": "operations",
+      "ownerRevisionGuard": "absent lot=0 plus captured configuration hash",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-adjust-credit",
+      "variant": "adjustCredit",
+      "executingOperation": "operator.adjustCompensation",
+      "proposerRoles": ["customerSupport"],
+      "distinctApproverRole": "operations",
+      "ownerRevisionGuard": "credit_lot.rev and current held/remaining balances",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-refund",
+      "variant": "refund",
+      "executingOperation": "operator.decideRefund",
+      "proposerRoles": ["customerSupport"],
+      "distinctApproverRole": "operations",
+      "ownerRevisionGuard": "commerce.refund.rev and current payment/refundable balance",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "ownerEffectBoundary": "approval commits a refund intent/hold/outbox; it does not assert that the provider refunded",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-catalog-review",
+      "variant": "catalogReview",
+      "executingOperation": "catalog.review",
+      "proposerRoles": ["trustSafety"],
+      "distinctApproverRole": "security",
+      "ownerRevisionGuard": "PackageCatalog submission revision",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-catalog-revoke",
+      "variant": "catalogRevoke",
+      "executingOperation": "catalog.revoke",
+      "proposerRoles": ["trustSafety"],
+      "distinctApproverRole": "security",
+      "ownerRevisionGuard": "PackageCatalog published version revision",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-appeal",
+      "variant": "appeal",
+      "executingOperation": "operator.resolveAppeal",
+      "proposerRoles": ["trustSafety"],
+      "distinctApproverRole": "security",
+      "proposerMustDifferFrom": "original enforcement proposer",
+      "approverMustDifferFrom": "original enforcement approver",
+      "ownerRevisionGuard": "enforcement action revision and pending appeal",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "mutation-kill-switch",
+      "variant": "kill",
+      "executingOperation": "operator.setKillSwitch",
+      "proposerRoles": ["operations"],
+      "distinctApproverRole": "security",
+      "ownerRevisionGuard": "Policy control revision (0 for absent control)",
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "runtimeAcceptanceProven": false
+    }
+  ],
+  "negativeVectors": [
+    {
+      "id": "non-operator-caller-refused",
+      "callerClasses": ["customer cookie", "native session", "personal access token", "agent", "service credential", "public Web/Android origin"],
+      "expectedBoundary": "refuse; OperatorService is available only through its separate operator origin/session and CSRF binding",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "same-identity-cannot-propose-and-approve",
+      "scenario": "The proposer and the claimed distinct approver resolve to the same operator identity.",
+      "expectedBoundary": "refuse approval; no proposal approval or owner effect",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "changed-proposal-hash-refused",
+      "scenario": "ApproveAction supplies a proposalHash different from the immutable pending proposal hash.",
+      "expectedBoundary": "refuse approval; do not regenerate or silently rebind the proposal",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "stale-proposal-revision-refused",
+      "scenario": "The approval or OperatorProposalRef expected proposal revision differs from the current proposal revision.",
+      "expectedBoundary": "refuse on revision mismatch; no owner effect",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "stale-owner-revision-refused",
+      "scenario": "RequestMeta.expectedRev differs from the owner revision captured by the proposal.",
+      "expectedBoundary": "refuse on revision mismatch; do not rebase the approved mutation",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "changed-configuration-invalidates-approval",
+      "scenario": "The governing configuration hash changes after proposal approval and before execution.",
+      "expectedBoundary": "invalidate the approval; require a new proposal and approval rather than silently regenerating consent",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "revoked-required-role-invalidates-approval",
+      "scenario": "A required proposer or approver role is revoked after approval and before execution.",
+      "expectedBoundary": "refuse execution under the current role set; no owner effect",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "expired-proposal-refused",
+      "scenario": "Execution is attempted after the pending proposal's 15-minute expiry.",
+      "expectedBoundary": "refuse as expired; no owner effect",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "concurrent-consumption-happens-at-most-once",
+      "scenario": "Two distinct commands concurrently attempt to execute the same approved proposal.",
+      "expectedBoundary": "at most one command consumes approval and commits the owner effect; the competing command refuses and cannot repeat it",
+      "runtimeAcceptanceProven": false
+    },
+    {
+      "id": "changed-content-with-reused-command-refused",
+      "scenario": "After a response is lost, a retry reuses the original commandId with a different canonical request hash.",
+      "expectedBoundary": "refuse with command.reused_identifier; do not repeat or rebind the owner effect",
+      "runtimeAcceptanceProven": false
+    }
+  ],
+  "lostReceiptVectors": [
+    {
+      "id": "lost-response-same-command-replays-original-receipt",
+      "scenario": "The owner batch committed but the response was lost; the original proposer retries the exact same commandId and canonical hash.",
+      "expectedBoundary": "return the original receipt and resulting proposal state without a second owner effect",
+      "runtimeAcceptanceProven": false
+    }
+  ]
+}
