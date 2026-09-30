@@ -12,8 +12,10 @@ internal static class OperatorCases
     {
         using var fixtureDocument = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "fixtures/internal/con-14-operator.json")));
         var fixture = fixtureDocument.RootElement;
+        AssertProtocolExpectations(fixture.GetProperty("protocolExpectations"));
         AssertMutationOracle(fixture.GetProperty("mutationVectors"));
-        AssertVectorIds(fixture.GetProperty("negativeVectors"), new[]
+        var negativeVectors = fixture.GetProperty("negativeVectors");
+        AssertVectorIds(negativeVectors, new[]
         {
             "non-operator-caller-refused",
             "same-identity-cannot-propose-and-approve",
@@ -26,12 +28,16 @@ internal static class OperatorCases
             "concurrent-consumption-happens-at-most-once",
             "changed-content-with-reused-command-refused"
         }, "negative refusal coverage");
-        AssertRuntimeAcceptanceUnproven(fixture.GetProperty("negativeVectors"), "negative vectors");
+        AssertNegativeOracle(negativeVectors);
+        AssertRuntimeAcceptanceUnproven(negativeVectors, "negative vectors");
 
         var lostReceiptVectors = fixture.GetProperty("lostReceiptVectors");
         Require(lostReceiptVectors.GetArrayLength() == 1 &&
             lostReceiptVectors[0].GetProperty("id").GetString() == "lost-response-same-command-replays-original-receipt",
             "same-command lost-response idempotency vector");
+        Require(lostReceiptVectors[0].GetProperty("scenario").GetString() ==
+            "The owner batch committed but the response was lost; the original proposer retries the exact same commandId and canonical hash.",
+            "lost-response retry scenario");
         Require(lostReceiptVectors[0].GetProperty("expectedBoundary").GetString() ==
             "return the original receipt and resulting proposal state without a second owner effect", "lost-response receipt boundary");
         AssertRuntimeAcceptanceUnproven(lostReceiptVectors, "lost-receipt vectors");
@@ -158,26 +164,99 @@ internal static class OperatorCases
         Console.WriteLine("CON.14: internal operator descriptor, exact methods, context/proposal tags and Registry04 record shapes passed.");
     }
 
+    private static void AssertProtocolExpectations(JsonElement protocol)
+    {
+        Require(protocol.GetProperty("proposalLifetimeMinutes").GetInt32() == 15, "proposal lifetime");
+        AssertStrings(protocol.GetProperty("proposalStates"), "pending", "approved", "rejected", "expired", "invalidated", "executed");
+        AssertStrings(protocol.GetProperty("approvalBinds"),
+            "distinct eligible operator identity", "exact proposal hash", "expected proposal revision", "current step-up",
+            "unchanged owner and governing configuration");
+        AssertStrings(protocol.GetProperty("executionBinds"),
+            "original proposer", "exact executing operation and typed mutation body", "approved proposal reference and revision",
+            "captured owner revision", "current permitted proposer and approver roles", "case or incident context", "recovery generation");
+        AssertStrings(protocol.GetProperty("atomicExecutionEffects"),
+            "owner write through the owner port", "approval consumption", "result receipt", "audit", "notification/outbox",
+            "proposal state executed");
+        Require(protocol.GetProperty("sameCommandAndHashAfterLostResponse").GetString() ==
+            "return the original receipt without repeating the owner effect", "same-command retry idempotency expectation");
+        Require(protocol.GetProperty("changedContentWithReusedCommand").GetString() ==
+            "refuse with command.reused_identifier", "changed content command reuse refusal");
+    }
+
     private static void AssertMutationOracle(JsonElement vectors)
     {
-        var expected = new (string Variant, string Operation)[]
+        var lifecycle = new[] { "pending", "approved", "executed" };
+        var expected = new (string Variant, string Operation, string[] ProposerRoles, string ApproverRole, string RevisionGuard)[]
         {
-            ("grant", "operator.grantEntitlement"),
-            ("revokeGrant", "operator.revokeEntitlement"),
-            ("issueCredit", "operator.issueCompensation"),
-            ("adjustCredit", "operator.adjustCompensation"),
-            ("refund", "operator.decideRefund"),
-            ("catalogReview", "catalog.review"),
-            ("catalogRevoke", "catalog.revoke"),
-            ("appeal", "operator.resolveAppeal"),
-            ("kill", "operator.setKillSwitch")
+            ("grant", "operator.grantEntitlement", new[] { "customerSupport", "recoverySpecialist" }, "operations", "absent grant=0 plus captured configuration/profile hash"),
+            ("revokeGrant", "operator.revokeEntitlement", new[] { "customerSupport", "recoverySpecialist" }, "security", "entitlement snapshot version and exact unrevoked grant identity"),
+            ("issueCredit", "operator.issueCompensation", new[] { "customerSupport" }, "operations", "absent lot=0 plus captured configuration hash"),
+            ("adjustCredit", "operator.adjustCompensation", new[] { "customerSupport" }, "operations", "credit_lot.rev and current held/remaining balances"),
+            ("refund", "operator.decideRefund", new[] { "customerSupport" }, "operations", "commerce.refund.rev and current payment/refundable balance"),
+            ("catalogReview", "catalog.review", new[] { "trustSafety" }, "security", "PackageCatalog submission revision"),
+            ("catalogRevoke", "catalog.revoke", new[] { "trustSafety" }, "security", "PackageCatalog published version revision"),
+            ("appeal", "operator.resolveAppeal", new[] { "trustSafety" }, "security", "enforcement action revision and pending appeal"),
+            ("kill", "operator.setKillSwitch", new[] { "operations" }, "security", "Policy control revision (0 for absent control)")
         };
-        var actual = vectors.EnumerateArray().Select(vector =>
-            (Variant: vector.GetProperty("variant").GetString()!, Operation: vector.GetProperty("executingOperation").GetString()!)).ToArray();
-        Require(actual.SequenceEqual(expected), "exact nine mutation-variant/executing-operation bindings");
-        Require(actual.Select(pair => pair.Variant).Distinct(StringComparer.Ordinal).Count() == 9 &&
-            actual.Select(pair => pair.Operation).Distinct(StringComparer.Ordinal).Count() == 9, "unique mutation variants and operations");
+        var actual = vectors.EnumerateArray().ToDictionary(vector => vector.GetProperty("variant").GetString()!, StringComparer.Ordinal);
+        Require(actual.Count == expected.Length && actual.Count == 9, "exact nine unique mutation vectors");
+        foreach (var item in expected)
+        {
+            var vector = actual[item.Variant];
+            Require(vector.GetProperty("executingOperation").GetString() == item.Operation, item.Variant + " executing operation");
+            Require(vector.GetProperty("distinctApproverRole").GetString() == item.ApproverRole, item.Variant + " distinct approver role");
+            Require(vector.GetProperty("ownerRevisionGuard").GetString() == item.RevisionGuard, item.Variant + " owner revision guard");
+            AssertStrings(vector.GetProperty("proposerRoles"), item.ProposerRoles);
+            AssertStrings(vector.GetProperty("expectedProposalLifecycle"), lifecycle);
+            AssertOptionalText(vector, "proposerMustDifferFrom",
+                item.Variant == "appeal" ? "original enforcement proposer" : null, item.Variant + " proposer identity boundary");
+            AssertOptionalText(vector, "approverMustDifferFrom",
+                item.Variant == "appeal" ? "original enforcement approver" : null, item.Variant + " approver identity boundary");
+            AssertOptionalText(vector, "ownerEffectBoundary",
+                item.Variant == "refund" ? "approval commits a refund intent/hold/outbox; it does not assert that the provider refunded" : null,
+                item.Variant + " external owner-effect boundary");
+        }
         AssertRuntimeAcceptanceUnproven(vectors, "mutation vectors");
+    }
+
+    private static void AssertNegativeOracle(JsonElement vectors)
+    {
+        var expected = new (string Id, string? Scenario, string Boundary)[]
+        {
+            ("non-operator-caller-refused", null, "refuse; OperatorService is available only through its separate operator origin/session and CSRF binding"),
+            ("same-identity-cannot-propose-and-approve", "The proposer and the claimed distinct approver resolve to the same operator identity.", "refuse approval; no proposal approval or owner effect"),
+            ("changed-proposal-hash-refused", "ApproveAction supplies a proposalHash different from the immutable pending proposal hash.", "refuse approval; do not regenerate or silently rebind the proposal"),
+            ("stale-proposal-revision-refused", "The approval or OperatorProposalRef expected proposal revision differs from the current proposal revision.", "refuse on revision mismatch; no owner effect"),
+            ("stale-owner-revision-refused", "RequestMeta.expectedRev differs from the owner revision captured by the proposal.", "refuse on revision mismatch; do not rebase the approved mutation"),
+            ("changed-configuration-invalidates-approval", "The governing configuration hash changes after proposal approval and before execution.", "invalidate the approval; require a new proposal and approval rather than silently regenerating consent"),
+            ("revoked-required-role-invalidates-approval", "A required proposer or approver role is revoked after approval and before execution.", "refuse execution under the current role set; no owner effect"),
+            ("expired-proposal-refused", "Execution is attempted after the pending proposal's 15-minute expiry.", "refuse as expired; no owner effect"),
+            ("concurrent-consumption-happens-at-most-once", "Two distinct commands concurrently attempt to execute the same approved proposal.", "at most one command consumes approval and commits the owner effect; the competing command refuses and cannot repeat it"),
+            ("changed-content-with-reused-command-refused", "After a response is lost, a retry reuses the original commandId with a different canonical request hash.", "refuse with command.reused_identifier; do not repeat or rebind the owner effect")
+        };
+        var actual = vectors.EnumerateArray().ToDictionary(vector => vector.GetProperty("id").GetString()!, StringComparer.Ordinal);
+        Require(actual.Count == expected.Length, "exact negative vector set");
+        foreach (var item in expected)
+        {
+            var vector = actual[item.Id];
+            AssertOptionalText(vector, "scenario", item.Scenario, item.Id + " scenario");
+            Require(vector.GetProperty("expectedBoundary").GetString() == item.Boundary, item.Id + " expected refusal boundary");
+            if (item.Id == "non-operator-caller-refused")
+            {
+                AssertStrings(vector.GetProperty("callerClasses"), "customer cookie", "native session", "personal access token", "agent", "service credential", "public Web/Android origin");
+            }
+            else Require(!vector.TryGetProperty("callerClasses", out _), item.Id + " has no unrelated caller-class field");
+        }
+    }
+
+    private static void AssertStrings(JsonElement actual, params string[] expected) =>
+        Require(actual.EnumerateArray().Select(value => value.GetString()).SequenceEqual(expected), "exact fixture string vector");
+
+    private static void AssertOptionalText(JsonElement value, string property, string? expected, string name)
+    {
+        var present = value.TryGetProperty(property, out var actual);
+        Require(present == (expected is not null), name + " presence");
+        if (expected is not null) Require(actual.GetString() == expected, name + " value");
     }
 
     private static void AssertVectorIds(JsonElement vectors, string[] expectedIds, string name)
