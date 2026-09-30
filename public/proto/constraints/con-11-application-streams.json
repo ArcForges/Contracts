@@ -68,7 +68,15 @@
         },
         "state": {
           "required": true,
-          "enumValues": ["staging", "verifying", "ready", "committed", "canceled", "expired", "failed"]
+          "enumValues": [
+            "staging",
+            "verifying",
+            "ready",
+            "committed",
+            "canceled",
+            "expired",
+            "failed"
+          ]
         },
         "conversationId": {},
         "expiresAt": {
@@ -300,9 +308,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.ApplicationServiceHeartbeatRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ApplicationServiceHeartbeatRequest",
@@ -342,9 +348,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.ApplicationServiceDisconnectRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ApplicationServiceDisconnectRequest",
@@ -370,9 +374,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.HistoryServiceBeginImportRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.HistoryServiceBeginImportRequest",
@@ -404,9 +406,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.HistoryServiceFinalizeImportRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.HistoryServiceFinalizeImportRequest",
@@ -436,9 +436,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.HistoryServiceGetImportRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.HistoryServiceGetImportRequest",
@@ -469,9 +467,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.HistoryServiceCancelImportRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.HistoryServiceCancelImportRequest",
@@ -501,9 +497,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.events.v1.Event": {
       "csharpType": "ArcForges.Contracts.Events.V1.Event",
@@ -543,9 +537,7 @@
         "simulationStateChanged": {},
         "configRevisionActivated": {}
       },
-      "oneofRequired": [
-        "payload"
-      ]
+      "oneofRequired": ["payload"]
     },
     "arcforges.events.v1.SyncChanged": {
       "csharpType": "ArcForges.Contracts.Events.V1.SyncChanged",
@@ -780,9 +772,7 @@
         "error": {},
         "progress": {}
       },
-      "oneofRequired": [
-        "frame"
-      ]
+      "oneofRequired": ["frame"]
     },
     "arcforges.events.v1.OutputChunk": {
       "csharpType": "ArcForges.Contracts.Events.V1.OutputChunk",
@@ -878,9 +868,7 @@
           "enumValues": ["intentCommitted", "outcomeRecorded", "unknown", "reconciled"]
         }
       },
-      "oneofRequired": [
-        "owner_progress"
-      ]
+      "oneofRequired": ["owner_progress"]
     },
     "arcforges.events.v1.ExecutionServiceStartTransientTurnRequest": {
       "csharpType": "ArcForges.Contracts.Events.V1.ExecutionServiceStartTransientTurnRequest",
@@ -913,9 +901,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.events.v1.ExecutionServiceReadOutputRequest": {
       "csharpType": "ArcForges.Contracts.Events.V1.ExecutionServiceReadOutputRequest",
@@ -956,9 +942,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.events.v1.ExecutionServiceWatchOutputRequest": {
       "csharpType": "ArcForges.Contracts.Events.V1.ExecutionServiceWatchOutputRequest",
@@ -997,9 +981,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.events.v1.ExecutionServicePurgeTransientRequest": {
       "csharpType": "ArcForges.Contracts.Events.V1.ExecutionServicePurgeTransientRequest",
@@ -1025,9 +1007,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.events.v1.EventServicePollRequest": {
       "csharpType": "ArcForges.Contracts.Events.V1.EventServicePollRequest",
@@ -1066,9 +1046,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.events.v1.EventServiceWatchRequest": {
       "csharpType": "ArcForges.Contracts.Events.V1.EventServiceWatchRequest",

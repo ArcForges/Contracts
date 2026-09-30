@@ -11,29 +11,67 @@
       "input": "RunStreamRequest",
       "output": "arcforges.events.v1.StreamFrame",
       "streamType": "serverStreaming",
-      "requestFields": [["execution", 1], ["attemptId", 2], ["generation", 3]]
+      "requestFields": [
+        ["execution", 1],
+        ["attemptId", 2],
+        ["generation", 3]
+      ]
     }
   ],
   "runStreamFrameVariants": [
     { "id": "private-frame-output", "field": "output", "tag": 11, "allowed": true },
     { "id": "private-frame-reset", "field": "reset", "tag": 12, "allowed": true },
     { "id": "private-frame-heartbeat", "field": "heartbeat", "tag": 14, "allowed": true },
-    { "id": "private-frame-hint-is-not-private-output", "field": "hint", "tag": 10, "allowed": false },
-    { "id": "private-frame-terminal-is-not-private-output", "field": "terminal", "tag": 13, "allowed": false },
-    { "id": "private-frame-error-is-not-private-output", "field": "error", "tag": 15, "allowed": false },
-    { "id": "private-frame-progress-is-not-private-output", "field": "progress", "tag": 16, "allowed": false }
+    {
+      "id": "private-frame-hint-is-not-private-output",
+      "field": "hint",
+      "tag": 10,
+      "allowed": false
+    },
+    {
+      "id": "private-frame-terminal-is-not-private-output",
+      "field": "terminal",
+      "tag": 13,
+      "allowed": false
+    },
+    {
+      "id": "private-frame-error-is-not-private-output",
+      "field": "error",
+      "tag": 15,
+      "allowed": false
+    },
+    {
+      "id": "private-frame-progress-is-not-private-output",
+      "field": "progress",
+      "tag": 16,
+      "allowed": false
+    }
   ],
   "limits": {
     "encodedFrameBytes": 32768,
     "outputChunkBytes": 32768
   },
   "encodedFrameBoundaryVectors": [
-    { "id": "private-run-frame-at-encoded-limit", "serializedBytes": 32768, "limit": 32768, "valid": true },
-    { "id": "private-run-frame-over-encoded-limit", "serializedBytes": 32769, "limit": 32768, "valid": false }
+    {
+      "id": "private-run-frame-at-encoded-limit",
+      "serializedBytes": 32768,
+      "limit": 32768,
+      "valid": true
+    },
+    {
+      "id": "private-run-frame-over-encoded-limit",
+      "serializedBytes": 32769,
+      "limit": 32768,
+      "valid": false
+    }
   ],
   "importBoundary": {
     "privatePackage": "arcforges.cf.v1",
-    "allowedPublicDependencies": ["arcforges.foundation.v1", "arcforges.publicapi.v1", "arcforges.events.v1"],
+    "allowedPublicDependencies": [
+      "arcforges.foundation.v1",
+      "arcforges.publicapi.v1",
+      "arcforges.events.v1"
+    ],
     "publicPackagesMustNotImportPrivatePackage": true
   }
 }

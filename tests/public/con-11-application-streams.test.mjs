@@ -347,19 +347,31 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
         assert.fail(`unknown explicit-presence fixture: ${vector.id}`);
     }
     const encoded = toBinary(schema, create(schema, input));
-    assert.deepEqual([...encoded], encodedExpected, `explicit default/presence wire bytes: ${vector.id}`);
+    assert.deepEqual(
+      [...encoded],
+      encodedExpected,
+      `explicit default/presence wire bytes: ${vector.id}`,
+    );
     const parsed = fromBinary(schema, encoded);
     assert.ok(Object.hasOwn(parsed, vector.field), `present field survives decode: ${vector.id}`);
     if (vector.id === "stream-position-required-default-presence") {
-      assert.ok(Object.hasOwn(parsed, "sequence") && Object.hasOwn(parsed, "generation"),
-        "required StreamPosition zero values remain explicitly present");
-      assert.equal(Object.hasOwn(parsed, "contentHash"), false,
-        "optional StreamPosition contentHash remains absent when omitted");
+      assert.ok(
+        Object.hasOwn(parsed, "sequence") && Object.hasOwn(parsed, "generation"),
+        "required StreamPosition zero values remain explicitly present",
+      );
+      assert.equal(
+        Object.hasOwn(parsed, "contentHash"),
+        false,
+        "optional StreamPosition contentHash remains absent when omitted",
+      );
     }
     if (vector.id === "event-service-poll-value-default-presence") {
       assert.equal(parsed.events.length, 1, "PollValue preserves its success event at tag 10");
-      assert.equal(Object.hasOwn(parsed, "resetRequired"), true,
-        "explicit PollValue resetRequired=false remains present at tag 12");
+      assert.equal(
+        Object.hasOwn(parsed, "resetRequired"),
+        true,
+        "explicit PollValue resetRequired=false remains present at tag 12",
+      );
       assert.equal(parsed.resetRequired, false);
     }
   }
@@ -368,7 +380,11 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     consume(vector);
     const row = operations.find((candidate) => candidate.operationId === vector.operationId);
     assert.ok(row, `owner boundary refers to an exact exported operation: ${vector.id}`);
-    assert.equal(vector.runtimeEnforcementProven, false, `fixture does not claim runtime authorization: ${vector.id}`);
+    assert.equal(
+      vector.runtimeEnforcementProven,
+      false,
+      `fixture does not claim runtime authorization: ${vector.id}`,
+    );
     switch (vector.id) {
       case "history-identical-title-different-products":
         assert.equal(vector.sameTitle, true);
@@ -409,7 +425,10 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
       cursor: vector.value,
       limit: 1,
     });
-    const parsed = fromBinary(events.EventServicePollRequestSchema, toBinary(events.EventServicePollRequestSchema, request));
+    const parsed = fromBinary(
+      events.EventServicePollRequestSchema,
+      toBinary(events.EventServicePollRequestSchema, request),
+    );
     assert.equal(parsed.cursor, vector.value, `cursor remains opaque text: ${vector.id}`);
   }
 
@@ -418,14 +437,21 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     const cursor = vector.repeatedCharacter.repeat(vector.repeatCount) + vector.suffix;
     const byteLength = new TextEncoder().encode(cursor).length;
     assert.equal(byteLength, vector.utf8Bytes, `independent UTF-8 cursor length: ${vector.id}`);
-    assert.equal(byteLength <= vector.limit, vector.valid, `opaque cursor byte boundary: ${vector.id}`);
+    assert.equal(
+      byteLength <= vector.limit,
+      vector.valid,
+      `opaque cursor byte boundary: ${vector.id}`,
+    );
     const request = create(events.EventServicePollRequestSchema, {
       meta: create(foundation.RequestMetaSchema, {}),
       subscriptionKey: "subscription-a",
       cursor,
       limit: 1,
     });
-    const parsed = fromBinary(events.EventServicePollRequestSchema, toBinary(events.EventServicePollRequestSchema, request));
+    const parsed = fromBinary(
+      events.EventServicePollRequestSchema,
+      toBinary(events.EventServicePollRequestSchema, request),
+    );
     assert.equal(parsed.cursor, cursor, `multibyte cursor round trip: ${vector.id}`);
   }
 
@@ -434,7 +460,11 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     const schema = vector.message === "Event" ? events.EventSchema : events.StreamPositionSchema;
     const input = { [vector.field]: BigInt(vector.value) };
     const parsed = fromBinary(schema, toBinary(schema, create(schema, input)));
-    assert.equal(parsed[vector.field], BigInt(vector.value), `uint64 round trip avoids JS Number: ${vector.id}`);
+    assert.equal(
+      parsed[vector.field],
+      BigInt(vector.value),
+      `uint64 round trip avoids JS Number: ${vector.id}`,
+    );
   }
 
   for (const vector of fixture.unknownFieldVectors) {
@@ -443,8 +473,11 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     const parsed = fromBinary(events.StreamPositionSchema, wire);
     assert.equal(parsed.cursor, vector.cursor);
     assert.equal(parsed.sequence, BigInt(vector.sequence));
-    assert.deepEqual(Buffer.from(toBinary(events.StreamPositionSchema, parsed)), wire,
-      `compatible unknown tag survives exact binary round trip: ${vector.id}`);
+    assert.deepEqual(
+      Buffer.from(toBinary(events.StreamPositionSchema, parsed)),
+      wire,
+      `compatible unknown tag survives exact binary round trip: ${vector.id}`,
+    );
     assert.equal(vector.unknownTag, 100);
   }
 

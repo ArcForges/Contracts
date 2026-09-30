@@ -113,6 +113,7 @@
     "eng/policy/dependency-reviews/con-10-r1.json",
     "eng/policy/dependency-reviews/con-10-r2.json",
     "eng/policy/dependency-reviews/con-10-r3.json",
+    "eng/policy/dependency-reviews/con-11-r1.json",
     "eng/policy/dependency-reviews/con-12-profiles-r1.json",
     "eng/policy/dependency-reviews/con-13-r1.json",
     "eng/policy/dependency-reviews/con-16-signed-formats-r1.json",
@@ -3038,7 +3039,5 @@
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r18"
-  ]
+  "artifacts": ["dokka-documentation-resources-r18"]
 }

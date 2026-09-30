@@ -1069,9 +1069,7 @@
         "/arcforges.events.v1.EventService/Poll",
         "/arcforges.events.v1.EventService/Watch"
       ],
-      "arcforges.cf.v1.RunStreamService": [
-        "/arcforges.cf.v1.RunStreamService/Run"
-      ]
+      "arcforges.cf.v1.RunStreamService": ["/arcforges.cf.v1.RunStreamService/Run"]
     }
   }
 }

@@ -11,7 +11,9 @@
       "arcforges.contracts.cloudinternal": {
         "type": "Project",
         "dependencies": {
+          "ArcForges.Contracts.Events": "[1.0.0-ci.0.0, )",
           "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.0.0, )",
           "Google.Protobuf": "[3.36.1, )"
         }
       },
@@ -19,6 +21,7 @@
         "type": "Project",
         "dependencies": {
           "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.0.0, )",
           "Google.Protobuf": "[3.36.1, )"
         }
       },

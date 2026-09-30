@@ -18,6 +18,7 @@
         "type": "Project",
         "dependencies": {
           "ArcForges.Contracts.Foundation": "[1.0.0-ci.0.0, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.0.0, )",
           "Google.Protobuf": "[3.36.1, )"
         }
       },
