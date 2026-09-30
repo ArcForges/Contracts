@@ -41,7 +41,8 @@
     "TimeRangeUtc",
     "TransferTicket",
     "VersionFailure",
-    "VersionedRef"
+    "VersionedRef",
+    "SupportCase"
   ],
   "records": [
     {
@@ -6981,6 +6982,168 @@
         "typescript": "src/public/ts/proto/src/gen/arcforges/foundation/v1/foundation_pb.ts",
         "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/foundation/v1/VersionedRef.java",
         "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/foundation/v1/VersionedRefKt.kt"
+      }
+    },
+    {
+      "name": "SupportCase",
+      "protobufType": "arcforges.publicapi.v1.SupportCase",
+      "owner": "ArcForges.Contracts.PublicApi",
+      "source": "public/proto/arcforges/publicapi/v1/content.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "caseId",
+          "type": "Id",
+          "cardinality": "required",
+          "wireType": "Id",
+          "protoName": "case_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "subject",
+          "type": "Name",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "subject",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "state",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "state",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "messages",
+          "type": "SupportMessage",
+          "cardinality": "[]",
+          "wireType": "SupportMessage",
+          "protoName": "messages",
+          "oneof": null,
+          "presence": "repeated"
+        },
+        {
+          "tag": 5,
+          "name": "revision",
+          "type": "Revision",
+          "cardinality": "required",
+          "wireType": "Revision",
+          "protoName": "revision",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 6,
+          "name": "category",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "category",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 7,
+          "name": "relatedActionId",
+          "type": "Id",
+          "cardinality": "?",
+          "wireType": "Id",
+          "protoName": "related_action_id",
+          "oneof": null,
+          "presence": "optional"
+        },
+        {
+          "tag": 8,
+          "name": "messagePage",
+          "type": "PageState",
+          "cardinality": "?",
+          "wireType": "PageState",
+          "protoName": "message_page",
+          "oneof": null,
+          "presence": "optional"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SupportCase.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SupportCaseKt.kt"
+      }
+    },
+    {
+      "name": "SupportMessage",
+      "protobufType": "arcforges.publicapi.v1.SupportMessage",
+      "owner": "ArcForges.Contracts.PublicApi",
+      "source": "public/proto/arcforges/publicapi/v1/content.proto",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#4-shared-record-field-registry",
+      "fields": [
+        {
+          "tag": 1,
+          "name": "messageId",
+          "type": "Id",
+          "cardinality": "required",
+          "wireType": "Id",
+          "protoName": "message_id",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 2,
+          "name": "actorKind",
+          "type": "Key",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "actor_kind",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 3,
+          "name": "text",
+          "type": "string",
+          "cardinality": "required",
+          "wireType": "string",
+          "protoName": "text",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 4,
+          "name": "createdAt",
+          "type": "Instant",
+          "cardinality": "required",
+          "wireType": "Instant",
+          "protoName": "created_at",
+          "oneof": null,
+          "presence": "required"
+        },
+        {
+          "tag": 5,
+          "name": "diagnostic",
+          "type": "ResourceRef",
+          "cardinality": "?",
+          "wireType": "ResourceRef",
+          "protoName": "diagnostic",
+          "oneof": null,
+          "presence": "optional"
+        }
+      ],
+      "rules": [],
+      "outputs": {
+        "csharp": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
+        "typescript": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/content_pb.ts",
+        "java": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/SupportMessage.java",
+        "kotlin": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SupportMessageKt.kt"
       }
     }
   ],

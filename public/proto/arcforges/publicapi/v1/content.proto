@@ -641,9 +641,27 @@ message SkillRecord {
   optional bool enabled = 7 [json_name = "enabled"];
 }
 
+// registry04: SupportCase; canonical public owner projection, also consumed by
+// the separate internal operator projection. Public paging remains owner-defined.
+message SupportCase {
+  arcforges.foundation.v1.Id case_id = 1 [json_name = "caseId"];
+  optional string subject = 2 [json_name = "subject"];
+  optional string state = 3 [json_name = "state"];
+  repeated SupportMessage messages = 4 [json_name = "messages"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+  optional string category = 6 [json_name = "category"];
+  arcforges.foundation.v1.Id related_action_id = 7 [json_name = "relatedActionId"];
+  arcforges.foundation.v1.PageState message_page = 8 [json_name = "messagePage"];
+}
 
-
-
+// registry04: SupportMessage; canonical public owner projection.
+message SupportMessage {
+  arcforges.foundation.v1.Id message_id = 1 [json_name = "messageId"];
+  optional string actor_kind = 2 [json_name = "actorKind"];
+  optional string text = 3 [json_name = "text"];
+  arcforges.foundation.v1.Instant created_at = 4 [json_name = "createdAt"];
+  arcforges.foundation.v1.ResourceRef diagnostic = 5 [json_name = "diagnostic"];
+}
 
 // registry04: SourceConsentRef; complete selected WP03.01 projection.
 message SourceConsentRef {

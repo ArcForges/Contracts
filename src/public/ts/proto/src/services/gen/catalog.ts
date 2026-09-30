@@ -16,6 +16,12 @@ import { SourceService } from "../../gen/arcforges/publicapi/v1/chat_pb.js";
 import { SyncService } from "../../gen/arcforges/publicapi/v1/sync_pb.js";
 import { ResourceService } from "../../gen/arcforges/publicapi/v1/sync_pb.js";
 import { TransferService } from "../../gen/arcforges/publicapi/v1/transfer_pb.js";
+import { SupportService } from "../../gen/arcforges/publicapi/v1/support_pb.js";
+import { NotificationService } from "../../gen/arcforges/publicapi/v1/support_pb.js";
+import { PreferenceService } from "../../gen/arcforges/publicapi/v1/support_pb.js";
+import { PolicyService } from "../../gen/arcforges/publicapi/v1/support_pb.js";
+import { DataService } from "../../gen/arcforges/publicapi/v1/export_pb.js";
+import { ExportService } from "../../gen/arcforges/publicapi/v1/export_pb.js";
 
 /** Generated services owned by this package, in schema order; nothing is discovered at runtime. */
-export const contractServices = Object.freeze([HelloService, CatalogService, EntitlementService, CommerceService, TaskService, ApprovalService, BridgeService, ChatService, AgentService, SearchService, AutomationService, SourceService, SyncService, ResourceService, TransferService] as const);
+export const contractServices = Object.freeze([HelloService, CatalogService, EntitlementService, CommerceService, TaskService, ApprovalService, BridgeService, ChatService, AgentService, SearchService, AutomationService, SourceService, SyncService, ResourceService, TransferService, SupportService, NotificationService, PreferenceService, PolicyService, DataService, ExportService] as const);

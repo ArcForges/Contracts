@@ -82,6 +82,7 @@ class DocumentationAdmissionTests(unittest.TestCase):
 
     def test_current_profile_preserves_reviewed_resources_and_retires_native_client(self):
         root = Path(__file__).resolve().parents[2]
+        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r16.json")
         previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json").read_bytes())
         current = json.loads((root / documentation.PROFILE).read_bytes())
         self.assertEqual(set(current["modules"]),
@@ -189,6 +190,51 @@ class DocumentationAdmissionTests(unittest.TestCase):
         }
         self.assertEqual(len(con10_client_pages), 16)
         self.assertEqual(sum(len(methods) for methods in CON10_PUBLIC_SERVICE_METHODS.values()), 57)
+        con22_message_names = {
+            "DataServiceGetExportStateRequest", "DataServiceGetExportStateResponse", "DataServiceGetExportStateValue",
+            "DataServiceRequestExportRequest", "DataServiceRequestExportResponse", "DataServiceRequestExportValue",
+            "ExportServiceCancelRequest", "ExportServiceCancelResponse", "ExportServiceCancelValue",
+            "ExportServiceGetDownloadRequest", "ExportServiceGetDownloadResponse", "ExportServiceGetDownloadValue",
+            "ExportServiceGetStatusRequest", "ExportServiceGetStatusResponse", "ExportServiceGetStatusValue",
+            "NotificationServiceAcknowledgeRequest", "NotificationServiceAcknowledgeResponse",
+            "NotificationServiceAcknowledgeValue", "NotificationServiceListRequest",
+            "NotificationServiceListResponse", "NotificationServiceListValue",
+            "NotificationServiceRegisterPushRequest", "NotificationServiceRegisterPushResponse",
+            "NotificationServiceRegisterPushValue", "NotificationServiceUnregisterPushRequest",
+            "NotificationServiceUnregisterPushResponse", "NotificationServiceUnregisterPushValue",
+            "NotificationView", "PolicyBundle", "PolicyServiceGetBundleRequest", "PolicyServiceGetBundleResponse",
+            "PolicyServiceGetBundleValue", "PreferenceServicePutRequest", "PreferenceServicePutResponse",
+            "PreferenceServicePutValue", "SupportCase", "SupportMessage", "SupportServiceAppendMessageRequest",
+            "SupportServiceAppendMessageResponse", "SupportServiceAppendMessageValue",
+            "SupportServiceCreateCaseRequest", "SupportServiceCreateCaseResponse", "SupportServiceCreateCaseValue",
+            "SupportServiceDecideAccessRequest", "SupportServiceDecideAccessResponse",
+            "SupportServiceDecideAccessValue", "SupportServiceListCasesRequest",
+            "SupportServiceListCasesResponse", "SupportServiceListCasesValue",
+        }
+        self.assertEqual(len(con22_message_names), 49)
+        con22_schema_message_names = {name.rsplit(".", 1)[-1] for name in json.loads(
+            (root / "public/proto/constraints/con-22-account-support.json").read_bytes())["messages"]}
+        self.assertEqual(con22_schema_message_names, con22_message_names)
+        con22_proto_pages = {
+            "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html"
+            for name in con22_message_names
+        }
+        con22_public_service_methods = {
+            "DataService": {"requestExport", "getExportState"},
+            "ExportService": {"getStatus", "cancel", "getDownload"},
+            "NotificationService": {"list", "acknowledge", "registerPush", "unregisterPush"},
+            "PolicyService": {"getBundle"},
+            "PreferenceService": {"put"},
+            "SupportService": {"createCase", "listCases", "appendMessage", "decideAccess"},
+        }
+        self.assertEqual(len(con22_public_service_methods), 6)
+        self.assertEqual(sum(len(methods) for methods in con22_public_service_methods.values()), 15)
+        con22_client_pages = {
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" + slug(service + suffix) + "/index.html": methods
+            for service, methods in con22_public_service_methods.items()
+            for suffix in ("Client", "ClientInterface")
+        }
+        self.assertEqual(len(con22_client_pages), 12)
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
@@ -325,9 +371,9 @@ class DocumentationAdmissionTests(unittest.TestCase):
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
             permitted = descriptor_pages | catalog_pages | inprocess_pages | con08_proto_pages \
-                | con09_proto_pages | con10_proto_pages if module == "contracts-proto" else (
+                | con09_proto_pages | con10_proto_pages | con22_proto_pages if module == "contracts-proto" else (
                     clients | set(con08_client_pages) | set(con09_client_pages)
-                    | set(con10_client_pages)
+                    | set(con10_client_pages) | set(con22_client_pages)
                     if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:
@@ -339,11 +385,12 @@ class DocumentationAdmissionTests(unittest.TestCase):
                     else:
                         self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]), name)
                 else:
-                    expected_methods = set(con10_client_pages[name]) if name in con10_client_pages else (
+                    expected_methods = set(con22_client_pages[name]) if name in con22_client_pages else (
+                        set(con10_client_pages[name]) if name in con10_client_pages else (
                         con09_client_pages[name] if name in con09_client_pages else (
                         con08_client_pages[name] if name in con08_client_pages else {
                         operation[0].lower() + operation[1:] for operation in operations
-                    }))
+                    })))
                     self.assertEqual(set(actual[name]), expected_methods)
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
@@ -357,7 +404,6 @@ class DocumentationAdmissionTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[2]
         previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r14.json").read_bytes())
         current = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r15.json").read_bytes())
-        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r15.json")
 
         def key_fingerprint(keys):
             return documentation.sha(("".join(key + "\n" for key in sorted(keys))).encode("utf-8"))

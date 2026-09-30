@@ -1,0 +1,242 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SupportProto";
+
+// Public customer support, notification, preference and policy projections.
+// Owner authorization and persistence remain outside this generated contract.
+service SupportService {
+  rpc CreateCase(SupportServiceCreateCaseRequest) returns (SupportServiceCreateCaseResponse);
+  rpc ListCases(SupportServiceListCasesRequest) returns (SupportServiceListCasesResponse);
+  rpc AppendMessage(SupportServiceAppendMessageRequest) returns (SupportServiceAppendMessageResponse);
+  rpc DecideAccess(SupportServiceDecideAccessRequest) returns (SupportServiceDecideAccessResponse);
+}
+
+service NotificationService {
+  rpc List(NotificationServiceListRequest) returns (NotificationServiceListResponse);
+  rpc Acknowledge(NotificationServiceAcknowledgeRequest) returns (NotificationServiceAcknowledgeResponse);
+  rpc RegisterPush(NotificationServiceRegisterPushRequest) returns (NotificationServiceRegisterPushResponse);
+  rpc UnregisterPush(NotificationServiceUnregisterPushRequest) returns (NotificationServiceUnregisterPushResponse);
+}
+
+service PreferenceService {
+  rpc Put(PreferenceServicePutRequest) returns (PreferenceServicePutResponse);
+}
+
+service PolicyService {
+  rpc GetBundle(PolicyServiceGetBundleRequest) returns (PolicyServiceGetBundleResponse);
+}
+
+message NotificationView {
+  arcforges.foundation.v1.Id notification_id = 1 [json_name = "notificationId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional string durability = 3 [json_name = "durability"];
+  optional string message_key = 4 [json_name = "messageKey"];
+  arcforges.foundation.v1.AggregateRef target = 5 [json_name = "target"];
+  optional string state = 6 [json_name = "state"];
+  arcforges.foundation.v1.Instant created_at = 7 [json_name = "createdAt"];
+}
+
+message PolicyBundle {
+  optional string version = 1 [json_name = "version"];
+  arcforges.foundation.v1.Instant issued_at = 2 [json_name = "issuedAt"];
+  arcforges.foundation.v1.Instant expires_at = 3 [json_name = "expiresAt"];
+  optional bytes body = 4 [json_name = "body"];
+  optional bytes signature = 5 [json_name = "signature"];
+  optional string key_id = 6 [json_name = "keyId"];
+}
+
+message SupportServiceCreateCaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"];
+  optional string subject = 11 [json_name = "subject"];
+  optional string message = 12 [json_name = "message"];
+  arcforges.foundation.v1.ResourceRef diagnostic = 13 [json_name = "diagnostic"];
+  optional string category = 14 [json_name = "category"];
+  arcforges.foundation.v1.Id related_action_id = 15 [json_name = "relatedActionId"];
+}
+message SupportServiceCreateCaseValue {
+  SupportCase case = 10 [json_name = "case"];
+}
+message SupportServiceCreateCaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceCreateCaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SupportServiceListCasesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message SupportServiceListCasesValue {
+  repeated SupportCase items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message SupportServiceListCasesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceListCasesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SupportServiceAppendMessageRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"];
+  arcforges.foundation.v1.Id message_id = 11 [json_name = "messageId"];
+  optional string text = 12 [json_name = "text"];
+}
+message SupportServiceAppendMessageValue {
+  SupportCase case = 10 [json_name = "case"];
+}
+message SupportServiceAppendMessageResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceAppendMessageValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SupportServiceDecideAccessRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  optional string proposal_hash = 11 [json_name = "proposalHash"];
+  optional bool approve = 12 [json_name = "approve"];
+}
+message SupportServiceDecideAccessValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+message SupportServiceDecideAccessResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    SupportServiceDecideAccessValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message NotificationServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message NotificationServiceListValue {
+  repeated NotificationView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message NotificationServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NotificationServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message NotificationServiceAcknowledgeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id notification_id = 10 [json_name = "notificationId"];
+}
+message NotificationServiceAcknowledgeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+message NotificationServiceAcknowledgeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NotificationServiceAcknowledgeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message NotificationServiceRegisterPushRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id installation_id = 10 [json_name = "installationId"];
+  optional string platform = 11 [json_name = "platform"];
+  optional string token = 12 [json_name = "token"];
+}
+message NotificationServiceRegisterPushValue {
+  arcforges.foundation.v1.Id registration_id = 10 [json_name = "registrationId"];
+}
+message NotificationServiceRegisterPushResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NotificationServiceRegisterPushValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message NotificationServiceUnregisterPushRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id registration_id = 10 [json_name = "registrationId"];
+}
+message NotificationServiceUnregisterPushValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+message NotificationServiceUnregisterPushResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    NotificationServiceUnregisterPushValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message PreferenceServicePutRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  PreferenceRecord value = 10 [json_name = "value"];
+}
+message PreferenceServicePutValue {
+  PreferenceRecord value = 10 [json_name = "value"];
+}
+message PreferenceServicePutResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PreferenceServicePutValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message PolicyServiceGetBundleRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id installation_id = 10 [json_name = "installationId"];
+  optional string last_version = 11 [json_name = "lastVersion"];
+}
+message PolicyServiceGetBundleValue {
+  PolicyBundle bundle = 10 [json_name = "bundle"];
+}
+message PolicyServiceGetBundleResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    PolicyServiceGetBundleValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}

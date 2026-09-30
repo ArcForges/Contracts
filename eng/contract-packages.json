@@ -25,7 +25,9 @@
         "public/proto/arcforges/publicapi/v1/sync.proto",
         "public/proto/arcforges/publicapi/v1/transfer.proto",
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
-        "public/proto/arcforges/publicapi/v1/chat.proto"
+        "public/proto/arcforges/publicapi/v1/chat.proto",
+        "public/proto/arcforges/publicapi/v1/support.proto",
+        "public/proto/arcforges/publicapi/v1/export.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
@@ -179,7 +181,9 @@
         "public/proto/arcforges/publicapi/v1/chat.proto",
         "public/proto/arcforges/publicapi/v1/sync.proto",
         "public/proto/arcforges/publicapi/v1/transfer.proto",
-        "public/proto/arcforges/publicapi/v1/inprocess-values.proto"
+        "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+        "public/proto/arcforges/publicapi/v1/support.proto",
+        "public/proto/arcforges/publicapi/v1/export.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -252,7 +256,9 @@
         "public/proto/arcforges/publicapi/v1/sync.proto",
         "public/proto/arcforges/publicapi/v1/transfer.proto",
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
-        "public/proto/arcforges/publicapi/v1/chat.proto"
+        "public/proto/arcforges/publicapi/v1/chat.proto",
+        "public/proto/arcforges/publicapi/v1/support.proto",
+        "public/proto/arcforges/publicapi/v1/export.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -267,7 +273,9 @@
         "public/proto/arcforges/hello/v1/hello.proto",
         "public/proto/arcforges/catalog/v1/catalog.proto",
         "public/proto/arcforges/publicapi/v1/commerce.proto",
-        "public/proto/arcforges/publicapi/v1/chat.proto"
+        "public/proto/arcforges/publicapi/v1/chat.proto",
+        "public/proto/arcforges/publicapi/v1/support.proto",
+        "public/proto/arcforges/publicapi/v1/export.proto"
       ],
       "dependencies": ["io.github.arcforges:contracts-proto"],
       "descriptor": "contracts.binpb",

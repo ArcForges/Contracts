@@ -1,0 +1,112 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/commerce.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ExportProto";
+
+// Export request/status transport projections reuse the canonical commerce
+// ExportJob and Foundation TransferTicket records.
+service DataService {
+  rpc RequestExport(DataServiceRequestExportRequest) returns (DataServiceRequestExportResponse);
+  rpc GetExportState(DataServiceGetExportStateRequest) returns (DataServiceGetExportStateResponse);
+}
+
+service ExportService {
+  rpc GetStatus(ExportServiceGetStatusRequest) returns (ExportServiceGetStatusResponse);
+  rpc Cancel(ExportServiceCancelRequest) returns (ExportServiceCancelResponse);
+  rpc GetDownload(ExportServiceGetDownloadRequest) returns (ExportServiceGetDownloadResponse);
+}
+
+message DataServiceRequestExportRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id export_id = 10 [json_name = "exportId"];
+}
+message DataServiceRequestExportValue {
+  ExportJob job = 10 [json_name = "job"];
+}
+message DataServiceRequestExportResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceRequestExportValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message DataServiceGetExportStateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id export_id = 10 [json_name = "exportId"];
+}
+message DataServiceGetExportStateValue {
+  ExportJob job = 10 [json_name = "job"];
+}
+message DataServiceGetExportStateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DataServiceGetExportStateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ExportServiceGetStatusRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id export_id = 10 [json_name = "exportId"];
+}
+message ExportServiceGetStatusValue {
+  ExportJob job = 10 [json_name = "job"];
+}
+message ExportServiceGetStatusResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExportServiceGetStatusValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ExportServiceCancelRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id export_id = 10 [json_name = "exportId"];
+}
+message ExportServiceCancelValue {
+  ExportJob job = 10 [json_name = "job"];
+}
+message ExportServiceCancelResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExportServiceCancelValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message ExportServiceGetDownloadRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id export_id = 10 [json_name = "exportId"];
+}
+message ExportServiceGetDownloadValue {
+  arcforges.foundation.v1.TransferTicket ticket = 10 [json_name = "ticket"];
+}
+message ExportServiceGetDownloadResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExportServiceGetDownloadValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
