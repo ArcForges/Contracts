@@ -32,6 +32,21 @@ CF_SERVICE_EXPECTATIONS = {
     'cf.ai.late-outcome': ('assistant', 'late-outcome', 'IW'),
 }
 
+# Independent frozen CON.11 exception evidence. This is deliberately separate
+# from the checker constants so changing either side alone fails the test.
+CON11_PRIVATE_BINDING = 'arcforges.cf.v1.RunStreamService/Run'
+CON11_PRIVATE_SOURCE = 'internal/proto/arcforges/cf/v1/stream.proto'
+CON11_PRIVATE_FIXTURE = 'fixtures/internal/con-11-run-stream.json'
+CON11_PRIVATE_RPC_VECTOR = {
+    'id': 'cloudinternal.run-stream.run',
+    'service': 'arcforges.cf.v1.RunStreamService',
+    'method': 'Run',
+    'input': 'RunStreamRequest',
+    'output': 'arcforges.events.v1.StreamFrame',
+    'streamType': 'serverStreaming',
+    'requestFields': [['execution', 1], ['attemptId', 2], ['generation', 3]],
+}
+
 
 class OperationScopeTests(unittest.TestCase):
     def task_create_row(self):
@@ -326,15 +341,104 @@ class OperationScopeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, phrase):
             gate.audit(self.root, self.manifest)
 
+    def install_con11_projection(self, *, source=CON11_PRIVATE_SOURCE,
+                                 package='arcforges.cf.v1', service='RunStreamService', method='Run',
+                                 rpc_vectors=None, fixture_schema='con-11-run-stream.v1', sibling=False):
+        export = self.root / 'eng/operations/con-11.json'
+        export.parent.mkdir(parents=True, exist_ok=True)
+        export.write_text(json.dumps({'schemaVersion': 'operation-metadata.v1', 'operations': []}))
+
+        proto = self.root / source
+        proto.parent.mkdir(parents=True, exist_ok=True)
+        proto.write_text(f'syntax = "proto3"; package {package}; service {service} {{ '
+                         f'rpc {method}(RunStreamRequest) returns (stream StreamFrame); }}')
+        if sibling:
+            extra = proto.parent / 'unexpected.proto'
+            extra.write_text('syntax = "proto3"; package arcforges.cf.v1; '
+                             'service UnexpectedInternalService { rpc Extra(Request) returns (Reply); }')
+
+        fixture = self.root / CON11_PRIVATE_FIXTURE
+        fixture.parent.mkdir(parents=True, exist_ok=True)
+        fixture.write_text(json.dumps({'schemaVersion': fixture_schema,
+                                       'rpcVectors': copy.deepcopy(rpc_vectors if rpc_vectors is not None
+                                                                    else [CON11_PRIVATE_RPC_VECTOR])}))
+
     def test_real_retained_methods_and_pending_inventory(self):
         result = gate.audit(ROOT)
         self.assertEqual(result["result"], "passed")
         oracle = gate.load(ROOT / "eng/operation-scope-manifest.json")
         self.assertEqual(len(result["operations"]), len(oracle["operations"]))
         self.assertEqual(result["registered"] + result["pending"] + result["reserved"], len(oracle["operations"]))
+        self.assertEqual((result["registered"], result["pending"], result["reserved"],
+                          len(result["operations"])), (232, 86, 7, 325))
+        self.assertEqual(result["privateServiceProjections"], [{
+            "binding": CON11_PRIVATE_BINDING,
+            "source": CON11_PRIVATE_SOURCE,
+            "fixture": CON11_PRIVATE_FIXTURE,
+            "rpcVectorId": "cloudinternal.run-stream.run",
+        }])
+        self.assertNotIn(CON11_PRIVATE_BINDING,
+                         {row.get("binding") for row in result["operations"]})
         methods = gate.proto_methods(ROOT)
         self.assertEqual(result["migrationExamples"], sorted(binding for binding, source in gate.EXAMPLES.items()
                          if methods.get(binding) == source))
+
+    def test_con11_private_projection_is_reported_outside_operation_matrix(self):
+        self.install_con11_projection()
+        self.write()
+        result = gate.audit(self.root, self.manifest)
+        self.assertEqual(result['privateServiceProjections'], [{
+            'binding': CON11_PRIVATE_BINDING,
+            'source': CON11_PRIVATE_SOURCE,
+            'fixture': CON11_PRIVATE_FIXTURE,
+            'rpcVectorId': 'cloudinternal.run-stream.run',
+        }])
+        self.assertEqual((result['registered'], result['pending'], result['reserved']), (1, 1, 1))
+        self.assertEqual(len(result['operations']), 3)
+        self.assertNotIn(CON11_PRIVATE_BINDING,
+                         {row.get('binding') for row in result['operations']})
+
+    def test_con11_private_projection_rejects_wrong_source(self):
+        self.install_con11_projection(source='internal/proto/arcforges/cf/v1/other.proto')
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'missing or wrong source binding'):
+            gate.audit(self.root, self.manifest)
+
+    def test_con11_private_projection_rejects_wrong_service_or_method(self):
+        for service, method in (('RenamedRunStreamService', 'Run'), ('RunStreamService', 'Other')):
+            with self.subTest(service=service, method=method):
+                self.install_con11_projection(service=service, method=method)
+                self.write()
+                with self.assertRaisesRegex(ValueError, 'missing or wrong source binding'):
+                    gate.audit(self.root, self.manifest)
+
+    def test_con11_private_projection_rejects_public_relocation(self):
+        self.install_con11_projection(source='public/proto/arcforges/cf/v1/stream.proto')
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'missing or wrong source binding'):
+            gate.audit(self.root, self.manifest)
+
+    def test_con11_private_projection_rejects_mutated_or_extra_fixture_rpc(self):
+        mutated = copy.deepcopy(CON11_PRIVATE_RPC_VECTOR)
+        mutated['requestFields'][0][1] = 99
+        for vectors in ([mutated], [CON11_PRIVATE_RPC_VECTOR, {**CON11_PRIVATE_RPC_VECTOR, 'id': 'extra'}]):
+            with self.subTest(vectors=vectors):
+                self.install_con11_projection(rpc_vectors=vectors)
+                self.write()
+                with self.assertRaisesRegex(ValueError, 'fixture RPC vector mismatch'):
+                    gate.audit(self.root, self.manifest)
+
+    def test_con11_private_projection_rejects_wrong_fixture_identity(self):
+        self.install_con11_projection(fixture_schema='invented-run-stream.v1')
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'fixture identity mismatch'):
+            gate.audit(self.root, self.manifest)
+
+    def test_con11_private_projection_rejects_unclassified_internal_sibling(self):
+        self.install_con11_projection(sibling=True)
+        self.write()
+        with self.assertRaisesRegex(ValueError, 'unclassified registered method: arcforges.cf.v1.UnexpectedInternalService/Extra'):
+            gate.audit(self.root, self.manifest)
 
     def test_deterministic_complete_matrix(self):
         self.write()
@@ -380,6 +484,11 @@ class OperationScopeTests(unittest.TestCase):
 
     def test_duplicate_export(self):
         self.fails("duplicate export", [self.row, self.row])
+
+    def test_duplicate_operation_binding(self):
+        duplicate = copy.deepcopy(self.row)
+        duplicate.update(operationId='workspace.list', scope='account')
+        self.fails('ambiguous binding', [self.row, duplicate])
 
     def test_nonexistent_binding(self):
         self.row["binding"] += "Missing"

@@ -22,14 +22,25 @@ relative `source`, `scope`, `surface`, `profile`, anchored Design `sourceRule`,
 is a complete example. Domains append their own files, without rewriting another
 domain's entries. Duplicate JSON keys, operations and bindings are rejected.
 
-Authored public and internal proto service methods are discovered independently
-and must have exactly one export pointing to the exact source and fully qualified
-`package.Service/Method`. Only the exact retained Hello migration example is
-excluded from production coverage. HTTP and in-process bindings use explicit
-domain exports referencing real source files; the gate does not infer runtime
-route registrations from arbitrary source languages. Producers must export those
-bindings as part of their owned route/descriptor generation. Report provenance
-preserves their declared binding kind, source, profile and authority anchor.
+Authored public and internal proto service methods are discovered independently.
+Each must have exactly one export pointing to the exact source and fully qualified
+`package.Service/Method`, except for the exact retained Hello migration example
+and the single closed CON.11 private RunStream projection below. HTTP and
+in-process bindings use explicit domain exports referencing real source files;
+the gate does not infer runtime route registrations from arbitrary source
+languages. Producers must export those bindings as part of their owned
+route/descriptor generation. Report provenance preserves their declared binding
+kind, source, profile and authority anchor.
+
+The only private projection exception is
+`arcforges.cf.v1.RunStreamService/Run` from
+`internal/proto/arcforges/cf/v1/stream.proto`, bound to the exact RPC vector in
+`fixtures/internal/con-11-run-stream.json`. The checker discovers the method,
+validates that source and fixture identity, and reports it separately as a
+private service projection. It is not an operation: it has no operation ID,
+export row, authorization profile or operation-matrix/count entry. Every other
+public or internal proto method still requires exactly one exact operation
+export; no path, package or service wildcard is exempt.
 
 Authorization fields are `capability`, `risk`, `approval`, `stepUp`,
 `localPresence`, `egress`, `patEligible`, and `actorKinds`. Boolean fields are
