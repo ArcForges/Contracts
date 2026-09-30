@@ -109,7 +109,7 @@ internal static class SupportCases
         missingSubject.ClearSubject();
         Require(!ContractShapeValidation.IsValid(missingSubject), "SupportCase subject presence");
         var missingRevision = validCase.Clone();
-        missingRevision.ClearRevision();
+        missingRevision.Revision = null!;
         Require(!ContractShapeValidation.IsValid(missingRevision), "SupportCase revision presence");
         validCase.Subject += "x";
         Require(!ContractShapeValidation.IsValid(validCase), "Name rejects 257 scalars");
@@ -123,7 +123,7 @@ internal static class SupportCases
         missingText.ClearText();
         Require(!ContractShapeValidation.IsValid(missingText), "SupportMessage text presence");
         var missingCreatedAt = message.Clone();
-        missingCreatedAt.ClearCreatedAt();
+        missingCreatedAt.CreatedAt = null!;
         Require(!ContractShapeValidation.IsValid(missingCreatedAt), "SupportMessage createdAt presence");
         message.Text += "é";
         Require(!ContractShapeValidation.IsValid(message), "Text exceeds UTF-8 maximum");
@@ -135,8 +135,8 @@ internal static class SupportCases
         var bundle = new PolicyBundle
         {
             Version = "policy.1",
-            IssuedAt = new Instant { UnixSeconds = 1 },
-            ExpiresAt = new Instant { UnixSeconds = 2 },
+            IssuedAt = new Instant { UnixSeconds = 1, Nanos = 0 },
+            ExpiresAt = new Instant { UnixSeconds = 2, Nanos = 0 },
             Body = ByteString.CopyFrom(new byte[1048576]),
             Signature = ByteString.CopyFrom(new byte[] { 1 }),
             KeyId = "key.1"
@@ -152,7 +152,7 @@ internal static class SupportCases
         Require(!ContractShapeValidation.IsValid(bundle), "PolicyBundle body exceeds 1 MiB");
         var missingIssuedAt = new PolicyBundle
         {
-            Version = "policy.1", ExpiresAt = new Instant { UnixSeconds = 2 },
+            Version = "policy.1", ExpiresAt = new Instant { UnixSeconds = 2, Nanos = 0 },
             Body = ByteString.CopyFrom(new byte[] { 1 }), Signature = ByteString.CopyFrom(new byte[] { 1 }), KeyId = "key.1"
         };
         Require(!ContractShapeValidation.IsValid(missingIssuedAt), "PolicyBundle issuedAt presence");
@@ -198,7 +198,7 @@ internal static class SupportCases
 
     private static SupportMessage Message(string text) => new()
     {
-        MessageId = Id(), ActorKind = "future.owner", Text = text, CreatedAt = new Instant { UnixSeconds = 1 }
+        MessageId = Id(), ActorKind = "future.owner", Text = text, CreatedAt = new Instant { UnixSeconds = 1, Nanos = 0 }
     };
 
     private static Id Id() => new() { Value = ByteString.CopyFrom(Convert.FromHexString("112233445566478899AABBCCDDEEFF00")) };
