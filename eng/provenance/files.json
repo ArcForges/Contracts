@@ -146,6 +146,7 @@
     "eng/provenance/artifact-profiles/dokka-2-2-0-r16.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r17.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r18.json",
+    "eng/provenance/artifact-profiles/dokka-2-2-0-r19.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r2.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r3.json",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r4.json",
@@ -207,6 +208,7 @@
     "eng/provenance/records/dokka-documentation-resources-r16.json",
     "eng/provenance/records/dokka-documentation-resources-r17.json",
     "eng/provenance/records/dokka-documentation-resources-r18.json",
+    "eng/provenance/records/dokka-documentation-resources-r19.json",
     "eng/provenance/records/dokka-documentation-resources-r2.json",
     "eng/provenance/records/dokka-documentation-resources-r3.json",
     "eng/provenance/records/dokka-documentation-resources-r4.json",
@@ -3039,5 +3041,7 @@
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
     "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r18"]
+  "artifacts": [
+    "dokka-documentation-resources-r19"
+  ]
 }
