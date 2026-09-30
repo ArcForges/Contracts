@@ -9,6 +9,10 @@ package io.github.arcforges.contracts.events.v1;
 
 /**
  * <pre>
+ * Event payload alternatives and their declaration order mirror the complete
+ * event registry in Design Registry04 §7 (tags 10–26). This oneof is the
+ * single schema source for generated language descriptors; event names map
+ * to the corresponding lower-camel oneof field.
  * The complete entitlement.changed hint payload; not the full Event envelope.
  * </pre>
  *
@@ -142,6 +146,10 @@ public  final class EntitlementChanged extends
 
   /**
    * <pre>
+   * Event payload alternatives and their declaration order mirror the complete
+   * event registry in Design Registry04 §7 (tags 10–26). This oneof is the
+   * single schema source for generated language descriptors; event names map
+   * to the corresponding lower-camel oneof field.
    * The complete entitlement.changed hint payload; not the full Event envelope.
    * </pre>
    *

@@ -434,6 +434,12 @@ class OperationScopeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'fixture identity mismatch'):
             gate.audit(self.root, self.manifest)
 
+    def test_con11_private_projection_cannot_be_exported_as_an_operation(self):
+        row = copy.deepcopy(self.row)
+        row.update(operationId='workspace.list', binding=CON11_PRIVATE_BINDING,
+                   source=CON11_PRIVATE_SOURCE, scope='account')
+        self.fails('private RunStream projection must not have an operation export', [row])
+
     def test_con11_private_projection_rejects_unclassified_internal_sibling(self):
         self.install_con11_projection(sibling=True)
         self.write()

@@ -130,7 +130,7 @@ function archiveWithText(textLength) {
           conversationId: testId(2),
           branchId: testId(3),
           role: "user",
-          parts: [{ text: "x".repeat(textLength) }],
+          parts: [{ content: { case: "text", value: "x".repeat(textLength) } }],
           state: "complete",
           revision: { value: 1n },
         },
@@ -469,7 +469,7 @@ test("CON.11 aggregate and serialized-byte boundary fixtures round-trip at and o
         ordinal: BigInt(index),
         role: 1,
         parts: Array.from({ length: count }, () =>
-          create(content.MessagePartSchema, { text: "x" }),
+          create(content.MessagePartSchema, { content: { case: "text", value: "x" } }),
         ),
       }),
     );
@@ -513,11 +513,8 @@ test("CON.11 aggregate and serialized-byte boundary fixtures round-trip at and o
       (length) => toBinary(events.OutputChunkSchema, chunkWithData(length)),
       32768,
     );
-    assert.equal(
-      fromBinary(events.OutputChunkSchema, wire).data.byteLength <= vector.limit,
-      vector.valid,
-      vector.id,
-    );
+    assert.equal(fromBinary(events.OutputChunkSchema, wire).data.byteLength > 0, true);
+    assert.equal(wire.byteLength <= vector.limit, vector.valid, vector.id);
     assert.equal(wire.byteLength, vector.serializedBytes);
   }
   for (const vector of fixture.aggregateBoundaryVectors.streamFrameBytes) {

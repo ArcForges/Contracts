@@ -842,12 +842,26 @@
         "arcforges.publicapi.v1.DataService",
         "arcforges.publicapi.v1.ExportService",
         "arcforges.simulation.v1.SimulationService",
-        "arcforges.publicapi.v1.ScopeService"
+        "arcforges.publicapi.v1.ScopeService",
+        "arcforges.publicapi.v1.ApplicationService",
+        "arcforges.publicapi.v1.HistoryService"
       ],
+      "ArcForges.Contracts.Events": [
+        "arcforges.events.v1.ExecutionService",
+        "arcforges.events.v1.EventService"
+      ],
+      "ArcForges.Contracts.CloudInternal": ["arcforges.cf.v1.RunStreamService"],
       "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"]
     },
     "typescript": {
-      "@arcforges/proto": ["arcforges.hello.v1.HelloService", "arcforges.catalog.v1.CatalogService"]
+      "@arcforges/proto": [
+        "arcforges.hello.v1.HelloService",
+        "arcforges.catalog.v1.CatalogService",
+        "arcforges.publicapi.v1.ApplicationService",
+        "arcforges.publicapi.v1.HistoryService",
+        "arcforges.events.v1.ExecutionService",
+        "arcforges.events.v1.EventService"
+      ]
     },
     "methods": {
       "arcforges.hello.v1.HelloService": ["/arcforges.hello.v1.HelloService/SayHello"],
@@ -1032,6 +1046,31 @@
         "/arcforges.publicapi.v1.ScopeService/ListProjects",
         "/arcforges.publicapi.v1.ScopeService/ListSessions",
         "/arcforges.publicapi.v1.ScopeService/GetSession"
+      ],
+      "arcforges.publicapi.v1.ApplicationService": [
+        "/arcforges.publicapi.v1.ApplicationService/List",
+        "/arcforges.publicapi.v1.ApplicationService/Heartbeat",
+        "/arcforges.publicapi.v1.ApplicationService/Disconnect"
+      ],
+      "arcforges.publicapi.v1.HistoryService": [
+        "/arcforges.publicapi.v1.HistoryService/BeginImport",
+        "/arcforges.publicapi.v1.HistoryService/FinalizeImport",
+        "/arcforges.publicapi.v1.HistoryService/GetImport",
+        "/arcforges.publicapi.v1.HistoryService/CancelImport"
+      ],
+      "arcforges.events.v1.ExecutionService": [
+        "/arcforges.events.v1.ExecutionService/StartTransientTurn",
+        "/arcforges.events.v1.ExecutionService/ReadOutput",
+        "/arcforges.events.v1.ExecutionService/WatchOutput",
+        "/arcforges.events.v1.ExecutionService/AcknowledgeOutput",
+        "/arcforges.events.v1.ExecutionService/PurgeTransient"
+      ],
+      "arcforges.events.v1.EventService": [
+        "/arcforges.events.v1.EventService/Poll",
+        "/arcforges.events.v1.EventService/Watch"
+      ],
+      "arcforges.cf.v1.RunStreamService": [
+        "/arcforges.cf.v1.RunStreamService/Run"
       ]
     }
   }

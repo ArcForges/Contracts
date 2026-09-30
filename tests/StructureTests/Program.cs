@@ -29,6 +29,11 @@ if (args.Contains("--con-06", StringComparer.Ordinal))
     Con06InprocessCases.Run(root);
     return 0;
 }
+if (args.Contains("--con-11", StringComparer.Ordinal))
+{
+    Con11ApplicationStreamsCases.Run(root);
+    return 0;
+}
 if (args.Contains("--con-21", StringComparer.Ordinal))
 {
     SimulationCases.Run(root);
@@ -99,6 +104,7 @@ ExtensionBoundaryCases.Run(root);
 FoundationCases.Run(root, args.Contains("--foundation-exchange", StringComparer.Ordinal));
 SemanticHashCases.Run(root);
 Con02Cases.Run(root);
+Con11ApplicationStreamsCases.Run(root);
 SupportCases.Run(root);
 return 0;
 
