@@ -12,7 +12,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.getDefinition",
@@ -24,7 +33,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.createDefinition",
@@ -36,7 +54,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "CC",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.publishScenarioVersion",
@@ -48,7 +75,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "CC",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.startRun",
@@ -60,7 +96,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "CC",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.pauseRun",
@@ -72,7 +117,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.resumeRun",
@@ -84,7 +138,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.cancelRun",
@@ -96,7 +159,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "IW",
-      "authorization": { "capability": null, "risk": "R2", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.getRun",
@@ -108,7 +180,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.listRuns",
@@ -120,7 +201,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.listSegments",
@@ -132,7 +222,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.getSegmentTicket",
@@ -144,7 +243,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "NI",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     },
     {
       "operationId": "simulation.pollState",
@@ -156,7 +264,16 @@
       "profile": "human-owner",
       "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
       "idempotency": "Q",
-      "authorization": { "capability": null, "risk": "R1", "approval": "none", "stepUp": false, "localPresence": false, "egress": "none", "patEligible": false, "actorKinds": ["human"] }
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
     }
   ]
 }

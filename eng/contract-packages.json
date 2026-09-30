@@ -27,7 +27,8 @@
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
         "public/proto/arcforges/publicapi/v1/chat.proto",
         "public/proto/arcforges/publicapi/v1/support.proto",
-        "public/proto/arcforges/publicapi/v1/export.proto"
+        "public/proto/arcforges/publicapi/v1/export.proto",
+        "public/proto/arcforges/simulation/v1/simulation.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
@@ -183,7 +184,8 @@
         "public/proto/arcforges/publicapi/v1/transfer.proto",
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
         "public/proto/arcforges/publicapi/v1/support.proto",
-        "public/proto/arcforges/publicapi/v1/export.proto"
+        "public/proto/arcforges/publicapi/v1/export.proto",
+        "public/proto/arcforges/simulation/v1/simulation.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -258,7 +260,8 @@
         "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
         "public/proto/arcforges/publicapi/v1/chat.proto",
         "public/proto/arcforges/publicapi/v1/support.proto",
-        "public/proto/arcforges/publicapi/v1/export.proto"
+        "public/proto/arcforges/publicapi/v1/export.proto",
+        "public/proto/arcforges/simulation/v1/simulation.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -275,7 +278,8 @@
         "public/proto/arcforges/publicapi/v1/commerce.proto",
         "public/proto/arcforges/publicapi/v1/chat.proto",
         "public/proto/arcforges/publicapi/v1/support.proto",
-        "public/proto/arcforges/publicapi/v1/export.proto"
+        "public/proto/arcforges/publicapi/v1/export.proto",
+        "public/proto/arcforges/simulation/v1/simulation.proto"
       ],
       "dependencies": ["io.github.arcforges:contracts-proto"],
       "descriptor": "contracts.binpb",

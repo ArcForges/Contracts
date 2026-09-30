@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-09-28",
+  "reviewedOn": "2026-09-30",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "45d7f1ea8f075d593e054f49c7ddb497e63d1384",
+  "sourceCommit": "6dcacfa832540eab1aed9f189eb39c934052ee18",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -108,6 +108,11 @@
       "path": "public/proto/arcforges/publicapi/v1/transfer.proto",
       "access": "public",
       "sha256": "f7d53346a43cd977224154b33d8f1f3f3f4b973c67e513caf384b195654abc0e"
+    },
+    {
+      "path": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public",
+      "sha256": "6be3a09a0ae9f2f28f2cfec9c5a762d0b1d11519336109fd842b14537e53faf7"
     }
   ],
   "types": [
@@ -5168,6 +5173,348 @@
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
       "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.AstNode",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.BinaryExpression",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.CsvColumn",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.CsvReplaySchema",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.FaultSpec",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.FunctionExpression",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.GeneratorSpec",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.PulseSpec",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.ScenarioExpression",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.ScenarioSpec",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.ScenarioVersion",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationDefinition",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationProfile",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationRun",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationSegment",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationService",
+      "kind": "service",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceCancelRunRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceCancelRunResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceCancelRunValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceCreateDefinitionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceCreateDefinitionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceCreateDefinitionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetDefinitionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetDefinitionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetDefinitionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetRunRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetRunResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetRunValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetSegmentTicketRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetSegmentTicketResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceGetSegmentTicketValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListDefinitionsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListDefinitionsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListDefinitionsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListRunsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListRunsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListRunsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListSegmentsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListSegmentsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceListSegmentsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePauseRunRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePauseRunResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePauseRunValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePollStateRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePollStateResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePollStateValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePublishScenarioVersionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePublishScenarioVersionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServicePublishScenarioVersionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceResumeRunRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceResumeRunResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceResumeRunValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceStartRunRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceStartRunResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationServiceStartRunValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.StepPoint",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.UnaryExpression",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
     }
   ],
   "packages": [
@@ -8186,7 +8533,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "8e427524a5b93e25b9a7186f6e99a7d506e5d0fdbb20cfb6570abc9d7146ccc6",
+      "sha256": "e6ef5c078edb3abce4c56a4cca87274219a2de388c10d7ce295205ea0e28261e",
       "kind": "generated"
     },
     {
@@ -8470,7 +8817,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "50a98c6c25874c53b4647de068fd6c54701f9497e6535a83a46be6b0c1e74735",
+      "sha256": "d851d53a0cd4ad09201b3f089ed798a37a21163de56a21b142ea5257aa6e805e",
       "kind": "generated"
     },
     {
@@ -18098,7 +18445,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "d5510ba27cf456f5011bc23c16d7ccdf1b0a5e6f0a91f098f8a3dd631b99134f",
+      "sha256": "1a8d35ee7e294608d03632ccf4516eec1c0e334728a319c1ec22be41b5b55f68",
       "kind": "generated"
     },
     {
@@ -18802,7 +19149,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "07c4930a96aa693f3eb1f5640ccd8f4aff28ecd96eaaf02af31d04e0cb409405",
+      "sha256": "a97d27ccf8cc8a4ccb01997dcb85be7c00ba8e692255470f5b67f8828579a1a6",
       "kind": "generated"
     },
     {
@@ -18818,7 +19165,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "d421f88287c5bd9a6eaae386d7e3bebeb820164387398795d130e33584d60001",
+      "sha256": "984784b30aa9866af708f6aa6a9ae0e5de1416677a25e19db540c819feda6c3c",
       "kind": "generated"
     },
     {
@@ -18826,7 +19173,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "6bdbc224e6de541d1d9f25e1897eadc3c07d0b3a10d2e554e1653b45204733e5",
+      "sha256": "4110b594d79c67248d929f206a24063ecfaf94e847706d719970a9dc83f1d02a",
       "kind": "generated"
     },
     {
@@ -23742,6 +24089,1561 @@
       "types": ["TurnPromotionPreviewKt", "Dsl", "ProposalsProxy"],
       "sha256": "4aa76f3bb8c8867d2e4f6e0f79fcd1faa4de22157015600aba31d0c0880ca242",
       "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Simulation.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "SimulationReflection",
+        "SimulationDefinition",
+        "ScenarioVersion",
+        "SimulationRun",
+        "SimulationSegment",
+        "SimulationProfile",
+        "ScenarioSpec",
+        "ScenarioExpression",
+        "AstNode",
+        "expression_",
+        "ExpressionOneofCase",
+        "UnaryExpression",
+        "BinaryExpression",
+        "FunctionExpression",
+        "GeneratorSpec",
+        "PulseSpec",
+        "StepPoint",
+        "FaultSpec",
+        "CsvReplaySchema",
+        "CsvColumn",
+        "SimulationServiceListDefinitionsRequest",
+        "SimulationServiceListDefinitionsValue",
+        "SimulationServiceListDefinitionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceGetDefinitionRequest",
+        "SimulationServiceGetDefinitionValue",
+        "SimulationServiceGetDefinitionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceCreateDefinitionRequest",
+        "SimulationServiceCreateDefinitionValue",
+        "SimulationServiceCreateDefinitionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServicePublishScenarioVersionRequest",
+        "SimulationServicePublishScenarioVersionValue",
+        "SimulationServicePublishScenarioVersionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceStartRunRequest",
+        "SimulationServiceStartRunValue",
+        "SimulationServiceStartRunResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServicePauseRunRequest",
+        "SimulationServicePauseRunValue",
+        "SimulationServicePauseRunResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceResumeRunRequest",
+        "SimulationServiceResumeRunValue",
+        "SimulationServiceResumeRunResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceCancelRunRequest",
+        "SimulationServiceCancelRunValue",
+        "SimulationServiceCancelRunResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceGetRunRequest",
+        "SimulationServiceGetRunValue",
+        "SimulationServiceGetRunResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceListRunsRequest",
+        "SimulationServiceListRunsValue",
+        "SimulationServiceListRunsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceListSegmentsRequest",
+        "SimulationServiceListSegmentsValue",
+        "SimulationServiceListSegmentsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServiceGetSegmentTicketRequest",
+        "SimulationServiceGetSegmentTicketValue",
+        "SimulationServiceGetSegmentTicketResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "SimulationServicePollStateRequest",
+        "SimulationServicePollStateValue",
+        "SimulationServicePollStateResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "5e9d56bb0108301c0ef3046d0dfac9b5cc8ca1ffaa5e65511addf1167d552000",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/SimulationGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "SimulationService",
+        "__Helper_MessageCache",
+        "SimulationServiceBase",
+        "SimulationServiceClient"
+      ],
+      "sha256": "893e568119f54ee61a30396b36b7d656ab39feef3060f1d65d7dae7dc52580d7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["SimulationServiceClient"],
+      "sha256": "c6199b4abf561b06b0934cba6ef2d96e11ee7daa0c20b4ac0cf7a7947cd759ec",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["SimulationServiceClientInterface"],
+      "sha256": "b463b34e732e36a93f9175d0c7d11668ea5b115191b1edcee67cc203209a37a3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/AstNode.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AstNode", "ExpressionCase", "Builder"],
+      "sha256": "85c37584f87d8f3fd9e3e6ed8116dbf540d25ff42e7276646a0e761c87096474",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/AstNodeOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AstNodeOrBuilder"],
+      "sha256": "3da8d342d852af62a897a20fc9ba5dad481b60e47af3daf289db5f05be5199f6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/BinaryExpression.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BinaryExpression", "Builder"],
+      "sha256": "c539b77708b3df48f7d5b8949f6ab2739ac59ff73e6d5726d8a7533b73e1db59",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/BinaryExpressionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BinaryExpressionOrBuilder"],
+      "sha256": "f5b10d4e204d8340d7343d010389048862c253a7d4edd2d3eafa4aff6212e588",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/CsvColumn.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CsvColumn", "Builder"],
+      "sha256": "0659ae1436efe7976dcc7ed1e9ca14c63d37f36a47f536bed477dc295b420630",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/CsvColumnOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CsvColumnOrBuilder"],
+      "sha256": "5e9d7b89dc0d5cdc96393cbe4deba199e056c2d163fd87a08a7a8485c96d3dae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/CsvReplaySchema.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CsvReplaySchema", "Builder"],
+      "sha256": "1e325fbf5bbd7db7b41078541eaecf547e922fdb6821cb64622a024875678c40",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/CsvReplaySchemaOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CsvReplaySchemaOrBuilder"],
+      "sha256": "133580b575d79797377cae2051808e493263a7df3a5b2270ff87086070ae8b60",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/FaultSpec.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FaultSpec", "Builder"],
+      "sha256": "f3d25e8a25ef4a25cb44e7c41ea296d1df0b60cf26392dfa34e3eb8b0fc1bdb1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/FaultSpecOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FaultSpecOrBuilder"],
+      "sha256": "971be3882404b1bceb142f5b5bdae16e96462e6c9d0c2442460158f3fc57d5c8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/FunctionExpression.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FunctionExpression", "Builder"],
+      "sha256": "17d5de0189e6d5b993089149946c2af41c6ae2513e0332e01918cbdf8fc96921",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/FunctionExpressionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FunctionExpressionOrBuilder"],
+      "sha256": "9ed5243c1550788f55640a01b754e89b064ca9427682911aeeca97828fb082ab",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/GeneratorSpec.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["GeneratorSpec", "Builder"],
+      "sha256": "22077d5eb8984abce87de276eacbe05a0503fbca803bbf42959ec7fc909e7f0e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/GeneratorSpecOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["GeneratorSpecOrBuilder"],
+      "sha256": "94a5f46a26bbbcf2194e130ec82f5521e5daf5ddd115de413ddede3d3c4a9cc7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/PulseSpec.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PulseSpec", "Builder"],
+      "sha256": "015adb4e7d3fbe1d8e0a65338bfe0d9c52cfccfec11bf7d1374424e4e0c2d739",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/PulseSpecOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PulseSpecOrBuilder"],
+      "sha256": "1abe397553ae72d2d2c91bd92e5605343e8ff4d3f049dc40584d92e86685797f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/ScenarioExpression.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioExpression", "Builder"],
+      "sha256": "12a2a4ac1eeaea5611952aab74243e69de859c912303f83506d4a24a5054cc80",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/ScenarioExpressionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioExpressionOrBuilder"],
+      "sha256": "a42f37de680c694bc9408b40f7044011e29294b1ec35954f2e2e771540675bd0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/ScenarioSpec.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioSpec", "Builder"],
+      "sha256": "9db463b78ed7cb19a7c14827a443492dac5f6dd555c1087f5ee62d188820932c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/ScenarioSpecOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioSpecOrBuilder"],
+      "sha256": "823b4a7ca695f0cdc6128f1068810b4ba2a3f228b4fff7baa46d27938f90d481",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/ScenarioVersion.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioVersion", "Builder"],
+      "sha256": "7aca22237e9bc7bac82f0c60a8d60f24e06008a44b0eef8828583a4622699c05",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/ScenarioVersionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioVersionOrBuilder"],
+      "sha256": "a4d5189a0b03a95b64f6e4d6103a7e90a70f1f9ef5c06ee717c9e23fe304c352",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationDefinition.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationDefinition", "Builder"],
+      "sha256": "c37dba18d69ff245b7f3b656aab67a5c8c0892e12f5f146351e5f476f0b50d38",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationDefinitionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationDefinitionOrBuilder"],
+      "sha256": "ac51641e705b31ccca2ab8f8bac91ead8549e119ea81aa268eb7121bfdb3e18a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationProfile.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationProfile", "Builder"],
+      "sha256": "dcb1036611c825f76d7e6e2b36cfc40c4ce63b81d237d813372ca9dd92f753aa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationProfileOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationProfileOrBuilder"],
+      "sha256": "9255ed205202d4a3ff57805b07aa9e2f07bdeb214c9fa8d828781c5475acfd90",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationProto"],
+      "sha256": "432361624530439849e63a65de78d4766fc48651d3d52e42eaefc6b83e7abea8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationRun.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationRun", "Builder"],
+      "sha256": "315c59dc31acde7e2db0230cfd142d89d069acfa7497f1dbcbf4cf4165364ada",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationRunOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationRunOrBuilder"],
+      "sha256": "dce25f51a2ee217f091ca4cfacfb2de2e24047c0f6d08c4ead8d65439b879d69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationSegment.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationSegment", "Builder"],
+      "sha256": "30cd922631678421348a4021d19d77a635e6815ec469c624494a275d773b18c0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationSegmentOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationSegmentOrBuilder"],
+      "sha256": "c2ca90e2e57281aad6a44f3bce7dd896ea7efecc31d880a12bacdddb4f48f43c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunRequest", "Builder"],
+      "sha256": "973b7397c783a8fe90dd6f745639b2eb8b1a08feb544d51fc1aecfae33932adb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunRequestOrBuilder"],
+      "sha256": "64ceffaf7aabf1b175ff8275e973b01a5d1ae114a52347ef4a1949155fb57c6f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunResponse", "OutcomeCase", "Builder"],
+      "sha256": "dc910d8ad4aa785919fee3fc806e4ba0e7658e9f14dc58828fca620e451ada68",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunResponseOrBuilder"],
+      "sha256": "acf047361b8447b6f1e91a77866feecbc3912f86300e830b05e6d4eb486609b7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunValue", "Builder"],
+      "sha256": "f2886d895d0c07c30088fe265bdba9eb57635c5b8ab178ebc1d32b33e9bff267",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunValueOrBuilder"],
+      "sha256": "52b565fff48bbc5da963558f7f89b7f2a298d238da5077937fc9a9f18ba57624",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionRequest", "Builder"],
+      "sha256": "9115b98529d556c40a559bedcf92e3f9c323ad0387ba4ac0e91945e3f50abe91",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionRequestOrBuilder"],
+      "sha256": "740596a26583b3c4c3d8de7731df5d9d1c96253b2d72aa01f79e2fadd2aac744",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionResponse", "OutcomeCase", "Builder"],
+      "sha256": "74541e1f78c8ab5341c286b2a95a401c4b3e2e8bad82ca8f8abadaf53e644f67",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionResponseOrBuilder"],
+      "sha256": "b663fa3fd1b4d4c4e9b266c5c86c20c7a8f8f7d62856c357ebcecde009e75ba4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionValue", "Builder"],
+      "sha256": "065d6c568438b2faac2bdf8828c4f5eab43ef9db35d3acacf94e772135eef096",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionValueOrBuilder"],
+      "sha256": "1882c03f74d5a8d6db104c4823c4d6dc36c48d5f7841dad6d2218271ca7c530f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionRequest", "Builder"],
+      "sha256": "8f9c77f489eb884a9900a9d48415c383bccf4a4cd7a02db8f98509056048291a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionRequestOrBuilder"],
+      "sha256": "b6528abdc748d80551365552410c5692e9c2cb29a7d929c4c0ad2ff93b35d0e6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionResponse", "OutcomeCase", "Builder"],
+      "sha256": "4bc9bb7509fbfd4725aa385da858a633ae18bca8e86121314dc44fa415226905",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionResponseOrBuilder"],
+      "sha256": "b8be2619e6db17393538630a9d3ff33d2f5190d68026f03014bcf1b1c53b6e24",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionValue", "Builder"],
+      "sha256": "40b6f24b8f76f93508bd66a0e2589c270aba52fe5dc54d5d68cfdbf449a8c0cc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionValueOrBuilder"],
+      "sha256": "8f4385fe712c27e5c7c805bc7db57d65f26c790a0c2f0c73c2d73128731a2c80",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunRequest", "Builder"],
+      "sha256": "c6637bea063d723d076e88b72f4a92070f48f28271b061a5f1da20c22967a61a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunRequestOrBuilder"],
+      "sha256": "a5136b34a1f72bbebfca40c45391a87c105297e355993ebbcc6ff37eb290dfc7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunResponse", "OutcomeCase", "Builder"],
+      "sha256": "145cf5a647eecd86a412a423d960cbe7ca2b75749fceefcf5aef25c6b94b5b54",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunResponseOrBuilder"],
+      "sha256": "6a29d807f93adc0371cef6a97419b70813f1fe3beb9d5d5595016530e06ee2ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunValue", "Builder"],
+      "sha256": "b490e464b424a9c51f9630bfd345bde6bcdd01ad34ec98f19a7df9101a818a45",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunValueOrBuilder"],
+      "sha256": "facc9e1749b539a14af6fcff3be48300f7f8998e83eb243d3372a11394107a7a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketRequest", "Builder"],
+      "sha256": "8a1ad1300bd8aef20f8f313b237d7ae6fd09f44c91ac355dff52b90cdbea6031",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketRequestOrBuilder"],
+      "sha256": "488a8a4fcdb107970690b784b45ec492286ea29f948be4577b9699adce3ec242",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketResponse", "OutcomeCase", "Builder"],
+      "sha256": "3f5d18146bf0a74594bdacc16ec1cb3a3b24ec1df3b3b6dbbd37b58d0b00b0ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketResponseOrBuilder"],
+      "sha256": "0f2e2f52844afc85beb18b350397ef66a63e626b6e46d733fa3bc4ced19919e6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketValue", "Builder"],
+      "sha256": "a06b18a6df7c361c639fd6345fea662b32187597fa8ee6b4c38860f8771356ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketValueOrBuilder"],
+      "sha256": "8b23b13315bb211525f6cb8fcebd01b549981431d3e613c45e613fb18770a272",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsRequest", "Builder"],
+      "sha256": "4624e5a36242d6bfc0ba8f8bfc1b8f497b68bfe76696fe731ad5ee30cb8c5bd3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsRequestOrBuilder"],
+      "sha256": "b8663336e653f148b9c3928eed89bb80141d16b2744dcab7b7f535ac2daae01b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsResponse", "OutcomeCase", "Builder"],
+      "sha256": "225c80b8cd5a3dba4d0b04c962b0ca31fbf54c66d99af15be08767b9a959b2f1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsResponseOrBuilder"],
+      "sha256": "0f66df73b477fe947379337eee32df5189fdce00e051c4e3b1719a285d2fee39",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsValue", "Builder"],
+      "sha256": "b5cea4972d7239a71de7bad3cbc0d9a7818f079adbb293c8291e2dfa92456c47",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsValueOrBuilder"],
+      "sha256": "8aa5f041337c42001868dca03f7d45ee570de28baf8cfe0e144cab873ae15b0d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsRequest", "Builder"],
+      "sha256": "2ba165f8f6b165ea699d3795b829140e2eacba59e4e48837cc5d8b729bc8769e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsRequestOrBuilder"],
+      "sha256": "1ae79c7454bd0454b865f8741bc2252162527dac1fa440ec37c68d1b83d85d0f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsResponse", "OutcomeCase", "Builder"],
+      "sha256": "c92c84fab9a3b9d16138bad7216f092bd23b511d878696a901fafa20bce9ef1a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsResponseOrBuilder"],
+      "sha256": "b62271acaeb1333220ef02b3090ffb417dd19cb6fd468c81120f44420b871690",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsValue", "Builder"],
+      "sha256": "8e65f7d4c02bdd39c2ac23989acd081ea56cdcffcf1ede2f502688551ed7b05d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsValueOrBuilder"],
+      "sha256": "408daca638479aa44f2e94fed198fe6ef4bb885f322d31cfb1ce035c07f761e6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsRequest", "Builder"],
+      "sha256": "9f2c1eee279d3802654fdf9beff5fbc0d921ef3e5ad10077e1c16123ad8914ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsRequestOrBuilder"],
+      "sha256": "51e5162cf7a63c3ef832e3f051e132e0acf6a827c6d491532cf6782e3553b1eb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsResponse", "OutcomeCase", "Builder"],
+      "sha256": "5cafdedc75a90ef757beff98247dae7aa1b78ef197630e0416a903f980ef2d4a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsResponseOrBuilder"],
+      "sha256": "c8f8c6a988b39a6f0b3ca56355e9baab417fc83485852d615f6ba3d848b888a6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsValue", "Builder"],
+      "sha256": "85d92ebaea08b9ce45cca4b714ec1d545f42a6ba922210a71a98d9a1d5f76562",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsValueOrBuilder"],
+      "sha256": "7f6bf58077973d11d1ed5a85b1f4ad639f04e8568cff40db730b40dd4975c84a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunRequest", "Builder"],
+      "sha256": "570c2f57f80110af856a64dc97d26ad04674792bf099c6b54e5a68a403b80a35",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunRequestOrBuilder"],
+      "sha256": "dfc43ad50538e52c16576d036c1badc4150d9f84cbb378726f38159bf772e762",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunResponse", "OutcomeCase", "Builder"],
+      "sha256": "4968db4ef4aa0d6f10657974e9f80da66be8ab4fac712ff6a5e40b450b146d27",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunResponseOrBuilder"],
+      "sha256": "45894273a718b21f5ba894660c5fdbdf464bcd7b722a6022319f4208e33385ab",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunValue", "Builder"],
+      "sha256": "16a138ff14578adf5660d1b9fedba1fdbe88aba0e6bb8fdf0ccf7fd6579abdb3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunValueOrBuilder"],
+      "sha256": "720513cf5fa1ae64999c9af94d1f55ca9736c796e3f714427023da58bf3f48eb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateRequest", "Builder"],
+      "sha256": "d46cd5717266e7bc3fd2cd37ff0cdb34ad7743653a9160432c4410bc876360a2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateRequestOrBuilder"],
+      "sha256": "ea8dfa3e62edb0a19354d5d82c75aecef217dec736a142a7427fc375641b1781",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateResponse", "OutcomeCase", "Builder"],
+      "sha256": "f96a14e5ee64708df693515ee7cd90abec96ee2cb9a1d719c1728f7f6ca2bda8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateResponseOrBuilder"],
+      "sha256": "7423dd04836f57e03b45ab64fde1bac5d898bf5dfb05e505e9125c723c54872c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateValue", "Builder"],
+      "sha256": "0dba8831abbfc28f312b13084d487d25df2d69a304510ec3d2ff322869a1036b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateValueOrBuilder"],
+      "sha256": "fd813b8eb5c9904b06f4a526f67d3d85bec196c6c010b9bd8e914bb8262431db",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionRequest", "Builder"],
+      "sha256": "a40aea46c0eece2c7df15cdc46802ad7ca5d079be226f57926a19472e3260caf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionRequestOrBuilder"],
+      "sha256": "728d246bc7f92696c96c8a653bfa3084ccfb5d051f5033eb322cc51c4bdccba8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionResponse", "OutcomeCase", "Builder"],
+      "sha256": "852b0c597844705ebd667834692c696120168b30f431c58be12382b1179b9208",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionResponseOrBuilder"],
+      "sha256": "751f4e79e0c66be228186f9fb512305f6b9eca4650e7b40eff19c34bad6c9f46",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionValue", "Builder"],
+      "sha256": "a3ec2f6b6b469e7f76b9efaea2dd74bb2d2247d11adbe763798bda4bdc841ccd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionValueOrBuilder"],
+      "sha256": "eaceba3a185ed226445b40ff107ce9dfab1a91c36db6c609d487e5774940ac4e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunRequest", "Builder"],
+      "sha256": "cd9f390be74a32accceadf1e3427d47a4672cfbe85f588246a88b11e2590e6eb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunRequestOrBuilder"],
+      "sha256": "1f1c45d74b088daa4625472bb4fb774e1304904f9bd98972ab32e88a052638fb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunResponse", "OutcomeCase", "Builder"],
+      "sha256": "e922fcdd19ceac052f7a7ea112f4a3cb158fa098286114ac77511f5656dc9f28",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunResponseOrBuilder"],
+      "sha256": "08ca5cbbfd1ddd0345daca39a077530bd400d6066ad83eb6979aae65e2c88e98",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunValue", "Builder"],
+      "sha256": "04b13b093c7d87b4e11488e03314f818fc656baee96f0b12a58869bd364c7e25",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunValueOrBuilder"],
+      "sha256": "f938b63a2fa00e9e122e0dda50e72d110042f0823e3c95abdc7a51db5054ec42",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunRequest", "Builder"],
+      "sha256": "b7ca8becb7e5dff9bf4b6ea8a933aea5b33dac285fe0fece3088953ee19d0171",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunRequestOrBuilder"],
+      "sha256": "2c354729f6799d04739d92b6f4f42282a6b3004809a18fe99000c95414e98586",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunResponse", "OutcomeCase", "Builder"],
+      "sha256": "1fe3a2932c4da8db32041a8f383ebdb89c8ae4285c8e4609a931f8f930e0b4a3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunResponseOrBuilder"],
+      "sha256": "d48034b95169f074100ecb8fe7941d3e57af071500693b84929a653b95b795c1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunValue", "Builder"],
+      "sha256": "f38432a893476d7e5b8a689a589d32a9e99d1f681405dc65a2c33de6a48cf292",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunValueOrBuilder"],
+      "sha256": "82825d9604de30989a27dbf8e4b2947be63aac4e5bd0286616a0d66d9a1ce3db",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/StepPoint.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["StepPoint", "Builder"],
+      "sha256": "f8d070667ded02618cfa7fd3f6068b00998e48706b082d99255a84d5fbaca7e3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/StepPointOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["StepPointOrBuilder"],
+      "sha256": "ce2b6de5ee4cc522092cf519197a01ac7b4c140d7fa5d375ef3dad2da982b4c4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/UnaryExpression.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UnaryExpression", "Builder"],
+      "sha256": "f752f1e1ad69c46f4be32220efd1cb41e3137e9289ed5585d1b041f73db6a505",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/UnaryExpressionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UnaryExpressionOrBuilder"],
+      "sha256": "1694e9de89c72ee5115f2aa3d215262949c2e9bc0926ce83b44ec6b8e70583dd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/AstNodeKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["AstNodeKt", "Dsl"],
+      "sha256": "5d73797683b0353a1228359b688c2578a19a58f70ca889313bed0281aa42e490",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/BinaryExpressionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["BinaryExpressionKt", "Dsl"],
+      "sha256": "66e47422e2bcea2d38322c02572b7bdde433737bc5b2093286b59b8d87efa593",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/CsvColumnKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CsvColumnKt", "Dsl"],
+      "sha256": "581a0681d99bd35a1e08cbcc57bccf1feff2fdba1d35edc41f4bbd51fef21172",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/CsvReplaySchemaKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["CsvReplaySchemaKt", "Dsl", "ColumnsProxy"],
+      "sha256": "d628ba048e3a51a008e4ce5ad913f1d052d11bb00778c5848ccf677d2fa5a91d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/FaultSpecKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FaultSpecKt", "Dsl"],
+      "sha256": "8c1c09c79da5fc8be5e379d58938f01523819cdeb7e803530dbfe9481b64a1df",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/FunctionExpressionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["FunctionExpressionKt", "Dsl", "ArgumentsProxy"],
+      "sha256": "c263e7ab20932f257e749a127c5645d927808a1fb17e7637bcf1e61b7fc399bb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/GeneratorSpecKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["GeneratorSpecKt", "Dsl", "PulsesProxy", "StepsProxy"],
+      "sha256": "af8fcbf826693a08f5f0af86cec6ff2617c4b24be719c8e2c70bb001c668be69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/PulseSpecKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["PulseSpecKt", "Dsl"],
+      "sha256": "7f092754ff6ebd74a211d8815b67ee706ba426ce3bd940eeea5cd488e05a9e24",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/ScenarioExpressionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioExpressionKt", "Dsl"],
+      "sha256": "3d55d97f1faaddba964be3594eb754cc8807f0b6a5231978e7045e35b2cb33f9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/ScenarioSpecKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [
+        "ScenarioSpecKt",
+        "Dsl",
+        "ChannelsProxy",
+        "ExpressionsProxy",
+        "GeneratorsProxy",
+        "FaultsProxy"
+      ],
+      "sha256": "5984a7170536c4c247fc39bedf32d973e2388e296619711901a5b08d08e0f971",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/ScenarioVersionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScenarioVersionKt", "Dsl"],
+      "sha256": "1628222f62c0e38300bcb3a69cc4d2835fe3c83a855632cbf9a83cdba7174d6a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationDefinitionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationDefinitionKt", "Dsl"],
+      "sha256": "d356f4e44033d027b8a12a2479950d8e8b407b2c839f0b2bd5978599c6f20df2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationProfileKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationProfileKt", "Dsl"],
+      "sha256": "a0462e300009016e130a89ef98e04a0ccd086570b03a1757ef0e7aec16dff0a2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "b0e981a15c198f4643afba58b487717b273481e7142a10235dd537f66548fc3f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationRunKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationRunKt", "Dsl"],
+      "sha256": "4cd66e40b60f0b99a5d8e40e6ff65357f579c5cd32603b5964f9fd99f63591d1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationSegmentKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationSegmentKt", "Dsl"],
+      "sha256": "be6b5241c2f0901b2d7f3bb14f80118530f25a687598b6380fc785e43d423163",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunRequestKt", "Dsl"],
+      "sha256": "b75ddda5ef671aefed3357bdedd60954b7604800125f4c2c2de6dcd811aa3b0a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunResponseKt", "Dsl"],
+      "sha256": "8f4e3771f25d6cc4b402cd0b744c0cb8d934f3e54ec42c28ca755b7d95ade48a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceCancelRunValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCancelRunValueKt", "Dsl"],
+      "sha256": "466c79a27a2df2fc85bc02b187d0acedef8152f904e40f9f6e2f4964fdc3342d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionRequestKt", "Dsl"],
+      "sha256": "ca5ce21e5109173ef8a7d2481c8ae005ade7bffc135b96a64c4613c73b01a359",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionResponseKt", "Dsl"],
+      "sha256": "4789122fc4903eaed2b92d5eb325076bd4d8b2024e66617a7098d5eca6366f2b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceCreateDefinitionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceCreateDefinitionValueKt", "Dsl"],
+      "sha256": "c21c01a759c6c572713c652d4dfb97e5019ad12772c56cc85520bf8694e8fe9a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionRequestKt", "Dsl"],
+      "sha256": "aa038168d0be7a0edcaa04f5cc6fe86f4533ed9548d94ded4d96fab3d9af6e28",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionResponseKt", "Dsl"],
+      "sha256": "71a79ee4551b6ac0f445f15dacf8a867b5bb655fb462ae8a621d59898874c5ec",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetDefinitionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetDefinitionValueKt", "Dsl", "VersionsProxy"],
+      "sha256": "a7b75d7fe31476b1fa172b901d976c4c83df9538217ed4fc641ddd93ff0472ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunRequestKt", "Dsl"],
+      "sha256": "5e14f3d8c55461490b931a751abd727b81e9bce5fd40db9df87a7535572fb600",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunResponseKt", "Dsl"],
+      "sha256": "0925a30ce2f10b5c70aa77afa24896954f52a1048bef839c37882fc60f083273",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetRunValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetRunValueKt", "Dsl"],
+      "sha256": "bf633336583037a23ada04d8a33b11a1fb6d36c55d95a9a584282adfffef6f77",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketRequestKt", "Dsl"],
+      "sha256": "063224757599bd02152e6e402bc4d85353a8ca90ec0c7d860f8b58ad094ff91c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketResponseKt", "Dsl"],
+      "sha256": "db653a286aa096de94abc32f2575bffc03d794781d8d3de4d18641e61d295074",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceGetSegmentTicketValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceGetSegmentTicketValueKt", "Dsl"],
+      "sha256": "c529b3d569e3796627f9197f64e9299d14333bc75d92437d287e1ec35e6c8542",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsRequestKt", "Dsl"],
+      "sha256": "3216231f39220a7db54eeded3662ce4231fc0aa73cf8f970650449f8ece0b415",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsResponseKt", "Dsl"],
+      "sha256": "806d2c6989f35b69196860abe4393437c4e04417ca5c42809cfefa712e8bfce6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListDefinitionsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListDefinitionsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "e5446008de1c35e6f9f47b97045c154af4e803cb4f9d94fca17119dcdf28be7b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsRequestKt", "Dsl"],
+      "sha256": "3d37dffce61824896a7302d255d1e0f33202ef0f41e3862e2e110676fdfc1c07",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsResponseKt", "Dsl"],
+      "sha256": "b6e202b4ed0402cf98ad43c089b5c581748f21cf027dbaf8fa59dd861c7723b8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListRunsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListRunsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "e88ca3196e08b249a681a68ee3ec3f24e4d18117c694c5b0110532993e32f60d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsRequestKt", "Dsl"],
+      "sha256": "a36379aa18b343acd6c0f6d96ee20f1c3cedef50296a8311504fee7be024058b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsResponseKt", "Dsl"],
+      "sha256": "0481d8285d6fec7f283f55191869becf9c6354ec01fbb69c30c66efac9790e5b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceListSegmentsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceListSegmentsValueKt", "Dsl", "SegmentsProxy"],
+      "sha256": "19536e706bc9ca9c6adfb506215fc49746f22831c3393c1417727e570c568a0d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunRequestKt", "Dsl"],
+      "sha256": "0dd2ee8b0c173dd14dc55b1e1c0f299b110a61910569c462c5716c25d6c2168a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunResponseKt", "Dsl"],
+      "sha256": "46721c460bcfadc5c9e78bd885eb51858bc7349a24d476e58dc2d47b10697be6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePauseRunValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePauseRunValueKt", "Dsl"],
+      "sha256": "793b0d088684e967f095404fb91ef1e781c6fd9cf4943d0de14069b7fc1fee12",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateRequestKt", "Dsl"],
+      "sha256": "7c035cafb8c165d798d5db7fd997351fee344fed62426878cde542fbe93e4ae5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateResponseKt", "Dsl"],
+      "sha256": "6050a9e4f49a34203b3b9fe0f4ee42d7d42c007407a84b29bb1e750a2a8f3e2a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePollStateValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePollStateValueKt", "Dsl"],
+      "sha256": "0f15a0a595c8079937137f50f47404a604c8b6169edda50c1f6d8921ed887076",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionRequestKt", "Dsl"],
+      "sha256": "fdc59d64e400bc6920c84e63f8d6f82d96099cafbba980f58c6ebba72b745718",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionResponseKt", "Dsl"],
+      "sha256": "f2ccc836131a10631d169a3ba07414bc46f24616bf0bb5d3a439f6299878399f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServicePublishScenarioVersionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServicePublishScenarioVersionValueKt", "Dsl"],
+      "sha256": "1720d404963fdba5ebd58c5093bdeb3c2663135a6d54ead8d3afb9650801bd02",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunRequestKt", "Dsl"],
+      "sha256": "7a03989ae61089c6961f4370985225cc022fe2e6be4a64e1e427f9bce6f680bc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunResponseKt", "Dsl"],
+      "sha256": "7cd16cc7709ad2255730a3811996aa7f39de1e7f58ad2117bc66d63530081054",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceResumeRunValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceResumeRunValueKt", "Dsl"],
+      "sha256": "8752b6d0b428f73e18283493ffa6079908ee3b43a08386dc87dfd2585d533cbf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunRequestKt", "Dsl"],
+      "sha256": "591d94dda8890a033a01e015d419d1c790193e66a1a17bdc16bafa1245af994d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunResponseKt", "Dsl"],
+      "sha256": "f54df1afec224061a84419f64aaa858753b5dbb55baba57a8644b9ccec9396a9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationServiceStartRunValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationServiceStartRunValueKt", "Dsl"],
+      "sha256": "4865bfb617721277c3aeb23565ebc90bb710b9cc9ffc5c27366c7f640c73a2e1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/StepPointKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["StepPointKt", "Dsl"],
+      "sha256": "e14b14cc97f7f501fab83b1588363b12e97f7ebef39dc9c8c6127e61ad7a39c0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/UnaryExpressionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["UnaryExpressionKt", "Dsl"],
+      "sha256": "7b18fae18c952a64b303373a110f5683e296646a3940808bc32e32785902d9be",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/simulation/v1/simulation_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "SimulationDefinition",
+        "ScenarioVersion",
+        "SimulationRun",
+        "SimulationSegment",
+        "SimulationProfile",
+        "ScenarioSpec",
+        "ScenarioExpression",
+        "AstNode",
+        "UnaryExpression",
+        "BinaryExpression",
+        "FunctionExpression",
+        "GeneratorSpec",
+        "PulseSpec",
+        "StepPoint",
+        "FaultSpec",
+        "CsvReplaySchema",
+        "CsvColumn",
+        "SimulationServiceListDefinitionsRequest",
+        "SimulationServiceListDefinitionsValue",
+        "SimulationServiceListDefinitionsResponse",
+        "SimulationServiceGetDefinitionRequest",
+        "SimulationServiceGetDefinitionValue",
+        "SimulationServiceGetDefinitionResponse",
+        "SimulationServiceCreateDefinitionRequest",
+        "SimulationServiceCreateDefinitionValue",
+        "SimulationServiceCreateDefinitionResponse",
+        "SimulationServicePublishScenarioVersionRequest",
+        "SimulationServicePublishScenarioVersionValue",
+        "SimulationServicePublishScenarioVersionResponse",
+        "SimulationServiceStartRunRequest",
+        "SimulationServiceStartRunValue",
+        "SimulationServiceStartRunResponse",
+        "SimulationServicePauseRunRequest",
+        "SimulationServicePauseRunValue",
+        "SimulationServicePauseRunResponse",
+        "SimulationServiceResumeRunRequest",
+        "SimulationServiceResumeRunValue",
+        "SimulationServiceResumeRunResponse",
+        "SimulationServiceCancelRunRequest",
+        "SimulationServiceCancelRunValue",
+        "SimulationServiceCancelRunResponse",
+        "SimulationServiceGetRunRequest",
+        "SimulationServiceGetRunValue",
+        "SimulationServiceGetRunResponse",
+        "SimulationServiceListRunsRequest",
+        "SimulationServiceListRunsValue",
+        "SimulationServiceListRunsResponse",
+        "SimulationServiceListSegmentsRequest",
+        "SimulationServiceListSegmentsValue",
+        "SimulationServiceListSegmentsResponse",
+        "SimulationServiceGetSegmentTicketRequest",
+        "SimulationServiceGetSegmentTicketValue",
+        "SimulationServiceGetSegmentTicketResponse",
+        "SimulationServicePollStateRequest",
+        "SimulationServicePollStateValue",
+        "SimulationServicePollStateResponse"
+      ],
+      "sha256": "25155159e6f69f4dc5a83a6e6a09458fa11deee711e3591630dce668e43aa1c9",
+      "kind": "generated"
     }
   ],
   "buildInputs": [
@@ -23763,7 +25665,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "4130937858321e87f2cb06676233a620a79780e4dd76e8705dff3454574db61e"
+      "sha256": "bd1e6566b95360e0abb6e675163be4e44e37c0f77e4e85fcb98281eb2f948208"
     },
     {
       "path": "gradle.properties",
@@ -23835,7 +25737,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "204b6cd5f5880ec418693e38246eb8b4a41ee730ae3fa38ced06b4da8b5d8023"
+      "sha256": "aae92d6764be1327a1e7914c0eb71efbe7c57e3e373d5d8a4b31ae9d094510df"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
@@ -23867,7 +25769,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "72ef10b774c98ceb77fa9771a867c5d3d18214a597093a95e980269791728329"
+      "sha256": "bddd6f2cd13d64007b5d8353c2d13c67041bb6cf4cc52db626691238e49a21b2"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",
@@ -24092,6 +25994,10 @@
     {
       "path": "src/public/ts/proto/tsconfig.json",
       "sha256": "f13de7d9494783c4077aa3ddcf1242d26301f8b0ecce32ec263c58aeb4a81262"
+    },
+    {
+      "path": "public/proto/constraints/con-21-simulation.json",
+      "sha256": "f930794f1d9f3ec8f368e6cf8efe9b6c954c423316df76ed13ebfc4b543fd392"
     }
   ]
 }

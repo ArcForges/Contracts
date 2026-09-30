@@ -60,16 +60,16 @@ internal static class SimulationCases
             var expectedCompatibility = idempotency switch { "Q" => "AO", "CC" or "IW" or "NI" => "FR", _ => throw new InvalidOperationException("Unknown simulation idempotency class") };
             Require(item.GetProperty("risk").GetString() == expectedRisk
                 && item.GetProperty("compatibility").GetString() == expectedCompatibility, operationId + ": compatibility classification");
-            var authorization = registered.GetProperty("authorization");
+            var operationAuthorization = registered.GetProperty("authorization");
             Require(profile.GetProperty("capability").ValueKind == JsonValueKind.Null
-                && authorization.GetProperty("capability").ValueKind == JsonValueKind.Null
-                && authorization.GetProperty("risk").GetString() == item.GetProperty("risk").GetString()
-                && authorization.GetProperty("approval").GetString() == profile.GetProperty("approval").GetString()
-                && authorization.GetProperty("stepUp").GetBoolean() == profile.GetProperty("stepUp").GetBoolean()
-                && authorization.GetProperty("localPresence").GetBoolean() == profile.GetProperty("localPresence").GetBoolean()
-                && authorization.GetProperty("egress").GetString() == profile.GetProperty("egress").GetString()
-                && authorization.GetProperty("patEligible").GetBoolean() == profile.GetProperty("patEligible").GetBoolean()
-                && Strings(authorization.GetProperty("actorKinds")).SequenceEqual(Strings(profile.GetProperty("actorKinds"))), operationId + ": authorization fields");
+                && operationAuthorization.GetProperty("capability").ValueKind == JsonValueKind.Null
+                && operationAuthorization.GetProperty("risk").GetString() == item.GetProperty("risk").GetString()
+                && operationAuthorization.GetProperty("approval").GetString() == profile.GetProperty("approval").GetString()
+                && operationAuthorization.GetProperty("stepUp").GetBoolean() == profile.GetProperty("stepUp").GetBoolean()
+                && operationAuthorization.GetProperty("localPresence").GetBoolean() == profile.GetProperty("localPresence").GetBoolean()
+                && operationAuthorization.GetProperty("egress").GetString() == profile.GetProperty("egress").GetString()
+                && operationAuthorization.GetProperty("patEligible").GetBoolean() == profile.GetProperty("patEligible").GetBoolean()
+                && Strings(operationAuthorization.GetProperty("actorKinds")).SequenceEqual(Strings(profile.GetProperty("actorKinds"))), operationId + ": authorization fields");
 
             var method = service.FindMethodByName(methodName)!;
             Require(!method.IsClientStreaming && !method.IsServerStreaming, item.GetProperty("operationId").GetString()! + ": unary");
@@ -274,9 +274,14 @@ internal static class SimulationCases
         foreach (var item in pageLimits.EnumerateArray())
         {
             var page = new PageRequest();
-            if (item.GetProperty("limit").ValueKind != JsonValueKind.Null)
-                page.Limit = item.GetProperty("limit").GetUInt32();
-            Require(ContractShapeValidation.IsValid(page) == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
+            var limit = item.GetProperty("limit");
+            if (limit.ValueKind != JsonValueKind.Null)
+                page.Limit = limit.GetInt32();
+            var sharedShapeValid = ContractShapeValidation.IsValid(page);
+            var sharedShapeExpected = limit.ValueKind == JsonValueKind.Null || page.Limit >= 1;
+            Require(sharedShapeValid == sharedShapeExpected, item.GetProperty("id").GetString()! + ": shared PageRequest shape");
+            var operationLimitValid = limit.ValueKind == JsonValueKind.Null || page.Limit >= 1 && page.Limit <= 200;
+            Require(operationLimitValid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()! + ": CON.21 page bound");
         }
 
         var listRuns = fixture.GetProperty("listRuns");
@@ -380,7 +385,7 @@ internal static class SimulationCases
     private static string[] VectorIds(JsonElement value) => value.EnumerateArray()
         .Select(item => item.GetProperty("id").GetString()!).ToArray();
 
-    private static bool TryValid<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>
+    private static bool TryValid<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>, new()
     {
         try { return validate(JsonParser.Default.Parse<T>(value.GetRawText())); }
         catch (InvalidProtocolBufferException) { return false; }

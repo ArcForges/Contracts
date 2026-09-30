@@ -119,15 +119,15 @@ test("generated SimulationService catalogue is exactly the independent 13-operat
     service,
     "SimulationService is registered in the generated TypeScript package catalogue",
   );
-  const expected = fixture.operations.map(
-    (item) => item.method[0].toLowerCase() + item.method.slice(1),
-  );
+  const expected = fixture.operations.map((item) => item.method);
   assert.deepEqual(
     service.methods.map((item) => item.name),
     expected,
   );
 
   for (const item of fixture.operations) {
+    const operationMethod = item.method[0].toLowerCase() + item.method.slice(1);
+    assert.equal(item.operationId, `simulation.${operationMethod}`);
     const metadata = operationMetadata.operations.find(
       (row) => row.operationId === item.operationId,
     );
@@ -470,7 +470,13 @@ test("listRuns page bounds and workspace snapshot declarations are exact", () =>
   );
   for (const item of fixture.listRuns.pageLimits) {
     const value = item.limit === null ? {} : { limit: item.limit };
-    assert.equal(tryShape(PageRequestSchema, shapes.isPageRequest, value), item.valid, item.id);
+    assert.equal(
+      tryShape(PageRequestSchema, shapes.isPageRequest, value),
+      item.limit === null || item.limit >= 1,
+      `${item.id}: shared PageRequest shape`,
+    );
+    const operationLimitValid = item.limit === null || (item.limit >= 1 && item.limit <= 200);
+    assert.equal(operationLimitValid, item.valid, `${item.id}: CON.21 page bound`);
   }
   const { authorization, filters, order, pageStateBinds } = fixture.listRuns;
   assert.deepEqual(authorization, {

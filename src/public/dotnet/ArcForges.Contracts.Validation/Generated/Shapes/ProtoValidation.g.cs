@@ -13161,6 +13161,1331 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.AstNode.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.AstNode? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.AstNode? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.ExpressionCase == 1)
+        {
+            if (!double.IsFinite(value.Constant)) return false;
+        }
+        if ((int)value.ExpressionCase == 2)
+        {
+            if (!ValidUnicode(value.Variable)) return false;
+            if (ScalarLength(value.Variable) > 128) return false;
+            if (!Matches(value.Variable, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if ((int)value.ExpressionCase == 3)
+        {
+            if (!Check(value.Unary, context)) return false;
+        }
+        if ((int)value.ExpressionCase == 4)
+        {
+            if (!Check(value.Binary, context)) return false;
+        }
+        if ((int)value.ExpressionCase == 5)
+        {
+            if (!Check(value.Function, context)) return false;
+        }
+        if ((int)value.ExpressionCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.BinaryExpression.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.BinaryExpression? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.BinaryExpression? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasOperator) return false;
+        if (value.HasOperator)
+        {
+            if (!ValidUnicode(value.Operator)) return false;
+            if (ScalarLength(value.Operator) > 128) return false;
+            if (!Matches(value.Operator, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Left is null) return false;
+        if (!Check(value.Left, context)) return false;
+        if (value.Right is null) return false;
+        if (!Check(value.Right, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.CsvColumn.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.CsvColumn? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.CsvColumn? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasColumn) return false;
+        if (value.HasColumn)
+        {
+        }
+        if (value.ChannelId is null) return false;
+        if (!Check(value.ChannelId, context)) return false;
+        if (!value.HasType) return false;
+        if (value.HasType)
+        {
+            if (!ValidUnicode(value.Type)) return false;
+            if (ScalarLength(value.Type) > 128) return false;
+            if (!Matches(value.Type, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasUnit) return false;
+        if (value.HasUnit)
+        {
+            if (!ValidUnicode(value.Unit)) return false;
+            if (ScalarLength(value.Unit) > 128) return false;
+            if (!Matches(value.Unit, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.CsvReplaySchema.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.CsvReplaySchema? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.CsvReplaySchema? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasEncoding) return false;
+        if (value.HasEncoding)
+        {
+            if (!ValidUnicode(value.Encoding)) return false;
+            if (ScalarLength(value.Encoding) > 128) return false;
+            if (!Matches(value.Encoding, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Encoding != "utf8") return false;
+        }
+        if (!value.HasDelimiter) return false;
+        if (value.HasDelimiter)
+        {
+            if (!ValidUnicode(value.Delimiter)) return false;
+            if (ScalarLength(value.Delimiter) > 16) return false;
+            if (value.Delimiter != "," && value.Delimiter != "\t" && value.Delimiter != ";") return false;
+        }
+        if (!value.HasHasHeader) return false;
+        if (value.HasHasHeader)
+        {
+        }
+        if (value.HasTimestampColumn)
+        {
+        }
+        if (value.Columns.Count > 4096) return false;
+        foreach (var item in value.Columns)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.HasTimestampUnit)
+        {
+            if (!ValidUnicode(value.TimestampUnit)) return false;
+            if (ScalarLength(value.TimestampUnit) > 128) return false;
+            if (!Matches(value.TimestampUnit, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.FaultSpec.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.FaultSpec? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.FaultSpec? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.FaultId is null) return false;
+        if (!Check(value.FaultId, context)) return false;
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if (!ValidUnicode(value.Kind)) return false;
+            if (ScalarLength(value.Kind) > 128) return false;
+            if (!Matches(value.Kind, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Kind != "latency" && value.Kind != "jitter" && value.Kind != "drop" && value.Kind != "duplicate" && value.Kind != "reorder" && value.Kind != "disconnect" && value.Kind != "malformed" && value.Kind != "outlier") return false;
+        }
+        if (value.ChannelId is not null)
+        {
+            if (!Check(value.ChannelId, context)) return false;
+        }
+        if (value.Window is null) return false;
+        if (!Check(value.Window, context)) return false;
+        if (!value.HasEveryTicks) return false;
+        if (value.HasEveryTicks)
+        {
+            if (value.EveryTicks < 1UL) return false;
+        }
+        if (!value.HasProbabilityPpm) return false;
+        if (value.HasProbabilityPpm)
+        {
+            if (value.ProbabilityPpm < 0) return false;
+            if (value.ProbabilityPpm > 1000000) return false;
+        }
+        if (value.HasDelayTicks)
+        {
+        }
+        if (value.HasAmount)
+        {
+            if (!double.IsFinite(value.Amount)) return false;
+        }
+        if (value.HasReorderWindow)
+        {
+            if (value.ReorderWindow < 1) return false;
+            if (value.ReorderWindow > 1024) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.FunctionExpression.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.FunctionExpression? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.FunctionExpression? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasFunction) return false;
+        if (value.HasFunction)
+        {
+            if (!ValidUnicode(value.Function)) return false;
+            if (ScalarLength(value.Function) > 128) return false;
+            if (!Matches(value.Function, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Function != "abs" && value.Function != "sqrt" && value.Function != "sin" && value.Function != "cos" && value.Function != "floor" && value.Function != "ceil" && value.Function != "clamp" && value.Function != "select") return false;
+        }
+        if (value.Arguments.Count > 1024) return false;
+        foreach (var item in value.Arguments)
+        {
+            if (!Check(item, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.GeneratorSpec.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.GeneratorSpec? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.GeneratorSpec? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ChannelId is null) return false;
+        if (!Check(value.ChannelId, context)) return false;
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if (!ValidUnicode(value.Kind)) return false;
+            if (ScalarLength(value.Kind) > 128) return false;
+            if (!Matches(value.Kind, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Kind != "constant" && value.Kind != "sine" && value.Kind != "square" && value.Kind != "triangle" && value.Kind != "sawtooth" && value.Kind != "noise" && value.Kind != "randomWalk" && value.Kind != "pulse" && value.Kind != "stepSequence" && value.Kind != "csv") return false;
+        }
+        if (value.HasOffset)
+        {
+            if (!double.IsFinite(value.Offset)) return false;
+        }
+        if (value.HasAmplitude)
+        {
+            if (!double.IsFinite(value.Amplitude)) return false;
+        }
+        if (value.HasFrequencyHz)
+        {
+            if (!double.IsFinite(value.FrequencyHz)) return false;
+            if (value.FrequencyHz < 5e-324D) return false;
+        }
+        if (value.HasPhaseCycles)
+        {
+            if (!double.IsFinite(value.PhaseCycles)) return false;
+        }
+        if (value.HasDutyRatio)
+        {
+            if (!double.IsFinite(value.DutyRatio)) return false;
+            if (value.DutyRatio < 5e-324D) return false;
+            if (value.DutyRatio > 0.9999999999999999D) return false;
+        }
+        if (value.HasWalkStep)
+        {
+            if (!double.IsFinite(value.WalkStep)) return false;
+        }
+        foreach (var item in value.Pulses)
+        {
+            if (!Check(item, context)) return false;
+        }
+        foreach (var item in value.Steps)
+        {
+            if (!Check(item, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.PulseSpec.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.PulseSpec? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.PulseSpec? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Start is null) return false;
+        if (!Check(value.Start, context)) return false;
+        if (value.Duration is null) return false;
+        if (!Check(value.Duration, context)) return false;
+        if (!value.HasValue) return false;
+        if (value.HasValue)
+        {
+            if (!double.IsFinite(value.Value)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.ScenarioExpression.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.ScenarioExpression? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.ScenarioExpression? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ChannelId is null) return false;
+        if (!Check(value.ChannelId, context)) return false;
+        if (value.Root is null) return false;
+        if (!Check(value.Root, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.ScenarioSpec.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.ScenarioSpec? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.ScenarioSpec? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Channels.Count > 64) return false;
+        foreach (var item in value.Channels)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Expressions.Count > 64) return false;
+        foreach (var item in value.Expressions)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Csv is not null)
+        {
+            if (!Check(value.Csv, context)) return false;
+        }
+        if (value.Duration is null) return false;
+        if (!Check(value.Duration, context)) return false;
+        if (value.Generators.Count > 64) return false;
+        foreach (var item in value.Generators)
+        {
+            if (!Check(item, context)) return false;
+        }
+        foreach (var item in value.Faults)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.CsvSchema is not null)
+        {
+            if (!Check(value.CsvSchema, context)) return false;
+        }
+        if (!value.HasExecutionProfile) return false;
+        if (value.HasExecutionProfile)
+        {
+            if (!ValidUnicode(value.ExecutionProfile)) return false;
+            if (ScalarLength(value.ExecutionProfile) > 128) return false;
+            if (!Matches(value.ExecutionProfile, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.ExecutionProfile != "af-sim.v1") return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.ScenarioVersion.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.ScenarioVersion? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.ScenarioVersion? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ScenarioVersionId is null) return false;
+        if (!Check(value.ScenarioVersionId, context)) return false;
+        if (value.DefinitionId is null) return false;
+        if (!Check(value.DefinitionId, context)) return false;
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (!ValidUnicode(value.SchemaVersion)) return false;
+            if (ScalarLength(value.SchemaVersion) > 128) return false;
+            if (!Matches(value.SchemaVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Scenario is null) return false;
+        if (!Check(value.Scenario, context)) return false;
+        if (!value.HasSha256) return false;
+        if (value.HasSha256)
+        {
+            if (!ValidUnicode(value.Sha256)) return false;
+            if (!Matches(value.Sha256, "^[0-9a-f]{64}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationDefinition.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationDefinition? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationDefinition? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.DefinitionId is null) return false;
+        if (!Check(value.DefinitionId, context)) return false;
+        if (!value.HasName) return false;
+        if (value.HasName)
+        {
+            if (!ValidUnicode(value.Name)) return false;
+            if (ScalarLength(value.Name) > 256) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationProfile.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationProfile? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationProfile? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSampleCount) return false;
+        if (value.HasSampleCount)
+        {
+            if (value.SampleCount < 1UL) return false;
+        }
+        if (!value.HasBatchSamples) return false;
+        if (value.HasBatchSamples)
+        {
+            if (value.BatchSamples < 1) return false;
+            if (value.BatchSamples > 65536) return false;
+        }
+        if (value.Rate is null) return false;
+        if (!Check(value.Rate, context)) return false;
+        if (!value.HasExecutionProfile) return false;
+        if (value.HasExecutionProfile)
+        {
+            if (!ValidUnicode(value.ExecutionProfile)) return false;
+            if (ScalarLength(value.ExecutionProfile) > 128) return false;
+            if (!Matches(value.ExecutionProfile, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.ExecutionProfile != "af-sim.v1") return false;
+        }
+        if (!value.HasEncodingProfile) return false;
+        if (value.HasEncodingProfile)
+        {
+            if (!ValidUnicode(value.EncodingProfile)) return false;
+            if (ScalarLength(value.EncodingProfile) > 128) return false;
+            if (!Matches(value.EncodingProfile, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.EncodingProfile != "af-segment.v1") return false;
+        }
+        if (!value.HasClockMode) return false;
+        if (value.HasClockMode)
+        {
+            if (!ValidUnicode(value.ClockMode)) return false;
+            if (ScalarLength(value.ClockMode) > 128) return false;
+            if (!Matches(value.ClockMode, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.ClockMode != "realTime" && value.ClockMode != "accelerated") return false;
+        }
+        if (!value.HasGeneratorVersion) return false;
+        if (value.HasGeneratorVersion)
+        {
+            if (!ValidUnicode(value.GeneratorVersion)) return false;
+            if (ScalarLength(value.GeneratorVersion) > 128) return false;
+            if (!Matches(value.GeneratorVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationRun.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationRun? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationRun? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        if (value.ScenarioVersionId is null) return false;
+        if (!Check(value.ScenarioVersionId, context)) return false;
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.State != "queued" && value.State != "starting" && value.State != "running" && value.State != "pausing" && value.State != "paused" && value.State != "stopping" && value.State != "canceled" && value.State != "succeeded" && value.State != "failed") return false;
+        }
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        if (!value.HasCommittedSequence) return false;
+        if (value.HasCommittedSequence)
+        {
+        }
+        if (!value.HasExtent) return false;
+        if (value.HasExtent)
+        {
+            if (!ValidUnicode(value.Extent)) return false;
+            if (ScalarLength(value.Extent) > 128) return false;
+            if (!Matches(value.Extent, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Extent != "complete" && value.Extent != "partial") return false;
+        }
+        if (!value.HasLogicalEnd) return false;
+        if (value.HasLogicalEnd)
+        {
+        }
+        if (value.CreatedAt is null) return false;
+        if (!Check(value.CreatedAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationSegment.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationSegment? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationSegment? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        if (!value.HasSequence) return false;
+        if (value.HasSequence)
+        {
+        }
+        if (!value.HasStart) return false;
+        if (value.HasStart)
+        {
+        }
+        if (!value.HasCount) return false;
+        if (value.HasCount)
+        {
+        }
+        if (!value.HasEncoding) return false;
+        if (value.HasEncoding)
+        {
+            if (!ValidUnicode(value.Encoding)) return false;
+            if (ScalarLength(value.Encoding) > 128) return false;
+            if (!Matches(value.Encoding, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Encoding != "af-segment.v1") return false;
+        }
+        if (value.Resource is null) return false;
+        if (!Check(value.Resource, context)) return false;
+        if (value.Events is not null)
+        {
+            if (!Check(value.Events, context)) return false;
+        }
+        if (!value.HasExecutionProfile) return false;
+        if (value.HasExecutionProfile)
+        {
+            if (!ValidUnicode(value.ExecutionProfile)) return false;
+            if (ScalarLength(value.ExecutionProfile) > 128) return false;
+            if (!Matches(value.ExecutionProfile, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.ExecutionProfile != "af-sim.v1") return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceCancelRunRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceCancelRunResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceCancelRunValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Run is null) return false;
+        if (!Check(value.Run, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceCreateDefinitionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.DefinitionId is null) return false;
+        if (!Check(value.DefinitionId, context)) return false;
+        if (!value.HasName) return false;
+        if (value.HasName)
+        {
+            if (!ValidUnicode(value.Name)) return false;
+            if (ScalarLength(value.Name) > 256) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceCreateDefinitionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceCreateDefinitionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Definition is null) return false;
+        if (!Check(value.Definition, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetDefinitionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.DefinitionId is null) return false;
+        if (!Check(value.DefinitionId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetDefinitionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 4)
+        {
+            if (!Check(value.EncodedBody, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetDefinitionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Definition is null) return false;
+        if (!Check(value.Definition, context)) return false;
+        foreach (var item in value.Versions)
+        {
+            if (!Check(item, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetRunRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetRunResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 4)
+        {
+            if (!Check(value.EncodedBody, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetRunValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Run is null) return false;
+        if (!Check(value.Run, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetSegmentTicketRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        if (!value.HasSegmentSequence) return false;
+        if (value.HasSegmentSequence)
+        {
+        }
+        if (value.Range is not null)
+        {
+            if (!Check(value.Range, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetSegmentTicketResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceGetSegmentTicketValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Ticket is null) return false;
+        if (!Check(value.Ticket, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListDefinitionsRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListDefinitionsResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 4)
+        {
+            if (!Check(value.EncodedBody, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListDefinitionsValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Items.Count > 200) return false;
+        foreach (var item in value.Items)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListRunsRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        if (value.ScenarioVersionId is not null)
+        {
+            if (!Check(value.ScenarioVersionId, context)) return false;
+        }
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.State != "queued" && value.State != "starting" && value.State != "running" && value.State != "pausing" && value.State != "paused" && value.State != "stopping" && value.State != "canceled" && value.State != "succeeded" && value.State != "failed") return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListRunsResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 4)
+        {
+            if (!Check(value.EncodedBody, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListRunsValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Items.Count > 200) return false;
+        foreach (var item in value.Items)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListSegmentsRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListSegmentsResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 4)
+        {
+            if (!Check(value.EncodedBody, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceListSegmentsValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Segments.Count > 200) return false;
+        foreach (var item in value.Segments)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePauseRunRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePauseRunResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePauseRunValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Run is null) return false;
+        if (!Check(value.Run, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePollStateRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePollStateRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePollStateRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        if (value.KnownRevision is not null)
+        {
+            if (!Check(value.KnownRevision, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePollStateResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePollStateResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePollStateResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 4)
+        {
+            if (!Check(value.EncodedBody, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePollStateValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePollStateValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePollStateValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Run is null) return false;
+        if (!Check(value.Run, context)) return false;
+        if (!value.HasHasChanged) return false;
+        if (value.HasHasChanged)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePublishScenarioVersionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ScenarioVersionId is null) return false;
+        if (!Check(value.ScenarioVersionId, context)) return false;
+        if (value.DefinitionId is null) return false;
+        if (!Check(value.DefinitionId, context)) return false;
+        if (value.Scenario is null) return false;
+        if (!Check(value.Scenario, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePublishScenarioVersionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServicePublishScenarioVersionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Version is null) return false;
+        if (!Check(value.Version, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceResumeRunRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceResumeRunResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceResumeRunValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Run is null) return false;
+        if (!Check(value.Run, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceStartRunRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.RunId is null) return false;
+        if (!Check(value.RunId, context)) return false;
+        if (value.ScenarioVersionId is null) return false;
+        if (!Check(value.ScenarioVersionId, context)) return false;
+        if (!value.HasSeed) return false;
+        if (value.HasSeed)
+        {
+        }
+        if (value.Profile is null) return false;
+        if (!Check(value.Profile, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceStartRunResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.SimulationServiceStartRunValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Run is null) return false;
+        if (!Check(value.Run, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.StepPoint.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.StepPoint? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.StepPoint? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.At is null) return false;
+        if (!Check(value.At, context)) return false;
+        if (!value.HasValue) return false;
+        if (value.HasValue)
+        {
+            if (!double.IsFinite(value.Value)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.simulation.v1.UnaryExpression.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.UnaryExpression? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Simulation.V1.UnaryExpression? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasOperator) return false;
+        if (value.HasOperator)
+        {
+            if (!ValidUnicode(value.Operator)) return false;
+            if (ScalarLength(value.Operator) > 128) return false;
+            if (!Matches(value.Operator, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Operator != "negate" && value.Operator != "not") return false;
+        }
+        if (value.Operand is null) return false;
+        if (!Check(value.Operand, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     private sealed class ValidationContext
     {
         private readonly global::System.Collections.Generic.HashSet<object> active = new(global::System.Collections.Generic.ReferenceEqualityComparer.Instance);

@@ -70857,6 +70857,1408 @@ export const publicFixtures = {
       }
     ]
   },
+  "con-21-simulation.json": {
+    "schemaVersion": "simulation-fixtures.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline-contract-vectors-only-no-simulator-execution-or-cloud-authorization-proof",
+    "service": "arcforges.simulation.v1.SimulationService",
+    "operationCount": 13,
+    "operationProfile": {
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "capability": null,
+      "approval": "none",
+      "stepUp": false,
+      "localPresence": false,
+      "egress": "none",
+      "patEligible": false,
+      "actorKinds": [
+        "human"
+      ]
+    },
+    "operations": [
+      {
+        "operationId": "simulation.listDefinitions",
+        "method": "ListDefinitions",
+        "class": "Q",
+        "risk": "R1",
+        "compatibility": "AO",
+        "requestFields": [
+          "page"
+        ],
+        "responseFields": [
+          "items",
+          "page"
+        ],
+        "encodedBody": true
+      },
+      {
+        "operationId": "simulation.getDefinition",
+        "method": "GetDefinition",
+        "class": "Q",
+        "risk": "R1",
+        "compatibility": "AO",
+        "requestFields": [
+          "definitionId"
+        ],
+        "responseFields": [
+          "definition",
+          "versions"
+        ],
+        "encodedBody": true
+      },
+      {
+        "operationId": "simulation.createDefinition",
+        "method": "CreateDefinition",
+        "class": "CC",
+        "risk": "R2",
+        "compatibility": "FR",
+        "requestFields": [
+          "definitionId",
+          "name"
+        ],
+        "responseFields": [
+          "definition"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.publishScenarioVersion",
+        "method": "PublishScenarioVersion",
+        "class": "CC",
+        "risk": "R2",
+        "compatibility": "FR",
+        "requestFields": [
+          "scenarioVersionId",
+          "definitionId",
+          "scenario"
+        ],
+        "responseFields": [
+          "version"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.startRun",
+        "method": "StartRun",
+        "class": "CC",
+        "risk": "R2",
+        "compatibility": "FR",
+        "requestFields": [
+          "runId",
+          "scenarioVersionId",
+          "seed",
+          "profile"
+        ],
+        "responseFields": [
+          "run"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.pauseRun",
+        "method": "PauseRun",
+        "class": "IW",
+        "risk": "R2",
+        "compatibility": "FR",
+        "requestFields": [
+          "runId"
+        ],
+        "responseFields": [
+          "run"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.resumeRun",
+        "method": "ResumeRun",
+        "class": "IW",
+        "risk": "R2",
+        "compatibility": "FR",
+        "requestFields": [
+          "runId"
+        ],
+        "responseFields": [
+          "run"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.cancelRun",
+        "method": "CancelRun",
+        "class": "IW",
+        "risk": "R2",
+        "compatibility": "FR",
+        "requestFields": [
+          "runId"
+        ],
+        "responseFields": [
+          "run"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.getRun",
+        "method": "GetRun",
+        "class": "Q",
+        "risk": "R1",
+        "compatibility": "AO",
+        "requestFields": [
+          "runId"
+        ],
+        "responseFields": [
+          "run"
+        ],
+        "encodedBody": true
+      },
+      {
+        "operationId": "simulation.listRuns",
+        "method": "ListRuns",
+        "class": "Q",
+        "risk": "R1",
+        "compatibility": "AO",
+        "requestFields": [
+          "page",
+          "scenarioVersionId?",
+          "state?"
+        ],
+        "responseFields": [
+          "items",
+          "page"
+        ],
+        "encodedBody": true
+      },
+      {
+        "operationId": "simulation.listSegments",
+        "method": "ListSegments",
+        "class": "Q",
+        "risk": "R1",
+        "compatibility": "AO",
+        "requestFields": [
+          "runId",
+          "page"
+        ],
+        "responseFields": [
+          "segments",
+          "page"
+        ],
+        "encodedBody": true
+      },
+      {
+        "operationId": "simulation.getSegmentTicket",
+        "method": "GetSegmentTicket",
+        "class": "NI",
+        "risk": "R1",
+        "compatibility": "FR",
+        "requestFields": [
+          "runId",
+          "segmentSequence",
+          "range?"
+        ],
+        "responseFields": [
+          "ticket"
+        ],
+        "encodedBody": false
+      },
+      {
+        "operationId": "simulation.pollState",
+        "method": "PollState",
+        "class": "Q",
+        "risk": "R1",
+        "compatibility": "AO",
+        "requestFields": [
+          "runId",
+          "knownRevision?"
+        ],
+        "responseFields": [
+          "run",
+          "hasChanged"
+        ],
+        "encodedBody": true
+      }
+    ],
+    "states": [
+      "queued",
+      "starting",
+      "running",
+      "pausing",
+      "paused",
+      "stopping",
+      "canceled",
+      "succeeded",
+      "failed"
+    ],
+    "stateRejected": [
+      "active",
+      "completed",
+      "cancelled",
+      "unknown"
+    ],
+    "extents": [
+      "complete",
+      "partial"
+    ],
+    "extentRejected": [
+      "terminal",
+      "full",
+      "unknown"
+    ],
+    "runShapeBase": {
+      "runId": {
+        "value": "AAECAwQFBgcICQoLDA0ODw=="
+      },
+      "scenarioVersionId": {
+        "value": "EBESExQVFhcYGRobHB0eHw=="
+      },
+      "revision": {
+        "value": "1"
+      },
+      "committedSequence": "0",
+      "createdAt": {
+        "unixSeconds": "1",
+        "nanos": 0
+      }
+    },
+    "runExtentVectors": [
+      {
+        "id": "active-partial-prefix",
+        "state": "running",
+        "extent": "partial",
+        "logicalEnd": "4096",
+        "valid": true
+      },
+      {
+        "id": "succeeded-complete-range",
+        "state": "succeeded",
+        "extent": "complete",
+        "logicalEnd": "65536",
+        "valid": true
+      },
+      {
+        "id": "canceled-partial-range",
+        "state": "canceled",
+        "extent": "partial",
+        "logicalEnd": "2048",
+        "valid": true
+      },
+      {
+        "id": "unknown-state-refused",
+        "state": "active",
+        "extent": "partial",
+        "logicalEnd": "4096",
+        "valid": false
+      },
+      {
+        "id": "unsupported-extent-refused",
+        "state": "succeeded",
+        "extent": "terminal",
+        "logicalEnd": "4096",
+        "valid": false
+      }
+    ],
+    "listRuns": {
+      "authorization": {
+        "membership": "current-workspace",
+        "role": "read",
+        "productId": "arcscope",
+        "recheckEveryPage": true
+      },
+      "filters": [
+        "exact scenarioVersionId",
+        "exact simulation_run state"
+      ],
+      "order": [
+        "createdAt descending",
+        "runId descending"
+      ],
+      "pageStateBinds": [
+        "realm",
+        "workspace",
+        "actor",
+        "recoveryGeneration",
+        "filters",
+        "sort",
+        "schema",
+        "snapshot"
+      ],
+      "includesRetainedPartialAndTerminalRuns": true,
+      "requiresKnownRunId": false,
+      "requiresTerminalNotification": false,
+      "pageLimits": [
+        {
+          "id": "default",
+          "limit": null,
+          "valid": true
+        },
+        {
+          "id": "minimum",
+          "limit": 1,
+          "valid": true
+        },
+        {
+          "id": "maximum",
+          "limit": 200,
+          "valid": true
+        },
+        {
+          "id": "zero",
+          "limit": 0,
+          "valid": false
+        },
+        {
+          "id": "above-maximum",
+          "limit": 201,
+          "valid": false
+        }
+      ]
+    },
+    "profile": {
+      "executionProfile": "af-sim.v1",
+      "encodingProfile": "af-segment.v1",
+      "clockModes": [
+        "realTime",
+        "accelerated"
+      ],
+      "sampleCount": {
+        "minimum": 1
+      },
+      "batchSamples": {
+        "default": 4096,
+        "minimum": 1,
+        "maximum": 65536
+      },
+      "finiteDurationHoursMaximum": 24,
+      "vectors": [
+        {
+          "id": "minimum-profile",
+          "valid": true,
+          "value": {
+            "sampleCount": "1",
+            "batchSamples": 1,
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "executionProfile": "af-sim.v1",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "realTime",
+            "generatorVersion": "1"
+          }
+        },
+        {
+          "id": "maximum-batch-profile",
+          "valid": true,
+          "value": {
+            "sampleCount": "1",
+            "batchSamples": 65536,
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "executionProfile": "af-sim.v1",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "accelerated",
+            "generatorVersion": "1"
+          }
+        },
+        {
+          "id": "zero-sample-count-refused",
+          "valid": false,
+          "value": {
+            "sampleCount": "0",
+            "batchSamples": 1,
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "executionProfile": "af-sim.v1",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "realTime",
+            "generatorVersion": "1"
+          }
+        },
+        {
+          "id": "zero-batch-refused",
+          "valid": false,
+          "value": {
+            "sampleCount": "1",
+            "batchSamples": 0,
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "executionProfile": "af-sim.v1",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "realTime",
+            "generatorVersion": "1"
+          }
+        },
+        {
+          "id": "oversized-batch-refused",
+          "valid": false,
+          "value": {
+            "sampleCount": "1",
+            "batchSamples": 65537,
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "executionProfile": "af-sim.v1",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "realTime",
+            "generatorVersion": "1"
+          }
+        },
+        {
+          "id": "zero-rate-denominator-refused",
+          "valid": false,
+          "value": {
+            "sampleCount": "1",
+            "batchSamples": 1,
+            "rate": {
+              "numerator": "1",
+              "denominator": "0"
+            },
+            "executionProfile": "af-sim.v1",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "realTime",
+            "generatorVersion": "1"
+          }
+        },
+        {
+          "id": "unsupported-execution-profile-refused",
+          "valid": false,
+          "value": {
+            "sampleCount": "1",
+            "batchSamples": 1,
+            "rate": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "executionProfile": "af-sim.v2",
+            "encodingProfile": "af-segment.v1",
+            "clockMode": "realTime",
+            "generatorVersion": "1"
+          }
+        }
+      ]
+    },
+    "generatorKinds": [
+      "constant",
+      "sine",
+      "square",
+      "triangle",
+      "sawtooth",
+      "noise",
+      "randomWalk",
+      "pulse",
+      "stepSequence",
+      "csv"
+    ],
+    "faultKinds": [
+      "latency",
+      "jitter",
+      "drop",
+      "duplicate",
+      "reorder",
+      "disconnect",
+      "malformed",
+      "outlier"
+    ],
+    "astVectors": [
+      {
+        "id": "constant-expression",
+        "expression": "constant",
+        "value": {
+          "constant": 1.5
+        },
+        "valid": true
+      },
+      {
+        "id": "variable-expression",
+        "expression": "variable",
+        "value": {
+          "variable": "time"
+        },
+        "valid": true
+      },
+      {
+        "id": "unary-expression",
+        "expression": "unary",
+        "value": {
+          "unary": {
+            "operator": "negate",
+            "operand": {
+              "constant": 2.0
+            }
+          }
+        },
+        "valid": true
+      },
+      {
+        "id": "binary-expression",
+        "expression": "binary",
+        "value": {
+          "binary": {
+            "operator": "add",
+            "left": {
+              "constant": 1.0
+            },
+            "right": {
+              "constant": 2.0
+            }
+          }
+        },
+        "valid": true
+      },
+      {
+        "id": "function-expression",
+        "expression": "function",
+        "value": {
+          "function": {
+            "function": "sin",
+            "arguments": [
+              {
+                "variable": "time"
+              }
+            ]
+          }
+        },
+        "valid": true
+      },
+      {
+        "id": "unrecognized-expression",
+        "expression": "script",
+        "value": {
+          "script": "sin(time)"
+        },
+        "valid": false
+      },
+      {
+        "id": "missing-expression",
+        "expression": null,
+        "value": {},
+        "valid": false
+      },
+      {
+        "id": "multiple-oneof-arms-refused",
+        "expression": "constant+variable",
+        "value": {
+          "constant": 1.0,
+          "variable": "time"
+        },
+        "valid": false
+      }
+    ],
+    "presenceVectors": {
+      "pulseSpec": [
+        {
+          "id": "pulse-value-zero-present",
+          "valid": true,
+          "value": {
+            "start": {
+              "ticks": "0",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "duration": {
+              "ticks": "1",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "value": 0.0
+          }
+        },
+        {
+          "id": "pulse-missing-value-refused",
+          "valid": false,
+          "value": {
+            "start": {
+              "ticks": "0",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "duration": {
+              "ticks": "1",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          }
+        }
+      ],
+      "stepPoint": [
+        {
+          "id": "step-value-zero-present",
+          "valid": true,
+          "value": {
+            "at": {
+              "ticks": "0",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "value": 0.0
+          }
+        },
+        {
+          "id": "step-missing-value-refused",
+          "valid": false,
+          "value": {
+            "at": {
+              "ticks": "0",
+              "rate": {
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          }
+        }
+      ],
+      "faultSpec": [
+        {
+          "id": "fault-channel-omitted-accepted",
+          "valid": true,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "latency",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "everyTicks": "1",
+            "probabilityPpm": 0,
+            "delayTicks": "1"
+          }
+        },
+        {
+          "id": "fault-missing-everyTicks-refused",
+          "valid": false,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "latency",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "probabilityPpm": 0,
+            "delayTicks": "1"
+          }
+        },
+        {
+          "id": "fault-missing-probabilityPpm-refused",
+          "valid": false,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "latency",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "everyTicks": "1",
+            "delayTicks": "1"
+          }
+        },
+        {
+          "id": "fault-reorder-window-minimum-accepted",
+          "valid": true,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "reorder",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "everyTicks": "1",
+            "probabilityPpm": 0,
+            "reorderWindow": 1
+          }
+        },
+        {
+          "id": "fault-reorder-window-maximum-accepted",
+          "valid": true,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "reorder",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "everyTicks": "1",
+            "probabilityPpm": 0,
+            "reorderWindow": 1024
+          }
+        },
+        {
+          "id": "fault-reorder-window-zero-refused",
+          "valid": false,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "reorder",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "everyTicks": "1",
+            "probabilityPpm": 0,
+            "reorderWindow": 0
+          }
+        },
+        {
+          "id": "fault-reorder-window-1025-refused",
+          "valid": false,
+          "value": {
+            "faultId": {
+              "value": "AAECAwQFBgcICQoLDA0ODw=="
+            },
+            "kind": "reorder",
+            "window": {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "end": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "everyTicks": "1",
+            "probabilityPpm": 0,
+            "reorderWindow": 1025
+          }
+        }
+      ],
+      "csvReplaySchema": [
+        {
+          "id": "csv-timestampUnit-omitted-accepted",
+          "valid": true,
+          "value": {
+            "encoding": "utf8",
+            "delimiter": ",",
+            "hasHeader": true,
+            "columns": []
+          }
+        },
+        {
+          "id": "csv-tab-delimiter-accepted",
+          "valid": true,
+          "value": {
+            "encoding": "utf8",
+            "delimiter": "\t",
+            "hasHeader": true,
+            "columns": []
+          }
+        },
+        {
+          "id": "csv-semicolon-delimiter-accepted",
+          "valid": true,
+          "value": {
+            "encoding": "utf8",
+            "delimiter": ";",
+            "hasHeader": true,
+            "columns": []
+          }
+        },
+        {
+          "id": "csv-unsupported-encoding-refused",
+          "valid": false,
+          "value": {
+            "encoding": "utf16le",
+            "delimiter": ",",
+            "hasHeader": true,
+            "columns": []
+          }
+        },
+        {
+          "id": "csv-unsupported-delimiter-refused",
+          "valid": false,
+          "value": {
+            "encoding": "utf8",
+            "delimiter": "|",
+            "hasHeader": true,
+            "columns": []
+          }
+        },
+        {
+          "id": "csv-4096-columns-accepted",
+          "columnsCount": 4096,
+          "valid": true,
+          "value": {
+            "encoding": "utf8",
+            "delimiter": ",",
+            "hasHeader": true,
+            "columns": []
+          }
+        },
+        {
+          "id": "csv-4097-columns-refused",
+          "columnsCount": 4097,
+          "valid": false,
+          "value": {
+            "encoding": "utf8",
+            "delimiter": ",",
+            "hasHeader": true,
+            "columns": []
+          }
+        }
+      ]
+    },
+    "csvColumnTemplate": {
+      "channelId": {
+        "value": "EBESExQVFhcYGRobHB0eHw=="
+      },
+      "type": "numeric",
+      "unit": "unitless"
+    },
+    "generatorParameterMatrix": [
+      {
+        "id": "constant-exact-parameters",
+        "kind": "constant",
+        "requiredFields": [
+          "offset"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "constant",
+          "offset": 0
+        }
+      },
+      {
+        "id": "sine-exact-parameters",
+        "kind": "sine",
+        "requiredFields": [
+          "offset",
+          "amplitude",
+          "frequencyHz",
+          "phaseCycles"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sine",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0
+        }
+      },
+      {
+        "id": "square-exact-parameters",
+        "kind": "square",
+        "requiredFields": [
+          "offset",
+          "amplitude",
+          "frequencyHz",
+          "phaseCycles",
+          "dutyRatio"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "square",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0,
+          "dutyRatio": 0.5
+        }
+      },
+      {
+        "id": "triangle-exact-parameters",
+        "kind": "triangle",
+        "requiredFields": [
+          "offset",
+          "amplitude",
+          "frequencyHz",
+          "phaseCycles"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "triangle",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0
+        }
+      },
+      {
+        "id": "sawtooth-exact-parameters",
+        "kind": "sawtooth",
+        "requiredFields": [
+          "offset",
+          "amplitude",
+          "frequencyHz",
+          "phaseCycles"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sawtooth",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0
+        }
+      },
+      {
+        "id": "noise-exact-parameters",
+        "kind": "noise",
+        "requiredFields": [
+          "offset",
+          "amplitude"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "noise",
+          "offset": 0,
+          "amplitude": 1
+        }
+      },
+      {
+        "id": "random-walk-exact-parameters",
+        "kind": "randomWalk",
+        "requiredFields": [
+          "offset",
+          "walkStep"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "randomWalk",
+          "offset": 0,
+          "walkStep": 1
+        }
+      },
+      {
+        "id": "pulse-exact-parameters",
+        "kind": "pulse",
+        "requiredFields": [
+          "offset",
+          "pulses"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "pulse",
+          "offset": 0,
+          "pulses": [
+            {
+              "start": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "duration": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "step-sequence-exact-parameters",
+        "kind": "stepSequence",
+        "requiredFields": [
+          "offset",
+          "steps"
+        ],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "stepSequence",
+          "offset": 0,
+          "steps": [
+            {
+              "at": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "csv-exact-parameters",
+        "kind": "csv",
+        "requiredFields": [],
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "csv"
+        }
+      }
+    ],
+    "csvScenarioTemplate": {
+      "duration": {
+        "ticks": "1",
+        "rate": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "executionProfile": "af-sim.v1",
+      "source": {
+        "resource": {
+          "realmId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "ownerAppId": "arcscope",
+          "resourceKind": "simulation-csv",
+          "resourceId": {
+            "value": "EBESExQVFhcYGRobHB0eHw=="
+          },
+          "availability": "RESOURCE_AVAILABILITY_ALWAYS_KEEP"
+        },
+        "cloud": {
+          "value": "1"
+        }
+      },
+      "schema": {
+        "encoding": "utf8",
+        "delimiter": ",",
+        "hasHeader": true,
+        "columns": []
+      }
+    },
+    "csvGeneratorMappingVectors": [
+      {
+        "id": "csv-source-and-schema-present-accepted",
+        "sourcePresent": true,
+        "schemaPresent": true,
+        "shapeValid": true,
+        "parameterValid": true
+      },
+      {
+        "id": "csv-source-omitted-refused",
+        "sourcePresent": false,
+        "schemaPresent": true,
+        "shapeValid": true,
+        "parameterValid": false
+      },
+      {
+        "id": "csv-schema-omitted-refused",
+        "sourcePresent": true,
+        "schemaPresent": false,
+        "shapeValid": true,
+        "parameterValid": false
+      },
+      {
+        "id": "csv-source-and-schema-omitted-refused",
+        "sourcePresent": false,
+        "schemaPresent": false,
+        "shapeValid": true,
+        "parameterValid": false
+      }
+    ],
+    "generatorParameterVectors": [
+      {
+        "id": "constant-frequency-omitted-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "constant",
+          "offset": 0
+        }
+      },
+      {
+        "id": "sine-frequency-minimum-positive-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sine",
+          "offset": 0,
+          "amplitude": 1,
+          "phaseCycles": 0,
+          "frequencyHz": 5e-324
+        }
+      },
+      {
+        "id": "sine-frequency-zero-refused",
+        "shapeValid": false,
+        "parameterValid": false,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sine",
+          "offset": 0,
+          "amplitude": 1,
+          "phaseCycles": 0,
+          "frequencyHz": 0
+        }
+      },
+      {
+        "id": "sine-frequency-omitted-refused-by-kind",
+        "shapeValid": true,
+        "parameterValid": false,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sine",
+          "offset": 0,
+          "amplitude": 1,
+          "phaseCycles": 0
+        }
+      },
+      {
+        "id": "triangle-frequency-positive-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "triangle",
+          "offset": 0,
+          "amplitude": 1,
+          "phaseCycles": 0,
+          "frequencyHz": 1
+        }
+      },
+      {
+        "id": "sawtooth-frequency-positive-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sawtooth",
+          "offset": 0,
+          "amplitude": 1,
+          "phaseCycles": 0,
+          "frequencyHz": 1
+        }
+      },
+      {
+        "id": "square-duty-minimum-positive-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "square",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0,
+          "dutyRatio": 5e-324
+        }
+      },
+      {
+        "id": "square-duty-zero-refused",
+        "shapeValid": false,
+        "parameterValid": false,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "square",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0,
+          "dutyRatio": 0
+        }
+      },
+      {
+        "id": "square-duty-maximum-below-one-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "square",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0,
+          "dutyRatio": 0.9999999999999999
+        }
+      },
+      {
+        "id": "square-duty-one-refused",
+        "shapeValid": false,
+        "parameterValid": false,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "square",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0,
+          "dutyRatio": 1
+        }
+      },
+      {
+        "id": "square-duty-omitted-refused-by-kind",
+        "shapeValid": true,
+        "parameterValid": false,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "square",
+          "offset": 0,
+          "amplitude": 1,
+          "frequencyHz": 1,
+          "phaseCycles": 0
+        }
+      },
+      {
+        "id": "sine-duty-omitted-accepted",
+        "shapeValid": true,
+        "parameterValid": true,
+        "value": {
+          "channelId": {
+            "value": "AAECAwQFBgcICQoLDA0ODw=="
+          },
+          "kind": "sine",
+          "offset": 0,
+          "amplitude": 1,
+          "phaseCycles": 0,
+          "frequencyHz": 1
+        }
+      }
+    ]
+  },
   "con-22-account-support.json": {
     "schemaVersion": "con-22-account-support.v1",
     "license": "Apache-2.0",
