@@ -3,8 +3,41 @@ package io.github.arcforges.tests
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.google.protobuf.Descriptors.FileDescriptor
+import com.google.protobuf.ByteString
+import com.google.protobuf.CodedInputStream
+import com.google.protobuf.MessageLite
+import com.connectrpc.MethodSpec
+import com.connectrpc.ProtocolClientInterface
+import com.connectrpc.StreamType
 import io.github.arcforges.contracts.fixtures.ContractFixtures
+import io.github.arcforges.contracts.foundation.v1.ArcError
+import io.github.arcforges.contracts.foundation.v1.EncodedBodyRef
+import io.github.arcforges.contracts.foundation.v1.Id
+import io.github.arcforges.contracts.foundation.v1.Instant
+import io.github.arcforges.contracts.foundation.v1.PageRequest
+import io.github.arcforges.contracts.foundation.v1.PageState
+import io.github.arcforges.contracts.foundation.v1.RequestMeta
+import io.github.arcforges.contracts.foundation.v1.ResponseMeta
+import io.github.arcforges.contracts.foundation.v1.Revision
+import io.github.arcforges.contracts.publicapi.v1.ScopeMetadata
+import io.github.arcforges.contracts.publicapi.v1.ScopeProjectSummary
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceClientInterface
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceGetSessionRequest
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceGetSessionResponse
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceGetSessionValue
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceListProjectsRequest
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceListProjectsResponse
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceListProjectsValue
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceListSessionsRequest
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceListSessionsResponse
+import io.github.arcforges.contracts.publicapi.v1.ScopeServiceListSessionsValue
+import io.github.arcforges.contracts.publicapi.v1.ScopeSessionSummary
+import java.lang.reflect.InvocationHandler
+import java.lang.reflect.Modifier
+import java.lang.reflect.Proxy
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
+import kotlinx.coroutines.runBlocking
 
 internal object Con24ScopeLibraryCases {
     private val expectedIds = listOf(
@@ -35,48 +68,7 @@ internal object Con24ScopeLibraryCases {
         check(auth["egress"].asString == "none" && !auth["patEligible"].asBoolean)
         check(auth.getAsJsonArray("actorKinds").map { it.asString } == listOf("human"))
 
-        val descriptorType = Class.forName("io.github.arcforges.contracts.publicapi.v1.ScopeProto")
-        val file = descriptorType.getMethod("getDescriptor").invoke(null) as FileDescriptor
-        val service = checkNotNull(file.findServiceByName("ScopeService"))
-        check(service.fullName == "arcforges.publicapi.v1.ScopeService")
-        check(service.methods.map { it.name } == listOf("ListProjects", "ListSessions", "GetSession"))
-        for (method in service.methods) {
-            check(!method.isClientStreaming && !method.isServerStreaming)
-            check(method.inputType.findFieldByNumber(1)?.messageType?.fullName == "arcforges.foundation.v1.RequestMeta")
-            check(method.outputType.findFieldByNumber(1)?.messageType?.fullName == "arcforges.foundation.v1.ResponseMeta")
-            check(method.inputType.fields.all { it.number == 1 || it.number >= 10 })
-            check(method.outputType.fields.map { it.number }.filter { it >= 2 } == listOf(2, 3, 4))
-            check(method.outputType.fields.filter { it.number >= 2 }.all { it.containingOneof?.name == "outcome" })
-            check(method.outputType.findFieldByNumber(4)?.messageType?.fullName == "arcforges.foundation.v1.EncodedBodyRef")
-        }
-        val operationSpecs = fixture.getAsJsonArray("operations").map { it.asJsonObject }
-        check(operationSpecs.size == 3)
-        check(operationSpecs.map { it["rpc"].asString } == listOf(
-            "ScopeService/ListProjects", "ScopeService/ListSessions", "ScopeService/GetSession",
-        ))
-        for (operation in operationSpecs) {
-            val methodName = operation["rpc"].asString.substringAfter('/')
-            val method = checkNotNull(service.findMethodByName(methodName))
-            check(method.inputType.name == operation["requestType"].asString)
-            check(method.inputType.fields.map { it.jsonName } == operation.getAsJsonArray("requestFields").map { it.asString })
-            val value = checkNotNull(method.outputType.findFieldByNumber(2)?.messageType)
-            check(value.name == operation["valueType"].asString)
-            check(value.fields.filter { it.number >= 10 }.sortedBy { it.number }.map { it.jsonName } ==
-                operation.getAsJsonArray("valueFields").map { it.asString })
-            check(method.outputType.name == operation["responseType"].asString)
-            check(method.outputType.fields.filter { it.number >= 2 }.sortedBy { it.number }.map { it.jsonName } ==
-                operation.getAsJsonArray("outcomeFields").map { it.asString })
-        }
-        requireFields(service.findMethodByName("ListProjects")!!.inputType, listOf("meta" to 1, "page" to 10))
-        requireFields(service.findMethodByName("ListSessions")!!.inputType, listOf("meta" to 1, "projectId" to 10, "page" to 11))
-        requireFields(service.findMethodByName("GetSession")!!.inputType, listOf("meta" to 1, "sessionId" to 10, "minRevision" to 11))
-        requireFields(service.findMethodByName("ListProjects")!!.outputType.findFieldByNumber(2).messageType, listOf("items" to 10, "page" to 11))
-        requireFields(service.findMethodByName("ListSessions")!!.outputType.findFieldByNumber(2).messageType, listOf("items" to 10, "page" to 11))
-        requireFields(service.findMethodByName("GetSession")!!.outputType.findFieldByNumber(2).messageType, listOf("session" to 10, "revision" to 11, "committedAt" to 12))
-        val projectSummary = checkNotNull(file.findMessageTypeByName("ScopeProjectSummary"))
-        val sessionSummary = checkNotNull(file.findMessageTypeByName("ScopeSessionSummary"))
-        requireFields(projectSummary, listOf("projectId" to 1, "name" to 2, "sessionCount" to 3, "updatedAt" to 4, "revision" to 5))
-        requireFields(sessionSummary, listOf("sessionId" to 1, "projectId" to 2, "name" to 3, "findingCount" to 4, "reportCount" to 5, "tags" to 6, "updatedAt" to 7, "revision" to 8))
+        verifyGeneratedSurface(fixture)
 
         val vectors = fixture.getAsJsonArray("vectors")
         val ids = vectors.map { it.asJsonObject["id"].asString }
@@ -216,11 +208,251 @@ internal object Con24ScopeLibraryCases {
             }
         }
         check(consumed == expectedIds.toSet()) { "Every CON.24 vector must be consumed exactly once" }
-        println("CON.24: published ScopeService descriptors, product-owner authorization and all ten public vectors passed.")
+        println("CON.24: published ScopeService client and lite messages, product-owner authorization and all ten public vectors passed.")
     }
 
-    private fun requireFields(message: com.google.protobuf.Descriptors.Descriptor, expected: List<Pair<String, Int>>) {
-        val actual = message.fields.sortedBy { it.number }.map { it.jsonName to it.number }
-        check(actual == expected) { "${message.fullName} fields: $actual" }
+    private fun verifyGeneratedSurface(fixture: JsonObject) {
+        val methods = ScopeServiceClientInterface::class.java.declaredMethods
+            .filter { Modifier.isAbstract(it.modifiers) && !it.isSynthetic }
+        check(methods.map { it.name }.sorted() == listOf("getSession", "listProjects", "listSessions"))
+        val requestTypeNames = listOf(
+            "ScopeServiceListProjectsRequest", "ScopeServiceListSessionsRequest", "ScopeServiceGetSessionRequest",
+        )
+        val requestTypes = mapOf(
+            "getSession" to ScopeServiceGetSessionRequest::class.java,
+            "listProjects" to ScopeServiceListProjectsRequest::class.java,
+            "listSessions" to ScopeServiceListSessionsRequest::class.java,
+        )
+        check(methods.all { it.parameterTypes.firstOrNull() == requestTypes[it.name] })
+
+        val operations = fixture.getAsJsonArray("operations").map { it.asJsonObject }
+        check(operations.size == 3)
+        check(operations.map { it["rpc"].asString } == listOf(
+            "ScopeService/ListProjects", "ScopeService/ListSessions", "ScopeService/GetSession",
+        ))
+        val requestFields = listOf(
+            listOf("meta", "page"),
+            listOf("meta", "projectId", "page"),
+            listOf("meta", "sessionId", "minRevision"),
+        )
+        val valueTypes = listOf(
+            "ScopeServiceListProjectsValue", "ScopeServiceListSessionsValue", "ScopeServiceGetSessionValue",
+        )
+        val responseTypes = listOf(
+            "ScopeServiceListProjectsResponse", "ScopeServiceListSessionsResponse", "ScopeServiceGetSessionResponse",
+        )
+        val valueFields = listOf(listOf("items", "page"), listOf("items", "page"), listOf("session", "revision", "committedAt"))
+        for (index in operations.indices) {
+            val operation = operations[index]
+            check(operation["requestType"].asString == requestTypeNames[index])
+            check(operation.getAsJsonArray("requestFields").map { it.asString } == requestFields[index])
+            check(operation["valueType"].asString == valueTypes[index])
+            check(operation.getAsJsonArray("valueFields").map { it.asString } == valueFields[index])
+            check(operation["responseType"].asString == responseTypes[index])
+            check(operation.getAsJsonArray("outcomeFields").map { it.asString } == listOf("value", "error", "encodedBody"))
+        }
+
+        check(ScopeServiceListProjectsRequest.META_FIELD_NUMBER == 1 && ScopeServiceListProjectsRequest.PAGE_FIELD_NUMBER == 10)
+        check(ScopeServiceListSessionsRequest.META_FIELD_NUMBER == 1 && ScopeServiceListSessionsRequest.PROJECT_ID_FIELD_NUMBER == 10 && ScopeServiceListSessionsRequest.PAGE_FIELD_NUMBER == 11)
+        check(ScopeServiceGetSessionRequest.META_FIELD_NUMBER == 1 && ScopeServiceGetSessionRequest.SESSION_ID_FIELD_NUMBER == 10 && ScopeServiceGetSessionRequest.MIN_REVISION_FIELD_NUMBER == 11)
+        check(ScopeServiceListProjectsResponse.META_FIELD_NUMBER == 1 && ScopeServiceListProjectsResponse.VALUE_FIELD_NUMBER == 2 && ScopeServiceListProjectsResponse.ERROR_FIELD_NUMBER == 3 && ScopeServiceListProjectsResponse.ENCODED_BODY_FIELD_NUMBER == 4)
+        check(ScopeServiceListSessionsResponse.META_FIELD_NUMBER == 1 && ScopeServiceListSessionsResponse.VALUE_FIELD_NUMBER == 2 && ScopeServiceListSessionsResponse.ERROR_FIELD_NUMBER == 3 && ScopeServiceListSessionsResponse.ENCODED_BODY_FIELD_NUMBER == 4)
+        check(ScopeServiceGetSessionResponse.META_FIELD_NUMBER == 1 && ScopeServiceGetSessionResponse.VALUE_FIELD_NUMBER == 2 && ScopeServiceGetSessionResponse.ERROR_FIELD_NUMBER == 3 && ScopeServiceGetSessionResponse.ENCODED_BODY_FIELD_NUMBER == 4)
+        check(ScopeServiceListProjectsValue.ITEMS_FIELD_NUMBER == 10 && ScopeServiceListProjectsValue.PAGE_FIELD_NUMBER == 11)
+        check(ScopeServiceListSessionsValue.ITEMS_FIELD_NUMBER == 10 && ScopeServiceListSessionsValue.PAGE_FIELD_NUMBER == 11)
+        check(ScopeServiceGetSessionValue.SESSION_FIELD_NUMBER == 10 && ScopeServiceGetSessionValue.REVISION_FIELD_NUMBER == 11 && ScopeServiceGetSessionValue.COMMITTED_AT_FIELD_NUMBER == 12)
+        check(ScopeProjectSummary.PROJECT_ID_FIELD_NUMBER == 1 && ScopeProjectSummary.NAME_FIELD_NUMBER == 2 && ScopeProjectSummary.SESSION_COUNT_FIELD_NUMBER == 3 && ScopeProjectSummary.UPDATED_AT_FIELD_NUMBER == 4 && ScopeProjectSummary.REVISION_FIELD_NUMBER == 5)
+        check(ScopeSessionSummary.SESSION_ID_FIELD_NUMBER == 1 && ScopeSessionSummary.PROJECT_ID_FIELD_NUMBER == 2 && ScopeSessionSummary.NAME_FIELD_NUMBER == 3 && ScopeSessionSummary.FINDING_COUNT_FIELD_NUMBER == 4 && ScopeSessionSummary.REPORT_COUNT_FIELD_NUMBER == 5 && ScopeSessionSummary.TAGS_FIELD_NUMBER == 6 && ScopeSessionSummary.UPDATED_AT_FIELD_NUMBER == 7 && ScopeSessionSummary.REVISION_FIELD_NUMBER == 8)
+
+        val projectVector = fixture.getAsJsonArray("vectors").map { it.asJsonObject }
+            .single { it["id"].asString == "projects-use-project-metadata-and-visible-live-sessions-in-one-snapshot" }
+        val projectExpected = projectVector.getAsJsonObject("expected")
+        val project = projectSummary(projectExpected)
+        check(project.hasProjectId() && project.projectId == id(projectExpected["projectIdHex"].asString))
+        check(project.hasName() && project.name == projectExpected["name"].asString)
+        check(project.hasSessionCount() && project.sessionCount == projectExpected["sessionCount"].asInt)
+        check(project.updatedAt == instant(projectExpected.getAsJsonObject("updatedAt")))
+        check(project.revision == revision(projectExpected["revision"].asLong))
+        val decodedProject = roundTrip(project, ScopeProjectSummary::parseFrom)
+
+        val sessionsVector = fixture.getAsJsonArray("vectors").map { it.asJsonObject }
+            .single { it["id"].asString == "sessions-count-findings-and-reports-from-committed-owner-filtered-aggregate" }
+        val expectedItems = sessionsVector.getAsJsonArray("expectedItems").map { it.asJsonObject }
+        val sessions = expectedItems.map(::sessionSummary)
+        check(sessions.size == 1)
+        val expectedSession = expectedItems.single()
+        val session = sessions.single()
+        check(session.hasSessionId() && session.sessionId == id(expectedSession["sessionIdHex"].asString))
+        check(session.hasProjectId() && session.projectId == id(expectedSession["projectIdHex"].asString))
+        check(session.hasName() && session.name == expectedSession["name"].asString)
+        check(session.hasFindingCount() && session.findingCount == expectedSession["findingCount"].asInt)
+        check(session.hasReportCount() && session.reportCount == expectedSession["reportCount"].asInt)
+        check(session.tagsList == expectedSession.getAsJsonArray("tagsHex").map { id(it.asString) })
+        check(session.updatedAt == instant(expectedSession.getAsJsonObject("updatedAt")))
+        check(session.revision == revision(expectedSession["revision"].asLong))
+        val decodedSession = roundTrip(session, ScopeSessionSummary::parseFrom)
+
+        val projectsRequest = ScopeServiceListProjectsRequest.newBuilder()
+            .setMeta(RequestMeta.getDefaultInstance())
+            .setPage(PageRequest.getDefaultInstance())
+            .build()
+        check(roundTrip(projectsRequest, ScopeServiceListProjectsRequest::parseFrom).hasMeta())
+        check(wireTags(projectsRequest) == listOf((1 shl 3) or 2, (10 shl 3) or 2))
+        val sessionsRequest = ScopeServiceListSessionsRequest.newBuilder()
+            .setMeta(RequestMeta.getDefaultInstance())
+            .setProjectId(session.projectId)
+            .setPage(PageRequest.getDefaultInstance())
+            .build()
+        check(roundTrip(sessionsRequest, ScopeServiceListSessionsRequest::parseFrom).projectId == session.projectId)
+        check(wireTags(sessionsRequest) == listOf((1 shl 3) or 2, (10 shl 3) or 2, (11 shl 3) or 2))
+        val getSessionRequest = ScopeServiceGetSessionRequest.newBuilder()
+            .setMeta(RequestMeta.getDefaultInstance())
+            .setSessionId(session.sessionId)
+            .setMinRevision(session.revision)
+            .build()
+        check(roundTrip(getSessionRequest, ScopeServiceGetSessionRequest::parseFrom).minRevision == session.revision)
+        check(wireTags(getSessionRequest) == listOf((1 shl 3) or 2, (10 shl 3) or 2, (11 shl 3) or 2))
+
+        val capturedMethods = mutableListOf<MethodSpec<*, *>>()
+        val protocolClient = Proxy.newProxyInstance(
+            ProtocolClientInterface::class.java.classLoader,
+            arrayOf(ProtocolClientInterface::class.java),
+            InvocationHandler { _, method, arguments ->
+                if (method.name != "unary" || arguments == null || arguments.size != 4 || arguments[3] !is Continuation<*>) {
+                    throw UnsupportedOperationException("Unexpected Connect client call: ${method.name}")
+                }
+                capturedMethods.add(arguments[2] as MethodSpec<*, *>)
+                @Suppress("UNCHECKED_CAST")
+                val continuation = arguments[3] as Continuation<Any?>
+                continuation.resumeWith(Result.failure(CapturedMethod()))
+                COROUTINE_SUSPENDED
+            },
+        ) as ProtocolClientInterface
+        val client = io.github.arcforges.contracts.publicapi.v1.ScopeServiceClient(protocolClient)
+        val rpcCalls: List<suspend () -> Unit> = listOf(
+            { client.listProjects(projectsRequest) },
+            { client.listSessions(sessionsRequest) },
+            { client.getSession(getSessionRequest) },
+        )
+        for (rpcCall in rpcCalls) {
+            try {
+                runBlocking { rpcCall() }
+                error("Generated Connect call did not reach the recorder")
+            } catch (_: CapturedMethod) {
+                // The fake protocol client records the generated method specification and stops before I/O.
+            }
+        }
+        check(capturedMethods.map { it.path } == listOf(
+            "arcforges.publicapi.v1.ScopeService/ListProjects",
+            "arcforges.publicapi.v1.ScopeService/ListSessions",
+            "arcforges.publicapi.v1.ScopeService/GetSession",
+        ))
+        check(capturedMethods.map { it.requestClass.java } == listOf(
+            ScopeServiceListProjectsRequest::class.java,
+            ScopeServiceListSessionsRequest::class.java,
+            ScopeServiceGetSessionRequest::class.java,
+        ))
+        check(capturedMethods.map { it.responseClass.java } == listOf(
+            ScopeServiceListProjectsResponse::class.java,
+            ScopeServiceListSessionsResponse::class.java,
+            ScopeServiceGetSessionResponse::class.java,
+        ))
+        check(capturedMethods.all { it.streamType == StreamType.UNARY })
+
+        val projectsResponse = ScopeServiceListProjectsResponse.newBuilder()
+            .setMeta(ResponseMeta.getDefaultInstance())
+            .setValue(ScopeServiceListProjectsValue.newBuilder().addItems(decodedProject).setPage(PageState.getDefaultInstance()))
+            .build()
+        val decodedProjectsResponse = roundTrip(projectsResponse, ScopeServiceListProjectsResponse::parseFrom)
+        check(decodedProjectsResponse.hasMeta() && decodedProjectsResponse.hasValue())
+        check(!decodedProjectsResponse.hasError() && !decodedProjectsResponse.hasEncodedBody())
+        check(decodedProjectsResponse.value.itemsList == listOf(decodedProject))
+
+        val sessionsResponse = ScopeServiceListSessionsResponse.newBuilder()
+            .setMeta(ResponseMeta.getDefaultInstance())
+            .setValue(ScopeServiceListSessionsValue.newBuilder().addItems(decodedSession).setPage(PageState.getDefaultInstance()))
+            .build()
+        val decodedSessionsResponse = roundTrip(sessionsResponse, ScopeServiceListSessionsResponse::parseFrom)
+        check(decodedSessionsResponse.hasMeta() && decodedSessionsResponse.hasValue())
+        check(!decodedSessionsResponse.hasError() && !decodedSessionsResponse.hasEncodedBody())
+        check(decodedSessionsResponse.value.itemsList == listOf(decodedSession))
+
+        val getSessionValue = ScopeServiceGetSessionValue.newBuilder()
+            .setSession(ScopeMetadata.getDefaultInstance())
+            .setRevision(session.revision)
+            .setCommittedAt(session.updatedAt)
+            .build()
+        val getSessionResponse = ScopeServiceGetSessionResponse.newBuilder()
+            .setMeta(ResponseMeta.getDefaultInstance())
+            .setValue(getSessionValue)
+            .build()
+        val decodedGetSessionResponse = roundTrip(getSessionResponse, ScopeServiceGetSessionResponse::parseFrom)
+        check(decodedGetSessionResponse.hasValue() && decodedGetSessionResponse.value.revision == session.revision)
+        check(!decodedGetSessionResponse.hasError() && !decodedGetSessionResponse.hasEncodedBody())
+        val errorResponse = roundTrip(
+            ScopeServiceGetSessionResponse.newBuilder().setError(ArcError.getDefaultInstance()).build(),
+            ScopeServiceGetSessionResponse::parseFrom,
+        )
+        check(errorResponse.hasError() && !errorResponse.hasValue() && !errorResponse.hasEncodedBody())
+        val encodedResponse = roundTrip(
+            ScopeServiceGetSessionResponse.newBuilder().setEncodedBody(EncodedBodyRef.getDefaultInstance()).build(),
+            ScopeServiceGetSessionResponse::parseFrom,
+        )
+        check(encodedResponse.hasEncodedBody() && !encodedResponse.hasValue() && !encodedResponse.hasError())
     }
+
+    private fun projectSummary(value: JsonObject): ScopeProjectSummary = ScopeProjectSummary.newBuilder()
+        .setProjectId(id(value["projectIdHex"].asString))
+        .setName(value["name"].asString)
+        .setSessionCount(value["sessionCount"].asInt)
+        .setUpdatedAt(instant(value.getAsJsonObject("updatedAt")))
+        .setRevision(revision(value["revision"].asLong))
+        .build()
+
+    private fun sessionSummary(value: JsonObject): ScopeSessionSummary {
+        val builder = ScopeSessionSummary.newBuilder()
+            .setSessionId(id(value["sessionIdHex"].asString))
+            .setProjectId(id(value["projectIdHex"].asString))
+            .setName(value["name"].asString)
+            .setFindingCount(value["findingCount"].asInt)
+            .setReportCount(value["reportCount"].asInt)
+            .setUpdatedAt(instant(value.getAsJsonObject("updatedAt")))
+            .setRevision(revision(value["revision"].asLong))
+        value.getAsJsonArray("tagsHex").forEach { builder.addTags(id(it.asString)) }
+        return builder.build()
+    }
+
+    private fun id(hex: String): Id {
+        check(hex.length == 32 && hex.all { it in "0123456789abcdef" })
+        val bytes = hex.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+        return Id.newBuilder().setValue(ByteString.copyFrom(bytes)).build()
+    }
+
+    private fun instant(value: JsonObject): Instant = Instant.newBuilder()
+        .setUnixSeconds(value["unixSeconds"].asString.toLong())
+        .setNanos(value["nanos"].asInt)
+        .build()
+
+    private fun revision(value: Long): Revision = Revision.newBuilder().setValue(value).build()
+
+    private fun <T : MessageLite> roundTrip(message: T, parse: (ByteArray) -> T): T {
+        val bytes = message.toByteArray()
+        val decoded = parse(bytes)
+        check(decoded == message && decoded.toByteArray().contentEquals(bytes))
+        return decoded
+    }
+
+    private fun wireTags(message: MessageLite): List<Int> {
+        val input = CodedInputStream.newInstance(message.toByteArray())
+        val tags = mutableListOf<Int>()
+        while (true) {
+            val tag = input.readTag()
+            if (tag == 0) break
+            tags.add(tag)
+            check(input.skipField(tag))
+        }
+        return tags
+    }
+
+    private class CapturedMethod : RuntimeException()
 }

@@ -78,7 +78,8 @@
       "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceGetSessionRequest",
       "fields": {
         "meta": { "required": true },
-        "sessionId": { "required": true }
+        "sessionId": { "required": true },
+        "minRevision": {}
       }
     },
     "arcforges.publicapi.v1.ScopeServiceGetSessionValue": {

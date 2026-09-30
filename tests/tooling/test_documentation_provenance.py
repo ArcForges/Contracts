@@ -93,7 +93,7 @@ class DocumentationAdmissionTests(unittest.TestCase):
 
     def test_current_profile_preserves_reviewed_resources_and_retires_native_client(self):
         root = Path(__file__).resolve().parents[2]
-        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r17.json")
+        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r18.json")
         previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json").read_bytes())
         current = json.loads((root / documentation.PROFILE).read_bytes())
         self.assertEqual(set(current["modules"]),
@@ -265,6 +265,20 @@ class DocumentationAdmissionTests(unittest.TestCase):
             for suffix in ("Client", "ClientInterface")
         }
         self.assertEqual(len(con21_client_pages), 2)
+        con24_shard = json.loads((root / "public/proto/constraints/con-24-scope-library.json").read_bytes())
+        con24_message_names = {name.rsplit(".", 1)[-1] for name in con24_shard["messages"]}
+        self.assertEqual(len(con24_message_names), 11)
+        con24_message_pages = {
+            "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name) + "/index.html": name
+            for name in con24_message_names
+        }
+        con24_proto_pages = set(con24_message_pages)
+        con24_methods = ["listProjects", "listSessions", "getSession"]
+        con24_client_pages = {
+            "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" +
+            slug("ScopeService" + suffix) + "/index.html": con24_methods
+            for suffix in ("Client", "ClientInterface")
+        }
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
@@ -401,27 +415,38 @@ class DocumentationAdmissionTests(unittest.TestCase):
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
             permitted = descriptor_pages | catalog_pages | inprocess_pages | con08_proto_pages \
-                | con09_proto_pages | con10_proto_pages | con22_proto_pages | con21_proto_pages if module == "contracts-proto" else (
+                | con09_proto_pages | con10_proto_pages | con22_proto_pages | con21_proto_pages \
+                | con24_proto_pages if module == "contracts-proto" else (
                     clients | set(con08_client_pages) | set(con09_client_pages)
                     | set(con10_client_pages) | set(con22_client_pages) | set(con21_client_pages)
+                    | set(con24_client_pages)
                     if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:
                 if module == "contracts-proto":
                     self.assertIn('anchor-label="parser"', actual[name])
+                    if name in con24_proto_pages:
+                        self.assertIn(con24_message_pages[name], actual[name])
                     if name in con09_proto_pages:
                         self.assertTrue(any(marker.startswith('anchor-label="get') or marker.startswith("get")
                                             for marker in actual[name]), name)
                     else:
                         self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]), name)
                 else:
-                    expected_methods = set(con21_client_pages[name]) if name in con21_client_pages else (
-                        set(con22_client_pages[name]) if name in con22_client_pages else (
-                        set(con10_client_pages[name]) if name in con10_client_pages else (
-                        con09_client_pages[name] if name in con09_client_pages else (
-                        con08_client_pages[name] if name in con08_client_pages else {
-                        operation[0].lower() + operation[1:] for operation in operations
-                    }))))
+                    if name in con24_client_pages:
+                        expected_methods = set(con24_client_pages[name])
+                    elif name in con21_client_pages:
+                        expected_methods = set(con21_client_pages[name])
+                    elif name in con22_client_pages:
+                        expected_methods = set(con22_client_pages[name])
+                    elif name in con10_client_pages:
+                        expected_methods = set(con10_client_pages[name])
+                    elif name in con09_client_pages:
+                        expected_methods = con09_client_pages[name]
+                    elif name in con08_client_pages:
+                        expected_methods = con08_client_pages[name]
+                    else:
+                        expected_methods = {operation[0].lower() + operation[1:] for operation in operations}
                     self.assertEqual(set(actual[name]), expected_methods)
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
@@ -442,7 +467,9 @@ class DocumentationAdmissionTests(unittest.TestCase):
         self.assertEqual(resource_record["supersedes"], "dokka-documentation-resources-r16")
         self.assertIn("r17 successor supersedes r16", resource_record["review"]["rationale"])
         self.assertIn("ORG_GRADLE_PROJECT_releaseVersion=1.0.0-ci.999.1", resource_record["verification"]["command"])
-        self.assertEqual(inventory["artifacts"], ["dokka-documentation-resources-r17"])
+        self.assertEqual(inventory["artifacts"], ["dokka-documentation-resources-r18"])
+        self.assertIn("eng/provenance/artifact-profiles/dokka-2-2-0-r17.json", inventory["firstParty"])
+        self.assertIn("eng/provenance/records/dokka-documentation-resources-r17.json", inventory["firstParty"])
 
         def key_fingerprint(keys):
             return documentation.sha(("".join(key + "\n" for key in sorted(keys))).encode("utf-8"))
@@ -548,6 +575,130 @@ class DocumentationAdmissionTests(unittest.TestCase):
                          "44b87adda0914a6ae45e97d2a8808b217ef8e81f316aee247041b90c9578e578")
         for page in expected_connect_api:
             self.assertEqual(set(new_connect_api[page]), set(CON21_PUBLIC_SERVICE_METHODS["SimulationService"]))
+        self.assertEqual(current["modules"]["contract-fixtures"]["publicApi"],
+                         previous["modules"]["contract-fixtures"]["publicApi"])
+
+    def test_con24_dokka_r18_is_only_the_frozen_r17_successor_delta(self):
+        root = Path(__file__).resolve().parents[2]
+        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r17.json").read_bytes())
+        current_path = "eng/provenance/artifact-profiles/dokka-2-2-0-r18.json"
+        current = json.loads((root / current_path).read_bytes())
+        resource_record = json.loads((root / "eng/provenance/records/dokka-documentation-resources-r18.json").read_bytes())
+        inventory = json.loads((root / "eng/provenance/files.json").read_bytes())
+
+        def key_fingerprint(keys):
+            return documentation.sha(("".join(key + "\n" for key in sorted(keys))).encode("utf-8"))
+
+        def row_fingerprint(rows):
+            return documentation.sha(("".join(row + "\n" for row in sorted(rows))).encode("utf-8"))
+
+        def slug(name):
+            return "-" + re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
+
+        self.assertEqual(documentation.PROFILE, current_path)
+        self.assertEqual(resource_record["id"], "dokka-documentation-resources-r18")
+        self.assertEqual(resource_record["supersedes"], "dokka-documentation-resources-r17")
+        self.assertEqual(inventory["artifacts"], [resource_record["id"]])
+        self.assertIn("ScopeService client/interface roots", resource_record["review"]["rationale"])
+        profile_bytes = (root / current_path).read_bytes()
+        profile_hash = documentation.sha(profile_bytes.replace(b"\r\n", b"\n"))
+        self.assertTrue(all(target["profile"] == current_path and target["sha256"] == profile_hash
+                            for target in resource_record["artifactTargets"]))
+        self.assertEqual(resource_record["generation"]["inputs"][1]["commit"],
+                         "d29ca2156f33d18052bb448ecc86661d96f30610")
+        self.assertEqual(len(resource_record["generation"]["inputs"][1]["paths"]), 1487)
+
+        for section in ("source", "fixed", "excluded", "components", "fontTransform"):
+            self.assertEqual(current[section], previous[section], section)
+        self.assertEqual(set(previous["inputs"]) - set(current["inputs"]), set())
+        self.assertEqual({name for name in previous["inputs"] if previous["inputs"][name] != current["inputs"][name]}, set())
+        added_inputs = set(current["inputs"]) - set(previous["inputs"])
+        self.assertEqual(len(added_inputs), 14)
+        self.assertEqual(key_fingerprint(added_inputs),
+                         "1336d1702df9d22608d12e675c86c7f64b3340a519823f47e2acdfa42c18d049")
+        self.assertEqual(sum("contracts-proto/generated/kotlin/" in path for path in added_inputs), 12)
+        self.assertEqual(sum("contracts-connect-client/generated/kotlin/" in path for path in added_inputs), 2)
+        self.assertTrue(all("/publicapi/v1/Scope" in path for path in added_inputs))
+
+        expected_page_deltas = {
+            "contracts-proto": (761, "bc46b5e7f75c2677aa5c8bfdd0407a399d1e8c6a661d667770e93756c0cc7d24",
+                                {"contracts-proto/io.github.arcforges.contracts.publicapi.v1/copy.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/encoded-body-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/error-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/index.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/meta-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/min-revision-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/page-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/project-id-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/revision-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/session-id-or-null.html",
+                                 "contracts-proto/io.github.arcforges.contracts.publicapi.v1/value-or-null.html",
+                                 "contracts-proto/package-list", "navigation.html", "scripts/pages.json"},
+                                "44c79c02b5a899344659264cf166b0e8f268824f58bd33143fdf6d465ce35d13",
+                                "a22d860f683279b279fdd166ba86b0061bccfa454237d4df7123254280226ca3"),
+            "contracts-connect-client": (9, "992036edadca2775a6423d68356a04601d1a7915eb0fa1988a866222ecab627d",
+                                          {"contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/index.html",
+                                           "contracts-connect-client/package-list", "navigation.html", "scripts/pages.json"},
+                                          "22df5067ed7b3d4cc68b208d5fc85b26cec76af496776eda49eac131136145e6",
+                                          "c9316d5f53fbf547146f82eb3d0036f8dddf29e94d1f3e189c48336ca890e367"),
+            "contract-fixtures": (0, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                  set(), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),
+        }
+        for module, (count, added_hash, expected_changed, changed_hash, changed_rows_hash) in expected_page_deltas.items():
+            old_pages = previous["modules"][module]["pages"]
+            new_pages = current["modules"][module]["pages"]
+            added = set(new_pages) - set(old_pages)
+            removed = set(old_pages) - set(new_pages)
+            changed = {name for name in set(old_pages) & set(new_pages) if old_pages[name] != new_pages[name]}
+            self.assertEqual(len(added), count, module)
+            self.assertEqual(removed, set(), module)
+            self.assertEqual(changed, expected_changed, module)
+            self.assertEqual(key_fingerprint(added), added_hash, module)
+            self.assertEqual(key_fingerprint(changed), changed_hash, module)
+            self.assertEqual(row_fingerprint([f"{name}\t{old_pages[name]}\t{new_pages[name]}" for name in changed]),
+                             changed_rows_hash, module)
+
+        shard = json.loads((root / "public/proto/constraints/con-24-scope-library.json").read_bytes())
+        expected_proto_api = {
+            "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(name.rsplit(".", 1)[-1]) + "/index.html"
+            for name in shard["messages"]
+        }
+        old_proto_api = previous["modules"]["contracts-proto"]["publicApi"]
+        proto_api = current["modules"]["contracts-proto"]["publicApi"]
+        added_proto_api = set(proto_api) - set(old_proto_api)
+        self.assertEqual(added_proto_api, expected_proto_api)
+        self.assertEqual(key_fingerprint(added_proto_api),
+                         "5ed44f5cf5b181b0ea24820a0c3567e5cc675ecdb501589db11a60fcb7a6aa68")
+        proto_rows = [page + "\t" + "\t".join(sorted(proto_api[page])) for page in added_proto_api]
+        self.assertEqual(row_fingerprint(proto_rows),
+                         "34f9debc9c3062dd4b8761b6bc4ce036864bf919171d34324ad718fbc62968c0")
+        for name, message in shard["messages"].items():
+            message_name = name.rsplit(".", 1)[-1]
+            page = "contracts-proto/io.github.arcforges.contracts.publicapi.v1/" + slug(message_name) + "/index.html"
+            markers = proto_api[page]
+            self.assertIn(message_name, markers)
+            self.assertIn('anchor-label="parser"', markers)
+            for field in message["fields"]:
+                self.assertIn('anchor-label="get' + field[0].upper() + field[1:] + '"', markers, page)
+
+        methods = {"listProjects", "listSessions", "getSession"}
+        namespace = "contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/"
+        expected_connect_api = {
+            namespace + slug("ScopeService" + suffix) + "/index.html"
+            for suffix in ("Client", "ClientInterface")
+        }
+        old_connect_api = previous["modules"]["contracts-connect-client"]["publicApi"]
+        connect_api = current["modules"]["contracts-connect-client"]["publicApi"]
+        added_connect_api = set(connect_api) - set(old_connect_api)
+        self.assertEqual(added_connect_api, expected_connect_api)
+        self.assertEqual(key_fingerprint(added_connect_api),
+                         "2d7d1d2b3a85cdb353e0c68947711f2f88178f2d621ccf7264666faf97cedf2f")
+        connect_rows = [page + "\t" + "\t".join(sorted(connect_api[page])) for page in added_connect_api]
+        self.assertEqual(row_fingerprint(connect_rows),
+                         "f6cfa17cb5dd69d9908a3a5d5d61861591f15f0b41b372eeaa751d3087573a02")
+        for page in expected_connect_api:
+            self.assertEqual(set(connect_api[page]), methods)
         self.assertEqual(current["modules"]["contract-fixtures"]["publicApi"],
                          previous["modules"]["contract-fixtures"]["publicApi"])
 

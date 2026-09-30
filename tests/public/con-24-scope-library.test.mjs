@@ -30,7 +30,7 @@ function fieldNames(message) {
 }
 
 function messageType(field) {
-  return field.fieldKind.case === "message" ? field.fieldKind.message.typeName : undefined;
+  return field?.fieldKind === "message" ? field.message.typeName : undefined;
 }
 
 function compareDescending(left, right) {
@@ -156,7 +156,7 @@ test("CON.24 generated Scope API and operation authorization match the public fi
     const valueField = method.output.fields.find((field) => field.number === 2);
     assert.equal(messageType(valueField), `arcforges.publicapi.v1.${operation.valueType}`);
     assert.deepEqual(
-      valueField.fieldKind.message.fields.map((field) => field.jsonName),
+      valueField.message.fields.map((field) => field.jsonName),
       operation.valueFields,
     );
     assert.equal(method.output.typeName, `arcforges.publicapi.v1.${operation.responseType}`);

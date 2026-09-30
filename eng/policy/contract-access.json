@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "6dcacfa832540eab1aed9f189eb39c934052ee18",
+  "sourceCommit": "d29ca2156f33d18052bb448ecc86661d96f30610",
   "schemas": [
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -77,7 +77,7 @@
     {
       "path": "public/proto/arcforges/publicapi/v1/content.proto",
       "access": "public",
-      "sha256": "5d6c638b72c4577b2a5cd4450276b4ed39153299a1e91f076c40764b8984d398"
+      "sha256": "7d77c5c222dcfa2a5473675873f4d3e1bc8664fa5983f2b40e8c49db652b17fa"
     },
     {
       "path": "public/proto/arcforges/publicapi/v1/descriptors.proto",
@@ -93,6 +93,11 @@
       "path": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
       "access": "public",
       "sha256": "24921ae4f54f48800ea1201a9eee27a4e23a476b738cc3903665dff137a10eea"
+    },
+    {
+      "path": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public",
+      "sha256": "a8c3f33e67631ae0226c96c74069e3ee5ae154afbccc145d13e41600579d3e27"
     },
     {
       "path": "public/proto/arcforges/publicapi/v1/support.proto",
@@ -4239,7 +4244,19 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.ScopeProjectSummary",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.ScopeProjectMetadata",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeSessionSummary",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
       "access": "public"
@@ -4248,6 +4265,66 @@
       "name": "arcforges.publicapi.v1.ScopeSelection",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/content.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceGetSessionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceGetSessionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceGetSessionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceListProjectsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceListProjectsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceListProjectsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceListSessionsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceListSessionsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ScopeServiceListSessionsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/scope.proto",
       "access": "public"
     },
     {
@@ -8127,6 +8204,8 @@
         "ScopeFinding",
         "ScopeMetadata",
         "ScopeProjectMetadata",
+        "ScopeProjectSummary",
+        "ScopeSessionSummary",
         "ScopeSelection",
         "ScopeTime",
         "SelectedSample",
@@ -8151,7 +8230,7 @@
         "ValueList",
         "ValueRecord"
       ],
-      "sha256": "cc6cb65dcecb47a3d180c6bec755fb5a67dd0dfd16e745d7adcb1a78306f74d1",
+      "sha256": "55c3364a3ec13d44a7cc44e0f4fe0effddae626a8b079a8a08b8ae3ecf4cd370",
       "kind": "generated"
     },
     {
@@ -8533,7 +8612,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "e6ef5c078edb3abce4c56a4cca87274219a2de388c10d7ce295205ea0e28261e",
+      "sha256": "79f40bc1d55813571538cb21ff76e52ea04cece7224419fcca9a33a6f18d98f7",
       "kind": "generated"
     },
     {
@@ -8817,7 +8896,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "d851d53a0cd4ad09201b3f089ed798a37a21163de56a21b142ea5257aa6e805e",
+      "sha256": "9207f79ad1efefe1fb05fe5a69a1576b9d582a78f883d72a4ae1d9c6e915815c",
       "kind": "generated"
     },
     {
@@ -18445,7 +18524,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "97a3cb6a03e960f907dc2bc6290852c6ccf7eb9ecc46bffa02030864e362895e",
+      "sha256": "3c1dbc6d444198e566b7eeb5cded0e98c59aee3d17c7e0cf0492de1f043124b2",
       "kind": "generated"
     },
     {
@@ -18916,6 +18995,8 @@
         "ScopeFinding",
         "ScopeMetadata",
         "ScopeProjectMetadata",
+        "ScopeProjectSummary",
+        "ScopeSessionSummary",
         "ScopeSelection",
         "ScopeTime",
         "SelectedSample",
@@ -18940,7 +19021,7 @@
         "TaskReasonFacet",
         "TaskState"
       ],
-      "sha256": "136d09d5796388b9439e1f4ef117f0fa02074e574b19a42611971042ae39788f",
+      "sha256": "7cea9d057c2bbd034ff89341287687ad81c57b6f917d6f95cc78c9bbd9be6481",
       "kind": "generated"
     },
     {
@@ -19149,7 +19230,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "a97d27ccf8cc8a4ccb01997dcb85be7c00ba8e692255470f5b67f8828579a1a6",
+      "sha256": "17efa75b7adbc87d24d157c9543c92e1aec8a33fdecc0ee88cf19a4a0e083f68",
       "kind": "generated"
     },
     {
@@ -19165,7 +19246,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "984784b30aa9866af708f6aa6a9ae0e5de1416677a25e19db540c819feda6c3c",
+      "sha256": "7353afbc23b8ab816d1c982decf6da66234d5bcc7de5d5352409c0a2b1d14b16",
       "kind": "generated"
     },
     {
@@ -19173,7 +19254,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "4110b594d79c67248d929f206a24063ecfaf94e847706d719970a9dc83f1d02a",
+      "sha256": "b4fa09e2252aaadfb326c65029234f24b0563cf0f09997d1329e877358431468",
       "kind": "generated"
     },
     {
@@ -25644,6 +25725,353 @@
       ],
       "sha256": "25155159e6f69f4dc5a83a6e6a09458fa11deee711e3591630dce668e43aa1c9",
       "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Scope.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "ScopeReflection",
+        "ScopeServiceListProjectsRequest",
+        "ScopeServiceListProjectsValue",
+        "ScopeServiceListProjectsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeServiceListSessionsRequest",
+        "ScopeServiceListSessionsValue",
+        "ScopeServiceListSessionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ScopeServiceGetSessionRequest",
+        "ScopeServiceGetSessionValue",
+        "ScopeServiceGetSessionResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "76897c77d5fe81a1796358155cf1e332b0609b1703f2082b3e568f25aab7de80",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/ScopeGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["ScopeService", "__Helper_MessageCache", "ScopeServiceBase", "ScopeServiceClient"],
+      "sha256": "44e6b321b1f450901856581e01b3e639f3cd8cba8521a408c7bf4d5111243d00",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["ScopeServiceClient"],
+      "sha256": "1c7bfcad113ec5f11eadab4a7050dc79e0f8de1a3485ad976c54b969478d7a25",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["ScopeServiceClientInterface"],
+      "sha256": "3324ffda1e066f32b69efeff4b7f86451569251f03025e774d9892d25fee21da",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectSummary.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectSummary", "Builder"],
+      "sha256": "97b07b2eac6749b1264923eabcfdad789201154d5d3d8dc5a9e772d25b159a28",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProjectSummaryOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectSummaryOrBuilder"],
+      "sha256": "77cce6d72ebcee2f942200e0e3366a4ed14bf8cfae8d34492976f8a64d65db55",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProto"],
+      "sha256": "46c9259eabfdbfd7018027685a21f97ba4d1f205f398267acdb9d2f197c72fc4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionRequest", "Builder"],
+      "sha256": "984140de90241ae6a8a75a60a9006332309c6fd8551c3f6ce552a3ab93899803",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionRequestOrBuilder"],
+      "sha256": "7bec8d9f20e7272d6d14d514e403d94614ab0e6c9a90e33e235de99121678867",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionResponse", "OutcomeCase", "Builder"],
+      "sha256": "7a995efe1b522024da07d61979aa70cdf3ad71a792fb8f58fff949608db55cda",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionResponseOrBuilder"],
+      "sha256": "4ccb70e4d33b4d75504340210e457d133c1aeb6dee622bb7ae168793f9048ed2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionValue", "Builder"],
+      "sha256": "a16a890b076a793bcab7b2ca3d925ba000f362d0c2f77fe1c60025e37190bf50",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionValueOrBuilder"],
+      "sha256": "32afda3e8d4787958de818edcb5e75c583bea63712693ea66dc4c75f6c95dcdc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsRequest", "Builder"],
+      "sha256": "2e557ceef313a6684c63e6a28063cf62afe2cfdb578f7abe0cbf32d902b364b0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsRequestOrBuilder"],
+      "sha256": "81a380e51f5d6c0e7ea3dc246c2ae50bf52ccc772840453e4b6d9642296d5bc7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsResponse", "OutcomeCase", "Builder"],
+      "sha256": "2170bda6425ccb1e8dfac8b06131325c0edb9f79e1ee76eb87bb6b1712b18293",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsResponseOrBuilder"],
+      "sha256": "c003f38f6f6da666856c15f7fd8bb26b690a2e464686d27e50cf36db8c4fb3bb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsValue", "Builder"],
+      "sha256": "c331788c831a7d5cd551a26ae5efa9a79c0a1d0b67802ba41ef5ad35d79f2af6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsValueOrBuilder"],
+      "sha256": "bc2c1e615fcaa76c04811af5fd8e8c828c2e5a1b27c4426b35b55acb44adb8c6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsRequest", "Builder"],
+      "sha256": "0aa06980b712a4dee074b1dc3f6fe6dd67aa1d2c2d2ca6c30a1b2c25ac4f750e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsRequestOrBuilder"],
+      "sha256": "eb3ce823465630d79ed70abeede22183e60a0aa27e83b85cd381a9561a980b0f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsResponse", "OutcomeCase", "Builder"],
+      "sha256": "17507e9854049fe2e6958e1b0f68ddcb7e9f2b8ae25247f93f8952d725bbb8d3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsResponseOrBuilder"],
+      "sha256": "fcbdb3f7ed7ef5796ab8eab756efa10e4ddbed291180eb7c67ba80e7cdf6a384",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsValue", "Builder"],
+      "sha256": "839f993df11a7605032515a3c0ba6698fb791abe68559f48ad516100383b0a1a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsValueOrBuilder"],
+      "sha256": "beefc7d32a2256903eb8a8bff2abe7d5c0c7b4eee46bcc8dbbecc55a7c1990bf",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeSessionSummary.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeSessionSummary", "Builder"],
+      "sha256": "6c2200e45d0d5748d7bc31f08a77fa52cfcc4a180963b964c1d3163623858491",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ScopeSessionSummaryOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeSessionSummaryOrBuilder"],
+      "sha256": "eb09b592dadae2abfde9f475e5d562e604a53546f182e118e54f46d5ec1ef3a4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeProjectSummaryKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeProjectSummaryKt", "Dsl"],
+      "sha256": "c3d8ee3701e4576f43002e216b3c7741888dca3bc22757fc262cdb0a38cf6b04",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "c0ced6a9215348b7f0e054143ca8ac4177b23a65da700f77becbfc08912857ff",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionRequestKt", "Dsl"],
+      "sha256": "dd35d6431f399cb80cdb71c076ce4dcb3e88966341c230185811c2b37a45e125",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionResponseKt", "Dsl"],
+      "sha256": "8e418853ec0c75a3438f7c06e23f62e70710797e6a03a8e812e2dea3151a6028",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceGetSessionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceGetSessionValueKt", "Dsl"],
+      "sha256": "afa1e5b47bc00e69be8dd390f352bae33b3709b5e82bdbb48135a0c33dffcff7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsRequestKt", "Dsl"],
+      "sha256": "3cb57a30816720342e3413025b0c0b43d7a7be61276df7eadb0cfb65b94ed868",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsResponseKt", "Dsl"],
+      "sha256": "eae38dfb88c35f6d2966bae2dbd6e95b7d54716b2d1684e4883d1f26041d0c0e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListProjectsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListProjectsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "62ba86ea783c39eae29c3b7c5a20700bcc26c1d9898c8241acd34a1416ac05fc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsRequestKt", "Dsl"],
+      "sha256": "cff73e12ccab851b199d6cbec5de6e6a1f39ac41174fbdc50723803b95a290d5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsResponseKt", "Dsl"],
+      "sha256": "a5cda531fc3abf64ddd0f52a34d689b3b676655e97e19be0d4d38c961070354a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeServiceListSessionsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeServiceListSessionsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "e9c19f007902e214d8a9c5c65994d8d2c7c620c22ee7fb26aeae2cbb95cf5e14",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ScopeSessionSummaryKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ScopeSessionSummaryKt", "Dsl", "TagsProxy"],
+      "sha256": "4bd97abca55919acab9e5c9c5a5dfb3cb22156316cf29324b4943ff2c4779743",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/scope_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "ScopeServiceListProjectsRequest",
+        "ScopeServiceListProjectsValue",
+        "ScopeServiceListProjectsResponse",
+        "ScopeServiceListSessionsRequest",
+        "ScopeServiceListSessionsValue",
+        "ScopeServiceListSessionsResponse",
+        "ScopeServiceGetSessionRequest",
+        "ScopeServiceGetSessionValue",
+        "ScopeServiceGetSessionResponse"
+      ],
+      "sha256": "ed60a620e1b0f4b2276399b6ef7b64fb8f9f0b926bd576f291c6fe6e33e1f886",
+      "kind": "generated"
     }
   ],
   "buildInputs": [
@@ -25665,7 +26093,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "bd1e6566b95360e0abb6e675163be4e44e37c0f77e4e85fcb98281eb2f948208"
+      "sha256": "69f22ae68e374f583974a436a44f8e03211dc30c35ae5a5a8f7bb4dbc1d8dff4"
     },
     {
       "path": "gradle.properties",
@@ -25737,7 +26165,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "aae92d6764be1327a1e7914c0eb71efbe7c57e3e373d5d8a4b31ae9d094510df"
+      "sha256": "20c3118888f700d8d80bf53644817f3229e4e6077024f853d13f7ddaf88167cc"
     },
     {
       "path": "public/http/v1/inventory.schema.json",
@@ -25769,7 +26197,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "bddd6f2cd13d64007b5d8353c2d13c67041bb6cf4cc52db626691238e49a21b2"
+      "sha256": "1df99093e91494b6f18702a10474813960a9156d4358c7459d41e73e79424460"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",
@@ -25998,6 +26426,10 @@
     {
       "path": "public/proto/constraints/con-21-simulation.json",
       "sha256": "f930794f1d9f3ec8f368e6cf8efe9b6c954c423316df76ed13ebfc4b543fd392"
+    },
+    {
+      "path": "public/proto/constraints/con-24-scope-library.json",
+      "sha256": "f1a82c3f2ffd2e6a08d1868aed36545becaaaf55c21cfdd2f8aefc78377b1592"
     }
   ]
 }

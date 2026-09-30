@@ -352,6 +352,11 @@ test("generated service catalogue lists exactly the authored services", () => {
       "/arcforges.simulation.v1.SimulationService/GetSegmentTicket",
       "/arcforges.simulation.v1.SimulationService/PollState",
     ],
+    "arcforges.publicapi.v1.ScopeService": [
+      "/arcforges.publicapi.v1.ScopeService/ListProjects",
+      "/arcforges.publicapi.v1.ScopeService/ListSessions",
+      "/arcforges.publicapi.v1.ScopeService/GetSession",
+    ],
   };
   const expectedServices = [
     ...fixture.services.typescript["@arcforges/proto"],

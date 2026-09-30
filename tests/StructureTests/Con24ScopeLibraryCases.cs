@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using System.Text.Json;
 using System.Globalization;
+using System.Linq;
+using System.Text.Json;
 using ArcForges.Contracts.PublicApi.V1;
 using Google.Protobuf.Reflection;
 
@@ -55,9 +56,9 @@ internal static class Con24ScopeLibraryCases
             Require(!method.IsClientStreaming && !method.IsServerStreaming, "unary method");
             Require(method.InputType.FindFieldByNumber(1)?.MessageType?.FullName == "arcforges.foundation.v1.RequestMeta", "request envelope");
             Require(method.OutputType.FindFieldByNumber(1)?.MessageType?.FullName == "arcforges.foundation.v1.ResponseMeta", "response envelope");
-            Require(method.InputType.Fields.All(field => field.FieldNumber == 1 || field.FieldNumber >= 10), "request payload tags");
+            Require(Enumerable.All<FieldDescriptor>(method.InputType.Fields.InDeclarationOrder(), field => field.FieldNumber == 1 || field.FieldNumber >= 10), "request payload tags");
             Require(Fields(method.OutputType, ("meta", 1), ("value", 2), ("error", 3), ("encodedBody", 4)), "response field tags");
-            var outcome = method.OutputType.Fields.Where(field => field.FieldNumber >= 2).ToArray();
+            var outcome = Enumerable.Where<FieldDescriptor>(method.OutputType.Fields.InFieldNumberOrder(), field => field.FieldNumber >= 2).ToArray();
             Require(outcome.All(field => field.ContainingOneof?.Name == "outcome"), "exclusive response outcome");
             Require(method.OutputType.FindFieldByNumber(4)?.MessageType?.FullName == "arcforges.foundation.v1.EncodedBodyRef", "large read envelope");
         }
@@ -227,10 +228,13 @@ internal static class Con24ScopeLibraryCases
     }
 
     private static bool Fields(MessageDescriptor descriptor, params (string JsonName, int Number)[] expected) =>
-        descriptor.Fields.OrderBy(field => field.FieldNumber).Select(field => (field.JsonName, field.FieldNumber)).SequenceEqual(expected);
+        Enumerable.OrderBy<FieldDescriptor, int>(descriptor.Fields.InFieldNumberOrder(), field => field.FieldNumber)
+            .Select(field => (field.JsonName, field.FieldNumber)).SequenceEqual(expected);
 
     private static bool JsonNames(MessageDescriptor descriptor, JsonElement expected, int minimumFieldNumber) =>
-        descriptor.Fields.Where(field => field.FieldNumber >= minimumFieldNumber).OrderBy(field => field.FieldNumber)
+        Enumerable.OrderBy<FieldDescriptor, int>(
+            Enumerable.Where<FieldDescriptor>(descriptor.Fields.InFieldNumberOrder(), field => field.FieldNumber >= minimumFieldNumber),
+            field => field.FieldNumber)
             .Select(field => field.JsonName).SequenceEqual(expected.EnumerateArray().Select(item => item.GetString()!));
 
     private static IOrderedEnumerable<JsonElement> OrderByUpdatedAtThenIdDescending(IEnumerable<JsonElement> rows, string idField) =>

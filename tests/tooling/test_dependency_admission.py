@@ -1533,6 +1533,7 @@ class DependencyAdmission(unittest.TestCase):
 
         historical_commit = '727f9957773c3ae01ab849ebdeaae3f3ef174b09'
         accepted_con22_commit = '9577ab67fb631a37a73b1b7e8d087714f6292e8a'
+        con21_snapshot_commit = '1d17838dd6bb30f89ffbfb9a26ce311f6c742d34'
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/con-22-r1.json'
         current_con21_receipt_path = 'eng/policy/dependency-reviews/con-21-r1.json'
@@ -1544,22 +1545,30 @@ class DependencyAdmission(unittest.TestCase):
 
         old_policy = json.loads(git_blob(historical_commit, policy_path))
         accepted_con22_policy = json.loads(git_blob(accepted_con22_commit, policy_path))
-        current_con21_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
+        con21_snapshot_policy_bytes = git_blob(con21_snapshot_commit, policy_path)
+        con21_snapshot_policy = json.loads(con21_snapshot_policy_bytes)
+        con21_snapshot_receipt_bytes = git_blob(con21_snapshot_commit, current_con21_receipt_path)
+        con21_snapshot_receipt = json.loads(con21_snapshot_receipt_bytes)
         old_access = old_policy['inputHashes'][access_key]
         accepted_con22_access = accepted_con22_policy['inputHashes'][access_key]
-        current_con21_access = current_con21_policy['inputHashes'][access_key]
-        self.assertEqual(old_access, hashlib.sha256(git_blob(historical_commit, access_key)).hexdigest())
-        self.assertEqual(accepted_con22_access,
-                         hashlib.sha256(git_blob(accepted_con22_commit, access_key)).hexdigest())
+        old_access_bytes = git_blob(historical_commit, access_key)
+        accepted_con22_access_bytes = git_blob(accepted_con22_commit, access_key)
+        con21_snapshot_access_bytes = git_blob(con21_snapshot_commit, access_key)
+        current_con21_access = hashlib.sha256(con21_snapshot_access_bytes).hexdigest()
+        self.assertEqual(old_access, hashlib.sha256(old_access_bytes).hexdigest())
+        self.assertEqual(accepted_con22_access, hashlib.sha256(accepted_con22_access_bytes).hexdigest())
         accepted_con22_receipt = json.loads(git_blob(accepted_con22_commit, receipt_path))
         self.assertEqual(
             accepted_con22_receipt['review']['inputHashes'][access_key], accepted_con22_access)
-        current_con21_receipt_document = json.loads(
-            (ROOT / current_con21_receipt_path).read_text(encoding='utf-8'))
+        self.assertEqual(con21_snapshot_policy['inputHashes'][access_key], current_con21_access)
         self.assertEqual(
-            current_con21_receipt_document['review']['inputHashes'][access_key], current_con21_access)
-        self.assertEqual(current_con21_access,
-                         hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest())
+            con21_snapshot_policy['review']['inputHashes'][access_key], current_con21_access)
+        self.assertEqual(
+            con21_snapshot_receipt['review']['inputHashes'][access_key], current_con21_access)
+        self.assertEqual(subprocess.run(
+            ['git', 'merge-base', '--is-ancestor', con21_snapshot_commit,
+             subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()],
+            cwd=ROOT, check=False).returncode, 0)
         self.assertNotIn(current_con21_access, {old_access, accepted_con22_access})
         fixed_receipt_rows = {
             ('eng/provenance/records/dokka-combokeys-licence-r1.json',
@@ -1624,10 +1633,10 @@ class DependencyAdmission(unittest.TestCase):
             'CON22 exact observed dependency-review findings (Security run 36667240142)']
         old_policy = git_blob(historical_commit, policy_path)
         accepted_con22_policy = git_blob(accepted_con22_commit, policy_path)
-        current_con21_policy = (ROOT / policy_path).read_bytes()
+        current_con21_policy = con21_snapshot_policy_bytes
         old_receipt = git_blob(historical_commit, receipt_path)
         accepted_con22_receipt = git_blob(accepted_con22_commit, receipt_path)
-        current_con21_receipt = (ROOT / current_con21_receipt_path).read_bytes()
+        current_con21_receipt = con21_snapshot_receipt_bytes
         old_policy_hits = matched_rows(old_policy, policy_group['regexes'])
         accepted_con22_policy_hits = matched_rows(accepted_con22_policy, policy_group['regexes'])
         current_con21_policy_hits = matched_rows(current_con21_policy, policy_group['regexes'])

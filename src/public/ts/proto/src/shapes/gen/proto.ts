@@ -11314,6 +11314,43 @@ function checkScopeProjectMetadata(input: unknown, context: ValidationContext): 
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isScopeProjectSummary(input: unknown): boolean { return checkScopeProjectSummary(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeProjectSummary(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.projectId === undefined) return false;
+  if (value.projectId !== undefined) {
+    const fieldValue = value.projectId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  if (value.sessionCount === undefined) return false;
+  if (value.sessionCount !== undefined) {
+    const fieldValue = value.sessionCount;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  if (value.updatedAt === undefined) return false;
+  if (value.updatedAt !== undefined) {
+    const fieldValue = value.updatedAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isScopeSelection(input: unknown): boolean { return checkScopeSelection(input, {active: new Set<object>(), depth: 0}); }
 function checkScopeSelection(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -11348,6 +11385,282 @@ function checkScopeSelection(input: unknown, context: ValidationContext): boolea
   if (value.revision !== undefined) {
     const fieldValue = value.revision;
     if (!checkNativeContentRev(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceGetSessionRequest(input: unknown): boolean { return checkScopeServiceGetSessionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceGetSessionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.sessionId === undefined) return false;
+  if (value.sessionId !== undefined) {
+    const fieldValue = value.sessionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.minRevision !== undefined) {
+    const fieldValue = value.minRevision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceGetSessionResponse(input: unknown): boolean { return checkScopeServiceGetSessionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceGetSessionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkScopeServiceGetSessionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceGetSessionValue(input: unknown): boolean { return checkScopeServiceGetSessionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceGetSessionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.session === undefined) return false;
+  if (value.session !== undefined) {
+    const fieldValue = value.session;
+    if (!checkScopeMetadata(fieldValue, context)) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.committedAt === undefined) return false;
+  if (value.committedAt !== undefined) {
+    const fieldValue = value.committedAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceListProjectsRequest(input: unknown): boolean { return checkScopeServiceListProjectsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceListProjectsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceListProjectsResponse(input: unknown): boolean { return checkScopeServiceListProjectsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceListProjectsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkScopeServiceListProjectsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceListProjectsValue(input: unknown): boolean { return checkScopeServiceListProjectsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceListProjectsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 100) return false;
+    for (const item of fieldValue) {
+    if (!checkScopeProjectSummary(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceListSessionsRequest(input: unknown): boolean { return checkScopeServiceListSessionsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceListSessionsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.projectId === undefined) return false;
+  if (value.projectId !== undefined) {
+    const fieldValue = value.projectId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceListSessionsResponse(input: unknown): boolean { return checkScopeServiceListSessionsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceListSessionsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkScopeServiceListSessionsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeServiceListSessionsValue(input: unknown): boolean { return checkScopeServiceListSessionsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeServiceListSessionsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 100) return false;
+    for (const item of fieldValue) {
+    if (!checkScopeSessionSummary(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScopeSessionSummary(input: unknown): boolean { return checkScopeSessionSummary(input, {active: new Set<object>(), depth: 0}); }
+function checkScopeSessionSummary(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.sessionId === undefined) return false;
+  if (value.sessionId !== undefined) {
+    const fieldValue = value.sessionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.projectId === undefined) return false;
+  if (value.projectId !== undefined) {
+    const fieldValue = value.projectId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  if (value.findingCount === undefined) return false;
+  if (value.findingCount !== undefined) {
+    const fieldValue = value.findingCount;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  if (value.reportCount === undefined) return false;
+  if (value.reportCount !== undefined) {
+    const fieldValue = value.reportCount;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  if (value.tags === undefined) return false;
+  if (value.tags !== undefined) {
+    const fieldValue = value.tags;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkId(item, context)) return false;
+    }
+  }
+  if (value.updatedAt === undefined) return false;
+  if (value.updatedAt !== undefined) {
+    const fieldValue = value.updatedAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }

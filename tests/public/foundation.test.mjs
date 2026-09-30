@@ -29,6 +29,12 @@ const con22Fixture = JSON.parse(
     "utf8",
   ),
 );
+const con24ScopeFixture = JSON.parse(
+  await readFile(
+    new URL("../../fixtures/public/con-24-scope-library.json", import.meta.url),
+    "utf8",
+  ),
+);
 const expectedSyncTransferVectors = [
   {
     id: "con09-sync-stale-revision-preserves-conflict-proposal",
@@ -263,7 +269,103 @@ for (const [id, target] of con22ExpectedCoverage) {
   assert.equal(checks[`is${target}`](decoded), true, `${id}: validation after content round trip`);
   con22Coverage.push({ id, target, json: roundTripped });
 }
-assertFoundationCoverage(inventory, [...output, ...con22Coverage]);
+const con24ExpectedCoverage = new Map([
+  [
+    "projects-use-project-metadata-and-visible-live-sessions-in-one-snapshot",
+    "ScopeProjectSummary",
+  ],
+  [
+    "sessions-count-findings-and-reports-from-committed-owner-filtered-aggregate",
+    "ScopeSessionSummary",
+  ],
+]);
+const con24VectorsById = new Map();
+for (const item of con24ScopeFixture.vectors) {
+  if (!con24ExpectedCoverage.has(item.id)) continue;
+  assert.ok(!con24VectorsById.has(item.id), `Duplicate CON.24 coverage vector ${item.id}`);
+  con24VectorsById.set(item.id, item);
+}
+assert.deepEqual(
+  [...con24VectorsById.keys()].sort(),
+  [...con24ExpectedCoverage.keys()].sort(),
+  "Only the two authorized CON.24 positive scope vectors extend Foundation coverage",
+);
+function scopeBytesFromHex(hex, id) {
+  assert.match(hex, /^(?:[0-9a-f]{2})+$/, `${id}: expected lowercase even-length hex bytes`);
+  return Buffer.from(hex, "hex").toString("base64");
+}
+function scopeRoundTrip(target, json, id) {
+  const schema = content[`${target}Schema`];
+  assert.ok(schema, `${id}: generated content.proto schema exists`);
+  assert.equal(
+    typeof checks[`is${target}`],
+    "function",
+    `${id}: generated content validator exists`,
+  );
+  const message = fromJson(schema, json);
+  assert.equal(checks[`is${target}`](message), true, `${id}: generated content validator`);
+  const decoded = fromBinary(schema, toBinary(schema, message));
+  const roundTripped = toJson(schema, decoded);
+  assert.deepEqual(roundTripped, toJson(schema, message), `${id}: scope semantic round trip`);
+  assert.equal(checks[`is${target}`](decoded), true, `${id}: validation after scope round trip`);
+  return { id, target, json: roundTripped };
+}
+const con24Coverage = [];
+for (const [id, target] of con24ExpectedCoverage) {
+  const item = con24VectorsById.get(id);
+  assert.equal(
+    (item.expected !== undefined) !== (item.expectedItems !== undefined),
+    true,
+    `${id}: exactly one expected protobuf shape is present`,
+  );
+  if (target === "ScopeProjectSummary") {
+    assert.equal(item.operationId, "scope.listProjects", `${id}: exact producer operation`);
+    assert.deepEqual(Object.keys(item.expected).sort(), [
+      "mustNotUse",
+      "name",
+      "projectIdHex",
+      "revision",
+      "sessionCount",
+      "updatedAt",
+    ]);
+    assert.deepEqual(item.expected.mustNotUse, ["session.name", "max(session.revision)"]);
+    const json = {
+      projectId: { value: scopeBytesFromHex(item.expected.projectIdHex, id) },
+      name: item.expected.name,
+      sessionCount: item.expected.sessionCount,
+      updatedAt: item.expected.updatedAt,
+      revision: { value: item.expected.revision },
+    };
+    con24Coverage.push(scopeRoundTrip(target, json, id));
+    continue;
+  }
+  assert.equal(item.operationId, "scope.listSessions", `${id}: exact producer operation`);
+  assert.ok(Array.isArray(item.expectedItems), `${id}: expected items exist`);
+  assert.equal(item.expectedItems.length, 1, `${id}: exact single visible positive item`);
+  const expected = item.expectedItems[0];
+  assert.deepEqual(Object.keys(expected).sort(), [
+    "findingCount",
+    "name",
+    "projectIdHex",
+    "reportCount",
+    "revision",
+    "sessionIdHex",
+    "tagsHex",
+    "updatedAt",
+  ]);
+  const json = {
+    sessionId: { value: scopeBytesFromHex(expected.sessionIdHex, id) },
+    projectId: { value: scopeBytesFromHex(expected.projectIdHex, id) },
+    name: expected.name,
+    findingCount: expected.findingCount,
+    reportCount: expected.reportCount,
+    tags: expected.tagsHex.map((hex) => ({ value: scopeBytesFromHex(hex, id) })),
+    updatedAt: expected.updatedAt,
+    revision: { value: expected.revision },
+  };
+  con24Coverage.push(scopeRoundTrip(target, json, id));
+}
+assertFoundationCoverage(inventory, [...output, ...con22Coverage, ...con24Coverage]);
 assert.equal(
   Object.keys(fixture.aggregateVariants).length,
   10,
