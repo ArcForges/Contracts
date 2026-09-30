@@ -122,6 +122,34 @@
       ]
     },
     {
+      "id": "projects-order-updated-at-primary-before-project-id",
+      "operationId": "scope.listProjects",
+      "source": {
+        "projects": [
+          {
+            "projectIdHex": "00000000000000000000000000000001",
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 500000000 },
+            "hasVisibleLiveSessions": true
+          },
+          {
+            "projectIdHex": "00000000000000000000000000000002",
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 100000000 },
+            "hasVisibleLiveSessions": true
+          },
+          {
+            "projectIdHex": "00000000000000000000000000000003",
+            "updatedAt": { "unixSeconds": "1790593199", "nanos": 900000000 },
+            "hasVisibleLiveSessions": true
+          }
+        ]
+      },
+      "expectedProjectIdsHex": [
+        "00000000000000000000000000000001",
+        "00000000000000000000000000000002",
+        "00000000000000000000000000000003"
+      ]
+    },
+    {
       "id": "sessions-count-findings-and-reports-from-committed-owner-filtered-aggregate",
       "operationId": "scope.listSessions",
       "source": {
@@ -164,6 +192,69 @@
           "updatedAt": { "unixSeconds": "1790593200", "nanos": 500000000 },
           "revision": 9
         }
+      ]
+    },
+    {
+      "id": "sessions-order-updated-at-then-session-id-descending",
+      "operationId": "scope.listSessions",
+      "source": {
+        "projectIdHex": "00112233445566778899aabbccddeeff",
+        "sessionsInListSnapshot": [
+          {
+            "sessionIdHex": "00000000000000000000000000000001",
+            "projectIdHex": "00112233445566778899aabbccddeeff",
+            "name": "Newest session",
+            "findingCount": 1,
+            "reportCount": 0,
+            "tagsHex": [],
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 500000000 },
+            "revision": 1,
+            "live": true,
+            "visible": true
+          },
+          {
+            "sessionIdHex": "00000000000000000000000000000002",
+            "projectIdHex": "00112233445566778899aabbccddeeff",
+            "name": "Older tie session",
+            "findingCount": 2,
+            "reportCount": 0,
+            "tagsHex": [],
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 100000000 },
+            "revision": 2,
+            "live": true,
+            "visible": true
+          },
+          {
+            "sessionIdHex": "00000000000000000000000000000004",
+            "projectIdHex": "00112233445566778899aabbccddeeff",
+            "name": "Newer ID tie session",
+            "findingCount": 3,
+            "reportCount": 1,
+            "tagsHex": [],
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 100000000 },
+            "revision": 4,
+            "live": true,
+            "visible": true
+          },
+          {
+            "sessionIdHex": "00000000000000000000000000000003",
+            "projectIdHex": "00112233445566778899aabbccddeeff",
+            "name": "Oldest session",
+            "findingCount": 0,
+            "reportCount": 0,
+            "tagsHex": [],
+            "updatedAt": { "unixSeconds": "1790593199", "nanos": 900000000 },
+            "revision": 3,
+            "live": true,
+            "visible": true
+          }
+        ]
+      },
+      "expectedSessionIdsHex": [
+        "00000000000000000000000000000001",
+        "00000000000000000000000000000004",
+        "00000000000000000000000000000002",
+        "00000000000000000000000000000003"
       ]
     },
     {

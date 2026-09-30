@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using System.Text.Json;
+using System.Globalization;
 using ArcForges.Contracts.PublicApi.V1;
 using Google.Protobuf.Reflection;
 
@@ -14,7 +15,9 @@ internal static class Con24ScopeLibraryCases
         "sessions-next-page-rechecks-current-access",
         "get-session-returns-only-committed-metadata-with-cloud-revision-and-time",
         "get-session-unresolved-parent-is-not-reassigned-or-exposed",
-        "get-session-tombstone-returns-gone"
+        "get-session-tombstone-returns-gone",
+        "projects-order-updated-at-primary-before-project-id",
+        "sessions-order-updated-at-then-session-id-descending"
     ];
 
     internal static void Run(string root)
@@ -167,12 +170,60 @@ internal static class Con24ScopeLibraryCases
                     Require(operation == "scope.getSession" && vector.GetProperty("source").GetProperty("sessionTombstoned").GetBoolean() &&
                         !vector.GetProperty("expected").GetProperty("visible").GetBoolean() && vector.GetProperty("expected").GetProperty("errorCode").GetString() == "state.gone", id + " tombstone disposition");
                     break;
+                case "projects-order-updated-at-primary-before-project-id":
+                    {
+                        Require(operation == "scope.listProjects", id + " operation");
+                        var sourceProjects = vector.GetProperty("source").GetProperty("projects").EnumerateArray().ToArray();
+                        Require(sourceProjects.Length == 3 && sourceProjects.All(project => project.GetProperty("hasVisibleLiveSessions").GetBoolean()), id + " visible source projects");
+                        var instants = sourceProjects.Select(project => (
+                            project.GetProperty("updatedAt").GetProperty("unixSeconds").GetString() ?? throw new InvalidOperationException(id + " missing seconds"),
+                            project.GetProperty("updatedAt").GetProperty("nanos").GetInt32())).Distinct().ToArray();
+                        Require(instants.Length == 3, id + " exact distinct commit instants");
+                        Require(instants.Select(instant => instant.Item1).Distinct(StringComparer.Ordinal).Count() == 2, id + " exercises nanosecond ordering within one second");
+                        var actual = OrderByUpdatedAtThenIdDescending(sourceProjects, "projectIdHex")
+                            .Select(project => project.GetProperty("projectIdHex").GetString() ?? throw new InvalidOperationException(id + " missing project id"))
+                            .ToArray();
+                        var expectedIds = vector.GetProperty("expectedProjectIdsHex").EnumerateArray().Select(value => value.GetString() ?? throw new InvalidOperationException(id + " missing expected id")).ToArray();
+                        Require(actual.SequenceEqual(expectedIds, StringComparer.Ordinal), id + " source-derived primary order");
+                        Require(actual.SequenceEqual(new[]
+                        {
+                            "00000000000000000000000000000001",
+                            "00000000000000000000000000000002",
+                            "00000000000000000000000000000003"
+                        }, StringComparer.Ordinal), id + " fixed updatedAt-first order");
+                        break;
+                    }
+                case "sessions-order-updated-at-then-session-id-descending":
+                    {
+                        Require(operation == "scope.listSessions", id + " operation");
+                        var sourceRows = vector.GetProperty("source").GetProperty("sessionsInListSnapshot").EnumerateArray()
+                            .Where(session => session.GetProperty("live").GetBoolean() && session.GetProperty("visible").GetBoolean()).ToArray();
+                        Require(sourceRows.Length == 4, id + " visible source rows");
+                        var instants = sourceRows.Select(session => (
+                            session.GetProperty("updatedAt").GetProperty("unixSeconds").GetString() ?? throw new InvalidOperationException(id + " missing seconds"),
+                            session.GetProperty("updatedAt").GetProperty("nanos").GetInt32())).ToArray();
+                        Require(instants.Distinct().Count() == 3, id + " exact timestamp set");
+                        Require(instants.Count(instant => instant == ("1790593200", 100000000)) == 2, id + " exact ID tie pair");
+                        var actual = OrderByUpdatedAtThenIdDescending(sourceRows, "sessionIdHex")
+                            .Select(session => session.GetProperty("sessionIdHex").GetString() ?? throw new InvalidOperationException(id + " missing session id"))
+                            .ToArray();
+                        var expectedIds = vector.GetProperty("expectedSessionIdsHex").EnumerateArray().Select(value => value.GetString() ?? throw new InvalidOperationException(id + " missing expected id")).ToArray();
+                        Require(actual.SequenceEqual(expectedIds, StringComparer.Ordinal), id + " source-derived order");
+                        Require(actual.SequenceEqual(new[]
+                        {
+                            "00000000000000000000000000000001",
+                            "00000000000000000000000000000004",
+                            "00000000000000000000000000000002",
+                            "00000000000000000000000000000003"
+                        }, StringComparer.Ordinal), id + " fixed timestamp-and-ID order");
+                        break;
+                    }
                 default:
                     throw new InvalidOperationException("Unknown CON.24 vector " + id);
             }
         }
         Require(consumed.SetEquals(ExpectedIds), "every vector is consumed exactly once");
-        Console.WriteLine("CON.24: exact ScopeService descriptors, operation scope and all eight independent summary/read vectors passed.");
+        Console.WriteLine("CON.24: exact ScopeService descriptors, operation scope and all ten independent summary/read vectors passed.");
     }
 
     private static bool Fields(MessageDescriptor descriptor, params (string JsonName, int Number)[] expected) =>
@@ -181,6 +232,11 @@ internal static class Con24ScopeLibraryCases
     private static bool JsonNames(MessageDescriptor descriptor, JsonElement expected, int minimumFieldNumber) =>
         descriptor.Fields.Where(field => field.FieldNumber >= minimumFieldNumber).OrderBy(field => field.FieldNumber)
             .Select(field => field.JsonName).SequenceEqual(expected.EnumerateArray().Select(item => item.GetString()!));
+
+    private static IOrderedEnumerable<JsonElement> OrderByUpdatedAtThenIdDescending(IEnumerable<JsonElement> rows, string idField) =>
+        rows.OrderByDescending(row => long.Parse(row.GetProperty("updatedAt").GetProperty("unixSeconds").GetString()!, CultureInfo.InvariantCulture))
+            .ThenByDescending(row => row.GetProperty("updatedAt").GetProperty("nanos").GetInt32())
+            .ThenByDescending(row => row.GetProperty(idField).GetString()!, StringComparer.Ordinal);
 
     private static void Require(bool valid, string reason)
     {

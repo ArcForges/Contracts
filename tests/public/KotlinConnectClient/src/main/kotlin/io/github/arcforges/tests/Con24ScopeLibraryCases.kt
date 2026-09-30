@@ -16,6 +16,8 @@ internal object Con24ScopeLibraryCases {
         "get-session-returns-only-committed-metadata-with-cloud-revision-and-time",
         "get-session-unresolved-parent-is-not-reassigned-or-exposed",
         "get-session-tombstone-returns-gone",
+        "projects-order-updated-at-primary-before-project-id",
+        "sessions-order-updated-at-then-session-id-descending",
     )
 
     fun run() {
@@ -162,11 +164,59 @@ internal object Con24ScopeLibraryCases {
                     val expected = vector.getAsJsonObject("expected")
                     check(!expected["visible"].asBoolean && expected["errorCode"].asString == "state.gone")
                 }
+                expectedIds[8] -> {
+                    check(vector["operationId"].asString == "scope.listProjects")
+                    val sourceProjects = vector.getAsJsonObject("source").getAsJsonArray("projects").map { it.asJsonObject }
+                    check(sourceProjects.size == 3 && sourceProjects.all { it["hasVisibleLiveSessions"].asBoolean })
+                    val instants = sourceProjects.map { project ->
+                        val updatedAt = project.getAsJsonObject("updatedAt")
+                        updatedAt["unixSeconds"].asString to updatedAt["nanos"].asInt
+                    }.toSet()
+                    check(instants.size == 3)
+                    check(instants.map { it.first }.toSet().size == 2) { "The vector must order nanoseconds within one second" }
+                    val actual = sourceProjects.sortedWith(
+                        compareByDescending<JsonObject> { it.getAsJsonObject("updatedAt")["unixSeconds"].asString.toLong() }
+                            .thenByDescending { it.getAsJsonObject("updatedAt")["nanos"].asInt }
+                            .thenByDescending { it["projectIdHex"].asString },
+                    ).map { it["projectIdHex"].asString }
+                    val expected = vector.getAsJsonArray("expectedProjectIdsHex").map { it.asString }
+                    check(actual == expected)
+                    check(actual == listOf(
+                        "00000000000000000000000000000001",
+                        "00000000000000000000000000000002",
+                        "00000000000000000000000000000003",
+                    )) { "updatedAt must sort before projectId" }
+                }
+                expectedIds[9] -> {
+                    check(vector["operationId"].asString == "scope.listSessions")
+                    val sourceRows = vector.getAsJsonObject("source").getAsJsonArray("sessionsInListSnapshot")
+                        .map { it.asJsonObject }.filter { it["live"].asBoolean && it["visible"].asBoolean }
+                    check(sourceRows.size == 4)
+                    val timestampKeys = sourceRows.map {
+                        val updatedAt = it.getAsJsonObject("updatedAt")
+                        updatedAt["unixSeconds"].asString + ":" + updatedAt["nanos"].asInt
+                    }
+                    check(timestampKeys.toSet().size == 3)
+                    check(timestampKeys.count { it == "1790593200:100000000" } == 2) { "The tie pair must share updatedAt" }
+                    val actual = sourceRows.sortedWith(
+                        compareByDescending<JsonObject> { it.getAsJsonObject("updatedAt")["unixSeconds"].asString.toLong() }
+                            .thenByDescending { it.getAsJsonObject("updatedAt")["nanos"].asInt }
+                            .thenByDescending { it["sessionIdHex"].asString },
+                    ).map { it["sessionIdHex"].asString }
+                    val expected = vector.getAsJsonArray("expectedSessionIdsHex").map { it.asString }
+                    check(actual == expected)
+                    check(actual == listOf(
+                        "00000000000000000000000000000001",
+                        "00000000000000000000000000000004",
+                        "00000000000000000000000000000002",
+                        "00000000000000000000000000000003",
+                    )) { "updatedAt must sort before sessionId, with descending ID for ties" }
+                }
                 else -> error("Unknown CON.24 vector $id")
             }
         }
         check(consumed == expectedIds.toSet()) { "Every CON.24 vector must be consumed exactly once" }
-        println("CON.24: published ScopeService descriptors, product-owner authorization and all eight public vectors passed.")
+        println("CON.24: published ScopeService descriptors, product-owner authorization and all ten public vectors passed.")
     }
 
     private fun requireFields(message: com.google.protobuf.Descriptors.Descriptor, expected: List<Pair<String, Int>>) {

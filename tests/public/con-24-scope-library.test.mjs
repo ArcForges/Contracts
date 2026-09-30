@@ -21,6 +21,8 @@ const expectedIds = [
   "get-session-returns-only-committed-metadata-with-cloud-revision-and-time",
   "get-session-unresolved-parent-is-not-reassigned-or-exposed",
   "get-session-tombstone-returns-gone",
+  "projects-order-updated-at-primary-before-project-id",
+  "sessions-order-updated-at-then-session-id-descending",
 ];
 
 function fieldNames(message) {
@@ -29,6 +31,25 @@ function fieldNames(message) {
 
 function messageType(field) {
   return field.fieldKind.case === "message" ? field.fieldKind.message.typeName : undefined;
+}
+
+function compareDescending(left, right) {
+  return left === right ? 0 : left > right ? -1 : 1;
+}
+
+function compareUpdatedAtDescending(left, right) {
+  return (
+    compareDescending(BigInt(left.unixSeconds), BigInt(right.unixSeconds)) ||
+    compareDescending(left.nanos, right.nanos)
+  );
+}
+
+function orderByUpdatedAtThenIdDescending(rows, idField) {
+  return [...rows].sort(
+    (left, right) =>
+      compareUpdatedAtDescending(left.updatedAt, right.updatedAt) ||
+      compareDescending(left[idField], right[idField]),
+  );
 }
 
 test("CON.24 operation bindings match the fixture RPCs without generated outputs", () => {
@@ -176,7 +197,7 @@ test("CON.24 public vectors are consumed exactly once with their independent exp
   assert.deepEqual(
     [...ids].sort(),
     [...expectedIds].sort(),
-    "only the eight authorized vectors exist",
+    "only the ten authorized vectors exist",
   );
   const consumed = new Set();
   for (const vector of vectors) {
@@ -283,6 +304,58 @@ test("CON.24 public vectors are consumed exactly once with their independent exp
         assert.equal(vector.source.sessionTombstoned, true);
         assert.deepEqual(vector.expected, { visible: false, errorCode: "state.gone" });
         break;
+      case expectedIds[8]: {
+        assert.equal(vector.operationId, "scope.listProjects");
+        const sourceProjects = vector.source.projects;
+        assert.equal(sourceProjects.length, 3);
+        assert.ok(sourceProjects.every((project) => project.hasVisibleLiveSessions));
+        assert.equal(
+          new Set(
+            sourceProjects.map(
+              (project) => `${project.updatedAt.unixSeconds}:${project.updatedAt.nanos}`,
+            ),
+          ).size,
+          3,
+          "the primary-order vector uses distinct commit instants",
+        );
+        const actual = orderByUpdatedAtThenIdDescending(sourceProjects, "projectIdHex").map(
+          (project) => project.projectIdHex,
+        );
+        assert.deepEqual(actual, vector.expectedProjectIdsHex);
+        assert.deepEqual(actual, [
+          "00000000000000000000000000000001",
+          "00000000000000000000000000000002",
+          "00000000000000000000000000000003",
+        ]);
+        break;
+      }
+      case expectedIds[9]: {
+        assert.equal(vector.operationId, "scope.listSessions");
+        const sourceRows = vector.source.sessionsInListSnapshot.filter(
+          (session) => session.live && session.visible,
+        );
+        assert.equal(sourceRows.length, 4);
+        const timestampKeys = sourceRows.map(
+          (session) => `${session.updatedAt.unixSeconds}:${session.updatedAt.nanos}`,
+        );
+        assert.equal(new Set(timestampKeys).size, 3);
+        assert.equal(
+          timestampKeys.filter((key) => key === "1790593200:100000000").length,
+          2,
+          "the tie-break pair shares the exact updatedAt",
+        );
+        const actual = orderByUpdatedAtThenIdDescending(sourceRows, "sessionIdHex").map(
+          (session) => session.sessionIdHex,
+        );
+        assert.deepEqual(actual, vector.expectedSessionIdsHex);
+        assert.deepEqual(actual, [
+          "00000000000000000000000000000001",
+          "00000000000000000000000000000004",
+          "00000000000000000000000000000002",
+          "00000000000000000000000000000003",
+        ]);
+        break;
+      }
       default:
         assert.fail(`unknown vector ${vector.id}`);
     }
