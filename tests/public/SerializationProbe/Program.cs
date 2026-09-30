@@ -76,6 +76,26 @@ foreach (var package in services.GetProperty("csharp").EnumerateObject())
         && catalogue.Select(service => service.FullName).SequenceEqual(expected), "catalogue " + package.Name);
     Count("catalogue");
 }
+var simulationService = ArcForges.Contracts.Simulation.V1.SimulationReflection.Descriptor.Services.Single();
+var expectedSimulationMethods = new[]
+{
+    "/arcforges.simulation.v1.SimulationService/ListDefinitions",
+    "/arcforges.simulation.v1.SimulationService/GetDefinition",
+    "/arcforges.simulation.v1.SimulationService/CreateDefinition",
+    "/arcforges.simulation.v1.SimulationService/PublishScenarioVersion",
+    "/arcforges.simulation.v1.SimulationService/StartRun",
+    "/arcforges.simulation.v1.SimulationService/PauseRun",
+    "/arcforges.simulation.v1.SimulationService/ResumeRun",
+    "/arcforges.simulation.v1.SimulationService/CancelRun",
+    "/arcforges.simulation.v1.SimulationService/GetRun",
+    "/arcforges.simulation.v1.SimulationService/ListRuns",
+    "/arcforges.simulation.v1.SimulationService/ListSegments",
+    "/arcforges.simulation.v1.SimulationService/GetSegmentTicket",
+    "/arcforges.simulation.v1.SimulationService/PollState"
+};
+Require(simulationService.FullName == "arcforges.simulation.v1.SimulationService" &&
+    simulationService.Methods.Select(method => method.FullName).SequenceEqual(expectedSimulationMethods),
+    "exact 13-operation SimulationService descriptor");
 var binder = new RecordingBinder();
 ArcForges.Contracts.Hello.V1.HelloService.BindService(binder, new HelloEndpoint());
 ArcForges.Contracts.Catalog.V1.CatalogService.BindService(binder, new CatalogEndpoint());
@@ -99,6 +119,7 @@ ArcForges.Contracts.PublicApi.V1.PreferenceService.BindService(binder, new Prefe
 ArcForges.Contracts.PublicApi.V1.PolicyService.BindService(binder, new PolicyEndpoint());
 ArcForges.Contracts.PublicApi.V1.DataService.BindService(binder, new DataEndpoint());
 ArcForges.Contracts.PublicApi.V1.ExportService.BindService(binder, new ExportEndpoint());
+ArcForges.Contracts.Simulation.V1.SimulationService.BindService(binder, new SimulationEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -123,6 +144,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Scope.V1.ScopeReflection.Descriptor,
     ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReflection.Descriptor,
+    ArcForges.Contracts.Simulation.V1.SimulationReflection.Descriptor,
 ];
 var serviceCount = 0;
 foreach (var file in files)
@@ -353,3 +375,5 @@ internal sealed class PolicyEndpoint : ArcForges.Contracts.PublicApi.V1.PolicySe
 internal sealed class DataEndpoint : ArcForges.Contracts.PublicApi.V1.DataService.DataServiceBase;
 
 internal sealed class ExportEndpoint : ArcForges.Contracts.PublicApi.V1.ExportService.ExportServiceBase;
+
+internal sealed class SimulationEndpoint : ArcForges.Contracts.Simulation.V1.SimulationService.SimulationServiceBase;

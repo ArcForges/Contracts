@@ -1530,8 +1530,10 @@ class DependencyAdmission(unittest.TestCase):
         by_description = {row['description']: row for row in groups}
 
         historical_commit = '727f9957773c3ae01ab849ebdeaae3f3ef174b09'
+        accepted_con22_commit = '9577ab67fb631a37a73b1b7e8d087714f6292e8a'
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/con-22-r1.json'
+        current_con21_receipt_path = 'eng/policy/dependency-reviews/con-21-r1.json'
         profile_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r16.json'
         access_key = 'eng/policy/contract-access.json'
 
@@ -1539,11 +1541,24 @@ class DependencyAdmission(unittest.TestCase):
             return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
 
         old_policy = json.loads(git_blob(historical_commit, policy_path))
-        current_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
+        accepted_con22_policy = json.loads(git_blob(accepted_con22_commit, policy_path))
+        current_con21_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
         old_access = old_policy['inputHashes'][access_key]
-        current_access = current_policy['inputHashes'][access_key]
+        accepted_con22_access = accepted_con22_policy['inputHashes'][access_key]
+        current_con21_access = current_con21_policy['inputHashes'][access_key]
         self.assertEqual(old_access, hashlib.sha256(git_blob(historical_commit, access_key)).hexdigest())
-        self.assertEqual(current_access, hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest())
+        self.assertEqual(accepted_con22_access,
+                         hashlib.sha256(git_blob(accepted_con22_commit, access_key)).hexdigest())
+        accepted_con22_receipt = json.loads(git_blob(accepted_con22_commit, receipt_path))
+        self.assertEqual(
+            accepted_con22_receipt['review']['inputHashes'][access_key], accepted_con22_access)
+        current_con21_receipt_document = json.loads(
+            (ROOT / current_con21_receipt_path).read_text(encoding='utf-8'))
+        self.assertEqual(
+            current_con21_receipt_document['review']['inputHashes'][access_key], current_con21_access)
+        self.assertEqual(current_con21_access,
+                         hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest())
+        self.assertNotIn(current_con21_access, {old_access, accepted_con22_access})
         fixed_receipt_rows = {
             ('eng/provenance/records/dokka-combokeys-licence-r1.json',
              '75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41'),
@@ -1556,10 +1571,10 @@ class DependencyAdmission(unittest.TestCase):
         expected_rows = {
             'CON22 exact observed dependency-policy findings (Security run 36667240142)':
                 [(('eng/policy/contract-access.json', old_access)),
-                 (('eng/policy/contract-access.json', current_access))],
+                 (('eng/policy/contract-access.json', accepted_con22_access))],
             'CON22 exact observed dependency-review findings (Security run 36667240142)':
                 [(('eng/policy/contract-access.json', old_access)),
-                 (('eng/policy/contract-access.json', current_access)),
+                 (('eng/policy/contract-access.json', accepted_con22_access)),
                  *sorted(fixed_receipt_rows)],
         }
 
@@ -1606,35 +1621,51 @@ class DependencyAdmission(unittest.TestCase):
         receipt_group = by_description[
             'CON22 exact observed dependency-review findings (Security run 36667240142)']
         old_policy = git_blob(historical_commit, policy_path)
-        current_policy = (ROOT / policy_path).read_bytes()
+        accepted_con22_policy = git_blob(accepted_con22_commit, policy_path)
+        current_con21_policy = (ROOT / policy_path).read_bytes()
         old_receipt = git_blob(historical_commit, receipt_path)
-        current_receipt = (ROOT / receipt_path).read_bytes()
+        accepted_con22_receipt = git_blob(accepted_con22_commit, receipt_path)
+        current_con21_receipt = (ROOT / current_con21_receipt_path).read_bytes()
         old_policy_hits = matched_rows(old_policy, policy_group['regexes'])
-        current_policy_hits = matched_rows(current_policy, policy_group['regexes'])
+        accepted_con22_policy_hits = matched_rows(accepted_con22_policy, policy_group['regexes'])
+        current_con21_policy_hits = matched_rows(current_con21_policy, policy_group['regexes'])
         old_receipt_hits = matched_rows(old_receipt, receipt_group['regexes'])
-        current_receipt_hits = matched_rows(current_receipt, receipt_group['regexes'])
+        accepted_con22_receipt_hits = matched_rows(accepted_con22_receipt, receipt_group['regexes'])
+        current_con21_receipt_hits = matched_rows(current_con21_receipt, receipt_group['regexes'])
         self.assertEqual(len(old_policy_hits), 2)
         self.assertEqual({row[2] for row in old_policy_hits}, {old_access})
-        self.assertEqual(len(current_policy_hits), 2)
-        self.assertEqual({row[2] for row in current_policy_hits}, {current_access})
+        self.assertEqual(len(accepted_con22_policy_hits), 2)
+        self.assertEqual({row[2] for row in accepted_con22_policy_hits}, {accepted_con22_access})
+        self.assertEqual(current_con21_policy_hits, [])
+        current_con21_receipt_access_lines = [
+            line for line in current_con21_receipt.decode('utf-8').splitlines()
+            if re.fullmatch(r'\s*"' + re.escape(access_key) + r'"\s*:\s*"[0-9a-f]{64}",?\s*', line)
+        ]
+        self.assertEqual(len(current_con21_receipt_access_lines), 1)
+        self.assertIn(current_con21_access, current_con21_receipt_access_lines[0])
+        self.assertTrue(all(re.fullmatch(pattern, current_con21_receipt_access_lines[0]) is None
+                            for pattern in receipt_group['regexes']))
+        self.assertIsNone(re.fullmatch(receipt_group['paths'][0], current_con21_receipt_path))
+        current_con21_receipt_pairs = {(row[1], row[2]) for row in current_con21_receipt_hits}
+        self.assertTrue(current_con21_receipt_pairs <= fixed_receipt_rows)
         old_policy_pairs = {(row[1], row[2]) for row in old_policy_hits}
-        current_policy_pairs = {(row[1], row[2]) for row in current_policy_hits}
-        self.assertEqual(old_policy_pairs - current_policy_pairs,
+        accepted_con22_policy_pairs = {(row[1], row[2]) for row in accepted_con22_policy_hits}
+        self.assertEqual(old_policy_pairs - accepted_con22_policy_pairs,
                          {('eng/policy/contract-access.json', old_access)})
-        self.assertEqual(current_policy_pairs - old_policy_pairs,
-                         {('eng/policy/contract-access.json', current_access)})
+        self.assertEqual(accepted_con22_policy_pairs - old_policy_pairs,
+                         {('eng/policy/contract-access.json', accepted_con22_access)})
         self.assertEqual(len(old_receipt_hits), 4)
         self.assertEqual({(row[1], row[2]) for row in old_receipt_hits},
                          {('eng/policy/contract-access.json', old_access), *fixed_receipt_rows})
-        self.assertEqual(len(current_receipt_hits), 4)
-        self.assertEqual({(row[1], row[2]) for row in current_receipt_hits},
-                         {('eng/policy/contract-access.json', current_access), *fixed_receipt_rows})
+        self.assertEqual(len(accepted_con22_receipt_hits), 4)
+        self.assertEqual({(row[1], row[2]) for row in accepted_con22_receipt_hits},
+                         {('eng/policy/contract-access.json', accepted_con22_access), *fixed_receipt_rows})
         old_receipt_pairs = {(row[1], row[2]) for row in old_receipt_hits}
-        current_receipt_pairs = {(row[1], row[2]) for row in current_receipt_hits}
-        self.assertEqual(old_receipt_pairs - current_receipt_pairs,
+        accepted_con22_receipt_pairs = {(row[1], row[2]) for row in accepted_con22_receipt_hits}
+        self.assertEqual(old_receipt_pairs - accepted_con22_receipt_pairs,
                          {('eng/policy/contract-access.json', old_access)})
-        self.assertEqual(current_receipt_pairs - old_receipt_pairs,
-                         {('eng/policy/contract-access.json', current_access)})
+        self.assertEqual(accepted_con22_receipt_pairs - old_receipt_pairs,
+                         {('eng/policy/contract-access.json', accepted_con22_access)})
         self.assertEqual(len(set(policy_group['regexes'])), 2)
         self.assertEqual(len(set(receipt_group['regexes'])), 5)
 

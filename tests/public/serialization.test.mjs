@@ -337,6 +337,21 @@ test("generated service catalogue lists exactly the authored services", () => {
       "/arcforges.publicapi.v1.ExportService/Cancel",
       "/arcforges.publicapi.v1.ExportService/GetDownload",
     ],
+    "arcforges.simulation.v1.SimulationService": [
+      "/arcforges.simulation.v1.SimulationService/ListDefinitions",
+      "/arcforges.simulation.v1.SimulationService/GetDefinition",
+      "/arcforges.simulation.v1.SimulationService/CreateDefinition",
+      "/arcforges.simulation.v1.SimulationService/PublishScenarioVersion",
+      "/arcforges.simulation.v1.SimulationService/StartRun",
+      "/arcforges.simulation.v1.SimulationService/PauseRun",
+      "/arcforges.simulation.v1.SimulationService/ResumeRun",
+      "/arcforges.simulation.v1.SimulationService/CancelRun",
+      "/arcforges.simulation.v1.SimulationService/GetRun",
+      "/arcforges.simulation.v1.SimulationService/ListRuns",
+      "/arcforges.simulation.v1.SimulationService/ListSegments",
+      "/arcforges.simulation.v1.SimulationService/GetSegmentTicket",
+      "/arcforges.simulation.v1.SimulationService/PollState",
+    ],
   };
   const expectedServices = [
     ...fixture.services.typescript["@arcforges/proto"],
