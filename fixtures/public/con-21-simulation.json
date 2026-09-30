@@ -736,10 +736,34 @@
     "schema": { "encoding": "utf8", "delimiter": ",", "hasHeader": true, "columns": [] }
   },
   "csvGeneratorMappingVectors": [
-    { "id": "csv-source-and-schema-present-accepted", "sourcePresent": true, "schemaPresent": true, "shapeValid": true, "parameterValid": true },
-    { "id": "csv-source-omitted-refused", "sourcePresent": false, "schemaPresent": true, "shapeValid": true, "parameterValid": false },
-    { "id": "csv-schema-omitted-refused", "sourcePresent": true, "schemaPresent": false, "shapeValid": true, "parameterValid": false },
-    { "id": "csv-source-and-schema-omitted-refused", "sourcePresent": false, "schemaPresent": false, "shapeValid": true, "parameterValid": false }
+    {
+      "id": "csv-source-and-schema-present-accepted",
+      "sourcePresent": true,
+      "schemaPresent": true,
+      "shapeValid": true,
+      "parameterValid": true
+    },
+    {
+      "id": "csv-source-omitted-refused",
+      "sourcePresent": false,
+      "schemaPresent": true,
+      "shapeValid": true,
+      "parameterValid": false
+    },
+    {
+      "id": "csv-schema-omitted-refused",
+      "sourcePresent": true,
+      "schemaPresent": false,
+      "shapeValid": true,
+      "parameterValid": false
+    },
+    {
+      "id": "csv-source-and-schema-omitted-refused",
+      "sourcePresent": false,
+      "schemaPresent": false,
+      "shapeValid": true,
+      "parameterValid": false
+    }
   ],
   "generatorParameterVectors": [
     {
