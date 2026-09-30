@@ -120,6 +120,7 @@ ArcForges.Contracts.PublicApi.V1.PolicyService.BindService(binder, new PolicyEnd
 ArcForges.Contracts.PublicApi.V1.DataService.BindService(binder, new DataEndpoint());
 ArcForges.Contracts.PublicApi.V1.ExportService.BindService(binder, new ExportEndpoint());
 ArcForges.Contracts.Simulation.V1.SimulationService.BindService(binder, new SimulationEndpoint());
+ArcForges.Contracts.PublicApi.V1.ScopeService.BindService(binder, new ScopeEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -131,6 +132,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.Hello.V1.HelloReflection.Descriptor,
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.ScopeReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.CommerceReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SyncReflection.Descriptor,
@@ -377,3 +379,5 @@ internal sealed class DataEndpoint : ArcForges.Contracts.PublicApi.V1.DataServic
 internal sealed class ExportEndpoint : ArcForges.Contracts.PublicApi.V1.ExportService.ExportServiceBase;
 
 internal sealed class SimulationEndpoint : ArcForges.Contracts.Simulation.V1.SimulationService.SimulationServiceBase;
+
+internal sealed class ScopeEndpoint : ArcForges.Contracts.PublicApi.V1.ScopeService.ScopeServiceBase;

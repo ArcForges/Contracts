@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.publicapi.v1.ScopeProjectSummary": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeProjectSummary",
+      "fields": {
+        "projectId": { "required": true },
+        "name": { "required": true, "maxLength": 256 },
+        "sessionCount": { "required": true },
+        "updatedAt": { "required": true },
+        "revision": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeSessionSummary": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeSessionSummary",
+      "fields": {
+        "sessionId": { "required": true },
+        "projectId": { "required": true },
+        "name": { "required": true, "maxLength": 256 },
+        "findingCount": { "required": true },
+        "reportCount": { "required": true },
+        "tags": { "items": {} },
+        "updatedAt": { "required": true },
+        "revision": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceListProjectsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceListProjectsRequest",
+      "fields": {
+        "meta": { "required": true },
+        "page": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceListProjectsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceListProjectsValue",
+      "fields": {
+        "items": { "items": {}, "maxItems": 100 },
+        "page": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceListProjectsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceListProjectsResponse",
+      "fields": {
+        "meta": { "required": true },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ScopeServiceListSessionsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceListSessionsRequest",
+      "fields": {
+        "meta": { "required": true },
+        "projectId": { "required": true },
+        "page": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceListSessionsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceListSessionsValue",
+      "fields": {
+        "items": { "items": {}, "maxItems": 100 },
+        "page": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceListSessionsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceListSessionsResponse",
+      "fields": {
+        "meta": { "required": true },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.ScopeServiceGetSessionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceGetSessionRequest",
+      "fields": {
+        "meta": { "required": true },
+        "sessionId": { "required": true },
+        "minRevision": {}
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceGetSessionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceGetSessionValue",
+      "fields": {
+        "session": { "required": true },
+        "revision": { "required": true },
+        "committedAt": { "required": true }
+      }
+    },
+    "arcforges.publicapi.v1.ScopeServiceGetSessionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ScopeServiceGetSessionResponse",
+      "fields": {
+        "meta": { "required": true },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    }
+  }
+}

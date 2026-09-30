@@ -841,7 +841,8 @@
         "arcforges.publicapi.v1.PolicyService",
         "arcforges.publicapi.v1.DataService",
         "arcforges.publicapi.v1.ExportService",
-        "arcforges.simulation.v1.SimulationService"
+        "arcforges.simulation.v1.SimulationService",
+        "arcforges.publicapi.v1.ScopeService"
       ],
       "ArcForges.Sdk.Contracts": ["arcforges.extensions.v1.ExtensionHostService"]
     },
@@ -1026,6 +1027,11 @@
         "/arcforges.simulation.v1.SimulationService/ListSegments",
         "/arcforges.simulation.v1.SimulationService/GetSegmentTicket",
         "/arcforges.simulation.v1.SimulationService/PollState"
+      ],
+      "arcforges.publicapi.v1.ScopeService": [
+        "/arcforges.publicapi.v1.ScopeService/ListProjects",
+        "/arcforges.publicapi.v1.ScopeService/ListSessions",
+        "/arcforges.publicapi.v1.ScopeService/GetSession"
       ]
     }
   }

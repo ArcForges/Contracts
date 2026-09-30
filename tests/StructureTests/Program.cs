@@ -34,6 +34,11 @@ if (args.Contains("--con-21", StringComparer.Ordinal))
     SimulationCases.Run(root);
     return 0;
 }
+if (args.Contains("--con-24", StringComparer.Ordinal))
+{
+    Con24ScopeLibraryCases.Run(root);
+    return 0;
+}
 if (args.Contains("--foundation-links", StringComparer.Ordinal))
 {
     FoundationLinkCases.Run();
@@ -86,6 +91,7 @@ Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key 
 Con05Cases.Run();
 Con06InprocessCases.Run(root);
 SimulationCases.Run(root);
+Con24ScopeLibraryCases.Run(root);
 FoundationLinkCases.Run();
 ContentSandboxCases.Run(root);
 ExtensionPolicyCases.Run(root);

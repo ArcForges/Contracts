@@ -72461,6 +72461,426 @@ export const publicFixtures = {
       }
     ]
   },
+  "con-24-scope-library.json": {
+    "schemaVersion": "scope-library-fixtures.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline-contract-only-no-owner-service-or-live-workspace",
+    "authorization": {
+      "scope": "product-owner",
+      "risk": "R1",
+      "idempotency": "Q",
+      "compatibility": "AO",
+      "capability": null,
+      "approval": "none",
+      "stepUp": false,
+      "localPresence": false,
+      "egress": "none",
+      "patEligible": false,
+      "actorKinds": [
+        "human"
+      ]
+    },
+    "operations": [
+      {
+        "operationId": "scope.listProjects",
+        "rpc": "ScopeService/ListProjects",
+        "requestType": "ScopeServiceListProjectsRequest",
+        "requestFields": [
+          "meta",
+          "page"
+        ],
+        "valueType": "ScopeServiceListProjectsValue",
+        "valueFields": [
+          "items",
+          "page"
+        ],
+        "responseType": "ScopeServiceListProjectsResponse",
+        "outcomeFields": [
+          "value",
+          "error",
+          "encodedBody"
+        ]
+      },
+      {
+        "operationId": "scope.listSessions",
+        "rpc": "ScopeService/ListSessions",
+        "requestType": "ScopeServiceListSessionsRequest",
+        "requestFields": [
+          "meta",
+          "projectId",
+          "page"
+        ],
+        "valueType": "ScopeServiceListSessionsValue",
+        "valueFields": [
+          "items",
+          "page"
+        ],
+        "responseType": "ScopeServiceListSessionsResponse",
+        "outcomeFields": [
+          "value",
+          "error",
+          "encodedBody"
+        ]
+      },
+      {
+        "operationId": "scope.getSession",
+        "rpc": "ScopeService/GetSession",
+        "requestType": "ScopeServiceGetSessionRequest",
+        "requestFields": [
+          "meta",
+          "sessionId",
+          "minRevision"
+        ],
+        "valueType": "ScopeServiceGetSessionValue",
+        "valueFields": [
+          "session",
+          "revision",
+          "committedAt"
+        ],
+        "responseType": "ScopeServiceGetSessionResponse",
+        "outcomeFields": [
+          "value",
+          "error",
+          "encodedBody"
+        ]
+      }
+    ],
+    "vectors": [
+      {
+        "id": "projects-use-project-metadata-and-visible-live-sessions-in-one-snapshot",
+        "operationId": "scope.listProjects",
+        "source": {
+          "projectMetadata": {
+            "projectIdHex": "00112233445566778899aabbccddeeff",
+            "name": "Alpha"
+          },
+          "projectRevision": 4,
+          "projectUpdatedAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 120000000
+          },
+          "sessionsInListSnapshot": [
+            {
+              "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+              "live": true,
+              "visible": true,
+              "revision": 81
+            },
+            {
+              "sessionIdHex": "00112233445566778899aabbccddeefe",
+              "live": true,
+              "visible": true,
+              "revision": 82
+            },
+            {
+              "sessionIdHex": "00112233445566778899aabbccddeefd",
+              "live": true,
+              "visible": false,
+              "revision": 83
+            },
+            {
+              "sessionIdHex": "00112233445566778899aabbccddeefc",
+              "live": false,
+              "visible": true,
+              "revision": 84
+            }
+          ]
+        },
+        "expected": {
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "name": "Alpha",
+          "sessionCount": 2,
+          "updatedAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 120000000
+          },
+          "revision": 4,
+          "mustNotUse": [
+            "session.name",
+            "max(session.revision)"
+          ]
+        }
+      },
+      {
+        "id": "projects-order-equal-commit-times-by-project-id-descending",
+        "operationId": "scope.listProjects",
+        "source": {
+          "projects": [
+            {
+              "projectIdHex": "00000000000000000000000000000001",
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              },
+              "hasVisibleLiveSessions": true
+            },
+            {
+              "projectIdHex": "00000000000000000000000000000002",
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              },
+              "hasVisibleLiveSessions": true
+            },
+            {
+              "projectIdHex": "00000000000000000000000000000003",
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              },
+              "hasVisibleLiveSessions": false
+            }
+          ]
+        },
+        "expectedProjectIdsHex": [
+          "00000000000000000000000000000002",
+          "00000000000000000000000000000001"
+        ]
+      },
+      {
+        "id": "projects-order-updated-at-primary-before-project-id",
+        "operationId": "scope.listProjects",
+        "source": {
+          "projects": [
+            {
+              "projectIdHex": "00000000000000000000000000000001",
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 500000000
+              },
+              "hasVisibleLiveSessions": true
+            },
+            {
+              "projectIdHex": "00000000000000000000000000000002",
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 100000000
+              },
+              "hasVisibleLiveSessions": true
+            },
+            {
+              "projectIdHex": "00000000000000000000000000000003",
+              "updatedAt": {
+                "unixSeconds": "1790593199",
+                "nanos": 900000000
+              },
+              "hasVisibleLiveSessions": true
+            }
+          ]
+        },
+        "expectedProjectIdsHex": [
+          "00000000000000000000000000000001",
+          "00000000000000000000000000000002",
+          "00000000000000000000000000000003"
+        ]
+      },
+      {
+        "id": "sessions-count-findings-and-reports-from-committed-owner-filtered-aggregate",
+        "operationId": "scope.listSessions",
+        "source": {
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "sessionsInListSnapshot": [
+            {
+              "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+              "projectIdHex": "00112233445566778899aabbccddeeff",
+              "name": "Inspection A",
+              "findingCount": 2,
+              "reportCount": 1,
+              "tagsHex": [
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ],
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 500000000
+              },
+              "revision": 9,
+              "live": true,
+              "visible": true
+            },
+            {
+              "sessionIdHex": "ffeeddccbbaa99887766554433221101",
+              "projectIdHex": "00112233445566778899aabbccddeeff",
+              "name": "Inspection B",
+              "findingCount": 7,
+              "reportCount": 0,
+              "tagsHex": [],
+              "updatedAt": {
+                "unixSeconds": "1790593100",
+                "nanos": 0
+              },
+              "revision": 10,
+              "live": true,
+              "visible": false
+            }
+          ]
+        },
+        "expectedItems": [
+          {
+            "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+            "projectIdHex": "00112233445566778899aabbccddeeff",
+            "name": "Inspection A",
+            "findingCount": 2,
+            "reportCount": 1,
+            "tagsHex": [
+              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "updatedAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 500000000
+            },
+            "revision": 9
+          }
+        ]
+      },
+      {
+        "id": "sessions-order-updated-at-then-session-id-descending",
+        "operationId": "scope.listSessions",
+        "source": {
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "sessionsInListSnapshot": [
+            {
+              "sessionIdHex": "00000000000000000000000000000001",
+              "projectIdHex": "00112233445566778899aabbccddeeff",
+              "name": "Newest session",
+              "findingCount": 1,
+              "reportCount": 0,
+              "tagsHex": [],
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 500000000
+              },
+              "revision": 1,
+              "live": true,
+              "visible": true
+            },
+            {
+              "sessionIdHex": "00000000000000000000000000000002",
+              "projectIdHex": "00112233445566778899aabbccddeeff",
+              "name": "Older tie session",
+              "findingCount": 2,
+              "reportCount": 0,
+              "tagsHex": [],
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 100000000
+              },
+              "revision": 2,
+              "live": true,
+              "visible": true
+            },
+            {
+              "sessionIdHex": "00000000000000000000000000000004",
+              "projectIdHex": "00112233445566778899aabbccddeeff",
+              "name": "Newer ID tie session",
+              "findingCount": 3,
+              "reportCount": 1,
+              "tagsHex": [],
+              "updatedAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 100000000
+              },
+              "revision": 4,
+              "live": true,
+              "visible": true
+            },
+            {
+              "sessionIdHex": "00000000000000000000000000000003",
+              "projectIdHex": "00112233445566778899aabbccddeeff",
+              "name": "Oldest session",
+              "findingCount": 0,
+              "reportCount": 0,
+              "tagsHex": [],
+              "updatedAt": {
+                "unixSeconds": "1790593199",
+                "nanos": 900000000
+              },
+              "revision": 3,
+              "live": true,
+              "visible": true
+            }
+          ]
+        },
+        "expectedSessionIdsHex": [
+          "00000000000000000000000000000001",
+          "00000000000000000000000000000004",
+          "00000000000000000000000000000002",
+          "00000000000000000000000000000003"
+        ]
+      },
+      {
+        "id": "sessions-missing-or-hidden-project-returns-not-found",
+        "operationId": "scope.listSessions",
+        "source": {
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "projectVisibleToOwner": false
+        },
+        "expected": {
+          "errorCode": "state.not_found",
+          "itemsExposed": false
+        }
+      },
+      {
+        "id": "sessions-next-page-rechecks-current-access",
+        "operationId": "scope.listSessions",
+        "request": {
+          "projectIdHex": "00112233445566778899aabbccddeeff",
+          "cursor": "opaque-page-cursor"
+        },
+        "source": {
+          "accessRevokedAfterPreviousPage": true,
+          "cursorBoundToPriorAuthorizedSnapshot": true
+        },
+        "expected": {
+          "accessRecheckedOnThisRequest": true,
+          "priorSnapshotDoesNotRestoreRevokedAccess": true
+        }
+      },
+      {
+        "id": "get-session-returns-only-committed-metadata-with-cloud-revision-and-time",
+        "operationId": "scope.getSession",
+        "request": {
+          "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+          "minRevision": 8
+        },
+        "expected": {
+          "sessionType": "ScopeMetadata",
+          "revision": 9,
+          "committedAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 500000000
+          },
+          "rawCaptureBytesPresent": false
+        }
+      },
+      {
+        "id": "get-session-unresolved-parent-is-not-reassigned-or-exposed",
+        "operationId": "scope.getSession",
+        "source": {
+          "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+          "parentProjectResolved": false,
+          "parentProjectTombstoned": false
+        },
+        "expected": {
+          "visible": false,
+          "errorCode": "state.not_found",
+          "reassigned": false
+        }
+      },
+      {
+        "id": "get-session-tombstone-returns-gone",
+        "operationId": "scope.getSession",
+        "source": {
+          "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+          "parentProjectResolved": true,
+          "sessionTombstoned": true
+        },
+        "expected": {
+          "visible": false,
+          "errorCode": "state.gone"
+        }
+      }
+    ]
+  },
   "hello.json": {
     "cases": [
       {
@@ -80570,7 +80990,8 @@ export const publicFixtures = {
           "arcforges.publicapi.v1.PolicyService",
           "arcforges.publicapi.v1.DataService",
           "arcforges.publicapi.v1.ExportService",
-          "arcforges.simulation.v1.SimulationService"
+          "arcforges.simulation.v1.SimulationService",
+          "arcforges.publicapi.v1.ScopeService"
         ],
         "ArcForges.Sdk.Contracts": [
           "arcforges.extensions.v1.ExtensionHostService"
@@ -80768,6 +81189,11 @@ export const publicFixtures = {
           "/arcforges.simulation.v1.SimulationService/ListSegments",
           "/arcforges.simulation.v1.SimulationService/GetSegmentTicket",
           "/arcforges.simulation.v1.SimulationService/PollState"
+        ],
+        "arcforges.publicapi.v1.ScopeService": [
+          "/arcforges.publicapi.v1.ScopeService/ListProjects",
+          "/arcforges.publicapi.v1.ScopeService/ListSessions",
+          "/arcforges.publicapi.v1.ScopeService/GetSession"
         ]
       }
     }

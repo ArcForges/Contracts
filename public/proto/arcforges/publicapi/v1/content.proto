@@ -601,6 +601,27 @@ message ScopeProjectMetadata {
   optional string name = 2 [json_name = "name"];
 }
 
+// registry04: ScopeProjectSummary; project-owned revision and same-snapshot visible-session count.
+message ScopeProjectSummary {
+  arcforges.foundation.v1.Id project_id = 1 [json_name = "projectId"];
+  optional string name = 2 [json_name = "name"];
+  optional uint32 session_count = 3 [json_name = "sessionCount"];
+  arcforges.foundation.v1.Instant updated_at = 4 [json_name = "updatedAt"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+}
+
+// registry04: ScopeSessionSummary; counts are from the committed owner-filtered aggregate.
+message ScopeSessionSummary {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id project_id = 2 [json_name = "projectId"];
+  optional string name = 3 [json_name = "name"];
+  optional uint32 finding_count = 4 [json_name = "findingCount"];
+  optional uint32 report_count = 5 [json_name = "reportCount"];
+  repeated arcforges.foundation.v1.Id tags = 6 [json_name = "tags"];
+  arcforges.foundation.v1.Instant updated_at = 7 [json_name = "updatedAt"];
+  arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];
+}
+
 // registry04: ScopeSelection; complete selected WP03.01 projection.
 message ScopeSelection {
   arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
