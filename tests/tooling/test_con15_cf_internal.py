@@ -119,6 +119,8 @@ class Con15CfInternalTests(unittest.TestCase):
         cls.fixture = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
 
     def test_root_bundle_has_unique_closed_records(self):
+        self.assertEqual(self.schema.get("title"), "CloudflareInternalHttpContractBundle")
+        self.assertEqual(self.schema.get("x-arcforges-schema-version"), "1")
         roots = [row["$ref"].removeprefix("#/$defs/") for row in self.schema["oneOf"]]
         self.assertEqual(len(roots), len(set(roots)))
         for name in roots:
