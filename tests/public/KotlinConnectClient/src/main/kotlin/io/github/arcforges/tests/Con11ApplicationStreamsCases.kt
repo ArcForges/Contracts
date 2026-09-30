@@ -9,6 +9,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.protobuf.ByteString
 import io.github.arcforges.contracts.events.v1.EventServiceClient
+import io.github.arcforges.contracts.events.v1.Event
 import io.github.arcforges.contracts.events.v1.EventServicePollRequest
 import io.github.arcforges.contracts.events.v1.EventServiceWatchRequest
 import io.github.arcforges.contracts.events.v1.ExecutionServiceAcknowledgeOutputRequest
@@ -23,14 +24,18 @@ import io.github.arcforges.contracts.events.v1.StreamPosition
 import io.github.arcforges.contracts.fixtures.ContractFixtures
 import io.github.arcforges.contracts.foundation.v1.Id
 import io.github.arcforges.contracts.foundation.v1.Instant
+import io.github.arcforges.contracts.foundation.v1.ApplicationScope
+import io.github.arcforges.contracts.foundation.v1.RequestMeta
 import io.github.arcforges.contracts.foundation.v1.Revision
 import io.github.arcforges.contracts.foundation.v1.ResponseMeta
 import io.github.arcforges.contracts.publicapi.v1.ApplicationServiceClient
+import io.github.arcforges.contracts.publicapi.v1.ApplicationTarget
 import io.github.arcforges.contracts.publicapi.v1.ApplicationServiceDisconnectRequest
 import io.github.arcforges.contracts.publicapi.v1.ApplicationServiceHeartbeatRequest
 import io.github.arcforges.contracts.publicapi.v1.ApplicationServiceListRequest
 import io.github.arcforges.contracts.publicapi.v1.HistoryArchiveRecord
 import io.github.arcforges.contracts.publicapi.v1.HistoryMessage
+import io.github.arcforges.contracts.publicapi.v1.ConversationView
 import io.github.arcforges.contracts.publicapi.v1.HistoryServiceBeginImportRequest
 import io.github.arcforges.contracts.publicapi.v1.HistoryServiceCancelImportRequest
 import io.github.arcforges.contracts.publicapi.v1.HistoryServiceClient
@@ -46,6 +51,7 @@ import java.lang.reflect.Modifier
 import java.lang.reflect.Proxy
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.Locale
 
@@ -72,6 +78,9 @@ object Con11ApplicationStreamsCases {
         val privateFixture = Files.newBufferedReader(root.resolve("fixtures/internal/con-11-run-stream.json"), Charsets.UTF_8).use {
             JsonParser.parseReader(it).asJsonObject
         }
+        val operationExport = Files.newBufferedReader(root.resolve("eng/operations/con-11.json"), Charsets.UTF_8).use {
+            JsonParser.parseReader(it).asJsonObject
+        }
         val seen = linkedSetOf<String>()
 
         verifyPublicRpcCalls(publicFixture, seen)
@@ -80,6 +89,11 @@ object Con11ApplicationStreamsCases {
         verifyUnaryOutcomeAlternatives(publicFixture)
         verifyPollProfile(publicFixture)
         verifyPublicBoundaries(publicFixture, seen)
+        verifyPresenceBoundaries(publicFixture, seen)
+        verifyOwnerBoundaryVectors(publicFixture, operationExport, seen)
+        verifyCursorBoundaries(publicFixture, seen)
+        verifyUInt64Boundaries(publicFixture, seen)
+        verifyUnknownFieldBoundaries(publicFixture, seen)
         verifyPrivateProjection(root, privateFixture, seen)
 
         val allIds = fixtureIds(publicFixture, privateFixture)
@@ -195,6 +209,159 @@ object Con11ApplicationStreamsCases {
                 val getter = "get${pascal(string(vector, "payloadOneof"))}Case"
                 requireCon11(type.methods.any { it.name == getter }, "generated Event payload oneof accessor")
             }
+            if (vector.has("presenceFields")) {
+                for (field in vector.getAsJsonArray("presenceFields").map { it.asString }) {
+                    val hasMethod = "has${pascal(field)}"
+                    requireCon11(type.methods.any { it.name == hasMethod },
+                        "generated protobuf presence accessor: ${string(vector, "id")}/$field")
+                }
+            }
+        }
+    }
+
+    private fun verifyPresenceBoundaries(fixture: JsonObject, seen: MutableSet<String>) {
+        for (entry in fixture.getAsJsonArray("presenceBoundaryVectors")) {
+            val vector = entry.asJsonObject
+            consume(vector, seen)
+            when (string(vector, "id")) {
+                "application-target-empty-product-presence" -> {
+                    val parsed = ApplicationTarget.newBuilder().setProductId("").build().let {
+                        ApplicationTarget.parseFrom(it.toByteArray())
+                    }
+                    requireCon11(parsed.hasProductId() && parsed.productId.isEmpty(), "explicit empty target product id presence")
+                }
+                "application-target-zero-epoch-presence" -> {
+                    val parsed = ApplicationTarget.newBuilder().setInstanceEpoch(0L).build().let {
+                        ApplicationTarget.parseFrom(it.toByteArray())
+                    }
+                    requireCon11(parsed.hasInstanceEpoch() && parsed.instanceEpoch == 0L, "explicit zero target epoch presence")
+                }
+                "request-meta-empty-application-scope-presence" -> {
+                    val parsed = RequestMeta.newBuilder().setApplicationScope(ApplicationScope.getDefaultInstance()).build().let {
+                        RequestMeta.parseFrom(it.toByteArray())
+                    }
+                    requireCon11(parsed.hasApplicationScope(), "empty RequestMeta applicationScope remains present at tag 8")
+                }
+                "conversation-view-empty-application-scope-presence" -> {
+                    val parsed = ConversationView.newBuilder().setApplicationScope(ApplicationScope.getDefaultInstance()).build().let {
+                        ConversationView.parseFrom(it.toByteArray())
+                    }
+                    requireCon11(parsed.hasApplicationScope(), "empty ConversationView applicationScope remains present at tag 10")
+                }
+                "conversation-view-unspecified-history-mode-presence" -> {
+                    val parsed = ConversationView.newBuilder().setHistoryModeValue(0).build().let {
+                        ConversationView.parseFrom(it.toByteArray())
+                    }
+                    requireCon11(parsed.hasHistoryMode() && parsed.historyModeValue == 0,
+                        "explicit HistoryMode zero remains present at tag 11")
+                }
+                else -> throw IllegalStateException("Unknown CON.11 presence vector: ${string(vector, "id")}")
+            }
+        }
+    }
+
+    private fun verifyOwnerBoundaryVectors(fixture: JsonObject, export: JsonObject, seen: MutableSet<String>) {
+        val operations = export.getAsJsonArray("operations").map { it.asJsonObject }
+        for (entry in fixture.getAsJsonArray("ownerBoundaryVectors")) {
+            val vector = entry.asJsonObject
+            consume(vector, seen)
+            val row = operations.single { string(it, "operationId") == string(vector, "operationId") }
+            requireCon11(!vector.get("runtimeEnforcementProven").asBoolean,
+                "offline owner scenario is fixture classification, not runtime authorization evidence: ${string(vector, "id")}")
+            when (string(vector, "id")) {
+                "history-identical-title-different-products" -> {
+                    val products = vector.getAsJsonArray("sourceProductIds").map { it.asString }
+                    val sources = vector.getAsJsonArray("sourceConversationIds").map { it.asString }
+                    requireCon11(vector.get("sameTitle").asBoolean && string(vector, "title") == "Shared title"
+                        && products.toSet().size == 2 && sources.toSet().size == 2
+                        && string(vector, "expectedBoundary") == "keep-separate-source-identities",
+                        "history identity is not inferred from a shared display title")
+                }
+                "history-finalize-mismatched-resource-owner" -> {
+                    val requestOwner = vector.getAsJsonObject("requestOwner")
+                    val importOwner = vector.getAsJsonObject("importOwner")
+                    requireCon11(string(requestOwner, "productId") != string(importOwner, "productId")
+                        && string(requestOwner, "installationId") != string(importOwner, "installationId")
+                        && string(vector, "expectedBoundary") == "reject-mismatched-owner",
+                        "mismatched history owner is an explicit negative contract fixture")
+                }
+                "application-heartbeat-forged-target" -> {
+                    val bound = vector.getAsJsonObject("boundTarget")
+                    val requested = vector.getAsJsonObject("requestTarget")
+                    requireCon11(string(bound, "deviceId") != string(requested, "deviceId")
+                        && string(bound, "installationId") != string(requested, "installationId")
+                        && string(vector, "expectedBoundary") == "reject-forged-target",
+                        "forged application target is an explicit negative contract fixture")
+                }
+                "application-disconnect-stale-epoch" -> {
+                    requireCon11(vector.get("requestInstanceEpoch").asLong < vector.get("boundInstanceEpoch").asLong
+                        && string(vector, "expectedBoundary") == "reject-stale-epoch",
+                        "stale installation epoch is an explicit negative contract fixture")
+                }
+                "history-finalize-stale-consent" -> {
+                    requireCon11(string(row.getAsJsonObject("authorization"), "approval") == string(vector, "authorizationApproval")
+                        && string(vector, "consentSnapshotHash") != string(vector, "currentSnapshotHash")
+                        && string(vector, "expectedBoundary") == "reject-stale-consent",
+                        "history finalize requires its recorded consent and unchanged snapshot hash")
+                }
+                else -> throw IllegalStateException("Unknown CON.11 owner boundary vector: ${string(vector, "id")}")
+            }
+        }
+    }
+
+    private fun verifyCursorBoundaries(fixture: JsonObject, seen: MutableSet<String>) {
+        for (entry in fixture.getAsJsonArray("opaqueCursorVectors")) {
+            val vector = entry.asJsonObject
+            consume(vector, seen)
+            val cursor = string(vector, "value")
+            val request = EventServicePollRequest.newBuilder().setMeta(RequestMeta.getDefaultInstance())
+                .setSubscriptionKey("subscription-a").setCursor(cursor).setLimit(1).build()
+            val parsed = EventServicePollRequest.parseFrom(request.toByteArray())
+            requireCon11(parsed.cursor == cursor && string(vector, "interpretation").contains("never parse as a number"),
+                "large Poll cursor round-trips as opaque UTF-8 text")
+        }
+        for (entry in fixture.getAsJsonArray("cursorByteBoundaryVectors")) {
+            val vector = entry.asJsonObject
+            consume(vector, seen)
+            val cursor = string(vector, "repeatedCharacter").repeat(vector.get("repeatCount").asInt) + string(vector, "suffix")
+            val byteLength = cursor.toByteArray(StandardCharsets.UTF_8).size
+            val limit = vector.get("limit").asInt
+            requireCon11(byteLength == vector.get("utf8Bytes").asInt
+                && (byteLength <= limit) == vector.get("valid").asBoolean,
+                "Poll cursor limit counts UTF-8 bytes, not UTF-16 code units: ${string(vector, "id")}")
+            val request = EventServicePollRequest.newBuilder().setMeta(RequestMeta.getDefaultInstance())
+                .setSubscriptionKey("subscription-a").setCursor(cursor).setLimit(1).build()
+            val parsed = EventServicePollRequest.parseFrom(request.toByteArray())
+            requireCon11(parsed.cursor == cursor, "multibyte Poll cursor wire round trip: ${string(vector, "id")}")
+        }
+    }
+
+    private fun verifyUInt64Boundaries(fixture: JsonObject, seen: MutableSet<String>) {
+        for (entry in fixture.getAsJsonArray("uint64BoundaryVectors")) {
+            val vector = entry.asJsonObject
+            consume(vector, seen)
+            val value = string(vector, "value").toLong()
+            if (string(vector, "message") == "Event") {
+                val parsed = Event.newBuilder().setSeq(value).build().let { Event.parseFrom(it.toByteArray()) }
+                requireCon11(parsed.seq == value, "event uint64 sequence survives a >2^53 JavaScript-safe-integer value")
+            } else {
+                val parsed = StreamPosition.newBuilder().setSequence(value).build().let { StreamPosition.parseFrom(it.toByteArray()) }
+                requireCon11(parsed.sequence == value, "stream uint64 sequence survives a >2^53 JavaScript-safe-integer value")
+            }
+        }
+    }
+
+    private fun verifyUnknownFieldBoundaries(fixture: JsonObject, seen: MutableSet<String>) {
+        for (entry in fixture.getAsJsonArray("unknownFieldVectors")) {
+            val vector = entry.asJsonObject
+            consume(vector, seen)
+            val wire = string(vector, "wireHex").chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+            val parsed = StreamPosition.parseFrom(wire)
+            requireCon11(parsed.cursor == string(vector, "cursor")
+                && parsed.sequence == string(vector, "sequence").toLong()
+                && parsed.toByteArray().contentEquals(wire)
+                && vector.get("unknownTag").asInt == 100,
+                "compatible unknown tag survives exact binary round trip: ${string(vector, "id")}")
         }
     }
 
@@ -554,6 +721,12 @@ object Con11ApplicationStreamsCases {
         addVectors(publicFixture.getAsJsonArray("messageFieldVectors"))
         addVectors(publicFixture.getAsJsonArray("eventPayloadVectors"))
         addBoundaryGroups(publicFixture.getAsJsonObject("aggregateBoundaryVectors"))
+        addVectors(publicFixture.getAsJsonArray("ownerBoundaryVectors"))
+        addVectors(publicFixture.getAsJsonArray("opaqueCursorVectors"))
+        addVectors(publicFixture.getAsJsonArray("cursorByteBoundaryVectors"))
+        addVectors(publicFixture.getAsJsonArray("uint64BoundaryVectors"))
+        addVectors(publicFixture.getAsJsonArray("unknownFieldVectors"))
+        addVectors(publicFixture.getAsJsonArray("presenceBoundaryVectors"))
         addVectors(privateFixture.getAsJsonArray("rpcVectors"))
         addVectors(privateFixture.getAsJsonArray("runStreamFrameVariants"))
         addVectors(privateFixture.getAsJsonArray("encodedFrameBoundaryVectors"))

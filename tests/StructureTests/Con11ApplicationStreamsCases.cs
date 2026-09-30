@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using System.Text.Json;
 using System.Security.Cryptography;
+using System.Globalization;
+using System.Text;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using F = ArcForges.Contracts.Foundation.V1;
@@ -116,6 +118,10 @@ internal static class Con11ApplicationStreamsCases
                 expectedFields.AddRange(publicFixture.RootElement.GetProperty("eventPayloadVectors").EnumerateArray()
                     .Select(x => (S(x, "field"), x.GetProperty("tag").GetInt32())));
             CheckFields(message, expectedFields, S(vector, "id"));
+            if (vector.TryGetProperty("presenceFields", out var presenceFields))
+                foreach (var fieldName in presenceFields.EnumerateArray().Select(x => x.GetString()!))
+                    Require(message.Fields.Single(x => x.JsonName == fieldName).HasPresence,
+                        "fixture preserves explicit protobuf presence: " + S(vector, "id") + "/" + fieldName);
             if (vector.TryGetProperty("oneofFields", out var groups))
                 foreach (var group in groups.EnumerateObject())
                 {
@@ -152,6 +158,11 @@ internal static class Con11ApplicationStreamsCases
         CheckConstraintProfiles(publicConstraints.RootElement);
         CheckRequiredProtoPresence(publicConstraints.RootElement);
         CheckAggregateBoundaries(publicFixture.RootElement.GetProperty("aggregateBoundaryVectors"), seen);
+        CheckPresenceBoundaries(publicFixture.RootElement.GetProperty("presenceBoundaryVectors"), seen);
+        CheckOwnerBoundaryVectors(publicFixture.RootElement.GetProperty("ownerBoundaryVectors"), operationRows, seen);
+        CheckCursorBoundaries(publicFixture.RootElement, seen);
+        CheckUInt64Boundaries(publicFixture.RootElement.GetProperty("uint64BoundaryVectors"), seen);
+        CheckUnknownFieldBoundaries(publicFixture.RootElement.GetProperty("unknownFieldVectors"), seen);
         CheckLimits(publicFixture.RootElement.GetProperty("limits"));
         var limitations = publicFixture.RootElement.GetProperty("shapeLimitations").EnumerateArray().Select(x => x.GetString()!).ToArray();
         Require(limitations.Length == 3 && limitations.Any(x => x.Contains("not by this message shape alone", StringComparison.Ordinal))
@@ -166,6 +177,12 @@ internal static class Con11ApplicationStreamsCases
             .Concat(publicFixture.RootElement.GetProperty("eventPayloadVectors").EnumerateArray().Select(x => S(x, "id")))
             .Concat(publicFixture.RootElement.GetProperty("aggregateBoundaryVectors").EnumerateObject()
                 .SelectMany(group => group.Value.EnumerateArray().Select(x => S(x, "id"))))
+            .Concat(publicFixture.RootElement.GetProperty("ownerBoundaryVectors").EnumerateArray().Select(x => S(x, "id")))
+            .Concat(publicFixture.RootElement.GetProperty("opaqueCursorVectors").EnumerateArray().Select(x => S(x, "id")))
+            .Concat(publicFixture.RootElement.GetProperty("cursorByteBoundaryVectors").EnumerateArray().Select(x => S(x, "id")))
+            .Concat(publicFixture.RootElement.GetProperty("uint64BoundaryVectors").EnumerateArray().Select(x => S(x, "id")))
+            .Concat(publicFixture.RootElement.GetProperty("unknownFieldVectors").EnumerateArray().Select(x => S(x, "id")))
+            .Concat(publicFixture.RootElement.GetProperty("presenceBoundaryVectors").EnumerateArray().Select(x => S(x, "id")))
             .Concat(privateFixture.RootElement.GetProperty("rpcVectors").EnumerateArray().Select(x => S(x, "id")))
             .Concat(privateFixture.RootElement.GetProperty("runStreamFrameVariants").EnumerateArray().Select(x => S(x, "id")))
             .Concat(privateFixture.RootElement.GetProperty("encodedFrameBoundaryVectors").EnumerateArray().Select(x => S(x, "id")))
@@ -288,6 +305,156 @@ internal static class Con11ApplicationStreamsCases
             Require(wire.Length == target && E.StreamFrame.Parser.ParseFrom(wire).CalculateSize() == target
                 && (wire.Length <= vector.GetProperty("limit").GetInt32()) == vector.GetProperty("valid").GetBoolean(),
                 "encoded StreamFrame boundary: " + S(vector, "id"));
+        }
+    }
+
+    private static void CheckPresenceBoundaries(JsonElement vectors, HashSet<string> seen)
+    {
+        foreach (var vector in vectors.EnumerateArray())
+        {
+            Consume(vector, seen);
+            switch (S(vector, "id"))
+            {
+                case "application-target-empty-product-presence":
+                {
+                    var parsed = P.ApplicationTarget.Parser.ParseFrom(new P.ApplicationTarget { ProductId = "" }.ToByteArray());
+                    Require(parsed.HasProductId && parsed.ProductId == "", "explicit empty optional target productId is preserved");
+                    break;
+                }
+                case "application-target-zero-epoch-presence":
+                {
+                    var parsed = P.ApplicationTarget.Parser.ParseFrom(new P.ApplicationTarget { InstanceEpoch = 0 }.ToByteArray());
+                    Require(parsed.HasInstanceEpoch && parsed.InstanceEpoch == 0, "explicit zero optional target epoch is preserved");
+                    break;
+                }
+                case "request-meta-empty-application-scope-presence":
+                {
+                    var parsed = F.RequestMeta.Parser.ParseFrom(new F.RequestMeta { ApplicationScope = new F.ApplicationScope() }.ToByteArray());
+                    Require(parsed.ApplicationScope is not null, "empty RequestMeta applicationScope keeps message presence at tag 8");
+                    break;
+                }
+                case "conversation-view-empty-application-scope-presence":
+                {
+                    var parsed = P.ConversationView.Parser.ParseFrom(new P.ConversationView { ApplicationScope = new F.ApplicationScope() }.ToByteArray());
+                    Require(parsed.ApplicationScope is not null, "empty ConversationView applicationScope keeps message presence at tag 10");
+                    break;
+                }
+                case "conversation-view-unspecified-history-mode-presence":
+                {
+                    var parsed = P.ConversationView.Parser.ParseFrom(new P.ConversationView { HistoryMode = (P.HistoryMode)0 }.ToByteArray());
+                    Require(parsed.HasHistoryMode && (int)parsed.HistoryMode == 0, "explicit HistoryMode zero keeps optional tag-11 presence");
+                    break;
+                }
+                default:
+                    throw new InvalidOperationException("Unknown CON.11 presence vector: " + S(vector, "id"));
+            }
+        }
+    }
+
+    private static void CheckOwnerBoundaryVectors(JsonElement vectors, JsonElement[] operationRows, HashSet<string> seen)
+    {
+        foreach (var vector in vectors.EnumerateArray())
+        {
+            Consume(vector, seen);
+            var row = operationRows.Single(x => S(x, "operationId") == S(vector, "operationId"));
+            Require(!vector.GetProperty("runtimeEnforcementProven").GetBoolean(),
+                "offline owner scenario is fixture classification, not runtime authorization evidence: " + S(vector, "id"));
+            switch (S(vector, "id"))
+            {
+                case "history-identical-title-different-products":
+                    Require(vector.GetProperty("sameTitle").GetBoolean()
+                        && S(vector, "title") == "Shared title"
+                        && vector.GetProperty("sourceProductIds").EnumerateArray().Select(x => x.GetString()).Distinct().Count() == 2
+                        && vector.GetProperty("sourceConversationIds").EnumerateArray().Select(x => x.GetString()).Distinct().Count() == 2
+                        && S(vector, "expectedBoundary") == "keep-separate-source-identities",
+                        "history identity is not inferred from a shared display title");
+                    break;
+                case "history-finalize-mismatched-resource-owner":
+                    Require(S(vector.GetProperty("requestOwner"), "productId") != S(vector.GetProperty("importOwner"), "productId")
+                        && S(vector.GetProperty("requestOwner"), "installationId") != S(vector.GetProperty("importOwner"), "installationId")
+                        && S(vector, "expectedBoundary") == "reject-mismatched-owner",
+                        "mismatched history owner is an explicit negative contract fixture");
+                    break;
+                case "application-heartbeat-forged-target":
+                    Require(S(vector.GetProperty("boundTarget"), "deviceId") != S(vector.GetProperty("requestTarget"), "deviceId")
+                        && S(vector.GetProperty("boundTarget"), "installationId") != S(vector.GetProperty("requestTarget"), "installationId")
+                        && S(vector, "expectedBoundary") == "reject-forged-target",
+                        "forged application target is an explicit negative contract fixture");
+                    break;
+                case "application-disconnect-stale-epoch":
+                    Require(vector.GetProperty("requestInstanceEpoch").GetInt64() < vector.GetProperty("boundInstanceEpoch").GetInt64()
+                        && S(vector, "expectedBoundary") == "reject-stale-epoch",
+                        "stale installation epoch is an explicit negative contract fixture");
+                    break;
+                case "history-finalize-stale-consent":
+                    Require(S(row.GetProperty("authorization"), "approval") == S(vector, "authorizationApproval")
+                        && S(vector, "consentSnapshotHash") != S(vector, "currentSnapshotHash")
+                        && S(vector, "expectedBoundary") == "reject-stale-consent",
+                        "history finalize requires its recorded consent and unchanged snapshot hash");
+                    break;
+                default:
+                    throw new InvalidOperationException("Unknown CON.11 owner boundary vector: " + S(vector, "id"));
+            }
+        }
+    }
+
+    private static void CheckCursorBoundaries(JsonElement fixture, HashSet<string> seen)
+    {
+        foreach (var vector in fixture.GetProperty("opaqueCursorVectors").EnumerateArray())
+        {
+            Consume(vector, seen);
+            var cursor = S(vector, "value");
+            var request = new E.EventServicePollRequest { Meta = new F.RequestMeta(), SubscriptionKey = "subscription-a", Cursor = cursor, Limit = 1 };
+            var parsed = E.EventServicePollRequest.Parser.ParseFrom(request.ToByteArray());
+            Require(parsed.Cursor == cursor && S(vector, "interpretation").Contains("never parse as a number", StringComparison.Ordinal),
+                "large Poll cursor round-trips as opaque UTF-8 text");
+        }
+        foreach (var vector in fixture.GetProperty("cursorByteBoundaryVectors").EnumerateArray())
+        {
+            Consume(vector, seen);
+            var cursor = string.Concat(Enumerable.Repeat(S(vector, "repeatedCharacter"), vector.GetProperty("repeatCount").GetInt32())) + S(vector, "suffix");
+            var byteLength = Encoding.UTF8.GetByteCount(cursor);
+            var limit = vector.GetProperty("limit").GetInt32();
+            Require(byteLength == vector.GetProperty("utf8Bytes").GetInt32()
+                && (byteLength <= limit) == vector.GetProperty("valid").GetBoolean(),
+                "Poll cursor limit counts UTF-8 bytes, not UTF-16 code units: " + S(vector, "id"));
+            var request = new E.EventServicePollRequest { Meta = new F.RequestMeta(), SubscriptionKey = "subscription-a", Cursor = cursor, Limit = 1 };
+            var parsed = E.EventServicePollRequest.Parser.ParseFrom(request.ToByteArray());
+            Require(parsed.Cursor == cursor, "multibyte Poll cursor wire round trip: " + S(vector, "id"));
+        }
+    }
+
+    private static void CheckUInt64Boundaries(JsonElement vectors, HashSet<string> seen)
+    {
+        foreach (var vector in vectors.EnumerateArray())
+        {
+            Consume(vector, seen);
+            var value = ulong.Parse(S(vector, "value"), CultureInfo.InvariantCulture);
+            if (S(vector, "message") == "Event")
+            {
+                var parsed = E.Event.Parser.ParseFrom(new E.Event { Seq = value }.ToByteArray());
+                Require(parsed.Seq == value, "event uint64 sequence survives a >2^53 JavaScript-safe-integer value");
+            }
+            else
+            {
+                var parsed = E.StreamPosition.Parser.ParseFrom(new E.StreamPosition { Sequence = value }.ToByteArray());
+                Require(parsed.Sequence == value, "stream uint64 sequence survives a >2^53 JavaScript-safe-integer value");
+            }
+        }
+    }
+
+    private static void CheckUnknownFieldBoundaries(JsonElement vectors, HashSet<string> seen)
+    {
+        foreach (var vector in vectors.EnumerateArray())
+        {
+            Consume(vector, seen);
+            var wire = Convert.FromHexString(S(vector, "wireHex"));
+            var parsed = E.StreamPosition.Parser.ParseFrom(wire);
+            Require(parsed.Cursor == S(vector, "cursor")
+                && parsed.Sequence == ulong.Parse(S(vector, "sequence"), CultureInfo.InvariantCulture)
+                && parsed.ToByteArray().SequenceEqual(wire)
+                && vector.GetProperty("unknownTag").GetInt32() == 100,
+                "compatible unknown tag survives exact binary round trip: " + S(vector, "id"));
         }
     }
 
@@ -450,8 +617,16 @@ internal static class Con11ApplicationStreamsCases
 
     private static MessageDescriptor FindMessage(string name)
     {
-        return P.ApplicationReflection.Descriptor.MessageTypes.Concat(E.EventsReflection.Descriptor.MessageTypes)
-            .Single(x => x.Name == name);
+        var descriptors = new[]
+        {
+            P.ApplicationReflection.Descriptor,
+            P.ChatReflection.Descriptor,
+            P.ContentReflection.Descriptor,
+            F.FoundationReflection.Descriptor,
+            E.EventsReflection.Descriptor,
+        };
+        return descriptors.SelectMany(x => x.MessageTypes)
+            .Single(x => name.Contains(".", StringComparison.Ordinal) ? x.FullName == name : x.Name == name);
     }
 
     private static FileDescriptor FileForService(string name) => name.StartsWith("arcforges.publicapi.", StringComparison.Ordinal)

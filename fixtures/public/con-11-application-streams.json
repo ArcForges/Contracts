@@ -32,7 +32,11 @@
     { "id": "application-presence-fields", "message": "ApplicationPresence", "fields": [["target", 1], ["displayName", 2], ["appVersion", 3], ["state", 4], ["lastSeenAt", 5], ["availableCapabilities", 6], ["revision", 7]] },
     { "id": "history-import-manifest-fields", "message": "HistoryImportManifest", "fields": [["importId", 1], ["productId", 2], ["sourceRevision", 3], ["archive", 4], ["messageCount", 5], ["manifestHash", 6], ["formatVersion", 7]] },
     { "id": "history-import-view-fields", "message": "HistoryImportView", "fields": [["importId", 1], ["state", 2], ["conversationId", 3], ["expiresAt", 4], ["revision", 5], ["failure", 6]] },
-    { "id": "transient-turn-request-fields", "message": "TransientTurnRequest", "fields": [["turnId", 1], ["branchId", 2], ["requestHash", 3], ["mode", 4], ["parts", 5], ["context", 6], ["profileId", 7], ["target", 8], ["options", 9], ["transcript", 10], ["transcriptObject", 11], ["compaction", 12]], "oneofFields": { "transcript_source": ["transcript", "transcriptObject"] } },
+    { "id": "transient-turn-request-fields", "message": "TransientTurnRequest", "fields": [["turnId", 1], ["branchId", 2], ["requestHash", 3], ["mode", 4], ["parts", 5], ["context", 6], ["profileId", 7], ["target", 8], ["options", 9], ["transcript", 10], ["transcriptObject", 11], ["compaction", 12]], "oneofFields": { "transcript_source": ["transcript", "transcriptObject"] }, "presenceFields": ["mode"] },
+    { "id": "application-target-owner-and-epoch-fields", "message": "arcforges.publicapi.v1.ApplicationTarget", "fields": [["productId", 1], ["deviceId", 2], ["installationId", 3], ["instanceEpoch", 4]], "presenceFields": ["productId", "deviceId", "installationId", "instanceEpoch"] },
+    { "id": "application-scope-owner-fields", "message": "arcforges.foundation.v1.ApplicationScope", "fields": [["productId", 1], ["installationId", 2]], "presenceFields": ["productId", "installationId"] },
+    { "id": "request-meta-application-scope-tag", "message": "arcforges.foundation.v1.RequestMeta", "fields": [["commandId", 1], ["expectedRev", 2], ["correlationId", 3], ["workspaceId", 4], ["expectedNative", 6], ["recoveryGeneration", 7], ["applicationScope", 8]], "presenceFields": ["applicationScope"] },
+    { "id": "conversation-view-scope-history-mode-tags", "message": "arcforges.publicapi.v1.ConversationView", "fields": [["conversationId", 1], ["branchId", 2], ["title", 3], ["revision", 4], ["lastMessageAt", 5], ["projectId", 6], ["pinned", 7], ["archived", 8], ["temporary", 9], ["applicationScope", 10], ["historyMode", 11]], "presenceFields": ["applicationScope", "historyMode"] },
     { "id": "transcript-window-fields", "message": "TranscriptWindow", "fields": [["branchId", 1], ["branchRevision", 2], ["messages", 3], ["firstOrdinal", 4], ["lastOrdinal", 5], ["windowHash", 6]] },
     { "id": "transcript-message-fields", "message": "TranscriptMessage", "fields": [["messageId", 1], ["ordinal", 2], ["role", 3], ["parts", 4], ["toolCallId", 5], ["toolResultFor", 6]] },
     { "id": "compaction-record-fields", "message": "CompactionRecord", "fields": [["compactionId", 1], ["branchId", 2], ["throughOrdinal", 3], ["sourceHash", 4], ["summary", 5], ["modelId", 6], ["policyVersion", 7], ["createdAt", 8], ["summaryHash", 9]] },
@@ -125,5 +129,33 @@
       { "id": "stream-frame-at-encoded-limit", "serializedBytes": 32768, "limit": 32768, "valid": true },
       { "id": "stream-frame-over-encoded-limit", "serializedBytes": 32769, "limit": 32768, "valid": false }
     ]
-  }
+  },
+  "ownerBoundaryVectors": [
+    { "id": "history-identical-title-different-products", "operationId": "history.beginImport", "sourceProductIds": ["arcscope", "companion"], "title": "Shared title", "sourceConversationIds": ["00000000-0000-4000-8000-000000000001", "00000000-0000-4000-8000-000000000002"], "sameTitle": true, "differentSourceConversationIds": true, "expectedBoundary": "keep-separate-source-identities", "runtimeEnforcementProven": false },
+    { "id": "history-finalize-mismatched-resource-owner", "operationId": "history.finalizeImport", "requestOwner": { "productId": "arcscope", "installationId": "installation-a" }, "importOwner": { "productId": "companion", "installationId": "installation-b" }, "expectedBoundary": "reject-mismatched-owner", "runtimeEnforcementProven": false },
+    { "id": "application-heartbeat-forged-target", "operationId": "application.heartbeat", "boundTarget": { "productId": "arcscope", "deviceId": "device-a", "installationId": "installation-a", "instanceEpoch": 8 }, "requestTarget": { "productId": "arcscope", "deviceId": "device-b", "installationId": "installation-b", "instanceEpoch": 8 }, "expectedBoundary": "reject-forged-target", "runtimeEnforcementProven": false },
+    { "id": "application-disconnect-stale-epoch", "operationId": "application.disconnect", "boundInstanceEpoch": 8, "requestInstanceEpoch": 7, "expectedBoundary": "reject-stale-epoch", "runtimeEnforcementProven": false },
+    { "id": "history-finalize-stale-consent", "operationId": "history.finalizeImport", "authorizationApproval": "recordedSaveToCloudConsent", "consentSnapshotHash": "a000000000000000000000000000000000000000000000000000000000000000", "currentSnapshotHash": "b000000000000000000000000000000000000000000000000000000000000000", "expectedBoundary": "reject-stale-consent", "runtimeEnforcementProven": false }
+  ],
+  "opaqueCursorVectors": [
+    { "id": "event-poll-large-opaque-cursor", "operationId": "events.poll", "field": "cursor", "value": "18446744073709551615", "interpretation": "opaque UTF-8 cursor; never parse as a number" }
+  ],
+  "cursorByteBoundaryVectors": [
+    { "id": "event-poll-multibyte-cursor-at-limit", "operationId": "events.poll", "field": "cursor", "repeatedCharacter": "界", "repeatCount": 1365, "suffix": "x", "utf8Bytes": 4096, "limit": 4096, "valid": true },
+    { "id": "event-poll-multibyte-cursor-over-limit", "operationId": "events.poll", "field": "cursor", "repeatedCharacter": "界", "repeatCount": 1365, "suffix": "xx", "utf8Bytes": 4097, "limit": 4096, "valid": false }
+  ],
+  "uint64BoundaryVectors": [
+    { "id": "stream-position-sequence-above-js-safe-integer", "message": "StreamPosition", "field": "sequence", "value": "9007199254740993" },
+    { "id": "event-sequence-above-js-safe-integer", "message": "Event", "field": "seq", "value": "9007199254740995" }
+  ],
+  "unknownFieldVectors": [
+    { "id": "stream-position-compatible-unknown-tag-roundtrip", "message": "arcforges.events.v1.StreamPosition", "unknownTag": 100, "wireHex": "0a0163102aa00607", "cursor": "c", "sequence": "42" }
+  ],
+  "presenceBoundaryVectors": [
+    { "id": "application-target-empty-product-presence", "message": "arcforges.publicapi.v1.ApplicationTarget", "field": "productId", "kind": "optionalString", "value": "" },
+    { "id": "application-target-zero-epoch-presence", "message": "arcforges.publicapi.v1.ApplicationTarget", "field": "instanceEpoch", "kind": "optionalUint64", "value": "0" },
+    { "id": "request-meta-empty-application-scope-presence", "message": "arcforges.foundation.v1.RequestMeta", "field": "applicationScope", "kind": "message" },
+    { "id": "conversation-view-empty-application-scope-presence", "message": "arcforges.publicapi.v1.ConversationView", "field": "applicationScope", "kind": "message" },
+    { "id": "conversation-view-unspecified-history-mode-presence", "message": "arcforges.publicapi.v1.ConversationView", "field": "historyMode", "kind": "optionalEnum", "value": 0 }
+  ]
 }

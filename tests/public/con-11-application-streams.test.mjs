@@ -5,6 +5,7 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import { create, fromBinary, toBinary } from "@bufbuild/protobuf";
 import * as application from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/application_pb.js";
+import * as chat from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/chat_pb.js";
 import * as events from "../../src/public/ts/proto/dist/gen/arcforges/events/v1/events_pb.js";
 import * as content from "../../src/public/ts/proto/dist/gen/arcforges/publicapi/v1/content_pb.js";
 import * as foundation from "../../src/public/ts/proto/dist/gen/arcforges/foundation/v1/foundation_pb.js";
@@ -20,6 +21,7 @@ const operations = JSON.parse(
 ).operations;
 const files = [
   application.file_arcforges_publicapi_v1_application,
+  chat.file_arcforges_publicapi_v1_chat,
   events.file_arcforges_events_v1_events,
   content.file_arcforges_publicapi_v1_content,
   foundation.file_arcforges_foundation_v1_foundation,
@@ -40,7 +42,9 @@ function consume(vector) {
 }
 
 function messageDescriptor(name) {
-  const descriptor = messages.find((message) => message.typeName.split(".").at(-1) === name);
+  const descriptor = messages.find((message) =>
+    name.includes(".") ? message.typeName === name : message.typeName.split(".").at(-1) === name,
+  );
   assert.ok(descriptor, `generated descriptor exists: ${name}`);
   return descriptor;
 }
@@ -288,6 +292,130 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     );
   }
 
+  for (const vector of fixture.presenceBoundaryVectors) {
+    consume(vector);
+    let schema;
+    let input;
+    let encodedExpected;
+    switch (vector.id) {
+      case "application-target-empty-product-presence":
+        schema = chat.ApplicationTargetSchema;
+        input = { productId: vector.value };
+        encodedExpected = [0x0a, 0x00];
+        break;
+      case "application-target-zero-epoch-presence":
+        schema = chat.ApplicationTargetSchema;
+        input = { instanceEpoch: BigInt(vector.value) };
+        encodedExpected = [0x20, 0x00];
+        break;
+      case "request-meta-empty-application-scope-presence":
+        schema = foundation.RequestMetaSchema;
+        input = { applicationScope: create(foundation.ApplicationScopeSchema, {}) };
+        encodedExpected = [0x42, 0x00];
+        break;
+      case "conversation-view-empty-application-scope-presence":
+        schema = content.ConversationViewSchema;
+        input = { applicationScope: create(foundation.ApplicationScopeSchema, {}) };
+        encodedExpected = [0x52, 0x00];
+        break;
+      case "conversation-view-unspecified-history-mode-presence":
+        schema = content.ConversationViewSchema;
+        input = { historyMode: vector.value };
+        encodedExpected = [0x58, 0x00];
+        break;
+      default:
+        assert.fail(`unknown explicit-presence fixture: ${vector.id}`);
+    }
+    const encoded = toBinary(schema, create(schema, input));
+    assert.deepEqual([...encoded], encodedExpected, `explicit default/presence wire bytes: ${vector.id}`);
+    const parsed = fromBinary(schema, encoded);
+    assert.ok(Object.hasOwn(parsed, vector.field), `present field survives decode: ${vector.id}`);
+  }
+
+  for (const vector of fixture.ownerBoundaryVectors) {
+    consume(vector);
+    const row = operations.find((candidate) => candidate.operationId === vector.operationId);
+    assert.ok(row, `owner boundary refers to an exact exported operation: ${vector.id}`);
+    assert.equal(vector.runtimeEnforcementProven, false, `fixture does not claim runtime authorization: ${vector.id}`);
+    switch (vector.id) {
+      case "history-identical-title-different-products":
+        assert.equal(vector.sameTitle, true);
+        assert.equal(vector.title, "Shared title");
+        assert.notEqual(vector.sourceProductIds[0], vector.sourceProductIds[1]);
+        assert.notEqual(vector.sourceConversationIds[0], vector.sourceConversationIds[1]);
+        assert.equal(vector.expectedBoundary, "keep-separate-source-identities");
+        break;
+      case "history-finalize-mismatched-resource-owner":
+        assert.notDeepEqual(vector.requestOwner, vector.importOwner);
+        assert.notEqual(vector.requestOwner.installationId, vector.importOwner.installationId);
+        assert.equal(vector.expectedBoundary, "reject-mismatched-owner");
+        break;
+      case "application-heartbeat-forged-target":
+        assert.notEqual(vector.boundTarget.deviceId, vector.requestTarget.deviceId);
+        assert.notEqual(vector.boundTarget.installationId, vector.requestTarget.installationId);
+        assert.equal(vector.expectedBoundary, "reject-forged-target");
+        break;
+      case "application-disconnect-stale-epoch":
+        assert.ok(vector.requestInstanceEpoch < vector.boundInstanceEpoch);
+        assert.equal(vector.expectedBoundary, "reject-stale-epoch");
+        break;
+      case "history-finalize-stale-consent":
+        assert.notEqual(vector.consentSnapshotHash, vector.currentSnapshotHash);
+        assert.equal(row.authorization.approval, vector.authorizationApproval);
+        assert.equal(vector.expectedBoundary, "reject-stale-consent");
+        break;
+      default:
+        assert.fail(`unknown owner-boundary fixture: ${vector.id}`);
+    }
+  }
+
+  for (const vector of fixture.opaqueCursorVectors) {
+    consume(vector);
+    const request = create(events.EventServicePollRequestSchema, {
+      meta: create(foundation.RequestMetaSchema, {}),
+      subscriptionKey: "subscription-a",
+      cursor: vector.value,
+      limit: 1,
+    });
+    const parsed = fromBinary(events.EventServicePollRequestSchema, toBinary(events.EventServicePollRequestSchema, request));
+    assert.equal(parsed.cursor, vector.value, `cursor remains opaque text: ${vector.id}`);
+  }
+
+  for (const vector of fixture.cursorByteBoundaryVectors) {
+    consume(vector);
+    const cursor = vector.repeatedCharacter.repeat(vector.repeatCount) + vector.suffix;
+    const byteLength = new TextEncoder().encode(cursor).length;
+    assert.equal(byteLength, vector.utf8Bytes, `independent UTF-8 cursor length: ${vector.id}`);
+    assert.equal(byteLength <= vector.limit, vector.valid, `opaque cursor byte boundary: ${vector.id}`);
+    const request = create(events.EventServicePollRequestSchema, {
+      meta: create(foundation.RequestMetaSchema, {}),
+      subscriptionKey: "subscription-a",
+      cursor,
+      limit: 1,
+    });
+    const parsed = fromBinary(events.EventServicePollRequestSchema, toBinary(events.EventServicePollRequestSchema, request));
+    assert.equal(parsed.cursor, cursor, `multibyte cursor round trip: ${vector.id}`);
+  }
+
+  for (const vector of fixture.uint64BoundaryVectors) {
+    consume(vector);
+    const schema = vector.message === "Event" ? events.EventSchema : events.StreamPositionSchema;
+    const input = { [vector.field]: BigInt(vector.value) };
+    const parsed = fromBinary(schema, toBinary(schema, create(schema, input)));
+    assert.equal(parsed[vector.field], BigInt(vector.value), `uint64 round trip avoids JS Number: ${vector.id}`);
+  }
+
+  for (const vector of fixture.unknownFieldVectors) {
+    consume(vector);
+    const wire = Buffer.from(vector.wireHex, "hex");
+    const parsed = fromBinary(events.StreamPositionSchema, wire);
+    assert.equal(parsed.cursor, vector.cursor);
+    assert.equal(parsed.sequence, BigInt(vector.sequence));
+    assert.deepEqual(Buffer.from(toBinary(events.StreamPositionSchema, parsed)), wire,
+      `compatible unknown tag survives exact binary round trip: ${vector.id}`);
+    assert.equal(vector.unknownTag, 100);
+  }
+
   const readProjectionIds = new Set(fixture.unaryOutcomeProfile.readProjectionOperationIds);
   for (const vector of rpcVectors.filter((candidate) => candidate.streamType === "unary")) {
     const response = messageDescriptor(vector.output);
@@ -384,6 +512,12 @@ test("CON.11 aggregate and serialized-byte boundary fixtures round-trip at and o
     ...Object.values(fixture.aggregateBoundaryVectors)
       .flat()
       .map((vector) => vector.id),
+    ...fixture.ownerBoundaryVectors.map((vector) => vector.id),
+    ...fixture.opaqueCursorVectors.map((vector) => vector.id),
+    ...fixture.cursorByteBoundaryVectors.map((vector) => vector.id),
+    ...fixture.uint64BoundaryVectors.map((vector) => vector.id),
+    ...fixture.unknownFieldVectors.map((vector) => vector.id),
+    ...fixture.presenceBoundaryVectors.map((vector) => vector.id),
   ]);
   assert.deepEqual(
     [...seen].sort(),
