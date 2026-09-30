@@ -93,6 +93,12 @@ ArcForges.Contracts.PublicApi.V1.SourceService.BindService(binder, new SourceEnd
 ArcForges.Contracts.PublicApi.V1.SyncService.BindService(binder, new SyncEndpoint());
 ArcForges.Contracts.PublicApi.V1.ResourceService.BindService(binder, new ResourceEndpoint());
 ArcForges.Contracts.PublicApi.V1.TransferService.BindService(binder, new TransferEndpoint());
+ArcForges.Contracts.PublicApi.V1.SupportService.BindService(binder, new SupportEndpoint());
+ArcForges.Contracts.PublicApi.V1.NotificationService.BindService(binder, new NotificationEndpoint());
+ArcForges.Contracts.PublicApi.V1.PreferenceService.BindService(binder, new PreferenceEndpoint());
+ArcForges.Contracts.PublicApi.V1.PolicyService.BindService(binder, new PolicyEndpoint());
+ArcForges.Contracts.PublicApi.V1.DataService.BindService(binder, new DataEndpoint());
+ArcForges.Contracts.PublicApi.V1.ExportService.BindService(binder, new ExportEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -108,6 +114,8 @@ FileDescriptor[] files =
     ArcForges.Contracts.PublicApi.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SyncReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.TransferReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.SupportReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.ExportReflection.Descriptor,
     ArcForges.Contracts.Events.V1.EventsReflection.Descriptor,
     ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor,
     ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor,
@@ -333,3 +341,15 @@ internal sealed class SyncEndpoint : ArcForges.Contracts.PublicApi.V1.SyncServic
 internal sealed class ResourceEndpoint : ArcForges.Contracts.PublicApi.V1.ResourceService.ResourceServiceBase;
 
 internal sealed class TransferEndpoint : ArcForges.Contracts.PublicApi.V1.TransferService.TransferServiceBase;
+
+internal sealed class SupportEndpoint : ArcForges.Contracts.PublicApi.V1.SupportService.SupportServiceBase;
+
+internal sealed class NotificationEndpoint : ArcForges.Contracts.PublicApi.V1.NotificationService.NotificationServiceBase;
+
+internal sealed class PreferenceEndpoint : ArcForges.Contracts.PublicApi.V1.PreferenceService.PreferenceServiceBase;
+
+internal sealed class PolicyEndpoint : ArcForges.Contracts.PublicApi.V1.PolicyService.PolicyServiceBase;
+
+internal sealed class DataEndpoint : ArcForges.Contracts.PublicApi.V1.DataService.DataServiceBase;
+
+internal sealed class ExportEndpoint : ArcForges.Contracts.PublicApi.V1.ExportService.ExportServiceBase;
