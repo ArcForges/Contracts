@@ -107,7 +107,7 @@
         "finding": "All selected authored schemas, shape rules, fixtures and orchestration carry the repository Apache-2.0 terms; exact source identities and hashes are bound below."
       }
     ],
-    "scope": "CON.09 adds one canonical TransferTicket Foundation message, the authorized Sync/Resource/Transfer public schemas, task-owned constraints, fixtures and operation export, plus regenerated bindings. The existing Apache-2.0 source ownership, generator identities, dependency versions, closure, package identities and external boundaries remain unchanged.",
+    "scope": "CON.22 adds canonical SupportCase/SupportMessage account-support records and the authorized Support, Notification, Preference, Policy, Data, and Export public services (15 RPCs), task-owned constraints, fixtures and operation exports, plus regenerated bindings. The existing Apache-2.0 source ownership, generator identities, dependency versions, closure, package identities and external boundaries remain unchanged.",
     "copyingPermission": null
   },
   "attribution": [
@@ -10205,7 +10205,7 @@
           },
           {
             "path": "fixtures/public/wp03-02.json",
-            "sha256": "63941bb0dfdf213cf3f5df10931852583c2cb61e656909911225977e7ab7d7f2",
+            "sha256": "af909985c95e1d22932fb439e2ece286894cce600242c75ebd8e6202b85d2d58",
             "finding": "Exact first-party Contracts generation input at the CON.22 source checkpoint."
           },
           {
@@ -10410,7 +10410,7 @@
           },
           {
             "path": "public/proto/constraints.json",
-            "sha256": "d11b61317e661491db6b7d59fb4b4b6ae7148ce32099f9f7e20d8313be4e72a1",
+            "sha256": "72ef10b774c98ceb77fa9771a867c5d3d18214a597093a95e980269791728329",
             "finding": "Exact first-party Contracts generation input at the CON.22 source checkpoint."
           },
           {

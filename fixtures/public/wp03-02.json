@@ -1000,12 +1000,8 @@
         "/arcforges.publicapi.v1.NotificationService/RegisterPush",
         "/arcforges.publicapi.v1.NotificationService/UnregisterPush"
       ],
-      "arcforges.publicapi.v1.PreferenceService": [
-        "/arcforges.publicapi.v1.PreferenceService/Put"
-      ],
-      "arcforges.publicapi.v1.PolicyService": [
-        "/arcforges.publicapi.v1.PolicyService/GetBundle"
-      ],
+      "arcforges.publicapi.v1.PreferenceService": ["/arcforges.publicapi.v1.PreferenceService/Put"],
+      "arcforges.publicapi.v1.PolicyService": ["/arcforges.publicapi.v1.PolicyService/GetBundle"],
       "arcforges.publicapi.v1.DataService": [
         "/arcforges.publicapi.v1.DataService/RequestExport",
         "/arcforges.publicapi.v1.DataService/GetExportState"
