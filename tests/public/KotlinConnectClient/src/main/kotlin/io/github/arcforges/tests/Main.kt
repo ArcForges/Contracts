@@ -33,6 +33,7 @@ fun main(args: Array<String>) = runBlocking {
     }
     println("Published JVM module build identities verified.")
     SupportCases.run()
+    SimulationCases.run()
     check(args.size == 2) { "Expected gRPC-Web and native gRPC fixture ports" }
     val fixture = ContractFixtures.openHello().bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }
     for ((protocol, port) in listOf(NetworkProtocol.GRPC_WEB to args[0], NetworkProtocol.GRPC to args[1])) {

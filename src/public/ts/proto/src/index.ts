@@ -13,6 +13,7 @@ export * from "./gen/arcforges/publicapi/v1/inprocess-values_pb.js";
 export * from "./gen/arcforges/publicapi/v1/support_pb.js";
 export * from "./gen/arcforges/publicapi/v1/sync_pb.js";
 export * from "./gen/arcforges/publicapi/v1/transfer_pb.js";
+export * from "./gen/arcforges/simulation/v1/simulation_pb.js";
 export * from "./shapes/gen/proto.js";
 export * from "./values.js";
 export * from "./wire.js";

@@ -1,0 +1,495 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.simulation.v1.SimulationDefinition": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationDefinition",
+      "fields": {
+        "definitionId": { "required": true },
+        "name": { "required": true, "maxLength": 256 },
+        "revision": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.ScenarioVersion": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.ScenarioVersion",
+      "fields": {
+        "scenarioVersionId": { "required": true },
+        "definitionId": { "required": true },
+        "schemaVersion": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "scenario": { "required": true },
+        "sha256": { "required": true, "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "arcforges.simulation.v1.SimulationRun": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationRun",
+      "fields": {
+        "runId": { "required": true },
+        "scenarioVersionId": { "required": true },
+        "state": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": [
+            "queued",
+            "starting",
+            "running",
+            "pausing",
+            "paused",
+            "stopping",
+            "canceled",
+            "succeeded",
+            "failed"
+          ]
+        },
+        "reason": { "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" },
+        "revision": { "required": true },
+        "committedSequence": { "required": true },
+        "extent": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["complete", "partial"]
+        },
+        "logicalEnd": { "required": true },
+        "createdAt": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.SimulationSegment": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationSegment",
+      "fields": {
+        "runId": { "required": true },
+        "sequence": { "required": true },
+        "start": { "required": true },
+        "count": { "required": true },
+        "encoding": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-segment.v1"]
+        },
+        "resource": { "required": true },
+        "events": {},
+        "executionProfile": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-sim.v1"]
+        }
+      }
+    },
+    "arcforges.simulation.v1.SimulationProfile": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationProfile",
+      "fields": {
+        "sampleCount": { "required": true, "min": 1 },
+        "batchSamples": { "required": true, "min": 1, "max": 65536 },
+        "rate": { "required": true },
+        "executionProfile": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-sim.v1"]
+        },
+        "encodingProfile": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-segment.v1"]
+        },
+        "clockMode": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["realTime", "accelerated"]
+        },
+        "generatorVersion": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.simulation.v1.ScenarioSpec": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.ScenarioSpec",
+      "fields": {
+        "channels": { "maxItems": 64 },
+        "expressions": { "maxItems": 64 },
+        "csv": {},
+        "duration": { "required": true },
+        "generators": { "maxItems": 64 },
+        "faults": {},
+        "csvSchema": {},
+        "executionProfile": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-sim.v1"]
+        }
+      }
+    },
+    "arcforges.simulation.v1.ScenarioExpression": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.ScenarioExpression",
+      "fields": {
+        "channelId": { "required": true },
+        "root": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.AstNode": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.AstNode",
+      "fields": {
+        "constant": { "finite": true },
+        "variable": { "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" },
+        "unary": {},
+        "binary": {},
+        "function": {}
+      },
+      "oneofRequired": ["expression"]
+    },
+    "arcforges.simulation.v1.UnaryExpression": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.UnaryExpression",
+      "fields": {
+        "operator": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["negate", "not"]
+        },
+        "operand": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.BinaryExpression": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.BinaryExpression",
+      "fields": {
+        "operator": { "required": true, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" },
+        "left": { "required": true },
+        "right": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.FunctionExpression": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.FunctionExpression",
+      "fields": {
+        "function": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["abs", "sqrt", "sin", "cos", "floor", "ceil", "clamp", "select"]
+        },
+        "arguments": { "maxItems": 1024 }
+      }
+    },
+    "arcforges.simulation.v1.GeneratorSpec": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.GeneratorSpec",
+      "fields": {
+        "channelId": { "required": true },
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": [
+            "constant",
+            "sine",
+            "square",
+            "triangle",
+            "sawtooth",
+            "noise",
+            "randomWalk",
+            "pulse",
+            "stepSequence",
+            "csv"
+          ]
+        },
+        "offset": { "finite": true },
+        "amplitude": { "finite": true },
+        "frequencyHz": { "finite": true, "min": 5e-324 },
+        "phaseCycles": { "finite": true },
+        "dutyRatio": { "finite": true, "min": 5e-324, "max": 0.9999999999999999 },
+        "walkStep": { "finite": true },
+        "pulses": {},
+        "steps": {}
+      }
+    },
+    "arcforges.simulation.v1.PulseSpec": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.PulseSpec",
+      "fields": {
+        "start": { "required": true },
+        "duration": { "required": true },
+        "value": { "required": true, "finite": true }
+      }
+    },
+    "arcforges.simulation.v1.StepPoint": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.StepPoint",
+      "fields": {
+        "at": { "required": true },
+        "value": { "required": true, "finite": true }
+      }
+    },
+    "arcforges.simulation.v1.FaultSpec": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.FaultSpec",
+      "fields": {
+        "faultId": { "required": true },
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": [
+            "latency",
+            "jitter",
+            "drop",
+            "duplicate",
+            "reorder",
+            "disconnect",
+            "malformed",
+            "outlier"
+          ]
+        },
+        "channelId": {},
+        "window": { "required": true },
+        "everyTicks": { "required": true, "min": 1 },
+        "probabilityPpm": { "required": true, "min": 0, "max": 1000000 },
+        "delayTicks": {},
+        "amount": { "finite": true },
+        "reorderWindow": { "min": 1, "max": 1024 }
+      }
+    },
+    "arcforges.simulation.v1.CsvReplaySchema": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.CsvReplaySchema",
+      "fields": {
+        "encoding": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["utf8"]
+        },
+        "delimiter": { "required": true, "maxLength": 16, "enumValues": [",", "\t", ";"] },
+        "hasHeader": { "required": true },
+        "timestampColumn": {},
+        "columns": { "maxItems": 4096 },
+        "timestampUnit": { "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" }
+      }
+    },
+    "arcforges.simulation.v1.CsvColumn": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.CsvColumn",
+      "fields": {
+        "column": { "required": true },
+        "channelId": { "required": true },
+        "type": { "required": true, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" },
+        "unit": { "required": true, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" }
+      }
+    },
+    "arcforges.simulation.v1.SimulationServiceListDefinitionsRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsRequest",
+      "fields": { "meta": { "required": true }, "page": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceListDefinitionsValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsValue",
+      "fields": { "items": { "maxItems": 200 }, "page": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceListDefinitionsResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListDefinitionsResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {}, "encodedBody": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceGetDefinitionRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionRequest",
+      "fields": { "meta": { "required": true }, "definitionId": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceGetDefinitionValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionValue",
+      "fields": { "definition": { "required": true }, "versions": {} }
+    },
+    "arcforges.simulation.v1.SimulationServiceGetDefinitionResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetDefinitionResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {}, "encodedBody": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceCreateDefinitionRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionRequest",
+      "fields": {
+        "meta": { "required": true },
+        "definitionId": { "required": true },
+        "name": { "required": true, "maxLength": 256 }
+      }
+    },
+    "arcforges.simulation.v1.SimulationServiceCreateDefinitionValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionValue",
+      "fields": { "definition": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceCreateDefinitionResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceCreateDefinitionResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServicePublishScenarioVersionRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionRequest",
+      "fields": {
+        "meta": { "required": true },
+        "scenarioVersionId": { "required": true },
+        "definitionId": { "required": true },
+        "scenario": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.SimulationServicePublishScenarioVersionValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionValue",
+      "fields": { "version": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServicePublishScenarioVersionResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePublishScenarioVersionResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceStartRunRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunRequest",
+      "fields": {
+        "meta": { "required": true },
+        "runId": { "required": true },
+        "scenarioVersionId": { "required": true },
+        "seed": { "required": true },
+        "profile": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.SimulationServiceStartRunValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunValue",
+      "fields": { "run": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceStartRunResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceStartRunResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServicePauseRunRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunRequest",
+      "fields": { "meta": { "required": true }, "runId": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServicePauseRunValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunValue",
+      "fields": { "run": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServicePauseRunResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePauseRunResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceResumeRunRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunRequest",
+      "fields": { "meta": { "required": true }, "runId": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceResumeRunValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunValue",
+      "fields": { "run": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceResumeRunResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceResumeRunResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceCancelRunRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunRequest",
+      "fields": { "meta": { "required": true }, "runId": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceCancelRunValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunValue",
+      "fields": { "run": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceCancelRunResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceCancelRunResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceGetRunRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunRequest",
+      "fields": { "meta": { "required": true }, "runId": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceGetRunValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunValue",
+      "fields": { "run": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceGetRunResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetRunResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {}, "encodedBody": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceListRunsRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsRequest",
+      "fields": {
+        "meta": { "required": true },
+        "page": { "required": true },
+        "scenarioVersionId": {},
+        "state": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": [
+            "queued",
+            "starting",
+            "running",
+            "pausing",
+            "paused",
+            "stopping",
+            "canceled",
+            "succeeded",
+            "failed"
+          ]
+        }
+      }
+    },
+    "arcforges.simulation.v1.SimulationServiceListRunsValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsValue",
+      "fields": { "items": { "maxItems": 200 }, "page": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceListRunsResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListRunsResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {}, "encodedBody": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceListSegmentsRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsRequest",
+      "fields": {
+        "meta": { "required": true },
+        "runId": { "required": true },
+        "page": { "required": true }
+      }
+    },
+    "arcforges.simulation.v1.SimulationServiceListSegmentsValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsValue",
+      "fields": { "segments": { "maxItems": 200 }, "page": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceListSegmentsResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceListSegmentsResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {}, "encodedBody": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServiceGetSegmentTicketRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketRequest",
+      "fields": {
+        "meta": { "required": true },
+        "runId": { "required": true },
+        "segmentSequence": { "required": true },
+        "range": {}
+      }
+    },
+    "arcforges.simulation.v1.SimulationServiceGetSegmentTicketValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketValue",
+      "fields": { "ticket": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServiceGetSegmentTicketResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServiceGetSegmentTicketResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {} },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.simulation.v1.SimulationServicePollStateRequest": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePollStateRequest",
+      "fields": { "meta": { "required": true }, "runId": { "required": true }, "knownRevision": {} }
+    },
+    "arcforges.simulation.v1.SimulationServicePollStateValue": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePollStateValue",
+      "fields": { "run": { "required": true }, "hasChanged": { "required": true } }
+    },
+    "arcforges.simulation.v1.SimulationServicePollStateResponse": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationServicePollStateResponse",
+      "fields": { "meta": { "required": true }, "value": {}, "error": {}, "encodedBody": {} },
+      "oneofRequired": ["outcome"]
+    }
+  }
+}

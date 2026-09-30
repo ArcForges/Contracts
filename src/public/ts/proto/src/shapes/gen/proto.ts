@@ -15381,6 +15381,1595 @@ function checkValueRecord(input: unknown, context: ValidationContext): boolean {
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isAstNode(input: unknown): boolean { return checkAstNode(input, {active: new Set<object>(), depth: 0}); }
+function checkAstNode(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if ((value.expression as {case?: string} | undefined)?.case === "constant") {
+    const fieldValue = (value.expression as {value: unknown}).value;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if ((value.expression as {case?: string} | undefined)?.case === "variable") {
+    const fieldValue = (value.expression as {value: unknown}).value;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if ((value.expression as {case?: string} | undefined)?.case === "unary") {
+    const fieldValue = (value.expression as {value: unknown}).value;
+    if (!checkUnaryExpression(fieldValue, context)) return false;
+  }
+  if ((value.expression as {case?: string} | undefined)?.case === "binary") {
+    const fieldValue = (value.expression as {value: unknown}).value;
+    if (!checkBinaryExpression(fieldValue, context)) return false;
+  }
+  if ((value.expression as {case?: string} | undefined)?.case === "function") {
+    const fieldValue = (value.expression as {value: unknown}).value;
+    if (!checkFunctionExpression(fieldValue, context)) return false;
+  }
+  if (value.expression === undefined || typeof value.expression !== 'object' || value.expression === null) return false;
+  if ((value.expression as {case?: string}).case !== "constant" && (value.expression as {case?: string}).case !== "variable" && (value.expression as {case?: string}).case !== "unary" && (value.expression as {case?: string}).case !== "binary" && (value.expression as {case?: string}).case !== "function") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isBinaryExpression(input: unknown): boolean { return checkBinaryExpression(input, {active: new Set<object>(), depth: 0}); }
+function checkBinaryExpression(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.operator === undefined) return false;
+  if (value.operator !== undefined) {
+    const fieldValue = value.operator;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.left === undefined) return false;
+  if (value.left !== undefined) {
+    const fieldValue = value.left;
+    if (!checkAstNode(fieldValue, context)) return false;
+  }
+  if (value.right === undefined) return false;
+  if (value.right !== undefined) {
+    const fieldValue = value.right;
+    if (!checkAstNode(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isCsvColumn(input: unknown): boolean { return checkCsvColumn(input, {active: new Set<object>(), depth: 0}); }
+function checkCsvColumn(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.column === undefined) return false;
+  if (value.column !== undefined) {
+    const fieldValue = value.column;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  if (value.channelId === undefined) return false;
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.type === undefined) return false;
+  if (value.type !== undefined) {
+    const fieldValue = value.type;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.unit === undefined) return false;
+  if (value.unit !== undefined) {
+    const fieldValue = value.unit;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isCsvReplaySchema(input: unknown): boolean { return checkCsvReplaySchema(input, {active: new Set<object>(), depth: 0}); }
+function checkCsvReplaySchema(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.encoding === undefined) return false;
+  if (value.encoding !== undefined) {
+    const fieldValue = value.encoding;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "utf8") return false;
+  }
+  if (value.delimiter === undefined) return false;
+  if (value.delimiter !== undefined) {
+    const fieldValue = value.delimiter;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 16) return false;
+    if (fieldValue !== "," && fieldValue !== "\t" && fieldValue !== ";") return false;
+  }
+  if (value.hasHeader === undefined) return false;
+  if (value.hasHeader !== undefined) {
+    const fieldValue = value.hasHeader;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.timestampColumn !== undefined) {
+    const fieldValue = value.timestampColumn;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  if (value.columns === undefined) return false;
+  if (value.columns !== undefined) {
+    const fieldValue = value.columns;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 4096) return false;
+    for (const item of fieldValue) {
+    if (!checkCsvColumn(item, context)) return false;
+    }
+  }
+  if (value.timestampUnit !== undefined) {
+    const fieldValue = value.timestampUnit;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isFaultSpec(input: unknown): boolean { return checkFaultSpec(input, {active: new Set<object>(), depth: 0}); }
+function checkFaultSpec(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.faultId === undefined) return false;
+  if (value.faultId !== undefined) {
+    const fieldValue = value.faultId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "latency" && fieldValue !== "jitter" && fieldValue !== "drop" && fieldValue !== "duplicate" && fieldValue !== "reorder" && fieldValue !== "disconnect" && fieldValue !== "malformed" && fieldValue !== "outlier") return false;
+  }
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.window === undefined) return false;
+  if (value.window !== undefined) {
+    const fieldValue = value.window;
+    if (!checkMeasurementWindow(fieldValue, context)) return false;
+  }
+  if (value.everyTicks === undefined) return false;
+  if (value.everyTicks !== undefined) {
+    const fieldValue = value.everyTicks;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.probabilityPpm === undefined) return false;
+  if (value.probabilityPpm !== undefined) {
+    const fieldValue = value.probabilityPpm;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 0) return false;
+    if (fieldValue > 1000000) return false;
+  }
+  if (value.delayTicks !== undefined) {
+    const fieldValue = value.delayTicks;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.amount !== undefined) {
+    const fieldValue = value.amount;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if (value.reorderWindow !== undefined) {
+    const fieldValue = value.reorderWindow;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 1024) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isFunctionExpression(input: unknown): boolean { return checkFunctionExpression(input, {active: new Set<object>(), depth: 0}); }
+function checkFunctionExpression(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.function === undefined) return false;
+  if (value.function !== undefined) {
+    const fieldValue = value.function;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "abs" && fieldValue !== "sqrt" && fieldValue !== "sin" && fieldValue !== "cos" && fieldValue !== "floor" && fieldValue !== "ceil" && fieldValue !== "clamp" && fieldValue !== "select") return false;
+  }
+  if (value.arguments === undefined) return false;
+  if (value.arguments !== undefined) {
+    const fieldValue = value.arguments;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 1024) return false;
+    for (const item of fieldValue) {
+    if (!checkAstNode(item, context)) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isGeneratorSpec(input: unknown): boolean { return checkGeneratorSpec(input, {active: new Set<object>(), depth: 0}); }
+function checkGeneratorSpec(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.channelId === undefined) return false;
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "constant" && fieldValue !== "sine" && fieldValue !== "square" && fieldValue !== "triangle" && fieldValue !== "sawtooth" && fieldValue !== "noise" && fieldValue !== "randomWalk" && fieldValue !== "pulse" && fieldValue !== "stepSequence" && fieldValue !== "csv") return false;
+  }
+  if (value.offset !== undefined) {
+    const fieldValue = value.offset;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if (value.amplitude !== undefined) {
+    const fieldValue = value.amplitude;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if (value.frequencyHz !== undefined) {
+    const fieldValue = value.frequencyHz;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+    if (fieldValue < 5e-324) return false;
+  }
+  if (value.phaseCycles !== undefined) {
+    const fieldValue = value.phaseCycles;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if (value.dutyRatio !== undefined) {
+    const fieldValue = value.dutyRatio;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+    if (fieldValue < 5e-324) return false;
+    if (fieldValue > 0.9999999999999999) return false;
+  }
+  if (value.walkStep !== undefined) {
+    const fieldValue = value.walkStep;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if (value.pulses === undefined) return false;
+  if (value.pulses !== undefined) {
+    const fieldValue = value.pulses;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkPulseSpec(item, context)) return false;
+    }
+  }
+  if (value.steps === undefined) return false;
+  if (value.steps !== undefined) {
+    const fieldValue = value.steps;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkStepPoint(item, context)) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isPulseSpec(input: unknown): boolean { return checkPulseSpec(input, {active: new Set<object>(), depth: 0}); }
+function checkPulseSpec(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.start === undefined) return false;
+  if (value.start !== undefined) {
+    const fieldValue = value.start;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if (value.duration === undefined) return false;
+  if (value.duration !== undefined) {
+    const fieldValue = value.duration;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if (value.value === undefined) return false;
+  if (value.value !== undefined) {
+    const fieldValue = value.value;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScenarioExpression(input: unknown): boolean { return checkScenarioExpression(input, {active: new Set<object>(), depth: 0}); }
+function checkScenarioExpression(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.channelId === undefined) return false;
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.root === undefined) return false;
+  if (value.root !== undefined) {
+    const fieldValue = value.root;
+    if (!checkAstNode(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScenarioSpec(input: unknown): boolean { return checkScenarioSpec(input, {active: new Set<object>(), depth: 0}); }
+function checkScenarioSpec(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.channels === undefined) return false;
+  if (value.channels !== undefined) {
+    const fieldValue = value.channels;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 64) return false;
+    for (const item of fieldValue) {
+    if (!checkChannelDefinition(item, context)) return false;
+    }
+  }
+  if (value.expressions === undefined) return false;
+  if (value.expressions !== undefined) {
+    const fieldValue = value.expressions;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 64) return false;
+    for (const item of fieldValue) {
+    if (!checkScenarioExpression(item, context)) return false;
+    }
+  }
+  if (value.csv !== undefined) {
+    const fieldValue = value.csv;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.duration === undefined) return false;
+  if (value.duration !== undefined) {
+    const fieldValue = value.duration;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if (value.generators === undefined) return false;
+  if (value.generators !== undefined) {
+    const fieldValue = value.generators;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 64) return false;
+    for (const item of fieldValue) {
+    if (!checkGeneratorSpec(item, context)) return false;
+    }
+  }
+  if (value.faults === undefined) return false;
+  if (value.faults !== undefined) {
+    const fieldValue = value.faults;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkFaultSpec(item, context)) return false;
+    }
+  }
+  if (value.csvSchema !== undefined) {
+    const fieldValue = value.csvSchema;
+    if (!checkCsvReplaySchema(fieldValue, context)) return false;
+  }
+  if (value.executionProfile === undefined) return false;
+  if (value.executionProfile !== undefined) {
+    const fieldValue = value.executionProfile;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-sim.v1") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isScenarioVersion(input: unknown): boolean { return checkScenarioVersion(input, {active: new Set<object>(), depth: 0}); }
+function checkScenarioVersion(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.scenarioVersionId === undefined) return false;
+  if (value.scenarioVersionId !== undefined) {
+    const fieldValue = value.scenarioVersionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.schemaVersion === undefined) return false;
+  if (value.schemaVersion !== undefined) {
+    const fieldValue = value.schemaVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.scenario === undefined) return false;
+  if (value.scenario !== undefined) {
+    const fieldValue = value.scenario;
+    if (!checkScenarioSpec(fieldValue, context)) return false;
+  }
+  if (value.sha256 === undefined) return false;
+  if (value.sha256 !== undefined) {
+    const fieldValue = value.sha256;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationDefinition(input: unknown): boolean { return checkSimulationDefinition(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationDefinition(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationProfile(input: unknown): boolean { return checkSimulationProfile(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationProfile(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.sampleCount === undefined) return false;
+  if (value.sampleCount !== undefined) {
+    const fieldValue = value.sampleCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.batchSamples === undefined) return false;
+  if (value.batchSamples !== undefined) {
+    const fieldValue = value.batchSamples;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 65536) return false;
+  }
+  if (value.rate === undefined) return false;
+  if (value.rate !== undefined) {
+    const fieldValue = value.rate;
+    if (!checkRational(fieldValue, context)) return false;
+  }
+  if (value.executionProfile === undefined) return false;
+  if (value.executionProfile !== undefined) {
+    const fieldValue = value.executionProfile;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-sim.v1") return false;
+  }
+  if (value.encodingProfile === undefined) return false;
+  if (value.encodingProfile !== undefined) {
+    const fieldValue = value.encodingProfile;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-segment.v1") return false;
+  }
+  if (value.clockMode === undefined) return false;
+  if (value.clockMode !== undefined) {
+    const fieldValue = value.clockMode;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "realTime" && fieldValue !== "accelerated") return false;
+  }
+  if (value.generatorVersion === undefined) return false;
+  if (value.generatorVersion !== undefined) {
+    const fieldValue = value.generatorVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationRun(input: unknown): boolean { return checkSimulationRun(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationRun(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.scenarioVersionId === undefined) return false;
+  if (value.scenarioVersionId !== undefined) {
+    const fieldValue = value.scenarioVersionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "queued" && fieldValue !== "starting" && fieldValue !== "running" && fieldValue !== "pausing" && fieldValue !== "paused" && fieldValue !== "stopping" && fieldValue !== "canceled" && fieldValue !== "succeeded" && fieldValue !== "failed") return false;
+  }
+  if (value.reason !== undefined) {
+    const fieldValue = value.reason;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.committedSequence === undefined) return false;
+  if (value.committedSequence !== undefined) {
+    const fieldValue = value.committedSequence;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < -9223372036854775808n || fieldValue > 9223372036854775807n) return false;
+  }
+  if (value.extent === undefined) return false;
+  if (value.extent !== undefined) {
+    const fieldValue = value.extent;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "complete" && fieldValue !== "partial") return false;
+  }
+  if (value.logicalEnd === undefined) return false;
+  if (value.logicalEnd !== undefined) {
+    const fieldValue = value.logicalEnd;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.createdAt === undefined) return false;
+  if (value.createdAt !== undefined) {
+    const fieldValue = value.createdAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationSegment(input: unknown): boolean { return checkSimulationSegment(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationSegment(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.sequence === undefined) return false;
+  if (value.sequence !== undefined) {
+    const fieldValue = value.sequence;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < -9223372036854775808n || fieldValue > 9223372036854775807n) return false;
+  }
+  if (value.start === undefined) return false;
+  if (value.start !== undefined) {
+    const fieldValue = value.start;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.count === undefined) return false;
+  if (value.count !== undefined) {
+    const fieldValue = value.count;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.encoding === undefined) return false;
+  if (value.encoding !== undefined) {
+    const fieldValue = value.encoding;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-segment.v1") return false;
+  }
+  if (value.resource === undefined) return false;
+  if (value.resource !== undefined) {
+    const fieldValue = value.resource;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.events !== undefined) {
+    const fieldValue = value.events;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.executionProfile === undefined) return false;
+  if (value.executionProfile !== undefined) {
+    const fieldValue = value.executionProfile;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-sim.v1") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceCancelRunRequest(input: unknown): boolean { return checkSimulationServiceCancelRunRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceCancelRunRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceCancelRunResponse(input: unknown): boolean { return checkSimulationServiceCancelRunResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceCancelRunResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceCancelRunValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceCancelRunValue(input: unknown): boolean { return checkSimulationServiceCancelRunValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceCancelRunValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkSimulationRun(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceCreateDefinitionRequest(input: unknown): boolean { return checkSimulationServiceCreateDefinitionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceCreateDefinitionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceCreateDefinitionResponse(input: unknown): boolean { return checkSimulationServiceCreateDefinitionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceCreateDefinitionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceCreateDefinitionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceCreateDefinitionValue(input: unknown): boolean { return checkSimulationServiceCreateDefinitionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceCreateDefinitionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.definition === undefined) return false;
+  if (value.definition !== undefined) {
+    const fieldValue = value.definition;
+    if (!checkSimulationDefinition(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetDefinitionRequest(input: unknown): boolean { return checkSimulationServiceGetDefinitionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetDefinitionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetDefinitionResponse(input: unknown): boolean { return checkSimulationServiceGetDefinitionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetDefinitionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceGetDefinitionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetDefinitionValue(input: unknown): boolean { return checkSimulationServiceGetDefinitionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetDefinitionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.definition === undefined) return false;
+  if (value.definition !== undefined) {
+    const fieldValue = value.definition;
+    if (!checkSimulationDefinition(fieldValue, context)) return false;
+  }
+  if (value.versions === undefined) return false;
+  if (value.versions !== undefined) {
+    const fieldValue = value.versions;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkScenarioVersion(item, context)) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetRunRequest(input: unknown): boolean { return checkSimulationServiceGetRunRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetRunRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetRunResponse(input: unknown): boolean { return checkSimulationServiceGetRunResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetRunResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceGetRunValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetRunValue(input: unknown): boolean { return checkSimulationServiceGetRunValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetRunValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkSimulationRun(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetSegmentTicketRequest(input: unknown): boolean { return checkSimulationServiceGetSegmentTicketRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetSegmentTicketRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.segmentSequence === undefined) return false;
+  if (value.segmentSequence !== undefined) {
+    const fieldValue = value.segmentSequence;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < -9223372036854775808n || fieldValue > 9223372036854775807n) return false;
+  }
+  if (value.range !== undefined) {
+    const fieldValue = value.range;
+    if (!checkByteRange(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetSegmentTicketResponse(input: unknown): boolean { return checkSimulationServiceGetSegmentTicketResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetSegmentTicketResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceGetSegmentTicketValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceGetSegmentTicketValue(input: unknown): boolean { return checkSimulationServiceGetSegmentTicketValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceGetSegmentTicketValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.ticket === undefined) return false;
+  if (value.ticket !== undefined) {
+    const fieldValue = value.ticket;
+    if (!checkTransferTicket(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListDefinitionsRequest(input: unknown): boolean { return checkSimulationServiceListDefinitionsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListDefinitionsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListDefinitionsResponse(input: unknown): boolean { return checkSimulationServiceListDefinitionsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListDefinitionsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceListDefinitionsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListDefinitionsValue(input: unknown): boolean { return checkSimulationServiceListDefinitionsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListDefinitionsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkSimulationDefinition(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListRunsRequest(input: unknown): boolean { return checkSimulationServiceListRunsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListRunsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  if (value.scenarioVersionId !== undefined) {
+    const fieldValue = value.scenarioVersionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "queued" && fieldValue !== "starting" && fieldValue !== "running" && fieldValue !== "pausing" && fieldValue !== "paused" && fieldValue !== "stopping" && fieldValue !== "canceled" && fieldValue !== "succeeded" && fieldValue !== "failed") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListRunsResponse(input: unknown): boolean { return checkSimulationServiceListRunsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListRunsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceListRunsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListRunsValue(input: unknown): boolean { return checkSimulationServiceListRunsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListRunsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkSimulationRun(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListSegmentsRequest(input: unknown): boolean { return checkSimulationServiceListSegmentsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListSegmentsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListSegmentsResponse(input: unknown): boolean { return checkSimulationServiceListSegmentsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListSegmentsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceListSegmentsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceListSegmentsValue(input: unknown): boolean { return checkSimulationServiceListSegmentsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceListSegmentsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.segments === undefined) return false;
+  if (value.segments !== undefined) {
+    const fieldValue = value.segments;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkSimulationSegment(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePauseRunRequest(input: unknown): boolean { return checkSimulationServicePauseRunRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePauseRunRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePauseRunResponse(input: unknown): boolean { return checkSimulationServicePauseRunResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePauseRunResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServicePauseRunValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePauseRunValue(input: unknown): boolean { return checkSimulationServicePauseRunValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePauseRunValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkSimulationRun(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePollStateRequest(input: unknown): boolean { return checkSimulationServicePollStateRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePollStateRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.knownRevision !== undefined) {
+    const fieldValue = value.knownRevision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePollStateResponse(input: unknown): boolean { return checkSimulationServicePollStateResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePollStateResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServicePollStateValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePollStateValue(input: unknown): boolean { return checkSimulationServicePollStateValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePollStateValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkSimulationRun(fieldValue, context)) return false;
+  }
+  if (value.hasChanged === undefined) return false;
+  if (value.hasChanged !== undefined) {
+    const fieldValue = value.hasChanged;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePublishScenarioVersionRequest(input: unknown): boolean { return checkSimulationServicePublishScenarioVersionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePublishScenarioVersionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.scenarioVersionId === undefined) return false;
+  if (value.scenarioVersionId !== undefined) {
+    const fieldValue = value.scenarioVersionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.scenario === undefined) return false;
+  if (value.scenario !== undefined) {
+    const fieldValue = value.scenario;
+    if (!checkScenarioSpec(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePublishScenarioVersionResponse(input: unknown): boolean { return checkSimulationServicePublishScenarioVersionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePublishScenarioVersionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServicePublishScenarioVersionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServicePublishScenarioVersionValue(input: unknown): boolean { return checkSimulationServicePublishScenarioVersionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServicePublishScenarioVersionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.version === undefined) return false;
+  if (value.version !== undefined) {
+    const fieldValue = value.version;
+    if (!checkScenarioVersion(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceResumeRunRequest(input: unknown): boolean { return checkSimulationServiceResumeRunRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceResumeRunRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceResumeRunResponse(input: unknown): boolean { return checkSimulationServiceResumeRunResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceResumeRunResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceResumeRunValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceResumeRunValue(input: unknown): boolean { return checkSimulationServiceResumeRunValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceResumeRunValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkSimulationRun(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceStartRunRequest(input: unknown): boolean { return checkSimulationServiceStartRunRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceStartRunRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.scenarioVersionId === undefined) return false;
+  if (value.scenarioVersionId !== undefined) {
+    const fieldValue = value.scenarioVersionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.seed === undefined) return false;
+  if (value.seed !== undefined) {
+    const fieldValue = value.seed;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < -9223372036854775808n || fieldValue > 9223372036854775807n) return false;
+  }
+  if (value.profile === undefined) return false;
+  if (value.profile !== undefined) {
+    const fieldValue = value.profile;
+    if (!checkSimulationProfile(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceStartRunResponse(input: unknown): boolean { return checkSimulationServiceStartRunResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceStartRunResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkSimulationServiceStartRunValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationServiceStartRunValue(input: unknown): boolean { return checkSimulationServiceStartRunValue(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationServiceStartRunValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkSimulationRun(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isStepPoint(input: unknown): boolean { return checkStepPoint(input, {active: new Set<object>(), depth: 0}); }
+function checkStepPoint(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.at === undefined) return false;
+  if (value.at !== undefined) {
+    const fieldValue = value.at;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if (value.value === undefined) return false;
+  if (value.value !== undefined) {
+    const fieldValue = value.value;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isUnaryExpression(input: unknown): boolean { return checkUnaryExpression(input, {active: new Set<object>(), depth: 0}); }
+function checkUnaryExpression(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.operator === undefined) return false;
+  if (value.operator !== undefined) {
+    const fieldValue = value.operator;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "negate" && fieldValue !== "not") return false;
+  }
+  if (value.operand === undefined) return false;
+  if (value.operand !== undefined) {
+    const fieldValue = value.operand;
+    if (!checkAstNode(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 type ValidationContext = {active: Set<object>; depth: number};
 function validUnicode(text: string): boolean {
   for (let i = 0; i < text.length; i++) {

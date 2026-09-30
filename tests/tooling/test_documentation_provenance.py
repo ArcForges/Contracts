@@ -28,6 +28,17 @@ CON10_PUBLIC_SERVICE_METHODS = {
     "TaskService": ["cancel", "create", "get", "getDetails", "list", "pause", "resume", "retryAttempt", "steer"],
 }
 
+CON21_RECORD_MESSAGE_NAMES = {
+    "SimulationDefinition", "ScenarioVersion", "SimulationRun", "SimulationSegment", "SimulationProfile",
+    "ScenarioSpec", "ScenarioExpression", "AstNode", "UnaryExpression", "BinaryExpression",
+    "FunctionExpression", "GeneratorSpec", "PulseSpec", "StepPoint", "FaultSpec", "CsvReplaySchema", "CsvColumn",
+}
+CON21_PUBLIC_SERVICE_METHODS = {
+    "SimulationService": ["listDefinitions", "getDefinition", "createDefinition", "publishScenarioVersion",
+                           "startRun", "pauseRun", "resumeRun", "cancelRun", "getRun", "listRuns",
+                           "listSegments", "getSegmentTicket", "pollState"],
+}
+
 
 class DocumentationAdmissionTests(unittest.TestCase):
     def setUp(self):
@@ -82,7 +93,7 @@ class DocumentationAdmissionTests(unittest.TestCase):
 
     def test_current_profile_preserves_reviewed_resources_and_retires_native_client(self):
         root = Path(__file__).resolve().parents[2]
-        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r16.json")
+        self.assertEqual(documentation.PROFILE, "eng/provenance/artifact-profiles/dokka-2-2-0-r17.json")
         previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r5.json").read_bytes())
         current = json.loads((root / documentation.PROFILE).read_bytes())
         self.assertEqual(set(current["modules"]),
@@ -235,6 +246,25 @@ class DocumentationAdmissionTests(unittest.TestCase):
             for suffix in ("Client", "ClientInterface")
         }
         self.assertEqual(len(con22_client_pages), 12)
+        con21_shard = json.loads((root / "public/proto/constraints/con-21-simulation.json").read_bytes())
+        con21_methods = CON21_PUBLIC_SERVICE_METHODS["SimulationService"]
+        con21_message_names = CON21_RECORD_MESSAGE_NAMES | {
+            "SimulationService" + method[0].upper() + method[1:] + suffix
+            for method in con21_methods for suffix in ("Request", "Value", "Response")
+        }
+        self.assertEqual(len(CON21_RECORD_MESSAGE_NAMES), 17)
+        self.assertEqual(len(con21_message_names), 56)
+        self.assertEqual({name.rsplit(".", 1)[-1] for name in con21_shard["messages"]}, con21_message_names)
+        con21_proto_pages = {
+            "contracts-proto/io.github.arcforges.contracts.simulation.v1/" + slug(name) + "/index.html"
+            for name in con21_message_names
+        }
+        con21_client_pages = {
+            "contracts-connect-client/io.github.arcforges.contracts.simulation.v1/" +
+            slug("SimulationService" + suffix) + "/index.html": con21_methods
+            for suffix in ("Client", "ClientInterface")
+        }
+        self.assertEqual(len(con21_client_pages), 2)
         for section in ("source", "fixed", "excluded", "components", "fontTransform"):
             self.assertEqual(current[section], previous[section], section)
         for module in current["modules"]:
@@ -371,9 +401,9 @@ class DocumentationAdmissionTests(unittest.TestCase):
             clients = {"contracts-connect-client/io.github.arcforges.contracts.catalog.v1/" + slug(name) + "/index.html"
                        for name in ("CatalogServiceClient", "CatalogServiceClientInterface")}
             permitted = descriptor_pages | catalog_pages | inprocess_pages | con08_proto_pages \
-                | con09_proto_pages | con10_proto_pages | con22_proto_pages if module == "contracts-proto" else (
+                | con09_proto_pages | con10_proto_pages | con22_proto_pages | con21_proto_pages if module == "contracts-proto" else (
                     clients | set(con08_client_pages) | set(con09_client_pages)
-                    | set(con10_client_pages) | set(con22_client_pages)
+                    | set(con10_client_pages) | set(con22_client_pages) | set(con21_client_pages)
                     if module == "contracts-connect-client" else set())
             self.assertEqual(additions, permitted)
             for name in additions:
@@ -385,12 +415,13 @@ class DocumentationAdmissionTests(unittest.TestCase):
                     else:
                         self.assertTrue(any(marker.startswith('anchor-label="get') for marker in actual[name]), name)
                 else:
-                    expected_methods = set(con22_client_pages[name]) if name in con22_client_pages else (
+                    expected_methods = set(con21_client_pages[name]) if name in con21_client_pages else (
+                        set(con22_client_pages[name]) if name in con22_client_pages else (
                         set(con10_client_pages[name]) if name in con10_client_pages else (
                         con09_client_pages[name] if name in con09_client_pages else (
                         con08_client_pages[name] if name in con08_client_pages else {
                         operation[0].lower() + operation[1:] for operation in operations
-                    })))
+                    }))))
                     self.assertEqual(set(actual[name]), expected_methods)
         self.assertFalse(any("/contracts-client/" in name for name in current["inputs"]))
         proto_pages = current["modules"]["contracts-proto"]["publicApi"]
@@ -399,6 +430,126 @@ class DocumentationAdmissionTests(unittest.TestCase):
         self.assertTrue(any("publicapi.v1/-aggregate-body/" in name for name in proto_pages))
         self.assertFalse(any("publicapi.v1/-notes-query/" in name for name in proto_pages))
         self.assertTrue(any("publicapi.v1/-measurement-result/" in name for name in proto_pages))
+
+    def test_con21_dokka_r17_is_only_the_frozen_r16_successor_delta(self):
+        root = Path(__file__).resolve().parents[2]
+        previous = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r16.json").read_bytes())
+        current = json.loads((root / "eng/provenance/artifact-profiles/dokka-2-2-0-r17.json").read_bytes())
+        resource_record = json.loads((root / "eng/provenance/records/dokka-documentation-resources-r17.json").read_bytes())
+        inventory = json.loads((root / "eng/provenance/files.json").read_bytes())
+
+        self.assertEqual(resource_record["id"], "dokka-documentation-resources-r17")
+        self.assertEqual(resource_record["supersedes"], "dokka-documentation-resources-r16")
+        self.assertIn("r17 successor supersedes r16", resource_record["review"]["rationale"])
+        self.assertIn("ORG_GRADLE_PROJECT_releaseVersion=1.0.0-ci.999.1", resource_record["verification"]["command"])
+        self.assertEqual(inventory["artifacts"], ["dokka-documentation-resources-r17"])
+
+        def key_fingerprint(keys):
+            return documentation.sha(("".join(key + "\n" for key in sorted(keys))).encode("utf-8"))
+
+        def row_fingerprint(rows):
+            return documentation.sha(("".join(row + "\n" for row in sorted(rows))).encode("utf-8"))
+
+        def slug(name):
+            return "-" + re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
+
+        for section in ("source", "fixed", "excluded", "components", "fontTransform"):
+            self.assertEqual(current[section], previous[section], section)
+        self.assertEqual(set(previous["inputs"]) - set(current["inputs"]), set())
+        self.assertEqual({key for key in previous["inputs"] if current["inputs"][key] != previous["inputs"][key]}, set())
+        added_inputs = set(current["inputs"]) - set(previous["inputs"])
+        self.assertEqual(len(added_inputs), 59)
+        self.assertEqual(key_fingerprint(added_inputs),
+                         "baf5d22395919487acb3cb16adf5a85e9937ee6ff38feef465c39c1aeff98421")
+        self.assertTrue(all("/simulation/v1/" in name for name in added_inputs))
+
+        expected_page_deltas = {
+            "contracts-proto": (3626, "46b335390a4f8e8ec040e5256073d712b84fd3492330bb1de7e5815b8112b08d",
+                                {"contracts-proto/package-list", "index.html", "navigation.html", "scripts/pages.json"},
+                                "81e143bbd67bbb205d1530595de3a31db3d11b866ac7fcc78295ccab8c1cd66d",
+                                "762f8d51352acc113f4e091888bfbd526ffdc82084657050d8e65cc48aa5ee15"),
+            "contracts-connect-client": (30, "66445da165db73bbad92b362386bd0d59b30a2cf94a72fdf107aca72831c305c",
+                                          {"contracts-connect-client/package-list", "index.html", "navigation.html",
+                                           "scripts/pages.json"},
+                                          "eafdffbbb9ac95c22e07fc6de1efab2fbacfcf43fd797a66435a325c0d4c3ea6",
+                                          "795acfc6481c63e6724784df37a0db9f89c5b0e7a27ca48b5fd9d54738549f84"),
+            "contract-fixtures": (0, None, set(), None, None),
+        }
+        for module, (count, added_hash, expected_changed, changed_hash, changed_rows_hash) in expected_page_deltas.items():
+            old_pages = previous["modules"][module]["pages"]
+            new_pages = current["modules"][module]["pages"]
+            added = set(new_pages) - set(old_pages)
+            removed = set(old_pages) - set(new_pages)
+            changed = {key for key in set(old_pages) & set(new_pages) if old_pages[key] != new_pages[key]}
+            self.assertEqual(len(added), count, module)
+            self.assertEqual(removed, set(), module)
+            self.assertEqual(changed, expected_changed, module)
+            if added_hash is not None:
+                self.assertEqual(key_fingerprint(added), added_hash, module)
+            if changed_hash is not None:
+                self.assertEqual(key_fingerprint(changed), changed_hash, module)
+                self.assertEqual(row_fingerprint([f"{key}\t{old_pages[key]}\t{new_pages[key]}" for key in changed]),
+                                 changed_rows_hash, module)
+
+        proto_names = CON21_RECORD_MESSAGE_NAMES | {
+            "SimulationService" + method[0].upper() + method[1:] + suffix
+            for method in CON21_PUBLIC_SERVICE_METHODS["SimulationService"]
+            for suffix in ("Request", "Value", "Response")
+        }
+        expected_proto_api = {
+            "contracts-proto/io.github.arcforges.contracts.simulation.v1/" + slug(name) + "/index.html"
+            for name in proto_names
+        }
+        previous_proto_api = previous["modules"]["contracts-proto"]["publicApi"]
+        current_proto_api = current["modules"]["contracts-proto"]["publicApi"]
+        added_proto_api = set(current_proto_api) - set(previous_proto_api)
+        self.assertEqual(added_proto_api, expected_proto_api)
+        self.assertEqual(key_fingerprint(added_proto_api),
+                         "680330d03723c45f1d9889b80b9788665171116508e8811c08fccbe663307e72")
+        self.assertEqual(sum(len(current_proto_api[page]) for page in added_proto_api), 622)
+        proto_rows = [page + "\t" + "\t".join(sorted(current_proto_api[page])) for page in added_proto_api]
+        self.assertEqual(row_fingerprint(proto_rows),
+                         "c47e27998253044c13cb549bb73dd7df74052d2b34c95d7c8f636cd84d5f7225")
+        for name in proto_names:
+            page = "contracts-proto/io.github.arcforges.contracts.simulation.v1/" + slug(name) + "/index.html"
+            markers = current_proto_api[page]
+            self.assertIn(name, markers)
+            self.assertIn('anchor-label="parser"', markers)
+            self.assertTrue(any(marker.startswith('anchor-label="get') for marker in markers), page)
+
+        method_leaves = ["list-definitions", "get-definition", "create-definition", "publish-scenario-version",
+                         "start-run", "pause-run", "resume-run", "cancel-run", "get-run", "list-runs",
+                         "list-segments", "get-segment-ticket", "poll-state"]
+        namespace = "contracts-connect-client/io.github.arcforges.contracts.simulation.v1/"
+        expected_connect_pages = {namespace + "index.html"}
+        for suffix in ("Client", "ClientInterface"):
+            client = "SimulationService" + suffix
+            directory = namespace + slug(client) + "/"
+            expected_connect_pages.add(directory + "index.html")
+            expected_connect_pages.update(directory + method + ".html" for method in method_leaves)
+            if suffix == "Client":
+                expected_connect_pages.add(directory + slug(client) + ".html")
+        old_connect_pages = previous["modules"]["contracts-connect-client"]["pages"]
+        new_connect_pages = current["modules"]["contracts-connect-client"]["pages"]
+        added_connect_pages = set(new_connect_pages) - set(old_connect_pages)
+        self.assertEqual(added_connect_pages, expected_connect_pages)
+        old_connect_api = previous["modules"]["contracts-connect-client"]["publicApi"]
+        new_connect_api = current["modules"]["contracts-connect-client"]["publicApi"]
+        expected_connect_api = {
+            namespace + slug("SimulationService" + suffix) + "/index.html"
+            for suffix in ("Client", "ClientInterface")
+        }
+        added_connect_api = set(new_connect_api) - set(old_connect_api)
+        self.assertEqual(added_connect_api, expected_connect_api)
+        self.assertEqual(key_fingerprint(added_connect_api),
+                         "b45da723a92548283ba3eaadf0311159537e9763ee1292d228d3c9aa7233d3c4")
+        connect_rows = [page + "\t" + "\t".join(sorted(new_connect_api[page])) for page in added_connect_api]
+        self.assertEqual(row_fingerprint(connect_rows),
+                         "44b87adda0914a6ae45e97d2a8808b217ef8e81f316aee247041b90c9578e578")
+        for page in expected_connect_api:
+            self.assertEqual(set(new_connect_api[page]), set(CON21_PUBLIC_SERVICE_METHODS["SimulationService"]))
+        self.assertEqual(current["modules"]["contract-fixtures"]["publicApi"],
+                         previous["modules"]["contract-fixtures"]["publicApi"])
 
     def test_con10_dokka_r15_is_only_the_frozen_r14_successor_delta(self):
         root = Path(__file__).resolve().parents[2]

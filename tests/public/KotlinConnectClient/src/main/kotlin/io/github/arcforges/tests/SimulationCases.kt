@@ -1,0 +1,488 @@
+// SPDX-License-Identifier: Apache-2.0
+package io.github.arcforges.tests
+
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.protobuf.ByteString
+import io.github.arcforges.contracts.fixtures.ContractFixtures
+import io.github.arcforges.contracts.foundation.v1.Id
+import io.github.arcforges.contracts.foundation.v1.Instant
+import io.github.arcforges.contracts.foundation.v1.PageRequest
+import io.github.arcforges.contracts.foundation.v1.Rational
+import io.github.arcforges.contracts.foundation.v1.ResourceAvailability
+import io.github.arcforges.contracts.foundation.v1.ResourceRef
+import io.github.arcforges.contracts.foundation.v1.ResourceVersionRef
+import io.github.arcforges.contracts.foundation.v1.Revision
+import io.github.arcforges.contracts.simulation.v1.AstNode
+import io.github.arcforges.contracts.simulation.v1.BinaryExpression
+import io.github.arcforges.contracts.simulation.v1.CsvColumn
+import io.github.arcforges.contracts.simulation.v1.CsvReplaySchema
+import io.github.arcforges.contracts.simulation.v1.FaultSpec
+import io.github.arcforges.contracts.simulation.v1.FunctionExpression
+import io.github.arcforges.contracts.simulation.v1.GeneratorSpec
+import io.github.arcforges.contracts.simulation.v1.PulseSpec
+import io.github.arcforges.contracts.simulation.v1.SimulationProfile
+import io.github.arcforges.contracts.simulation.v1.SimulationRun
+import io.github.arcforges.contracts.simulation.v1.ScenarioSpec
+import io.github.arcforges.contracts.simulation.v1.SimulationServiceClientInterface
+import io.github.arcforges.contracts.simulation.v1.StepPoint
+import io.github.arcforges.contracts.simulation.v1.UnaryExpression
+import io.github.arcforges.contracts.publicapi.v1.MeasurementWindow
+import io.github.arcforges.contracts.publicapi.v1.ScopeTime
+import java.lang.reflect.Modifier
+import java.util.Base64
+
+internal object SimulationCases {
+    private val generatorRequiredFieldsByKind = mapOf(
+        "constant" to listOf("offset"),
+        "sine" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles"),
+        "square" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio"),
+        "triangle" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles"),
+        "sawtooth" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles"),
+        "noise" to listOf("offset", "amplitude"),
+        "randomWalk" to listOf("offset", "walkStep"),
+        "pulse" to listOf("offset", "pulses"),
+        "stepSequence" to listOf("offset", "steps"),
+        "csv" to emptyList())
+    private val generatorParameterFields = listOf("offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio", "walkStep", "pulses", "steps")
+
+    fun run() {
+        val fixture = ContractFixtures::class.java.getResourceAsStream("/arcforges/fixtures/con-21-simulation.json")
+            ?.bufferedReader(Charsets.UTF_8)?.use { JsonParser.parseReader(it).asJsonObject }
+            ?: error("CON.21 public simulation fixture is missing from the candidate")
+
+        val operations = fixture.getAsJsonArray("operations").map { it.asJsonObject }
+        check(operations.size == fixture.get("operationCount").asInt && operations.size == 13)
+        val expectedMethods = operations.map { lowerCamel(it.get("method").asString) }.toSet()
+        check(expectedMethods.size == operations.size)
+        val declaredApiMethods = SimulationServiceClientInterface::class.java.declaredMethods
+            .filter { Modifier.isAbstract(it.modifiers) && !it.isSynthetic }
+            .map { it.name }
+        val actualMethods = declaredApiMethods.toSet()
+        check(declaredApiMethods.size == operations.size && actualMethods == expectedMethods) {
+            "Simulation Connect API mismatch: expected=$expectedMethods actual=$declaredApiMethods"
+        }
+        val operationProfile = fixture.getAsJsonObject("operationProfile")
+        check(operationProfile.get("kind").asString == "proto"
+            && operationProfile.get("source").asString == "public/proto/arcforges/simulation/v1/simulation.proto"
+            && operationProfile.get("scope").asString == "product-owner"
+            && operationProfile.get("surface").asString == "public"
+            && operationProfile.get("profile").asString == "human-owner"
+            && operationProfile.get("sourceRule").asString == "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator"
+            && operationProfile.get("capability").isJsonNull
+            && operationProfile.get("approval").asString == "none"
+            && !operationProfile.get("stepUp").asBoolean
+            && !operationProfile.get("localPresence").asBoolean
+            && operationProfile.get("egress").asString == "none"
+            && !operationProfile.get("patEligible").asBoolean
+            && operationProfile.getAsJsonArray("actorKinds").map { it.asString } == listOf("human"))
+        for (operation in operations) {
+            val idempotency = operation.get("class").asString
+            val (risk, compatibility) = when (idempotency) {
+                "Q" -> "R1" to "AO"
+                "CC", "IW" -> "R2" to "FR"
+                "NI" -> "R1" to "FR"
+                else -> error("Unknown simulation idempotency class: $idempotency")
+            }
+            check(operation.get("risk").asString == risk && operation.get("compatibility").asString == compatibility) {
+                operation.get("operationId").asString + " authorization profile"
+            }
+        }
+
+        val allowedStates = fixture.getAsJsonArray("states").map { it.asString }.toSet()
+        val rejectedStates = fixture.getAsJsonArray("stateRejected").map { it.asString }
+        val allowedExtents = fixture.getAsJsonArray("extents").map { it.asString }.toSet()
+        val rejectedExtents = fixture.getAsJsonArray("extentRejected").map { it.asString }
+        check(allowedStates == setOf("queued", "starting", "running", "pausing", "paused", "stopping", "canceled", "succeeded", "failed"))
+        check(rejectedStates == listOf("active", "completed", "cancelled", "unknown"))
+        check(rejectedStates.none { it in allowedStates })
+        check(allowedExtents == setOf("complete", "partial"))
+        check(rejectedExtents == listOf("terminal", "full", "unknown"))
+        check(rejectedExtents.none { it in allowedExtents })
+
+        val base = fixture.getAsJsonObject("runShapeBase")
+        val runVectors = fixture.getAsJsonArray("runExtentVectors").map { it.asJsonObject }
+        check(runVectors.map { it.get("id").asString } == listOf(
+            "active-partial-prefix", "succeeded-complete-range", "canceled-partial-range", "unknown-state-refused", "unsupported-extent-refused"))
+        for (item in runVectors) {
+            val state = item.get("state").asString
+            val extent = item.get("extent").asString
+            val logicalEnd = item.get("logicalEnd").asString.toLong()
+            val valid = state in allowedStates && extent in allowedExtents
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            val run = simulationRun(base, state, extent, logicalEnd)
+            check(SimulationRun.parseFrom(run.toByteArray()) == run) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val profile = fixture.getAsJsonObject("profile")
+        val executionProfile = profile.get("executionProfile").asString
+        val encodingProfile = profile.get("encodingProfile").asString
+        val clockModes = profile.getAsJsonArray("clockModes").map { it.asString }.toSet()
+        check(fixture.getAsJsonArray("generatorKinds").map { it.asString } == listOf(
+            "constant", "sine", "square", "triangle", "sawtooth", "noise", "randomWalk", "pulse", "stepSequence", "csv"))
+        check(fixture.getAsJsonArray("faultKinds").map { it.asString } == listOf(
+            "latency", "jitter", "drop", "duplicate", "reorder", "disconnect", "malformed", "outlier"))
+        val profileVectors = profile.getAsJsonArray("vectors").map { it.asJsonObject }
+        check(profileVectors.map { it.get("id").asString } == listOf(
+            "minimum-profile", "maximum-batch-profile", "zero-sample-count-refused", "zero-batch-refused",
+            "oversized-batch-refused", "zero-rate-denominator-refused", "unsupported-execution-profile-refused"))
+        for (item in profileVectors) {
+            val value = item.getAsJsonObject("value")
+            val rate = value.getAsJsonObject("rate")
+            val valid = value.get("sampleCount").asString.toLong() >= 1L
+                && value.get("batchSamples").asInt in 1..65536
+                && rate.get("denominator").asString.toLong() >= 1L
+                && value.get("executionProfile").asString == executionProfile
+                && value.get("encodingProfile").asString == encodingProfile
+                && value.get("clockMode").asString in clockModes
+                && value.get("generatorVersion").asString.matches(Regex("^[A-Za-z0-9._:/-]{1,128}$"))
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) {
+                val message = SimulationProfile.newBuilder()
+                    .setSampleCount(value.get("sampleCount").asString.toLong())
+                    .setBatchSamples(value.get("batchSamples").asInt)
+                    .setRate(Rational.newBuilder()
+                        .setNumerator(rate.get("numerator").asString.toLong())
+                        .setDenominator(rate.get("denominator").asString.toLong()))
+                    .setExecutionProfile(value.get("executionProfile").asString)
+                    .setEncodingProfile(value.get("encodingProfile").asString)
+                    .setClockMode(value.get("clockMode").asString)
+                    .setGeneratorVersion(value.get("generatorVersion").asString)
+                    .build()
+                check(SimulationProfile.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+            }
+        }
+
+        val astVectors = fixture.getAsJsonArray("astVectors").map { it.asJsonObject }
+        check(astVectors.map { it.get("id").asString } == listOf(
+            "constant-expression", "variable-expression", "unary-expression", "binary-expression", "function-expression",
+            "unrecognized-expression", "missing-expression", "multiple-oneof-arms-refused"))
+        for (item in astVectors) {
+            val value = item.getAsJsonObject("value")
+            val knownArms = setOf("constant", "variable", "unary", "binary", "function")
+            val selectedArms = value.keySet().intersect(knownArms)
+            val valid = selectedArms.size == 1 && value.keySet() == selectedArms
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) {
+                val node = astNode(value)
+                check(AstNode.parseFrom(node.toByteArray()) == node) { item.get("id").asString + " binary round-trip" }
+            }
+        }
+
+        val presence = fixture.getAsJsonObject("presenceVectors")
+        val pulseVectors = presence.getAsJsonArray("pulseSpec").map { it.asJsonObject }
+        check(pulseVectors.map { it.get("id").asString } == listOf("pulse-value-zero-present", "pulse-missing-value-refused"))
+        for (item in pulseVectors) {
+            val value = item.getAsJsonObject("value")
+            val messageBuilder = PulseSpec.newBuilder()
+                .setStart(scopeTime(value.getAsJsonObject("start")))
+                .setDuration(scopeTime(value.getAsJsonObject("duration")))
+            if (value.has("value")) messageBuilder.setValue(value.get("value").asDouble)
+            val message = messageBuilder.build()
+            val valid = message.hasStart() && message.hasDuration() && message.hasValue()
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) check(PulseSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val stepVectors = presence.getAsJsonArray("stepPoint").map { it.asJsonObject }
+        check(stepVectors.map { it.get("id").asString } == listOf("step-value-zero-present", "step-missing-value-refused"))
+        for (item in stepVectors) {
+            val value = item.getAsJsonObject("value")
+            val messageBuilder = StepPoint.newBuilder().setAt(scopeTime(value.getAsJsonObject("at")))
+            if (value.has("value")) messageBuilder.setValue(value.get("value").asDouble)
+            val message = messageBuilder.build()
+            val valid = message.hasAt() && message.hasValue()
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) check(StepPoint.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val faultVectors = presence.getAsJsonArray("faultSpec").map { it.asJsonObject }
+        check(faultVectors.map { it.get("id").asString } == listOf(
+            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused",
+            "fault-reorder-window-minimum-accepted", "fault-reorder-window-maximum-accepted",
+            "fault-reorder-window-zero-refused", "fault-reorder-window-1025-refused"))
+        for (item in faultVectors) {
+            val value = item.getAsJsonObject("value")
+            val window = value.getAsJsonObject("window")
+            val messageBuilder = FaultSpec.newBuilder()
+                .setFaultId(id(value.getAsJsonObject("faultId")))
+                .setKind(value.get("kind").asString)
+                .setWindow(MeasurementWindow.newBuilder()
+                    .setStart(scopeTime(window.getAsJsonObject("start")))
+                    .setEnd(scopeTime(window.getAsJsonObject("end"))))
+            if (value.has("channelId")) messageBuilder.setChannelId(id(value.getAsJsonObject("channelId")))
+            if (value.has("everyTicks")) messageBuilder.setEveryTicks(value.get("everyTicks").asString.toLong())
+            if (value.has("probabilityPpm")) messageBuilder.setProbabilityPpm(value.get("probabilityPpm").asInt)
+            if (value.has("delayTicks")) messageBuilder.setDelayTicks(value.get("delayTicks").asString.toLong())
+            if (value.has("reorderWindow")) messageBuilder.setReorderWindow(value.get("reorderWindow").asInt)
+            val message = messageBuilder.build()
+            val valid = message.hasFaultId() && message.hasKind() && message.hasWindow()
+                && message.hasEveryTicks() && message.hasProbabilityPpm()
+                && (!value.has("reorderWindow") || value.get("reorderWindow").asInt in 1..1024)
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (item.get("id").asString == "fault-channel-omitted-accepted") check(!message.hasChannelId())
+            if (valid) check(FaultSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val csvVectors = presence.getAsJsonArray("csvReplaySchema").map { it.asJsonObject }
+        check(csvVectors.map { it.get("id").asString } == listOf(
+            "csv-timestampUnit-omitted-accepted", "csv-tab-delimiter-accepted", "csv-semicolon-delimiter-accepted",
+            "csv-unsupported-encoding-refused", "csv-unsupported-delimiter-refused", "csv-4096-columns-accepted",
+            "csv-4097-columns-refused"))
+        for (item in csvVectors) {
+            val value = item.getAsJsonObject("value")
+            val columns = item.get("columnsCount")?.asInt ?: value.getAsJsonArray("columns").size()
+            val columnTemplate = fixture.getAsJsonObject("csvColumnTemplate")
+            val messageBuilder = CsvReplaySchema.newBuilder()
+                .setEncoding(value.get("encoding").asString)
+                .setDelimiter(value.get("delimiter").asString)
+                .setHasHeader(value.get("hasHeader").asBoolean)
+            if (value.has("timestampUnit")) messageBuilder.setTimestampUnit(value.get("timestampUnit").asString)
+            repeat(columns) { columnIndex ->
+                messageBuilder.addColumns(CsvColumn.newBuilder()
+                    .setColumn(columnIndex)
+                    .setChannelId(id(columnTemplate.getAsJsonObject("channelId")))
+                    .setType(columnTemplate.get("type").asString)
+                    .setUnit(columnTemplate.get("unit").asString))
+            }
+            val message = messageBuilder.build()
+            val valid = message.hasEncoding() && message.encoding == "utf8"
+                && message.hasDelimiter() && message.delimiter in setOf(",", "\t", ";")
+                && message.hasHasHeader() && columns in 0..4096
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (valid) check(!message.hasTimestampUnit()) { "timestampUnit remains optional" }
+            if (valid) check(CsvReplaySchema.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val generatorVectors = fixture.getAsJsonArray("generatorParameterVectors").map { it.asJsonObject }
+        check(generatorVectors.map { it.get("id").asString } == listOf(
+            "constant-frequency-omitted-accepted", "sine-frequency-minimum-positive-accepted", "sine-frequency-zero-refused",
+            "sine-frequency-omitted-refused-by-kind", "triangle-frequency-positive-accepted", "sawtooth-frequency-positive-accepted",
+            "square-duty-minimum-positive-accepted", "square-duty-zero-refused", "square-duty-maximum-below-one-accepted",
+            "square-duty-one-refused", "square-duty-omitted-refused-by-kind", "sine-duty-omitted-accepted"))
+        for (item in generatorVectors) {
+            val value = item.getAsJsonObject("value")
+            val message = generatorSpec(value)
+            val shapeValid = generatorShapeValid(value)
+            check(shapeValid == item.get("shapeValid").asBoolean) { item.get("id").asString + ": generated shape" }
+            check(generatorParametersValid(value) == item.get("parameterValid").asBoolean) {
+                item.get("id").asString + ": kind-specific parameters"
+            }
+            if (shapeValid) check(GeneratorSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val generatorMatrix = fixture.getAsJsonArray("generatorParameterMatrix").map { it.asJsonObject }
+        check(generatorMatrix.map { it.get("id").asString } == listOf(
+            "constant-exact-parameters", "sine-exact-parameters", "square-exact-parameters", "triangle-exact-parameters",
+            "sawtooth-exact-parameters", "noise-exact-parameters", "random-walk-exact-parameters", "pulse-exact-parameters",
+            "step-sequence-exact-parameters", "csv-exact-parameters"))
+        val matrixValues = generatorMatrix.associate { it.get("kind").asString to it.getAsJsonObject("value") }
+        for (item in generatorMatrix) {
+            val id = item.get("id").asString
+            val kind = item.get("kind").asString
+            val required = generatorRequiredFieldsByKind[kind] ?: error("Unknown generator kind $kind")
+            val value = item.getAsJsonObject("value")
+            check(value.get("kind").asString == kind) { "$id kind binding" }
+            check(item.getAsJsonArray("requiredFields").map { it.asString } == required) { "$id required-field oracle" }
+            check(generatorParametersValid(value)) { "$id exact kind parameters" }
+            val message = generatorSpec(value)
+            check(GeneratorSpec.parseFrom(message.toByteArray()) == message) { "$id binary round-trip" }
+            for (field in required) check(!generatorParametersValid(value, removedField = field)) { "$id missing $field" }
+            for (field in generatorParameterFields.filterNot { it in required })
+                check(!generatorParametersValid(value, addedField = field)) { "$id unrelated $field" }
+            if (kind == "pulse") check(!generatorParametersValid(value, emptyRepeatedField = "pulses")) { "$id empty pulses are not supplied" }
+            if (kind == "stepSequence") check(!generatorParametersValid(value, emptyRepeatedField = "steps")) { "$id empty steps are not supplied" }
+        }
+
+        val csvMappingVectors = fixture.getAsJsonArray("csvGeneratorMappingVectors").map { it.asJsonObject }
+        check(csvMappingVectors.map { it.get("id").asString } == listOf(
+            "csv-source-and-schema-present-accepted", "csv-source-omitted-refused", "csv-schema-omitted-refused",
+            "csv-source-and-schema-omitted-refused"))
+        val csvScenarioTemplate = fixture.getAsJsonObject("csvScenarioTemplate")
+        val csvGenerator = matrixValues.getValue("csv")
+        for (item in csvMappingVectors) {
+            val scenario = csvScenarioVector(item, csvScenarioTemplate, csvGenerator)
+            val shapeValid = scenario.hasDuration() && scenario.executionProfile == "af-sim.v1"
+                && scenario.generatorsCount == 1 && scenario.generatorsList.single().kind == "csv"
+            check(shapeValid == item.get("shapeValid").asBoolean) { item.get("id").asString + " generated scenario shape" }
+            check(scenario.hasCsv() == item.get("sourcePresent").asBoolean) { item.get("id").asString + " CSV source field presence" }
+            check(scenario.hasCsvSchema() == item.get("schemaPresent").asBoolean) { item.get("id").asString + " CSV schema field presence" }
+            val parameterValid = generatorParametersValid(csvGenerator)
+                && item.get("sourcePresent").asBoolean && item.get("schemaPresent").asBoolean
+            check(parameterValid == item.get("parameterValid").asBoolean) { item.get("id").asString + " CSV source/schema mapping" }
+            if (shapeValid) check(ScenarioSpec.parseFrom(scenario.toByteArray()) == scenario) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val pageLimits = fixture.getAsJsonObject("listRuns").getAsJsonArray("pageLimits").map { it.asJsonObject }
+        check(pageLimits.map { it.get("id").asString } == listOf("default", "minimum", "maximum", "zero", "above-maximum"))
+        for (item in pageLimits) {
+            val limit = item.get("limit")
+            val valid = limit.isJsonNull || limit.asInt in 1..200
+            check(valid == item.get("valid").asBoolean) { item.get("id").asString }
+            if (!limit.isJsonNull) {
+                val page = PageRequest.newBuilder().setLimit(limit.asInt).build()
+                check(PageRequest.parseFrom(page.toByteArray()) == page) { item.get("id").asString + " binary round-trip" }
+            }
+        }
+
+        val listRuns = fixture.getAsJsonObject("listRuns")
+        val authorization = listRuns.getAsJsonObject("authorization")
+        check(authorization.get("membership").asString == "current-workspace")
+        check(authorization.get("role").asString == "read" && authorization.get("productId").asString == "arcscope")
+        check(authorization.get("recheckEveryPage").asBoolean)
+        check(listRuns.get("filters").asJsonArray.map { it.asString } == listOf("exact scenarioVersionId", "exact simulation_run state"))
+        check(listRuns.get("order").asJsonArray.map { it.asString } == listOf("createdAt descending", "runId descending"))
+        check(listRuns.get("pageStateBinds").asJsonArray.map { it.asString } ==
+            listOf("realm", "workspace", "actor", "recoveryGeneration", "filters", "sort", "schema", "snapshot"))
+        check(listRuns.get("includesRetainedPartialAndTerminalRuns").asBoolean)
+        check(!listRuns.get("requiresKnownRunId").asBoolean && !listRuns.get("requiresTerminalNotification").asBoolean)
+        println("CON.21 Kotlin Connect API and independent offline vectors passed; no simulator runtime executed.")
+    }
+
+    private fun simulationRun(base: JsonObject, state: String, extent: String, logicalEnd: Long): SimulationRun {
+        fun id(key: String): Id = id(base.getAsJsonObject(key))
+        val revision = base.getAsJsonObject("revision").get("value").asString.toLong()
+        val createdAt = base.getAsJsonObject("createdAt")
+        return SimulationRun.newBuilder()
+            .setRunId(id("runId"))
+            .setScenarioVersionId(id("scenarioVersionId"))
+            .setRevision(Revision.newBuilder().setValue(revision))
+            .setCommittedSequence(base.get("committedSequence").asString.toLong())
+            .setCreatedAt(Instant.newBuilder()
+                .setUnixSeconds(createdAt.get("unixSeconds").asString.toLong())
+                .setNanos(createdAt.get("nanos").asInt))
+            .setState(state)
+            .setExtent(extent)
+            .setLogicalEnd(logicalEnd)
+            .build()
+    }
+
+    private fun id(value: JsonObject): Id = Id.newBuilder()
+        .setValue(ByteString.copyFrom(Base64.getDecoder().decode(value.get("value").asString)))
+        .build()
+
+    private fun scopeTime(value: JsonObject): ScopeTime {
+        val rate = value.getAsJsonObject("rate")
+        return ScopeTime.newBuilder()
+            .setTicks(value.get("ticks").asString.toLong())
+            .setRate(Rational.newBuilder()
+                .setNumerator(rate.get("numerator").asString.toLong())
+                .setDenominator(rate.get("denominator").asString.toLong()))
+            .build()
+    }
+
+    private fun generatorSpec(value: JsonObject): GeneratorSpec {
+        val builder = GeneratorSpec.newBuilder()
+            .setChannelId(id(value.getAsJsonObject("channelId")))
+            .setKind(value.get("kind").asString)
+        if (value.has("offset")) builder.setOffset(value.get("offset").asDouble)
+        if (value.has("amplitude")) builder.setAmplitude(value.get("amplitude").asDouble)
+        if (value.has("frequencyHz")) builder.setFrequencyHz(value.get("frequencyHz").asDouble)
+        if (value.has("phaseCycles")) builder.setPhaseCycles(value.get("phaseCycles").asDouble)
+        if (value.has("dutyRatio")) builder.setDutyRatio(value.get("dutyRatio").asDouble)
+        if (value.has("walkStep")) builder.setWalkStep(value.get("walkStep").asDouble)
+        if (value.has("pulses")) {
+            value.getAsJsonArray("pulses").map { it.asJsonObject }.forEach { pulse ->
+                builder.addPulses(PulseSpec.newBuilder()
+                    .setStart(scopeTime(pulse.getAsJsonObject("start")))
+                    .setDuration(scopeTime(pulse.getAsJsonObject("duration")))
+                    .setValue(pulse.get("value").asDouble))
+            }
+        }
+        if (value.has("steps")) {
+            value.getAsJsonArray("steps").map { it.asJsonObject }.forEach { step ->
+                builder.addSteps(StepPoint.newBuilder()
+                    .setAt(scopeTime(step.getAsJsonObject("at")))
+                    .setValue(step.get("value").asDouble))
+            }
+        }
+        return builder.build()
+    }
+
+    private fun csvScenarioVector(item: JsonObject, template: JsonObject, generator: JsonObject): ScenarioSpec {
+        val builder = ScenarioSpec.newBuilder()
+            .setDuration(scopeTime(template.getAsJsonObject("duration")))
+            .setExecutionProfile(template.get("executionProfile").asString)
+            .addGenerators(generatorSpec(generator))
+        if (item.get("sourcePresent").asBoolean) {
+            val source = template.getAsJsonObject("source")
+            val resource = source.getAsJsonObject("resource")
+            check(resource.get("availability").asString == "RESOURCE_AVAILABILITY_ALWAYS_KEEP")
+            builder.setCsv(ResourceVersionRef.newBuilder()
+                .setResource(ResourceRef.newBuilder()
+                    .setRealmId(id(resource.getAsJsonObject("realmId")))
+                    .setOwnerAppId(resource.get("ownerAppId").asString)
+                    .setResourceKind(resource.get("resourceKind").asString)
+                    .setResourceId(id(resource.getAsJsonObject("resourceId")))
+                    .setAvailability(ResourceAvailability.RESOURCE_AVAILABILITY_ALWAYS_KEEP))
+                .setCloud(Revision.newBuilder().setValue(source.getAsJsonObject("cloud").get("value").asString.toLong())))
+        }
+        if (item.get("schemaPresent").asBoolean) {
+            val schema = template.getAsJsonObject("schema")
+            builder.setCsvSchema(CsvReplaySchema.newBuilder()
+                .setEncoding(schema.get("encoding").asString)
+                .setDelimiter(schema.get("delimiter").asString)
+                .setHasHeader(schema.get("hasHeader").asBoolean))
+        }
+        return builder.build()
+    }
+
+    private fun generatorShapeValid(value: JsonObject): Boolean {
+        val kind = value.get("kind").asString
+        val allowedKinds = setOf("constant", "sine", "square", "triangle", "sawtooth", "noise", "randomWalk", "pulse", "stepSequence", "csv")
+        val frequencyValid = !value.has("frequencyHz") || value.get("frequencyHz").asDouble.isFinite()
+            && value.get("frequencyHz").asDouble > 0.0
+        val dutyValid = !value.has("dutyRatio") || value.get("dutyRatio").asDouble.isFinite()
+            && value.get("dutyRatio").asDouble > 0.0 && value.get("dutyRatio").asDouble < 1.0
+        return kind in allowedKinds && frequencyValid && dutyValid
+    }
+
+    private fun generatorParametersValid(
+        value: JsonObject,
+        removedField: String? = null,
+        addedField: String? = null,
+        emptyRepeatedField: String? = null
+    ): Boolean {
+        val kind = value.get("kind").asString
+        val expectedFields = generatorRequiredFieldsByKind[kind] ?: return false
+        val actualFields = value.keySet().filterNot { it == "channelId" || it == "kind" }.toMutableSet()
+        removedField?.let { actualFields.remove(it) }
+        addedField?.let { actualFields.add(it) }
+        if (actualFields != expectedFields.toSet()) return false
+        if (kind == "pulse" && (emptyRepeatedField == "pulses" || value.getAsJsonArray("pulses").size() == 0)) return false
+        if (kind == "stepSequence" && (emptyRepeatedField == "steps" || value.getAsJsonArray("steps").size() == 0)) return false
+        val periodicKinds = setOf("sine", "square", "triangle", "sawtooth")
+        if (kind in periodicKinds && (!value.has("frequencyHz") || !value.get("frequencyHz").asDouble.isFinite() || value.get("frequencyHz").asDouble <= 0.0)) return false
+        if (kind == "square" && (!value.has("dutyRatio") || !value.get("dutyRatio").asDouble.isFinite() || value.get("dutyRatio").asDouble <= 0.0 || value.get("dutyRatio").asDouble >= 1.0)) return false
+        return true
+    }
+
+    private fun astNode(value: JsonObject): AstNode = when {
+        value.has("constant") -> AstNode.newBuilder().setConstant(value.get("constant").asDouble).build()
+        value.has("variable") -> AstNode.newBuilder().setVariable(value.get("variable").asString).build()
+        value.has("unary") -> {
+            val expression = value.getAsJsonObject("unary")
+            AstNode.newBuilder().setUnary(UnaryExpression.newBuilder()
+                .setOperator(expression.get("operator").asString)
+                .setOperand(astNode(expression.getAsJsonObject("operand"))))
+                .build()
+        }
+        value.has("binary") -> {
+            val expression = value.getAsJsonObject("binary")
+            AstNode.newBuilder().setBinary(BinaryExpression.newBuilder()
+                .setOperator(expression.get("operator").asString)
+                .setLeft(astNode(expression.getAsJsonObject("left")))
+                .setRight(astNode(expression.getAsJsonObject("right"))))
+                .build()
+        }
+        value.has("function") -> {
+            val expression = value.getAsJsonObject("function")
+            val function = FunctionExpression.newBuilder().setFunction(expression.get("function").asString)
+            expression.getAsJsonArray("arguments").map { astNode(it.asJsonObject) }.forEach { function.addArguments(it) }
+            AstNode.newBuilder().setFunction(function).build()
+        }
+        else -> error("No known AST oneof arm")
+    }
+
+    private fun lowerCamel(value: String): String = value.replaceFirstChar { it.lowercase() }
+}

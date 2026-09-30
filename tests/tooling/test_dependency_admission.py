@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 61)
+        self.assertEqual(len(config['allowlists']), 64)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -1027,12 +1027,14 @@ class DependencyAdmission(unittest.TestCase):
         old_access_digest = base_policy['inputHashes'][access_key]
         con09_access_digest = con09_policy['inputHashes'][access_key]
         current_access_digest = current_policy['inputHashes'][access_key]
+        current_access_bytes = subprocess.check_output(
+            ['git', 'show', head + ':' + access_key], cwd=ROOT)
+        actual_current_access_digest = hashlib.sha256(current_access_bytes).hexdigest()
         self.assertEqual(old_access_digest,
                          ext02_receipt['review']['inputHashes'][access_key])
         self.assertEqual(con09_access_digest,
                          '86d2b588471d30595c5b1eeb8ea99e180f7cd42b52fb2452a5b6b476e529a533')
-        self.assertEqual(current_access_digest,
-                         '05af2d080725ccbf772481037383cf6cad7be73536c81e2ee6dd6f52cb606bfe')
+        self.assertEqual(current_access_digest, actual_current_access_digest)
         self.assertNotEqual(con09_access_digest, old_access_digest)
         self.assertNotEqual(current_access_digest, con09_access_digest)
         policy_rows = {(access_key, con09_access_digest)}
@@ -1530,8 +1532,10 @@ class DependencyAdmission(unittest.TestCase):
         by_description = {row['description']: row for row in groups}
 
         historical_commit = '727f9957773c3ae01ab849ebdeaae3f3ef174b09'
+        accepted_con22_commit = '9577ab67fb631a37a73b1b7e8d087714f6292e8a'
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/con-22-r1.json'
+        current_con21_receipt_path = 'eng/policy/dependency-reviews/con-21-r1.json'
         profile_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r16.json'
         access_key = 'eng/policy/contract-access.json'
 
@@ -1539,11 +1543,24 @@ class DependencyAdmission(unittest.TestCase):
             return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
 
         old_policy = json.loads(git_blob(historical_commit, policy_path))
-        current_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
+        accepted_con22_policy = json.loads(git_blob(accepted_con22_commit, policy_path))
+        current_con21_policy = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))
         old_access = old_policy['inputHashes'][access_key]
-        current_access = current_policy['inputHashes'][access_key]
+        accepted_con22_access = accepted_con22_policy['inputHashes'][access_key]
+        current_con21_access = current_con21_policy['inputHashes'][access_key]
         self.assertEqual(old_access, hashlib.sha256(git_blob(historical_commit, access_key)).hexdigest())
-        self.assertEqual(current_access, hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest())
+        self.assertEqual(accepted_con22_access,
+                         hashlib.sha256(git_blob(accepted_con22_commit, access_key)).hexdigest())
+        accepted_con22_receipt = json.loads(git_blob(accepted_con22_commit, receipt_path))
+        self.assertEqual(
+            accepted_con22_receipt['review']['inputHashes'][access_key], accepted_con22_access)
+        current_con21_receipt_document = json.loads(
+            (ROOT / current_con21_receipt_path).read_text(encoding='utf-8'))
+        self.assertEqual(
+            current_con21_receipt_document['review']['inputHashes'][access_key], current_con21_access)
+        self.assertEqual(current_con21_access,
+                         hashlib.sha256((ROOT / access_key).read_bytes()).hexdigest())
+        self.assertNotIn(current_con21_access, {old_access, accepted_con22_access})
         fixed_receipt_rows = {
             ('eng/provenance/records/dokka-combokeys-licence-r1.json',
              '75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41'),
@@ -1556,10 +1573,10 @@ class DependencyAdmission(unittest.TestCase):
         expected_rows = {
             'CON22 exact observed dependency-policy findings (Security run 36667240142)':
                 [(('eng/policy/contract-access.json', old_access)),
-                 (('eng/policy/contract-access.json', current_access))],
+                 (('eng/policy/contract-access.json', accepted_con22_access))],
             'CON22 exact observed dependency-review findings (Security run 36667240142)':
                 [(('eng/policy/contract-access.json', old_access)),
-                 (('eng/policy/contract-access.json', current_access)),
+                 (('eng/policy/contract-access.json', accepted_con22_access)),
                  *sorted(fixed_receipt_rows)],
         }
 
@@ -1606,35 +1623,51 @@ class DependencyAdmission(unittest.TestCase):
         receipt_group = by_description[
             'CON22 exact observed dependency-review findings (Security run 36667240142)']
         old_policy = git_blob(historical_commit, policy_path)
-        current_policy = (ROOT / policy_path).read_bytes()
+        accepted_con22_policy = git_blob(accepted_con22_commit, policy_path)
+        current_con21_policy = (ROOT / policy_path).read_bytes()
         old_receipt = git_blob(historical_commit, receipt_path)
-        current_receipt = (ROOT / receipt_path).read_bytes()
+        accepted_con22_receipt = git_blob(accepted_con22_commit, receipt_path)
+        current_con21_receipt = (ROOT / current_con21_receipt_path).read_bytes()
         old_policy_hits = matched_rows(old_policy, policy_group['regexes'])
-        current_policy_hits = matched_rows(current_policy, policy_group['regexes'])
+        accepted_con22_policy_hits = matched_rows(accepted_con22_policy, policy_group['regexes'])
+        current_con21_policy_hits = matched_rows(current_con21_policy, policy_group['regexes'])
         old_receipt_hits = matched_rows(old_receipt, receipt_group['regexes'])
-        current_receipt_hits = matched_rows(current_receipt, receipt_group['regexes'])
+        accepted_con22_receipt_hits = matched_rows(accepted_con22_receipt, receipt_group['regexes'])
+        current_con21_receipt_hits = matched_rows(current_con21_receipt, receipt_group['regexes'])
         self.assertEqual(len(old_policy_hits), 2)
         self.assertEqual({row[2] for row in old_policy_hits}, {old_access})
-        self.assertEqual(len(current_policy_hits), 2)
-        self.assertEqual({row[2] for row in current_policy_hits}, {current_access})
+        self.assertEqual(len(accepted_con22_policy_hits), 2)
+        self.assertEqual({row[2] for row in accepted_con22_policy_hits}, {accepted_con22_access})
+        self.assertEqual(current_con21_policy_hits, [])
+        current_con21_receipt_access_lines = [
+            line for line in current_con21_receipt.decode('utf-8').splitlines()
+            if re.fullmatch(r'\s*"' + re.escape(access_key) + r'"\s*:\s*"[0-9a-f]{64}",?\s*', line)
+        ]
+        self.assertEqual(len(current_con21_receipt_access_lines), 1)
+        self.assertIn(current_con21_access, current_con21_receipt_access_lines[0])
+        self.assertTrue(all(re.fullmatch(pattern, current_con21_receipt_access_lines[0]) is None
+                            for pattern in receipt_group['regexes']))
+        self.assertIsNone(re.fullmatch(receipt_group['paths'][0], current_con21_receipt_path))
+        current_con21_receipt_pairs = {(row[1], row[2]) for row in current_con21_receipt_hits}
+        self.assertTrue(current_con21_receipt_pairs <= fixed_receipt_rows)
         old_policy_pairs = {(row[1], row[2]) for row in old_policy_hits}
-        current_policy_pairs = {(row[1], row[2]) for row in current_policy_hits}
-        self.assertEqual(old_policy_pairs - current_policy_pairs,
+        accepted_con22_policy_pairs = {(row[1], row[2]) for row in accepted_con22_policy_hits}
+        self.assertEqual(old_policy_pairs - accepted_con22_policy_pairs,
                          {('eng/policy/contract-access.json', old_access)})
-        self.assertEqual(current_policy_pairs - old_policy_pairs,
-                         {('eng/policy/contract-access.json', current_access)})
+        self.assertEqual(accepted_con22_policy_pairs - old_policy_pairs,
+                         {('eng/policy/contract-access.json', accepted_con22_access)})
         self.assertEqual(len(old_receipt_hits), 4)
         self.assertEqual({(row[1], row[2]) for row in old_receipt_hits},
                          {('eng/policy/contract-access.json', old_access), *fixed_receipt_rows})
-        self.assertEqual(len(current_receipt_hits), 4)
-        self.assertEqual({(row[1], row[2]) for row in current_receipt_hits},
-                         {('eng/policy/contract-access.json', current_access), *fixed_receipt_rows})
+        self.assertEqual(len(accepted_con22_receipt_hits), 4)
+        self.assertEqual({(row[1], row[2]) for row in accepted_con22_receipt_hits},
+                         {('eng/policy/contract-access.json', accepted_con22_access), *fixed_receipt_rows})
         old_receipt_pairs = {(row[1], row[2]) for row in old_receipt_hits}
-        current_receipt_pairs = {(row[1], row[2]) for row in current_receipt_hits}
-        self.assertEqual(old_receipt_pairs - current_receipt_pairs,
+        accepted_con22_receipt_pairs = {(row[1], row[2]) for row in accepted_con22_receipt_hits}
+        self.assertEqual(old_receipt_pairs - accepted_con22_receipt_pairs,
                          {('eng/policy/contract-access.json', old_access)})
-        self.assertEqual(current_receipt_pairs - old_receipt_pairs,
-                         {('eng/policy/contract-access.json', current_access)})
+        self.assertEqual(accepted_con22_receipt_pairs - old_receipt_pairs,
+                         {('eng/policy/contract-access.json', accepted_con22_access)})
         self.assertEqual(len(set(policy_group['regexes'])), 2)
         self.assertEqual(len(set(receipt_group['regexes'])), 5)
 
@@ -1689,6 +1722,187 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(2 + 4 + 315, 321)
         self.assertEqual(2 + 1, 3)
         self.assertEqual(321 + 3, 324)
+
+    def test_con21_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        expected_descriptions = {
+            'Observed CON.21 dependency-policy exact tuples',
+            'Observed CON.21 con-21-r1 receipt exact tuples',
+            'Observed CON.21 Dokka r17 profile exact tuples',
+        }
+        groups = [row for row in config['allowlists']
+                  if row['description'] in expected_descriptions]
+        self.assertEqual({row['description'] for row in groups}, expected_descriptions)
+        self.assertEqual(len(groups), 3)
+        by_description = {row['description']: row for row in groups}
+
+        historical_commit = 'a0c945131855601b2ef229f3ac0661f00d96526d'
+        diagnostic_commit = 'cf532b47c482d6444ae9f18a0edb3924c9bbbf79'
+        observed_commits = [historical_commit, diagnostic_commit]
+        policy_path = 'eng/policy/dependency-policy.json'
+        receipt_path = 'eng/policy/dependency-reviews/con-21-r1.json'
+        profile_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r17.json'
+        access_key = 'eng/policy/contract-access.json'
+        receipt_keys = {
+            access_key,
+            'eng/provenance/records/dokka-combokeys-licence-r1.json',
+            'eng/provenance/records/dokka-object-keys-licence-r1.json',
+            'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
+        }
+
+        def git_blob(commit, path):
+            return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
+
+        policy_rows = set()
+        receipt_rows = set()
+        for commit in observed_commits:
+            policy = json.loads(git_blob(commit, policy_path))
+            access_digest = policy['inputHashes'][access_key]
+            self.assertEqual(access_digest,
+                             hashlib.sha256(git_blob(commit, access_key)).hexdigest())
+            policy_rows.add((access_key, access_digest))
+
+            receipt = json.loads(git_blob(commit, receipt_path))
+            receipt_hashes = receipt['review']['inputHashes']
+            for key in receipt_keys:
+                digest = receipt_hashes[key]
+                self.assertEqual(digest, hashlib.sha256(git_blob(commit, key)).hexdigest())
+                receipt_rows.add((key, digest))
+            self.assertEqual(receipt_hashes[access_key], access_digest)
+
+        self.assertEqual(len(policy_rows), 2)
+        self.assertEqual(len(receipt_rows), 5)
+
+        profile_blob = git_blob(historical_commit, profile_path)
+        self.assertEqual(profile_blob, git_blob(diagnostic_commit, profile_path))
+        profile_document = json.loads(profile_blob)
+        profile_maps = [module['pages'] for module in profile_document['modules'].values()]
+        profile_maps.append(profile_document['inputs'])
+        reported_line_ranges = '''
+            982,984,986-987,1650-1652,3724-3726,3728,3730-3732,3734,3737,
+            3749-3754,3756-3758,3771-3773,3784,3786-3789,3791-3793,3799-3804,
+            3820-3825,3827-3829,4008,4022,4025,4037-4038,4045,4053,4063-4064,
+            4071,4085-4086,4104-4105,4112,4496,4525,4537,4575-4576,4611,4645,
+            4676-4677,4712,4744-4745,4804-4805,4840,5223,5225,5228,5231-5232,
+            5235,5238,5240-5241,5244,5247-5248,5254-5255,5258,5333,5342,5347,
+            5356-5357,5363,5371,5379-5380,5386,5397-5398,5412-5413,5419,
+            10156,10164-10167,10173-10175,10179,10184-10187,10198,10207-10210,
+            11415,11425,11432-11433,11443,11449-11450,11463-11464,11475-11476,
+            18782,18786,18790,18794,18796,18801,18804-18805,18811-18812,18814,
+            18818,18821,18825,18827-18828,18834-18835,18837,18841,18846-18847,
+            18853-18854,18863-18864,18870-18871,18873,18877,18975,18978,18982,
+            18985,18987,18992,19000-19001,19004-19005,19007,19010,19018,19021,
+            19028-19029,19032-19033,19035,19038,19043-19044,19047-19048,
+            19061-19062,19065-19066,19068,19071,22398,22403,22406,22423-22424,
+            22442,22457,22466-22467,22485,22497-22498,22518,22541,24090-24092,
+            24094,24096-24097,24099,24102,24105,24108-24109,24111,24114-24115,
+            24117,24120-24121,24123,24125-24126,24128,24131-24132,24134,
+            24138-24139,24141,24149,24151,24153,24156-24157,24159,24174,24176,
+            24179,24181,24183,24187,24197,24200,24204,24206,24215,24217,24224,
+            24227,24231,24233,24239,24242,24255,24259,24263,24265,24572,24576,
+            24583,24589-24590,24594,24599,24604-24605,24609,24617-24618,
+            24628-24629,24633,24862,24872,24878,24890-24891,24899,24907,24916-24917,
+            24925,24938-24939,24957-24958,24966,27176,27182,27188,27198,27205,
+            27213,27220,27227,27235,27249,27257,38279-38281,48746,48752
+        '''
+        reported_line_numbers = set()
+        profile_lines = profile_blob.decode('utf-8').splitlines()
+        for item in reported_line_ranges.split(','):
+            bounds = [int(value) for value in item.strip().split('-')]
+            self.assertIn(len(bounds), [1, 2])
+            first = bounds[0]
+            last = bounds[-1]
+            self.assertLessEqual(first, last)
+            selected = set(range(first, last + 1))
+            self.assertFalse(reported_line_numbers & selected)
+            reported_line_numbers.update(selected)
+        self.assertEqual(len(reported_line_numbers), 315)
+
+        profile_rows = set()
+        for line_number in sorted(reported_line_numbers):
+            line = profile_lines[line_number - 1]
+            parsed = re.fullmatch(r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})",?\s*', line)
+            self.assertIsNotNone(parsed)
+            key, digest = parsed.groups()
+            profile_values = [mapping[key] for mapping in profile_maps if key in mapping]
+            self.assertEqual(profile_values, [digest])
+            profile_rows.add((key, digest))
+        self.assertEqual(len(profile_rows), 315)
+        self.assertEqual(sum(key.endswith('.html') for key, _ in profile_rows), 308)
+        self.assertEqual(sum(key.endswith(('.java', '.kt')) for key, _ in profile_rows), 7)
+
+        expected_rows = {
+            'Observed CON.21 dependency-policy exact tuples':
+                (policy_path, policy_rows),
+            'Observed CON.21 con-21-r1 receipt exact tuples':
+                (receipt_path, receipt_rows),
+            'Observed CON.21 Dokka r17 profile exact tuples':
+                (profile_path, profile_rows),
+        }
+        self.assertEqual(len(policy_rows) + len(receipt_rows) + len(profile_rows), 322)
+        for description, (outer_path, rows) in expected_rows.items():
+            with self.subTest(description=description):
+                group = by_description[description]
+                path_pattern = '^' + re.escape(outer_path).replace(r'\-', '-') + '$'
+                self.assertEqual(group['targetRules'], ['generic-api-key'])
+                self.assertEqual(group['condition'], 'AND')
+                self.assertEqual(group['regexTarget'], 'line')
+                self.assertEqual(group['paths'], [path_pattern])
+                ordered_rows = sorted(rows)
+                expected_patterns = [
+                    r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + digest + r'",?\s*$'
+                    for key, digest in ordered_rows
+                ]
+                self.assertEqual(group['regexes'], expected_patterns)
+                self.assertEqual(len(group['regexes']), len(set(group['regexes'])))
+                for (key, digest), pattern in zip(ordered_rows, group['regexes'], strict=True):
+                    line = f'  "{key}": "{digest}",'
+                    self.assertIsNotNone(re.fullmatch(pattern, line))
+                    wrong_digest = '0' * 64 if digest != '0' * 64 else '1' * 64
+                    for rejected_line in [
+                        line.replace(digest, wrong_digest),
+                        line.replace('"' + key + '"', '"unrelated-key"'),
+                        line + ' "credential": "synthetic-secret"',
+                    ]:
+                        self.assertIsNone(re.fullmatch(pattern, rejected_line))
+                self.assertIsNone(re.fullmatch(path_pattern, outer_path + '.backup'))
+                self.assertIsNone(re.fullmatch(path_pattern, 'src/secrets.json'))
+
+        def matched_rows(blob, patterns):
+            matches = []
+            for line_number, line in enumerate(blob.decode('utf-8').splitlines(), start=1):
+                matching_patterns = [pattern for pattern in patterns if re.fullmatch(pattern, line)]
+                self.assertLessEqual(len(matching_patterns), 1)
+                if matching_patterns:
+                    parsed = re.fullmatch(r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})",?\s*', line)
+                    self.assertIsNotNone(parsed)
+                    key, digest = parsed.groups()
+                    matches.append((line_number, key, digest))
+            return matches
+
+        policy_group = by_description['Observed CON.21 dependency-policy exact tuples']
+        receipt_group = by_description['Observed CON.21 con-21-r1 receipt exact tuples']
+        profile_group = by_description['Observed CON.21 Dokka r17 profile exact tuples']
+        old_policy_hits = matched_rows(git_blob(historical_commit, policy_path),
+                                       policy_group['regexes'])
+        new_policy_hits = matched_rows(git_blob(diagnostic_commit, policy_path),
+                                       policy_group['regexes'])
+        old_receipt_hits = matched_rows(git_blob(historical_commit, receipt_path),
+                                        receipt_group['regexes'])
+        new_receipt_hits = matched_rows(git_blob(diagnostic_commit, receipt_path),
+                                        receipt_group['regexes'])
+        old_profile_hits = matched_rows(profile_blob, profile_group['regexes'])
+        self.assertEqual(len(old_policy_hits), 2)
+        self.assertEqual({row[2] for row in old_policy_hits}, {digest for _, digest in policy_rows} -
+                         {json.loads(git_blob(diagnostic_commit, policy_path))['inputHashes'][access_key]})
+        self.assertEqual(len(new_policy_hits), 2)
+        self.assertEqual(len(old_receipt_hits), 4)
+        self.assertEqual(len(new_receipt_hits), 4)
+        old_receipt_pairs = {(key, digest) for _, key, digest in old_receipt_hits}
+        new_receipt_pairs = {(key, digest) for _, key, digest in new_receipt_hits}
+        self.assertEqual(len(old_receipt_pairs | new_receipt_pairs), 5)
+        self.assertEqual(len(old_profile_hits), 315)
+        self.assertEqual({(key, digest) for _, key, digest in old_profile_hits}, profile_rows)
 
 
 if __name__ == '__main__':

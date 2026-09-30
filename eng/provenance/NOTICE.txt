@@ -20,8 +20,8 @@ Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
-contract-bindings-con-22-r1
-Source: https://github.com/ArcForges/Contracts @ 45d7f1ea8f075d593e054f49c7ddb497e63d1384
+contract-bindings-con-21-r1
+Source: https://github.com/ArcForges/Contracts @ 6dcacfa832540eab1aed9f189eb39c934052ee18
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -29,7 +29,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. CON.22 adds only the authorized Support/Export contract schemas, generated public outputs, and declarative fixture/probe evidence; it adds no third-party package or runtime implementation.
+Generated Contracts source remains Apache-2.0. CON.21 adds only the authorized Simulation contract schemas, generated public outputs, and declarative constraint/fixture evidence; it adds no third-party package or simulator runtime implementation.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
@@ -158,7 +158,7 @@ Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-dokka-documentation-resources-r16
+dokka-documentation-resources-r17
 Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
 Material licence: Apache-2.0 AND MIT
 Notice scope: documentation

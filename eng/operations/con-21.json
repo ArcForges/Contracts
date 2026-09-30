@@ -1,0 +1,279 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "simulation.listDefinitions",
+      "binding": "arcforges.simulation.v1.SimulationService/ListDefinitions",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.getDefinition",
+      "binding": "arcforges.simulation.v1.SimulationService/GetDefinition",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.createDefinition",
+      "binding": "arcforges.simulation.v1.SimulationService/CreateDefinition",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.publishScenarioVersion",
+      "binding": "arcforges.simulation.v1.SimulationService/PublishScenarioVersion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.startRun",
+      "binding": "arcforges.simulation.v1.SimulationService/StartRun",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.pauseRun",
+      "binding": "arcforges.simulation.v1.SimulationService/PauseRun",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.resumeRun",
+      "binding": "arcforges.simulation.v1.SimulationService/ResumeRun",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.cancelRun",
+      "binding": "arcforges.simulation.v1.SimulationService/CancelRun",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.getRun",
+      "binding": "arcforges.simulation.v1.SimulationService/GetRun",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.listRuns",
+      "binding": "arcforges.simulation.v1.SimulationService/ListRuns",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.listSegments",
+      "binding": "arcforges.simulation.v1.SimulationService/ListSegments",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.getSegmentTicket",
+      "binding": "arcforges.simulation.v1.SimulationService/GetSegmentTicket",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "simulation.pollState",
+      "binding": "arcforges.simulation.v1.SimulationService/PollState",
+      "kind": "proto",
+      "source": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "scope": "product-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#91-arcscope-cloud-simulator",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    }
+  ]
+}

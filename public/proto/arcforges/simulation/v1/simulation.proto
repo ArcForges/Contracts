@@ -1,0 +1,413 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.simulation.v1;
+
+option csharp_namespace = "ArcForges.Contracts.Simulation.V1";
+option java_package = "io.github.arcforges.contracts.simulation.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SimulationProto";
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/content.proto";
+
+service SimulationService {
+  rpc ListDefinitions(SimulationServiceListDefinitionsRequest) returns (SimulationServiceListDefinitionsResponse);
+  rpc GetDefinition(SimulationServiceGetDefinitionRequest) returns (SimulationServiceGetDefinitionResponse);
+  rpc CreateDefinition(SimulationServiceCreateDefinitionRequest) returns (SimulationServiceCreateDefinitionResponse);
+  rpc PublishScenarioVersion(SimulationServicePublishScenarioVersionRequest) returns (SimulationServicePublishScenarioVersionResponse);
+  rpc StartRun(SimulationServiceStartRunRequest) returns (SimulationServiceStartRunResponse);
+  rpc PauseRun(SimulationServicePauseRunRequest) returns (SimulationServicePauseRunResponse);
+  rpc ResumeRun(SimulationServiceResumeRunRequest) returns (SimulationServiceResumeRunResponse);
+  rpc CancelRun(SimulationServiceCancelRunRequest) returns (SimulationServiceCancelRunResponse);
+  rpc GetRun(SimulationServiceGetRunRequest) returns (SimulationServiceGetRunResponse);
+  rpc ListRuns(SimulationServiceListRunsRequest) returns (SimulationServiceListRunsResponse);
+  rpc ListSegments(SimulationServiceListSegmentsRequest) returns (SimulationServiceListSegmentsResponse);
+  rpc GetSegmentTicket(SimulationServiceGetSegmentTicketRequest) returns (SimulationServiceGetSegmentTicketResponse);
+  rpc PollState(SimulationServicePollStateRequest) returns (SimulationServicePollStateResponse);
+}
+
+message SimulationDefinition {
+  arcforges.foundation.v1.Id definition_id = 1 [json_name = "definitionId"];
+  optional string name = 2 [json_name = "name"];
+  arcforges.foundation.v1.Revision revision = 3 [json_name = "revision"];
+}
+
+message ScenarioVersion {
+  arcforges.foundation.v1.Id scenario_version_id = 1 [json_name = "scenarioVersionId"];
+  arcforges.foundation.v1.Id definition_id = 2 [json_name = "definitionId"];
+  optional string schema_version = 3 [json_name = "schemaVersion"];
+  ScenarioSpec scenario = 4 [json_name = "scenario"];
+  optional string sha256 = 5 [json_name = "sha256"];
+}
+
+message SimulationRun {
+  arcforges.foundation.v1.Id run_id = 1 [json_name = "runId"];
+  arcforges.foundation.v1.Id scenario_version_id = 2 [json_name = "scenarioVersionId"];
+  optional string state = 3 [json_name = "state"];
+  optional string reason = 4 [json_name = "reason"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+  optional int64 committed_sequence = 6 [json_name = "committedSequence"];
+  optional string extent = 7 [json_name = "extent"];
+  optional uint64 logical_end = 8 [json_name = "logicalEnd"];
+  arcforges.foundation.v1.Instant created_at = 9 [json_name = "createdAt"];
+}
+
+message SimulationSegment {
+  arcforges.foundation.v1.Id run_id = 1 [json_name = "runId"];
+  optional int64 sequence = 2 [json_name = "sequence"];
+  optional uint64 start = 3 [json_name = "start"];
+  optional uint64 count = 4 [json_name = "count"];
+  optional string encoding = 5 [json_name = "encoding"];
+  arcforges.foundation.v1.ResourceVersionRef resource = 6 [json_name = "resource"];
+  arcforges.foundation.v1.ResourceVersionRef events = 7 [json_name = "events"];
+  optional string execution_profile = 8 [json_name = "executionProfile"];
+}
+
+message SimulationProfile {
+  optional uint64 sample_count = 1 [json_name = "sampleCount"];
+  optional uint32 batch_samples = 2 [json_name = "batchSamples"];
+  arcforges.foundation.v1.Rational rate = 3 [json_name = "rate"];
+  optional string execution_profile = 4 [json_name = "executionProfile"];
+  optional string encoding_profile = 5 [json_name = "encodingProfile"];
+  optional string clock_mode = 6 [json_name = "clockMode"];
+  optional string generator_version = 7 [json_name = "generatorVersion"];
+}
+
+message ScenarioSpec {
+  repeated arcforges.publicapi.v1.ChannelDefinition channels = 1 [json_name = "channels"];
+  repeated ScenarioExpression expressions = 2 [json_name = "expressions"];
+  arcforges.foundation.v1.ResourceVersionRef csv = 3 [json_name = "csv"];
+  arcforges.publicapi.v1.ScopeTime duration = 4 [json_name = "duration"];
+  repeated GeneratorSpec generators = 5 [json_name = "generators"];
+  repeated FaultSpec faults = 6 [json_name = "faults"];
+  CsvReplaySchema csv_schema = 7 [json_name = "csvSchema"];
+  optional string execution_profile = 8 [json_name = "executionProfile"];
+}
+
+message ScenarioExpression {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  AstNode root = 2 [json_name = "root"];
+}
+
+message AstNode {
+  oneof expression {
+    double constant = 1 [json_name = "constant"];
+    string variable = 2 [json_name = "variable"];
+    UnaryExpression unary = 3 [json_name = "unary"];
+    BinaryExpression binary = 4 [json_name = "binary"];
+    FunctionExpression function = 5 [json_name = "function"];
+  }
+}
+
+message UnaryExpression {
+  optional string operator = 1 [json_name = "operator"];
+  AstNode operand = 2 [json_name = "operand"];
+}
+
+message BinaryExpression {
+  optional string operator = 1 [json_name = "operator"];
+  AstNode left = 2 [json_name = "left"];
+  AstNode right = 3 [json_name = "right"];
+}
+
+message FunctionExpression {
+  optional string function = 1 [json_name = "function"];
+  repeated AstNode arguments = 2 [json_name = "arguments"];
+}
+
+message GeneratorSpec {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional double offset = 3 [json_name = "offset"];
+  optional double amplitude = 4 [json_name = "amplitude"];
+  optional double frequency_hz = 5 [json_name = "frequencyHz"];
+  optional double phase_cycles = 6 [json_name = "phaseCycles"];
+  optional double duty_ratio = 7 [json_name = "dutyRatio"];
+  optional double walk_step = 8 [json_name = "walkStep"];
+  repeated PulseSpec pulses = 9 [json_name = "pulses"];
+  repeated StepPoint steps = 10 [json_name = "steps"];
+}
+
+message PulseSpec {
+  arcforges.publicapi.v1.ScopeTime start = 1 [json_name = "start"];
+  arcforges.publicapi.v1.ScopeTime duration = 2 [json_name = "duration"];
+  optional double value = 3 [json_name = "value"];
+}
+
+message StepPoint {
+  arcforges.publicapi.v1.ScopeTime at = 1 [json_name = "at"];
+  optional double value = 2 [json_name = "value"];
+}
+
+message FaultSpec {
+  arcforges.foundation.v1.Id fault_id = 1 [json_name = "faultId"];
+  optional string kind = 2 [json_name = "kind"];
+  arcforges.foundation.v1.Id channel_id = 3 [json_name = "channelId"];
+  arcforges.publicapi.v1.MeasurementWindow window = 4 [json_name = "window"];
+  optional uint64 every_ticks = 5 [json_name = "everyTicks"];
+  optional uint32 probability_ppm = 6 [json_name = "probabilityPpm"];
+  optional uint64 delay_ticks = 7 [json_name = "delayTicks"];
+  optional double amount = 8 [json_name = "amount"];
+  optional uint32 reorder_window = 9 [json_name = "reorderWindow"];
+}
+
+message CsvReplaySchema {
+  optional string encoding = 1 [json_name = "encoding"];
+  optional string delimiter = 2 [json_name = "delimiter"];
+  optional bool has_header = 3 [json_name = "hasHeader"];
+  optional uint32 timestamp_column = 4 [json_name = "timestampColumn"];
+  repeated CsvColumn columns = 5 [json_name = "columns"];
+  optional string timestamp_unit = 6 [json_name = "timestampUnit"];
+}
+
+message CsvColumn {
+  optional uint32 column = 1 [json_name = "column"];
+  arcforges.foundation.v1.Id channel_id = 2 [json_name = "channelId"];
+  optional string type = 3 [json_name = "type"];
+  optional string unit = 4 [json_name = "unit"];
+}
+
+message SimulationServiceListDefinitionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message SimulationServiceListDefinitionsValue {
+  repeated SimulationDefinition items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message SimulationServiceListDefinitionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceListDefinitionsValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SimulationServiceGetDefinitionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id definition_id = 10 [json_name = "definitionId"];
+}
+message SimulationServiceGetDefinitionValue {
+  SimulationDefinition definition = 10 [json_name = "definition"];
+  repeated ScenarioVersion versions = 11 [json_name = "versions"];
+}
+message SimulationServiceGetDefinitionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceGetDefinitionValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SimulationServiceCreateDefinitionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id definition_id = 10 [json_name = "definitionId"];
+  optional string name = 11 [json_name = "name"];
+}
+message SimulationServiceCreateDefinitionValue {
+  SimulationDefinition definition = 10 [json_name = "definition"];
+}
+message SimulationServiceCreateDefinitionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceCreateDefinitionValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServicePublishScenarioVersionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id scenario_version_id = 10 [json_name = "scenarioVersionId"];
+  arcforges.foundation.v1.Id definition_id = 11 [json_name = "definitionId"];
+  ScenarioSpec scenario = 12 [json_name = "scenario"];
+}
+message SimulationServicePublishScenarioVersionValue {
+  ScenarioVersion version = 10 [json_name = "version"];
+}
+message SimulationServicePublishScenarioVersionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServicePublishScenarioVersionValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServiceStartRunRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+  arcforges.foundation.v1.Id scenario_version_id = 11 [json_name = "scenarioVersionId"];
+  optional int64 seed = 12 [json_name = "seed"];
+  SimulationProfile profile = 13 [json_name = "profile"];
+}
+message SimulationServiceStartRunValue {
+  SimulationRun run = 10 [json_name = "run"];
+}
+message SimulationServiceStartRunResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceStartRunValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServicePauseRunRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+}
+message SimulationServicePauseRunValue {
+  SimulationRun run = 10 [json_name = "run"];
+}
+message SimulationServicePauseRunResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServicePauseRunValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServiceResumeRunRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+}
+message SimulationServiceResumeRunValue {
+  SimulationRun run = 10 [json_name = "run"];
+}
+message SimulationServiceResumeRunResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceResumeRunValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServiceCancelRunRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+}
+message SimulationServiceCancelRunValue {
+  SimulationRun run = 10 [json_name = "run"];
+}
+message SimulationServiceCancelRunResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceCancelRunValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServiceGetRunRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+}
+message SimulationServiceGetRunValue {
+  SimulationRun run = 10 [json_name = "run"];
+}
+message SimulationServiceGetRunResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceGetRunValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SimulationServiceListRunsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+  arcforges.foundation.v1.Id scenario_version_id = 11 [json_name = "scenarioVersionId"];
+  optional string state = 12 [json_name = "state"];
+}
+message SimulationServiceListRunsValue {
+  repeated SimulationRun items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message SimulationServiceListRunsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceListRunsValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SimulationServiceListSegmentsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+message SimulationServiceListSegmentsValue {
+  repeated SimulationSegment segments = 10 [json_name = "segments"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message SimulationServiceListSegmentsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceListSegmentsValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message SimulationServiceGetSegmentTicketRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+  optional int64 segment_sequence = 11 [json_name = "segmentSequence"];
+  arcforges.foundation.v1.ByteRange range = 12 [json_name = "range"];
+}
+message SimulationServiceGetSegmentTicketValue {
+  arcforges.foundation.v1.TransferTicket ticket = 10 [json_name = "ticket"];
+}
+message SimulationServiceGetSegmentTicketResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServiceGetSegmentTicketValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+  }
+  reserved 4 to 9;
+}
+
+message SimulationServicePollStateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1;
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id run_id = 10 [json_name = "runId"];
+  arcforges.foundation.v1.Revision known_revision = 11 [json_name = "knownRevision"];
+}
+message SimulationServicePollStateValue {
+  SimulationRun run = 10 [json_name = "run"];
+  optional bool has_changed = 11 [json_name = "hasChanged"];
+}
+message SimulationServicePollStateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1;
+  oneof outcome {
+    SimulationServicePollStateValue value = 2;
+    arcforges.foundation.v1.ArcError error = 3;
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}

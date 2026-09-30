@@ -29,6 +29,11 @@ if (args.Contains("--con-06", StringComparer.Ordinal))
     Con06InprocessCases.Run(root);
     return 0;
 }
+if (args.Contains("--con-21", StringComparer.Ordinal))
+{
+    SimulationCases.Run(root);
+    return 0;
+}
 if (args.Contains("--foundation-links", StringComparer.Ordinal))
 {
     FoundationLinkCases.Run();
@@ -80,6 +85,7 @@ catch (ArgumentException) { }
 Console.WriteLine($"Validated {count} independent shape fixtures, duplicate-key rejection and SDK caller-owned invocation.");
 Con05Cases.Run();
 Con06InprocessCases.Run(root);
+SimulationCases.Run(root);
 FoundationLinkCases.Run();
 ContentSandboxCases.Run(root);
 ExtensionPolicyCases.Run(root);
