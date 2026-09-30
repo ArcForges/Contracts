@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "fixtureId": "CON.15-cf-internal-offline-v1",
   "evidenceClass": "offline-contract-vectors-not-runtime-or-provider-evidence",
+  "bindingValidationBoundary": "offline-contract-oracle-only; path-to-grant and method-to-direction enforcement is required but no Worker runtime handler is present or proven",
   "transport": {
     "serviceAuthenticated": true,
     "userBearerOrPatForwarding": false,
@@ -308,6 +309,14 @@
         "signature": "AQID_w"
       }
     }
+  ],
+  "workerObjectJobBindingVectors": [
+    {"id": "worker-object-read-binding-accepted", "positiveVector": "worker-object-facade-does-not-inline-bytes", "pathGrantId": "grant-read", "requestGrantId": "grant-read", "signedGrantId": "grant-read", "method": "GET", "direction": "read", "expectedBinding": true},
+    {"id": "worker-object-write-binding-accepted", "positiveVector": "worker-object-facade-write-binds-verified-part-metadata", "pathGrantId": "grant-write", "requestGrantId": "grant-write", "signedGrantId": "grant-write", "method": "PUT", "direction": "write", "expectedBinding": true},
+    {"id": "worker-object-path-grant-id-mismatch-refused", "positiveVector": "worker-object-facade-does-not-inline-bytes", "pathGrantId": "grant-other", "requestGrantId": "grant-read", "signedGrantId": "grant-read", "method": "GET", "direction": "read", "expectedBinding": false},
+    {"id": "worker-object-signed-grant-id-mismatch-refused", "positiveVector": "worker-object-facade-does-not-inline-bytes", "pathGrantId": "grant-read", "requestGrantId": "grant-read", "signedGrantId": "grant-other", "method": "GET", "direction": "read", "expectedBinding": false},
+    {"id": "worker-object-get-with-write-grant-refused", "positiveVector": "worker-object-facade-does-not-inline-bytes", "pathGrantId": "grant-read", "requestGrantId": "grant-read", "signedGrantId": "grant-read", "method": "GET", "direction": "write", "expectedBinding": false},
+    {"id": "worker-object-put-with-read-grant-refused", "positiveVector": "worker-object-facade-write-binds-verified-part-metadata", "pathGrantId": "grant-write", "requestGrantId": "grant-write", "signedGrantId": "grant-write", "method": "PUT", "direction": "read", "expectedBinding": false}
   ],
   "negativeVectors": [
     {"id": "dispatch-rejects-unregistered-field", "schema": "WorkerDispatchRequest", "input": {"requestId": "dispatch-01", "correlationId": "92345678-1234-4234-8234-123456789abc", "runId": "run-17", "requiredWorkerVersion": "worker-v3", "recoveryGeneration": "8", "outboxId": "outbox-91", "customerToken": "never-forward"}},

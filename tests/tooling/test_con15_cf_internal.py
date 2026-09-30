@@ -111,6 +111,19 @@ def matches(value, node, owner_schema, cf_schema, ai_schema):
     return True
 
 
+def _worker_object_binding_is_consistent(path_grant_id, request):
+    """Offline contract oracle only; no Worker runtime handler is exercised here."""
+    expected_direction = {"GET": "read", "PUT": "write"}.get(request.get("method"))
+    grant = request.get("grant")
+    return (
+        expected_direction is not None
+        and request.get("grantId") == path_grant_id
+        and isinstance(grant, dict)
+        and grant.get("grantId") == path_grant_id
+        and grant.get("direction") == expected_direction
+    )
+
+
 class Con15CfInternalTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -138,11 +151,17 @@ class Con15CfInternalTests(unittest.TestCase):
         def walk(node):
             if isinstance(node, dict):
                 reference = node.get("$ref")
-                if reference is not None and reference.startswith("../../"):
-                    self.assertTrue(reference.startswith(EXTERNAL_PREFIX), reference)
-                    name = reference.removeprefix(EXTERNAL_PREFIX)
-                    self.assertIn(name, self.ai_schema["$defs"])
-                    found.add(name)
+                if reference is not None:
+                    if reference.startswith("#/$defs/"):
+                        name = reference.removeprefix("#/$defs/")
+                        self.assertTrue(name and "/" not in name, reference)
+                        self.assertIn(name, self.schema["$defs"], reference)
+                    else:
+                        self.assertTrue(reference.startswith(EXTERNAL_PREFIX), reference)
+                        name = reference.removeprefix(EXTERNAL_PREFIX)
+                        self.assertIn(name, EXPECTED_SHARED_DEFS, reference)
+                        self.assertIn(name, self.ai_schema["$defs"], reference)
+                        found.add(reference)
                 for value in node.values():
                     walk(value)
             elif isinstance(node, list):
@@ -150,7 +169,7 @@ class Con15CfInternalTests(unittest.TestCase):
                     walk(value)
 
         walk(self.schema["$defs"])
-        self.assertEqual(found, EXPECTED_SHARED_DEFS)
+        self.assertEqual(found, {EXTERNAL_PREFIX + name for name in EXPECTED_SHARED_DEFS})
 
     def test_positive_schema_vectors_are_closed_and_bounded(self):
         for vector in self.fixture["positiveVectors"]:
@@ -202,6 +221,42 @@ class Con15CfInternalTests(unittest.TestCase):
             self.assertEqual(request["grant"]["direction"], {"GET": "read", "PUT": "write"}[request["method"]])
             if request["method"] == "PUT":
                 self.assertLessEqual(request["declaredLength"], 8388608)
+
+    def test_worker_object_binding_vectors_cover_path_grant_and_direction_mismatches(self):
+        self.assertEqual(
+            self.fixture["bindingValidationBoundary"],
+            "offline-contract-oracle-only; path-to-grant and method-to-direction enforcement is required but no Worker runtime handler is present or proven",
+        )
+        vectors = self.fixture["workerObjectJobBindingVectors"]
+        expected_ids = {
+            "worker-object-read-binding-accepted",
+            "worker-object-write-binding-accepted",
+            "worker-object-path-grant-id-mismatch-refused",
+            "worker-object-signed-grant-id-mismatch-refused",
+            "worker-object-get-with-write-grant-refused",
+            "worker-object-put-with-read-grant-refused",
+        }
+        self.assertEqual({vector["id"] for vector in vectors}, expected_ids)
+        positive_by_id = {
+            vector["id"]: vector["input"]
+            for vector in self.fixture["positiveVectors"]
+            if vector["schema"] == "WorkerObjectJobRequest"
+        }
+        for vector in vectors:
+            with self.subTest(vector=vector["id"]):
+                request = copy.deepcopy(positive_by_id[vector["positiveVector"]])
+                request["grantId"] = vector["requestGrantId"]
+                request["grant"]["grantId"] = vector["signedGrantId"]
+                request["method"] = vector["method"]
+                request["grant"]["direction"] = vector["direction"]
+                # JSON Schema checks each bounded DTO but cannot compare the URI path segment
+                # with body values. These offline vectors specify that separate binding rule;
+                # they do not constitute evidence of Worker runtime enforcement.
+                self.assertTrue(matches(request, self.schema["$defs"]["WorkerObjectJobRequest"], self.schema, self.schema, self.ai_schema))
+                self.assertEqual(
+                    _worker_object_binding_is_consistent(vector["pathGrantId"], request),
+                    vector["expectedBinding"],
+                )
 
 
 if __name__ == "__main__":
