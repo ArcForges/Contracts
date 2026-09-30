@@ -9,6 +9,9 @@ import io.github.arcforges.contracts.foundation.v1.Id
 import io.github.arcforges.contracts.foundation.v1.Instant
 import io.github.arcforges.contracts.foundation.v1.PageRequest
 import io.github.arcforges.contracts.foundation.v1.Rational
+import io.github.arcforges.contracts.foundation.v1.ResourceAvailability
+import io.github.arcforges.contracts.foundation.v1.ResourceRef
+import io.github.arcforges.contracts.foundation.v1.ResourceVersionRef
 import io.github.arcforges.contracts.foundation.v1.Revision
 import io.github.arcforges.contracts.simulation.v1.AstNode
 import io.github.arcforges.contracts.simulation.v1.BinaryExpression
@@ -20,6 +23,7 @@ import io.github.arcforges.contracts.simulation.v1.GeneratorSpec
 import io.github.arcforges.contracts.simulation.v1.PulseSpec
 import io.github.arcforges.contracts.simulation.v1.SimulationProfile
 import io.github.arcforges.contracts.simulation.v1.SimulationRun
+import io.github.arcforges.contracts.simulation.v1.ScenarioSpec
 import io.github.arcforges.contracts.simulation.v1.SimulationServiceClientInterface
 import io.github.arcforges.contracts.simulation.v1.StepPoint
 import io.github.arcforges.contracts.simulation.v1.UnaryExpression
@@ -29,6 +33,19 @@ import java.lang.reflect.Modifier
 import java.util.Base64
 
 internal object SimulationCases {
+    private val generatorRequiredFieldsByKind = mapOf(
+        "constant" to listOf("offset"),
+        "sine" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles"),
+        "square" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio"),
+        "triangle" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles"),
+        "sawtooth" to listOf("offset", "amplitude", "frequencyHz", "phaseCycles"),
+        "noise" to listOf("offset", "amplitude"),
+        "randomWalk" to listOf("offset", "walkStep"),
+        "pulse" to listOf("offset", "pulses"),
+        "stepSequence" to listOf("offset", "steps"),
+        "csv" to emptyList())
+    private val generatorParameterFields = listOf("offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio", "walkStep", "pulses", "steps")
+
     fun run() {
         val fixture = ContractFixtures::class.java.getResourceAsStream("/arcforges/fixtures/con-21-simulation.json")
             ?.bufferedReader(Charsets.UTF_8)?.use { JsonParser.parseReader(it).asJsonObject }
@@ -245,21 +262,55 @@ internal object SimulationCases {
             "square-duty-one-refused", "square-duty-omitted-refused-by-kind", "sine-duty-omitted-accepted"))
         for (item in generatorVectors) {
             val value = item.getAsJsonObject("value")
-            val messageBuilder = GeneratorSpec.newBuilder()
-                .setChannelId(id(value.getAsJsonObject("channelId")))
-                .setKind(value.get("kind").asString)
-            if (value.has("offset")) messageBuilder.setOffset(value.get("offset").asDouble)
-            if (value.has("amplitude")) messageBuilder.setAmplitude(value.get("amplitude").asDouble)
-            if (value.has("frequencyHz")) messageBuilder.setFrequencyHz(value.get("frequencyHz").asDouble)
-            if (value.has("phaseCycles")) messageBuilder.setPhaseCycles(value.get("phaseCycles").asDouble)
-            if (value.has("dutyRatio")) messageBuilder.setDutyRatio(value.get("dutyRatio").asDouble)
-            val message = messageBuilder.build()
+            val message = generatorSpec(value)
             val shapeValid = generatorShapeValid(value)
             check(shapeValid == item.get("shapeValid").asBoolean) { item.get("id").asString + ": generated shape" }
             check(generatorParametersValid(value) == item.get("parameterValid").asBoolean) {
                 item.get("id").asString + ": kind-specific parameters"
             }
             if (shapeValid) check(GeneratorSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val generatorMatrix = fixture.getAsJsonArray("generatorParameterMatrix").map { it.asJsonObject }
+        check(generatorMatrix.map { it.get("id").asString } == listOf(
+            "constant-exact-parameters", "sine-exact-parameters", "square-exact-parameters", "triangle-exact-parameters",
+            "sawtooth-exact-parameters", "noise-exact-parameters", "random-walk-exact-parameters", "pulse-exact-parameters",
+            "step-sequence-exact-parameters", "csv-exact-parameters"))
+        val matrixValues = generatorMatrix.associate { it.get("kind").asString to it.getAsJsonObject("value") }
+        for (item in generatorMatrix) {
+            val id = item.get("id").asString
+            val kind = item.get("kind").asString
+            val required = generatorRequiredFieldsByKind[kind] ?: error("Unknown generator kind $kind")
+            val value = item.getAsJsonObject("value")
+            check(value.get("kind").asString == kind) { "$id kind binding" }
+            check(item.getAsJsonArray("requiredFields").map { it.asString } == required) { "$id required-field oracle" }
+            check(generatorParametersValid(value)) { "$id exact kind parameters" }
+            val message = generatorSpec(value)
+            check(GeneratorSpec.parseFrom(message.toByteArray()) == message) { "$id binary round-trip" }
+            for (field in required) check(!generatorParametersValid(value, removedField = field)) { "$id missing $field" }
+            for (field in generatorParameterFields.filterNot { it in required })
+                check(!generatorParametersValid(value, addedField = field)) { "$id unrelated $field" }
+            if (kind == "pulse") check(!generatorParametersValid(value, emptyRepeatedField = "pulses")) { "$id empty pulses are not supplied" }
+            if (kind == "stepSequence") check(!generatorParametersValid(value, emptyRepeatedField = "steps")) { "$id empty steps are not supplied" }
+        }
+
+        val csvMappingVectors = fixture.getAsJsonArray("csvGeneratorMappingVectors").map { it.asJsonObject }
+        check(csvMappingVectors.map { it.get("id").asString } == listOf(
+            "csv-source-and-schema-present-accepted", "csv-source-omitted-refused", "csv-schema-omitted-refused",
+            "csv-source-and-schema-omitted-refused"))
+        val csvScenarioTemplate = fixture.getAsJsonObject("csvScenarioTemplate")
+        val csvGenerator = matrixValues.getValue("csv")
+        for (item in csvMappingVectors) {
+            val scenario = csvScenarioVector(item, csvScenarioTemplate, csvGenerator)
+            val shapeValid = scenario.hasDuration() && scenario.executionProfile == "af-sim.v1"
+                && scenario.generatorsCount == 1 && scenario.generatorsList.single().kind == "csv"
+            check(shapeValid == item.get("shapeValid").asBoolean) { item.get("id").asString + " generated scenario shape" }
+            check(scenario.hasCsv() == item.get("sourcePresent").asBoolean) { item.get("id").asString + " CSV source field presence" }
+            check(scenario.hasCsvSchema() == item.get("schemaPresent").asBoolean) { item.get("id").asString + " CSV schema field presence" }
+            val parameterValid = generatorParametersValid(csvGenerator)
+                && item.get("sourcePresent").asBoolean && item.get("schemaPresent").asBoolean
+            check(parameterValid == item.get("parameterValid").asBoolean) { item.get("id").asString + " CSV source/schema mapping" }
+            if (shapeValid) check(ScenarioSpec.parseFrom(scenario.toByteArray()) == scenario) { item.get("id").asString + " binary round-trip" }
         }
 
         val pageLimits = fixture.getAsJsonObject("listRuns").getAsJsonArray("pageLimits").map { it.asJsonObject }
@@ -320,6 +371,62 @@ internal object SimulationCases {
             .build()
     }
 
+    private fun generatorSpec(value: JsonObject): GeneratorSpec {
+        val builder = GeneratorSpec.newBuilder()
+            .setChannelId(id(value.getAsJsonObject("channelId")))
+            .setKind(value.get("kind").asString)
+        if (value.has("offset")) builder.setOffset(value.get("offset").asDouble)
+        if (value.has("amplitude")) builder.setAmplitude(value.get("amplitude").asDouble)
+        if (value.has("frequencyHz")) builder.setFrequencyHz(value.get("frequencyHz").asDouble)
+        if (value.has("phaseCycles")) builder.setPhaseCycles(value.get("phaseCycles").asDouble)
+        if (value.has("dutyRatio")) builder.setDutyRatio(value.get("dutyRatio").asDouble)
+        if (value.has("walkStep")) builder.setWalkStep(value.get("walkStep").asDouble)
+        if (value.has("pulses")) {
+            value.getAsJsonArray("pulses").map { it.asJsonObject }.forEach { pulse ->
+                builder.addPulses(PulseSpec.newBuilder()
+                    .setStart(scopeTime(pulse.getAsJsonObject("start")))
+                    .setDuration(scopeTime(pulse.getAsJsonObject("duration")))
+                    .setValue(pulse.get("value").asDouble))
+            }
+        }
+        if (value.has("steps")) {
+            value.getAsJsonArray("steps").map { it.asJsonObject }.forEach { step ->
+                builder.addSteps(StepPoint.newBuilder()
+                    .setAt(scopeTime(step.getAsJsonObject("at")))
+                    .setValue(step.get("value").asDouble))
+            }
+        }
+        return builder.build()
+    }
+
+    private fun csvScenarioVector(item: JsonObject, template: JsonObject, generator: JsonObject): ScenarioSpec {
+        val builder = ScenarioSpec.newBuilder()
+            .setDuration(scopeTime(template.getAsJsonObject("duration")))
+            .setExecutionProfile(template.get("executionProfile").asString)
+            .addGenerators(generatorSpec(generator))
+        if (item.get("sourcePresent").asBoolean) {
+            val source = template.getAsJsonObject("source")
+            val resource = source.getAsJsonObject("resource")
+            check(resource.get("availability").asString == "RESOURCE_AVAILABILITY_ALWAYS_KEEP")
+            builder.setCsv(ResourceVersionRef.newBuilder()
+                .setResource(ResourceRef.newBuilder()
+                    .setRealmId(id(resource.getAsJsonObject("realmId")))
+                    .setOwnerAppId(resource.get("ownerAppId").asString)
+                    .setResourceKind(resource.get("resourceKind").asString)
+                    .setResourceId(id(resource.getAsJsonObject("resourceId")))
+                    .setAvailability(ResourceAvailability.RESOURCE_AVAILABILITY_ALWAYS_KEEP))
+                .setCloud(Revision.newBuilder().setValue(source.getAsJsonObject("cloud").get("value").asString.toLong())))
+        }
+        if (item.get("schemaPresent").asBoolean) {
+            val schema = template.getAsJsonObject("schema")
+            builder.setCsvSchema(CsvReplaySchema.newBuilder()
+                .setEncoding(schema.get("encoding").asString)
+                .setDelimiter(schema.get("delimiter").asString)
+                .setHasHeader(schema.get("hasHeader").asBoolean))
+        }
+        return builder.build()
+    }
+
     private fun generatorShapeValid(value: JsonObject): Boolean {
         val kind = value.get("kind").asString
         val allowedKinds = setOf("constant", "sine", "square", "triangle", "sawtooth", "noise", "randomWalk", "pulse", "stepSequence", "csv")
@@ -330,11 +437,23 @@ internal object SimulationCases {
         return kind in allowedKinds && frequencyValid && dutyValid
     }
 
-    private fun generatorParametersValid(value: JsonObject): Boolean {
+    private fun generatorParametersValid(
+        value: JsonObject,
+        removedField: String? = null,
+        addedField: String? = null,
+        emptyRepeatedField: String? = null
+    ): Boolean {
         val kind = value.get("kind").asString
+        val expectedFields = generatorRequiredFieldsByKind[kind] ?: return false
+        val actualFields = value.keySet().filterNot { it == "channelId" || it == "kind" }.toMutableSet()
+        removedField?.let { actualFields.remove(it) }
+        addedField?.let { actualFields.add(it) }
+        if (actualFields != expectedFields.toSet()) return false
+        if (kind == "pulse" && (emptyRepeatedField == "pulses" || value.getAsJsonArray("pulses").size() == 0)) return false
+        if (kind == "stepSequence" && (emptyRepeatedField == "steps" || value.getAsJsonArray("steps").size() == 0)) return false
         val periodicKinds = setOf("sine", "square", "triangle", "sawtooth")
-        if (kind in periodicKinds && (!value.has("frequencyHz") || value.get("frequencyHz").asDouble <= 0.0)) return false
-        if (kind == "square" && (!value.has("dutyRatio") || value.get("dutyRatio").asDouble <= 0.0 || value.get("dutyRatio").asDouble >= 1.0)) return false
+        if (kind in periodicKinds && (!value.has("frequencyHz") || !value.get("frequencyHz").asDouble.isFinite() || value.get("frequencyHz").asDouble <= 0.0)) return false
+        if (kind == "square" && (!value.has("dutyRatio") || !value.get("dutyRatio").asDouble.isFinite() || value.get("dutyRatio").asDouble <= 0.0 || value.get("dutyRatio").asDouble >= 1.0)) return false
         return true
     }
 

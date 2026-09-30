@@ -11,6 +11,7 @@ import {
   FaultSpecSchema,
   GeneratorSpecSchema,
   PulseSpecSchema,
+  ScenarioSpecSchema,
   SimulationProfileSchema,
   SimulationRunSchema,
   StepPointSchema,
@@ -23,7 +24,19 @@ const fixture = JSON.parse(
 const operationMetadata = JSON.parse(
   readFileSync(new URL("../../eng/operations/con-21.json", import.meta.url), "utf8"),
 );
-const periodicGeneratorKinds = new Set(["sine", "square", "triangle", "sawtooth"]);
+const generatorRequiredFieldsByKind = new Map([
+  ["constant", ["offset"]],
+  ["sine", ["offset", "amplitude", "frequencyHz", "phaseCycles"]],
+  ["square", ["offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio"]],
+  ["triangle", ["offset", "amplitude", "frequencyHz", "phaseCycles"]],
+  ["sawtooth", ["offset", "amplitude", "frequencyHz", "phaseCycles"]],
+  ["noise", ["offset", "amplitude"]],
+  ["randomWalk", ["offset", "walkStep"]],
+  ["pulse", ["offset", "pulses"]],
+  ["stepSequence", ["offset", "steps"]],
+  ["csv", []],
+]);
+const generatorParameterFields = ["offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio", "walkStep", "pulses", "steps"];
 
 function tryShape(schema, validate, value) {
   try {
@@ -34,8 +47,22 @@ function tryShape(schema, validate, value) {
 }
 
 function generatorParametersValid(value) {
+  const expectedFields = generatorRequiredFieldsByKind.get(value.kind);
+  if (expectedFields === undefined) return false;
+  const actualFields = Object.keys(value).filter((field) => field !== "channelId" && field !== "kind").sort();
+  const sortedExpectedFields = [...expectedFields].sort();
   if (
-    periodicGeneratorKinds.has(value.kind) &&
+    actualFields.length !== sortedExpectedFields.length ||
+    actualFields.some((field, index) => field !== sortedExpectedFields[index])
+  ) {
+    return false;
+  }
+  if (["pulse", "stepSequence"].includes(value.kind)) {
+    const list = value.kind === "pulse" ? value.pulses : value.steps;
+    if (!Array.isArray(list) || list.length === 0) return false;
+  }
+  if (
+    ["sine", "square", "triangle", "sawtooth"].includes(value.kind) &&
     (!Object.hasOwn(value, "frequencyHz") ||
       !Number.isFinite(value.frequencyHz) ||
       value.frequencyHz <= 0)
@@ -300,6 +327,79 @@ test("Registry04 scalar presence and optionality vectors use generated simulatio
       item.parameterValid,
       `${item.id}: kind-specific parameters`,
     );
+  }
+
+  const parameterMatrix = fixture.generatorParameterMatrix;
+  assert.deepEqual(
+    parameterMatrix.map(({ id, kind, requiredFields }) => [id, kind, requiredFields]),
+    [
+      ["constant-exact-parameters", "constant", ["offset"]],
+      ["sine-exact-parameters", "sine", ["offset", "amplitude", "frequencyHz", "phaseCycles"]],
+      ["square-exact-parameters", "square", ["offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio"]],
+      ["triangle-exact-parameters", "triangle", ["offset", "amplitude", "frequencyHz", "phaseCycles"]],
+      ["sawtooth-exact-parameters", "sawtooth", ["offset", "amplitude", "frequencyHz", "phaseCycles"]],
+      ["noise-exact-parameters", "noise", ["offset", "amplitude"]],
+      ["random-walk-exact-parameters", "randomWalk", ["offset", "walkStep"]],
+      ["pulse-exact-parameters", "pulse", ["offset", "pulses"]],
+      ["step-sequence-exact-parameters", "stepSequence", ["offset", "steps"]],
+      ["csv-exact-parameters", "csv", []],
+    ],
+  );
+  const parameterValues = new Map(parameterMatrix.map((item) => [item.kind, item.value]));
+  const fieldExamples = Object.fromEntries(
+    generatorParameterFields.map((field) => [field, parameterMatrix.find((item) => Object.hasOwn(item.value, field)).value[field]]),
+  );
+  for (const item of parameterMatrix) {
+    assert.equal(item.value.kind, item.kind, `${item.id}: kind binding`);
+    assert.deepEqual(item.requiredFields, generatorRequiredFieldsByKind.get(item.kind), `${item.id}: required-field oracle`);
+    assert.equal(tryShape(GeneratorSpecSchema, shapes.isGeneratorSpec, item.value), true, `${item.id}: generated shape`);
+    assert.equal(generatorParametersValid(item.value), true, `${item.id}: exact kind parameters`);
+    const bytes = toBinary(GeneratorSpecSchema, fromJson(GeneratorSpecSchema, item.value));
+    assert.deepEqual(toBinary(GeneratorSpecSchema, fromBinary(GeneratorSpecSchema, bytes)), bytes, `${item.id}: binary round-trip`);
+    for (const field of item.requiredFields) {
+      const missing = structuredClone(item.value);
+      delete missing[field];
+      assert.equal(generatorParametersValid(missing), false, `${item.id}: missing ${field}`);
+    }
+    for (const field of generatorParameterFields.filter((field) => !item.requiredFields.includes(field))) {
+      const unrelated = structuredClone(item.value);
+      unrelated[field] = structuredClone(fieldExamples[field]);
+      assert.equal(generatorParametersValid(unrelated), false, `${item.id}: unrelated ${field}`);
+    }
+    if (item.kind === "pulse" || item.kind === "stepSequence") {
+      const empty = structuredClone(item.value);
+      empty[item.kind === "pulse" ? "pulses" : "steps"] = [];
+      assert.equal(generatorParametersValid(empty), false, `${item.id}: empty repeated list is not supplied`);
+    }
+  }
+
+  const csvMappingVectors = fixture.csvGeneratorMappingVectors;
+  assert.deepEqual(csvMappingVectors.map((item) => item.id), [
+    "csv-source-and-schema-present-accepted",
+    "csv-source-omitted-refused",
+    "csv-schema-omitted-refused",
+    "csv-source-and-schema-omitted-refused",
+  ]);
+  const csvScenario = fixture.csvScenarioTemplate;
+  const csvGenerator = parameterValues.get("csv");
+  for (const item of csvMappingVectors) {
+    const value = {
+      duration: csvScenario.duration,
+      executionProfile: csvScenario.executionProfile,
+      generators: [csvGenerator],
+      ...(item.sourcePresent ? { csv: csvScenario.source } : {}),
+      ...(item.schemaPresent ? { csvSchema: csvScenario.schema } : {}),
+    };
+    const shapeValid = tryShape(ScenarioSpecSchema, shapes.isScenarioSpec, value);
+    assert.equal(shapeValid, item.shapeValid, `${item.id}: generated scenario shape`);
+    assert.equal(Object.hasOwn(value, "csv"), item.sourcePresent, `${item.id}: CSV source field presence`);
+    assert.equal(Object.hasOwn(value, "csvSchema"), item.schemaPresent, `${item.id}: CSV schema field presence`);
+    const parameterValid = generatorParametersValid(csvGenerator) && item.sourcePresent && item.schemaPresent;
+    assert.equal(parameterValid, item.parameterValid, `${item.id}: CSV source/schema mapping`);
+    if (shapeValid) {
+      const bytes = toBinary(ScenarioSpecSchema, fromJson(ScenarioSpecSchema, value));
+      assert.deepEqual(toBinary(ScenarioSpecSchema, fromBinary(ScenarioSpecSchema, bytes)), bytes, `${item.id}: binary round-trip`);
+    }
   }
 });
 

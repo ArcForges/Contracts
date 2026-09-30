@@ -4,11 +4,27 @@ using System.Text.Json;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using ArcForges.Contracts.Foundation.V1;
+using ArcForges.Contracts.PublicApi.V1;
 using ArcForges.Contracts.Simulation.V1;
 using ArcForges.Contracts.Validation;
 
 internal static class SimulationCases
 {
+    private static readonly Dictionary<string, string[]> GeneratorRequiredFieldsByKind = new(StringComparer.Ordinal)
+    {
+        ["constant"] = ["offset"],
+        ["sine"] = ["offset", "amplitude", "frequencyHz", "phaseCycles"],
+        ["square"] = ["offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio"],
+        ["triangle"] = ["offset", "amplitude", "frequencyHz", "phaseCycles"],
+        ["sawtooth"] = ["offset", "amplitude", "frequencyHz", "phaseCycles"],
+        ["noise"] = ["offset", "amplitude"],
+        ["randomWalk"] = ["offset", "walkStep"],
+        ["pulse"] = ["offset", "pulses"],
+        ["stepSequence"] = ["offset", "steps"],
+        ["csv"] = []
+    };
+    private static readonly string[] GeneratorParameterFields = ["offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio", "walkStep", "pulses", "steps"];
+
     internal static void Run(string root)
     {
         using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "fixtures/public/con-21-simulation.json")));
@@ -205,6 +221,54 @@ internal static class SimulationCases
             }
         }
 
+        var generatorMatrix = fixture.GetProperty("generatorParameterMatrix");
+        Require(VectorIds(generatorMatrix).SequenceEqual(new[] {
+            "constant-exact-parameters", "sine-exact-parameters", "square-exact-parameters", "triangle-exact-parameters",
+            "sawtooth-exact-parameters", "noise-exact-parameters", "random-walk-exact-parameters", "pulse-exact-parameters",
+            "step-sequence-exact-parameters", "csv-exact-parameters"
+        }), "exact per-kind generator parameter matrix");
+        foreach (var item in generatorMatrix.EnumerateArray())
+        {
+            string kind = item.GetProperty("kind").GetString()!;
+            Require(GeneratorRequiredFieldsByKind.TryGetValue(kind, out var requiredFields), item.GetProperty("id").GetString()! + ": known kind");
+            var value = item.GetProperty("value");
+            Require(value.GetProperty("kind").GetString() == kind, item.GetProperty("id").GetString()! + ": kind binding");
+            Require(Strings(item.GetProperty("requiredFields")).SequenceEqual(requiredFields!), item.GetProperty("id").GetString()! + ": required-field oracle");
+            var message = JsonParser.Default.Parse<GeneratorSpec>(value.GetRawText());
+            Require(ContractShapeValidation.IsValid(message), item.GetProperty("id").GetString()! + ": generated shape");
+            Require(GeneratorParametersValid(value), item.GetProperty("id").GetString()! + ": exact kind parameters");
+            Require(GeneratorSpec.Parser.ParseFrom(message.ToByteArray()).Equals(message), item.GetProperty("id").GetString()! + ": binary round-trip");
+            foreach (string field in requiredFields!)
+                Require(!GeneratorParametersValid(value, removedField: field), item.GetProperty("id").GetString()! + ": missing " + field);
+            foreach (string field in GeneratorParameterFields.Except(requiredFields!, StringComparer.Ordinal))
+                Require(!GeneratorParametersValid(value, addedField: field), item.GetProperty("id").GetString()! + ": unrelated " + field);
+            if (kind == "pulse")
+                Require(!GeneratorParametersValid(value, emptyRepeatedField: "pulses"), item.GetProperty("id").GetString()! + ": empty repeated list is not supplied");
+            if (kind == "stepSequence")
+                Require(!GeneratorParametersValid(value, emptyRepeatedField: "steps"), item.GetProperty("id").GetString()! + ": empty repeated list is not supplied");
+        }
+
+        var csvMappingVectors = fixture.GetProperty("csvGeneratorMappingVectors");
+        Require(VectorIds(csvMappingVectors).SequenceEqual(new[] {
+            "csv-source-and-schema-present-accepted", "csv-source-omitted-refused", "csv-schema-omitted-refused",
+            "csv-source-and-schema-omitted-refused"
+        }), "exact CSV source/schema mapping vectors");
+        var csvScenarioTemplate = fixture.GetProperty("csvScenarioTemplate");
+        var csvGenerator = generatorMatrix.EnumerateArray().Single(item => item.GetProperty("kind").GetString() == "csv").GetProperty("value");
+        foreach (var item in csvMappingVectors.EnumerateArray())
+        {
+            var scenario = CsvScenarioVector(item, csvScenarioTemplate, csvGenerator);
+            bool shapeValid = ContractShapeValidation.IsValid(scenario);
+            Require(shapeValid == item.GetProperty("shapeValid").GetBoolean(), item.GetProperty("id").GetString()! + ": generated scenario shape");
+            Require((scenario.Csv is not null) == item.GetProperty("sourcePresent").GetBoolean(), item.GetProperty("id").GetString()! + ": CSV source field presence");
+            Require((scenario.CsvSchema is not null) == item.GetProperty("schemaPresent").GetBoolean(), item.GetProperty("id").GetString()! + ": CSV schema field presence");
+            bool parameterValid = GeneratorParametersValid(csvGenerator)
+                && item.GetProperty("sourcePresent").GetBoolean() && item.GetProperty("schemaPresent").GetBoolean();
+            Require(parameterValid == item.GetProperty("parameterValid").GetBoolean(), item.GetProperty("id").GetString()! + ": CSV source/schema mapping");
+            if (shapeValid)
+                Require(ScenarioSpec.Parser.ParseFrom(scenario.ToByteArray()).Equals(scenario), item.GetProperty("id").GetString()! + ": binary round-trip");
+        }
+
         var pageLimits = fixture.GetProperty("listRuns").GetProperty("pageLimits");
         Require(VectorIds(pageLimits).SequenceEqual(new[] { "default", "minimum", "maximum", "zero", "above-maximum" }), "exact page bound vectors");
         foreach (var item in pageLimits.EnumerateArray())
@@ -273,9 +337,17 @@ internal static class SimulationCases
         return message;
     }
 
-    private static bool GeneratorParametersValid(JsonElement value)
+    private static bool GeneratorParametersValid(JsonElement value, string? removedField = null, string? addedField = null, string? emptyRepeatedField = null)
     {
         string kind = value.GetProperty("kind").GetString()!;
+        if (!GeneratorRequiredFieldsByKind.TryGetValue(kind, out var expectedFields)) return false;
+        var actualFields = value.EnumerateObject().Select(property => property.Name)
+            .Where(name => name is not ("channelId" or "kind")).ToHashSet(StringComparer.Ordinal);
+        if (removedField is not null) actualFields.Remove(removedField);
+        if (addedField is not null) actualFields.Add(addedField);
+        if (!actualFields.SetEquals(expectedFields)) return false;
+        if (kind == "pulse" && (emptyRepeatedField == "pulses" || value.GetProperty("pulses").GetArrayLength() == 0)) return false;
+        if (kind == "stepSequence" && (emptyRepeatedField == "steps" || value.GetProperty("steps").GetArrayLength() == 0)) return false;
         bool periodic = kind is "sine" or "square" or "triangle" or "sawtooth";
         if (periodic && (!value.TryGetProperty("frequencyHz", out var frequency)
             || !double.IsFinite(frequency.GetDouble()) || frequency.GetDouble() <= 0))
@@ -284,6 +356,21 @@ internal static class SimulationCases
             || !double.IsFinite(duty.GetDouble()) || duty.GetDouble() <= 0 || duty.GetDouble() >= 1))
             return false;
         return true;
+    }
+
+    private static ScenarioSpec CsvScenarioVector(JsonElement item, JsonElement template, JsonElement generator)
+    {
+        var scenario = new ScenarioSpec
+        {
+            Duration = JsonParser.Default.Parse<ScopeTime>(template.GetProperty("duration").GetRawText()),
+            ExecutionProfile = template.GetProperty("executionProfile").GetString()!
+        };
+        scenario.Generators.Add(JsonParser.Default.Parse<GeneratorSpec>(generator.GetRawText()));
+        if (item.GetProperty("sourcePresent").GetBoolean())
+            scenario.Csv = JsonParser.Default.Parse<ResourceVersionRef>(template.GetProperty("source").GetRawText());
+        if (item.GetProperty("schemaPresent").GetBoolean())
+            scenario.CsvSchema = JsonParser.Default.Parse<CsvReplaySchema>(template.GetProperty("schema").GetRawText());
+        return scenario;
     }
 
     private static string[] ExpectedFields(JsonElement value) => Strings(value).Select(name => name.EndsWith("?", StringComparison.Ordinal) ? name[..^1] : name).ToArray();

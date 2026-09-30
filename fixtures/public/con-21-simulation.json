@@ -594,6 +594,153 @@
     "type": "numeric",
     "unit": "unitless"
   },
+  "generatorParameterMatrix": [
+    {
+      "id": "constant-exact-parameters",
+      "kind": "constant",
+      "requiredFields": ["offset"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "constant",
+        "offset": 0
+      }
+    },
+    {
+      "id": "sine-exact-parameters",
+      "kind": "sine",
+      "requiredFields": ["offset", "amplitude", "frequencyHz", "phaseCycles"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sine",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0
+      }
+    },
+    {
+      "id": "square-exact-parameters",
+      "kind": "square",
+      "requiredFields": ["offset", "amplitude", "frequencyHz", "phaseCycles", "dutyRatio"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "square",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0,
+        "dutyRatio": 0.5
+      }
+    },
+    {
+      "id": "triangle-exact-parameters",
+      "kind": "triangle",
+      "requiredFields": ["offset", "amplitude", "frequencyHz", "phaseCycles"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "triangle",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0
+      }
+    },
+    {
+      "id": "sawtooth-exact-parameters",
+      "kind": "sawtooth",
+      "requiredFields": ["offset", "amplitude", "frequencyHz", "phaseCycles"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sawtooth",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0
+      }
+    },
+    {
+      "id": "noise-exact-parameters",
+      "kind": "noise",
+      "requiredFields": ["offset", "amplitude"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "noise",
+        "offset": 0,
+        "amplitude": 1
+      }
+    },
+    {
+      "id": "random-walk-exact-parameters",
+      "kind": "randomWalk",
+      "requiredFields": ["offset", "walkStep"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "randomWalk",
+        "offset": 0,
+        "walkStep": 1
+      }
+    },
+    {
+      "id": "pulse-exact-parameters",
+      "kind": "pulse",
+      "requiredFields": ["offset", "pulses"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "pulse",
+        "offset": 0,
+        "pulses": [
+          {
+            "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } },
+            "duration": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } },
+            "value": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "step-sequence-exact-parameters",
+      "kind": "stepSequence",
+      "requiredFields": ["offset", "steps"],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "stepSequence",
+        "offset": 0,
+        "steps": [
+          { "at": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } }, "value": 0 }
+        ]
+      }
+    },
+    {
+      "id": "csv-exact-parameters",
+      "kind": "csv",
+      "requiredFields": [],
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "csv"
+      }
+    }
+  ],
+  "csvScenarioTemplate": {
+    "duration": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } },
+    "executionProfile": "af-sim.v1",
+    "source": {
+      "resource": {
+        "realmId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "ownerAppId": "arcscope",
+        "resourceKind": "simulation-csv",
+        "resourceId": { "value": "EBESExQVFhcYGRobHB0eHw==" },
+        "availability": "RESOURCE_AVAILABILITY_ALWAYS_KEEP"
+      },
+      "cloud": { "value": "1" }
+    },
+    "schema": { "encoding": "utf8", "delimiter": ",", "hasHeader": true, "columns": [] }
+  },
+  "csvGeneratorMappingVectors": [
+    { "id": "csv-source-and-schema-present-accepted", "sourcePresent": true, "schemaPresent": true, "shapeValid": true, "parameterValid": true },
+    { "id": "csv-source-omitted-refused", "sourcePresent": false, "schemaPresent": true, "shapeValid": true, "parameterValid": false },
+    { "id": "csv-schema-omitted-refused", "sourcePresent": true, "schemaPresent": false, "shapeValid": true, "parameterValid": false },
+    { "id": "csv-source-and-schema-omitted-refused", "sourcePresent": false, "schemaPresent": false, "shapeValid": true, "parameterValid": false }
+  ],
   "generatorParameterVectors": [
     {
       "id": "constant-frequency-omitted-accepted",
