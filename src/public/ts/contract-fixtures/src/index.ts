@@ -79161,7 +79161,13 @@ export const publicFixtures = {
           "arcforges.publicapi.v1.AgentService",
           "arcforges.publicapi.v1.SearchService",
           "arcforges.publicapi.v1.AutomationService",
-          "arcforges.publicapi.v1.SourceService"
+          "arcforges.publicapi.v1.SourceService",
+          "arcforges.publicapi.v1.SupportService",
+          "arcforges.publicapi.v1.NotificationService",
+          "arcforges.publicapi.v1.PreferenceService",
+          "arcforges.publicapi.v1.PolicyService",
+          "arcforges.publicapi.v1.DataService",
+          "arcforges.publicapi.v1.ExportService"
         ],
         "ArcForges.Sdk.Contracts": [
           "arcforges.extensions.v1.ExtensionHostService"
@@ -79317,6 +79323,33 @@ export const publicFixtures = {
           "/arcforges.publicapi.v1.TransferService/Get",
           "/arcforges.publicapi.v1.TransferService/List",
           "/arcforges.publicapi.v1.TransferService/Cancel"
+        ],
+        "arcforges.publicapi.v1.SupportService": [
+          "/arcforges.publicapi.v1.SupportService/CreateCase",
+          "/arcforges.publicapi.v1.SupportService/ListCases",
+          "/arcforges.publicapi.v1.SupportService/AppendMessage",
+          "/arcforges.publicapi.v1.SupportService/DecideAccess"
+        ],
+        "arcforges.publicapi.v1.NotificationService": [
+          "/arcforges.publicapi.v1.NotificationService/List",
+          "/arcforges.publicapi.v1.NotificationService/Acknowledge",
+          "/arcforges.publicapi.v1.NotificationService/RegisterPush",
+          "/arcforges.publicapi.v1.NotificationService/UnregisterPush"
+        ],
+        "arcforges.publicapi.v1.PreferenceService": [
+          "/arcforges.publicapi.v1.PreferenceService/Put"
+        ],
+        "arcforges.publicapi.v1.PolicyService": [
+          "/arcforges.publicapi.v1.PolicyService/GetBundle"
+        ],
+        "arcforges.publicapi.v1.DataService": [
+          "/arcforges.publicapi.v1.DataService/RequestExport",
+          "/arcforges.publicapi.v1.DataService/GetExportState"
+        ],
+        "arcforges.publicapi.v1.ExportService": [
+          "/arcforges.publicapi.v1.ExportService/GetStatus",
+          "/arcforges.publicapi.v1.ExportService/Cancel",
+          "/arcforges.publicapi.v1.ExportService/GetDownload"
         ]
       }
     }
