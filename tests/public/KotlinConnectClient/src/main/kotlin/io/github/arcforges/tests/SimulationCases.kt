@@ -12,9 +12,11 @@ import io.github.arcforges.contracts.foundation.v1.Rational
 import io.github.arcforges.contracts.foundation.v1.Revision
 import io.github.arcforges.contracts.simulation.v1.AstNode
 import io.github.arcforges.contracts.simulation.v1.BinaryExpression
+import io.github.arcforges.contracts.simulation.v1.CsvColumn
 import io.github.arcforges.contracts.simulation.v1.CsvReplaySchema
 import io.github.arcforges.contracts.simulation.v1.FaultSpec
 import io.github.arcforges.contracts.simulation.v1.FunctionExpression
+import io.github.arcforges.contracts.simulation.v1.GeneratorSpec
 import io.github.arcforges.contracts.simulation.v1.PulseSpec
 import io.github.arcforges.contracts.simulation.v1.SimulationProfile
 import io.github.arcforges.contracts.simulation.v1.SimulationRun
@@ -179,7 +181,9 @@ internal object SimulationCases {
 
         val faultVectors = presence.getAsJsonArray("faultSpec").map { it.asJsonObject }
         check(faultVectors.map { it.get("id").asString } == listOf(
-            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused"))
+            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused",
+            "fault-reorder-window-minimum-accepted", "fault-reorder-window-maximum-accepted",
+            "fault-reorder-window-zero-refused", "fault-reorder-window-1025-refused"))
         for (item in faultVectors) {
             val value = item.getAsJsonObject("value")
             val window = value.getAsJsonObject("window")
@@ -193,28 +197,69 @@ internal object SimulationCases {
             if (value.has("everyTicks")) messageBuilder.setEveryTicks(value.get("everyTicks").asString.toLong())
             if (value.has("probabilityPpm")) messageBuilder.setProbabilityPpm(value.get("probabilityPpm").asInt)
             if (value.has("delayTicks")) messageBuilder.setDelayTicks(value.get("delayTicks").asString.toLong())
+            if (value.has("reorderWindow")) messageBuilder.setReorderWindow(value.get("reorderWindow").asInt)
             val message = messageBuilder.build()
             val valid = message.hasFaultId() && message.hasKind() && message.hasWindow()
                 && message.hasEveryTicks() && message.hasProbabilityPpm()
+                && (!value.has("reorderWindow") || value.get("reorderWindow").asInt in 1..1024)
             check(valid == item.get("valid").asBoolean) { item.get("id").asString }
             if (item.get("id").asString == "fault-channel-omitted-accepted") check(!message.hasChannelId())
             if (valid) check(FaultSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
         }
 
         val csvVectors = presence.getAsJsonArray("csvReplaySchema").map { it.asJsonObject }
-        check(csvVectors.map { it.get("id").asString } == listOf("csv-timestampUnit-omitted-accepted"))
+        check(csvVectors.map { it.get("id").asString } == listOf(
+            "csv-timestampUnit-omitted-accepted", "csv-tab-delimiter-accepted", "csv-semicolon-delimiter-accepted",
+            "csv-unsupported-encoding-refused", "csv-unsupported-delimiter-refused", "csv-4096-columns-accepted",
+            "csv-4097-columns-refused"))
         for (item in csvVectors) {
             val value = item.getAsJsonObject("value")
+            val columns = item.get("columnsCount")?.asInt ?: value.getAsJsonArray("columns").size()
+            val columnTemplate = fixture.getAsJsonObject("csvColumnTemplate")
             val messageBuilder = CsvReplaySchema.newBuilder()
                 .setEncoding(value.get("encoding").asString)
                 .setDelimiter(value.get("delimiter").asString)
                 .setHasHeader(value.get("hasHeader").asBoolean)
             if (value.has("timestampUnit")) messageBuilder.setTimestampUnit(value.get("timestampUnit").asString)
+            repeat(columns) { columnIndex ->
+                messageBuilder.addColumns(CsvColumn.newBuilder()
+                    .setColumn(columnIndex)
+                    .setChannelId(id(columnTemplate.getAsJsonObject("channelId")))
+                    .setType(columnTemplate.get("type").asString)
+                    .setUnit(columnTemplate.get("unit").asString))
+            }
             val message = messageBuilder.build()
-            val valid = message.hasEncoding() && message.hasDelimiter() && message.hasHasHeader()
+            val valid = message.hasEncoding() && message.encoding == "utf8"
+                && message.hasDelimiter() && message.delimiter in setOf(",", "\t", ";")
+                && message.hasHasHeader() && columns in 0..4096
             check(valid == item.get("valid").asBoolean) { item.get("id").asString }
             if (valid) check(!message.hasTimestampUnit()) { "timestampUnit remains optional" }
             if (valid) check(CsvReplaySchema.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
+        }
+
+        val generatorVectors = fixture.getAsJsonArray("generatorParameterVectors").map { it.asJsonObject }
+        check(generatorVectors.map { it.get("id").asString } == listOf(
+            "constant-frequency-omitted-accepted", "sine-frequency-minimum-positive-accepted", "sine-frequency-zero-refused",
+            "sine-frequency-omitted-refused-by-kind", "triangle-frequency-positive-accepted", "sawtooth-frequency-positive-accepted",
+            "square-duty-minimum-positive-accepted", "square-duty-zero-refused", "square-duty-maximum-below-one-accepted",
+            "square-duty-one-refused", "square-duty-omitted-refused-by-kind", "sine-duty-omitted-accepted"))
+        for (item in generatorVectors) {
+            val value = item.getAsJsonObject("value")
+            val messageBuilder = GeneratorSpec.newBuilder()
+                .setChannelId(id(value.getAsJsonObject("channelId")))
+                .setKind(value.get("kind").asString)
+            if (value.has("offset")) messageBuilder.setOffset(value.get("offset").asDouble)
+            if (value.has("amplitude")) messageBuilder.setAmplitude(value.get("amplitude").asDouble)
+            if (value.has("frequencyHz")) messageBuilder.setFrequencyHz(value.get("frequencyHz").asDouble)
+            if (value.has("phaseCycles")) messageBuilder.setPhaseCycles(value.get("phaseCycles").asDouble)
+            if (value.has("dutyRatio")) messageBuilder.setDutyRatio(value.get("dutyRatio").asDouble)
+            val message = messageBuilder.build()
+            val shapeValid = generatorShapeValid(value)
+            check(shapeValid == item.get("shapeValid").asBoolean) { item.get("id").asString + ": generated shape" }
+            check(generatorParametersValid(value) == item.get("parameterValid").asBoolean) {
+                item.get("id").asString + ": kind-specific parameters"
+            }
+            if (shapeValid) check(GeneratorSpec.parseFrom(message.toByteArray()) == message) { item.get("id").asString + " binary round-trip" }
         }
 
         val pageLimits = fixture.getAsJsonObject("listRuns").getAsJsonArray("pageLimits").map { it.asJsonObject }
@@ -273,6 +318,24 @@ internal object SimulationCases {
                 .setNumerator(rate.get("numerator").asString.toLong())
                 .setDenominator(rate.get("denominator").asString.toLong()))
             .build()
+    }
+
+    private fun generatorShapeValid(value: JsonObject): Boolean {
+        val kind = value.get("kind").asString
+        val allowedKinds = setOf("constant", "sine", "square", "triangle", "sawtooth", "noise", "randomWalk", "pulse", "stepSequence", "csv")
+        val frequencyValid = !value.has("frequencyHz") || value.get("frequencyHz").asDouble.isFinite()
+            && value.get("frequencyHz").asDouble > 0.0
+        val dutyValid = !value.has("dutyRatio") || value.get("dutyRatio").asDouble.isFinite()
+            && value.get("dutyRatio").asDouble > 0.0 && value.get("dutyRatio").asDouble < 1.0
+        return kind in allowedKinds && frequencyValid && dutyValid
+    }
+
+    private fun generatorParametersValid(value: JsonObject): Boolean {
+        val kind = value.get("kind").asString
+        val periodicKinds = setOf("sine", "square", "triangle", "sawtooth")
+        if (kind in periodicKinds && (!value.has("frequencyHz") || value.get("frequencyHz").asDouble <= 0.0)) return false
+        if (kind == "square" && (!value.has("dutyRatio") || value.get("dutyRatio").asDouble <= 0.0 || value.get("dutyRatio").asDouble >= 1.0)) return false
+        return true
     }
 
     private fun astNode(value: JsonObject): AstNode = when {

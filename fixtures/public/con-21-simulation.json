@@ -487,6 +487,66 @@
           "everyTicks": "1",
           "delayTicks": "1"
         }
+      },
+      {
+        "id": "fault-reorder-window-minimum-accepted",
+        "valid": true,
+        "value": {
+          "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+          "kind": "reorder",
+          "window": {
+            "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } },
+            "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } }
+          },
+          "everyTicks": "1",
+          "probabilityPpm": 0,
+          "reorderWindow": 1
+        }
+      },
+      {
+        "id": "fault-reorder-window-maximum-accepted",
+        "valid": true,
+        "value": {
+          "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+          "kind": "reorder",
+          "window": {
+            "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } },
+            "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } }
+          },
+          "everyTicks": "1",
+          "probabilityPpm": 0,
+          "reorderWindow": 1024
+        }
+      },
+      {
+        "id": "fault-reorder-window-zero-refused",
+        "valid": false,
+        "value": {
+          "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+          "kind": "reorder",
+          "window": {
+            "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } },
+            "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } }
+          },
+          "everyTicks": "1",
+          "probabilityPpm": 0,
+          "reorderWindow": 0
+        }
+      },
+      {
+        "id": "fault-reorder-window-1025-refused",
+        "valid": false,
+        "value": {
+          "faultId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+          "kind": "reorder",
+          "window": {
+            "start": { "ticks": "0", "rate": { "numerator": "1", "denominator": "1" } },
+            "end": { "ticks": "1", "rate": { "numerator": "1", "denominator": "1" } }
+          },
+          "everyTicks": "1",
+          "probabilityPpm": 0,
+          "reorderWindow": 1025
+        }
       }
     ],
     "csvReplaySchema": [
@@ -494,7 +554,202 @@
         "id": "csv-timestampUnit-omitted-accepted",
         "valid": true,
         "value": { "encoding": "utf8", "delimiter": ",", "hasHeader": true, "columns": [] }
+      },
+      {
+        "id": "csv-tab-delimiter-accepted",
+        "valid": true,
+        "value": { "encoding": "utf8", "delimiter": "\t", "hasHeader": true, "columns": [] }
+      },
+      {
+        "id": "csv-semicolon-delimiter-accepted",
+        "valid": true,
+        "value": { "encoding": "utf8", "delimiter": ";", "hasHeader": true, "columns": [] }
+      },
+      {
+        "id": "csv-unsupported-encoding-refused",
+        "valid": false,
+        "value": { "encoding": "utf16le", "delimiter": ",", "hasHeader": true, "columns": [] }
+      },
+      {
+        "id": "csv-unsupported-delimiter-refused",
+        "valid": false,
+        "value": { "encoding": "utf8", "delimiter": "|", "hasHeader": true, "columns": [] }
+      },
+      {
+        "id": "csv-4096-columns-accepted",
+        "columnsCount": 4096,
+        "valid": true,
+        "value": { "encoding": "utf8", "delimiter": ",", "hasHeader": true, "columns": [] }
+      },
+      {
+        "id": "csv-4097-columns-refused",
+        "columnsCount": 4097,
+        "valid": false,
+        "value": { "encoding": "utf8", "delimiter": ",", "hasHeader": true, "columns": [] }
       }
     ]
-  }
+  },
+  "csvColumnTemplate": {
+    "channelId": { "value": "EBESExQVFhcYGRobHB0eHw==" },
+    "type": "numeric",
+    "unit": "unitless"
+  },
+  "generatorParameterVectors": [
+    {
+      "id": "constant-frequency-omitted-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "constant",
+        "offset": 0
+      }
+    },
+    {
+      "id": "sine-frequency-minimum-positive-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sine",
+        "offset": 0,
+        "amplitude": 1,
+        "phaseCycles": 0,
+        "frequencyHz": 5e-324
+      }
+    },
+    {
+      "id": "sine-frequency-zero-refused",
+      "shapeValid": false,
+      "parameterValid": false,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sine",
+        "offset": 0,
+        "amplitude": 1,
+        "phaseCycles": 0,
+        "frequencyHz": 0
+      }
+    },
+    {
+      "id": "sine-frequency-omitted-refused-by-kind",
+      "shapeValid": true,
+      "parameterValid": false,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sine",
+        "offset": 0,
+        "amplitude": 1,
+        "phaseCycles": 0
+      }
+    },
+    {
+      "id": "triangle-frequency-positive-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "triangle",
+        "offset": 0,
+        "amplitude": 1,
+        "phaseCycles": 0,
+        "frequencyHz": 1
+      }
+    },
+    {
+      "id": "sawtooth-frequency-positive-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sawtooth",
+        "offset": 0,
+        "amplitude": 1,
+        "phaseCycles": 0,
+        "frequencyHz": 1
+      }
+    },
+    {
+      "id": "square-duty-minimum-positive-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "square",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0,
+        "dutyRatio": 5e-324
+      }
+    },
+    {
+      "id": "square-duty-zero-refused",
+      "shapeValid": false,
+      "parameterValid": false,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "square",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0,
+        "dutyRatio": 0
+      }
+    },
+    {
+      "id": "square-duty-maximum-below-one-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "square",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0,
+        "dutyRatio": 0.9999999999999999
+      }
+    },
+    {
+      "id": "square-duty-one-refused",
+      "shapeValid": false,
+      "parameterValid": false,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "square",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0,
+        "dutyRatio": 1
+      }
+    },
+    {
+      "id": "square-duty-omitted-refused-by-kind",
+      "shapeValid": true,
+      "parameterValid": false,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "square",
+        "offset": 0,
+        "amplitude": 1,
+        "frequencyHz": 1,
+        "phaseCycles": 0
+      }
+    },
+    {
+      "id": "sine-duty-omitted-accepted",
+      "shapeValid": true,
+      "parameterValid": true,
+      "value": {
+        "channelId": { "value": "AAECAwQFBgcICQoLDA0ODw==" },
+        "kind": "sine",
+        "offset": 0,
+        "amplitude": 1,
+        "phaseCycles": 0,
+        "frequencyHz": 1
+      }
+    }
+  ]
 }

@@ -125,7 +125,7 @@ internal static class SimulationCases
         }), "exact profile vectors");
         foreach (var item in profileVectors.EnumerateArray())
         {
-            bool valid = TryValid(item.GetProperty("value"), SimulationProfile.Parser, ContractShapeValidation.IsValid);
+            bool valid = TryValid<SimulationProfile>(item.GetProperty("value"), ContractShapeValidation.IsValid);
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
         var astVectors = fixture.GetProperty("astVectors");
@@ -135,7 +135,7 @@ internal static class SimulationCases
         }), "exact AST vectors");
         foreach (var item in astVectors.EnumerateArray())
         {
-            bool valid = TryValid(item.GetProperty("value"), AstNode.Parser, ContractShapeValidation.IsValid);
+            bool valid = TryValid<AstNode>(item.GetProperty("value"), ContractShapeValidation.IsValid);
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
 
@@ -145,7 +145,7 @@ internal static class SimulationCases
             "exact PulseSpec required-value vectors");
         foreach (var item in pulseVectors.EnumerateArray())
         {
-            bool valid = TryValid(item.GetProperty("value"), PulseSpec.Parser, ContractShapeValidation.IsValid);
+            bool valid = TryValid<PulseSpec>(item.GetProperty("value"), ContractShapeValidation.IsValid);
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
         var stepVectors = presenceVectors.GetProperty("stepPoint");
@@ -153,25 +153,56 @@ internal static class SimulationCases
             "exact StepPoint required-value vectors");
         foreach (var item in stepVectors.EnumerateArray())
         {
-            bool valid = TryValid(item.GetProperty("value"), StepPoint.Parser, ContractShapeValidation.IsValid);
+            bool valid = TryValid<StepPoint>(item.GetProperty("value"), ContractShapeValidation.IsValid);
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
         var faultVectors = presenceVectors.GetProperty("faultSpec");
         Require(VectorIds(faultVectors).SequenceEqual(new[] {
-            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused"
+            "fault-channel-omitted-accepted", "fault-missing-everyTicks-refused", "fault-missing-probabilityPpm-refused",
+            "fault-reorder-window-minimum-accepted", "fault-reorder-window-maximum-accepted",
+            "fault-reorder-window-zero-refused", "fault-reorder-window-1025-refused"
         }), "exact FaultSpec optional-channel/required-scalar vectors");
         foreach (var item in faultVectors.EnumerateArray())
         {
-            bool valid = TryValid(item.GetProperty("value"), FaultSpec.Parser, ContractShapeValidation.IsValid);
+            bool valid = TryValid<FaultSpec>(item.GetProperty("value"), ContractShapeValidation.IsValid);
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
         var csvVectors = presenceVectors.GetProperty("csvReplaySchema");
-        Require(VectorIds(csvVectors).SequenceEqual(new[] { "csv-timestampUnit-omitted-accepted" }),
-            "exact CsvReplaySchema optional timestampUnit vector");
+        Require(VectorIds(csvVectors).SequenceEqual(new[] {
+            "csv-timestampUnit-omitted-accepted", "csv-tab-delimiter-accepted", "csv-semicolon-delimiter-accepted",
+            "csv-unsupported-encoding-refused", "csv-unsupported-delimiter-refused", "csv-4096-columns-accepted",
+            "csv-4097-columns-refused"
+        }), "exact CsvReplaySchema encoding/delimiter/column-bound vectors");
         foreach (var item in csvVectors.EnumerateArray())
         {
-            bool valid = TryValid(item.GetProperty("value"), CsvReplaySchema.Parser, ContractShapeValidation.IsValid);
+            var message = CsvSchemaVector(item, fixture.GetProperty("csvColumnTemplate"));
+            bool valid = ContractShapeValidation.IsValid(message);
             Require(valid == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
+            if (valid)
+                Require(CsvReplaySchema.Parser.ParseFrom(message.ToByteArray()).Equals(message),
+                    item.GetProperty("id").GetString()! + ": binary round-trip");
+        }
+
+        var generatorVectors = fixture.GetProperty("generatorParameterVectors");
+        Require(VectorIds(generatorVectors).SequenceEqual(new[] {
+            "constant-frequency-omitted-accepted", "sine-frequency-minimum-positive-accepted", "sine-frequency-zero-refused",
+            "sine-frequency-omitted-refused-by-kind", "triangle-frequency-positive-accepted", "sawtooth-frequency-positive-accepted",
+            "square-duty-minimum-positive-accepted", "square-duty-zero-refused", "square-duty-maximum-below-one-accepted",
+            "square-duty-one-refused", "square-duty-omitted-refused-by-kind", "sine-duty-omitted-accepted"
+        }), "exact GeneratorSpec kind-conditioned scalar vectors");
+        foreach (var item in generatorVectors.EnumerateArray())
+        {
+            var value = item.GetProperty("value");
+            bool shapeValid = TryValid<GeneratorSpec>(value, ContractShapeValidation.IsValid);
+            Require(shapeValid == item.GetProperty("shapeValid").GetBoolean(), item.GetProperty("id").GetString()! + ": generated shape");
+            Require(GeneratorParametersValid(value) == item.GetProperty("parameterValid").GetBoolean(),
+                item.GetProperty("id").GetString()! + ": kind-specific parameters");
+            if (shapeValid)
+            {
+                var message = JsonParser.Default.Parse<GeneratorSpec>(value.GetRawText());
+                Require(GeneratorSpec.Parser.ParseFrom(message.ToByteArray()).Equals(message),
+                    item.GetProperty("id").GetString()! + ": binary round-trip");
+            }
         }
 
         var pageLimits = fixture.GetProperty("listRuns").GetProperty("pageLimits");
@@ -214,6 +245,47 @@ internal static class SimulationCases
     private static int[] BusinessTagNumbers(MessageDescriptor descriptor) => descriptor.Fields.InFieldNumberOrder()
         .Where(field => field.FieldNumber >= 10).Select(field => field.FieldNumber).ToArray();
 
+    private static CsvReplaySchema CsvSchemaVector(JsonElement item, JsonElement columnTemplate)
+    {
+        var value = item.GetProperty("value");
+        var message = new CsvReplaySchema
+        {
+            Encoding = value.GetProperty("encoding").GetString()!,
+            Delimiter = value.GetProperty("delimiter").GetString()!,
+            HasHeader = value.GetProperty("hasHeader").GetBoolean()
+        };
+        if (value.TryGetProperty("timestampUnit", out var timestampUnit))
+            message.TimestampUnit = timestampUnit.GetString()!;
+        int count = item.TryGetProperty("columnsCount", out var countElement)
+            ? countElement.GetInt32()
+            : value.GetProperty("columns").GetArrayLength();
+        var channelId = JsonParser.Default.Parse<Id>(columnTemplate.GetProperty("channelId").GetRawText());
+        for (int index = 0; index < count; index++)
+        {
+            message.Columns.Add(new CsvColumn
+            {
+                Column = (uint)index,
+                ChannelId = channelId.Clone(),
+                Type = columnTemplate.GetProperty("type").GetString()!,
+                Unit = columnTemplate.GetProperty("unit").GetString()!
+            });
+        }
+        return message;
+    }
+
+    private static bool GeneratorParametersValid(JsonElement value)
+    {
+        string kind = value.GetProperty("kind").GetString()!;
+        bool periodic = kind is "sine" or "square" or "triangle" or "sawtooth";
+        if (periodic && (!value.TryGetProperty("frequencyHz", out var frequency)
+            || !double.IsFinite(frequency.GetDouble()) || frequency.GetDouble() <= 0))
+            return false;
+        if (kind == "square" && (!value.TryGetProperty("dutyRatio", out var duty)
+            || !double.IsFinite(duty.GetDouble()) || duty.GetDouble() <= 0 || duty.GetDouble() >= 1))
+            return false;
+        return true;
+    }
+
     private static string[] ExpectedFields(JsonElement value) => Strings(value).Select(name => name.EndsWith("?", StringComparison.Ordinal) ? name[..^1] : name).ToArray();
 
     private static string[] Strings(JsonElement value) => value.EnumerateArray().Select(item => item.GetString()!).ToArray();
@@ -221,9 +293,9 @@ internal static class SimulationCases
     private static string[] VectorIds(JsonElement value) => value.EnumerateArray()
         .Select(item => item.GetProperty("id").GetString()!).ToArray();
 
-    private static bool TryValid<T>(JsonElement value, MessageParser<T> parser, Func<T, bool> validate) where T : IMessage<T>
+    private static bool TryValid<T>(JsonElement value, Func<T, bool> validate) where T : IMessage<T>
     {
-        try { return validate(parser.Parse(value.GetRawText())); }
+        try { return validate(JsonParser.Default.Parse<T>(value.GetRawText())); }
         catch (InvalidProtocolBufferException) { return false; }
         catch (InvalidJsonException) { return false; }
         catch (FormatException) { return false; }

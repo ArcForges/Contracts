@@ -203,9 +203,9 @@
         },
         "offset": { "finite": true },
         "amplitude": { "finite": true },
-        "frequencyHz": { "finite": true, "min": 0 },
+        "frequencyHz": { "finite": true, "min": 5e-324 },
         "phaseCycles": { "finite": true },
-        "dutyRatio": { "finite": true },
+        "dutyRatio": { "finite": true, "min": 5e-324, "max": 0.9999999999999999 },
         "walkStep": { "finite": true },
         "pulses": {},
         "steps": {}
@@ -251,17 +251,22 @@
         "probabilityPpm": { "required": true, "min": 0, "max": 1000000 },
         "delayTicks": {},
         "amount": { "finite": true },
-        "reorderWindow": { "min": 1 }
+        "reorderWindow": { "min": 1, "max": 1024 }
       }
     },
     "arcforges.simulation.v1.CsvReplaySchema": {
       "csharpType": "ArcForges.Contracts.Simulation.V1.CsvReplaySchema",
       "fields": {
-        "encoding": { "required": true, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" },
-        "delimiter": { "required": true, "maxLength": 16 },
+        "encoding": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["utf8"]
+        },
+        "delimiter": { "required": true, "maxLength": 16, "enumValues": [",", "\t", ";"] },
         "hasHeader": { "required": true },
         "timestampColumn": {},
-        "columns": { "maxItems": 64 },
+        "columns": { "maxItems": 4096 },
         "timestampUnit": { "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$" }
       }
     },

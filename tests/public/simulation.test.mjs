@@ -9,6 +9,7 @@ import {
   AstNodeSchema,
   CsvReplaySchemaSchema,
   FaultSpecSchema,
+  GeneratorSpecSchema,
   PulseSpecSchema,
   SimulationProfileSchema,
   SimulationRunSchema,
@@ -22,6 +23,7 @@ const fixture = JSON.parse(
 const operationMetadata = JSON.parse(
   readFileSync(new URL("../../eng/operations/con-21.json", import.meta.url), "utf8"),
 );
+const periodicGeneratorKinds = new Set(["sine", "square", "triangle", "sawtooth"]);
 
 function tryShape(schema, validate, value) {
   try {
@@ -29,6 +31,27 @@ function tryShape(schema, validate, value) {
   } catch {
     return false;
   }
+}
+
+function generatorParametersValid(value) {
+  if (
+    periodicGeneratorKinds.has(value.kind) &&
+    (!Object.hasOwn(value, "frequencyHz") ||
+      !Number.isFinite(value.frequencyHz) ||
+      value.frequencyHz <= 0)
+  ) {
+    return false;
+  }
+  if (
+    value.kind === "square" &&
+    (!Object.hasOwn(value, "dutyRatio") ||
+      !Number.isFinite(value.dutyRatio) ||
+      value.dutyRatio <= 0 ||
+      value.dutyRatio >= 1)
+  ) {
+    return false;
+  }
+  return true;
 }
 
 test("generated SimulationService catalogue is exactly the independent 13-operation fixture", () => {
@@ -199,13 +222,25 @@ test("Registry04 scalar presence and optionality vectors use generated simulatio
         "fault-channel-omitted-accepted",
         "fault-missing-everyTicks-refused",
         "fault-missing-probabilityPpm-refused",
+        "fault-reorder-window-minimum-accepted",
+        "fault-reorder-window-maximum-accepted",
+        "fault-reorder-window-zero-refused",
+        "fault-reorder-window-1025-refused",
       ],
     ],
     [
       "csvReplaySchema",
       CsvReplaySchemaSchema,
       shapes.isCsvReplaySchema,
-      ["csv-timestampUnit-omitted-accepted"],
+      [
+        "csv-timestampUnit-omitted-accepted",
+        "csv-tab-delimiter-accepted",
+        "csv-semicolon-delimiter-accepted",
+        "csv-unsupported-encoding-refused",
+        "csv-unsupported-delimiter-refused",
+        "csv-4096-columns-accepted",
+        "csv-4097-columns-refused",
+      ],
     ],
   ];
   for (const [key, schema, validate, expectedIds] of groups) {
@@ -216,10 +251,20 @@ test("Registry04 scalar presence and optionality vectors use generated simulatio
       `${key}: exact presence vectors`,
     );
     for (const item of entries) {
-      const valid = tryShape(schema, validate, item.value);
+      const value =
+        key === "csvReplaySchema"
+          ? {
+              ...item.value,
+              columns: Array.from(
+                { length: item.columnsCount ?? item.value.columns.length },
+                (_, column) => ({ ...fixture.csvColumnTemplate, column }),
+              ),
+            }
+          : item.value;
+      const valid = tryShape(schema, validate, value);
       assert.equal(valid, item.valid, item.id);
       if (!valid) continue;
-      const message = fromJson(schema, item.value);
+      const message = fromJson(schema, value);
       const bytes = toBinary(schema, message);
       assert.deepEqual(
         toBinary(schema, fromBinary(schema, bytes)),
@@ -227,6 +272,34 @@ test("Registry04 scalar presence and optionality vectors use generated simulatio
         `${item.id}: binary round-trip`,
       );
     }
+  }
+
+  const generatorVectors = fixture.generatorParameterVectors;
+  assert.deepEqual(
+    generatorVectors.map((item) => item.id),
+    [
+      "constant-frequency-omitted-accepted",
+      "sine-frequency-minimum-positive-accepted",
+      "sine-frequency-zero-refused",
+      "sine-frequency-omitted-refused-by-kind",
+      "triangle-frequency-positive-accepted",
+      "sawtooth-frequency-positive-accepted",
+      "square-duty-minimum-positive-accepted",
+      "square-duty-zero-refused",
+      "square-duty-maximum-below-one-accepted",
+      "square-duty-one-refused",
+      "square-duty-omitted-refused-by-kind",
+      "sine-duty-omitted-accepted",
+    ],
+  );
+  for (const item of generatorVectors) {
+    const shapeValid = tryShape(GeneratorSpecSchema, shapes.isGeneratorSpec, item.value);
+    assert.equal(shapeValid, item.shapeValid, `${item.id}: generated shape`);
+    assert.equal(
+      generatorParametersValid(item.value),
+      item.parameterValid,
+      `${item.id}: kind-specific parameters`,
+    );
   }
 });
 
