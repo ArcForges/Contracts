@@ -178,6 +178,12 @@ test("CON.11 generated RPC catalogues and all independently-authored descriptor 
     const binding = `${vector.service}/${vector.method}`;
     const method = methods.get(binding);
     assert.ok(method, `generated RPC exists: ${binding}`);
+    const expectedMethodKind = {
+      unary: "unary",
+      serverStreaming: "server_streaming",
+    }[vector.streamType];
+    assert.ok(expectedMethodKind, `known stream type: ${binding}`);
+    assert.equal(method.methodKind, expectedMethodKind, `stream type: ${binding}`);
     assert.equal(method.input.typeName.split(".").at(-1), vector.input, `request type: ${binding}`);
     assert.equal(
       method.output.typeName.split(".").at(-1),

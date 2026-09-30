@@ -358,9 +358,27 @@ test("generated service catalogue lists exactly the authored services", () => {
       "/arcforges.publicapi.v1.ScopeService/GetSession",
     ],
   };
+  const con11ServiceMethodCounts = [
+    ["arcforges.events.v1.ExecutionService", 5],
+    ["arcforges.events.v1.EventService", 2],
+    ["arcforges.publicapi.v1.ApplicationService", 3],
+    ["arcforges.publicapi.v1.HistoryService", 4],
+  ];
+  assert.deepEqual(
+    con11ServiceMethodCounts.map(([typeName]) => [
+      typeName,
+      fixture.services.methods[typeName]?.length ?? 0,
+    ]),
+    con11ServiceMethodCounts,
+  );
   const expectedServices = [
-    ...fixture.services.typescript["@arcforges/proto"],
+    "arcforges.hello.v1.HelloService",
+    "arcforges.events.v1.ExecutionService",
+    "arcforges.events.v1.EventService",
+    "arcforges.catalog.v1.CatalogService",
     ...Object.keys(con08Methods),
+    "arcforges.publicapi.v1.ApplicationService",
+    "arcforges.publicapi.v1.HistoryService",
   ];
   assert.deepEqual(
     contractServices.map((service) => service.typeName),

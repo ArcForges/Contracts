@@ -56,7 +56,7 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.Locale
 
-/** Direct offline consumer of the independent CON.11 public and private fixtures. */
+/** Direct offline consumer of the independent CON.11 public fixture. */
 object Con11ApplicationStreamsCases {
     private val applicationMessages = setOf(
         "ApplicationPresence",
@@ -76,9 +76,6 @@ object Con11ApplicationStreamsCases {
     suspend fun run() {
         val root = repositoryRoot()
         val publicFixture = readPublicFixture()
-        val privateFixture = Files.newBufferedReader(root.resolve("fixtures/internal/con-11-run-stream.json"), Charsets.UTF_8).use {
-            JsonParser.parseReader(it).asJsonObject
-        }
         val operationExport = Files.newBufferedReader(root.resolve("eng/operations/con-11.json"), Charsets.UTF_8).use {
             JsonParser.parseReader(it).asJsonObject
         }
@@ -95,13 +92,13 @@ object Con11ApplicationStreamsCases {
         verifyCursorBoundaries(publicFixture, seen)
         verifyUInt64Boundaries(publicFixture, seen)
         verifyUnknownFieldBoundaries(publicFixture, seen)
-        verifyPrivateProjection(root, privateFixture, seen)
 
-        val allIds = fixtureIds(publicFixture, privateFixture)
-        requireCon11(allIds.size == allIds.toSet().size, "fixture vector IDs are globally unique")
+        val allIds = fixtureIds(publicFixture)
+        requireCon11(allIds.size == 81 && allIds.size == allIds.toSet().size,
+            "the public fixture contains exactly 81 unique vector IDs")
         requireCon11(seen.toSet() == allIds.toSet() && seen.size == allIds.size,
-            "every known public/private fixture vector is consumed exactly once and no unknown vector is accepted")
-        println("CON.11 Kotlin consumer verified ${seen.size} public/private fixture vectors and 14 generated Connect method specs.")
+            "every known public fixture vector is consumed exactly once and no unknown vector is accepted")
+        println("CON.11 Kotlin consumer verified ${seen.size} public fixture vectors and 14 generated Connect method specs.")
     }
 
     private fun readPublicFixture(): JsonObject {
@@ -114,7 +111,7 @@ object Con11ApplicationStreamsCases {
     private fun repositoryRoot(): Path {
         var candidate = Path.of("").toAbsolutePath().normalize()
         while (true) {
-            if (Files.isRegularFile(candidate.resolve("fixtures/internal/con-11-run-stream.json"))) return candidate
+            if (Files.isRegularFile(candidate.resolve("eng/operations/con-11.json"))) return candidate
             candidate = candidate.parent ?: break
         }
         throw IllegalStateException("CON.11 internal fixture is not reachable from the Kotlin test working directory")
@@ -500,92 +497,6 @@ object Con11ApplicationStreamsCases {
         }
     }
 
-    private fun verifyPrivateProjection(root: Path, fixture: JsonObject, seen: MutableSet<String>) {
-        val rpcVectors = fixture.getAsJsonArray("rpcVectors")
-        requireCon11(rpcVectors.size() == 1, "fixture declares exactly one private RunStream RPC")
-        val vector = rpcVectors.single().asJsonObject
-        consume(vector, seen)
-        requireCon11(string(vector, "service") == "arcforges.cf.v1.RunStreamService"
-            && string(vector, "method") == "Run" && string(vector, "input") == "RunStreamRequest"
-            && string(vector, "output") == "arcforges.events.v1.StreamFrame"
-            && string(vector, "streamType") == "serverStreaming"
-            && fieldPairs(vector.getAsJsonArray("requestFields")) == listOf("execution" to 1, "attemptId" to 2, "generation" to 3),
-            "private RunStream service, projection request tags, and shared public StreamFrame output")
-
-        val boundary = fixture.getAsJsonObject("importBoundary")
-        requireCon11(string(boundary, "privatePackage") == "arcforges.cf.v1"
-            && boundary.getAsJsonArray("allowedPublicDependencies").map { it.asString }.toSet()
-                == setOf("arcforges.foundation.v1", "arcforges.publicapi.v1", "arcforges.events.v1")
-            && boundary.get("publicPackagesMustNotImportPrivatePackage").asBoolean,
-            "RunStream private/public import-boundary declaration")
-        checkPrivateProtoContract(root, vector)
-
-        val publicFrame = StreamFrame::class.java
-        val privateAllowed = setOf("output", "reset", "heartbeat")
-        for (entry in fixture.getAsJsonArray("runStreamFrameVariants")) {
-            val variant = entry.asJsonObject
-            consume(variant, seen)
-            val field = string(variant, "field")
-            val tag = variant.get("tag").asInt
-            requireCon11(fieldNumber(publicFrame, field) == tag
-                && caseEntries(publicFrame, "frame").any { it == field to tag },
-                "private RunStream references the public StreamFrame alternative: ${string(variant, "id")}")
-            requireCon11(variant.get("allowed").asBoolean == (field in privateAllowed),
-                "private producer admits only output/reset/heartbeat: ${string(variant, "id")}")
-        }
-
-        val limit = fixture.getAsJsonObject("limits").get("encodedFrameBytes").asInt
-        requireCon11(fixture.getAsJsonObject("limits").get("outputChunkBytes").asInt == 32768,
-            "private RunStream reuses the public 32 KiB encoded OutputChunk cap")
-        for (entry in fixture.getAsJsonArray("encodedFrameBoundaryVectors")) {
-            val boundaryVector = entry.asJsonObject
-            consume(boundaryVector, seen)
-            val target = boundaryVector.get("serializedBytes").asInt
-            val frame = createFrame(target)
-            requireCon11(boundaryVector.get("limit").asInt == limit && frame.toByteArray().size == target
-                && (target <= limit) == boundaryVector.get("valid").asBoolean,
-                "private encoded StreamFrame boundary: ${string(boundaryVector, "id")}")
-        }
-    }
-
-    private fun checkPrivateProtoContract(root: Path, vector: JsonObject) {
-        val privateProto = Files.readString(root.resolve("internal/proto/arcforges/cf/v1/stream.proto"))
-        val publicEventsProto = Files.readString(root.resolve("public/proto/arcforges/events/v1/events.proto"))
-        val importRegex = Regex("(?m)^\\s*import\\s+\"([^\"]+)\"\\s*;")
-        val privateImports = importRegex.findAll(privateProto).map { it.groupValues[1] }.toSet()
-        requireCon11(privateImports == setOf(
-            "arcforges/foundation/v1/foundation.proto",
-            "arcforges/publicapi/v1/chat.proto",
-            "arcforges/events/v1/events.proto",
-        ), "private RunStream imports only its required foundation/publicapi/events files")
-        requireCon11(importRegex.findAll(publicEventsProto).none { it.groupValues[1].contains("/cf/")
-            || it.groupValues[1].contains("/internal/") }, "public event schema never imports the private projection")
-
-        val serviceNames = Regex("(?m)^\\s*service\\s+([A-Za-z_]\\w*)\\s*\\{")
-            .findAll(privateProto).map { it.groupValues[1] }.toList()
-        requireCon11(serviceNames == listOf("RunStreamService"), "private file registers only RunStreamService")
-        val serviceBody = Regex("(?s)service\\s+RunStreamService\\s*\\{(.*?)\\}")
-            .find(privateProto)?.groupValues?.get(1)
-        requireCon11(serviceBody != null && Regex(
-            "(?m)^\\s*rpc\\s+Run\\s*\\(\\s*RunStreamRequest\\s*\\)\\s+returns\\s*\\(\\s*stream\\s+arcforges\\.events\\.v1\\.StreamFrame\\s*\\)\\s*;",
-        ).containsMatchIn(serviceBody), "private RunStream source declares the fixture's server-streaming method")
-        val requestBody = Regex("(?s)message\\s+RunStreamRequest\\s*\\{(.*?)\\}")
-            .find(privateProto)?.groupValues?.get(1)
-        requireCon11(requestBody != null, "private RunStreamRequest source exists")
-        requireCon11(Regex("(?m)^\\s*optional\\s+uint64\\s+generation\\s*=\\s*3\\b")
-            .containsMatchIn(requestBody!!), "private generation preserves explicit proto3 presence")
-        val sourceFields = Regex("(?m)^\\s*(?:optional\\s+)?[A-Za-z0-9_.]+\\s+([A-Za-z_]\\w*)\\s*=\\s*(\\d+)(?:\\s*\\[([^\\]]*)\\])?\\s*;")
-            .findAll(requestBody!!)
-            .map { match ->
-                val declaredName = match.groupValues[1]
-                val jsonName = Regex("json_name\\s*=\\s*\"([^\"]+)\"")
-                    .find(match.groupValues[3])?.groupValues?.get(1) ?: camel(declaredName)
-                jsonName to match.groupValues[2].toInt()
-            }.toList()
-        requireCon11(sourceFields == fieldPairs(vector.getAsJsonArray("requestFields")),
-            "private RunStream source fields/tags match its independent fixture")
-    }
-
     private fun buildArchiveRecordBytes(target: Int): ByteArray {
         fun build(textLength: Int): ByteArray {
             val message = MessageView.newBuilder()
@@ -735,7 +646,7 @@ object Con11ApplicationStreamsCases {
         pair[0].asString to pair[1].asInt
     }
 
-    private fun fixtureIds(publicFixture: JsonObject, privateFixture: JsonObject): List<String> = buildList {
+    private fun fixtureIds(publicFixture: JsonObject): List<String> = buildList {
         fun addVectors(array: JsonArray) = array.forEach { add(string(it.asJsonObject, "id")) }
         fun addBoundaryGroups(groups: JsonObject) = groups.entrySet().forEach { addVectors(it.value.asJsonArray) }
         addVectors(publicFixture.getAsJsonArray("rpcVectors"))
@@ -748,9 +659,6 @@ object Con11ApplicationStreamsCases {
         addVectors(publicFixture.getAsJsonArray("uint64BoundaryVectors"))
         addVectors(publicFixture.getAsJsonArray("unknownFieldVectors"))
         addVectors(publicFixture.getAsJsonArray("presenceBoundaryVectors"))
-        addVectors(privateFixture.getAsJsonArray("rpcVectors"))
-        addVectors(privateFixture.getAsJsonArray("runStreamFrameVariants"))
-        addVectors(privateFixture.getAsJsonArray("encodedFrameBoundaryVectors"))
     }
 
     private fun consume(vector: JsonObject, seen: MutableSet<String>) {

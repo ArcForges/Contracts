@@ -74,15 +74,15 @@ internal static class Con11ApplicationStreamsCases
             if (operationId == "events.poll")
             {
                 var auth = row.GetProperty("authorization");
-                var profile = publicFixture.RootElement.GetProperty("pollProfile");
-                Require(S(row, "scope") == S(profile, "scope") && S(row, "idempotency") == S(profile, "idempotency")
-                    && S(auth, "egress") == S(profile, "egress") && S(auth, "risk") == S(profile, "risk")
-                    && S(auth, "approval") == S(profile, "approval") && auth.GetProperty("capability").ValueKind == JsonValueKind.Null
-                    && auth.GetProperty("stepUp").GetBoolean() == profile.GetProperty("stepUp").GetBoolean()
-                    && auth.GetProperty("localPresence").GetBoolean() == profile.GetProperty("localPresence").GetBoolean()
-                    && auth.GetProperty("patEligible").GetBoolean() == profile.GetProperty("patEligible").GetBoolean()
+                var pollProfile = publicFixture.RootElement.GetProperty("pollProfile");
+                Require(S(row, "scope") == S(pollProfile, "scope") && S(row, "idempotency") == S(pollProfile, "idempotency")
+                    && S(auth, "egress") == S(pollProfile, "egress") && S(auth, "risk") == S(pollProfile, "risk")
+                    && S(auth, "approval") == S(pollProfile, "approval") && auth.GetProperty("capability").ValueKind == JsonValueKind.Null
+                    && auth.GetProperty("stepUp").GetBoolean() == pollProfile.GetProperty("stepUp").GetBoolean()
+                    && auth.GetProperty("localPresence").GetBoolean() == pollProfile.GetProperty("localPresence").GetBoolean()
+                    && auth.GetProperty("patEligible").GetBoolean() == pollProfile.GetProperty("patEligible").GetBoolean()
                     && auth.GetProperty("actorKinds").EnumerateArray().Select(x => x.GetString())
-                        .SequenceEqual(profile.GetProperty("actorKinds").EnumerateArray().Select(x => x.GetString())),
+                        .SequenceEqual(pollProfile.GetProperty("actorKinds").EnumerateArray().Select(x => x.GetString())),
                     "Poll export and independent fixture agree on the exact eight-field resource-owner profile");
                 Require(S(publicFixture.RootElement.GetProperty("pollProfile"), "noCursor") == "emptyPageWithSignedHighWaterCursorAndResetRequired",
                     "Poll no-cursor repair profile");
@@ -120,7 +120,7 @@ internal static class Con11ApplicationStreamsCases
             CheckFields(message, expectedFields, S(vector, "id"));
             if (vector.TryGetProperty("presenceFields", out var presenceFields))
                 foreach (var fieldName in presenceFields.EnumerateArray().Select(x => x.GetString()!))
-                    Require(message.Fields.Single(x => x.JsonName == fieldName).HasPresence,
+                    Require(message.Fields.InDeclarationOrder().Single(x => x.JsonName == fieldName).HasPresence,
                         "fixture preserves explicit protobuf presence: " + S(vector, "id") + "/" + fieldName);
             if (vector.TryGetProperty("oneofFields", out var groups))
                 foreach (var group in groups.EnumerateObject())
@@ -137,7 +137,7 @@ internal static class Con11ApplicationStreamsCases
         {
             Consume(vector, seen);
             var eventMessage = FindMessage("Event");
-            var field = eventMessage.Fields.Single(x => x.JsonName == S(vector, "field"));
+            var field = eventMessage.Fields.InDeclarationOrder().Single(x => x.JsonName == S(vector, "field"));
             Require(field.FieldNumber == vector.GetProperty("tag").GetInt32()
                 && field.ContainingOneof?.Name == "payload"
                 && field.MessageType?.Name == S(vector, "message"), "Registry04 event tag/type/oneof: " + S(vector, "id"));
@@ -204,7 +204,7 @@ internal static class Con11ApplicationStreamsCases
                 && method.OutputType.FullName == S(vector, "output")
                 && !method.IsClientStreaming && method.IsServerStreaming, "private RunStream descriptor");
             CheckFields(method.InputType, vector.GetProperty("requestFields"), S(vector, "id"));
-            Require(method.InputType.Fields.Single(x => x.JsonName == "generation").HasPresence,
+            Require(method.InputType.Fields.InDeclarationOrder().Single(x => x.JsonName == "generation").HasPresence,
                 "private generation uses proto3 optional presence");
             var run = constraints.GetProperty("messages").GetProperty("arcforges.cf.v1.RunStreamRequest").GetProperty("fields");
             Require(run.GetProperty("generation").GetProperty("required").GetBoolean()
@@ -223,7 +223,7 @@ internal static class Con11ApplicationStreamsCases
         foreach (var vector in fixture.GetProperty("runStreamFrameVariants").EnumerateArray())
         {
             Consume(vector, seen);
-            var field = stream.Fields.Single(x => x.JsonName == S(vector, "field"));
+            var field = stream.Fields.InDeclarationOrder().Single(x => x.JsonName == S(vector, "field"));
             Require(field.FieldNumber == vector.GetProperty("tag").GetInt32() && field.ContainingOneof?.Name == "frame",
                 "private stream uses the public StreamFrame field: " + S(vector, "id"));
             var expectedAllowed = S(vector, "field") is "output" or "reset" or "heartbeat";
@@ -348,7 +348,7 @@ internal static class Con11ApplicationStreamsCases
                 case "stream-position-required-default-presence":
                 {
                     var wire = new E.StreamPosition { Cursor = "", Sequence = 0, Generation = 0 }.ToByteArray();
-                    Require(wire.SequenceEqual([0x0a, 0x00, 0x10, 0x00, 0x18, 0x00]),
+                    Require(wire.SequenceEqual(new byte[] { 0x0a, 0x00, 0x10, 0x00, 0x18, 0x00 }),
                         "required StreamPosition default values serialize at tags 1/2/3");
                     var parsed = E.StreamPosition.Parser.ParseFrom(wire);
                     Require(parsed.HasCursor && parsed.Cursor == "" && parsed.HasSequence && parsed.Sequence == 0
@@ -361,7 +361,7 @@ internal static class Con11ApplicationStreamsCases
                     var value = new E.EventServicePollValue { NextCursor = "", ResetRequired = false };
                     value.Events.Add(new E.Event());
                     var wire = value.ToByteArray();
-                    Require(wire.SequenceEqual([0x52, 0x00, 0x5a, 0x00, 0x60, 0x00]),
+                    Require(wire.SequenceEqual(new byte[] { 0x52, 0x00, 0x5a, 0x00, 0x60, 0x00 }),
                         "PollValue success fields serialize at tags 10/11/12");
                     var parsed = E.EventServicePollValue.Parser.ParseFrom(wire);
                     Require(parsed.Events.Count == 1 && parsed.HasNextCursor && parsed.NextCursor == ""
@@ -610,7 +610,7 @@ internal static class Con11ApplicationStreamsCases
             foreach (var field in message.Value.GetProperty("fields").EnumerateObject())
             {
                 if (!field.Value.TryGetProperty("required", out var required) || !required.GetBoolean()) continue;
-                var protoField = descriptor.Fields.Single(x => x.JsonName == field.Name);
+                var protoField = descriptor.Fields.InDeclarationOrder().Single(x => x.JsonName == field.Name);
                 if (!protoField.IsRepeated)
                     Require(protoField.HasPresence, "required field has protobuf presence: " + message.Name + "." + field.Name);
             }
@@ -665,7 +665,7 @@ internal static class Con11ApplicationStreamsCases
     private static void CheckFields(MessageDescriptor message, IEnumerable<(string Name, int Number)> expectedFields, string label)
     {
         var expected = expectedFields.OrderBy(x => x.Number).ToArray();
-        var actual = message.Fields.Select(field => (Name: field.JsonName, Number: field.FieldNumber))
+        var actual = message.Fields.InDeclarationOrder().Select(field => (Name: field.JsonName, Number: field.FieldNumber))
             .OrderBy(x => x.Number).ToArray();
         Require(actual.SequenceEqual(expected), "exact field set/names/tags: " + label);
     }
