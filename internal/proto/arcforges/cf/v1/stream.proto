@@ -21,5 +21,5 @@ service RunStreamService {
 message RunStreamRequest {
   arcforges.publicapi.v1.ExecutionOwner execution = 1 [json_name = "execution"];
   arcforges.foundation.v1.Id attempt_id = 2 [json_name = "attemptId"];
-  uint64 generation = 3 [json_name = "generation"];
+  optional uint64 generation = 3 [json_name = "generation"];
 }

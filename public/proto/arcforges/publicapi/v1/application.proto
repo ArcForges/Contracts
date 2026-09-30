@@ -61,7 +61,7 @@ message TransientTurnRequest {
   arcforges.foundation.v1.Id turn_id = 1 [json_name = "turnId"];
   arcforges.foundation.v1.Id branch_id = 2 [json_name = "branchId"];
   optional string request_hash = 3 [json_name = "requestHash"];
-  arcforges.publicapi.v1.HistoryMode mode = 4 [json_name = "mode"];
+  optional arcforges.publicapi.v1.HistoryMode mode = 4 [json_name = "mode"];
   repeated arcforges.publicapi.v1.MessagePart parts = 5 [json_name = "parts"];
   repeated arcforges.publicapi.v1.ContextRef context = 6 [json_name = "context"];
   arcforges.foundation.v1.Id profile_id = 7 [json_name = "profileId"];
@@ -86,7 +86,7 @@ message TranscriptWindow {
 message TranscriptMessage {
   arcforges.foundation.v1.Id message_id = 1 [json_name = "messageId"];
   optional uint64 ordinal = 2 [json_name = "ordinal"];
-  TranscriptRole role = 3 [json_name = "role"];
+  optional TranscriptRole role = 3 [json_name = "role"];
   repeated arcforges.publicapi.v1.MessagePart parts = 4 [json_name = "parts"];
   arcforges.foundation.v1.Id tool_call_id = 5 [json_name = "toolCallId"];
   arcforges.foundation.v1.Id tool_result_for = 6 [json_name = "toolResultFor"];
@@ -168,8 +168,8 @@ message ApplicationServiceListResponse {
   oneof outcome {
     ApplicationServiceListValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
   }
-  reserved 4;
   reserved 5 to 9;
 }
 
@@ -271,8 +271,8 @@ message HistoryServiceGetImportResponse {
   oneof outcome {
     HistoryServiceGetImportValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
   }
-  reserved 4;
   reserved 5 to 9;
 }
 

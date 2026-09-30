@@ -76,7 +76,7 @@ message SyncConflictRaised {
 
 message TaskStateChanged {
   arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
-  arcforges.publicapi.v1.TaskState state = 2 [json_name = "state"];
+  optional arcforges.publicapi.v1.TaskState state = 2 [json_name = "state"];
   optional string reason = 3 [json_name = "reason"];
   arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
 }
@@ -103,7 +103,7 @@ message ApprovalRaised {
 
 message ApprovalResolved {
   arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
-  arcforges.publicapi.v1.ApprovalDecision decision = 2 [json_name = "decision"];
+  optional arcforges.publicapi.v1.ApprovalDecision decision = 2 [json_name = "decision"];
 }
 
 message ApplicationPresenceChanged {
@@ -261,8 +261,8 @@ message ExecutionServiceReadOutputResponse {
   oneof outcome {
     ExecutionServiceReadOutputValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
   }
-  reserved 4;
   reserved 5 to 9;
 }
 
@@ -329,8 +329,8 @@ message EventServicePollResponse {
   oneof outcome {
     EventServicePollValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
   }
-  reserved 4;
   reserved 5 to 9;
 }
 

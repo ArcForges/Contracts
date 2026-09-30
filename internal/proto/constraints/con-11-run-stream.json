@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.cf.v1.RunStreamRequest": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamRequest",
+      "fields": {
+        "execution": { "required": true },
+        "attemptId": { "required": true },
+        "generation": { "required": true }
+      }
+    }
+  }
+}
