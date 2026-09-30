@@ -59,10 +59,30 @@
         "projectRevision": 4,
         "projectUpdatedAt": { "unixSeconds": "1790593200", "nanos": 120000000 },
         "sessionsInListSnapshot": [
-          { "sessionIdHex": "ffeeddccbbaa99887766554433221100", "live": true, "visible": true, "revision": 81 },
-          { "sessionIdHex": "00112233445566778899aabbccddeefe", "live": true, "visible": true, "revision": 82 },
-          { "sessionIdHex": "00112233445566778899aabbccddeefd", "live": true, "visible": false, "revision": 83 },
-          { "sessionIdHex": "00112233445566778899aabbccddeefc", "live": false, "visible": true, "revision": 84 }
+          {
+            "sessionIdHex": "ffeeddccbbaa99887766554433221100",
+            "live": true,
+            "visible": true,
+            "revision": 81
+          },
+          {
+            "sessionIdHex": "00112233445566778899aabbccddeefe",
+            "live": true,
+            "visible": true,
+            "revision": 82
+          },
+          {
+            "sessionIdHex": "00112233445566778899aabbccddeefd",
+            "live": true,
+            "visible": false,
+            "revision": 83
+          },
+          {
+            "sessionIdHex": "00112233445566778899aabbccddeefc",
+            "live": false,
+            "visible": true,
+            "revision": 84
+          }
         ]
       },
       "expected": {
@@ -79,9 +99,21 @@
       "operationId": "scope.listProjects",
       "source": {
         "projects": [
-          { "projectIdHex": "00000000000000000000000000000001", "updatedAt": { "unixSeconds": "1790593200", "nanos": 0 }, "hasVisibleLiveSessions": true },
-          { "projectIdHex": "00000000000000000000000000000002", "updatedAt": { "unixSeconds": "1790593200", "nanos": 0 }, "hasVisibleLiveSessions": true },
-          { "projectIdHex": "00000000000000000000000000000003", "updatedAt": { "unixSeconds": "1790593200", "nanos": 0 }, "hasVisibleLiveSessions": false }
+          {
+            "projectIdHex": "00000000000000000000000000000001",
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 0 },
+            "hasVisibleLiveSessions": true
+          },
+          {
+            "projectIdHex": "00000000000000000000000000000002",
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 0 },
+            "hasVisibleLiveSessions": true
+          },
+          {
+            "projectIdHex": "00000000000000000000000000000003",
+            "updatedAt": { "unixSeconds": "1790593200", "nanos": 0 },
+            "hasVisibleLiveSessions": false
+          }
         ]
       },
       "expectedProjectIdsHex": [
