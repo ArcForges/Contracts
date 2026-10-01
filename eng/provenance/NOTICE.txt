@@ -20,8 +20,8 @@ Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
-contract-bindings-con-15-r1
-Source: https://github.com/ArcForges/Contracts @ af6f0b18df142421d9cd93ee765b9b130a36101a
+contract-bindings-con-14-r1
+Source: https://github.com/ArcForges/Contracts @ 4eb54a2f7fcad194a041bb98d0293cf77514d41f
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -29,7 +29,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. CON.15 adds only the authorized private Cloudflare HTTP and D1 ExecutePlan shape/validation bindings in the existing internal packages; it adds no runtime authorization or handler behavior and no new generator or third-party package.
+Generated Contracts source remains Apache-2.0. CON.14 adds only the authorized internal OperatorService contract, its typed proposal records and generated C#, TypeScript and shape-validation bindings; it adds no runtime authorization or handler behavior and no new generator or third-party package.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00

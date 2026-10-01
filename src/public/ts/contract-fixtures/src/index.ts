@@ -82742,6 +82742,7 @@ export const publicFixtures = {
           "arcforges.events.v1.EventService"
         ],
         "ArcForges.Contracts.CloudInternal": [
+          "arcforges.operator.v1.OperatorService",
           "arcforges.cf.v1.RunStreamService"
         ],
         "ArcForges.Sdk.Contracts": [
@@ -82974,6 +82975,39 @@ export const publicFixtures = {
         ],
         "arcforges.cf.v1.RunStreamService": [
           "/arcforges.cf.v1.RunStreamService/Run"
+        ],
+        "arcforges.operator.v1.OperatorService": [
+          "/arcforges.operator.v1.OperatorService/ListCases",
+          "/arcforges.operator.v1.OperatorService/GetCase",
+          "/arcforges.operator.v1.OperatorService/RequestAccess",
+          "/arcforges.operator.v1.OperatorService/ApproveAccess",
+          "/arcforges.operator.v1.OperatorService/EndAccess",
+          "/arcforges.operator.v1.OperatorService/ReadDiagnostic",
+          "/arcforges.operator.v1.OperatorService/ProposeEnforcement",
+          "/arcforges.operator.v1.OperatorService/DecideEnforcement",
+          "/arcforges.operator.v1.OperatorService/GetAppeal",
+          "/arcforges.operator.v1.OperatorService/ResolveAppeal",
+          "/arcforges.operator.v1.OperatorService/StageConfiguration",
+          "/arcforges.operator.v1.OperatorService/ValidateConfiguration",
+          "/arcforges.operator.v1.OperatorService/ApproveConfiguration",
+          "/arcforges.operator.v1.OperatorService/ActivateConfiguration",
+          "/arcforges.operator.v1.OperatorService/GetConfiguration",
+          "/arcforges.operator.v1.OperatorService/SetKillSwitch",
+          "/arcforges.operator.v1.OperatorService/StartBreakGlass",
+          "/arcforges.operator.v1.OperatorService/EndBreakGlass",
+          "/arcforges.operator.v1.OperatorService/ProposeAction",
+          "/arcforges.operator.v1.OperatorService/ApproveAction",
+          "/arcforges.operator.v1.OperatorService/GetProposal",
+          "/arcforges.operator.v1.OperatorService/GrantEntitlement",
+          "/arcforges.operator.v1.OperatorService/RevokeEntitlement",
+          "/arcforges.operator.v1.OperatorService/IssueCompensation",
+          "/arcforges.operator.v1.OperatorService/AdjustCompensation",
+          "/arcforges.operator.v1.OperatorService/DecideRefund",
+          "/arcforges.operator.v1.OperatorService/GetCatalogSubmission",
+          "/arcforges.operator.v1.OperatorService/ReplyCase",
+          "/arcforges.operator.v1.OperatorService/SetCaseState",
+          "/arcforges.operator.v1.OperatorService/ReviewCatalogSubmission",
+          "/arcforges.operator.v1.OperatorService/RevokeCatalogVersion"
         ]
       }
     }

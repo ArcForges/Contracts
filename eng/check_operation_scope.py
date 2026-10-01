@@ -110,6 +110,8 @@ CON11_PRIVATE_RUN_STREAM = {
         "requestFields": [["execution", 1], ["attemptId", 2], ["generation", 3]],
     },
 }
+OPERATOR_BREAK_GLASS_BINDING = ("operator.startBreakGlass", "arcforges.operator.v1.OperatorService/StartBreakGlass",
+                                "internal/proto/arcforges/operator/v1/operator.proto")
 HUMAN_ONLY = {"approval.decide", "IChatOperations.SubmitApproval", "source.createConsent",
               "source.revokeConsent", "source.setPolicy", "source.clearPolicy", "preference.put",
               "connector.beginConnection", "connector.completeConnection", "connector.revokeConnection",
@@ -301,8 +303,17 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
         row["profile"] == "human-owner" and row["sourceRule"] == TASK_CREATE_SOURCE_RULE and
         row["idempotency"] == "CC" and auth["risk"] == "R2+" and auth["actorKinds"] == ["human"]
     )
-    require("risk" in derived or auth["risk"] in {"R0", "R1", "R2", "R3"} or task_create_r2plus,
-            f"{operation}: unclassified risk")
+    # Registry04 9.1 assigns the SE-only incident-bound break-glass start R4. This closed exception
+    # is exact: no other operator or public operation may use R4.
+    operator_break_glass_r4 = (
+        operation == OPERATOR_BREAK_GLASS_BINDING[0] and auth["risk"] == "R4" and
+        row["binding"] == OPERATOR_BREAK_GLASS_BINDING[1] and row["kind"] == "proto" and
+        row["source"] == OPERATOR_BREAK_GLASS_BINDING[2] and row["scope"] == "operator" and
+        row["surface"] == "operator" and row["profile"] == "operator" and row["idempotency"] == "CC" and
+        auth["actorKinds"] == ["operator"] and auth["localPresence"] is False and auth["stepUp"] is True
+    )
+    require("risk" in derived or auth["risk"] in {"R0", "R1", "R2", "R3"} or task_create_r2plus or
+            operator_break_glass_r4, f"{operation}: unclassified risk")
     for field in ("approval", "egress"):
         require(field in derived or (isinstance(auth[field], str) and re.fullmatch(r"[A-Za-z][A-Za-z0-9.-]*", auth[field])
                 and auth[field].lower() not in {"pending", "unknown", "default", "tbd"}), f"{operation}: unclassified {field}")

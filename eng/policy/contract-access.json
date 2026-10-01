@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-09-30",
+  "reviewedOn": "2026-10-01",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "d29ca2156f33d18052bb448ecc86661d96f30610",
+  "sourceCommit": "4eb54a2f7fcad194a041bb98d0293cf77514d41f",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -42,7 +42,7 @@
     {
       "path": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal",
-      "sha256": "30e9f7ef3124839417839a25f7be2a43a954947d688387cea4faff09ddcf66e8"
+      "sha256": "fd5b7e820e7962bec3f5286f72c086974ac900caa518e3b0c2c3301946e0dd67"
     },
     {
       "path": "public/proto/arcforges/catalog/v1/catalog.proto",
@@ -2400,8 +2400,704 @@
       "access": "internal"
     },
     {
+      "name": "arcforges.operator.v1.ConfigurationDocument",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.ConfigValidation",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorAccess",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorAction",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorAdjustCreditInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorAppealInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
       "name": "arcforges.operator.v1.OperatorCallContext",
       "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorCatalogReviewInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorCatalogRevokeInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorGrantInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorGrantKind",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorGrantSource",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorIssueCreditInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorKillInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorMutation",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorProposal",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorProposalRef",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorProposalState",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorRefundDecision",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorRefundInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorResult",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorRevokeGrantInput",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorService",
+      "kind": "service",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceActivateConfigurationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceActivateConfigurationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceActivateConfigurationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceAdjustCompensationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceAdjustCompensationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceAdjustCompensationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveAccessRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveAccessResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveAccessValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveActionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveActionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveActionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveConfigurationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveConfigurationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceApproveConfigurationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceDecideEnforcementRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceDecideEnforcementResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceDecideEnforcementValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceDecideRefundRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceDecideRefundResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceDecideRefundValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceEndAccessRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceEndAccessResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceEndAccessValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceEndBreakGlassRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceEndBreakGlassResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceEndBreakGlassValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetAppealRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetAppealResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetAppealValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetCaseRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetCaseResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetCaseValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetCatalogSubmissionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetCatalogSubmissionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetCatalogSubmissionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetConfigurationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetConfigurationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetConfigurationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetProposalRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetProposalResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGetProposalValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGrantEntitlementRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGrantEntitlementResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceGrantEntitlementValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceIssueCompensationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceIssueCompensationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceIssueCompensationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceListCasesRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceListCasesResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceListCasesValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceProposeActionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceProposeActionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceProposeActionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceProposeEnforcementRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceProposeEnforcementResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceProposeEnforcementValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReadDiagnosticRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReadDiagnosticResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReadDiagnosticValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReplyCaseRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReplyCaseResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReplyCaseValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRequestAccessRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRequestAccessResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRequestAccessValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceResolveAppealRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceResolveAppealResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceResolveAppealValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRevokeCatalogVersionRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRevokeCatalogVersionResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRevokeCatalogVersionValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRevokeEntitlementRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRevokeEntitlementResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceRevokeEntitlementValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceSetCaseStateRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceSetCaseStateResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceSetCaseStateValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceSetKillSwitchRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceSetKillSwitchResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceSetKillSwitchValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceStageConfigurationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceStageConfigurationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceStageConfigurationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceStartBreakGlassRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceStartBreakGlassResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceStartBreakGlassValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceValidateConfigurationRequest",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceValidateConfigurationResponse",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.OperatorServiceValidateConfigurationValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/operator/v1/operator.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.operator.v1.SupportCaseState",
+      "kind": "enum",
       "file": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal"
     },
@@ -6191,8 +6887,207 @@
       "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Proto/Operator.cs",
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
-      "types": ["OperatorReflection", "OperatorCallContext", "context_", "ContextOneofCase"],
-      "sha256": "e10c60c0576825a17c26ed03b07bf45ad0e98ca93763a578d3fdd46613938cae",
+      "types": [
+        "OperatorReflection",
+        "OperatorProposalState",
+        "OperatorRefundDecision",
+        "OperatorGrantSource",
+        "OperatorGrantKind",
+        "SupportCaseState",
+        "OperatorCallContext",
+        "context_",
+        "ContextOneofCase",
+        "OperatorProposalRef",
+        "OperatorAccess",
+        "OperatorAction",
+        "OperatorGrantInput",
+        "OperatorRevokeGrantInput",
+        "OperatorIssueCreditInput",
+        "OperatorAdjustCreditInput",
+        "OperatorRefundInput",
+        "OperatorCatalogReviewInput",
+        "OperatorCatalogRevokeInput",
+        "OperatorAppealInput",
+        "OperatorKillInput",
+        "OperatorMutation",
+        "mutation_",
+        "MutationOneofCase",
+        "OperatorProposal",
+        "ConfigurationDocument",
+        "OperatorResult",
+        "result_",
+        "ResultOneofCase",
+        "ConfigValidation",
+        "OperatorServiceListCasesRequest",
+        "OperatorServiceListCasesValue",
+        "OperatorServiceListCasesResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceGetCaseRequest",
+        "OperatorServiceGetCaseValue",
+        "OperatorServiceGetCaseResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceRequestAccessRequest",
+        "OperatorServiceRequestAccessValue",
+        "OperatorServiceRequestAccessResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceApproveAccessRequest",
+        "OperatorServiceApproveAccessValue",
+        "OperatorServiceApproveAccessResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceEndAccessRequest",
+        "OperatorServiceEndAccessValue",
+        "OperatorServiceEndAccessResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceReadDiagnosticRequest",
+        "OperatorServiceReadDiagnosticValue",
+        "OperatorServiceReadDiagnosticResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceProposeEnforcementRequest",
+        "OperatorServiceProposeEnforcementValue",
+        "OperatorServiceProposeEnforcementResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceDecideEnforcementRequest",
+        "OperatorServiceDecideEnforcementValue",
+        "OperatorServiceDecideEnforcementResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceGetAppealRequest",
+        "OperatorServiceGetAppealValue",
+        "OperatorServiceGetAppealResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceResolveAppealRequest",
+        "OperatorServiceResolveAppealValue",
+        "OperatorServiceResolveAppealResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceStageConfigurationRequest",
+        "OperatorServiceStageConfigurationValue",
+        "OperatorServiceStageConfigurationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceValidateConfigurationRequest",
+        "OperatorServiceValidateConfigurationValue",
+        "OperatorServiceValidateConfigurationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceApproveConfigurationRequest",
+        "OperatorServiceApproveConfigurationValue",
+        "OperatorServiceApproveConfigurationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceActivateConfigurationRequest",
+        "OperatorServiceActivateConfigurationValue",
+        "OperatorServiceActivateConfigurationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceGetConfigurationRequest",
+        "OperatorServiceGetConfigurationValue",
+        "OperatorServiceGetConfigurationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceSetKillSwitchRequest",
+        "OperatorServiceSetKillSwitchValue",
+        "OperatorServiceSetKillSwitchResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceStartBreakGlassRequest",
+        "OperatorServiceStartBreakGlassValue",
+        "OperatorServiceStartBreakGlassResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceEndBreakGlassRequest",
+        "OperatorServiceEndBreakGlassValue",
+        "OperatorServiceEndBreakGlassResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceProposeActionRequest",
+        "OperatorServiceProposeActionValue",
+        "OperatorServiceProposeActionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceApproveActionRequest",
+        "OperatorServiceApproveActionValue",
+        "OperatorServiceApproveActionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceGetProposalRequest",
+        "OperatorServiceGetProposalValue",
+        "OperatorServiceGetProposalResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceGrantEntitlementRequest",
+        "OperatorServiceGrantEntitlementValue",
+        "OperatorServiceGrantEntitlementResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceRevokeEntitlementRequest",
+        "OperatorServiceRevokeEntitlementValue",
+        "OperatorServiceRevokeEntitlementResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceIssueCompensationRequest",
+        "OperatorServiceIssueCompensationValue",
+        "OperatorServiceIssueCompensationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceAdjustCompensationRequest",
+        "OperatorServiceAdjustCompensationValue",
+        "OperatorServiceAdjustCompensationResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceDecideRefundRequest",
+        "OperatorServiceDecideRefundValue",
+        "OperatorServiceDecideRefundResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceGetCatalogSubmissionRequest",
+        "OperatorServiceGetCatalogSubmissionValue",
+        "OperatorServiceGetCatalogSubmissionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceReplyCaseRequest",
+        "OperatorServiceReplyCaseValue",
+        "OperatorServiceReplyCaseResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceSetCaseStateRequest",
+        "OperatorServiceSetCaseStateValue",
+        "OperatorServiceSetCaseStateResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceReviewCatalogSubmissionRequest",
+        "OperatorServiceReviewCatalogSubmissionValue",
+        "OperatorServiceReviewCatalogSubmissionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "OperatorServiceRevokeCatalogVersionRequest",
+        "OperatorServiceRevokeCatalogVersionValue",
+        "OperatorServiceRevokeCatalogVersionResponse",
+        "outcome_",
+        "OutcomeOneofCase"
+      ],
+      "sha256": "14b26f10311f88a18a0ccb32f57ab05c36c187a839c3808dd0183a31e8357c77",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Proto/OperatorGrpc.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "OperatorService",
+        "__Helper_MessageCache",
+        "OperatorServiceBase",
+        "OperatorServiceClient"
+      ],
+      "sha256": "20033af55bf760d17a92afd733d6927ba19d17ea2ea80a9e5299a25cc6864709",
       "kind": "generated"
     },
     {
@@ -6221,7 +7116,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["ContractServices"],
-      "sha256": "b0cbefb4e052ca3c33b7c448f8ef60065ed5f0cd204e77798e6f142d677cf20e",
+      "sha256": "56fd9d9a8407e3f0d05c36c5b77a9e34efbbbc75d7573eb9f6c67cc77182c814",
       "kind": "generated"
     },
     {
@@ -7452,7 +8347,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "4e5619dc831c7cfd4eb5d85c702a260a4ef5a2ec165b92f96cc6bcd3f8d3dc8f",
+      "sha256": "c8c1a46f7cc727f1aca384fc76a1429395665f2fc937d5457f185e2ee2af2829",
       "kind": "generated"
     },
     {
@@ -9026,8 +9921,125 @@
       "path": "src/internal/ts/operator-client/src/gen/arcforges/operator/v1/operator_pb.ts",
       "package": "@arcforges/operator-client",
       "access": "internal",
-      "types": ["OperatorCallContext"],
-      "sha256": "6604d82da2537f469186376f0487e6c7a08152736a2aea0264e4abc21e0acabe",
+      "types": [
+        "OperatorCallContext",
+        "OperatorProposalRef",
+        "OperatorAccess",
+        "OperatorAction",
+        "OperatorGrantInput",
+        "OperatorRevokeGrantInput",
+        "OperatorIssueCreditInput",
+        "OperatorAdjustCreditInput",
+        "OperatorRefundInput",
+        "OperatorCatalogReviewInput",
+        "OperatorCatalogRevokeInput",
+        "OperatorAppealInput",
+        "OperatorKillInput",
+        "OperatorMutation",
+        "OperatorProposal",
+        "ConfigurationDocument",
+        "OperatorResult",
+        "ConfigValidation",
+        "OperatorServiceListCasesRequest",
+        "OperatorServiceListCasesValue",
+        "OperatorServiceListCasesResponse",
+        "OperatorServiceGetCaseRequest",
+        "OperatorServiceGetCaseValue",
+        "OperatorServiceGetCaseResponse",
+        "OperatorServiceRequestAccessRequest",
+        "OperatorServiceRequestAccessValue",
+        "OperatorServiceRequestAccessResponse",
+        "OperatorServiceApproveAccessRequest",
+        "OperatorServiceApproveAccessValue",
+        "OperatorServiceApproveAccessResponse",
+        "OperatorServiceEndAccessRequest",
+        "OperatorServiceEndAccessValue",
+        "OperatorServiceEndAccessResponse",
+        "OperatorServiceReadDiagnosticRequest",
+        "OperatorServiceReadDiagnosticValue",
+        "OperatorServiceReadDiagnosticResponse",
+        "OperatorServiceProposeEnforcementRequest",
+        "OperatorServiceProposeEnforcementValue",
+        "OperatorServiceProposeEnforcementResponse",
+        "OperatorServiceDecideEnforcementRequest",
+        "OperatorServiceDecideEnforcementValue",
+        "OperatorServiceDecideEnforcementResponse",
+        "OperatorServiceGetAppealRequest",
+        "OperatorServiceGetAppealValue",
+        "OperatorServiceGetAppealResponse",
+        "OperatorServiceResolveAppealRequest",
+        "OperatorServiceResolveAppealValue",
+        "OperatorServiceResolveAppealResponse",
+        "OperatorServiceStageConfigurationRequest",
+        "OperatorServiceStageConfigurationValue",
+        "OperatorServiceStageConfigurationResponse",
+        "OperatorServiceValidateConfigurationRequest",
+        "OperatorServiceValidateConfigurationValue",
+        "OperatorServiceValidateConfigurationResponse",
+        "OperatorServiceApproveConfigurationRequest",
+        "OperatorServiceApproveConfigurationValue",
+        "OperatorServiceApproveConfigurationResponse",
+        "OperatorServiceActivateConfigurationRequest",
+        "OperatorServiceActivateConfigurationValue",
+        "OperatorServiceActivateConfigurationResponse",
+        "OperatorServiceGetConfigurationRequest",
+        "OperatorServiceGetConfigurationValue",
+        "OperatorServiceGetConfigurationResponse",
+        "OperatorServiceSetKillSwitchRequest",
+        "OperatorServiceSetKillSwitchValue",
+        "OperatorServiceSetKillSwitchResponse",
+        "OperatorServiceStartBreakGlassRequest",
+        "OperatorServiceStartBreakGlassValue",
+        "OperatorServiceStartBreakGlassResponse",
+        "OperatorServiceEndBreakGlassRequest",
+        "OperatorServiceEndBreakGlassValue",
+        "OperatorServiceEndBreakGlassResponse",
+        "OperatorServiceProposeActionRequest",
+        "OperatorServiceProposeActionValue",
+        "OperatorServiceProposeActionResponse",
+        "OperatorServiceApproveActionRequest",
+        "OperatorServiceApproveActionValue",
+        "OperatorServiceApproveActionResponse",
+        "OperatorServiceGetProposalRequest",
+        "OperatorServiceGetProposalValue",
+        "OperatorServiceGetProposalResponse",
+        "OperatorServiceGrantEntitlementRequest",
+        "OperatorServiceGrantEntitlementValue",
+        "OperatorServiceGrantEntitlementResponse",
+        "OperatorServiceRevokeEntitlementRequest",
+        "OperatorServiceRevokeEntitlementValue",
+        "OperatorServiceRevokeEntitlementResponse",
+        "OperatorServiceIssueCompensationRequest",
+        "OperatorServiceIssueCompensationValue",
+        "OperatorServiceIssueCompensationResponse",
+        "OperatorServiceAdjustCompensationRequest",
+        "OperatorServiceAdjustCompensationValue",
+        "OperatorServiceAdjustCompensationResponse",
+        "OperatorServiceDecideRefundRequest",
+        "OperatorServiceDecideRefundValue",
+        "OperatorServiceDecideRefundResponse",
+        "OperatorServiceGetCatalogSubmissionRequest",
+        "OperatorServiceGetCatalogSubmissionValue",
+        "OperatorServiceGetCatalogSubmissionResponse",
+        "OperatorServiceReplyCaseRequest",
+        "OperatorServiceReplyCaseValue",
+        "OperatorServiceReplyCaseResponse",
+        "OperatorServiceSetCaseStateRequest",
+        "OperatorServiceSetCaseStateValue",
+        "OperatorServiceSetCaseStateResponse",
+        "OperatorServiceReviewCatalogSubmissionRequest",
+        "OperatorServiceReviewCatalogSubmissionValue",
+        "OperatorServiceReviewCatalogSubmissionResponse",
+        "OperatorServiceRevokeCatalogVersionRequest",
+        "OperatorServiceRevokeCatalogVersionValue",
+        "OperatorServiceRevokeCatalogVersionResponse",
+        "OperatorProposalState",
+        "OperatorRefundDecision",
+        "OperatorGrantSource",
+        "OperatorGrantKind",
+        "SupportCaseState"
+      ],
+      "sha256": "666d757dab4a57eb7b3cf1f2ba0ab10df349e46ae4092eeeca08927556a43c8f",
       "kind": "generated"
     },
     {
@@ -9035,7 +10047,15 @@
       "package": "@arcforges/operator-client",
       "access": "internal",
       "types": [],
-      "sha256": "d14861c0f7de332e30317a56a5acee58b86a17d7aa55460d1f458f253decd5e4",
+      "sha256": "d2493325f0f8954a09f1f8fe8b10bb9390d86be53625cfd2ed75ec2742d4d36f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/operator-client/src/services/gen/catalog.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": [],
+      "sha256": "3d255ee80cfba4aab45bc459d09567ed7804a9ea9bfee6dd44f2293a0465d729",
       "kind": "generated"
     },
     {
@@ -9043,7 +10063,7 @@
       "package": "@arcforges/operator-client",
       "access": "internal",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "929c528a23f8617bc465ed32e0206b88334f3a6f0d7fe0d3aa80faaeb8f19d06",
+      "sha256": "68d65090b5875a7e598fbcb1b8de7e99ea274c516668d4e91eeaa16958048892",
       "kind": "generated"
     },
     {
@@ -28802,7 +29822,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "8575dacc5c4ca8b32ee47a9a71e1b77231b5aa4d1bd036a03c3f49bb26ce84c1",
+      "sha256": "e5db647e4180c27b11fafa4f560940e3bf40301dbd36f728d781b3783362f0f5",
       "kind": "generated"
     },
     {
@@ -29833,7 +30853,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "a8f9ffa15dc6f579d801ff81da8c4a8cf2fbfd0da1c4c24ab2f02dd77ef9d647"
+      "sha256": "d227efd497c17d7845fedd384a146b9b2df1f0c0793d18bee467baea2a7c21a7"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -29858,6 +30878,10 @@
     {
       "path": "internal/proto/constraints/con-11-run-stream.json",
       "sha256": "adc1ca06fc37eab30bafe74f2d687f2c66e11a8a0e2885910d94d9ababbfe0e7"
+    },
+    {
+      "path": "internal/proto/constraints/con-14-operator.json",
+      "sha256": "9fc27f1d197a981113a66db50d8f71f4e77cefa00e1c1b58a12eb681e6bc181f"
     },
     {
       "path": "internal/proto/constraints/operator-baseline.json",
@@ -29889,7 +30913,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "69aaa06795ccaeddde3c742128e0b36b76a4749f2593c6e92512ae2fab3da19d"
+      "sha256": "5ed0e476eb58c2f8cf607fe6b1b833be35891001508b588b7548dacc01c2d128"
     },
     {
       "path": "public/http/v1/inventory.schema.json",

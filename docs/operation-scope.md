@@ -42,9 +42,18 @@ export row, authorization profile or operation-matrix/count entry. Every other
 public or internal proto method still requires exactly one exact operation
 export; no path, package or service wildcard is exempt.
 
+The only R4 exception is `operator.startBreakGlass`, which Registry04 section 9.1
+assigns risk R4. The checker accepts R4 solely for that operation ID bound to
+`arcforges.operator.v1.OperatorService/StartBreakGlass` in
+`internal/proto/arcforges/operator/v1/operator.proto`, with operator scope,
+surface and profile, class `CC`, step-up, no local presence, no PAT and the
+operator-only actor list. Any other R4 row, including every other operator
+operation, is rejected as an unclassified risk.
+
 Authorization fields are `capability`, `risk`, `approval`, `stepUp`,
 `localPresence`, `egress`, `patEligible`, and `actorKinds`. Boolean fields are
-literal booleans, risk is R0–R3, and actors must be classified identities. Exact
+literal booleans, risk is R0–R3 (with the one exact `operator.startBreakGlass` R4 row above),
+and actors must be classified identities. Exact
 source profiles determine approval and egress strings; non-placeholder strings
 are syntactically accepted but do not constitute new source authority. Review
 must verify their pinned Design rule. Null capability is required outside tool

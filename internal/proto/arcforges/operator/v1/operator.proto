@@ -4,11 +4,90 @@ syntax = "proto3";
 package arcforges.operator.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/catalog/v1/catalog.proto";
+import "arcforges/publicapi/v1/commerce.proto";
+import "arcforges/publicapi/v1/content.proto";
 
 option csharp_namespace = "ArcForges.Contracts.CloudInternal.Operator.V1";
 option java_package = "io.github.arcforges.contracts.operator.v1";
 option java_multiple_files = true;
 option java_outer_classname = "OperatorProto";
+
+// Internal operator-origin contracts only. This service is not exposed by the
+// public origin and does not establish authorization merely from its shapes.
+// Read/query responses leave tag 4 unreserved so the registry's large-read encodedBody outcome can be
+// added compatibly; operator reads are bounded by paging and the 1 MiB configuration limit today.
+service OperatorService {
+  rpc ListCases(OperatorServiceListCasesRequest) returns (OperatorServiceListCasesResponse);
+  rpc GetCase(OperatorServiceGetCaseRequest) returns (OperatorServiceGetCaseResponse);
+  rpc RequestAccess(OperatorServiceRequestAccessRequest) returns (OperatorServiceRequestAccessResponse);
+  rpc ApproveAccess(OperatorServiceApproveAccessRequest) returns (OperatorServiceApproveAccessResponse);
+  rpc EndAccess(OperatorServiceEndAccessRequest) returns (OperatorServiceEndAccessResponse);
+  rpc ReadDiagnostic(OperatorServiceReadDiagnosticRequest) returns (OperatorServiceReadDiagnosticResponse);
+  rpc ProposeEnforcement(OperatorServiceProposeEnforcementRequest) returns (OperatorServiceProposeEnforcementResponse);
+  rpc DecideEnforcement(OperatorServiceDecideEnforcementRequest) returns (OperatorServiceDecideEnforcementResponse);
+  rpc GetAppeal(OperatorServiceGetAppealRequest) returns (OperatorServiceGetAppealResponse);
+  rpc ResolveAppeal(OperatorServiceResolveAppealRequest) returns (OperatorServiceResolveAppealResponse);
+  rpc StageConfiguration(OperatorServiceStageConfigurationRequest) returns (OperatorServiceStageConfigurationResponse);
+  rpc ValidateConfiguration(OperatorServiceValidateConfigurationRequest) returns (OperatorServiceValidateConfigurationResponse);
+  rpc ApproveConfiguration(OperatorServiceApproveConfigurationRequest) returns (OperatorServiceApproveConfigurationResponse);
+  rpc ActivateConfiguration(OperatorServiceActivateConfigurationRequest) returns (OperatorServiceActivateConfigurationResponse);
+  rpc GetConfiguration(OperatorServiceGetConfigurationRequest) returns (OperatorServiceGetConfigurationResponse);
+  rpc SetKillSwitch(OperatorServiceSetKillSwitchRequest) returns (OperatorServiceSetKillSwitchResponse);
+  rpc StartBreakGlass(OperatorServiceStartBreakGlassRequest) returns (OperatorServiceStartBreakGlassResponse);
+  rpc EndBreakGlass(OperatorServiceEndBreakGlassRequest) returns (OperatorServiceEndBreakGlassResponse);
+  rpc ProposeAction(OperatorServiceProposeActionRequest) returns (OperatorServiceProposeActionResponse);
+  rpc ApproveAction(OperatorServiceApproveActionRequest) returns (OperatorServiceApproveActionResponse);
+  rpc GetProposal(OperatorServiceGetProposalRequest) returns (OperatorServiceGetProposalResponse);
+  rpc GrantEntitlement(OperatorServiceGrantEntitlementRequest) returns (OperatorServiceGrantEntitlementResponse);
+  rpc RevokeEntitlement(OperatorServiceRevokeEntitlementRequest) returns (OperatorServiceRevokeEntitlementResponse);
+  rpc IssueCompensation(OperatorServiceIssueCompensationRequest) returns (OperatorServiceIssueCompensationResponse);
+  rpc AdjustCompensation(OperatorServiceAdjustCompensationRequest) returns (OperatorServiceAdjustCompensationResponse);
+  rpc DecideRefund(OperatorServiceDecideRefundRequest) returns (OperatorServiceDecideRefundResponse);
+  rpc GetCatalogSubmission(OperatorServiceGetCatalogSubmissionRequest) returns (OperatorServiceGetCatalogSubmissionResponse);
+  rpc ReplyCase(OperatorServiceReplyCaseRequest) returns (OperatorServiceReplyCaseResponse);
+  rpc SetCaseState(OperatorServiceSetCaseStateRequest) returns (OperatorServiceSetCaseStateResponse);
+  rpc ReviewCatalogSubmission(OperatorServiceReviewCatalogSubmissionRequest) returns (OperatorServiceReviewCatalogSubmissionResponse);
+  rpc RevokeCatalogVersion(OperatorServiceRevokeCatalogVersionRequest) returns (OperatorServiceRevokeCatalogVersionResponse);
+}
+
+enum OperatorProposalState {
+  OPERATOR_PROPOSAL_STATE_UNSPECIFIED = 0;
+  OPERATOR_PROPOSAL_STATE_PENDING = 1;
+  OPERATOR_PROPOSAL_STATE_APPROVED = 2;
+  OPERATOR_PROPOSAL_STATE_REJECTED = 3;
+  OPERATOR_PROPOSAL_STATE_EXPIRED = 4;
+  OPERATOR_PROPOSAL_STATE_INVALIDATED = 5;
+  OPERATOR_PROPOSAL_STATE_EXECUTED = 6;
+}
+
+enum OperatorRefundDecision {
+  OPERATOR_REFUND_DECISION_UNSPECIFIED = 0;
+  OPERATOR_REFUND_DECISION_APPROVE = 1;
+  OPERATOR_REFUND_DECISION_REJECT = 2;
+}
+
+enum OperatorGrantSource {
+  OPERATOR_GRANT_SOURCE_UNSPECIFIED = 0;
+  OPERATOR_GRANT_SOURCE_ADMINISTRATIVE = 1;
+  OPERATOR_GRANT_SOURCE_COMPENSATION = 2;
+}
+
+enum OperatorGrantKind {
+  OPERATOR_GRANT_KIND_UNSPECIFIED = 0;
+  OPERATOR_GRANT_KIND_CAPABILITY = 1;
+  OPERATOR_GRANT_KIND_QUOTA = 2;
+  OPERATOR_GRANT_KIND_ALLOWANCE = 3;
+}
+
+enum SupportCaseState {
+  SUPPORT_CASE_STATE_UNSPECIFIED = 0;
+  SUPPORT_CASE_STATE_OPEN = 1;
+  SUPPORT_CASE_STATE_IN_PROGRESS = 2;
+  SUPPORT_CASE_STATE_AWAITING_USER = 3;
+  SUPPORT_CASE_STATE_RESOLVED = 4;
+  SUPPORT_CASE_STATE_CLOSED = 5;
+}
 
 // Shape validation does not establish case/incident access or authority.
 message OperatorCallContext {
@@ -17,4 +96,745 @@ message OperatorCallContext {
     arcforges.foundation.v1.Id incident_id = 2 [json_name = "incidentId"];
   }
   optional string purpose = 3 [json_name = "purpose"];
+}
+
+message OperatorProposalRef {
+  arcforges.foundation.v1.Id proposal_id = 1 [json_name = "proposalId"];
+  optional string proposal_hash = 2 [json_name = "proposalHash"];
+  arcforges.foundation.v1.Revision expected_proposal_revision = 3 [json_name = "expectedProposalRevision"];
+}
+
+message OperatorAccess {
+  arcforges.foundation.v1.Id access_id = 1 [json_name = "accessId"];
+  arcforges.foundation.v1.Id operator_id = 2 [json_name = "operatorId"];
+  arcforges.foundation.v1.Id case_id = 3 [json_name = "caseId"];
+  arcforges.foundation.v1.Id workspace_id = 4 [json_name = "workspaceId"];
+  repeated arcforges.foundation.v1.AggregateRef resources = 5 [json_name = "resources"];
+  optional string purpose = 6 [json_name = "purpose"];
+  arcforges.foundation.v1.Instant expires_at = 7 [json_name = "expiresAt"];
+  optional string state = 8 [json_name = "state"];
+  arcforges.foundation.v1.Id consent_ref = 9 [json_name = "consentRef"];
+  arcforges.foundation.v1.Id second_operator_id = 10 [json_name = "secondOperatorId"];
+  arcforges.foundation.v1.Revision revision = 11 [json_name = "revision"];
+}
+
+message OperatorAction {
+  arcforges.foundation.v1.Id action_id = 1 [json_name = "actionId"];
+  arcforges.foundation.v1.Id proposer_id = 2 [json_name = "proposerId"];
+  arcforges.foundation.v1.Id approver_id = 3 [json_name = "approverId"];
+  arcforges.foundation.v1.AggregateRef target = 4 [json_name = "target"];
+  optional string action = 5 [json_name = "action"];
+  optional string proposal_hash = 6 [json_name = "proposalHash"];
+  optional string reason = 7 [json_name = "reason"];
+  optional string state = 8 [json_name = "state"];
+  arcforges.foundation.v1.Instant expires_at = 9 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Revision revision = 10 [json_name = "revision"];
+}
+
+message OperatorGrantInput {
+  arcforges.foundation.v1.Id grant_id = 1 [json_name = "grantId"];
+  arcforges.foundation.v1.Id workspace_id = 2 [json_name = "workspaceId"];
+  optional string subject = 3 [json_name = "subject"];
+  optional string entitlement_profile_id = 4 [json_name = "entitlementProfileId"];
+  arcforges.foundation.v1.Instant starts_at = 5 [json_name = "startsAt"];
+  arcforges.foundation.v1.Instant ends_at = 6 [json_name = "endsAt"];
+  optional OperatorGrantSource source = 7 [json_name = "source"];
+  optional OperatorGrantKind kind = 8 [json_name = "kind"];
+}
+
+message OperatorRevokeGrantInput {
+  arcforges.foundation.v1.Id grant_id = 1 [json_name = "grantId"];
+  arcforges.foundation.v1.Id revocation_id = 2 [json_name = "revocationId"];
+}
+
+message OperatorIssueCreditInput {
+  arcforges.foundation.v1.Id lot_id = 1 [json_name = "lotId"];
+  arcforges.foundation.v1.Id workspace_id = 2 [json_name = "workspaceId"];
+  optional uint64 amount_micro = 3 [json_name = "amountMicro"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+}
+
+message OperatorAdjustCreditInput {
+  arcforges.foundation.v1.Id lot_id = 1 [json_name = "lotId"];
+  optional sint64 delta_micro = 2 [json_name = "deltaMicro"];
+  arcforges.foundation.v1.Id adjustment_id = 3 [json_name = "adjustmentId"];
+  arcforges.foundation.v1.Id new_lot_id = 4 [json_name = "newLotId"];
+}
+
+message OperatorRefundInput {
+  arcforges.foundation.v1.Id refund_id = 1 [json_name = "refundId"];
+  optional OperatorRefundDecision decision = 2 [json_name = "decision"];
+  arcforges.foundation.v1.Decimal amount = 3 [json_name = "amount"];
+}
+
+message OperatorCatalogReviewInput {
+  arcforges.foundation.v1.Id submission_id = 1 [json_name = "submissionId"];
+  optional arcforges.catalog.v1.CatalogReviewDecision decision = 2 [json_name = "decision"];
+  optional string reason = 3 [json_name = "reason"];
+  optional string evidence = 4 [json_name = "evidence"];
+}
+
+message OperatorCatalogRevokeInput {
+  optional string package_id = 1 [json_name = "packageId"];
+  optional string version = 2 [json_name = "version"];
+  optional string reason = 3 [json_name = "reason"];
+  optional string evidence = 4 [json_name = "evidence"];
+}
+
+message OperatorAppealInput {
+  arcforges.foundation.v1.Id appeal_id = 1 [json_name = "appealId"];
+  arcforges.foundation.v1.Id action_id = 2 [json_name = "actionId"];
+  optional string decision = 3 [json_name = "decision"];
+  optional string reason = 4 [json_name = "reason"];
+}
+
+message OperatorKillInput {
+  arcforges.foundation.v1.Id action_id = 1 [json_name = "actionId"];
+  optional string mode = 2 [json_name = "mode"];
+  arcforges.foundation.v1.AggregateRef scope = 3 [json_name = "scope"];
+  optional string reason = 4 [json_name = "reason"];
+  arcforges.foundation.v1.Instant until = 5 [json_name = "until"];
+}
+
+message OperatorMutation {
+  oneof mutation {
+    OperatorGrantInput grant = 1 [json_name = "grant"];
+    OperatorRevokeGrantInput revoke_grant = 2 [json_name = "revokeGrant"];
+    OperatorIssueCreditInput issue_credit = 3 [json_name = "issueCredit"];
+    OperatorAdjustCreditInput adjust_credit = 4 [json_name = "adjustCredit"];
+    OperatorRefundInput refund = 5 [json_name = "refund"];
+    OperatorCatalogReviewInput catalog_review = 6 [json_name = "catalogReview"];
+    OperatorCatalogRevokeInput catalog_revoke = 7 [json_name = "catalogRevoke"];
+    OperatorAppealInput appeal = 8 [json_name = "appeal"];
+    OperatorKillInput kill = 9 [json_name = "kill"];
+  }
+}
+
+message OperatorProposal {
+  arcforges.foundation.v1.Id proposal_id = 1 [json_name = "proposalId"];
+  OperatorMutation mutation = 2 [json_name = "mutation"];
+  optional string target_operation = 3 [json_name = "targetOperation"];
+  OperatorCallContext context = 4 [json_name = "context"];
+  optional string reason = 5 [json_name = "reason"];
+  optional string proposer_subject = 6 [json_name = "proposerSubject"];
+  optional string approver_subject = 7 [json_name = "approverSubject"];
+  optional string proposal_hash = 8 [json_name = "proposalHash"];
+  arcforges.foundation.v1.Revision owner_revision = 9 [json_name = "ownerRevision"];
+  arcforges.foundation.v1.Revision revision = 10 [json_name = "revision"];
+  optional OperatorProposalState state = 11 [json_name = "state"];
+  arcforges.foundation.v1.Instant expires_at = 12 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Id consumed_by_command_id = 13 [json_name = "consumedByCommandId"];
+  arcforges.foundation.v1.AggregateRef result_ref = 14 [json_name = "resultRef"];
+  optional uint64 recovery_generation = 15 [json_name = "recoveryGeneration"];
+  optional string configuration_hash = 16 [json_name = "configurationHash"];
+}
+
+message ConfigurationDocument {
+  optional string schema_version = 1 [json_name = "schemaVersion"];
+  optional bytes canonical_json = 2 [json_name = "canonicalJson"];
+  optional string document_hash = 3 [json_name = "documentHash"];
+  optional string parent_version = 4 [json_name = "parentVersion"];
+  arcforges.foundation.v1.Instant created_at = 5 [json_name = "createdAt"];
+}
+
+message OperatorResult {
+  oneof result {
+    arcforges.publicapi.v1.Grant grant = 1 [json_name = "grant"];
+    arcforges.publicapi.v1.CreditLot credit = 2 [json_name = "credit"];
+    arcforges.publicapi.v1.RefundView refund = 3 [json_name = "refund"];
+    arcforges.catalog.v1.CatalogSubmissionView submission = 4 [json_name = "submission"];
+    arcforges.catalog.v1.CatalogVersionView catalog_version = 5 [json_name = "catalogVersion"];
+    OperatorAction action = 6 [json_name = "action"];
+  }
+}
+
+message ConfigValidation {
+  arcforges.foundation.v1.Id config_id = 1 [json_name = "configId"];
+  optional string config_hash = 2 [json_name = "configHash"];
+  optional string schema_version = 3 [json_name = "schemaVersion"];
+  repeated arcforges.foundation.v1.ArcError problems = 4 [json_name = "problems"];
+  optional string worker_acknowledgement = 5 [json_name = "workerAcknowledgement"];
+  optional bool compatible = 6 [json_name = "compatible"];
+  arcforges.foundation.v1.Revision revision = 7 [json_name = "revision"];
+}
+
+message OperatorServiceListCasesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+  optional string state = 11 [json_name = "state"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceListCasesValue {
+  repeated arcforges.publicapi.v1.SupportCase cases = 10 [json_name = "cases"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+message OperatorServiceListCasesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceListCasesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceGetCaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  arcforges.foundation.v1.PageRequest messages = 102 [json_name = "messages"];
+  reserved 2 to 9;
+}
+message OperatorServiceGetCaseValue { arcforges.publicapi.v1.SupportCase case = 10 [json_name = "case"]; }
+message OperatorServiceGetCaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceGetCaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceRequestAccessRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  arcforges.foundation.v1.Id case_id = 11 [json_name = "caseId"];
+  arcforges.foundation.v1.Id workspace_id = 12 [json_name = "workspaceId"];
+  repeated arcforges.foundation.v1.AggregateRef resources = 13 [json_name = "resources"];
+  optional string reason = 14 [json_name = "reason"];
+  arcforges.foundation.v1.Instant until = 15 [json_name = "until"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceRequestAccessValue { OperatorAccess access = 10 [json_name = "access"]; }
+message OperatorServiceRequestAccessResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceRequestAccessValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceApproveAccessRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  optional string proposal_hash = 11 [json_name = "proposalHash"];
+  optional bool approve = 12 [json_name = "approve"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceApproveAccessValue { OperatorAccess access = 10 [json_name = "access"]; }
+message OperatorServiceApproveAccessResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceApproveAccessValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceEndAccessRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceEndAccessValue { arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"]; }
+message OperatorServiceEndAccessResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceEndAccessValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceReadDiagnosticRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  arcforges.foundation.v1.Id resource_id = 11 [json_name = "resourceId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceReadDiagnosticValue { arcforges.foundation.v1.TransferTicket ticket = 10 [json_name = "ticket"]; }
+message OperatorServiceReadDiagnosticResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceReadDiagnosticValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceProposeEnforcementRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id action_id = 10 [json_name = "actionId"];
+  arcforges.foundation.v1.Id case_id = 11 [json_name = "caseId"];
+  arcforges.foundation.v1.Id user_id = 12 [json_name = "userId"];
+  optional string action = 13 [json_name = "action"];
+  optional string reason = 14 [json_name = "reason"];
+  arcforges.foundation.v1.Instant until = 15 [json_name = "until"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceProposeEnforcementValue { OperatorAction action = 10 [json_name = "action"]; }
+message OperatorServiceProposeEnforcementResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceProposeEnforcementValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceDecideEnforcementRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id action_id = 10 [json_name = "actionId"];
+  optional string proposal_hash = 11 [json_name = "proposalHash"];
+  optional bool approve = 12 [json_name = "approve"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceDecideEnforcementValue { OperatorAction action = 10 [json_name = "action"]; }
+message OperatorServiceDecideEnforcementResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceDecideEnforcementValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceGetAppealRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id appeal_id = 10 [json_name = "appealId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceGetAppealValue {
+  arcforges.publicapi.v1.SupportCase case = 10 [json_name = "case"];
+  OperatorAction action = 11 [json_name = "action"];
+}
+message OperatorServiceGetAppealResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceGetAppealValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceResolveAppealRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id appeal_id = 10 [json_name = "appealId"];
+  arcforges.foundation.v1.Id action_id = 11 [json_name = "actionId"];
+  optional string decision = 12 [json_name = "decision"];
+  optional string reason = 13 [json_name = "reason"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  OperatorProposalRef proposal = 101 [json_name = "proposal"];
+  reserved 2 to 9;
+}
+message OperatorServiceResolveAppealValue { OperatorAction action = 10 [json_name = "action"]; }
+message OperatorServiceResolveAppealResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceResolveAppealValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceStageConfigurationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id config_id = 10 [json_name = "configId"];
+  optional string parent_version = 11 [json_name = "parentVersion"];
+  ConfigurationDocument document = 12 [json_name = "document"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceStageConfigurationValue { ConfigValidation validation = 10 [json_name = "validation"]; }
+message OperatorServiceStageConfigurationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceStageConfigurationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceValidateConfigurationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id config_id = 10 [json_name = "configId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceValidateConfigurationValue { ConfigValidation validation = 10 [json_name = "validation"]; }
+message OperatorServiceValidateConfigurationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceValidateConfigurationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceApproveConfigurationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id config_id = 10 [json_name = "configId"];
+  optional string validation_hash = 11 [json_name = "validationHash"];
+  optional bool approve = 12 [json_name = "approve"];
+  optional string reason = 13 [json_name = "reason"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceApproveConfigurationValue {
+  arcforges.foundation.v1.Id approval_id = 10 [json_name = "approvalId"];
+  arcforges.foundation.v1.Instant expires_at = 11 [json_name = "expiresAt"];
+}
+message OperatorServiceApproveConfigurationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceApproveConfigurationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceActivateConfigurationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id config_id = 10 [json_name = "configId"];
+  optional string validation_hash = 11 [json_name = "validationHash"];
+  arcforges.foundation.v1.Id second_approval_id = 12 [json_name = "secondApprovalId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceActivateConfigurationValue { optional string active_version = 10 [json_name = "activeVersion"]; }
+message OperatorServiceActivateConfigurationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceActivateConfigurationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceGetConfigurationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id config_id = 10 [json_name = "configId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceGetConfigurationValue {
+  ConfigurationDocument document = 10 [json_name = "document"];
+  ConfigValidation validation = 11 [json_name = "validation"];
+}
+message OperatorServiceGetConfigurationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceGetConfigurationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceSetKillSwitchRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id action_id = 10 [json_name = "actionId"];
+  optional string mode = 11 [json_name = "mode"];
+  arcforges.foundation.v1.AggregateRef scope = 12 [json_name = "scope"];
+  optional string reason = 13 [json_name = "reason"];
+  arcforges.foundation.v1.Instant until = 14 [json_name = "until"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  OperatorProposalRef proposal = 101 [json_name = "proposal"];
+  reserved 2 to 9;
+}
+message OperatorServiceSetKillSwitchValue { OperatorAction action = 10 [json_name = "action"]; }
+message OperatorServiceSetKillSwitchResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceSetKillSwitchValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceStartBreakGlassRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  arcforges.foundation.v1.Id incident_id = 11 [json_name = "incidentId"];
+  repeated arcforges.foundation.v1.AggregateRef resources = 12 [json_name = "resources"];
+  optional string reason = 13 [json_name = "reason"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceStartBreakGlassValue { OperatorAccess access = 10 [json_name = "access"]; }
+message OperatorServiceStartBreakGlassResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceStartBreakGlassValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceEndBreakGlassRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id access_id = 10 [json_name = "accessId"];
+  optional string outcome = 11 [json_name = "outcome"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceEndBreakGlassValue { arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"]; }
+message OperatorServiceEndBreakGlassResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceEndBreakGlassValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceProposeActionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id proposal_id = 10 [json_name = "proposalId"];
+  OperatorMutation mutation = 11 [json_name = "mutation"];
+  arcforges.foundation.v1.Revision expected_owner_revision = 12 [json_name = "expectedOwnerRevision"];
+  optional string reason = 13 [json_name = "reason"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceProposeActionValue { OperatorProposal proposal = 10 [json_name = "proposal"]; }
+message OperatorServiceProposeActionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceProposeActionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceApproveActionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id proposal_id = 10 [json_name = "proposalId"];
+  optional string proposal_hash = 11 [json_name = "proposalHash"];
+  optional bool approve = 12 [json_name = "approve"];
+  optional string reason = 13 [json_name = "reason"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceApproveActionValue { OperatorProposal proposal = 10 [json_name = "proposal"]; }
+message OperatorServiceApproveActionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceApproveActionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceGetProposalRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id proposal_id = 10 [json_name = "proposalId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceGetProposalValue {
+  OperatorProposal proposal = 10 [json_name = "proposal"];
+  OperatorResult owner_result = 11 [json_name = "ownerResult"];
+}
+message OperatorServiceGetProposalResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceGetProposalValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceGrantEntitlementRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  OperatorProposalRef proposal = 10 [json_name = "proposal"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceGrantEntitlementValue {
+  arcforges.publicapi.v1.Grant grant = 10 [json_name = "grant"];
+  arcforges.foundation.v1.Receipt receipt = 11 [json_name = "receipt"];
+}
+message OperatorServiceGrantEntitlementResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceGrantEntitlementValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceRevokeEntitlementRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  OperatorProposalRef proposal = 10 [json_name = "proposal"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceRevokeEntitlementValue {
+  arcforges.publicapi.v1.Grant grant = 10 [json_name = "grant"];
+  arcforges.foundation.v1.Receipt receipt = 11 [json_name = "receipt"];
+}
+message OperatorServiceRevokeEntitlementResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceRevokeEntitlementValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceIssueCompensationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  OperatorProposalRef proposal = 10 [json_name = "proposal"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceIssueCompensationValue {
+  arcforges.publicapi.v1.CreditLot lot = 10 [json_name = "lot"];
+  arcforges.foundation.v1.Receipt receipt = 11 [json_name = "receipt"];
+}
+message OperatorServiceIssueCompensationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceIssueCompensationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceAdjustCompensationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  OperatorProposalRef proposal = 10 [json_name = "proposal"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceAdjustCompensationValue {
+  arcforges.publicapi.v1.CreditLot lot = 10 [json_name = "lot"];
+  arcforges.foundation.v1.Receipt receipt = 11 [json_name = "receipt"];
+}
+message OperatorServiceAdjustCompensationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceAdjustCompensationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceDecideRefundRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  OperatorProposalRef proposal = 10 [json_name = "proposal"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceDecideRefundValue {
+  arcforges.publicapi.v1.RefundView refund = 10 [json_name = "refund"];
+  arcforges.foundation.v1.Receipt receipt = 11 [json_name = "receipt"];
+}
+message OperatorServiceDecideRefundResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceDecideRefundValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceGetCatalogSubmissionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id submission_id = 10 [json_name = "submissionId"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceGetCatalogSubmissionValue { arcforges.catalog.v1.CatalogSubmissionView submission = 10 [json_name = "submission"]; }
+message OperatorServiceGetCatalogSubmissionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceGetCatalogSubmissionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 5 to 9;
+}
+
+message OperatorServiceReplyCaseRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"];
+  arcforges.foundation.v1.Id message_id = 11 [json_name = "messageId"];
+  optional string text = 12 [json_name = "text"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceReplyCaseValue { arcforges.publicapi.v1.SupportCase case = 10 [json_name = "case"]; }
+message OperatorServiceReplyCaseResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceReplyCaseValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceSetCaseStateRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id case_id = 10 [json_name = "caseId"];
+  optional SupportCaseState state = 11 [json_name = "state"];
+  optional string reason = 12 [json_name = "reason"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  reserved 2 to 9;
+}
+message OperatorServiceSetCaseStateValue { arcforges.publicapi.v1.SupportCase case = 10 [json_name = "case"]; }
+message OperatorServiceSetCaseStateResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceSetCaseStateValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceReviewCatalogSubmissionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  arcforges.foundation.v1.Id submission_id = 10 [json_name = "submissionId"];
+  optional arcforges.catalog.v1.CatalogReviewDecision decision = 11 [json_name = "decision"];
+  optional string reason = 12 [json_name = "reason"];
+  optional string evidence = 13 [json_name = "evidence"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  OperatorProposalRef proposal = 101 [json_name = "proposal"];
+  reserved 2 to 9;
+}
+message OperatorServiceReviewCatalogSubmissionValue { arcforges.catalog.v1.CatalogSubmissionView submission = 10 [json_name = "submission"]; }
+message OperatorServiceReviewCatalogSubmissionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceReviewCatalogSubmissionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message OperatorServiceRevokeCatalogVersionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  optional string package_id = 10 [json_name = "packageId"];
+  optional string version = 11 [json_name = "version"];
+  optional string reason = 12 [json_name = "reason"];
+  optional string evidence = 13 [json_name = "evidence"];
+  OperatorCallContext context = 100 [json_name = "context"];
+  OperatorProposalRef proposal = 101 [json_name = "proposal"];
+  reserved 2 to 9;
+}
+message OperatorServiceRevokeCatalogVersionValue { arcforges.catalog.v1.CatalogVersionView version = 10 [json_name = "version"]; }
+message OperatorServiceRevokeCatalogVersionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    OperatorServiceRevokeCatalogVersionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
 }
