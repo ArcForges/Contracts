@@ -1920,6 +1920,7 @@ class DependencyAdmission(unittest.TestCase):
         # with the existing normalized_page rule; these are public content hashes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
         frozen_head = 'e04d5a3026a827196b7b62eac6fc5180391c2c00'
+        policy_history_head = 'e88cd0f94f01985a166a18d2f43526486b2b5761'
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/con-24-r1.json'
         profile_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r18.json'
@@ -1935,9 +1936,11 @@ class DependencyAdmission(unittest.TestCase):
 
         head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
                                        text=True).strip()
-        self.assertEqual(subprocess.run(
-            ['git', 'merge-base', '--is-ancestor', frozen_head, head],
-            cwd=ROOT, check=False).returncode, 0)
+        for earlier, later in [(frozen_head, policy_history_head),
+                               (policy_history_head, head)]:
+            self.assertEqual(subprocess.run(
+                ['git', 'merge-base', '--is-ancestor', earlier, later],
+                cwd=ROOT, check=False).returncode, 0)
 
         frozen_allowlists = tomllib.loads(
             git_blob(frozen_head, '.gitleaks.toml').decode('utf-8'))['allowlists']
@@ -1947,13 +1950,15 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(len(groups), 3)
         by_description = {row['description']: row for row in groups}
 
+        frozen_policy_blob = git_blob(policy_history_head, policy_path)
+        self.assertEqual(git_blob(frozen_head, policy_path), frozen_policy_blob)
         frozen_blobs = {
-            policy_path: git_blob(frozen_head, policy_path),
+            policy_path: frozen_policy_blob,
             receipt_path: git_blob(frozen_head, receipt_path),
             profile_path: git_blob(frozen_head, profile_path),
         }
-        for path, blob in frozen_blobs.items():
-            self.assertEqual(blob, git_blob(head, path))
+        for path in (receipt_path, profile_path):
+            self.assertEqual(frozen_blobs[path], git_blob(head, path))
 
         def parse_json_line(blob, line_number):
             lines = blob.decode('utf-8').splitlines()
