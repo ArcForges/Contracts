@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Admission rejection tests use committed inputs and synthetic mutations only."""
 import copy
+import gzip
 import json
 import hashlib
 import subprocess
@@ -12,6 +13,63 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
 from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coordinates, major_upgrade, pinned, stable_dependency, validate
+
+
+# The CON.21 and CON.22 allowlist tests re-verify what the Security runs observed at three task-branch
+# commits. CON.21 and CON.22 were squash-merged and their branches deleted, so those commits are not in a
+# fresh clone. Each historical file is therefore pinned by its exact git blob id and read from either a
+# commit that is reachable from main and holds the identical blob, or a byte-exact frozen copy in
+# tests/tooling/history. Every read re-verifies the blob id, so the bytes are exactly the observed ones.
+HISTORY_DIR = ROOT / 'tests/tooling/history'
+HISTORICAL_BLOBS = {
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'eng/policy/dependency-policy.json'):
+        ('0ec34ba1dc7468bb09b894d0ab9c27700fe42da4', None),
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'eng/policy/contract-access.json'):
+        ('407e5e494c57f85e519b818101e0bdce8bb985ac', None),
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'eng/policy/dependency-reviews/con-21-r1.json'):
+        ('37bc2c44ea6b9d9b61a292c602c7f4c78504b0f0', None),
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'eng/provenance/artifact-profiles/dokka-2-2-0-r17.json'):
+        ('fc084f0cbe245cda07677bb1bbfea1b832a4a31a', '1d17838dd6bb30f89ffbfb9a26ce311f6c742d34'),
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'eng/provenance/records/dokka-combokeys-licence-r1.json'):
+        ('e98b2da5810522ea871b6d3af8884684eea705e4', 'f302a2097f5b466ad1b1d00d9c21484e294060f7'),
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'eng/provenance/records/dokka-object-keys-licence-r1.json'):
+        ('cd7d108312cae98587ea6b77781f5ec2e04096a6', 'f302a2097f5b466ad1b1d00d9c21484e294060f7'),
+    ('a0c945131855601b2ef229f3ac0661f00d96526d', 'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj'):
+        ('acee6d6c012fa3f65b53081771d43a627e8c4fd7', 'f9dc23fea7ae1dae3805404bb800583aea4e13e0'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'eng/policy/dependency-policy.json'):
+        ('d919849472aa8e295a1a827484ce734b58d70eae', '1d17838dd6bb30f89ffbfb9a26ce311f6c742d34'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'eng/policy/contract-access.json'):
+        ('b3718dea2c52bb56225a74f60f7ede1e41584477', '1d17838dd6bb30f89ffbfb9a26ce311f6c742d34'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'eng/policy/dependency-reviews/con-21-r1.json'):
+        ('aa3c4a7479ccffeac457612cda8fcc89739eae0e', '1d17838dd6bb30f89ffbfb9a26ce311f6c742d34'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'eng/provenance/artifact-profiles/dokka-2-2-0-r17.json'):
+        ('fc084f0cbe245cda07677bb1bbfea1b832a4a31a', '1d17838dd6bb30f89ffbfb9a26ce311f6c742d34'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'eng/provenance/records/dokka-combokeys-licence-r1.json'):
+        ('e98b2da5810522ea871b6d3af8884684eea705e4', 'f302a2097f5b466ad1b1d00d9c21484e294060f7'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'eng/provenance/records/dokka-object-keys-licence-r1.json'):
+        ('cd7d108312cae98587ea6b77781f5ec2e04096a6', 'f302a2097f5b466ad1b1d00d9c21484e294060f7'),
+    ('cf532b47c482d6444ae9f18a0edb3924c9bbbf79', 'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj'):
+        ('acee6d6c012fa3f65b53081771d43a627e8c4fd7', 'f9dc23fea7ae1dae3805404bb800583aea4e13e0'),
+    ('727f9957773c3ae01ab849ebdeaae3f3ef174b09', 'eng/policy/dependency-policy.json'):
+        ('f6c808b6fc6ccc2d64085e25887bb13364377fba', None),
+    ('727f9957773c3ae01ab849ebdeaae3f3ef174b09', 'eng/policy/contract-access.json'):
+        ('65ee5833f249bfaf137b8a917081ef5fe86feaf6', None),
+    ('727f9957773c3ae01ab849ebdeaae3f3ef174b09', 'eng/policy/dependency-reviews/con-22-r1.json'):
+        ('53ee346163b79d51efbcd34c880334657127e717', None),
+    ('727f9957773c3ae01ab849ebdeaae3f3ef174b09', 'eng/provenance/artifact-profiles/dokka-2-2-0-r16.json'):
+        ('c1142d009c5d0bda6eb195b7f1f2121e55897a2c', '9577ab67fb631a37a73b1b7e8d087714f6292e8a'),
+}
+
+
+def frozen_git_blob(commit, path):
+    """Return the exact bytes of path at an observed task-branch commit without needing that commit."""
+    blob_id, reachable_commit = HISTORICAL_BLOBS[(commit, path)]
+    if reachable_commit is None:
+        data = gzip.decompress((HISTORY_DIR / (blob_id + '.gz')).read_bytes())
+    else:
+        data = subprocess.check_output(['git', 'show', f'{reachable_commit}:{path}'], cwd=ROOT)
+    assert hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest() == blob_id, (commit, path)
+    return data
 
 
 class DependencyAdmission(unittest.TestCase):
@@ -1541,6 +1599,8 @@ class DependencyAdmission(unittest.TestCase):
         access_key = 'eng/policy/contract-access.json'
 
         def git_blob(commit, path):
+            if (commit, path) in HISTORICAL_BLOBS:
+                return frozen_git_blob(commit, path)
             return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
 
         old_policy = json.loads(git_blob(historical_commit, policy_path))
@@ -1692,8 +1752,7 @@ class DependencyAdmission(unittest.TestCase):
         current_profile = (ROOT / profile_path).read_bytes()
         self.assertEqual(old_profile, current_profile)
         self.assertEqual(
-            subprocess.check_output(['git', 'rev-parse',
-                                     f'{historical_commit}:{profile_path}'], cwd=ROOT, text=True).strip(),
+            HISTORICAL_BLOBS[(historical_commit, profile_path)][0],
             'c1142d009c5d0bda6eb195b7f1f2121e55897a2c',
         )
         self.assertEqual(
@@ -1760,6 +1819,8 @@ class DependencyAdmission(unittest.TestCase):
         }
 
         def git_blob(commit, path):
+            if (commit, path) in HISTORICAL_BLOBS:
+                return frozen_git_blob(commit, path)
             return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
 
         policy_rows = set()
@@ -2373,6 +2434,28 @@ class DependencyAdmission(unittest.TestCase):
                         self.assertIsNone(re.fullmatch(pattern, rejected_line))
                 self.assertIsNone(re.fullmatch(path_pattern, outer_path + '.backup'))
                 self.assertIsNone(re.fullmatch(path_pattern, 'src/secrets.json'))
+
+    def test_historical_task_branch_evidence_is_exact_and_independent_of_deleted_branches(self):
+        fixtures = {path.name for path in HISTORY_DIR.glob('*.gz')}
+        self.assertEqual(fixtures, {blob_id + '.gz' for blob_id, reachable in HISTORICAL_BLOBS.values()
+                                    if reachable is None})
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        for reachable in {reachable for _, reachable in HISTORICAL_BLOBS.values() if reachable is not None}:
+            self.assertEqual(subprocess.run(['git', 'merge-base', '--is-ancestor', reachable, head],
+                                            cwd=ROOT, check=False).returncode, 0)
+        for (commit, path), (blob_id, reachable) in HISTORICAL_BLOBS.items():
+            with self.subTest(commit=commit, path=path):
+                data = frozen_git_blob(commit, path)
+                self.assertEqual(hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest(), blob_id)
+                if reachable is None:
+                    self.assertTrue(path.startswith(('eng/policy/',)))
+        # A byte-for-byte mutation of any frozen copy is refused by the blob identity check.
+        victim = next((key, blob_id) for key, (blob_id, reachable) in HISTORICAL_BLOBS.items() if reachable is None)
+        original = (HISTORY_DIR / (victim[1] + '.gz')).read_bytes()
+        data = gzip.decompress(original)
+        mutated = data[:-2] + (b'0' if data[-2:-1] != b'0' else b'1') + data[-1:]
+        self.assertNotEqual(hashlib.sha1(b'blob %d\0' % len(mutated) + mutated).hexdigest(), victim[1])
+
 
 if __name__ == '__main__':
     unittest.main()
