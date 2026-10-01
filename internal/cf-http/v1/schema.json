@@ -1,36 +1,121 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$comment": "SPDX-License-Identifier: Apache-2.0; contracts05 sections 3, 6 and 8. Internal Cloudflare HTTP contracts only; no handler or live-provider evidence.",
+  "$comment": "SPDX-License-Identifier: Apache-2.0; contracts05 sections 3, 8 and 9, the Execution-owner and Web-search additions, and registry04 WebSearch records. Internal Cloudflare HTTP contracts only; no handler or live-provider evidence.",
   "title": "CloudflareInternalHttpContractBundle",
   "x-arcforges-schema-version": "1",
   "$defs": {
     "ObjectAuthorizeRequest": {
       "title": "ObjectAuthorizeRequest",
+      "$comment": "Exactly one of the current credential (first presentation) or the C#-issued SessionBinding is supplied, as for the run authorize port. The credential is a bounded secret that is never logged.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ObjectAuthorizeCredentialRequest"
+        },
+        {
+          "$ref": "#/$defs/ObjectAuthorizeSessionBindingRequest"
+        }
+      ],
+      "x-arcforges-max-bytes": 262144
+    },
+    "ObjectAuthorizeCredentialRequest": {
+      "title": "ObjectAuthorizeCredentialRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "origin": {"type": "string", "maxLength": 2048},
-        "sessionBinding": {"$ref": "../../ai-http/v1/schema.json#/$defs/SessionBinding"},
-        "ticketId": {"$ref": "#/$defs/Identifier"},
-        "verb": {"$ref": "#/$defs/Identifier"},
-        "range": {"$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"},
-        "partNumber": {"type": "integer", "minimum": 1, "maximum": 10000},
-        "length": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "credential": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8192
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "ticketId": {
+          "$ref": "#/$defs/Id"
+        },
+        "verb": {
+          "$ref": "#/$defs/Key"
+        },
+        "range": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        },
+        "partNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "length": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "ticketId", "verb"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 16384
+      "required": ["requestId", "correlationId", "credential", "ticketId", "verb"],
+      "additionalProperties": false
+    },
+    "ObjectAuthorizeSessionBindingRequest": {
+      "title": "ObjectAuthorizeSessionBindingRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "sessionBinding": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/SessionBinding"
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "ticketId": {
+          "$ref": "#/$defs/Id"
+        },
+        "verb": {
+          "$ref": "#/$defs/Key"
+        },
+        "range": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        },
+        "partNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "length": {
+          "$ref": "#/$defs/UInt64String"
+        }
+      },
+      "required": ["requestId", "correlationId", "sessionBinding", "ticketId", "verb"],
+      "additionalProperties": false
     },
     "ObjectAuthorizeResponse": {
       "title": "ObjectAuthorizeResponse",
       "type": "object",
       "properties": {
-        "objectKey": {"type": "string", "minLength": 1, "maxLength": 1024},
-        "binding": {"$ref": "#/$defs/Identifier"},
-        "allowedRange": {"$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"},
-        "expiresAt": {"$ref": "#/$defs/Instant"},
-        "expectedHash": {"$ref": "#/$defs/Hash"}
+        "objectKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "binding": {
+          "$ref": "#/$defs/Key"
+        },
+        "allowedRange": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/Instant"
+        },
+        "expectedHash": {
+          "$ref": "#/$defs/Hash"
+        }
       },
       "required": ["objectKey", "binding", "allowedRange", "expiresAt"],
       "additionalProperties": false,
@@ -40,19 +125,31 @@
       "title": "ObjectPartReceiptRequest",
       "type": "object",
       "properties": {
-        "uploadId": {"$ref": "#/$defs/Identifier"},
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "part": {"$ref": "#/$defs/PartReceipt"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "uploadId": {
+          "$ref": "#/$defs/Id"
+        },
+        "part": {
+          "$ref": "#/$defs/PartReceipt"
+        }
       },
-      "required": ["uploadId", "requestId", "correlationId", "part"],
+      "required": ["requestId", "correlationId", "uploadId", "part"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384
     },
     "ObjectPartReceiptResponse": {
       "title": "ObjectPartReceiptResponse",
       "type": "object",
-      "properties": {"receipt": {"$ref": "#/$defs/Hash"}},
+      "properties": {
+        "receipt": {
+          "$ref": "#/$defs/Hash"
+        }
+      },
       "required": ["receipt"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4096
@@ -61,15 +158,39 @@
       "title": "ObjectVerificationRequest",
       "type": "object",
       "properties": {
-        "uploadId": {"$ref": "#/$defs/Identifier"},
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "sha256": {"$ref": "#/$defs/Hash"},
-        "size": {"$ref": "#/$defs/UInt64String"},
-        "mediaType": {"type": "string", "minLength": 1, "maxLength": 128},
-        "verificationState": {"$ref": "#/$defs/Identifier"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "uploadId": {
+          "$ref": "#/$defs/Id"
+        },
+        "sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "size": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "verificationState": {
+          "$ref": "#/$defs/Key"
+        }
       },
-      "required": ["requestId", "correlationId", "uploadId", "sha256", "size", "mediaType", "verificationState"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "uploadId",
+        "sha256",
+        "size",
+        "mediaType",
+        "verificationState"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -77,9 +198,15 @@
       "title": "ObjectVerificationResponse",
       "type": "object",
       "properties": {
-        "resource": {"$ref": "../../ai-http/v1/schema.json#/$defs/ResourceRef"},
-        "provisionalPin": {"$ref": "#/$defs/Identifier"},
-        "expiresAt": {"$ref": "#/$defs/Instant"}
+        "resource": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ResourceRef"
+        },
+        "provisionalPin": {
+          "$ref": "#/$defs/Id"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/Instant"
+        }
       },
       "required": ["resource", "provisionalPin", "expiresAt"],
       "additionalProperties": false,
@@ -88,8 +215,12 @@
     "ObjectJobGrantRequest": {
       "title": "ObjectJobGrantRequest",
       "oneOf": [
-        {"$ref": "#/$defs/ObjectReadJobGrantRequest"},
-        {"$ref": "#/$defs/ObjectWriteJobGrantRequest"}
+        {
+          "$ref": "#/$defs/ObjectReadJobGrantRequest"
+        },
+        {
+          "$ref": "#/$defs/ObjectWriteJobGrantRequest"
+        }
       ],
       "x-arcforges-max-bytes": 16384
     },
@@ -97,174 +228,221 @@
       "title": "ObjectReadJobGrantRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "ownerKind": {"type": "string", "enum": ["task", "chatTurn", "search", "export", "simulator", "transfer"]},
-        "ownerJobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "direction": {"type": "string", "const": "read"},
-        "resource": {"$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"},
-        "declaredBytes": {"$ref": "#/$defs/UInt64String"},
-        "expectedHash": {"$ref": "#/$defs/Hash"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "ownerKind": {
+          "type": "string",
+          "enum": ["task", "chatTurn", "search", "export", "simulator", "transfer"]
+        },
+        "ownerJobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "direction": {
+          "type": "string",
+          "const": "read"
+        },
+        "resource": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"
+        },
+        "declaredBytes": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "expectedHash": {
+          "$ref": "#/$defs/Hash"
+        }
       },
-      "required": ["requestId", "correlationId", "ownerKind", "ownerJobId", "epoch", "recoveryGeneration", "direction", "resource", "declaredBytes"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 16384
+      "required": [
+        "requestId",
+        "correlationId",
+        "ownerKind",
+        "ownerJobId",
+        "epoch",
+        "recoveryGeneration",
+        "direction",
+        "resource",
+        "declaredBytes"
+      ],
+      "additionalProperties": false
     },
     "ObjectWriteJobGrantRequest": {
       "title": "ObjectWriteJobGrantRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "ownerKind": {"type": "string", "enum": ["task", "chatTurn", "search", "export", "simulator", "transfer"]},
-        "ownerJobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "direction": {"type": "string", "const": "write"},
-        "purpose": {"type": "string", "enum": ["attachment", "export", "simulatorSegment", "aiOutput", "diagnostic", "managedAsset", "transientInput"]},
-        "declaredBytes": {"$ref": "#/$defs/UInt64String"},
-        "expectedHash": {"$ref": "#/$defs/Hash"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "ownerKind": {
+          "type": "string",
+          "enum": ["task", "chatTurn", "search", "export", "simulator", "transfer"]
+        },
+        "ownerJobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "direction": {
+          "type": "string",
+          "const": "write"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "attachment",
+            "export",
+            "simulatorSegment",
+            "aiOutput",
+            "diagnostic",
+            "managedAsset",
+            "transientInput"
+          ]
+        },
+        "declaredBytes": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "expectedHash": {
+          "$ref": "#/$defs/Hash"
+        }
       },
-      "required": ["requestId", "correlationId", "ownerKind", "ownerJobId", "epoch", "recoveryGeneration", "direction", "purpose", "declaredBytes"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 16384
+      "required": [
+        "requestId",
+        "correlationId",
+        "ownerKind",
+        "ownerJobId",
+        "epoch",
+        "recoveryGeneration",
+        "direction",
+        "purpose",
+        "declaredBytes"
+      ],
+      "additionalProperties": false
     },
     "ObjectJobGrantResponse": {
       "title": "ObjectJobGrantResponse",
       "oneOf": [
-        {"$ref": "#/$defs/ObjectReadJobGrantResponse"},
-        {"$ref": "#/$defs/ObjectWriteJobGrantResponse"}
+        {
+          "$ref": "#/$defs/ObjectReadJobGrantResponse"
+        },
+        {
+          "$ref": "#/$defs/ObjectWriteJobGrantResponse"
+        }
       ],
-      "x-arcforges-max-bytes": 32768
+      "x-arcforges-max-bytes": 262144
     },
     "ObjectReadJobGrantResponse": {
       "title": "ObjectReadJobGrantResponse",
       "type": "object",
-      "properties": {"grant": {"$ref": "#/$defs/ServiceObjectGrant"}},
+      "properties": {
+        "grant": {
+          "$ref": "#/$defs/ServiceObjectGrant"
+        }
+      },
       "required": ["grant"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 16384
+      "additionalProperties": false
     },
     "ObjectWriteJobGrantResponse": {
       "title": "ObjectWriteJobGrantResponse",
       "type": "object",
       "properties": {
-        "grant": {"$ref": "#/$defs/ServiceObjectGrant"},
-        "uploadId": {"$ref": "#/$defs/Identifier"},
-        "provisionalResource": {"$ref": "../../ai-http/v1/schema.json#/$defs/ResourceRef"},
-        "storageHoldId": {"$ref": "#/$defs/Identifier"}
+        "grant": {
+          "$ref": "#/$defs/ServiceObjectGrant"
+        },
+        "uploadId": {
+          "$ref": "#/$defs/Id"
+        },
+        "provisionalResource": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ResourceRef"
+        },
+        "storageHoldId": {
+          "$ref": "#/$defs/Id"
+        }
       },
       "required": ["grant", "uploadId", "provisionalResource", "storageHoldId"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 32768
+      "additionalProperties": false
     },
     "ObjectJobAuthorizeRequest": {
       "title": "ObjectJobAuthorizeRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "grant": {"$ref": "#/$defs/ServiceObjectGrant"},
-        "verb": {"type": "string", "enum": ["GET", "PUT"]},
-        "range": {"$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"},
-        "partNumber": {"type": "integer", "minimum": 1, "maximum": 10000},
-        "length": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "grant": {
+          "$ref": "#/$defs/ServiceObjectGrant"
+        },
+        "verb": {
+          "type": "string",
+          "enum": ["GET", "PUT"]
+        },
+        "range": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        },
+        "partNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "length": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "grant", "verb"],
+      "required": ["requestId", "correlationId", "grant", "verb", "length"],
       "additionalProperties": false,
-      "x-arcforges-max-bytes": 32768
+      "x-arcforges-max-bytes": 262144
     },
     "ObjectJobAuthorizeResponse": {
       "title": "ObjectJobAuthorizeResponse",
       "type": "object",
       "properties": {
-        "objectKey": {"type": "string", "minLength": 1, "maxLength": 1024},
-        "binding": {"$ref": "#/$defs/Identifier"},
-        "allowedRange": {"$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"},
-        "allowedPartNumber": {"type": "integer", "minimum": 1, "maximum": 10000},
-        "expiresAt": {"$ref": "#/$defs/Instant"},
-        "expectedHash": {"$ref": "#/$defs/Hash"}
+        "objectKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "binding": {
+          "$ref": "#/$defs/Key"
+        },
+        "allowedRange": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        },
+        "allowedPartNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/Instant"
+        },
+        "expectedHash": {
+          "$ref": "#/$defs/Hash"
+        }
       },
       "required": ["objectKey", "binding", "expiresAt"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 8192
-    },
-    "WorkerObjectJobRequest": {
-      "title": "WorkerObjectJobRequest",
-      "oneOf": [
-        {"$ref": "#/$defs/WorkerObjectJobReadRequest"},
-        {"$ref": "#/$defs/WorkerObjectJobWriteRequest"}
-      ],
-      "x-arcforges-max-bytes": 32768
-    },
-    "WorkerObjectJobReadRequest": {
-      "title": "WorkerObjectJobReadRequest",
-      "type": "object",
-      "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "grantId": {"$ref": "#/$defs/Identifier"},
-        "grant": {"$ref": "#/$defs/ServiceObjectGrant"},
-        "method": {"type": "string", "const": "GET"},
-        "range": {"$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"}
-      },
-      "required": ["requestId", "correlationId", "grantId", "grant", "method"],
-      "additionalProperties": false,
-      "$comment": "Binary range bytes are streamed outside this bounded JSON metadata; the Worker requires service HMAC plus a matching, unexpired owner grant and does not accept an ambient customer bearer or arbitrary object key.",
-      "x-arcforges-max-bytes": 16384
-    },
-    "WorkerObjectJobWriteRequest": {
-      "title": "WorkerObjectJobWriteRequest",
-      "type": "object",
-      "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "grantId": {"$ref": "#/$defs/Identifier"},
-        "grant": {"$ref": "#/$defs/ServiceObjectGrant"},
-        "method": {"type": "string", "const": "PUT"},
-        "partNumber": {"type": "integer", "minimum": 1, "maximum": 10000},
-        "declaredLength": {"type": "integer", "minimum": 1, "maximum": 8388608},
-        "sha256": {"$ref": "#/$defs/Hash"}
-      },
-      "required": ["requestId", "correlationId", "grantId", "grant", "method", "partNumber", "declaredLength", "sha256"],
-      "additionalProperties": false,
-      "$comment": "The part body is streamed and SHA-256/length verified before receipt. One request is at most 8 MiB; every accepted part is reauthorized against the current owner fence.",
-      "x-arcforges-max-bytes": 16384
-    },
-    "WorkerObjectJobResponse": {
-      "title": "WorkerObjectJobResponse",
-      "oneOf": [
-        {"$ref": "#/$defs/WorkerObjectJobReadResponse"},
-        {"$ref": "#/$defs/WorkerObjectJobWriteResponse"}
-      ],
-      "x-arcforges-max-bytes": 16384
-    },
-    "WorkerObjectJobReadResponse": {
-      "title": "WorkerObjectJobReadResponse",
-      "type": "object",
-      "properties": {
-        "grantId": {"$ref": "#/$defs/Identifier"},
-        "length": {"type": "integer", "minimum": 0, "maximum": 8388608},
-        "sha256": {"$ref": "#/$defs/Hash"},
-        "range": {"$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"}
-      },
-      "required": ["grantId", "length", "sha256"],
-      "additionalProperties": false,
-      "$comment": "The object bytes are the streaming HTTP response body and are not base64-encoded into a JSON contract.",
-      "x-arcforges-max-bytes": 8192
-    },
-    "WorkerObjectJobWriteResponse": {
-      "title": "WorkerObjectJobWriteResponse",
-      "type": "object",
-      "properties": {
-        "grantId": {"$ref": "#/$defs/Identifier"},
-        "partReceipt": {"$ref": "#/$defs/PartReceipt"}
-      },
-      "required": ["grantId", "partReceipt"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -272,37 +450,235 @@
       "title": "ServiceObjectGrant",
       "type": "object",
       "properties": {
-        "grantId": {"$ref": "#/$defs/Identifier"},
-        "realmId": {"$ref": "#/$defs/Identifier"},
-        "workspaceId": {"$ref": "#/$defs/Identifier"},
-        "ownerKind": {"type": "string", "enum": ["task", "chatTurn", "search", "export", "simulator", "transfer"]},
-        "ownerJobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "direction": {"type": "string", "enum": ["read", "write"]},
-        "resourceId": {"$ref": "#/$defs/Identifier"},
-        "uploadId": {"$ref": "#/$defs/Identifier"},
-        "byteLimit": {"$ref": "#/$defs/UInt64String"},
-        "expiresAt": {"$ref": "#/$defs/Instant"},
-        "mac": {"type": "string", "maxLength": 87384, "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"}
+        "grantId": {
+          "$ref": "#/$defs/Id"
+        },
+        "realmId": {
+          "$ref": "#/$defs/Id"
+        },
+        "workspaceId": {
+          "$ref": "#/$defs/Id"
+        },
+        "ownerKind": {
+          "type": "string",
+          "enum": ["task", "chatTurn", "search", "export", "simulator", "transfer"]
+        },
+        "ownerJobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["read", "write"]
+        },
+        "resourceId": {
+          "$ref": "#/$defs/Id"
+        },
+        "uploadId": {
+          "$ref": "#/$defs/Id"
+        },
+        "byteLimit": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/Instant"
+        },
+        "mac": {
+          "$ref": "#/$defs/Bytes"
+        }
       },
-      "required": ["grantId", "realmId", "workspaceId", "ownerKind", "ownerJobId", "epoch", "recoveryGeneration", "direction", "resourceId", "byteLimit", "expiresAt", "mac"],
+      "required": [
+        "grantId",
+        "realmId",
+        "workspaceId",
+        "ownerKind",
+        "ownerJobId",
+        "epoch",
+        "recoveryGeneration",
+        "direction",
+        "resourceId",
+        "byteLimit",
+        "expiresAt",
+        "mac"
+      ],
       "additionalProperties": false,
+      "$comment": "The grant lasts at most 60 seconds from issuance and never outlives the current owner lease; the record carries no issuance time, so lifetime and lease checks are owner-side rules covered by the offline oracle vectors. No raw R2 key or credential appears in a grant."
+    },
+    "WorkerObjectJobRequest": {
+      "title": "WorkerObjectJobRequest",
+      "$comment": "Typed bounded metadata for GET/PUT /internal/objects/v1/jobs/{grantId}. The Worker requires service HMAC plus a matching, unexpired owner grant and accepts no ambient customer bearer, arbitrary object key or raw R2 credential; every range and part is reauthorized through job-authorize.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WorkerObjectJobReadRequest"
+        },
+        {
+          "$ref": "#/$defs/WorkerObjectJobWriteRequest"
+        }
+      ],
+      "x-arcforges-max-bytes": 262144
+    },
+    "WorkerObjectJobReadRequest": {
+      "title": "WorkerObjectJobReadRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "grantId": {
+          "$ref": "#/$defs/Id"
+        },
+        "grant": {
+          "$ref": "#/$defs/ServiceObjectGrant"
+        },
+        "method": {
+          "type": "string",
+          "const": "GET"
+        },
+        "range": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        }
+      },
+      "required": ["requestId", "correlationId", "grantId", "grant", "method"],
+      "additionalProperties": false,
+      "$comment": "Object bytes are the streaming HTTP response body and are never embedded in this JSON metadata."
+    },
+    "WorkerObjectJobWriteRequest": {
+      "title": "WorkerObjectJobWriteRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "grantId": {
+          "$ref": "#/$defs/Id"
+        },
+        "grant": {
+          "$ref": "#/$defs/ServiceObjectGrant"
+        },
+        "method": {
+          "type": "string",
+          "const": "PUT"
+        },
+        "partNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "declaredLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8388608
+        },
+        "sha256": {
+          "$ref": "#/$defs/Hash"
+        }
+      },
+      "required": [
+        "requestId",
+        "correlationId",
+        "grantId",
+        "grant",
+        "method",
+        "partNumber",
+        "declaredLength",
+        "sha256"
+      ],
+      "additionalProperties": false,
+      "$comment": "The part body is streamed, SHA-256 and length verified before any receipt is recorded; one part is at most 8 MiB and the declared hash travels in the signed request body-hash position."
+    },
+    "WorkerObjectJobResponse": {
+      "title": "WorkerObjectJobResponse",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WorkerObjectJobReadResponse"
+        },
+        {
+          "$ref": "#/$defs/WorkerObjectJobWriteResponse"
+        }
+      ],
       "x-arcforges-max-bytes": 16384
+    },
+    "WorkerObjectJobReadResponse": {
+      "title": "WorkerObjectJobReadResponse",
+      "type": "object",
+      "properties": {
+        "grantId": {
+          "$ref": "#/$defs/Id"
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8388608
+        },
+        "sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "range": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ByteRange"
+        }
+      },
+      "required": ["grantId", "length", "sha256"],
+      "additionalProperties": false
+    },
+    "WorkerObjectJobWriteResponse": {
+      "title": "WorkerObjectJobWriteResponse",
+      "type": "object",
+      "properties": {
+        "grantId": {
+          "$ref": "#/$defs/Id"
+        },
+        "partReceipt": {
+          "$ref": "#/$defs/PartReceipt"
+        }
+      },
+      "required": ["grantId", "partReceipt"],
+      "additionalProperties": false
     },
     "WorkerDispatchRequest": {
       "title": "WorkerDispatchRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "runId": {"$ref": "#/$defs/Identifier"},
-        "requiredWorkerVersion": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "outboxId": {"$ref": "#/$defs/Identifier"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "runId": {
+          "$ref": "#/$defs/Id"
+        },
+        "requiredWorkerVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "outboxId": {
+          "$ref": "#/$defs/Id"
+        }
       },
-      "required": ["requestId", "correlationId", "runId", "requiredWorkerVersion", "recoveryGeneration", "outboxId"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "requiredWorkerVersion",
+        "recoveryGeneration",
+        "outboxId"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -310,8 +686,12 @@
       "title": "WorkerDispatchResponse",
       "type": "object",
       "properties": {
-        "workflowId": {"$ref": "#/$defs/Identifier"},
-        "accepted": {"type": "boolean"}
+        "workflowId": {
+          "$ref": "#/$defs/WorkflowId"
+        },
+        "accepted": {
+          "type": "boolean"
+        }
       },
       "required": ["workflowId", "accepted"],
       "additionalProperties": false,
@@ -321,16 +701,42 @@
       "title": "WorkerControlRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "runId": {"$ref": "#/$defs/Identifier"},
-        "workflowId": {"$ref": "#/$defs/Identifier"},
-        "workerVersion": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "controlRevision": {"$ref": "#/$defs/PositiveInt64String"},
-        "kind": {"type": "string", "enum": ["wake", "pause", "cancel", "revoke"]}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "runId": {
+          "$ref": "#/$defs/Id"
+        },
+        "workflowId": {
+          "$ref": "#/$defs/WorkflowId"
+        },
+        "workerVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "controlRevision": {
+          "$ref": "#/$defs/PositiveInt64String"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["wake", "pause", "cancel", "revoke"]
+        }
       },
-      "required": ["requestId", "correlationId", "runId", "workflowId", "workerVersion", "recoveryGeneration", "controlRevision", "kind"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "controlRevision",
+        "kind"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -338,8 +744,12 @@
       "title": "WorkerControlResponse",
       "type": "object",
       "properties": {
-        "accepted": {"type": "boolean"},
-        "targetWorkflowId": {"$ref": "#/$defs/Identifier"}
+        "accepted": {
+          "type": "boolean"
+        },
+        "targetWorkflowId": {
+          "$ref": "#/$defs/WorkflowId"
+        }
       },
       "required": ["accepted", "targetWorkflowId"],
       "additionalProperties": false,
@@ -349,24 +759,63 @@
       "title": "WorkerDeleteRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "workspaceId": {"$ref": "#/$defs/Identifier"},
-        "deletionId": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "targets": {"type": "array", "items": {"$ref": "#/$defs/CfDeletionTarget"}, "minItems": 1, "maxItems": 200},
-        "inventoryHash": {"$ref": "#/$defs/Hash"},
-        "page": {"type": "integer", "minimum": 0, "maximum": 4294967295}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "workspaceId": {
+          "$ref": "#/$defs/Id"
+        },
+        "deletionId": {
+          "$ref": "#/$defs/Id"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CfDeletionTarget"
+          },
+          "minItems": 1,
+          "maxItems": 200
+        },
+        "inventoryHash": {
+          "$ref": "#/$defs/Hash"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
       },
-      "required": ["requestId", "correlationId", "workspaceId", "deletionId", "recoveryGeneration", "targets", "inventoryHash", "page"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "workspaceId",
+        "deletionId",
+        "recoveryGeneration",
+        "targets",
+        "inventoryHash",
+        "page"
+      ],
       "additionalProperties": false,
+      "$comment": "Callable only through the existing account-scoped Workspace owner deletion job; a workspaceId in this body is data, never caller-selected authority. At most 200 exact targets per page, no wildcard namespace delete.",
       "x-arcforges-max-bytes": 262144
     },
     "WorkerDeleteResponse": {
       "title": "WorkerDeleteResponse",
       "type": "object",
       "properties": {
-        "receipts": {"type": "array", "items": {"$ref": "#/$defs/CfDeletionReceipt"}, "maxItems": 200}
+        "receipts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CfDeletionReceipt"
+          },
+          "maxItems": 200
+        }
       },
       "required": ["receipts"],
       "additionalProperties": false,
@@ -376,64 +825,150 @@
       "title": "WorkerWebSearchRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "runId": {"$ref": "#/$defs/Identifier"},
-        "owner": {"$ref": "../../ai-http/v1/schema.json#/$defs/ExecutionOwner"},
-        "workflowId": {"$ref": "#/$defs/Identifier"},
-        "workerVersion": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "toolRequestId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "commandId": {"$ref": "#/$defs/Identifier"},
-        "search": {"$ref": "#/$defs/WebSearchRequest"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "runId": {
+          "$ref": "#/$defs/Id"
+        },
+        "owner": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ExecutionOwner"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "workflowId": {
+          "$ref": "#/$defs/WorkflowId"
+        },
+        "workerVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "toolRequestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "commandId": {
+          "$ref": "#/$defs/Id"
+        },
+        "search": {
+          "$ref": "#/$defs/WebSearchRequest"
+        }
       },
-      "required": ["requestId", "correlationId", "runId", "owner", "workflowId", "workerVersion", "recoveryGeneration", "toolRequestId", "attemptId", "commandId", "search"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "runId",
+        "owner",
+        "epoch",
+        "workflowId",
+        "workerVersion",
+        "recoveryGeneration",
+        "toolRequestId",
+        "attemptId",
+        "commandId",
+        "search"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 32768
     },
     "WorkerWebSearchResponse": {
       "title": "WorkerWebSearchResponse",
       "oneOf": [
-        {"$ref": "#/$defs/WorkerWebSearchSuccess"},
-        {"$ref": "#/$defs/WorkerWebSearchFailure"}
+        {
+          "$ref": "#/$defs/WorkerWebSearchSuccess"
+        },
+        {
+          "$ref": "#/$defs/WorkerWebSearchFailure"
+        }
       ],
       "x-arcforges-max-bytes": 262144
     },
     "WorkerWebSearchSuccess": {
       "title": "WorkerWebSearchSuccess",
       "type": "object",
-      "properties": {"result": {"$ref": "#/$defs/WebSearchResult"}},
+      "properties": {
+        "result": {
+          "$ref": "#/$defs/WebSearchResult"
+        }
+      },
       "required": ["result"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 262144
+      "additionalProperties": false
     },
     "WorkerWebSearchFailure": {
       "title": "WorkerWebSearchFailure",
       "type": "object",
-      "properties": {"error": {"$ref": "../../ai-http/v1/schema.json#/$defs/ArcError"}},
+      "properties": {
+        "error": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ArcError"
+        }
+      },
       "required": ["error"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 16384
+      "additionalProperties": false
     },
     "InferenceJobRequest": {
       "title": "InferenceJobRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "kind": {"type": "string", "enum": ["embedding", "rerank"]},
-        "modelId": {"$ref": "#/$defs/Identifier"},
-        "configVersion": {"$ref": "#/$defs/Identifier"},
-        "sourceManifest": {"$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"},
-        "inputHash": {"$ref": "#/$defs/Hash"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "deadline": {"$ref": "#/$defs/Instant"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["embedding", "rerank"]
+        },
+        "modelId": {
+          "$ref": "#/$defs/ModelId"
+        },
+        "configVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "sourceManifest": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"
+        },
+        "inputHash": {
+          "$ref": "#/$defs/Hash"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "deadline": {
+          "$ref": "#/$defs/Instant"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "kind", "modelId", "configVersion", "sourceManifest", "inputHash", "intentReceipt", "deadline", "recoveryGeneration"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "kind",
+        "modelId",
+        "configVersion",
+        "sourceManifest",
+        "inputHash",
+        "intentReceipt",
+        "deadline",
+        "recoveryGeneration"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 32768
     },
@@ -441,9 +976,15 @@
       "title": "InferenceJobResponse",
       "type": "object",
       "properties": {
-        "accepted": {"type": "boolean"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "workflowId": {"$ref": "#/$defs/Identifier"}
+        "accepted": {
+          "type": "boolean"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "workflowId": {
+          "$ref": "#/$defs/WorkflowId"
+        }
       },
       "required": ["accepted", "jobId", "workflowId"],
       "additionalProperties": false,
@@ -453,16 +994,40 @@
       "title": "InferenceLeaseRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "workflowId": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "expectedEpoch": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "workflowId": {
+          "$ref": "#/$defs/WorkflowId"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "expectedEpoch": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "intentReceipt", "workflowId", "recoveryGeneration"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "intentReceipt",
+        "workflowId",
+        "recoveryGeneration"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -470,9 +1035,15 @@
       "title": "InferenceLeaseResponse",
       "type": "object",
       "properties": {
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "leaseExpiresAt": {"$ref": "#/$defs/Instant"},
-        "deadline": {"$ref": "#/$defs/Instant"}
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "leaseExpiresAt": {
+          "$ref": "#/$defs/Instant"
+        },
+        "deadline": {
+          "$ref": "#/$defs/Instant"
+        }
       },
       "required": ["epoch", "leaseExpiresAt", "deadline"],
       "additionalProperties": false,
@@ -482,16 +1053,41 @@
       "title": "InferenceInputRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "inputHash": {"$ref": "#/$defs/Hash"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "inputHash": {
+          "$ref": "#/$defs/Hash"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "intentReceipt", "inputHash", "epoch", "recoveryGeneration"],
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "intentReceipt",
+        "inputHash",
+        "epoch",
+        "recoveryGeneration"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -499,8 +1095,16 @@
       "title": "InferenceInputResponse",
       "type": "object",
       "properties": {
-        "input": {"$ref": "#/$defs/InferenceInput"},
-        "sourcePins": {"type": "array", "items": {"$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"}, "maxItems": 200}
+        "input": {
+          "$ref": "#/$defs/InferenceInput"
+        },
+        "sourcePins": {
+          "type": "array",
+          "items": {
+            "$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"
+          },
+          "maxItems": 200
+        }
       },
       "required": ["input", "sourcePins"],
       "additionalProperties": false,
@@ -508,9 +1112,14 @@
     },
     "InferenceOutcomeRequest": {
       "title": "InferenceOutcomeRequest",
+      "$comment": "A complete outcome carries its validated result; usage may be absent and then records costUnconfirmed owner-side. An interrupted, refused or unknown outcome never publishes a complete result.",
       "oneOf": [
-        {"$ref": "#/$defs/InferenceOutcomeCompleteRequest"},
-        {"$ref": "#/$defs/InferenceOutcomeNonCompleteRequest"}
+        {
+          "$ref": "#/$defs/InferenceOutcomeCompleteRequest"
+        },
+        {
+          "$ref": "#/$defs/InferenceOutcomeNonCompleteRequest"
+        }
       ],
       "x-arcforges-max-bytes": 262144
     },
@@ -518,55 +1127,131 @@
       "title": "InferenceOutcomeCompleteRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "state": {"type": "string", "const": "complete"},
-        "result": {"$ref": "#/$defs/InferenceResult"},
-        "usage": {"$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"},
-        "supplierRequestId": {"type": "string", "maxLength": 256}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "state": {
+          "type": "string",
+          "const": "complete"
+        },
+        "result": {
+          "$ref": "#/$defs/InferenceResult"
+        },
+        "usage": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "intentReceipt", "epoch", "recoveryGeneration", "state", "result"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 262144
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "intentReceipt",
+        "epoch",
+        "recoveryGeneration",
+        "state",
+        "result"
+      ],
+      "additionalProperties": false
     },
     "InferenceOutcomeNonCompleteRequest": {
       "title": "InferenceOutcomeNonCompleteRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "state": {"type": "string", "enum": ["interrupted", "refused", "unknown"]},
-        "result": {"$ref": "#/$defs/InferenceResult"},
-        "usage": {"$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"},
-        "supplierRequestId": {"type": "string", "maxLength": 256}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["interrupted", "refused", "unknown"]
+        },
+        "result": {
+          "$ref": "#/$defs/InferenceResult"
+        },
+        "usage": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "intentReceipt", "epoch", "recoveryGeneration", "state"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 262144
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "intentReceipt",
+        "epoch",
+        "recoveryGeneration",
+        "state"
+      ],
+      "additionalProperties": false
     },
     "InferenceOutcomeResponse": {
       "title": "InferenceOutcomeResponse",
       "type": "object",
-      "properties": {"outcomeReceipt": {"$ref": "#/$defs/Hash"}},
+      "properties": {
+        "outcomeReceipt": {
+          "$ref": "#/$defs/Hash"
+        }
+      },
       "required": ["outcomeReceipt"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4096
     },
     "InferenceLateOutcomeRequest": {
       "title": "InferenceLateOutcomeRequest",
+      "$comment": "Exact inference-outcome fields plus the original epoch and recovery generation. Only the current authenticated reconciliation service may use this stale-fence evidence port; it never publishes stale Search output or creates a customer debit.",
       "oneOf": [
-        {"$ref": "#/$defs/InferenceLateOutcomeCompleteRequest"},
-        {"$ref": "#/$defs/InferenceLateOutcomeNonCompleteRequest"}
+        {
+          "$ref": "#/$defs/InferenceLateOutcomeCompleteRequest"
+        },
+        {
+          "$ref": "#/$defs/InferenceLateOutcomeNonCompleteRequest"
+        }
       ],
       "x-arcforges-max-bytes": 262144
     },
@@ -574,50 +1259,133 @@
       "title": "InferenceLateOutcomeCompleteRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "state": {"type": "string", "const": "complete"},
-        "result": {"$ref": "#/$defs/InferenceResult"},
-        "usage": {"$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"},
-        "supplierRequestId": {"type": "string", "maxLength": 256},
-        "originalEpoch": {"$ref": "#/$defs/UInt64String"},
-        "originalRecoveryGeneration": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "state": {
+          "type": "string",
+          "const": "complete"
+        },
+        "result": {
+          "$ref": "#/$defs/InferenceResult"
+        },
+        "usage": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "originalEpoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "originalRecoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "intentReceipt", "epoch", "recoveryGeneration", "state", "result", "originalEpoch", "originalRecoveryGeneration"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 262144
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "intentReceipt",
+        "epoch",
+        "recoveryGeneration",
+        "state",
+        "result",
+        "originalEpoch",
+        "originalRecoveryGeneration"
+      ],
+      "additionalProperties": false
     },
     "InferenceLateOutcomeNonCompleteRequest": {
       "title": "InferenceLateOutcomeNonCompleteRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "attemptId": {"$ref": "#/$defs/Identifier"},
-        "intentReceipt": {"$ref": "#/$defs/Hash"},
-        "epoch": {"$ref": "#/$defs/UInt64String"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "state": {"type": "string", "enum": ["interrupted", "refused", "unknown"]},
-        "result": {"$ref": "#/$defs/InferenceResult"},
-        "usage": {"$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"},
-        "supplierRequestId": {"type": "string", "maxLength": 256},
-        "originalEpoch": {"$ref": "#/$defs/UInt64String"},
-        "originalRecoveryGeneration": {"$ref": "#/$defs/UInt64String"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "attemptId": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "epoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["interrupted", "refused", "unknown"]
+        },
+        "result": {
+          "$ref": "#/$defs/InferenceResult"
+        },
+        "usage": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ModelUsage"
+        },
+        "supplierRequestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "originalEpoch": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "originalRecoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
-      "required": ["requestId", "correlationId", "jobId", "attemptId", "intentReceipt", "epoch", "recoveryGeneration", "state", "originalEpoch", "originalRecoveryGeneration"],
-      "additionalProperties": false,
-      "x-arcforges-max-bytes": 262144
+      "required": [
+        "requestId",
+        "correlationId",
+        "jobId",
+        "attemptId",
+        "intentReceipt",
+        "epoch",
+        "recoveryGeneration",
+        "state",
+        "originalEpoch",
+        "originalRecoveryGeneration"
+      ],
+      "additionalProperties": false
     },
     "InferenceLateOutcomeResponse": {
       "title": "InferenceLateOutcomeResponse",
       "type": "object",
-      "properties": {"outcomeReceipt": {"$ref": "#/$defs/Hash"}},
+      "properties": {
+        "outcomeReceipt": {
+          "$ref": "#/$defs/Hash"
+        }
+      },
       "required": ["outcomeReceipt"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4096
@@ -626,10 +1394,18 @@
       "title": "InferenceStateRequest",
       "type": "object",
       "properties": {
-        "requestId": {"$ref": "#/$defs/Identifier"},
-        "correlationId": {"$ref": "#/$defs/CorrelationId"},
-        "jobId": {"$ref": "#/$defs/Identifier"},
-        "knownReceipt": {"$ref": "#/$defs/Hash"}
+        "requestId": {
+          "$ref": "#/$defs/Id"
+        },
+        "correlationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "jobId": {
+          "$ref": "#/$defs/Id"
+        },
+        "knownReceipt": {
+          "$ref": "#/$defs/Hash"
+        }
       },
       "required": ["requestId", "correlationId", "jobId"],
       "additionalProperties": false,
@@ -639,10 +1415,19 @@
       "title": "InferenceStateResponse",
       "type": "object",
       "properties": {
-        "state": {"type": "string", "enum": ["queued", "running", "unknown", "succeeded", "failed", "cancelled"]},
-        "outcomeReceipt": {"$ref": "#/$defs/Hash"},
-        "result": {"$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"},
-        "reason": {"type": "string", "maxLength": 128}
+        "state": {
+          "type": "string",
+          "enum": ["queued", "running", "unknown", "succeeded", "failed", "cancelled"]
+        },
+        "outcomeReceipt": {
+          "$ref": "#/$defs/Hash"
+        },
+        "result": {
+          "$ref": "../../ai-http/v1/schema.json#/$defs/ResourceVersionRef"
+        },
+        "reason": {
+          "$ref": "#/$defs/Key"
+        }
       },
       "required": ["state"],
       "additionalProperties": false,
@@ -651,17 +1436,29 @@
     "InferenceInput": {
       "title": "InferenceInput",
       "oneOf": [
-        {"$ref": "#/$defs/EmbeddingInput"},
-        {"$ref": "#/$defs/RerankInput"}
-      ],
-      "x-arcforges-max-bytes": 262144
+        {
+          "$ref": "#/$defs/EmbeddingInput"
+        },
+        {
+          "$ref": "#/$defs/RerankInput"
+        }
+      ]
     },
     "EmbeddingInput": {
       "title": "EmbeddingInput",
       "type": "object",
       "properties": {
-        "items": {"type": "array", "items": {"$ref": "#/$defs/InferenceTextItem"}, "minItems": 1, "maxItems": 16},
-        "profile": {"$ref": "#/$defs/Identifier"}
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InferenceTextItem"
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "profile": {
+          "$ref": "#/$defs/Key"
+        }
       },
       "required": ["items", "profile"],
       "additionalProperties": false
@@ -670,9 +1467,22 @@
       "title": "RerankInput",
       "type": "object",
       "properties": {
-        "query": {"type": "string", "minLength": 1, "maxLength": 32768},
-        "candidates": {"type": "array", "items": {"$ref": "#/$defs/InferenceTextItem"}, "minItems": 1, "maxItems": 200},
-        "profile": {"$ref": "#/$defs/Identifier"}
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32768
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InferenceTextItem"
+          },
+          "minItems": 1,
+          "maxItems": 200
+        },
+        "profile": {
+          "$ref": "#/$defs/Key"
+        }
       },
       "required": ["query", "candidates", "profile"],
       "additionalProperties": false
@@ -681,8 +1491,13 @@
       "title": "InferenceTextItem",
       "type": "object",
       "properties": {
-        "itemId": {"$ref": "#/$defs/Identifier"},
-        "text": {"type": "string", "maxLength": 32768}
+        "itemId": {
+          "$ref": "#/$defs/Id"
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 32768
+        }
       },
       "required": ["itemId", "text"],
       "additionalProperties": false
@@ -690,19 +1505,36 @@
     "InferenceResult": {
       "title": "InferenceResult",
       "oneOf": [
-        {"$ref": "#/$defs/EmbeddingResult"},
-        {"$ref": "#/$defs/RerankResult"}
-      ],
-      "x-arcforges-max-bytes": 262144
+        {
+          "$ref": "#/$defs/EmbeddingResult"
+        },
+        {
+          "$ref": "#/$defs/RerankResult"
+        }
+      ]
     },
     "EmbeddingResult": {
       "title": "EmbeddingResult",
       "type": "object",
       "properties": {
-        "modelId": {"$ref": "#/$defs/Identifier"},
-        "profile": {"$ref": "#/$defs/Identifier"},
-        "dimension": {"type": "integer", "const": 1024},
-        "items": {"type": "array", "items": {"$ref": "#/$defs/EmbeddingVector"}, "minItems": 1, "maxItems": 16}
+        "modelId": {
+          "$ref": "#/$defs/ModelId"
+        },
+        "profile": {
+          "$ref": "#/$defs/Key"
+        },
+        "dimension": {
+          "type": "integer",
+          "const": 1024
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EmbeddingVector"
+          },
+          "minItems": 1,
+          "maxItems": 16
+        }
       },
       "required": ["modelId", "profile", "dimension", "items"],
       "additionalProperties": false
@@ -711,8 +1543,19 @@
       "title": "EmbeddingVector",
       "type": "object",
       "properties": {
-        "itemId": {"$ref": "#/$defs/Identifier"},
-        "vector": {"type": "array", "items": {"type": "number", "minimum": -3.4028235e38, "maximum": 3.4028235e38}, "minItems": 1024, "maxItems": 1024}
+        "itemId": {
+          "$ref": "#/$defs/Id"
+        },
+        "vector": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -3.4028235e38,
+            "maximum": 3.4028235e38
+          },
+          "minItems": 1024,
+          "maxItems": 1024
+        }
       },
       "required": ["itemId", "vector"],
       "additionalProperties": false
@@ -721,9 +1564,20 @@
       "title": "RerankResult",
       "type": "object",
       "properties": {
-        "modelId": {"$ref": "#/$defs/Identifier"},
-        "profile": {"$ref": "#/$defs/Identifier"},
-        "items": {"type": "array", "items": {"$ref": "#/$defs/RerankScore"}, "minItems": 1, "maxItems": 200}
+        "modelId": {
+          "$ref": "#/$defs/ModelId"
+        },
+        "profile": {
+          "$ref": "#/$defs/Key"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RerankScore"
+          },
+          "minItems": 1,
+          "maxItems": 200
+        }
       },
       "required": ["modelId", "profile", "items"],
       "additionalProperties": false
@@ -732,8 +1586,14 @@
       "title": "RerankScore",
       "type": "object",
       "properties": {
-        "itemId": {"$ref": "#/$defs/Identifier"},
-        "score": {"type": "number", "minimum": -1.7976931348623157e308, "maximum": 1.7976931348623157e308}
+        "itemId": {
+          "$ref": "#/$defs/Id"
+        },
+        "score": {
+          "type": "number",
+          "minimum": -1.7976931348623157e308,
+          "maximum": 1.7976931348623157e308
+        }
       },
       "required": ["itemId", "score"],
       "additionalProperties": false
@@ -742,58 +1602,131 @@
       "title": "WebSearchRequest",
       "type": "object",
       "properties": {
-        "query": {"type": "string", "minLength": 1, "maxLength": 2048},
-        "count": {"type": "integer", "minimum": 1, "maximum": 10},
-        "searchLang": {"type": "string", "minLength": 2, "maxLength": 35},
-        "country": {"type": "string", "pattern": "^[A-Za-z]{2}$"},
-        "safesearch": {"type": "string", "const": "strict"},
-        "offset": {"type": "integer", "const": 0}
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "language": {
+          "$ref": "#/$defs/Key"
+        },
+        "country": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2,
+          "pattern": "^[A-Z]{2}$"
+        }
       },
-      "required": ["query", "count", "searchLang", "country", "safesearch", "offset"],
+      "required": ["query", "count", "language", "country"],
+      "additionalProperties": false,
+      "$comment": "First-party search profile: strict safe search and offset 0 are fixed adapter constants, not request fields. Frozen query consent is committed by C# cloud-tool admission before this port is invoked, so no consent reference crosses to the Worker."
+    },
+    "WebSearchHit": {
+      "title": "WebSearchHit",
+      "type": "object",
+      "properties": {
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https?://[^\\s]+$"
+        },
+        "snippet": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "fetchedAt": {
+          "$ref": "#/$defs/Instant"
+        },
+        "provider": {
+          "type": "string",
+          "const": "braveWebV1"
+        }
+      },
+      "required": ["rank", "title", "url", "snippet", "fetchedAt", "provider"],
       "additionalProperties": false
     },
     "WebSearchResult": {
       "title": "WebSearchResult",
       "type": "object",
       "properties": {
-        "items": {"type": "array", "items": {"$ref": "#/$defs/WebSearchHit"}, "maxItems": 10}
+        "requestHash": {
+          "$ref": "#/$defs/Hash"
+        },
+        "hits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WebSearchHit"
+          },
+          "maxItems": 10
+        },
+        "providerRequestId": {
+          "$ref": "#/$defs/Key"
+        },
+        "completedAt": {
+          "$ref": "#/$defs/Instant"
+        }
       },
-      "required": ["items"],
-      "additionalProperties": false
-    },
-    "WebSearchHit": {
-      "title": "WebSearchHit",
-      "type": "object",
-      "properties": {
-        "title": {"type": "string", "minLength": 1, "maxLength": 512},
-        "url": {"type": "string", "minLength": 1, "maxLength": 4096, "pattern": "^https?://"},
-        "description": {"type": "string", "maxLength": 8192},
-        "publishedAt": {"type": "string", "maxLength": 40}
-      },
-      "required": ["title", "url"],
+      "required": ["requestHash", "hits", "completedAt"],
       "additionalProperties": false
     },
     "PartReceipt": {
       "title": "PartReceipt",
       "type": "object",
       "properties": {
-        "partNumber": {"type": "integer", "minimum": 1, "maximum": 10000},
-        "size": {"$ref": "#/$defs/UInt64String"},
-        "sha256": {"$ref": "#/$defs/Hash"},
-        "etag": {"type": "string", "minLength": 1, "maxLength": 256}
+        "partNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "size": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "etag": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
       },
       "required": ["partNumber", "size", "sha256", "etag"],
       "additionalProperties": false,
-      "x-arcforges-max-bytes": 4096
+      "$comment": "Same shape as the public PartReceipt; the ETag is an opaque R2 value and is never interpreted as SHA-256."
     },
     "CfDeletionTarget": {
       "title": "CfDeletionTarget",
       "type": "object",
       "properties": {
-        "kind": {"type": "string", "enum": ["runWorkflow", "inferenceWorkflow", "objectVerifier", "streamDO"]},
-        "instanceId": {"$ref": "#/$defs/Identifier"},
-        "workerVersion": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"}
+        "kind": {
+          "type": "string",
+          "enum": ["runWorkflow", "inferenceWorkflow", "objectVerifier", "streamDO"]
+        },
+        "instanceId": {
+          "$ref": "#/$defs/WorkflowId"
+        },
+        "workerVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        }
       },
       "required": ["kind", "instanceId", "workerVersion", "recoveryGeneration"],
       "additionalProperties": false,
@@ -803,9 +1736,16 @@
       "title": "CfDeletionReceipt",
       "type": "object",
       "properties": {
-        "target": {"$ref": "#/$defs/CfDeletionTarget"},
-        "state": {"type": "string", "enum": ["stopped", "purged", "alreadyAbsent"]},
-        "receipt": {"$ref": "#/$defs/Hash"}
+        "target": {
+          "$ref": "#/$defs/CfDeletionTarget"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["stopped", "purged", "alreadyAbsent"]
+        },
+        "receipt": {
+          "$ref": "#/$defs/Hash"
+        }
       },
       "required": ["target", "state", "receipt"],
       "additionalProperties": false,
@@ -815,22 +1755,80 @@
       "title": "BackupManifest",
       "type": "object",
       "properties": {
-        "backupId": {"$ref": "#/$defs/Identifier"},
-        "realmId": {"$ref": "#/$defs/Identifier"},
-        "recoveryGeneration": {"$ref": "#/$defs/UInt64String"},
-        "dbBaseId": {"$ref": "#/$defs/Identifier"},
-        "walStart": {"$ref": "#/$defs/UInt64String"},
-        "walEnd": {"$ref": "#/$defs/UInt64String"},
-        "publicationWatermark": {"$ref": "#/$defs/UInt64String"},
-        "objectRefs": {"type": "array", "items": {"$ref": "#/$defs/BackupObjectRef"}, "maxItems": 20000},
-        "workerVersion": {"$ref": "#/$defs/Identifier"},
-        "contractVersions": {"type": "object", "propertyNames": {"type": "string", "pattern": "^[A-Za-z0-9._/@-]{1,128}$"}, "additionalProperties": {"type": "string", "minLength": 1, "maxLength": 128}, "minProperties": 1, "maxProperties": 128},
-        "configVersion": {"$ref": "#/$defs/Identifier"},
-        "createdAt": {"$ref": "#/$defs/Instant"},
-        "retainedUntil": {"$ref": "#/$defs/Instant"},
-        "signature": {"type": "string", "minLength": 1, "maxLength": 8192, "pattern": "^[A-Za-z0-9_-]+$"}
+        "backupId": {
+          "$ref": "#/$defs/Id"
+        },
+        "realmId": {
+          "$ref": "#/$defs/Id"
+        },
+        "recoveryGeneration": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "dbBaseId": {
+          "$ref": "#/$defs/Key"
+        },
+        "walStart": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "walEnd": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "publicationWatermark": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "objectRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BackupObjectRef"
+          },
+          "maxItems": 10000
+        },
+        "workerVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "contractVersions": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._/@-]{1,128}$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "minProperties": 1,
+          "maxProperties": 128
+        },
+        "configVersion": {
+          "$ref": "#/$defs/Key"
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Instant"
+        },
+        "retainedUntil": {
+          "$ref": "#/$defs/Instant"
+        },
+        "signature": {
+          "$ref": "#/$defs/Bytes"
+        }
       },
-      "required": ["backupId", "realmId", "recoveryGeneration", "dbBaseId", "walStart", "walEnd", "publicationWatermark", "objectRefs", "workerVersion", "contractVersions", "configVersion", "createdAt", "retainedUntil", "signature"],
+      "required": [
+        "backupId",
+        "realmId",
+        "recoveryGeneration",
+        "dbBaseId",
+        "walStart",
+        "walEnd",
+        "publicationWatermark",
+        "objectRefs",
+        "workerVersion",
+        "contractVersions",
+        "configVersion",
+        "createdAt",
+        "retainedUntil",
+        "signature"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4194304
     },
@@ -838,56 +1836,187 @@
       "title": "BackupObjectRef",
       "type": "object",
       "properties": {
-        "id": {"$ref": "#/$defs/Identifier"},
-        "hash": {"$ref": "#/$defs/Hash"},
-        "size": {"$ref": "#/$defs/UInt64String"},
-        "versionId": {"$ref": "#/$defs/Identifier"}
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "hash": {
+          "$ref": "#/$defs/Hash"
+        },
+        "size": {
+          "$ref": "#/$defs/UInt64String"
+        },
+        "versionId": {
+          "$ref": "#/$defs/Key"
+        }
       },
       "required": ["id", "hash", "size", "versionId"],
       "additionalProperties": false
     },
-    "Identifier": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/-]{1,128}$"},
-    "CorrelationId": {"type": "string", "minLength": 36, "maxLength": 36, "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", "not": {"const": "00000000-0000-0000-0000-000000000000"}, "x-arcforges-rules": ["nonzeroUuid"]},
-    "Hash": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[a-f0-9]{64}$"},
-    "Instant": {"type": "string", "minLength": 20, "maxLength": 40, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"},
-    "PositiveInt64String": {"type": "string", "minLength": 1, "maxLength": 19, "pattern": "^[1-9][0-9]*$", "x-arcforges-rules": ["positiveInt64String"]},
-    "UInt64String": {"type": "string", "minLength": 1, "maxLength": 20, "pattern": "^(0|[1-9][0-9]*)$", "x-arcforges-rules": ["uint64String"]}
+    "Id": {
+      "type": "string",
+      "minLength": 36,
+      "maxLength": 36,
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "not": {
+        "const": "00000000-0000-0000-0000-000000000000"
+      },
+      "x-arcforges-rules": ["nonzeroUuid"]
+    },
+    "Key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "ModelId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^(?:[A-Za-z0-9._:/-]{1,128}|@cf/[a-z0-9._-]+/[a-zA-Z0-9._/-]+)$"
+    },
+    "WorkflowId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "Hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "Instant": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 40,
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+    },
+    "PositiveInt64String": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 19,
+      "pattern": "^[1-9][0-9]*$",
+      "x-arcforges-rules": ["positiveInt64String"]
+    },
+    "UInt64String": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]*)$",
+      "x-arcforges-rules": ["uint64String"]
+    },
+    "Bytes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 87382,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    }
   },
   "oneOf": [
-    {"$ref": "#/$defs/ObjectAuthorizeRequest"},
-    {"$ref": "#/$defs/ObjectAuthorizeResponse"},
-    {"$ref": "#/$defs/ObjectPartReceiptRequest"},
-    {"$ref": "#/$defs/ObjectPartReceiptResponse"},
-    {"$ref": "#/$defs/ObjectVerificationRequest"},
-    {"$ref": "#/$defs/ObjectVerificationResponse"},
-    {"$ref": "#/$defs/ObjectJobGrantRequest"},
-    {"$ref": "#/$defs/ObjectJobGrantResponse"},
-    {"$ref": "#/$defs/ObjectJobAuthorizeRequest"},
-    {"$ref": "#/$defs/ObjectJobAuthorizeResponse"},
-    {"$ref": "#/$defs/WorkerObjectJobRequest"},
-    {"$ref": "#/$defs/WorkerObjectJobResponse"},
-    {"$ref": "#/$defs/WorkerDispatchRequest"},
-    {"$ref": "#/$defs/WorkerDispatchResponse"},
-    {"$ref": "#/$defs/WorkerControlRequest"},
-    {"$ref": "#/$defs/WorkerControlResponse"},
-    {"$ref": "#/$defs/WorkerDeleteRequest"},
-    {"$ref": "#/$defs/WorkerDeleteResponse"},
-    {"$ref": "#/$defs/WorkerWebSearchRequest"},
-    {"$ref": "#/$defs/WorkerWebSearchResponse"},
-    {"$ref": "#/$defs/InferenceJobRequest"},
-    {"$ref": "#/$defs/InferenceJobResponse"},
-    {"$ref": "#/$defs/InferenceLeaseRequest"},
-    {"$ref": "#/$defs/InferenceLeaseResponse"},
-    {"$ref": "#/$defs/InferenceInputRequest"},
-    {"$ref": "#/$defs/InferenceInputResponse"},
-    {"$ref": "#/$defs/InferenceOutcomeRequest"},
-    {"$ref": "#/$defs/InferenceOutcomeResponse"},
-    {"$ref": "#/$defs/InferenceLateOutcomeRequest"},
-    {"$ref": "#/$defs/InferenceLateOutcomeResponse"},
-    {"$ref": "#/$defs/InferenceStateRequest"},
-    {"$ref": "#/$defs/InferenceStateResponse"},
-    {"$ref": "#/$defs/BackupManifest"},
-    {"$ref": "#/$defs/CfDeletionTarget"},
-    {"$ref": "#/$defs/CfDeletionReceipt"}
+    {
+      "$ref": "#/$defs/ObjectAuthorizeRequest"
+    },
+    {
+      "$ref": "#/$defs/ObjectAuthorizeResponse"
+    },
+    {
+      "$ref": "#/$defs/ObjectPartReceiptRequest"
+    },
+    {
+      "$ref": "#/$defs/ObjectPartReceiptResponse"
+    },
+    {
+      "$ref": "#/$defs/ObjectVerificationRequest"
+    },
+    {
+      "$ref": "#/$defs/ObjectVerificationResponse"
+    },
+    {
+      "$ref": "#/$defs/ObjectJobGrantRequest"
+    },
+    {
+      "$ref": "#/$defs/ObjectJobGrantResponse"
+    },
+    {
+      "$ref": "#/$defs/ObjectJobAuthorizeRequest"
+    },
+    {
+      "$ref": "#/$defs/ObjectJobAuthorizeResponse"
+    },
+    {
+      "$ref": "#/$defs/WorkerObjectJobRequest"
+    },
+    {
+      "$ref": "#/$defs/WorkerObjectJobResponse"
+    },
+    {
+      "$ref": "#/$defs/WorkerDispatchRequest"
+    },
+    {
+      "$ref": "#/$defs/WorkerDispatchResponse"
+    },
+    {
+      "$ref": "#/$defs/WorkerControlRequest"
+    },
+    {
+      "$ref": "#/$defs/WorkerControlResponse"
+    },
+    {
+      "$ref": "#/$defs/WorkerDeleteRequest"
+    },
+    {
+      "$ref": "#/$defs/WorkerDeleteResponse"
+    },
+    {
+      "$ref": "#/$defs/WorkerWebSearchRequest"
+    },
+    {
+      "$ref": "#/$defs/WorkerWebSearchResponse"
+    },
+    {
+      "$ref": "#/$defs/InferenceJobRequest"
+    },
+    {
+      "$ref": "#/$defs/InferenceJobResponse"
+    },
+    {
+      "$ref": "#/$defs/InferenceLeaseRequest"
+    },
+    {
+      "$ref": "#/$defs/InferenceLeaseResponse"
+    },
+    {
+      "$ref": "#/$defs/InferenceInputRequest"
+    },
+    {
+      "$ref": "#/$defs/InferenceInputResponse"
+    },
+    {
+      "$ref": "#/$defs/InferenceOutcomeRequest"
+    },
+    {
+      "$ref": "#/$defs/InferenceOutcomeResponse"
+    },
+    {
+      "$ref": "#/$defs/InferenceLateOutcomeRequest"
+    },
+    {
+      "$ref": "#/$defs/InferenceLateOutcomeResponse"
+    },
+    {
+      "$ref": "#/$defs/InferenceStateRequest"
+    },
+    {
+      "$ref": "#/$defs/InferenceStateResponse"
+    },
+    {
+      "$ref": "#/$defs/CfDeletionTarget"
+    },
+    {
+      "$ref": "#/$defs/CfDeletionReceipt"
+    },
+    {
+      "$ref": "#/$defs/BackupManifest"
+    }
   ]
 }

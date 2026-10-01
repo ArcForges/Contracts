@@ -1,0 +1,363 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "cf.ai.control",
+      "binding": "POST /internal/ai/v1/control",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.delete",
+      "binding": "POST /internal/ai/v1/delete",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "account",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.dispatch",
+      "binding": "POST /internal/ai/v1/dispatch",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.inference-input",
+      "binding": "POST /internal/ai/v1/inference-input",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.inference-job",
+      "binding": "POST /internal/ai/v1/inference-job",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.inference-late-outcome",
+      "binding": "POST /internal/ai/v1/inference-late-outcome",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.inference-lease",
+      "binding": "POST /internal/ai/v1/inference-lease",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.inference-outcome",
+      "binding": "POST /internal/ai/v1/inference-outcome",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.inference-state",
+      "binding": "POST /internal/ai/v1/inference-state",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.ai.web-search",
+      "binding": "POST /internal/ai/v1/web-search",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "assistant",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#execution-owner-and-web-search-additions",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.authorize",
+      "binding": "POST /internal/objects/v1/authorize",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.job-authorize",
+      "binding": "POST /internal/objects/v1/job-authorize",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#9-job-authorized-objects-control-inventory-and-resource-budgets",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.job-grant",
+      "binding": "POST /internal/objects/v1/job-grant",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#9-job-authorized-objects-control-inventory-and-resource-budgets",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.job-read",
+      "binding": "GET /internal/objects/v1/jobs/{grantId}",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#9-job-authorized-objects-control-inventory-and-resource-budgets",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.job-write",
+      "binding": "PUT /internal/objects/v1/jobs/{grantId}",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#9-job-authorized-objects-control-inventory-and-resource-budgets",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.part-receipt",
+      "binding": "POST /internal/objects/v1/part-receipt",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    },
+    {
+      "operationId": "cf.objects.verification",
+      "binding": "POST /internal/objects/v1/verification",
+      "kind": "http",
+      "source": "internal/cf-http/v1/schema.json",
+      "scope": "resource-owner",
+      "surface": "cf-internal",
+      "profile": "cf-service",
+      "sourceRule": "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["service"]
+      }
+    }
+  ]
+}

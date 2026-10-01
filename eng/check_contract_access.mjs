@@ -23,6 +23,9 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 const POLICY = "eng/policy/contract-access.json";
 const ACCESS = new Set(["public", "internal"]);
 const SOURCE = /\.(cs|java|kt|ts)$/;
+// Closed inventory of authored HTTP JSON schema source roots; an unlisted root is never a package owner.
+export const HTTP_SCHEMA_SOURCE =
+  /^(public\/http|internal\/ai-http|internal\/cf-http|internal\/storage-http)\/.+\.json$/;
 
 function requireThat(value, message) {
   if (!value) throw new Error(message);
@@ -506,7 +509,7 @@ export function audit(root = ROOT) {
   );
   assert.deepEqual(
     [...new Set(packages.flatMap((row) => row.jsonSchemas))].sort(),
-    files.filter((p) => /^(public\/http|internal\/ai-http)\/.+\.json$/.test(p)).sort(),
+    files.filter((p) => HTTP_SCHEMA_SOURCE.test(p)).sort(),
     "HTTP schema has no package owner",
   );
   const types = descriptorGraph(compile(root, policy.schemas), policy.schemas);

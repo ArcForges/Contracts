@@ -32,6 +32,32 @@ CF_SERVICE_EXPECTATIONS = {
     'cf.ai.late-outcome': ('assistant', 'late-outcome', 'IW'),
 }
 
+# Independent frozen CON.15 route oracle copied literally from manifest11's closed route-tuple table:
+# (scope, method and path, idempotency, source, sourceRule). It is not derived from the checker table.
+CF_CON15_SOURCE = 'internal/cf-http/v1/schema.json'
+CF_CON15_DOC = 'docs/architecture/contracts/05-cloudflare-integration.md'
+CF_CON15_EXPECTATIONS = {
+    'cf.objects.authorize': ('resource-owner', 'POST /internal/objects/v1/authorize', 'Q', CF_CON15_SOURCE, CF_CON15_DOC + '#3-exact-internal-ports'),
+    'cf.objects.part-receipt': ('resource-owner', 'POST /internal/objects/v1/part-receipt', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#3-exact-internal-ports'),
+    'cf.objects.verification': ('resource-owner', 'POST /internal/objects/v1/verification', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#3-exact-internal-ports'),
+    'cf.objects.job-grant': ('resource-owner', 'POST /internal/objects/v1/job-grant', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#9-job-authorized-objects-control-inventory-and-resource-budgets'),
+    'cf.objects.job-authorize': ('resource-owner', 'POST /internal/objects/v1/job-authorize', 'Q', CF_CON15_SOURCE, CF_CON15_DOC + '#9-job-authorized-objects-control-inventory-and-resource-budgets'),
+    'cf.objects.job-read': ('resource-owner', 'GET /internal/objects/v1/jobs/{grantId}', 'Q', CF_CON15_SOURCE, CF_CON15_DOC + '#9-job-authorized-objects-control-inventory-and-resource-budgets'),
+    'cf.objects.job-write': ('resource-owner', 'PUT /internal/objects/v1/jobs/{grantId}', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#9-job-authorized-objects-control-inventory-and-resource-budgets'),
+    'cf.ai.dispatch': ('assistant', 'POST /internal/ai/v1/dispatch', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#3-exact-internal-ports'),
+    'cf.ai.control': ('assistant', 'POST /internal/ai/v1/control', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#3-exact-internal-ports'),
+    'cf.ai.delete': ('account', 'POST /internal/ai/v1/delete', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#3-exact-internal-ports'),
+    'cf.ai.web-search': ('assistant', 'POST /internal/ai/v1/web-search', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#execution-owner-and-web-search-additions'),
+    'cf.ai.inference-job': ('resource-owner', 'POST /internal/ai/v1/inference-job', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#8-session-bindings-inference-jobs-and-deployment-transitions'),
+    'cf.ai.inference-lease': ('resource-owner', 'POST /internal/ai/v1/inference-lease', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#8-session-bindings-inference-jobs-and-deployment-transitions'),
+    'cf.ai.inference-input': ('resource-owner', 'POST /internal/ai/v1/inference-input', 'Q', CF_CON15_SOURCE, CF_CON15_DOC + '#8-session-bindings-inference-jobs-and-deployment-transitions'),
+    'cf.ai.inference-outcome': ('resource-owner', 'POST /internal/ai/v1/inference-outcome', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#8-session-bindings-inference-jobs-and-deployment-transitions'),
+    'cf.ai.inference-late-outcome': ('resource-owner', 'POST /internal/ai/v1/inference-late-outcome', 'IW', CF_CON15_SOURCE, CF_CON15_DOC + '#8-session-bindings-inference-jobs-and-deployment-transitions'),
+    'cf.ai.inference-state': ('resource-owner', 'POST /internal/ai/v1/inference-state', 'Q', CF_CON15_SOURCE, CF_CON15_DOC + '#8-session-bindings-inference-jobs-and-deployment-transitions'),
+}
+# The public session-ticket facade is not a private cf-service operation.
+PUBLIC_TICKET_BINDINGS = ('GET /objects/v1/{ticketId}', 'PUT /objects/v1/{ticketId}/parts/{partNumber}')
+
 # Independent frozen CON.11 exception evidence. This is deliberately separate
 # from the checker constants so changing either side alone fails the test.
 CON11_PRIVATE_BINDING = 'arcforges.cf.v1.RunStreamService/Run'
@@ -301,6 +327,128 @@ class OperationScopeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
             gate.authorization(hostile, set())
 
+    def con15_row(self, operation):
+        scope, binding, idempotency, source, source_rule = CF_CON15_EXPECTATIONS[operation]
+        return {
+            'operationId': operation,
+            'binding': binding,
+            'kind': 'http',
+            'source': source,
+            'scope': scope,
+            'surface': 'cf-internal',
+            'profile': 'cf-service',
+            'sourceRule': source_rule,
+            'idempotency': idempotency,
+            'authorization': {
+                'capability': None,
+                'risk': 'R1',
+                'approval': 'none',
+                'stepUp': False,
+                'localPresence': False,
+                'egress': 'none',
+                'patEligible': False,
+                'actorKinds': ['service'],
+            },
+        }
+
+    def test_con15_private_routes_are_exactly_the_17_literal_tuples_beside_the_14_con10_rows(self):
+        self.assertEqual(len(CF_CON15_EXPECTATIONS), 17)
+        self.assertEqual(gate.CON15_CF_SERVICE_OPERATIONS, CF_CON15_EXPECTATIONS)
+        self.assertFalse(set(CF_CON15_EXPECTATIONS) & set(CF_SERVICE_EXPECTATIONS))
+        self.assertEqual(len(gate.CF_SERVICE_OPERATIONS), 14)
+        self.assertEqual(gate.CF_SERVICE_OPERATIONS, CF_SERVICE_EXPECTATIONS)
+
+    def test_con15_each_route_has_a_positive_and_every_tuple_and_authorization_field_is_mutation_tested(self):
+        operations = list(CF_CON15_EXPECTATIONS)
+        auth_mutations = {
+            'capability': 'capability.read',
+            'risk': 'R2',
+            'approval': 'foregroundProposal',
+            'stepUp': True,
+            'localPresence': True,
+            'egress': 'ownedContent',
+            'patEligible': True,
+            'actorKinds': ['human'],
+        }
+        self.assertEqual(set(auth_mutations), gate.FIELDS)
+        for index, operation in enumerate(operations):
+            row = self.con15_row(operation)
+            with self.subTest(operation=operation, case='positive'):
+                self.assertEqual(gate.authorization(row, set()), (['service'], []))
+            expected_scope, expected_binding, expected_idempotency, _, _ = CF_CON15_EXPECTATIONS[operation]
+            other = operations[(index + 1) % len(operations)]
+            other_binding = CF_CON15_EXPECTATIONS[other][1]
+            method, _, path = expected_binding.partition(' ')
+            mutations = [
+                ('operationId', other),
+                ('binding', other_binding),
+                ('binding', ('GET ' if method != 'GET' else 'POST ') + path),
+                ('binding', expected_binding.replace('/internal/', '/')),
+                ('kind', 'proto'),
+                ('source', 'internal/ai-http/v1/schema.json'),
+                ('source', 'internal/storage-http/v1/schema.json'),
+                ('scope', 'assistant' if expected_scope != 'assistant' else 'resource-owner'),
+                ('surface', 'public'),
+                ('profile', 'human-owner'),
+                ('sourceRule', 'docs/architecture/contracts/05-cloudflare-integration.md#2-http-framing-and-authentication'),
+                ('idempotency', 'IW' if expected_idempotency == 'Q' else 'Q'),
+            ]
+            for field, wrong in mutations:
+                hostile = copy.deepcopy(row)
+                hostile[field] = wrong
+                with self.subTest(operation=operation, field=field, wrong=wrong), self.assertRaises(ValueError):
+                    gate.authorization(hostile, set())
+            for field, wrong in auth_mutations.items():
+                hostile = copy.deepcopy(row)
+                hostile['authorization'][field] = wrong
+                with self.subTest(operation=operation, authorization_field=field), self.assertRaises(ValueError):
+                    gate.authorization(hostile, set())
+            hostile = copy.deepcopy(row)
+            hostile['authorization']['risk'] = 'R2+'
+            with self.subTest(operation=operation, authorization_field='risk', wrong='R2+'), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+
+    def test_con15_rejects_unlisted_cf_service_rows_and_public_ticket_routes(self):
+        hostile = self.con15_row('cf.objects.job-read')
+        hostile['operationId'] = 'cf.objects.ticket-read'
+        with self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
+            gate.authorization(hostile, set())
+        for operation, binding in (('cf.objects.job-read', PUBLIC_TICKET_BINDINGS[0]),
+                                   ('cf.objects.job-write', PUBLIC_TICKET_BINDINGS[1]),
+                                   ('cf.objects.authorize', PUBLIC_TICKET_BINDINGS[0])):
+            row = self.con15_row(operation)
+            row['binding'] = binding
+            with self.subTest(operation=operation, binding=binding), self.assertRaisesRegex(ValueError, 'exact CF HMAC transport binding'):
+                gate.authorization(row, set())
+        for operation in ('cf.objects.public-ticket-read', 'cf.objects.public-ticket-write'):
+            row = self.con15_row('cf.objects.job-read')
+            row['operationId'] = operation
+            with self.subTest(operation=operation), self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
+                gate.authorization(row, set())
+        # A cf-service profile cannot be assigned to any ordinary operation.
+        row = self.cf_service_row('cf.ai.claim')
+        row['operationId'] = 'workspace.list'
+        with self.assertRaisesRegex(ValueError, 'unregistered CF service operation'):
+            gate.authorization(row, set())
+
+    def test_con15_real_export_and_oracle_rows_match_the_independent_tuples(self):
+        export = gate.load(ROOT / 'eng/operations/con-15.json')
+        self.assertEqual(export['schemaVersion'], 'operation-metadata.v1')
+        self.assertEqual([row['operationId'] for row in export['operations']], sorted(CF_CON15_EXPECTATIONS))
+        for row in export['operations']:
+            self.assertEqual(row, self.con15_row(row['operationId']))
+        manifest = gate.load(ROOT / 'eng/operation-scope-manifest.json')
+        self.assertEqual(len(manifest['operations']), 342)
+        scopes = {row['operationId']: row['scope'] for row in manifest['operations']}
+        for operation, (scope, *_rest) in CF_CON15_EXPECTATIONS.items():
+            self.assertEqual(scopes[operation], scope)
+        for operation in CF_SERVICE_EXPECTATIONS:
+            self.assertIn(operation, scopes)
+        self.assertIn('events.poll', scopes)
+        self.assertEqual(manifest['oracle']['commit'], '8f71424337ebb5d802e22f4813f4394235aa9a87')
+        self.assertEqual(manifest['oracle']['sha256'],
+                         '53e6992b89e9a13cca3528ffedbe79519499a289b59884811149dd30b6f73462')
+
     def test_closed_operations_cannot_downgrade_to_generic_profiles(self):
         for approval in (False, True):
             row = self.inprocess_row(approval)
@@ -370,7 +518,7 @@ class OperationScopeTests(unittest.TestCase):
         self.assertEqual(len(result["operations"]), len(oracle["operations"]))
         self.assertEqual(result["registered"] + result["pending"] + result["reserved"], len(oracle["operations"]))
         self.assertEqual((result["registered"], result["pending"], result["reserved"],
-                          len(result["operations"])), (232, 86, 7, 325))
+                          len(result["operations"])), (249, 86, 7, 342))
         self.assertEqual(result["privateServiceProjections"], [{
             "binding": CON11_PRIVATE_BINDING,
             "source": CON11_PRIVATE_SOURCE,

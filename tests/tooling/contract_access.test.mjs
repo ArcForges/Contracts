@@ -14,6 +14,7 @@ import {
   compile,
   declaredTypes,
   descriptorGraph,
+  HTTP_SCHEMA_SOURCE,
   inventory,
   safePath,
 } from "../../eng/check_contract_access.mjs";
@@ -327,4 +328,78 @@ test("XML comments cannot concatenate dependency tokens or create new comment de
   );
   assert.throws(() => maskXmlComments("<Project><!-- unterminated"), /malformed XML comment/);
   assert.throws(() => maskXmlComments("<Project>-->"), /malformed XML comment/);
+});
+
+test("closed HTTP schema source roots admit exactly the registered roots", () => {
+  for (const accepted of [
+    "public/http/v1/schema.json",
+    "internal/ai-http/v1/schema.json",
+    "internal/ai-http/v1/configuration.schema.json",
+    "internal/cf-http/v1/schema.json",
+    "internal/storage-http/v1/schema.json",
+  ])
+    assert.ok(HTTP_SCHEMA_SOURCE.test(accepted), accepted);
+  for (const refused of [
+    "internal/other-http/v1/schema.json",
+    "internal/cf-http-extra/v1/schema.json",
+    "internal/storage-http.json",
+    "internal/cf-http/schema.txt",
+    "public/cf-http/v1/schema.json",
+    "src/internal/cf-http/v1/schema.json",
+    "fixtures/internal/con-15-cf-internal.json",
+    "internal/proto/arcforges/cf/v1/stream.proto",
+  ])
+    assert.ok(!HTTP_SCHEMA_SOURCE.test(refused), refused);
+});
+
+test("the real manifest assigns both private HTTP schemas to the two existing internal packages", () => {
+  const manifest = JSON.parse(readFileSync(path.join(ROOT, "eng/contract-packages.json"), "utf8"));
+  const owners = (schema) =>
+    manifest.packages.filter((row) => row.jsonSchemas.includes(schema)).map((row) => row.id);
+  for (const schema of ["internal/cf-http/v1/schema.json", "internal/storage-http/v1/schema.json"]) {
+    assert.deepEqual(owners(schema).sort(), ["@arcforges/ai-internal", "ArcForges.Contracts.CloudInternal"]);
+    assert.ok(readFileSync(path.join(ROOT, schema), "utf8").includes("SPDX-License-Identifier: Apache-2.0"));
+  }
+  checkPackageBoundaries(ROOT, manifest);
+});
+
+test("an internal HTTP schema may reference only an existing internal source and never a remote or public owner", (t) => {
+  const root = temporary(t);
+  mkdirSync(path.join(root, "internal/ai-http/v1"), { recursive: true });
+  mkdirSync(path.join(root, "internal/cf-http/v1"), { recursive: true });
+  writeFileSync(path.join(root, "internal/ai-http/v1/schema.json"), "{}");
+  const row = {
+    id: "@arcforges/private",
+    kind: "npm",
+    access: "internal",
+    sourceRoot: "src/internal/ts/private",
+    dependencies: [],
+    proto: [],
+    jsonSchemas: ["internal/cf-http/v1/schema.json"],
+  };
+  const write = (reference) =>
+    writeFileSync(path.join(root, "internal/cf-http/v1/schema.json"), JSON.stringify({ $ref: reference }));
+  write("../../ai-http/v1/schema.json#/$defs/ByteRange");
+  checkPackageBoundaries(root, { schemaVersion: 1, packages: [row] });
+  write("https://attacker.example/schema.json#/$defs/ByteRange");
+  assert.throws(
+    () => checkPackageBoundaries(root, { schemaVersion: 1, packages: [row] }),
+    /remote JSON schema reference/,
+  );
+  write("../../ai-http/v1/missing.json#/$defs/ByteRange");
+  assert.throws(
+    () => checkPackageBoundaries(root, { schemaVersion: 1, packages: [row] }),
+    /missing JSON reference/,
+  );
+  write("../../../outside.json");
+  assert.throws(() => checkPackageBoundaries(root, { schemaVersion: 1, packages: [row] }));
+  write("../../ai-http/v1/schema.json#/$defs/ByteRange");
+  assert.throws(
+    () =>
+      checkPackageBoundaries(root, {
+        schemaVersion: 1,
+        packages: [{ ...row, access: "public", sourceRoot: "src/public/ts/private" }],
+      }),
+    /public-to-internal schema ownership/,
+  );
 });

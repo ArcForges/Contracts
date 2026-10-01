@@ -6860,6 +6860,54 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/BackupManifest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["BackupManifest", "BackupObjectRef", "BackupManifestJsonContext"],
+      "sha256": "0bcfef08afd8df83ce16a210d1f753137d6082291de19fb181d948765a1689dd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/BackupManifestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["BackupManifestJson"],
+      "sha256": "dc1bda59cdc62942a36f9b4b5de2abe7311b3d8812624a24cbdfef94b5e4ea91",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CfDeletionReceipt.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["CfDeletionReceiptJsonContext"],
+      "sha256": "2b9930655d4c0ed4de5278375ae03388b097561e4dd559f5102b09cf39381f31",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CfDeletionReceiptValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["CfDeletionReceiptJson"],
+      "sha256": "022681cd3008ce40ba98dcc9d09f0cdba4d95a98666e58b0775fb7fc7d2ff046",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CfDeletionTarget.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["CfDeletionTargetJsonContext"],
+      "sha256": "9da1c528433290e2927c473e6a14a4c097a7105080e9b93bf1d338e89e3fbcbe",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CfDeletionTargetValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["CfDeletionTargetJson"],
+      "sha256": "c9ea27f33e0e40e764a5f0f7ba55d33f2191d5ae3b0d11f0c90974f80b7cfebd",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/CommitReceipt.g.cs",
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
@@ -6922,6 +6970,484 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ExecutePlanRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "ExecutePlanRequest",
+        "D1Scalar",
+        "D1ScalarD1NullValue",
+        "D1ScalarD1BooleanValue",
+        "D1ScalarD1Int64Value",
+        "D1ScalarD1Uint64Value",
+        "D1ScalarD1DecimalValue",
+        "D1ScalarD1TextValue",
+        "D1ScalarD1BytesValue",
+        "D1BooleanValue",
+        "D1BytesValue",
+        "D1DecimalValue",
+        "D1Int64Value",
+        "D1NullValue",
+        "D1TextValue",
+        "D1Uint64Value",
+        "ExecutePlanRequestJsonContext",
+        "ExecutePlanRequestUnionChecks",
+        "D1ScalarConverter"
+      ],
+      "sha256": "4c44c763e69ccf4d51a977bb9dff9728c07efa058c02bab01b2e22419c441835",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ExecutePlanRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ExecutePlanRequestJson"],
+      "sha256": "3a14856e52827875c6d200617ee875d696636967a5f910b6e63e8a9bc79dd688",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ExecutePlanResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "ExecutePlanResponse",
+        "ExecutePlanResponseExecutePlanSuccess",
+        "ExecutePlanResponseExecutePlanFailure",
+        "ExecutePlanFailure",
+        "ExecutePlanSuccess",
+        "ExecutePlanResponseJsonContext",
+        "ExecutePlanResponseUnionChecks",
+        "ExecutePlanResponseConverter"
+      ],
+      "sha256": "01c4ca73d97de3fe4922d25704b20c979b5b133e94b8bc1e17016294e256a5c9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ExecutePlanResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ExecutePlanResponseJson"],
+      "sha256": "fb583859748f245eebfd4ba786ea7d3defb550f1f4ac7fdc16167ce63eb4c7ac",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceInputRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceInputRequest", "InferenceInputRequestJsonContext"],
+      "sha256": "cff81ca0a2ae1b65e1b6ac2f17e163af2e93e3ee6c22e09323c1a02e8c74b685",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceInputRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceInputRequestJson"],
+      "sha256": "88b000a685dc6331ca5487b1fc69dfaa67276d7c5b04e1f1a9a01e86c05be09d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceInputResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "InferenceInputResponse",
+        "InferenceInput",
+        "InferenceInputEmbeddingInput",
+        "InferenceInputRerankInput",
+        "EmbeddingInput",
+        "InferenceTextItem",
+        "RerankInput",
+        "InferenceInputResponseJsonContext",
+        "InferenceInputResponseUnionChecks",
+        "InferenceInputConverter"
+      ],
+      "sha256": "2b9e614611c9d2ccb4ca7e793bbd3200a7e813f5b7fbfc469704094cdd8b7636",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceInputResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceInputResponseJson"],
+      "sha256": "4d0af83041353570f654e4ef24d9fa0927e675111f813296a9238b52c4838cba",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceJobRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceJobRequest", "InferenceJobRequestJsonContext"],
+      "sha256": "c92cbd3c0a4df7a74c195aed7a0b8c022da224c82f944593bd58433a2c192ee1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceJobRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceJobRequestJson"],
+      "sha256": "015403312644ad895d841ba21e86d61ed64599a39857eebda7bbce56ae8527ef",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceJobResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceJobResponse", "InferenceJobResponseJsonContext"],
+      "sha256": "3be54a59de00fc8323417448e75b1269ce93e629c7425691623dc5a53236326a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceJobResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceJobResponseJson"],
+      "sha256": "3fb5146989ed60c5219589a76a715a0a655e71a8774d23b093b48fd7222e11df",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLateOutcomeRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "InferenceLateOutcomeRequest",
+        "InferenceLateOutcomeRequestInferenceLateOutcomeCompleteRequest",
+        "InferenceLateOutcomeRequestInferenceLateOutcomeNonCompleteRequest",
+        "InferenceLateOutcomeCompleteRequest",
+        "InferenceLateOutcomeNonCompleteRequest",
+        "InferenceLateOutcomeRequestJsonContext",
+        "InferenceLateOutcomeRequestUnionChecks",
+        "InferenceLateOutcomeRequestConverter"
+      ],
+      "sha256": "1af4095e1dbc0d6300e5b82d96888ff8477973ecf45ae03dd9864e156701aa9e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLateOutcomeRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLateOutcomeRequestJson"],
+      "sha256": "f3175fc6652623980c8079e6549230f197ce0d83973cc4ad185437d6f0747415",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLateOutcomeResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLateOutcomeResponse", "InferenceLateOutcomeResponseJsonContext"],
+      "sha256": "79d186b6b1b534cc524ac91b998fe8ffb41786627e19bdc31a00b540ed90589a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLateOutcomeResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLateOutcomeResponseJson"],
+      "sha256": "0ddb0b8fc9b808b4e97d55aa0834499e7b597e74ab3c8e6278cc8b40c75ff849",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLeaseRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLeaseRequest", "InferenceLeaseRequestJsonContext"],
+      "sha256": "15dccd2f4a0ac4c640b3627e7e59a6bd006688024d80998ad9ab9b9dc33a1f3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLeaseRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLeaseRequestJson"],
+      "sha256": "79073b65af3217e27dc87c3f3f04af782026ba6dae6f8485ff7359852789e960",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLeaseResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLeaseResponse", "InferenceLeaseResponseJsonContext"],
+      "sha256": "9667643f490216625e1a59a371a0165cdc094ae9fdbb5051e70ae1259c3be786",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceLeaseResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceLeaseResponseJson"],
+      "sha256": "7af69d4cacf8d2dac79e3ae81a1618d77e384e3797cd6de67e0035b2c9a7da12",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceOutcomeRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "InferenceOutcomeRequest",
+        "InferenceOutcomeRequestInferenceOutcomeCompleteRequest",
+        "InferenceOutcomeRequestInferenceOutcomeNonCompleteRequest",
+        "InferenceOutcomeCompleteRequest",
+        "InferenceOutcomeNonCompleteRequest",
+        "InferenceResult",
+        "InferenceResultEmbeddingResult",
+        "InferenceResultRerankResult",
+        "EmbeddingResult",
+        "EmbeddingVector",
+        "RerankResult",
+        "RerankScore",
+        "InferenceOutcomeRequestJsonContext",
+        "InferenceOutcomeRequestUnionChecks",
+        "InferenceOutcomeRequestConverter",
+        "InferenceResultConverter"
+      ],
+      "sha256": "61014bf0626c7304b8abe1dd9cfb9cbf2a9dcb5b7f293572e54aed85183ca356",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceOutcomeRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceOutcomeRequestJson"],
+      "sha256": "5c5c7cef9bbf671f83ac5daccac8ecc559502ad7976ce311ff2f73ee0d60c1ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceOutcomeResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceOutcomeResponse", "InferenceOutcomeResponseJsonContext"],
+      "sha256": "8f7fb0c5bb2f7745361cdb29ca91c231e3468b59f78dfff32822463c5fb3af8d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceOutcomeResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceOutcomeResponseJson"],
+      "sha256": "38290d0241cfcd1e132fe5c16a30cefb55855d2f456feeb94a423fb01765c87d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceStateRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceStateRequest", "InferenceStateRequestJsonContext"],
+      "sha256": "74e031e052c35726f30d77ae98718c8679b8aede9f7f03fd38fa17ef665c8b5b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceStateRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceStateRequestJson"],
+      "sha256": "cc7667d869ced9d077c5ed9a6a0fc71e4b8ee4328a6c38dc57f4ca173372d9a1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceStateResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceStateResponse", "InferenceStateResponseJsonContext"],
+      "sha256": "faf668d4a78623d7f03dbd269ebc1bce96669b46db8f6f7216ea5f29c721b0db",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/InferenceStateResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["InferenceStateResponseJson"],
+      "sha256": "fc89c04ee40cf26367659fac9116884530d2e73221aacd6244ed8d384353bd04",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectAuthorizeRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "ObjectAuthorizeRequest",
+        "ObjectAuthorizeRequestObjectAuthorizeCredentialRequest",
+        "ObjectAuthorizeRequestObjectAuthorizeSessionBindingRequest",
+        "ObjectAuthorizeCredentialRequest",
+        "ObjectAuthorizeSessionBindingRequest",
+        "ObjectAuthorizeRequestJsonContext",
+        "ObjectAuthorizeRequestUnionChecks",
+        "ObjectAuthorizeRequestConverter"
+      ],
+      "sha256": "590aa21e1cab68cbb313a730b71426fcd37bcee844ed610fb5788bdc45f6fc31",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectAuthorizeRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectAuthorizeRequestJson"],
+      "sha256": "579638167ab2c10b9f0c47106952f8b91c05295d336056c06f8983517d1f3414",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectAuthorizeResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectAuthorizeResponse", "ObjectAuthorizeResponseJsonContext"],
+      "sha256": "9e93595b54035e1f25be825d16052da02bb2db7f9b42b2e7c13043c05dc4d205",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectAuthorizeResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectAuthorizeResponseJson"],
+      "sha256": "02d1a2de7d638c9e5cf79c912d06d894bb3a1707c673d84f0ee4d4c599fec5f5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobAuthorizeRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectJobAuthorizeRequest", "ObjectJobAuthorizeRequestJsonContext"],
+      "sha256": "6a1697f0a85c73590ba208e099ac002fe18d57274d6d69ec43f4a2d7cb5cd091",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobAuthorizeRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectJobAuthorizeRequestJson"],
+      "sha256": "d0f8f8e6fe2efb859eb09000c2db1ad916bb61319b2f962960f8a1f0c6f8affd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobAuthorizeResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectJobAuthorizeResponse", "ObjectJobAuthorizeResponseJsonContext"],
+      "sha256": "fd7515da21cc5a96b658a14a19a21cd402c3a75db125238515126db9254952d7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobAuthorizeResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectJobAuthorizeResponseJson"],
+      "sha256": "be9b2372eb0183fc92d7bd64a92eace37aaf24198216472a9dae20dd5fc294c3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobGrantRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "ObjectJobGrantRequest",
+        "ObjectJobGrantRequestObjectReadJobGrantRequest",
+        "ObjectJobGrantRequestObjectWriteJobGrantRequest",
+        "ObjectReadJobGrantRequest",
+        "ObjectWriteJobGrantRequest",
+        "ObjectJobGrantRequestJsonContext",
+        "ObjectJobGrantRequestUnionChecks",
+        "ObjectJobGrantRequestConverter"
+      ],
+      "sha256": "3be93523bbe96e22b56aa1a534d9d601f06a1d4cb3151184417b0337f4803bc4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobGrantRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectJobGrantRequestJson"],
+      "sha256": "b48bc5a3ca591b91fd9f71dbb4c39b044616e50439ed680ba6d78f231c490195",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobGrantResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "ObjectJobGrantResponse",
+        "ObjectJobGrantResponseObjectReadJobGrantResponse",
+        "ObjectJobGrantResponseObjectWriteJobGrantResponse",
+        "ObjectReadJobGrantResponse",
+        "ObjectWriteJobGrantResponse",
+        "ServiceObjectGrant",
+        "ObjectJobGrantResponseJsonContext",
+        "ObjectJobGrantResponseUnionChecks",
+        "ObjectJobGrantResponseConverter"
+      ],
+      "sha256": "1d552e2eb453e20f37c7ea7d976983323cbe5d8c0f26e66ab484e2a0408b6b59",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectJobGrantResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectJobGrantResponseJson"],
+      "sha256": "deea63c296a962aa7efd1946bf6765a0ac4d18abd54540a433ba5bf88a01338a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectPartReceiptRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectPartReceiptRequest", "PartReceipt", "ObjectPartReceiptRequestJsonContext"],
+      "sha256": "a3a9780685f4cbba201e340d481f51890b29796215f59519195abc2e317f8e53",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectPartReceiptRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectPartReceiptRequestJson"],
+      "sha256": "40b0a28920a794b41a008402ec392553fff5060b9691e260857ff357d3262c45",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectPartReceiptResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectPartReceiptResponse", "ObjectPartReceiptResponseJsonContext"],
+      "sha256": "6e374baef219a9dc965f41838be7a671007808856047208b04c140ebf5265efa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectPartReceiptResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectPartReceiptResponseJson"],
+      "sha256": "1cd62961bc62297fe883b764511c195ccc613d9acfb22a6d3e54f046e8f743a8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectVerificationRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectVerificationRequest", "ObjectVerificationRequestJsonContext"],
+      "sha256": "992af2e6a28c71803bafbdf0d7ba337089a7ebd2085f4084d5cdca22e78eb6db",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectVerificationRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectVerificationRequestJson"],
+      "sha256": "59ec7603543a9726d39649e946b94f9a6b6fc0f9ae3cee70897c704f51c992e0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectVerificationResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectVerificationResponse", "ObjectVerificationResponseJsonContext"],
+      "sha256": "2725837f2941a5748cfc09738c414a8d554326b158fb8d000b8aba6b17ab93e7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ObjectVerificationResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["ObjectVerificationResponseJson"],
+      "sha256": "81039dcc849a4286787a3da2adf112c4fa784c23cfd44272f3b3d297040e2cda",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ProtoValidation.g.cs",
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
@@ -6943,6 +7469,195 @@
       "access": "internal",
       "types": ["SessionBindingJson"],
       "sha256": "b0e7c36294d4ab1ce94666e88434e19987e6ffecc8f4f55c0feff21ef527e068",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerControlRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerControlRequest", "WorkerControlRequestJsonContext"],
+      "sha256": "703040b591fa57a0470fea75e8e8e518fe206d2f620b50264aff6ffb0ea549b2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerControlRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerControlRequestJson"],
+      "sha256": "345a661bb92aa3b062b3b9ce09774825ec84b5825bece932687fc9430ee048c4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerControlResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerControlResponse", "WorkerControlResponseJsonContext"],
+      "sha256": "3170a3646bec398d5df8ecd183077e75e8a60f8ad4cbee4910a32f9777bcb94c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerControlResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerControlResponseJson"],
+      "sha256": "f2c859377be638339fbf384bdb3970df488cf00263719b12534cbcdcf84e51a3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDeleteRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDeleteRequest", "CfDeletionTarget", "WorkerDeleteRequestJsonContext"],
+      "sha256": "a6be7262e2007dd6555967da531515109ccbba6247f530a4acb6ac044931a074",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDeleteRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDeleteRequestJson"],
+      "sha256": "37608587c396a78a3aebf716f63359e79e3aa305f1363d1c219494f3920a29ff",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDeleteResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDeleteResponse", "CfDeletionReceipt", "WorkerDeleteResponseJsonContext"],
+      "sha256": "d39cd1f51123586e95fc5e028966b0dd18ac3159fa3361c5f7535b0e9cc0cb13",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDeleteResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDeleteResponseJson"],
+      "sha256": "ce52c7064d3d5cc17bfd7932912d90d043c5c2b23e509f4e2c52e15e6cbb5cfa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDispatchRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDispatchRequest", "WorkerDispatchRequestJsonContext"],
+      "sha256": "db4c9a0de92ec84e7d3bd62539b9dde99a1bc8a982f7790be7b530486ca9488e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDispatchRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDispatchRequestJson"],
+      "sha256": "e103cbabb8c5c46f017efb6b01f63ffd1ee21e1469783ca366a214445e42f259",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDispatchResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDispatchResponse", "WorkerDispatchResponseJsonContext"],
+      "sha256": "db37c309242c02a24af05abacd2ecbf67ad1bce8e594167b03e183f7ab2c89d5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerDispatchResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerDispatchResponseJson"],
+      "sha256": "4533babee2356b5de497b39c6d94f859df824477ff8279121359092550b13735",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerObjectJobRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "WorkerObjectJobRequest",
+        "WorkerObjectJobRequestWorkerObjectJobReadRequest",
+        "WorkerObjectJobRequestWorkerObjectJobWriteRequest",
+        "WorkerObjectJobReadRequest",
+        "WorkerObjectJobWriteRequest",
+        "WorkerObjectJobRequestJsonContext",
+        "WorkerObjectJobRequestUnionChecks",
+        "WorkerObjectJobRequestConverter"
+      ],
+      "sha256": "ca4893c0bc16bb89b3bebd39391f9e4af7c5b42edbce7f93ff200c2c07724fc0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerObjectJobRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerObjectJobRequestJson"],
+      "sha256": "13e88d480c4dcc6ae4efe1ca059b60b4b934e5c57535597c60868ac05328e0ac",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerObjectJobResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "WorkerObjectJobResponse",
+        "WorkerObjectJobResponseWorkerObjectJobReadResponse",
+        "WorkerObjectJobResponseWorkerObjectJobWriteResponse",
+        "WorkerObjectJobReadResponse",
+        "WorkerObjectJobWriteResponse",
+        "WorkerObjectJobResponseJsonContext",
+        "WorkerObjectJobResponseUnionChecks",
+        "WorkerObjectJobResponseConverter"
+      ],
+      "sha256": "d07c20f4732b7c083230199606d4f29a4464b1fd7ec9d61807e0c07e5e4510dc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerObjectJobResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerObjectJobResponseJson"],
+      "sha256": "ad0f78fe7c26188c8fe5ba5c833d747515c73a08dfae1664799a43f63824f415",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerWebSearchRequest.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerWebSearchRequest", "WebSearchRequest", "WorkerWebSearchRequestJsonContext"],
+      "sha256": "0473a0c09e7afb6832b132d28d2547909ef92b5cd4e52cd3bba769198b649f3b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerWebSearchRequestValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerWebSearchRequestJson"],
+      "sha256": "d2fbdfd9338bd707b7b4302267eb2cd19d93d2fe72d6f3db366e58d02ba5a10a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerWebSearchResponse.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "WorkerWebSearchResponse",
+        "WorkerWebSearchResponseWorkerWebSearchSuccess",
+        "WorkerWebSearchResponseWorkerWebSearchFailure",
+        "WorkerWebSearchFailure",
+        "WorkerWebSearchSuccess",
+        "WebSearchResult",
+        "WebSearchHit",
+        "WorkerWebSearchResponseJsonContext",
+        "WorkerWebSearchResponseUnionChecks",
+        "WorkerWebSearchResponseConverter"
+      ],
+      "sha256": "51a35f7d9edb5b168c2284a680e72b705ded600244a4c3f17f1f3c24efea9fc8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/WorkerWebSearchResponseValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["WorkerWebSearchResponseJson"],
+      "sha256": "177331612cf4d45a11f4f95a9339bed0f901cf21ec2ed3a26a60916d39566697",
       "kind": "generated"
     },
     {
@@ -7472,7 +8187,7 @@
       "package": "@arcforges/ai-internal",
       "access": "internal",
       "types": [],
-      "sha256": "e633b43d45cb0272e6416491feaf2d43899c5c398152c8b5ef4c3eca9bfe968a",
+      "sha256": "dcc6b5fabc766ff8672cdcd56159e54b7712b144dd5bfa3f8133648858924066",
       "kind": "generated"
     },
     {
@@ -7856,6 +8571,30 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/BackupManifest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["BackupManifest", "BackupObjectRef", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "8b0ab8b6e87490a83ee60c4297c29a87195313d42aaad66daa7ab5cb6aed0c12",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/CfDeletionReceipt.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["StrictJsonResult", "StrictJsonReader"],
+      "sha256": "deafa383c599a7fa50c95b97ce7cb7b6ce6a645e7b3557d996c4e7cb020e23cb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/CfDeletionTarget.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["StrictJsonResult", "StrictJsonReader"],
+      "sha256": "fbfe2b56794f692405e49a4cd3aae1b36c62dbfa0422656b7e502ae6b058cbdc",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/ts/ai-internal/src/shapes/gen/CommitReceipt.ts",
       "package": "@arcforges/ai-internal",
       "access": "internal",
@@ -7910,11 +8649,377 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ExecutePlanRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "ExecutePlanRequest",
+        "D1Scalar",
+        "D1BooleanValue",
+        "D1BytesValue",
+        "D1DecimalValue",
+        "D1Int64Value",
+        "D1NullValue",
+        "D1TextValue",
+        "D1Uint64Value",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "60c513c869324cf400a51390d42def52e44c51fa783dd6678773d8f54a78656c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ExecutePlanResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "ExecutePlanResponse",
+        "ExecutePlanFailure",
+        "ExecutePlanSuccess",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "317a1dfc558d2cd43cc6f46a0f1a5044c42467214c777e1ea5fb5ad03e36b2f0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceInputRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceInputRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "01da406e9afd2049f160d81a673043cf6a95b106bb6dd669ffbd9cb6259255a3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceInputResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "InferenceInputResponse",
+        "InferenceInput",
+        "EmbeddingInput",
+        "InferenceTextItem",
+        "RerankInput",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "bc6a5fdb5189ec3987ae2ca684c46301b86aca6dc3b1c1997540f82bfdd52207",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceJobRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceJobRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "1b9098b4e4ebbf3b01227b69597d04018879b2530d33c0bde5fd8e41082af9b1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceJobResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceJobResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "ef35a3d3f9c12184e648a006c5b8f067ad44d4bc6d59e173ba9551f3350af8ca",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceLateOutcomeRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "InferenceLateOutcomeRequest",
+        "InferenceLateOutcomeCompleteRequest",
+        "InferenceLateOutcomeNonCompleteRequest",
+        "StrictJsonResult",
+        "StrictJsonNumber",
+        "StrictJsonReader"
+      ],
+      "sha256": "50a2c5db97b740c086a848b38bb2dc7a902a031900fd1e67508781157b51cc3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceLateOutcomeResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceLateOutcomeResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "545785eda7b6b0015d37b7e26d297e432f7e89b893435bc3f40901b8e89f6530",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceLeaseRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceLeaseRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "175cafb61f116869bf9d1f1c3e63c0cfb5d7635b27b6f787aac3b4b1f91d4a25",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceLeaseResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceLeaseResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "76775d9cba97b4d2ba4c84c30643371a1242fd04c54921135aa6ece5ccd1660d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceOutcomeRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "InferenceOutcomeRequest",
+        "InferenceOutcomeCompleteRequest",
+        "InferenceOutcomeNonCompleteRequest",
+        "InferenceResult",
+        "EmbeddingResult",
+        "EmbeddingVector",
+        "RerankResult",
+        "RerankScore",
+        "StrictJsonResult",
+        "StrictJsonNumber",
+        "StrictJsonReader"
+      ],
+      "sha256": "08714f7f5f25c7bd809260570b3eb7ee80255c8376dff729161cb1aaa0a56a6f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceOutcomeResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceOutcomeResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "ca6359a02dbca146ec9010ab5d02ebf36c539e6391bf824666d4c6d781be881b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceStateRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceStateRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "d2f828e8998e9aee1100f9569fc88e682cd686089c19b88ed0563182a345e778",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/InferenceStateResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["InferenceStateResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "fabb202c08663ce735bf2bc87a79d698a33dc21a5f251da6214a8eeabec413f0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectAuthorizeRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "ObjectAuthorizeRequest",
+        "ObjectAuthorizeCredentialRequest",
+        "ObjectAuthorizeSessionBindingRequest",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "c6c6290f0d2fce2831e2f300c513f51a5ab7047d7c27b19da473b6d59a0b6130",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectAuthorizeResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectAuthorizeResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "b245d3e667cf4b252a642958cecb48d4bf1973231b7802bf454a39ee53a7717d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectJobAuthorizeRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectJobAuthorizeRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "8d2fab13524f5d78b3df4e4dfcd7af6522e39986f60a71e3f1c7a1fe29734af3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectJobAuthorizeResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectJobAuthorizeResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "439aa2dd601dc50c066027d22723a4d739b6d33749846b4d04e8e84f7f3b5264",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectJobGrantRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "ObjectJobGrantRequest",
+        "ObjectReadJobGrantRequest",
+        "ObjectWriteJobGrantRequest",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "eab142bcfda6b0cf6ab9e178ead2dd014df4871b07904cc30a3a52999507bdc8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectJobGrantResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "ObjectJobGrantResponse",
+        "ObjectReadJobGrantResponse",
+        "ObjectWriteJobGrantResponse",
+        "ServiceObjectGrant",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "c73cfad8c676fcf542a4b738044be35ee96c01b706e6a2902cfea1d95836f641",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectPartReceiptRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectPartReceiptRequest", "PartReceipt", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "faed54b0f21108f3f092cb8e1089c1a01a3d8668efe2441c76627893bde2d10f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectPartReceiptResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectPartReceiptResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "1b01762464d20b36982ccb742139e81cab9a7e0d5e7d35a17077ede62a789757",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectVerificationRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectVerificationRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "d084f499032d829ee18e0a25efa80708154c4b5528d7f5e1ff1e84954d891e1f",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/ObjectVerificationResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["ObjectVerificationResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "3755518d4414d8d9e462d7ac86381bc7b861f363f97e95e36ca6d93826a3ea4d",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/ts/ai-internal/src/shapes/gen/SessionBinding.ts",
       "package": "@arcforges/ai-internal",
       "access": "internal",
       "types": ["SessionBinding", "StrictJsonResult", "StrictJsonReader"],
       "sha256": "019ccd03527d1f8d64f709824906fefc436eaa13ca50304d24192a24adbe8334",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerControlRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["WorkerControlRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "1bb8fd2a6fd24105ce44d9315125e10b06082497935236259f4398e009f5e8e9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerControlResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["WorkerControlResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "bc80954e966bc14e05ed9182a76d2dc94a7e9a55c91b74e0fea43e1b9985e5a0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerDeleteRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["WorkerDeleteRequest", "CfDeletionTarget", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "ec086c697f71526480c2ff420140d2a77b8189c3ef775f4fcf93094358729779",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerDeleteResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "WorkerDeleteResponse",
+        "CfDeletionReceipt",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "2896a40f68727f3c284f3c1eba20a545bf4e4216aa39c425663cce9e1d2f3e95",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerDispatchRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["WorkerDispatchRequest", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "167ce8d003e24acf55f28b250b5af67dcd50188271657ffadcd5727ea6e3f144",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerDispatchResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": ["WorkerDispatchResponse", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "c2b82dfa3f33cbe2c0843964591246072cb309f1674b8dc8814990491a32a9d4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerObjectJobRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "WorkerObjectJobRequest",
+        "WorkerObjectJobReadRequest",
+        "WorkerObjectJobWriteRequest",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "3f8a0125f75d9f7bb00df3cc82920b81946a9541bc151a1f9d5331c408460caa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerObjectJobResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "WorkerObjectJobResponse",
+        "WorkerObjectJobReadResponse",
+        "WorkerObjectJobWriteResponse",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "6e802fade3cf267621488e75f2a20765fa093a5d08c0f47d97ce67f13e448640",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerWebSearchRequest.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "WorkerWebSearchRequest",
+        "WebSearchRequest",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "c0271f42ec9a96d2bf702d3c7f482b429f704bb89998799280b7ad6d63818cd5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/ts/ai-internal/src/shapes/gen/WorkerWebSearchResponse.ts",
+      "package": "@arcforges/ai-internal",
+      "access": "internal",
+      "types": [
+        "WorkerWebSearchResponse",
+        "WorkerWebSearchFailure",
+        "WorkerWebSearchSuccess",
+        "WebSearchResult",
+        "WebSearchHit",
+        "StrictJsonResult",
+        "StrictJsonReader"
+      ],
+      "sha256": "293cdef8bd00d67b23a1f4815b08e6f899f16edfb61cfc6e7166e811138eb003",
       "kind": "generated"
     },
     {
@@ -28704,7 +29809,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "da81d0768a78a12a0ea1abe0e4bb59f47dc5558e1fda7a8608d668a12df742d9"
+      "sha256": "115fc0963c0007aad0ddff212e9502a5cdb61dc477ae95cb25e183b1595b874a"
     },
     {
       "path": "gradle.properties",
@@ -28721,6 +29826,10 @@
     {
       "path": "internal/ai-http/v1/schema.json",
       "sha256": "335ccfcaa1d98a38ef0a0b590a57011d061e82834f1125a9a87e5113886d729c"
+    },
+    {
+      "path": "internal/cf-http/v1/schema.json",
+      "sha256": "8290733306db2f4a485740629f88dd3adb3376feb0d2c4f37270a991e73871bb"
     },
     {
       "path": "internal/proto/constraints.json",
@@ -28769,6 +29878,10 @@
     {
       "path": "internal/proto/constraints/scope-baseline.json",
       "sha256": "513f5f49bd7b8e8ae285c7d41fa5c1d68ade2e197bae186b476fda4319cc58fe"
+    },
+    {
+      "path": "internal/storage-http/v1/schema.json",
+      "sha256": "a38ce06edf0963daad5ce2fe093914f438395181e7d9c66703de3f09f1f3e72a"
     },
     {
       "path": "package-lock.json",
