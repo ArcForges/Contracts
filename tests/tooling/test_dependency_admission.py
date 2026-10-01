@@ -4,6 +4,7 @@ import copy
 import json
 import hashlib
 import subprocess
+import tempfile
 from pathlib import Path
 import sys
 import re
@@ -11,10 +12,86 @@ import tomllib
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
-from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coordinates, major_upgrade, pinned, stable_dependency, validate
+from dependency_admission import (ROOT, POLICY, ARCHITECTURE_TEST_LOCK, ARCHITECTURE_TEST_PROJECT,
+    BUILD_POLICY_KEY, BUILD_POLICY_SCOPE, audit, inventory, immutable_coordinates, major_upgrade, pinned,
+    stable_dependency, validate, validate_architecture_policy_boundary)
 
 
 class DependencyAdmission(unittest.TestCase):
+    def architecture_boundary_fixture(self):
+        temporary = tempfile.TemporaryDirectory(prefix='contracts-policy-admission-')
+        root = Path(temporary.name)
+        subprocess.run(['git', 'init', '-q', str(root)], check=True)
+        project = root / ARCHITECTURE_TEST_PROJECT
+        project.parent.mkdir(parents=True)
+        project.write_text('''<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><PackageLicenseExpression>Apache-2.0</PackageLicenseExpression><LicenceBoundary>Apache</LicenceBoundary></PropertyGroup>
+  <ItemGroup><PackageReference Include="ArcForges.Build.Policy" PrivateAssets="all" GeneratePathProperty="true" /></ItemGroup>
+  <Import Project="$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props" />
+</Project>''', encoding='utf-8')
+        (root / 'Directory.Packages.props').write_text(
+            '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.31.1" /></ItemGroup></Project>',
+            encoding='utf-8')
+        digest = 'c2lnbmF0dXJlZA=='
+        lock = root / ARCHITECTURE_TEST_LOCK
+        lock.parent.mkdir(parents=True, exist_ok=True)
+        lock.write_text(json.dumps({'version': 1, 'dependencies': {'net10.0': {
+            'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.31.1', 'contentHash': digest}}}}),
+            encoding='utf-8')
+        catalog = root / 'eng/contract-packages.json'
+        catalog.parent.mkdir(parents=True)
+        catalog.write_text(json.dumps({'packages': []}), encoding='utf-8')
+        return temporary, root, digest
+
+    def test_build_policy_agpl_exception_is_exact_and_test_only(self):
+        policy = copy.deepcopy(json.loads((ROOT / POLICY).read_text()))
+        row = {'integrity': 'c2lnbmF0dXJlZA==', 'licence': 'AGPL-3.0-only',
+               'evidence': [{'source': 'https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.31.1/arcforges.build.policy.nuspec',
+                            'sha256': 'a' * 64}], 'scope': BUILD_POLICY_SCOPE}
+        policy['closure'] = {BUILD_POLICY_KEY: row}
+        validate(policy, {BUILD_POLICY_KEY: row['integrity']})
+        for bad_key, bad_row in [
+                (BUILD_POLICY_KEY, {**row, 'licence': 'AGPL-3.0-only', 'scope': 'build dependency'}),
+                (BUILD_POLICY_KEY, {**row, 'licence': 'Apache-2.0'}),
+                ('nuget:arcforges.build.policy@1.0.0-ci.31.2', row),
+                ('nuget:arcforges.unknown@1.0.0-ci.31.1', row),
+        ]:
+            with self.subTest(key=bad_key, scope=bad_row.get('scope'), licence=bad_row.get('licence')):
+                policy['closure'] = {bad_key: bad_row}
+                with self.assertRaisesRegex(ValueError, 'Forbidden|Build.Policy|exact'):
+                    validate(policy, {bad_key: row['integrity']})
+        self.assertTrue(stable_dependency(BUILD_POLICY_KEY))
+        self.assertFalse(stable_dependency('nuget:arcforges.build.policy@1.0.0-ci.31.2'))
+
+    def test_build_policy_exception_requires_exact_reference_and_locked_closure(self):
+        temporary, root, digest = self.architecture_boundary_fixture()
+        self.addCleanup(temporary.cleanup)
+        validate_architecture_policy_boundary(root, {BUILD_POLICY_KEY: digest})
+
+        host = root / ARCHITECTURE_TEST_PROJECT
+        original_project = host.read_text(encoding='utf-8')
+        lock = root / ARCHITECTURE_TEST_LOCK
+        original_lock = json.loads(lock.read_text(encoding='utf-8'))
+        for bad_project, bad_lock in [
+                (original_project.replace('PrivateAssets="all"', 'PrivateAssets="none"'), original_lock),
+                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                    'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.31.1', 'contentHash': digest}}}}),
+                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.31.2', 'contentHash': digest}}}}),
+        ]:
+            with self.subTest(project=bad_project != original_project, lock=bad_lock):
+                host.write_text(bad_project, encoding='utf-8')
+                lock.write_text(json.dumps(bad_lock), encoding='utf-8')
+                with self.assertRaises(ValueError):
+                    validate_architecture_policy_boundary(root, {BUILD_POLICY_KEY: digest})
+        host.write_text(original_project, encoding='utf-8')
+        lock.write_text(json.dumps(original_lock), encoding='utf-8')
+        other_lock = root / 'src/other/packages.lock.json'
+        other_lock.parent.mkdir(parents=True)
+        other_lock.write_text(json.dumps(original_lock), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'only the exact direct'):
+            validate_architecture_policy_boundary(root, {BUILD_POLICY_KEY: digest})
+
     def test_con02_exceptions_bind_only_observed_public_digest_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         rows = [row for row in config['allowlists'] if row['description'].startswith('CON.02 exact')]
@@ -624,7 +701,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 70)
+        self.assertEqual(len(config['allowlists']), 72)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -640,6 +717,57 @@ class DependencyAdmission(unittest.TestCase):
             digest = receipt['review']['inputHashes'][source]
             self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
             self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
+
+        gov05_allowlists = [row for row in config['allowlists']
+                            if row.get('description') == 'GOV.05 exact dependency receipt source digests']
+        self.assertEqual(len(gov05_allowlists), 1)
+        gov05_allow = gov05_allowlists[0]
+        self.assertEqual(gov05_allow['targetRules'], ['generic-api-key'])
+        self.assertEqual(gov05_allow['condition'], 'AND')
+        self.assertEqual(gov05_allow['regexTarget'], 'line')
+        self.assertEqual(gov05_allow['paths'], [r'^eng/policy/dependency-reviews/gov-05-r1\.json$'])
+        self.assertEqual(len(gov05_allow['regexes']), 4)
+        self.assertIsNone(re.fullmatch(gov05_allow['paths'][0], 'eng/policy/dependency-reviews/con-06-r1.json'))
+        gov05_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/gov-05-r1.json').read_text(encoding='utf-8'))
+        gov05_sources = ['eng/policy/contract-access.json',
+                         'eng/provenance/records/dokka-combokeys-licence-r1.json',
+                         'eng/provenance/records/dokka-object-keys-licence-r1.json',
+                         'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
+        for source, pattern in zip(gov05_sources, gov05_allow['regexes']):
+            digest = gov05_receipt['review']['inputHashes'][source]
+            self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
+            self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
+
+        gov05_policy_allowlists = [row for row in config['allowlists']
+                                   if row.get('description') == 'GOV.05 exact dependency-policy contract-access input digest']
+        self.assertEqual(len(gov05_policy_allowlists), 1)
+        gov05_policy_allow = gov05_policy_allowlists[0]
+        self.assertEqual(gov05_policy_allow['targetRules'], ['generic-api-key'])
+        self.assertEqual(gov05_policy_allow['condition'], 'AND')
+        self.assertEqual(gov05_policy_allow['regexTarget'], 'line')
+        self.assertEqual(gov05_policy_allow['paths'], [r'^eng/policy/dependency\-policy\.json$'])
+        self.assertEqual(len(gov05_policy_allow['regexes']), 1)
+        expected_contract_access_digest = (
+            '27c315c34f1c9b965f12e63c00970064'
+            '3f8095aab291c9cad3ead0f512595c6d'
+        )
+        previous_contract_access_digest = (
+            '99e2e46d33a86a1486ecdc71d314f553'
+            'a224433259cbf9c93e93417d635a9188'
+        )
+        self.assertEqual(self.policy['inputHashes']['eng/policy/contract-access.json'],
+                         expected_contract_access_digest)
+        self.assertEqual(self.policy['review']['inputHashes']['eng/policy/contract-access.json'],
+                         expected_contract_access_digest)
+        self.assertIsNotNone(re.fullmatch(
+            gov05_policy_allow['regexes'][0],
+            f'  "eng/policy/contract-access.json": "{expected_contract_access_digest}",'))
+        self.assertIsNone(re.fullmatch(
+            gov05_policy_allow['regexes'][0],
+            f'  "eng/policy/contract-access.json": "{previous_contract_access_digest}",'))
+        self.assertIsNone(re.fullmatch(
+            gov05_policy_allow['regexes'][0],
+            f'  "eng/policy/other.json": "{expected_contract_access_digest}",'))
 
 
         receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/wp03-00-r1.json').read_text())
@@ -774,7 +902,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360, 1, 4])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -2165,8 +2293,8 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con11_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 70)
-        groups = config['allowlists'][67:]
+        self.assertEqual(len(config['allowlists']), 72)
+        groups = config['allowlists'][67:70]
         expected_descriptions = {
             'CON.11 reviewed dependency policy public input digest',
             'CON.11 reviewed immutable dependency receipt public input digests',
