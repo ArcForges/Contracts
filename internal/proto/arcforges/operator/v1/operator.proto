@@ -15,6 +15,8 @@ option java_outer_classname = "OperatorProto";
 
 // Internal operator-origin contracts only. This service is not exposed by the
 // public origin and does not establish authorization merely from its shapes.
+// Read/query responses leave tag 4 unreserved so the registry's large-read encodedBody outcome can be
+// added compatibly; operator reads are bounded by paging and the 1 MiB configuration limit today.
 service OperatorService {
   rpc ListCases(OperatorServiceListCasesRequest) returns (OperatorServiceListCasesResponse);
   rpc GetCase(OperatorServiceGetCaseRequest) returns (OperatorServiceGetCaseResponse);
@@ -154,7 +156,7 @@ message OperatorIssueCreditInput {
 
 message OperatorAdjustCreditInput {
   arcforges.foundation.v1.Id lot_id = 1 [json_name = "lotId"];
-  optional int64 delta_micro = 2 [json_name = "deltaMicro"];
+  optional sint64 delta_micro = 2 [json_name = "deltaMicro"];
   arcforges.foundation.v1.Id adjustment_id = 3 [json_name = "adjustmentId"];
   arcforges.foundation.v1.Id new_lot_id = 4 [json_name = "newLotId"];
 }
@@ -273,7 +275,7 @@ message OperatorServiceListCasesResponse {
     OperatorServiceListCasesValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceGetCaseRequest {
@@ -290,7 +292,7 @@ message OperatorServiceGetCaseResponse {
     OperatorServiceGetCaseValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceRequestAccessRequest {
@@ -362,7 +364,7 @@ message OperatorServiceReadDiagnosticResponse {
     OperatorServiceReadDiagnosticValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceProposeEnforcementRequest {
@@ -420,7 +422,7 @@ message OperatorServiceGetAppealResponse {
     OperatorServiceGetAppealValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceResolveAppealRequest {
@@ -474,7 +476,7 @@ message OperatorServiceValidateConfigurationResponse {
     OperatorServiceValidateConfigurationValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceApproveConfigurationRequest {
@@ -533,7 +535,7 @@ message OperatorServiceGetConfigurationResponse {
     OperatorServiceGetConfigurationValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceSetKillSwitchRequest {
@@ -647,7 +649,7 @@ message OperatorServiceGetProposalResponse {
     OperatorServiceGetProposalValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceGrantEntitlementRequest {
@@ -758,7 +760,7 @@ message OperatorServiceGetCatalogSubmissionResponse {
     OperatorServiceGetCatalogSubmissionValue value = 2 [json_name = "value"];
     arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
   }
-  reserved 4 to 9;
+  reserved 5 to 9;
 }
 
 message OperatorServiceReplyCaseRequest {

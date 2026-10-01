@@ -15,6 +15,8 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
   /// <summary>
   /// Internal operator-origin contracts only. This service is not exposed by the
   /// public origin and does not establish authorization merely from its shapes.
+  /// Read/query responses leave tag 4 unreserved so the registry's large-read encodedBody outcome can be
+  /// added compatibly; operator reads are bounded by paging and the 1 MiB configuration limit today.
   /// </summary>
   public static partial class OperatorService
   {

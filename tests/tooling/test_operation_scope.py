@@ -320,7 +320,7 @@ class OperationScopeTests(unittest.TestCase):
 
         for field, wrong in [('actorKinds', ['human']), ('actorKinds', ['operator', 'service']),
                              ('patEligible', True), ('capability', 'operator.startBreakGlass'),
-                             ('localPresence', True), ('stepUp', 'yes')]:
+                             ('localPresence', True), ('stepUp', 'yes'), ('stepUp', False)]:
             hostile = copy.deepcopy(row)
             hostile['authorization'][field] = wrong
             with self.subTest(authorization_field=field, wrong=wrong), self.assertRaises(ValueError):

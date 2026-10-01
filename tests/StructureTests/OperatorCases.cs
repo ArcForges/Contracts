@@ -164,6 +164,7 @@ internal static class OperatorCases
         AssertFieldType(file, "OperatorResult", 5, "arcforges.catalog.v1.CatalogVersionView");
         AssertFieldType(file, "OperatorResult", 6, OperatorPackage + ".OperatorAction");
 
+        AssertRegistryOracle(fixture.GetProperty("registryOracle"), file, methodNames);
         AssertOperationMatrix(root, fixture, service, methodNames);
         AssertShapeCases(fixture.GetProperty("shapeCases"));
 
@@ -265,6 +266,93 @@ internal static class OperatorCases
         }
     }
 
+    // Registry04 field-table oracle: every record, every method request/value message and every enum,
+    // by number, JSON name, scalar/message/enum type, repeated and explicit-presence shape.
+    private static void AssertRegistryOracle(JsonElement oracle, FileDescriptor file, string[] methodNames)
+    {
+        var records = oracle.GetProperty("records").EnumerateObject().ToArray();
+        Require(records.Length == 18, "18 operator records in the registry oracle");
+        foreach (var record in records)
+        {
+            var descriptor = file.MessageTypes.Single(candidate => candidate.Name == record.Name);
+            AssertMessageFields(descriptor, record.Value.EnumerateArray().Select(row => row.GetString()!).ToArray(), record.Name);
+        }
+
+        var methods = oracle.GetProperty("methods");
+        Require(methods.EnumerateObject().Select(method => method.Name).SequenceEqual(methodNames), "oracle covers the 31 methods in order");
+        foreach (var method in methods.EnumerateObject())
+        {
+            var request = file.MessageTypes.Single(candidate => candidate.Name == "OperatorService" + method.Name + "Request");
+            var value = file.MessageTypes.Single(candidate => candidate.Name == "OperatorService" + method.Name + "Value");
+            var requestRows = new[] { "1 meta RequestMeta" }.Concat(
+                method.Value.GetProperty("request").EnumerateArray().Select(row => row.GetString()!)).ToArray();
+            AssertMessageFields(request, requestRows, request.Name);
+            AssertMessageFields(value, method.Value.GetProperty("value").EnumerateArray().Select(row => row.GetString()!).ToArray(), value.Name);
+            var response = file.MessageTypes.Single(candidate => candidate.Name == "OperatorService" + method.Name + "Response");
+            Require(response.FindFieldByNumber(2)?.MessageType == value, method.Name + " response value type");
+        }
+
+        var enums = oracle.GetProperty("enums");
+        Require(enums.EnumerateObject().Count() == 5, "five operator enums");
+        foreach (var item in enums.EnumerateObject())
+        {
+            var descriptor = file.EnumTypes.Single(candidate => candidate.Name == item.Name);
+            var prefix = string.Concat(item.Name.Select((c, i) => i > 0 && char.IsUpper(c) ? "_" + c : c.ToString())).ToUpperInvariant();
+            var expected = new List<(string Name, int Number)> { (prefix + "_UNSPECIFIED", 0) };
+            var number = 1;
+            foreach (var name in item.Value.EnumerateArray().Select(value => value.GetString()!))
+                expected.Add((prefix + "_" + string.Concat(name.Select(c => char.IsUpper(c) ? "_" + c : c.ToString())).ToUpperInvariant(), number++));
+            Require(descriptor.Values.Select(value => (value.Name, value.Number)).SequenceEqual(expected), item.Name + " enum names and numbers");
+        }
+    }
+
+    private static void AssertMessageFields(MessageDescriptor descriptor, string[] rows, string name)
+    {
+        var expected = rows.Select(row => row.Split(' ')).OrderBy(parts => int.Parse(parts[0])).ToArray();
+        Require(descriptor.Fields.InDeclarationOrder().Select(field => field.FieldNumber).OrderBy(number => number)
+            .SequenceEqual(expected.Select(parts => int.Parse(parts[0]))), name + " exact field numbers");
+        foreach (var parts in expected)
+        {
+            var field = descriptor.FindFieldByNumber(int.Parse(parts[0]))!;
+            var token = parts[2];
+            var repeated = token.EndsWith("[]", StringComparison.Ordinal);
+            var baseToken = token.TrimEnd('?', '[', ']');
+            var label = name + "." + parts[1];
+            Require(field.JsonName == parts[1], label + " JSON name");
+            Require(field.IsRepeated == repeated, label + " repeated");
+            switch (baseToken)
+            {
+                case "Key": case "Text": case "Hash": case "ReasonCode":
+                    Require(field.FieldType == FieldType.String, label + " string");
+                    break;
+                case "bool": Require(field.FieldType == FieldType.Bool, label + " bool"); break;
+                case "uint64": Require(field.FieldType == FieldType.UInt64, label + " uint64"); break;
+                case "sint64": Require(field.FieldType == FieldType.SInt64, label + " sint64"); break;
+                case "bytes": Require(field.FieldType == FieldType.Bytes, label + " bytes"); break;
+                case "OperatorProposalState": case "OperatorRefundDecision": case "OperatorGrantSource":
+                case "OperatorGrantKind": case "SupportCaseState":
+                    Require(field.FieldType == FieldType.Enum && field.EnumType.FullName == OperatorPackage + "." + baseToken, label + " enum");
+                    break;
+                case "CatalogReviewDecision":
+                    Require(field.FieldType == FieldType.Enum && field.EnumType.FullName == "arcforges.catalog.v1.CatalogReviewDecision", label + " enum");
+                    break;
+                default:
+                    var owner = baseToken switch
+                    {
+                        "Id" or "Revision" or "Instant" or "AggregateRef" or "Decimal" or "PageRequest" or "PageState" or "Receipt"
+                            or "TransferTicket" or "ArcError" or "RequestMeta" => "arcforges.foundation.v1.",
+                        "SupportCase" or "Grant" or "CreditLot" or "RefundView" => "arcforges.publicapi.v1.",
+                        "CatalogSubmissionView" or "CatalogVersionView" => "arcforges.catalog.v1.",
+                        _ => OperatorPackage + "."
+                    };
+                    Require(field.FieldType == FieldType.Message && field.MessageType.FullName == owner + baseToken, label + " message " + owner + baseToken);
+                    break;
+            }
+            if (!repeated && field.FieldType is not FieldType.Message && field.RealContainingOneof is null)
+                Require(field.Proto.Proto3Optional, label + " explicit presence");
+        }
+    }
+
     private static void AssertShapeCases(JsonElement cases)
     {
         var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -290,6 +378,7 @@ internal static class OperatorCases
                 "OperatorServiceApproveActionRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceApproveActionRequest>(json)),
                 "OperatorServiceGrantEntitlementRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceGrantEntitlementRequest>(json)),
                 "OperatorServiceReviewCatalogSubmissionRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceReviewCatalogSubmissionRequest>(json)),
+                "OperatorServiceRevokeCatalogVersionRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceRevokeCatalogVersionRequest>(json)),
                 "OperatorServiceSetKillSwitchRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceSetKillSwitchRequest>(json)),
                 "OperatorServiceSetCaseStateRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceSetCaseStateRequest>(json)),
                 "OperatorServiceGetCaseRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceGetCaseRequest>(json)),

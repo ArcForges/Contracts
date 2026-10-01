@@ -1016,6 +1016,9 @@ public static class ContractShapeValidation
         if (value.HasReason)
         {
             if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) < 1) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
         if (!value.HasEvidence) return false;
         if (value.HasEvidence)
@@ -1054,6 +1057,9 @@ public static class ContractShapeValidation
         if (value.HasReason)
         {
             if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) < 1) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
         if (!value.HasEvidence) return false;
         if (value.HasEvidence)
@@ -2800,6 +2806,9 @@ public static class ContractShapeValidation
         if (value.HasReason)
         {
             if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) < 1) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
         if (!value.HasEvidence) return false;
         if (value.HasEvidence)
@@ -2879,6 +2888,9 @@ public static class ContractShapeValidation
         if (value.HasReason)
         {
             if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) < 1) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
         if (!value.HasEvidence) return false;
         if (value.HasEvidence)

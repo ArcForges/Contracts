@@ -1,11 +1,22 @@
 {
   "schemaVersion": "con-14-operator-fixtures.v1",
   "license": "Apache-2.0",
-  "authority": ["Registry04 §9.1", "Registry04 §9.2", "Plan CON.14 validation"],
+  "authority": [
+    "Registry04 §9.1",
+    "Registry04 §9.2",
+    "Plan CON.14 validation"
+  ],
   "evidenceClass": "Independent declarative schema/protocol expectations only; no owner/runtime authorization, persistence, transaction, concurrency, identity-provider, or external-provider behavior is executed.",
   "protocolExpectations": {
     "proposalLifetimeMinutes": 15,
-    "proposalStates": ["pending", "approved", "rejected", "expired", "invalidated", "executed"],
+    "proposalStates": [
+      "pending",
+      "approved",
+      "rejected",
+      "expired",
+      "invalidated",
+      "executed"
+    ],
     "approvalBinds": [
       "distinct eligible operator identity",
       "exact proposal hash",
@@ -40,6 +51,562 @@
     "trustSafety",
     "security"
   ],
+  "registryOracle": {
+    "source": "Mechanically extracted from Registry04 sections 3, 4, 5 and 9 field tables (number name type[?|[]]); request fields exclude the tag-1 meta envelope.",
+    "records": {
+      "OperatorAccess": [
+        "1 accessId Id",
+        "2 operatorId Id",
+        "3 caseId Id?",
+        "4 workspaceId Id",
+        "5 resources AggregateRef[]",
+        "6 purpose Text",
+        "7 expiresAt Instant",
+        "8 state Key",
+        "9 consentRef Id?",
+        "10 secondOperatorId Id?",
+        "11 revision Revision"
+      ],
+      "OperatorAction": [
+        "1 actionId Id",
+        "2 proposerId Id",
+        "3 approverId Id?",
+        "4 target AggregateRef",
+        "5 action Key",
+        "6 proposalHash Hash",
+        "7 reason Text",
+        "8 state Key",
+        "9 expiresAt Instant?",
+        "10 revision Revision"
+      ],
+      "OperatorCallContext": [
+        "1 caseId Id",
+        "2 incidentId Id",
+        "3 purpose Text"
+      ],
+      "OperatorProposalRef": [
+        "1 proposalId Id",
+        "2 proposalHash Hash",
+        "3 expectedProposalRevision Revision"
+      ],
+      "OperatorGrantInput": [
+        "1 grantId Id",
+        "2 workspaceId Id",
+        "3 subject Key",
+        "4 entitlementProfileId Key",
+        "5 startsAt Instant",
+        "6 endsAt Instant",
+        "7 source OperatorGrantSource",
+        "8 kind OperatorGrantKind"
+      ],
+      "OperatorRevokeGrantInput": [
+        "1 grantId Id",
+        "2 revocationId Id"
+      ],
+      "OperatorIssueCreditInput": [
+        "1 lotId Id",
+        "2 workspaceId Id",
+        "3 amountMicro uint64",
+        "4 expiresAt Instant"
+      ],
+      "OperatorAdjustCreditInput": [
+        "1 lotId Id",
+        "2 deltaMicro sint64",
+        "3 adjustmentId Id",
+        "4 newLotId Id?"
+      ],
+      "OperatorRefundInput": [
+        "1 refundId Id",
+        "2 decision OperatorRefundDecision",
+        "3 amount Decimal?"
+      ],
+      "OperatorCatalogReviewInput": [
+        "1 submissionId Id",
+        "2 decision CatalogReviewDecision",
+        "3 reason ReasonCode",
+        "4 evidence Text"
+      ],
+      "OperatorCatalogRevokeInput": [
+        "1 packageId Key",
+        "2 version Key",
+        "3 reason ReasonCode",
+        "4 evidence Text"
+      ],
+      "OperatorAppealInput": [
+        "1 appealId Id",
+        "2 actionId Id",
+        "3 decision Key",
+        "4 reason Text"
+      ],
+      "OperatorKillInput": [
+        "1 actionId Id",
+        "2 mode Key",
+        "3 scope AggregateRef?",
+        "4 reason Text",
+        "5 until Instant"
+      ],
+      "OperatorMutation": [
+        "1 grant OperatorGrantInput",
+        "2 revokeGrant OperatorRevokeGrantInput",
+        "3 issueCredit OperatorIssueCreditInput",
+        "4 adjustCredit OperatorAdjustCreditInput",
+        "5 refund OperatorRefundInput",
+        "6 catalogReview OperatorCatalogReviewInput",
+        "7 catalogRevoke OperatorCatalogRevokeInput",
+        "8 appeal OperatorAppealInput",
+        "9 kill OperatorKillInput"
+      ],
+      "OperatorProposal": [
+        "1 proposalId Id",
+        "2 mutation OperatorMutation",
+        "3 targetOperation Key",
+        "4 context OperatorCallContext",
+        "5 reason Text",
+        "6 proposerSubject Key",
+        "7 approverSubject Key?",
+        "8 proposalHash Hash",
+        "9 ownerRevision Revision",
+        "10 revision Revision",
+        "11 state OperatorProposalState",
+        "12 expiresAt Instant",
+        "13 consumedByCommandId Id?",
+        "14 resultRef AggregateRef?",
+        "15 recoveryGeneration uint64",
+        "16 configurationHash Hash"
+      ],
+      "OperatorResult": [
+        "1 grant Grant",
+        "2 credit CreditLot",
+        "3 refund RefundView",
+        "4 submission CatalogSubmissionView",
+        "5 catalogVersion CatalogVersionView",
+        "6 action OperatorAction"
+      ],
+      "ConfigValidation": [
+        "1 configId Id",
+        "2 configHash Hash",
+        "3 schemaVersion Key",
+        "4 problems ArcError[]",
+        "5 workerAcknowledgement Hash?",
+        "6 compatible bool",
+        "7 revision Revision"
+      ],
+      "ConfigurationDocument": [
+        "1 schemaVersion Key",
+        "2 canonicalJson bytes",
+        "3 documentHash Hash",
+        "4 parentVersion Key",
+        "5 createdAt Instant"
+      ]
+    },
+    "methods": {
+      "ReviewCatalogSubmission": {
+        "operationId": "catalog.review",
+        "request": [
+          "10 submissionId Id",
+          "11 decision CatalogReviewDecision",
+          "12 reason ReasonCode",
+          "13 evidence Text",
+          "100 context OperatorCallContext",
+          "101 proposal OperatorProposalRef"
+        ],
+        "value": [
+          "10 submission CatalogSubmissionView"
+        ]
+      },
+      "RevokeCatalogVersion": {
+        "operationId": "catalog.revoke",
+        "request": [
+          "10 packageId Key",
+          "11 version Key",
+          "12 reason ReasonCode",
+          "13 evidence Text",
+          "100 context OperatorCallContext",
+          "101 proposal OperatorProposalRef"
+        ],
+        "value": [
+          "10 version CatalogVersionView"
+        ]
+      },
+      "ListCases": {
+        "operationId": "operator.listCases",
+        "request": [
+          "10 page PageRequest",
+          "11 state Key?",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 cases SupportCase[]",
+          "11 page PageState"
+        ]
+      },
+      "GetCase": {
+        "operationId": "operator.getCase",
+        "request": [
+          "10 caseId Id",
+          "100 context OperatorCallContext",
+          "102 messages PageRequest?"
+        ],
+        "value": [
+          "10 case SupportCase"
+        ]
+      },
+      "RequestAccess": {
+        "operationId": "operator.requestAccess",
+        "request": [
+          "10 accessId Id",
+          "11 caseId Id",
+          "12 workspaceId Id",
+          "13 resources AggregateRef[]",
+          "14 reason Text",
+          "15 until Instant",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 access OperatorAccess"
+        ]
+      },
+      "ApproveAccess": {
+        "operationId": "operator.approveAccess",
+        "request": [
+          "10 accessId Id",
+          "11 proposalHash Hash",
+          "12 approve bool",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 access OperatorAccess"
+        ]
+      },
+      "EndAccess": {
+        "operationId": "operator.endAccess",
+        "request": [
+          "10 accessId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 receipt Receipt"
+        ]
+      },
+      "ReadDiagnostic": {
+        "operationId": "operator.readDiagnostic",
+        "request": [
+          "10 accessId Id",
+          "11 resourceId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 ticket TransferTicket"
+        ]
+      },
+      "ProposeEnforcement": {
+        "operationId": "operator.proposeEnforcement",
+        "request": [
+          "10 actionId Id",
+          "11 caseId Id",
+          "12 userId Id",
+          "13 action Key",
+          "14 reason Text",
+          "15 until Instant?",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 action OperatorAction"
+        ]
+      },
+      "DecideEnforcement": {
+        "operationId": "operator.decideEnforcement",
+        "request": [
+          "10 actionId Id",
+          "11 proposalHash Hash",
+          "12 approve bool",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 action OperatorAction"
+        ]
+      },
+      "GetAppeal": {
+        "operationId": "operator.getAppeal",
+        "request": [
+          "10 appealId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 case SupportCase",
+          "11 action OperatorAction"
+        ]
+      },
+      "ResolveAppeal": {
+        "operationId": "operator.resolveAppeal",
+        "request": [
+          "10 appealId Id",
+          "11 actionId Id",
+          "12 decision Key",
+          "13 reason Text",
+          "100 context OperatorCallContext",
+          "101 proposal OperatorProposalRef"
+        ],
+        "value": [
+          "10 action OperatorAction"
+        ]
+      },
+      "StageConfiguration": {
+        "operationId": "operator.stageConfiguration",
+        "request": [
+          "10 configId Id",
+          "11 parentVersion Key",
+          "12 document ConfigurationDocument",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 validation ConfigValidation"
+        ]
+      },
+      "ValidateConfiguration": {
+        "operationId": "operator.validateConfiguration",
+        "request": [
+          "10 configId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 validation ConfigValidation"
+        ]
+      },
+      "ApproveConfiguration": {
+        "operationId": "operator.approveConfiguration",
+        "request": [
+          "10 configId Id",
+          "11 validationHash Hash",
+          "12 approve bool",
+          "13 reason Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 approvalId Id",
+          "11 expiresAt Instant"
+        ]
+      },
+      "ActivateConfiguration": {
+        "operationId": "operator.activateConfiguration",
+        "request": [
+          "10 configId Id",
+          "11 validationHash Hash",
+          "12 secondApprovalId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 activeVersion Key"
+        ]
+      },
+      "GetConfiguration": {
+        "operationId": "operator.getConfiguration",
+        "request": [
+          "10 configId Id?",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 document ConfigurationDocument",
+          "11 validation ConfigValidation"
+        ]
+      },
+      "SetKillSwitch": {
+        "operationId": "operator.setKillSwitch",
+        "request": [
+          "10 actionId Id",
+          "11 mode Key",
+          "12 scope AggregateRef?",
+          "13 reason Text",
+          "14 until Instant",
+          "100 context OperatorCallContext",
+          "101 proposal OperatorProposalRef"
+        ],
+        "value": [
+          "10 action OperatorAction"
+        ]
+      },
+      "StartBreakGlass": {
+        "operationId": "operator.startBreakGlass",
+        "request": [
+          "10 accessId Id",
+          "11 incidentId Id",
+          "12 resources AggregateRef[]",
+          "13 reason Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 access OperatorAccess"
+        ]
+      },
+      "EndBreakGlass": {
+        "operationId": "operator.endBreakGlass",
+        "request": [
+          "10 accessId Id",
+          "11 outcome Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 receipt Receipt"
+        ]
+      },
+      "ProposeAction": {
+        "operationId": "operator.proposeAction",
+        "request": [
+          "10 proposalId Id",
+          "11 mutation OperatorMutation",
+          "12 expectedOwnerRevision Revision",
+          "13 reason Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 proposal OperatorProposal"
+        ]
+      },
+      "ApproveAction": {
+        "operationId": "operator.approveAction",
+        "request": [
+          "10 proposalId Id",
+          "11 proposalHash Hash",
+          "12 approve bool",
+          "13 reason Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 proposal OperatorProposal"
+        ]
+      },
+      "GetProposal": {
+        "operationId": "operator.getProposal",
+        "request": [
+          "10 proposalId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 proposal OperatorProposal",
+          "11 ownerResult OperatorResult?"
+        ]
+      },
+      "GrantEntitlement": {
+        "operationId": "operator.grantEntitlement",
+        "request": [
+          "10 proposal OperatorProposalRef",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 grant Grant",
+          "11 receipt Receipt"
+        ]
+      },
+      "RevokeEntitlement": {
+        "operationId": "operator.revokeEntitlement",
+        "request": [
+          "10 proposal OperatorProposalRef",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 grant Grant",
+          "11 receipt Receipt"
+        ]
+      },
+      "IssueCompensation": {
+        "operationId": "operator.issueCompensation",
+        "request": [
+          "10 proposal OperatorProposalRef",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 lot CreditLot",
+          "11 receipt Receipt"
+        ]
+      },
+      "AdjustCompensation": {
+        "operationId": "operator.adjustCompensation",
+        "request": [
+          "10 proposal OperatorProposalRef",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 lot CreditLot",
+          "11 receipt Receipt"
+        ]
+      },
+      "DecideRefund": {
+        "operationId": "operator.decideRefund",
+        "request": [
+          "10 proposal OperatorProposalRef",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 refund RefundView",
+          "11 receipt Receipt"
+        ]
+      },
+      "GetCatalogSubmission": {
+        "operationId": "operator.getCatalogSubmission",
+        "request": [
+          "10 submissionId Id",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 submission CatalogSubmissionView"
+        ]
+      },
+      "ReplyCase": {
+        "operationId": "operator.replyCase",
+        "request": [
+          "10 caseId Id",
+          "11 messageId Id",
+          "12 text Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 case SupportCase"
+        ]
+      },
+      "SetCaseState": {
+        "operationId": "operator.setCaseState",
+        "request": [
+          "10 caseId Id",
+          "11 state SupportCaseState",
+          "12 reason Text",
+          "100 context OperatorCallContext"
+        ],
+        "value": [
+          "10 case SupportCase"
+        ]
+      }
+    },
+    "enums": {
+      "OperatorProposalState": [
+        "pending",
+        "approved",
+        "rejected",
+        "expired",
+        "invalidated",
+        "executed"
+      ],
+      "OperatorRefundDecision": [
+        "approve",
+        "reject"
+      ],
+      "OperatorGrantSource": [
+        "administrative",
+        "compensation"
+      ],
+      "OperatorGrantKind": [
+        "capability",
+        "quota",
+        "allowance"
+      ],
+      "SupportCaseState": [
+        "open",
+        "inProgress",
+        "awaitingUser",
+        "resolved",
+        "closed"
+      ]
+    }
+  },
   "operationMatrix": [
     {
       "operationId": "operator.listCases",
@@ -49,7 +616,12 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "operator.getCase",
@@ -59,7 +631,12 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "operator.requestAccess",
@@ -69,7 +646,11 @@
       "approval": "foreground",
       "stepUp": true,
       "egress": "none",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety"
+      ]
     },
     {
       "operationId": "operator.approveAccess",
@@ -79,7 +660,10 @@
       "approval": "secondOperatorAndOwnerConsent",
       "stepUp": true,
       "egress": "none",
-      "roles": ["recoverySpecialist", "security"]
+      "roles": [
+        "recoverySpecialist",
+        "security"
+      ]
     },
     {
       "operationId": "operator.endAccess",
@@ -89,7 +673,12 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "none",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "operator.readDiagnostic",
@@ -99,7 +688,11 @@
       "approval": "activeAccessGrant",
       "stepUp": true,
       "egress": "diagnosticToOperator",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety"
+      ]
     },
     {
       "operationId": "operator.proposeEnforcement",
@@ -109,7 +702,9 @@
       "approval": "foreground",
       "stepUp": true,
       "egress": "none",
-      "roles": ["trustSafety"]
+      "roles": [
+        "trustSafety"
+      ]
     },
     {
       "operationId": "operator.decideEnforcement",
@@ -119,7 +714,9 @@
       "approval": "secondOperator",
       "stepUp": true,
       "egress": "none",
-      "roles": ["security"]
+      "roles": [
+        "security"
+      ]
     },
     {
       "operationId": "operator.getAppeal",
@@ -129,7 +726,10 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": ["trustSafety", "security"]
+      "roles": [
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "operator.resolveAppeal",
@@ -139,7 +739,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["trustSafety"]
+      "roles": [
+        "trustSafety"
+      ]
     },
     {
       "operationId": "operator.stageConfiguration",
@@ -149,7 +751,9 @@
       "approval": "foreground",
       "stepUp": true,
       "egress": "none",
-      "roles": ["operations"]
+      "roles": [
+        "operations"
+      ]
     },
     {
       "operationId": "operator.validateConfiguration",
@@ -159,7 +763,9 @@
       "approval": "none",
       "stepUp": true,
       "egress": "none",
-      "roles": ["operations"]
+      "roles": [
+        "operations"
+      ]
     },
     {
       "operationId": "operator.approveConfiguration",
@@ -169,7 +775,9 @@
       "approval": "secondOperator",
       "stepUp": true,
       "egress": "none",
-      "roles": ["security"]
+      "roles": [
+        "security"
+      ]
     },
     {
       "operationId": "operator.activateConfiguration",
@@ -179,7 +787,9 @@
       "approval": "secondOperatorReceipt",
       "stepUp": true,
       "egress": "none",
-      "roles": ["operations"]
+      "roles": [
+        "operations"
+      ]
     },
     {
       "operationId": "operator.getConfiguration",
@@ -189,7 +799,10 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": ["operations", "security"]
+      "roles": [
+        "operations",
+        "security"
+      ]
     },
     {
       "operationId": "operator.setKillSwitch",
@@ -199,7 +812,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["operations"]
+      "roles": [
+        "operations"
+      ]
     },
     {
       "operationId": "operator.startBreakGlass",
@@ -209,7 +824,9 @@
       "approval": "alarmedIncident",
       "stepUp": true,
       "egress": "caseBoundRecovery",
-      "roles": ["security"]
+      "roles": [
+        "security"
+      ]
     },
     {
       "operationId": "operator.endBreakGlass",
@@ -219,7 +836,9 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "none",
-      "roles": ["security"]
+      "roles": [
+        "security"
+      ]
     },
     {
       "operationId": "operator.proposeAction",
@@ -262,7 +881,10 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["customerSupport", "recoverySpecialist"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist"
+      ]
     },
     {
       "operationId": "operator.revokeEntitlement",
@@ -272,7 +894,10 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["customerSupport", "recoverySpecialist"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist"
+      ]
     },
     {
       "operationId": "operator.issueCompensation",
@@ -282,7 +907,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["customerSupport"]
+      "roles": [
+        "customerSupport"
+      ]
     },
     {
       "operationId": "operator.adjustCompensation",
@@ -292,7 +919,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["customerSupport"]
+      "roles": [
+        "customerSupport"
+      ]
     },
     {
       "operationId": "operator.decideRefund",
@@ -302,7 +931,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "paymentProvider",
-      "roles": ["customerSupport"]
+      "roles": [
+        "customerSupport"
+      ]
     },
     {
       "operationId": "operator.getCatalogSubmission",
@@ -312,7 +943,10 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": ["trustSafety", "security"]
+      "roles": [
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "operator.replyCase",
@@ -322,7 +956,12 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "caseOwnerNotification",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "operator.setCaseState",
@@ -332,7 +971,12 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "caseOwnerNotification",
-      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+      "roles": [
+        "customerSupport",
+        "recoverySpecialist",
+        "trustSafety",
+        "security"
+      ]
     },
     {
       "operationId": "catalog.review",
@@ -342,7 +986,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["trustSafety"]
+      "roles": [
+        "trustSafety"
+      ]
     },
     {
       "operationId": "catalog.revoke",
@@ -352,7 +998,9 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": ["trustSafety"]
+      "roles": [
+        "trustSafety"
+      ]
     }
   ],
   "mutationVectors": [
@@ -360,50 +1008,82 @@
       "id": "mutation-grant",
       "variant": "grant",
       "executingOperation": "operator.grantEntitlement",
-      "proposerRoles": ["customerSupport", "recoverySpecialist"],
+      "proposerRoles": [
+        "customerSupport",
+        "recoverySpecialist"
+      ],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "absent grant=0 plus captured configuration/profile hash",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-revoke-grant",
       "variant": "revokeGrant",
       "executingOperation": "operator.revokeEntitlement",
-      "proposerRoles": ["customerSupport", "recoverySpecialist"],
+      "proposerRoles": [
+        "customerSupport",
+        "recoverySpecialist"
+      ],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "entitlement snapshot version and exact unrevoked grant identity",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-issue-credit",
       "variant": "issueCredit",
       "executingOperation": "operator.issueCompensation",
-      "proposerRoles": ["customerSupport"],
+      "proposerRoles": [
+        "customerSupport"
+      ],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "absent lot=0 plus captured configuration hash",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-adjust-credit",
       "variant": "adjustCredit",
       "executingOperation": "operator.adjustCompensation",
-      "proposerRoles": ["customerSupport"],
+      "proposerRoles": [
+        "customerSupport"
+      ],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "credit_lot.rev and current held/remaining balances",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-refund",
       "variant": "refund",
       "executingOperation": "operator.decideRefund",
-      "proposerRoles": ["customerSupport"],
+      "proposerRoles": [
+        "customerSupport"
+      ],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "commerce.refund.rev and current payment/refundable balance",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "ownerEffectBoundary": "approval commits a refund intent/hold/outbox; it does not assert that the provider refunded",
       "runtimeAcceptanceProven": false
     },
@@ -411,42 +1091,66 @@
       "id": "mutation-catalog-review",
       "variant": "catalogReview",
       "executingOperation": "catalog.review",
-      "proposerRoles": ["trustSafety"],
+      "proposerRoles": [
+        "trustSafety"
+      ],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "PackageCatalog submission revision",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-catalog-revoke",
       "variant": "catalogRevoke",
       "executingOperation": "catalog.revoke",
-      "proposerRoles": ["trustSafety"],
+      "proposerRoles": [
+        "trustSafety"
+      ],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "PackageCatalog published version revision",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-appeal",
       "variant": "appeal",
       "executingOperation": "operator.resolveAppeal",
-      "proposerRoles": ["trustSafety"],
+      "proposerRoles": [
+        "trustSafety"
+      ],
       "distinctApproverRole": "security",
       "proposerMustDifferFrom": "original enforcement proposer",
       "approverMustDifferFrom": "original enforcement approver",
       "ownerRevisionGuard": "enforcement action revision and pending appeal",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-kill-switch",
       "variant": "kill",
       "executingOperation": "operator.setKillSwitch",
-      "proposerRoles": ["operations"],
+      "proposerRoles": [
+        "operations"
+      ],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "Policy control revision (0 for absent control)",
-      "expectedProposalLifecycle": ["pending", "approved", "executed"],
+      "expectedProposalLifecycle": [
+        "pending",
+        "approved",
+        "executed"
+      ],
       "runtimeAcceptanceProven": false
     }
   ],
@@ -875,6 +1579,128 @@
           "packageId": "publisher.example-package",
           "version": "1.2.3",
           "reason": "security.revoked",
+          "evidence": "Confirmed vulnerable release."
+        }
+      }
+    },
+    {
+      "id": "mutation-adjust-credit-negative-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "adjustCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "deltaMicro": "-5",
+          "adjustmentId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-adjust-credit-positive-with-new-lot-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "adjustCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "deltaMicro": "9223372036854775807",
+          "adjustmentId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "newLotId": {
+            "value": "RERERERERERERERERERERA=="
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-adjust-credit-min-int64-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "adjustCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "deltaMicro": "-9223372036854775808",
+          "adjustmentId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-adjust-credit-missing-delta-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "adjustCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "adjustmentId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-adjust-credit-missing-adjustment-id-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "adjustCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "deltaMicro": "-5"
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-review-reason-too-long-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "catalogReview": {
+          "submissionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+          "reason": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+          "evidence": "Independent manifest and archive review passed."
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-review-reason-charset-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "catalogReview": {
+          "submissionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+          "reason": "not a code",
+          "evidence": "Independent manifest and archive review passed."
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-revoke-reason-too-long-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "catalogRevoke": {
+          "packageId": "publisher.example-package",
+          "version": "1.2.3",
+          "reason": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
           "evidence": "Confirmed vulnerable release."
         }
       }
@@ -1459,6 +2285,101 @@
             "value": "ESIzRFVmd4iZqrvM3e7/AA=="
           },
           "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "catalog-review-request-reason-too-long-invalid",
+      "target": "OperatorServiceReviewCatalogSubmissionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "submissionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+        "reason": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "evidence": "Independent review passed.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "catalog-revoke-request-valid",
+      "target": "OperatorServiceRevokeCatalogVersionRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "packageId": "publisher.example-package",
+        "version": "1.2.3",
+        "reason": "security.revoked",
+        "evidence": "Confirmed vulnerable release.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "catalog-revoke-request-reason-too-long-invalid",
+      "target": "OperatorServiceRevokeCatalogVersionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "packageId": "publisher.example-package",
+        "version": "1.2.3",
+        "reason": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "evidence": "Confirmed vulnerable release.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
         }
       }
     },

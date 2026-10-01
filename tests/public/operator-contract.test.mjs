@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { fromBinary, fromJson, toBinary } from "@bufbuild/protobuf";
+import { ScalarType, fromBinary, fromJson, toBinary } from "@bufbuild/protobuf";
 import * as publicPackage from "@arcforges/proto";
 import * as operatorClient from "@arcforges/operator-client";
 
@@ -482,4 +482,129 @@ test("CON.14 shape vectors are independently checked against generated validator
     }
   }
   assert.ok(positives >= 20 && negatives >= 30, `positives=${positives} negatives=${negatives}`);
+});
+
+const SCALARS = {
+  Key: ScalarType.STRING,
+  Text: ScalarType.STRING,
+  Hash: ScalarType.STRING,
+  ReasonCode: ScalarType.STRING,
+  bool: ScalarType.BOOL,
+  uint64: ScalarType.UINT64,
+  sint64: ScalarType.SINT64,
+  bytes: ScalarType.BYTES,
+};
+const FOUNDATION = new Set([
+  "Id",
+  "Revision",
+  "Instant",
+  "AggregateRef",
+  "Decimal",
+  "PageRequest",
+  "PageState",
+  "Receipt",
+  "TransferTicket",
+  "ArcError",
+  "RequestMeta",
+]);
+const PUBLICAPI = new Set(["SupportCase", "Grant", "CreditLot", "RefundView"]);
+const CATALOG = new Set(["CatalogSubmissionView", "CatalogVersionView"]);
+const OPERATOR_ENUMS = new Set([
+  "OperatorProposalState",
+  "OperatorRefundDecision",
+  "OperatorGrantSource",
+  "OperatorGrantKind",
+  "SupportCaseState",
+]);
+
+function assertFields(desc, rows, label) {
+  const expected = rows.map((row) => row.split(" ")).sort((a, b) => Number(a[0]) - Number(b[0]));
+  assert.deepEqual(
+    desc.fields.map((field) => field.number).sort((a, b) => a - b),
+    expected.map(([number]) => Number(number)),
+    `${label} exact field numbers`,
+  );
+  for (const [number, name, token] of expected) {
+    const field = desc.fields.find((candidate) => candidate.number === Number(number));
+    const where = `${label}.${name}`;
+    const repeated = token.endsWith("[]");
+    const base = token.replace(/[?]|\[\]/g, "");
+    assert.equal(field.jsonName, name, `${where} JSON name`);
+    assert.equal(field.fieldKind === "list", repeated, `${where} repeated`);
+    const element = repeated ? field.listKind : field.fieldKind;
+    if (base in SCALARS) {
+      assert.equal(element, "scalar", where);
+      assert.equal(field.scalar, SCALARS[base], `${where} scalar type`);
+    } else if (OPERATOR_ENUMS.has(base) || base === "CatalogReviewDecision") {
+      assert.equal(element, "enum", where);
+      const owner =
+        base === "CatalogReviewDecision" ? "arcforges.catalog.v1." : "arcforges.operator.v1.";
+      assert.equal(field.enum.typeName, owner + base, `${where} enum type`);
+    } else {
+      const owner = FOUNDATION.has(base)
+        ? "arcforges.foundation.v1."
+        : PUBLICAPI.has(base)
+          ? "arcforges.publicapi.v1."
+          : CATALOG.has(base)
+            ? "arcforges.catalog.v1."
+            : "arcforges.operator.v1.";
+      assert.equal(element, "message", where);
+      assert.equal(field.message.typeName, owner + base, `${where} message type`);
+    }
+    if (!repeated && element !== "message" && !field.oneof) {
+      assert.equal(field.proto.proto3Optional, true, `${where} explicit presence`);
+    }
+  }
+}
+
+test("CON.14 records, method requests, values and enums equal the Registry04 field tables", () => {
+  const oracle = fixture.registryOracle;
+  assert.equal(Object.keys(oracle.records).length, 18);
+  for (const [name, rows] of Object.entries(oracle.records)) {
+    assertFields(operatorClient[`${name}Schema`], rows, name);
+  }
+  assert.deepEqual(Object.keys(oracle.methods), METHODS);
+  for (const [name, entry] of Object.entries(oracle.methods)) {
+    const method = service.methods.find((candidate) => candidate.name === name);
+    assertFields(method.input, ["1 meta RequestMeta", ...entry.request], `${name}Request`);
+    const value = method.output.fields.find((field) => field.number === 2).message;
+    assert.equal(value.typeName, `${OPERATOR_SERVICE}${name}Value`);
+    assertFields(value, entry.value, `${name}Value`);
+  }
+  assert.deepEqual(Object.keys(oracle.enums), [
+    "OperatorProposalState",
+    "OperatorRefundDecision",
+    "OperatorGrantSource",
+    "OperatorGrantKind",
+    "SupportCaseState",
+  ]);
+  for (const [name, values] of Object.entries(oracle.enums)) {
+    const prefix = name.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
+    const camel = (value) => value.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
+    const desc = operatorClient[`${name}Schema`];
+    assert.deepEqual(
+      desc.values.map((value) => [value.name, value.number]),
+      [
+        [`${prefix}_UNSPECIFIED`, 0],
+        ...values.map((value, index) => [`${prefix}_${camel(value)}`, index + 1]),
+      ],
+      `${name} enum names and numbers`,
+    );
+  }
+});
+
+test("CON.14 AdjustCredit delta is sint64 ZigZag on the wire", () => {
+  const schema = operatorClient.OperatorAdjustCreditInputSchema;
+  const field = schema.fields.find((candidate) => candidate.number === 2);
+  assert.equal(field.scalar, ScalarType.SINT64);
+  const message = fromJson(schema, {
+    lotId: { value: "ESIzRFVmd4iZqrvM3e7/AA==" },
+    deltaMicro: "-1",
+    adjustmentId: { value: "ESIzRFVmd4iZqrvM3e7/AA==" },
+  });
+  const bytes = toBinary(schema, message);
+  // field 2, varint, ZigZag(-1) = 1 (an int64 encoding would be a 10-byte varint ending in 0x01).
+  const index = bytes.indexOf(0x10);
+  assert.deepEqual([...bytes.slice(index, index + 2)], [0x10, 0x01]);
+  assert.equal(fromBinary(schema, bytes).deltaMicro, -1n);
 });

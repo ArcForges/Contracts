@@ -1149,6 +1149,9 @@ function checkOperatorCatalogReviewInput(input: unknown, context: ValidationCont
     const fieldValue = value.reason;
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.evidence === undefined) return false;
   if (value.evidence !== undefined) {
@@ -1189,6 +1192,9 @@ function checkOperatorCatalogRevokeInput(input: unknown, context: ValidationCont
     const fieldValue = value.reason;
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.evidence === undefined) return false;
   if (value.evidence !== undefined) {
@@ -3324,6 +3330,9 @@ function checkOperatorServiceReviewCatalogSubmissionRequest(input: unknown, cont
     const fieldValue = value.reason;
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.evidence === undefined) return false;
   if (value.evidence !== undefined) {
@@ -3417,6 +3426,9 @@ function checkOperatorServiceRevokeCatalogVersionRequest(input: unknown, context
     const fieldValue = value.reason;
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.evidence === undefined) return false;
   if (value.evidence !== undefined) {

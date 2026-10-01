@@ -92,7 +92,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "bnN0YW50UglleHBpcmVzQXRCDwoNX2Ftb3VudF9taWNybyKCAgoZT3BlcmF0",
             "b3JBZGp1c3RDcmVkaXRJbnB1dBIyCgZsb3RfaWQYASABKAsyGy5hcmNmb3Jn",
             "ZXMuZm91bmRhdGlvbi52MS5JZFIFbG90SWQSJAoLZGVsdGFfbWljcm8YAiAB",
-            "KANIAFIKZGVsdGFNaWNyb4gBARJACg1hZGp1c3RtZW50X2lkGAMgASgLMhsu",
+            "KBJIAFIKZGVsdGFNaWNyb4gBARJACg1hZGp1c3RtZW50X2lkGAMgASgLMhsu",
             "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRSDGFkanVzdG1lbnRJZBI5Cgpu",
             "ZXdfbG90X2lkGAQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRS",
             "CG5ld0xvdElkQg4KDF9kZWx0YV9taWNybyLmAQoTT3BlcmF0b3JSZWZ1bmRJ",
@@ -205,7 +205,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "LnYxLlJlc3BvbnNlTWV0YVIEbWV0YRJMCgV2YWx1ZRgCIAEoCzI0LmFyY2Zv",
             "cmdlcy5vcGVyYXRvci52MS5PcGVyYXRvclNlcnZpY2VMaXN0Q2FzZXNWYWx1",
             "ZUgAUgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0",
-            "aW9uLnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgEEAoinQIK",
+            "aW9uLnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgFEAoinQIK",
             "HU9wZXJhdG9yU2VydmljZUdldENhc2VSZXF1ZXN0EjgKBG1ldGEYASABKAsy",
             "JC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0YVIEbWV0YRI0",
             "CgdjYXNlX2lkGAogASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRS",
@@ -219,7 +219,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "c3BvbnNlTWV0YVIEbWV0YRJKCgV2YWx1ZRgCIAEoCzIyLmFyY2Zvcmdlcy5v",
             "cGVyYXRvci52MS5PcGVyYXRvclNlcnZpY2VHZXRDYXNlVmFsdWVIAFIFdmFs",
             "dWUSOQoFZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5B",
-            "cmNFcnJvckgAUgVlcnJvckIJCgdvdXRjb21lSgQIBBAKIoAECiNPcGVyYXRv",
+            "cmNFcnJvckgAUgVlcnJvckIJCgdvdXRjb21lSgQIBRAKIoAECiNPcGVyYXRv",
             "clNlcnZpY2VSZXF1ZXN0QWNjZXNzUmVxdWVzdBI4CgRtZXRhGAEgASgLMiQu",
             "YXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGFSBG1ldGESOAoJ",
             "YWNjZXNzX2lkGAogASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWRS",
@@ -281,7 +281,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "b25zZU1ldGFSBG1ldGESUQoFdmFsdWUYAiABKAsyOS5hcmNmb3JnZXMub3Bl",
             "cmF0b3IudjEuT3BlcmF0b3JTZXJ2aWNlUmVhZERpYWdub3N0aWNWYWx1ZUgA",
             "UgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9u",
-            "LnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgEEAoi3gMKKE9w",
+            "LnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVKBAgFEAoi3gMKKE9w",
             "ZXJhdG9yU2VydmljZVByb3Bvc2VFbmZvcmNlbWVudFJlcXVlc3QSOAoEbWV0",
             "YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRh",
             "UgRtZXRhEjgKCWFjdGlvbl9pZBgKIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0",
@@ -330,7 +330,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "ZXRhUgRtZXRhEkwKBXZhbHVlGAIgASgLMjQuYXJjZm9yZ2VzLm9wZXJhdG9y",
             "LnYxLk9wZXJhdG9yU2VydmljZUdldEFwcGVhbFZhbHVlSABSBXZhbHVlEjkK",
             "BWVycm9yGAMgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQXJjRXJy",
-            "b3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAQQCiK9AwojT3BlcmF0b3JTZXJ2",
+            "b3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAUQCiK9AwojT3BlcmF0b3JTZXJ2",
             "aWNlUmVzb2x2ZUFwcGVhbFJlcXVlc3QSOAoEbWV0YRgBIAEoCzIkLmFyY2Zv",
             "cmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhUgRtZXRhEjgKCWFwcGVh",
             "bF9pZBgKIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUghhcHBl",
@@ -379,7 +379,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "KAsyQC5hcmNmb3JnZXMub3BlcmF0b3IudjEuT3BlcmF0b3JTZXJ2aWNlVmFs",
             "aWRhdGVDb25maWd1cmF0aW9uVmFsdWVIAFIFdmFsdWUSOQoFZXJyb3IYAyAB",
             "KAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJvckgAUgVlcnJv",
-            "ckIJCgdvdXRjb21lSgQIBBAKIoEDCipPcGVyYXRvclNlcnZpY2VBcHByb3Zl",
+            "ckIJCgdvdXRjb21lSgQIBRAKIoEDCipPcGVyYXRvclNlcnZpY2VBcHByb3Zl",
             "Q29uZmlndXJhdGlvblJlcXVlc3QSOAoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdl",
             "cy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhUgRtZXRhEjgKCWNvbmZpZ19p",
             "ZBgKIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUghjb25maWdJ",
@@ -430,7 +430,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "Zm9yZ2VzLm9wZXJhdG9yLnYxLk9wZXJhdG9yU2VydmljZUdldENvbmZpZ3Vy",
             "YXRpb25WYWx1ZUgAUgV2YWx1ZRI5CgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdl",
             "cy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySABSBWVycm9yQgkKB291dGNvbWVK",
-            "BAgEEAoi7AMKI09wZXJhdG9yU2VydmljZVNldEtpbGxTd2l0Y2hSZXF1ZXN0",
+            "BAgFEAoi7AMKI09wZXJhdG9yU2VydmljZVNldEtpbGxTd2l0Y2hSZXF1ZXN0",
             "EjgKBG1ldGEYASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1",
             "ZXN0TWV0YVIEbWV0YRI4CglhY3Rpb25faWQYCiABKAsyGy5hcmNmb3JnZXMu",
             "Zm91bmRhdGlvbi52MS5JZFIIYWN0aW9uSWQSFwoEbW9kZRgLIAEoCUgAUgRt",
@@ -529,7 +529,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "GAIgASgLMjYuYXJjZm9yZ2VzLm9wZXJhdG9yLnYxLk9wZXJhdG9yU2Vydmlj",
             "ZUdldFByb3Bvc2FsVmFsdWVIAFIFdmFsdWUSOQoFZXJyb3IYAyABKAsyIS5h",
             "cmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJvckgAUgVlcnJvckIJCgdv",
-            "dXRjb21lSgQIBBAKIvYBCiZPcGVyYXRvclNlcnZpY2VHcmFudEVudGl0bGVt",
+            "dXRjb21lSgQIBRAKIvYBCiZPcGVyYXRvclNlcnZpY2VHcmFudEVudGl0bGVt",
             "ZW50UmVxdWVzdBI4CgRtZXRhGAEgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRp",
             "b24udjEuUmVxdWVzdE1ldGFSBG1ldGESRgoIcHJvcG9zYWwYCiABKAsyKi5h",
             "cmNmb3JnZXMub3BlcmF0b3IudjEuT3BlcmF0b3JQcm9wb3NhbFJlZlIIcHJv",
@@ -617,7 +617,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             "bWV0YRJXCgV2YWx1ZRgCIAEoCzI/LmFyY2Zvcmdlcy5vcGVyYXRvci52MS5P",
             "cGVyYXRvclNlcnZpY2VHZXRDYXRhbG9nU3VibWlzc2lvblZhbHVlSABSBXZh",
             "bHVlEjkKBWVycm9yGAMgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEu",
-            "QXJjRXJyb3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAQQCiK7AgofT3BlcmF0",
+            "QXJjRXJyb3JIAFIFZXJyb3JCCQoHb3V0Y29tZUoECAUQCiK7AgofT3BlcmF0",
             "b3JTZXJ2aWNlUmVwbHlDYXNlUmVxdWVzdBI4CgRtZXRhGAEgASgLMiQuYXJj",
             "Zm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGFSBG1ldGESNAoHY2Fz",
             "ZV9pZBgKIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkUgZjYXNl",
@@ -4247,7 +4247,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
       }
       if (HasDeltaMicro) {
         output.WriteRawTag(16);
-        output.WriteInt64(DeltaMicro);
+        output.WriteSInt64(DeltaMicro);
       }
       if (adjustmentId_ != null) {
         output.WriteRawTag(26);
@@ -4273,7 +4273,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
       }
       if (HasDeltaMicro) {
         output.WriteRawTag(16);
-        output.WriteInt64(DeltaMicro);
+        output.WriteSInt64(DeltaMicro);
       }
       if (adjustmentId_ != null) {
         output.WriteRawTag(26);
@@ -4297,7 +4297,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(LotId);
       }
       if (HasDeltaMicro) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(DeltaMicro);
+        size += 1 + pb::CodedOutputStream.ComputeSInt64Size(DeltaMicro);
       }
       if (adjustmentId_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(AdjustmentId);
@@ -4365,7 +4365,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             break;
           }
           case 16: {
-            DeltaMicro = input.ReadInt64();
+            DeltaMicro = input.ReadSInt64();
             break;
           }
           case 26: {
@@ -4409,7 +4409,7 @@ namespace ArcForges.Contracts.CloudInternal.Operator.V1 {
             break;
           }
           case 16: {
-            DeltaMicro = input.ReadInt64();
+            DeltaMicro = input.ReadSInt64();
             break;
           }
           case 26: {

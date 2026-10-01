@@ -2746,7 +2746,10 @@
           "enumValues": [1, 2]
         },
         "reason": {
-          "required": true
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "evidence": {
           "required": true,
@@ -2770,7 +2773,10 @@
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "reason": {
-          "required": true
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "evidence": {
           "required": true,
@@ -3920,7 +3926,10 @@
           "enumValues": [1, 2]
         },
         "reason": {
-          "required": true
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "evidence": {
           "required": true,
@@ -3972,7 +3981,10 @@
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "reason": {
-          "required": true
+          "required": true,
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
         "evidence": {
           "required": true,
