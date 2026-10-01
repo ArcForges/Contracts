@@ -61,6 +61,13 @@ bindings. Tools require explicit oracle allowlisting; human-only decisions remai
 denied even if allowlisted. PATs use the closed catalogue operation set. Operator,
 CF service, customer, helper and provider identities are not interchangeable.
 
+The only R4 customer rows are the two exact public CON.07 account commands
+`identity.requestAccountDeletion` and `workspace.requestDataDeletion`: kind
+`proto`, source `public/proto/arcforges/publicapi/v1/identity.proto`, scope
+`account`, surface `public`, profile `human-owner`, `stepUp` true, `patEligible`
+false and human actors only. R4 on any other row, binding, scope, surface, profile,
+class or actor set is refused.
+
 Invoke uses the closed `delegated-invocation` profile. All seven non-PAT fields
 must use objects of the form `{"from":"admittedCapability.risk"}`; capability
 uses `admittedCapability.operationId`. PAT remains false. Its `delegation` object

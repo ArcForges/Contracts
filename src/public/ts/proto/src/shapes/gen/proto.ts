@@ -10167,6 +10167,7 @@ function checkDeviceServiceRegisterRequest(input: unknown, context: ValidationCo
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 128) return false;
     if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "arcscope" && fieldValue !== "companion") return false;
   }
   if (value.platform === undefined) return false;
   if (value.platform !== undefined) {
@@ -12633,7 +12634,8 @@ function checkIdentityServiceChangePasswordRequest(input: unknown, context: Vali
     const fieldValue = value.password;
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
-    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length < 15) return false;
+    if ([...fieldValue].length > 128) return false;
     if (utf8Length(fieldValue) > 8192) return false;
   }
   return true;

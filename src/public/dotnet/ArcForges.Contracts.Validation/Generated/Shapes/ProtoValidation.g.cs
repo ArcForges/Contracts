@@ -8851,8 +8851,8 @@ public static class ContractShapeValidation
         {
         if (value.Instance is null) return false;
         if (!Check(value.Instance, context)) return false;
-        if (value.Descriptor is null) return false;
-        if (!Check(value.Descriptor, context)) return false;
+        if (value.Descriptor_ is null) return false;
+        if (!Check(value.Descriptor_, context)) return false;
         if (!value.HasRemoteAllowed) return false;
         if (value.HasRemoteAllowed)
         {
@@ -9065,6 +9065,7 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Product)) return false;
             if (ScalarLength(value.Product) > 128) return false;
             if (!Matches(value.Product, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Product != "arcscope" && value.Product != "companion") return false;
         }
         if (!value.HasPlatform) return false;
         if (value.HasPlatform)
@@ -11166,7 +11167,8 @@ public static class ContractShapeValidation
         if (value.HasPassword)
         {
             if (!ValidUnicode(value.Password)) return false;
-            if (ScalarLength(value.Password) < 1) return false;
+            if (ScalarLength(value.Password) < 15) return false;
+            if (ScalarLength(value.Password) > 128) return false;
             if (global::System.Text.Encoding.UTF8.GetByteCount(value.Password) > 8192) return false;
         }
         return true;

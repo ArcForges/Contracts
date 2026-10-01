@@ -57,16 +57,11 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "product": {
           "type": "string",
-          "enum": [
-            "arcscope",
-            "companion"
-          ]
+          "enum": ["arcscope", "companion"]
         },
         "platform": {
           "type": "string",
@@ -81,12 +76,7 @@
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         }
       },
-      "required": [
-        "installationId",
-        "product",
-        "platform",
-        "appVersion"
-      ],
+      "required": ["installationId", "product", "platform", "appVersion"],
       "additionalProperties": false
     },
     "BrowserWebAuthnOptions": {
@@ -133,19 +123,13 @@
           "type": "array",
           "items": {
             "type": "integer",
-            "enum": [
-              -7
-            ]
+            "enum": [-7]
           },
           "minItems": 1,
           "maxItems": 1
         }
       },
-      "required": [
-        "rpId",
-        "userVerification",
-        "algorithms"
-      ],
+      "required": ["rpId", "userVerification", "algorithms"],
       "additionalProperties": false
     },
     "BrowserWebAuthnAssertion": {
@@ -183,12 +167,7 @@
           "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
         }
       },
-      "required": [
-        "credentialId",
-        "clientDataJson",
-        "authenticatorData",
-        "signature"
-      ],
+      "required": ["credentialId", "clientDataJson", "authenticatorData", "signature"],
       "additionalProperties": false
     },
     "BrowserWebAuthnCreation": {
@@ -224,11 +203,7 @@
           "maxItems": 8
         }
       },
-      "required": [
-        "credentialId",
-        "clientDataJson",
-        "attestationObject"
-      ],
+      "required": ["credentialId", "clientDataJson", "attestationObject"],
       "additionalProperties": false
     },
     "BrowserAuthProofPasskey": {
@@ -239,9 +214,7 @@
           "$ref": "#/$defs/BrowserWebAuthnAssertion"
         }
       },
-      "required": [
-        "passkey"
-      ],
+      "required": ["passkey"],
       "additionalProperties": false
     },
     "BrowserAuthProofEmailCode": {
@@ -255,9 +228,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "emailCode"
-      ],
+      "required": ["emailCode"],
       "additionalProperties": false
     },
     "BrowserAuthProofRecoveryCode": {
@@ -271,9 +242,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "recoveryCode"
-      ],
+      "required": ["recoveryCode"],
       "additionalProperties": false
     },
     "BrowserAuthProofPassword": {
@@ -287,9 +256,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "password"
-      ],
+      "required": ["password"],
       "additionalProperties": false
     },
     "BrowserAuthProofProviderReceipt": {
@@ -302,9 +269,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "providerReceipt"
-      ],
+      "required": ["providerReceipt"],
       "additionalProperties": false
     },
     "BrowserAuthProofAdminGrant": {
@@ -317,9 +282,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "adminGrant"
-      ],
+      "required": ["adminGrant"],
       "additionalProperties": false
     },
     "BrowserAuthProof": {
@@ -356,9 +319,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "emailCode"
-      ],
+      "required": ["emailCode"],
       "additionalProperties": false
     },
     "BrowserEnrollmentProofLocalCode": {
@@ -372,9 +333,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "localCode"
-      ],
+      "required": ["localCode"],
       "additionalProperties": false
     },
     "BrowserEnrollmentProofProviderReceipt": {
@@ -387,9 +346,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "providerReceipt"
-      ],
+      "required": ["providerReceipt"],
       "additionalProperties": false
     },
     "BrowserEnrollmentProof": {
@@ -414,9 +371,7 @@
           "$ref": "#/$defs/BrowserWebAuthnCreation"
         }
       },
-      "required": [
-        "passkey"
-      ],
+      "required": ["passkey"],
       "additionalProperties": false
     },
     "BrowserCredentialReplacementPassword": {
@@ -430,9 +385,7 @@
           "x-arcforges-max-utf8-bytes": 8192
         }
       },
-      "required": [
-        "password"
-      ],
+      "required": ["password"],
       "additionalProperties": false
     },
     "BrowserCredentialReplacement": {
@@ -455,18 +408,14 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "workspaceId": {
           "type": "string",
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "ownerAppId": {
           "type": "string",
@@ -485,9 +434,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "displayHint": {
           "type": "string",
@@ -496,31 +443,17 @@
         },
         "availability": {
           "type": "string",
-          "enum": [
-            "alwaysKeep",
-            "availableOffline",
-            "onDemand",
-            "cloudOnly",
-            "missingExternal"
-          ]
+          "enum": ["alwaysKeep", "availableOffline", "onDemand", "cloudOnly", "missingExternal"]
         },
         "holdingDeviceId": {
           "type": "string",
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         }
       },
-      "required": [
-        "realmId",
-        "ownerAppId",
-        "resourceKind",
-        "resourceId",
-        "availability"
-      ],
+      "required": ["realmId", "ownerAppId", "resourceKind", "resourceId", "availability"],
       "additionalProperties": false
     },
     "BrowserBlobRef": {
@@ -532,9 +465,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "contentHash": {
           "type": "string",
@@ -547,16 +478,10 @@
           "minLength": 1,
           "maxLength": 20,
           "pattern": "^(0|[1-9][0-9]*)$",
-          "x-arcforges-rules": [
-            "uint64String"
-          ]
+          "x-arcforges-rules": ["uint64String"]
         }
       },
-      "required": [
-        "blobId",
-        "contentHash",
-        "sizeBytes"
-      ],
+      "required": ["blobId", "contentHash", "sizeBytes"],
       "additionalProperties": false
     },
     "BrowserAvatarCloud": {
@@ -580,15 +505,10 @@
           "minLength": 1,
           "maxLength": 19,
           "pattern": "^[1-9][0-9]*$",
-          "x-arcforges-rules": [
-            "positiveInt64String"
-          ]
+          "x-arcforges-rules": ["positiveInt64String"]
         }
       },
-      "required": [
-        "resource",
-        "cloud"
-      ],
+      "required": ["resource", "cloud"],
       "additionalProperties": false
     },
     "BrowserAvatarNative": {
@@ -612,15 +532,10 @@
           "minLength": 1,
           "maxLength": 20,
           "pattern": "^(0|[1-9][0-9]*)$",
-          "x-arcforges-rules": [
-            "uint64String"
-          ]
+          "x-arcforges-rules": ["uint64String"]
         }
       },
-      "required": [
-        "resource",
-        "native"
-      ],
+      "required": ["resource", "native"],
       "additionalProperties": false
     },
     "BrowserAvatarRef": {
@@ -684,9 +599,7 @@
           "$ref": "#/$defs/BrowserAvatarRef"
         }
       },
-      "required": [
-        "avatar"
-      ],
+      "required": ["avatar"],
       "additionalProperties": false
     },
     "BrowserProfileUpdateClearAvatar": {
@@ -715,9 +628,7 @@
           "const": true
         }
       },
-      "required": [
-        "clearAvatar"
-      ],
+      "required": ["clearAvatar"],
       "additionalProperties": false
     },
     "BrowserProfileUpdate": {
@@ -743,9 +654,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "expiresAt": {
           "type": "string",
@@ -764,18 +673,14 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "deviceId": {
           "type": "string",
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "workspaceIds": {
           "type": "array",
@@ -784,9 +689,7 @@
             "minLength": 36,
             "maxLength": 36,
             "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-            "x-arcforges-rules": [
-              "nonzeroUuid"
-            ]
+            "x-arcforges-rules": ["nonzeroUuid"]
           },
           "maxItems": 100
         },
@@ -795,19 +698,11 @@
           "minLength": 1,
           "maxLength": 20,
           "pattern": "^(0|[1-9][0-9]*)$",
-          "x-arcforges-rules": [
-            "uint64String"
-          ]
+          "x-arcforges-rules": ["uint64String"]
         },
         "purpose": {
           "type": "string",
-          "enum": [
-            "authenticate",
-            "enroll",
-            "stepUp",
-            "recover",
-            "cancelDeletion"
-          ]
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
         }
       },
       "required": [
@@ -847,17 +742,10 @@
           "minLength": 1,
           "maxLength": 19,
           "pattern": "^[1-9][0-9]*$",
-          "x-arcforges-rules": [
-            "positiveInt64String"
-          ]
+          "x-arcforges-rules": ["positiveInt64String"]
         }
       },
-      "required": [
-        "displayName",
-        "locale",
-        "timezone",
-        "revision"
-      ],
+      "required": ["displayName", "locale", "timezone", "revision"],
       "additionalProperties": false
     },
     "BrowserBootstrapResponse": {
@@ -880,10 +768,7 @@
           "$ref": "#/$defs/BrowserProfileProjection"
         }
       },
-      "required": [
-        "csrfToken",
-        "authenticated"
-      ],
+      "required": ["csrfToken", "authenticated"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384
     },
@@ -893,12 +778,7 @@
       "properties": {
         "method": {
           "type": "string",
-          "enum": [
-            "passkey",
-            "email",
-            "password",
-            "oidc"
-          ]
+          "enum": ["passkey", "email", "password", "oidc"]
         },
         "loginHint": {
           "type": "string",
@@ -917,20 +797,10 @@
         },
         "purpose": {
           "type": "string",
-          "enum": [
-            "authenticate",
-            "enroll",
-            "stepUp",
-            "recover",
-            "cancelDeletion"
-          ]
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
         }
       },
-      "required": [
-        "method",
-        "installation",
-        "purpose"
-      ],
+      "required": ["method", "installation", "purpose"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -943,18 +813,13 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "proof": {
           "$ref": "#/$defs/BrowserAuthProof"
         }
       },
-      "required": [
-        "flowId",
-        "proof"
-      ],
+      "required": ["flowId", "proof"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 131072
     },
@@ -967,9 +832,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "proof": {
           "$ref": "#/$defs/BrowserEnrollmentProof"
@@ -981,11 +844,7 @@
           "$ref": "#/$defs/BrowserProfileUpdate"
         }
       },
-      "required": [
-        "flowId",
-        "proof",
-        "profile"
-      ],
+      "required": ["flowId", "proof", "profile"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 262144
     },
@@ -1001,12 +860,7 @@
         },
         "method": {
           "type": "string",
-          "enum": [
-            "emailCode",
-            "recoveryCode",
-            "passkey",
-            "adminGrant"
-          ]
+          "enum": ["emailCode", "recoveryCode", "passkey", "adminGrant"]
         },
         "accountHint": {
           "type": "string",
@@ -1018,10 +872,7 @@
           "$ref": "#/$defs/BrowserInstallationClaim"
         }
       },
-      "required": [
-        "method",
-        "installation"
-      ],
+      "required": ["method", "installation"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 8192
     },
@@ -1034,9 +885,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "proof": {
           "$ref": "#/$defs/BrowserAuthProof"
@@ -1045,11 +894,7 @@
           "$ref": "#/$defs/BrowserCredentialReplacement"
         }
       },
-      "required": [
-        "flowId",
-        "proof",
-        "replacement"
-      ],
+      "required": ["flowId", "proof", "replacement"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 262144
     },
@@ -1065,12 +910,7 @@
         },
         "method": {
           "type": "string",
-          "enum": [
-            "passkey",
-            "email",
-            "password",
-            "oidc"
-          ]
+          "enum": ["passkey", "email", "password", "oidc"]
         },
         "targetHash": {
           "type": "string",
@@ -1079,10 +919,7 @@
           "pattern": "^[0-9a-f]{64}$"
         }
       },
-      "required": [
-        "operationClass",
-        "method"
-      ],
+      "required": ["operationClass", "method"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4096
     },
@@ -1095,18 +932,13 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "proof": {
           "$ref": "#/$defs/BrowserAuthProof"
         }
       },
-      "required": [
-        "flowId",
-        "proof"
-      ],
+      "required": ["flowId", "proof"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 131072
     },
@@ -1119,18 +951,11 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "method": {
           "type": "string",
-          "enum": [
-            "passkey",
-            "email",
-            "password",
-            "oidc"
-          ]
+          "enum": ["passkey", "email", "password", "oidc"]
         },
         "challenge": {
           "type": "string",
@@ -1166,35 +991,17 @@
         },
         "purpose": {
           "type": "string",
-          "enum": [
-            "authenticate",
-            "enroll",
-            "stepUp",
-            "recover",
-            "cancelDeletion"
-          ]
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
         },
         "recoveryMethod": {
           "type": "string",
-          "enum": [
-            "emailCode",
-            "recoveryCode",
-            "passkey",
-            "adminGrant"
-          ]
+          "enum": ["emailCode", "recoveryCode", "passkey", "adminGrant"]
         }
       },
-      "required": [
-        "flowId",
-        "challenge",
-        "expiresAt",
-        "purpose"
-      ],
+      "required": ["flowId", "challenge", "expiresAt", "purpose"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 65536,
-      "x-arcforges-rules": [
-        "authChallengePurpose"
-      ]
+      "x-arcforges-rules": ["authChallengePurpose"]
     },
     "BrowserSessionView": {
       "title": "BrowserSessionView",
@@ -1205,9 +1012,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "expiresAt": {
           "type": "string",
@@ -1226,18 +1031,14 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "deviceId": {
           "type": "string",
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "workspaceIds": {
           "type": "array",
@@ -1246,9 +1047,7 @@
             "minLength": 36,
             "maxLength": 36,
             "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-            "x-arcforges-rules": [
-              "nonzeroUuid"
-            ]
+            "x-arcforges-rules": ["nonzeroUuid"]
           },
           "maxItems": 100
         },
@@ -1257,19 +1056,11 @@
           "minLength": 1,
           "maxLength": 20,
           "pattern": "^(0|[1-9][0-9]*)$",
-          "x-arcforges-rules": [
-            "uint64String"
-          ]
+          "x-arcforges-rules": ["uint64String"]
         },
         "purpose": {
           "type": "string",
-          "enum": [
-            "authenticate",
-            "enroll",
-            "stepUp",
-            "recover",
-            "cancelDeletion"
-          ]
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
         }
       },
       "required": [
@@ -1301,10 +1092,7 @@
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
         }
       },
-      "required": [
-        "operationClass",
-        "expiresAt"
-      ],
+      "required": ["operationClass", "expiresAt"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4096
     },
@@ -1317,32 +1105,21 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "resultRevision": {
           "type": "string",
           "minLength": 1,
           "maxLength": 19,
           "pattern": "^[1-9][0-9]*$",
-          "x-arcforges-rules": [
-            "positiveInt64String"
-          ]
+          "x-arcforges-rules": ["positiveInt64String"]
         },
         "effect": {
           "type": "string",
-          "enum": [
-            "didNotHappen",
-            "happened",
-            "unknown"
-          ]
+          "enum": ["didNotHappen", "happened", "unknown"]
         }
       },
-      "required": [
-        "commandId",
-        "effect"
-      ],
+      "required": ["commandId", "effect"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 4096
     },
@@ -1363,10 +1140,7 @@
           "pattern": "^[\\x21-\\x7E]+$"
         }
       },
-      "required": [
-        "code",
-        "state"
-      ],
+      "required": ["code", "state"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384,
       "x-arcforges-wire": "form-urlencoded"
@@ -1394,10 +1168,7 @@
           "pattern": "^[\\x21-\\x7E]+$"
         }
       },
-      "required": [
-        "error",
-        "state"
-      ],
+      "required": ["error", "state"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384,
       "x-arcforges-wire": "form-urlencoded"
@@ -1414,9 +1185,7 @@
       "setCookie": "none",
       "cache": "no-store",
       "request": [],
-      "response": [
-        "BrowserBootstrapResponse"
-      ]
+      "response": ["BrowserBootstrapResponse"]
     },
     {
       "id": "browser.beginAuthentication",
@@ -1427,12 +1196,8 @@
       "csrf": "required",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "BrowserBeginAuthenticationRequest"
-      ],
-      "response": [
-        "BrowserAuthChallenge"
-      ]
+      "request": ["BrowserBeginAuthenticationRequest"],
+      "response": ["BrowserAuthChallenge"]
     },
     {
       "id": "browser.completeAuthentication",
@@ -1443,12 +1208,8 @@
       "csrf": "required",
       "setCookie": "session",
       "cache": "no-store",
-      "request": [
-        "BrowserCompleteAuthenticationRequest"
-      ],
-      "response": [
-        "BrowserSessionView"
-      ]
+      "request": ["BrowserCompleteAuthenticationRequest"],
+      "response": ["BrowserSessionView"]
     },
     {
       "id": "browser.completeEnrollment",
@@ -1459,12 +1220,8 @@
       "csrf": "required",
       "setCookie": "session",
       "cache": "no-store",
-      "request": [
-        "BrowserCompleteEnrollmentRequest"
-      ],
-      "response": [
-        "BrowserSessionView"
-      ]
+      "request": ["BrowserCompleteEnrollmentRequest"],
+      "response": ["BrowserSessionView"]
     },
     {
       "id": "browser.beginRecovery",
@@ -1475,12 +1232,8 @@
       "csrf": "required",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "BrowserBeginRecoveryRequest"
-      ],
-      "response": [
-        "BrowserAuthChallenge"
-      ]
+      "request": ["BrowserBeginRecoveryRequest"],
+      "response": ["BrowserAuthChallenge"]
     },
     {
       "id": "browser.completeRecovery",
@@ -1491,12 +1244,8 @@
       "csrf": "required",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "BrowserCompleteRecoveryRequest"
-      ],
-      "response": [
-        "BrowserReceipt"
-      ]
+      "request": ["BrowserCompleteRecoveryRequest"],
+      "response": ["BrowserReceipt"]
     },
     {
       "id": "browser.beginStepUp",
@@ -1507,12 +1256,8 @@
       "csrf": "required",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "BrowserBeginStepUpRequest"
-      ],
-      "response": [
-        "BrowserAuthChallenge"
-      ]
+      "request": ["BrowserBeginStepUpRequest"],
+      "response": ["BrowserAuthChallenge"]
     },
     {
       "id": "browser.completeStepUp",
@@ -1523,12 +1268,8 @@
       "csrf": "required",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "BrowserCompleteStepUpRequest"
-      ],
-      "response": [
-        "BrowserStepUpEvidence"
-      ]
+      "request": ["BrowserCompleteStepUpRequest"],
+      "response": ["BrowserStepUpEvidence"]
     },
     {
       "id": "browser.logout",
@@ -1540,9 +1281,7 @@
       "setCookie": "clear",
       "cache": "no-store",
       "request": [],
-      "response": [
-        "BrowserReceipt"
-      ]
+      "response": ["BrowserReceipt"]
     },
     {
       "id": "browser.oidcCallback",
@@ -1553,10 +1292,7 @@
       "csrf": "none",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "BrowserOidcCallbackSuccess",
-        "BrowserOidcCallbackFailure"
-      ],
+      "request": ["BrowserOidcCallbackSuccess", "BrowserOidcCallbackFailure"],
       "response": []
     }
   ],

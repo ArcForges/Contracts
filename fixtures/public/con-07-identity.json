@@ -60,33 +60,11 @@
     ]
   },
   "enums": {
-    "AuthMethod": [
-      "passkey",
-      "email",
-      "password",
-      "oidc"
-    ],
-    "AuthPurpose": [
-      "authenticate",
-      "enroll",
-      "stepUp",
-      "recover",
-      "cancelDeletion"
-    ],
-    "RecoveryMethod": [
-      "emailCode",
-      "recoveryCode",
-      "passkey",
-      "adminGrant"
-    ],
-    "ProtectionProfile": [
-      "standard"
-    ],
-    "TrustLevel": [
-      "untrusted",
-      "trusted",
-      "revoked"
-    ]
+    "AuthMethod": ["passkey", "email", "password", "oidc"],
+    "AuthPurpose": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"],
+    "RecoveryMethod": ["emailCode", "recoveryCode", "passkey", "adminGrant"],
+    "ProtectionProfile": ["standard"],
+    "TrustLevel": ["untrusted", "trusted", "revoked"]
   },
   "oneofs": {
     "AuthProof": {
@@ -103,27 +81,17 @@
     },
     "CredentialReplacement": {
       "group": "replacement",
-      "members": [
-        "passkey",
-        "password"
-      ],
+      "members": ["passkey", "password"],
       "required": true
     },
     "EnrollmentProof": {
       "group": "proof",
-      "members": [
-        "emailCode",
-        "localCode",
-        "providerReceipt"
-      ],
+      "members": ["emailCode", "localCode", "providerReceipt"],
       "required": true
     },
     "ProfileUpdate": {
       "group": "change",
-      "members": [
-        "avatar",
-        "clearAvatar"
-      ],
+      "members": ["avatar", "clearAvatar"],
       "required": false
     }
   },
@@ -170,9 +138,7 @@
       "risk": "R2",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -187,9 +153,7 @@
       "risk": "R2",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -204,9 +168,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -221,9 +183,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -238,9 +198,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -255,9 +213,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -272,9 +228,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -289,9 +243,7 @@
       "risk": "R2",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -306,9 +258,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -323,9 +273,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -340,9 +288,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -357,9 +303,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -374,9 +318,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -391,9 +333,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -408,9 +348,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -425,9 +363,7 @@
       "risk": "R4",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -442,9 +378,7 @@
       "risk": "R3",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -459,9 +393,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -476,9 +408,7 @@
       "risk": "R2",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -493,9 +423,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -510,9 +438,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -527,9 +453,7 @@
       "risk": "R3",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -544,9 +468,7 @@
       "risk": "R2",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -561,9 +483,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -578,9 +498,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -595,9 +513,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -612,9 +528,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -629,9 +543,7 @@
       "risk": "R3",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -646,9 +558,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -663,9 +573,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -680,9 +588,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -697,9 +603,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -714,9 +618,7 @@
       "risk": "R4",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -731,9 +633,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -748,9 +648,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -765,9 +663,7 @@
       "risk": "R3",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -782,9 +678,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -799,9 +693,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -816,9 +708,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": true
     },
@@ -833,9 +723,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": true
     },
@@ -850,9 +738,7 @@
       "risk": "R2",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "account",
       "patEligible": false
     },
@@ -867,9 +753,7 @@
       "risk": "R2",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -884,9 +768,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -901,9 +783,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -918,9 +798,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -935,9 +813,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -952,9 +828,7 @@
       "risk": "R3",
       "stepUp": true,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     },
@@ -969,9 +843,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "one-use-auth",
-      "actorKinds": [
-        "preauth"
-      ],
+      "actorKinds": ["preauth"],
       "scope": "account",
       "patEligible": false
     },
@@ -986,9 +858,7 @@
       "risk": "R1",
       "stepUp": false,
       "profile": "human-owner",
-      "actorKinds": [
-        "human"
-      ],
+      "actorKinds": ["human"],
       "scope": "application-target",
       "patEligible": false
     }
@@ -1060,13 +930,9 @@
         },
         "options": {
           "rpId": "arcforges.com",
-          "allowedCredentials": [
-            "Yw=="
-          ],
+          "allowedCredentials": ["Yw=="],
           "userVerification": "required",
-          "algorithms": [
-            -7
-          ]
+          "algorithms": [-7]
         },
         "purpose": "AUTH_PURPOSE_AUTHENTICATE"
       }
@@ -1122,13 +988,9 @@
         },
         "options": {
           "rpId": "arcforges.com",
-          "allowedCredentials": [
-            "Yw=="
-          ],
+          "allowedCredentials": ["Yw=="],
           "userVerification": "required",
-          "algorithms": [
-            -7
-          ]
+          "algorithms": [-7]
         },
         "purpose": "AUTH_PURPOSE_AUTHENTICATE",
         "recoveryMethod": "RECOVERY_METHOD_PASSKEY"
@@ -1150,13 +1012,9 @@
         },
         "options": {
           "rpId": "arcforges.com",
-          "allowedCredentials": [
-            "Yw=="
-          ],
+          "allowedCredentials": ["Yw=="],
           "userVerification": "required",
-          "algorithms": [
-            -7
-          ]
+          "algorithms": [-7]
         },
         "purpose": "AUTH_PURPOSE_AUTHENTICATE"
       }
@@ -1178,13 +1036,9 @@
         },
         "options": {
           "rpId": "arcforges.com",
-          "allowedCredentials": [
-            "Yw=="
-          ],
+          "allowedCredentials": ["Yw=="],
           "userVerification": "required",
-          "algorithms": [
-            -7
-          ]
+          "algorithms": [-7]
         },
         "purpose": "AUTH_PURPOSE_AUTHENTICATE"
       }
@@ -1206,13 +1060,9 @@
         },
         "options": {
           "rpId": "arcforges.com",
-          "allowedCredentials": [
-            "Yw=="
-          ],
+          "allowedCredentials": ["Yw=="],
           "userVerification": "required",
-          "algorithms": [
-            -7
-          ]
+          "algorithms": [-7]
         },
         "purpose": "AUTH_PURPOSE_AUTHENTICATE"
       }
@@ -1224,9 +1074,7 @@
       "value": {
         "rpId": "arcforges.com",
         "userVerification": "required",
-        "algorithms": [
-          -8
-        ]
+        "algorithms": [-8]
       }
     },
     {
@@ -1236,9 +1084,7 @@
       "value": {
         "rpId": "arcforges.com",
         "userVerification": "preferred",
-        "algorithms": [
-          -7
-        ]
+        "algorithms": [-7]
       }
     },
     {
@@ -1248,9 +1094,7 @@
       "value": {
         "rpId": "arcforges.com",
         "userVerification": "required",
-        "algorithms": [
-          -7
-        ]
+        "algorithms": [-7]
       }
     },
     {
@@ -1825,10 +1669,7 @@
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
         "name": "CLI",
-        "scopes": [
-          "workspace.get",
-          "workspace.list"
-        ],
+        "scopes": ["workspace.get", "workspace.list"],
         "workspaceId": {
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
@@ -1850,10 +1691,7 @@
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
         "name": "CLI",
-        "scopes": [
-          "workspace.get",
-          "workspace.get"
-        ],
+        "scopes": ["workspace.get", "workspace.get"],
         "workspaceId": {
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
@@ -1925,9 +1763,7 @@
         "deviceId": {
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
-        "allowedCapabilities": [
-          "IScopeOperations.StartCapture"
-        ],
+        "allowedCapabilities": ["IScopeOperations.StartCapture"],
         "requireLocalConfirmation": [],
         "revision": {
           "value": "1"
@@ -1942,10 +1778,7 @@
         "deviceId": {
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
-        "allowedCapabilities": [
-          "a.b",
-          "a.b"
-        ],
+        "allowedCapabilities": ["a.b", "a.b"],
         "requireLocalConfirmation": [],
         "revision": {
           "value": "1"
@@ -2361,9 +2194,7 @@
         "workspaceId": {
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
-        "scopes": [
-          "workspace.list"
-        ],
+        "scopes": ["workspace.list"],
         "expiresAt": {
           "unixSeconds": "2",
           "nanos": 0
@@ -2387,10 +2218,7 @@
         "workspaceId": {
           "value": "ESIzRFVmd4iZqrvM3e7/AA=="
         },
-        "scopes": [
-          "workspace.list",
-          "workspace.list"
-        ],
+        "scopes": ["workspace.list", "workspace.list"],
         "expiresAt": {
           "unixSeconds": "2",
           "nanos": 0
@@ -2544,13 +2372,9 @@
             },
             "options": {
               "rpId": "arcforges.com",
-              "allowedCredentials": [
-                "Yw=="
-              ],
+              "allowedCredentials": ["Yw=="],
               "userVerification": "required",
-              "algorithms": [
-                -7
-              ]
+              "algorithms": [-7]
             },
             "purpose": "AUTH_PURPOSE_AUTHENTICATE"
           }
@@ -3448,6 +3272,14 @@
       "canonical": "{\"operationClass\":\"device.revoke\",\"expiresAt\":\"2026-10-01T00:05:00Z\"}"
     },
     {
+      "id": "browser-step-up-evidence-missing-expiry",
+      "root": "BrowserStepUpEvidence",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"operationClass\":\"device.revoke\"}",
+      "failure": "invalid"
+    },
+    {
       "id": "browser-receipt-valid",
       "root": "BrowserReceipt",
       "wire": "json",
@@ -3526,9 +3358,7 @@
         "requestWire": "none",
         "requestRoots": [],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserBootstrapResponse"
-        ]
+        "responseRoots": ["BrowserBootstrapResponse"]
       },
       {
         "id": "browser.beginAuthentication",
@@ -3540,13 +3370,9 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserBeginAuthenticationRequest"
-        ],
+        "requestRoots": ["BrowserBeginAuthenticationRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserAuthChallenge"
-        ]
+        "responseRoots": ["BrowserAuthChallenge"]
       },
       {
         "id": "browser.completeAuthentication",
@@ -3558,13 +3384,9 @@
         "setCookie": "session",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserCompleteAuthenticationRequest"
-        ],
+        "requestRoots": ["BrowserCompleteAuthenticationRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserSessionView"
-        ]
+        "responseRoots": ["BrowserSessionView"]
       },
       {
         "id": "browser.completeEnrollment",
@@ -3576,13 +3398,9 @@
         "setCookie": "session",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserCompleteEnrollmentRequest"
-        ],
+        "requestRoots": ["BrowserCompleteEnrollmentRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserSessionView"
-        ]
+        "responseRoots": ["BrowserSessionView"]
       },
       {
         "id": "browser.beginRecovery",
@@ -3594,13 +3412,9 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserBeginRecoveryRequest"
-        ],
+        "requestRoots": ["BrowserBeginRecoveryRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserAuthChallenge"
-        ]
+        "responseRoots": ["BrowserAuthChallenge"]
       },
       {
         "id": "browser.completeRecovery",
@@ -3612,13 +3426,9 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserCompleteRecoveryRequest"
-        ],
+        "requestRoots": ["BrowserCompleteRecoveryRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserReceipt"
-        ]
+        "responseRoots": ["BrowserReceipt"]
       },
       {
         "id": "browser.beginStepUp",
@@ -3630,13 +3440,9 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserBeginStepUpRequest"
-        ],
+        "requestRoots": ["BrowserBeginStepUpRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserAuthChallenge"
-        ]
+        "responseRoots": ["BrowserAuthChallenge"]
       },
       {
         "id": "browser.completeStepUp",
@@ -3648,13 +3454,9 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "json",
-        "requestRoots": [
-          "BrowserCompleteStepUpRequest"
-        ],
+        "requestRoots": ["BrowserCompleteStepUpRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserStepUpEvidence"
-        ]
+        "responseRoots": ["BrowserStepUpEvidence"]
       },
       {
         "id": "browser.logout",
@@ -3668,9 +3470,7 @@
         "requestWire": "none",
         "requestRoots": [],
         "responseWire": "json",
-        "responseRoots": [
-          "BrowserReceipt"
-        ]
+        "responseRoots": ["BrowserReceipt"]
       },
       {
         "id": "browser.oidcCallback",
@@ -3682,10 +3482,7 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "form-urlencoded",
-        "requestRoots": [
-          "BrowserOidcCallbackSuccess",
-          "BrowserOidcCallbackFailure"
-        ],
+        "requestRoots": ["BrowserOidcCallbackSuccess", "BrowserOidcCallbackFailure"],
         "responseWire": "none",
         "responseRoots": []
       }
@@ -3701,9 +3498,7 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "form-urlencoded",
-        "requestRoots": [
-          "NativeAuthorizeRequest"
-        ],
+        "requestRoots": ["NativeAuthorizeRequest"],
         "responseWire": "none",
         "responseRoots": []
       },
@@ -3717,13 +3512,9 @@
         "setCookie": "none",
         "cache": "no-store",
         "requestWire": "form-urlencoded",
-        "requestRoots": [
-          "NativeTokenRequest"
-        ],
+        "requestRoots": ["NativeTokenRequest"],
         "responseWire": "json",
-        "responseRoots": [
-          "NativeTokenResponse"
-        ]
+        "responseRoots": ["NativeTokenResponse"]
       }
     ]
   },
@@ -4082,10 +3873,7 @@
         "secretDisplayedOnceHashOnly": true,
         "duplicateCreateReturnsSafeSummaryWithoutSecret": true,
         "tokenManagesAuthentication": false,
-        "patEligibleOperations": [
-          "workspace.get",
-          "workspace.list"
-        ]
+        "patEligibleOperations": ["workspace.get", "workspace.list"]
       }
     },
     {

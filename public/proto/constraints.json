@@ -1745,8 +1745,9 @@
         },
         "password": {
           "required": true,
-          "minLength": 1,
-          "maxUtf8Bytes": 8192
+          "minLength": 15,
+          "maxUtf8Bytes": 8192,
+          "maxLength": 128
         }
       }
     },
@@ -2133,7 +2134,8 @@
         "product": {
           "required": true,
           "maxLength": 128,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["arcscope", "companion"]
         },
         "platform": {
           "required": true,

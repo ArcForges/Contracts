@@ -3856,6 +3856,14 @@ export const publicFixtures = {
         "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"c2ln\"}}}"
       },
       {
+        "id": "browser-complete-step-up-empty-proof",
+        "root": "BrowserCompleteStepUpRequest",
+        "wire": "json",
+        "valid": false,
+        "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{}}",
+        "failure": "invalid"
+      },
+      {
         "id": "browser-auth-challenge-valid",
         "root": "BrowserAuthChallenge",
         "wire": "json",
@@ -3934,6 +3942,14 @@ export const publicFixtures = {
         "valid": true,
         "text": "{\"operationClass\":\"device.revoke\",\"expiresAt\":\"2026-10-01T00:05:00Z\"}",
         "canonical": "{\"operationClass\":\"device.revoke\",\"expiresAt\":\"2026-10-01T00:05:00Z\"}"
+      },
+      {
+        "id": "browser-step-up-evidence-missing-expiry",
+        "root": "BrowserStepUpEvidence",
+        "wire": "json",
+        "valid": false,
+        "text": "{\"operationClass\":\"device.revoke\"}",
+        "failure": "invalid"
       },
       {
         "id": "browser-receipt-valid",

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -14,8 +13,105 @@ using Google.Protobuf.Reflection;
 /// <summary>CON.07 independent identity, workspace, device and authentication-exception vectors for generated C#.</summary>
 internal static class IdentityCases
 {
-    private static readonly Assembly PublicApi = typeof(IdentityReflection).Assembly;
-    private static readonly Assembly Validation = typeof(ContractShapeValidation).Assembly;
+    private delegate bool TryParse<T>(ReadOnlyMemory<byte> input, out T? value, out ContractSerializationFailure failure) where T : class;
+
+    private sealed record Outcome(bool Ok, string Failure, string? Canonical, bool Lossless);
+
+    private static readonly Dictionary<string, Func<string, bool>> Shapes = new(StringComparer.Ordinal)
+    {
+        ["AccountProfile"] = Shape(AccountProfile.Parser, ContractShapeValidation.IsValid),
+        ["ApiTokenView"] = Shape(ApiTokenView.Parser, ContractShapeValidation.IsValid),
+        ["AuthChallenge"] = Shape(AuthChallenge.Parser, ContractShapeValidation.IsValid),
+        ["AuthProof"] = Shape(AuthProof.Parser, ContractShapeValidation.IsValid),
+        ["AuthProviderView"] = Shape(AuthProviderView.Parser, ContractShapeValidation.IsValid),
+        ["CredentialReplacement"] = Shape(CredentialReplacement.Parser, ContractShapeValidation.IsValid),
+        ["CredentialSummary"] = Shape(CredentialSummary.Parser, ContractShapeValidation.IsValid),
+        ["DataDeletionPreview"] = Shape(DataDeletionPreview.Parser, ContractShapeValidation.IsValid),
+        ["DataDeletionView"] = Shape(DataDeletionView.Parser, ContractShapeValidation.IsValid),
+        ["DeletionStatus"] = Shape(DeletionStatus.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRegisterRequest"] = Shape(DeviceServiceRegisterRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceView"] = Shape(DeviceView.Parser, ContractShapeValidation.IsValid),
+        ["EnrollmentProof"] = Shape(EnrollmentProof.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginAuthenticationRequest"] = Shape(IdentityServiceBeginAuthenticationRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginAuthenticationResponse"] = Shape(IdentityServiceBeginAuthenticationResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceChangePasswordRequest"] = Shape(IdentityServiceChangePasswordRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteAuthenticationRequest"] = Shape(IdentityServiceCompleteAuthenticationRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCreateApiTokenRequest"] = Shape(IdentityServiceCreateApiTokenRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListSessionsRequest"] = Shape(IdentityServiceListSessionsRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRefreshSessionRequest"] = Shape(IdentityServiceRefreshSessionRequest.Parser, ContractShapeValidation.IsValid),
+        ["InstallationClaim"] = Shape(InstallationClaim.Parser, ContractShapeValidation.IsValid),
+        ["InstalledProduct"] = Shape(InstalledProduct.Parser, ContractShapeValidation.IsValid),
+        ["NativeSession"] = Shape(NativeSession.Parser, ContractShapeValidation.IsValid),
+        ["ProfileUpdate"] = Shape(ProfileUpdate.Parser, ContractShapeValidation.IsValid),
+        ["RecoveryCodeSet"] = Shape(RecoveryCodeSet.Parser, ContractShapeValidation.IsValid),
+        ["RemoteCapabilityPolicy"] = Shape(RemoteCapabilityPolicy.Parser, ContractShapeValidation.IsValid),
+        ["SecurityActivity"] = Shape(SecurityActivity.Parser, ContractShapeValidation.IsValid),
+        ["SessionSummary"] = Shape(SessionSummary.Parser, ContractShapeValidation.IsValid),
+        ["SessionView"] = Shape(SessionView.Parser, ContractShapeValidation.IsValid),
+        ["StepUpEvidence"] = Shape(StepUpEvidence.Parser, ContractShapeValidation.IsValid),
+        ["WebAuthnAssertion"] = Shape(WebAuthnAssertion.Parser, ContractShapeValidation.IsValid),
+        ["WebAuthnCreation"] = Shape(WebAuthnCreation.Parser, ContractShapeValidation.IsValid),
+        ["WebAuthnOptions"] = Shape(WebAuthnOptions.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceHealth"] = Shape(WorkspaceHealth.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceRequestDataDeletionRequest"] = Shape(WorkspaceServiceRequestDataDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceView"] = Shape(WorkspaceView.Parser, ContractShapeValidation.IsValid)
+    };
+
+    private static readonly Dictionary<string, MessageDescriptor> Records = new(StringComparer.Ordinal)
+    {
+        ["InstallationClaim"] = InstallationClaim.Descriptor,
+        ["AuthChallenge"] = AuthChallenge.Descriptor,
+        ["WebAuthnOptions"] = WebAuthnOptions.Descriptor,
+        ["WebAuthnCreation"] = WebAuthnCreation.Descriptor,
+        ["WebAuthnAssertion"] = WebAuthnAssertion.Descriptor,
+        ["AuthProof"] = AuthProof.Descriptor,
+        ["NativeSession"] = NativeSession.Descriptor,
+        ["SessionView"] = SessionView.Descriptor,
+        ["CredentialSummary"] = CredentialSummary.Descriptor,
+        ["StepUpEvidence"] = StepUpEvidence.Descriptor,
+        ["DeletionStatus"] = DeletionStatus.Descriptor,
+        ["AccountProfile"] = AccountProfile.Descriptor,
+        ["ProfileUpdate"] = ProfileUpdate.Descriptor,
+        ["AuthProviderView"] = AuthProviderView.Descriptor,
+        ["SessionSummary"] = SessionSummary.Descriptor,
+        ["ApiTokenView"] = ApiTokenView.Descriptor,
+        ["RecoveryCodeSet"] = RecoveryCodeSet.Descriptor,
+        ["RemoteCapabilityPolicy"] = RemoteCapabilityPolicy.Descriptor,
+        ["SecurityActivity"] = SecurityActivity.Descriptor,
+        ["DataDeletionPreview"] = DataDeletionPreview.Descriptor,
+        ["DeletionCount"] = DeletionCount.Descriptor,
+        ["WorkspaceHealth"] = WorkspaceHealth.Descriptor,
+        ["DataDeletionView"] = DataDeletionView.Descriptor,
+        ["WorkspaceView"] = WorkspaceView.Descriptor,
+        ["DeviceView"] = DeviceView.Descriptor,
+        ["InstalledProduct"] = InstalledProduct.Descriptor,
+        ["DeviceCapabilityView"] = DeviceCapabilityView.Descriptor,
+        ["CredentialReplacement"] = CredentialReplacement.Descriptor,
+        ["EnrollmentProof"] = EnrollmentProof.Descriptor
+    };
+
+    private static readonly Dictionary<string, Func<byte[], Outcome>> Codecs = new(StringComparer.Ordinal)
+    {
+        ["BrowserAuthChallenge"] = Codec<BrowserAuthChallenge>(BrowserAuthChallengeJson.TryParse, BrowserAuthChallengeJson.Serialize),
+        ["BrowserBeginAuthenticationRequest"] = Codec<BrowserBeginAuthenticationRequest>(BrowserBeginAuthenticationRequestJson.TryParse, BrowserBeginAuthenticationRequestJson.Serialize),
+        ["BrowserBeginRecoveryRequest"] = Codec<BrowserBeginRecoveryRequest>(BrowserBeginRecoveryRequestJson.TryParse, BrowserBeginRecoveryRequestJson.Serialize),
+        ["BrowserBeginStepUpRequest"] = Codec<BrowserBeginStepUpRequest>(BrowserBeginStepUpRequestJson.TryParse, BrowserBeginStepUpRequestJson.Serialize),
+        ["BrowserBootstrapResponse"] = Codec<BrowserBootstrapResponse>(BrowserBootstrapResponseJson.TryParse, BrowserBootstrapResponseJson.Serialize),
+        ["BrowserCompleteAuthenticationRequest"] = Codec<BrowserCompleteAuthenticationRequest>(BrowserCompleteAuthenticationRequestJson.TryParse, BrowserCompleteAuthenticationRequestJson.Serialize),
+        ["BrowserCompleteEnrollmentRequest"] = Codec<BrowserCompleteEnrollmentRequest>(BrowserCompleteEnrollmentRequestJson.TryParse, BrowserCompleteEnrollmentRequestJson.Serialize),
+        ["BrowserCompleteRecoveryRequest"] = Codec<BrowserCompleteRecoveryRequest>(BrowserCompleteRecoveryRequestJson.TryParse, BrowserCompleteRecoveryRequestJson.Serialize),
+        ["BrowserCompleteStepUpRequest"] = Codec<BrowserCompleteStepUpRequest>(BrowserCompleteStepUpRequestJson.TryParse, BrowserCompleteStepUpRequestJson.Serialize),
+        ["BrowserOidcCallbackFailure"] = Codec<BrowserOidcCallbackFailure>(BrowserOidcCallbackFailureForm.TryParse, BrowserOidcCallbackFailureForm.Serialize),
+        ["BrowserOidcCallbackSuccess"] = Codec<BrowserOidcCallbackSuccess>(BrowserOidcCallbackSuccessForm.TryParse, BrowserOidcCallbackSuccessForm.Serialize),
+        ["BrowserReceipt"] = Codec<BrowserReceipt>(BrowserReceiptJson.TryParse, BrowserReceiptJson.Serialize),
+        ["BrowserSessionView"] = Codec<BrowserSessionView>(BrowserSessionViewJson.TryParse, BrowserSessionViewJson.Serialize),
+        ["BrowserStepUpEvidence"] = Codec<BrowserStepUpEvidence>(BrowserStepUpEvidenceJson.TryParse, BrowserStepUpEvidenceJson.Serialize),
+        ["NativeAuthorizeCallbackFailure"] = Codec<NativeAuthorizeCallbackFailure>(NativeAuthorizeCallbackFailureForm.TryParse, NativeAuthorizeCallbackFailureForm.Serialize),
+        ["NativeAuthorizeCallbackSuccess"] = Codec<NativeAuthorizeCallbackSuccess>(NativeAuthorizeCallbackSuccessForm.TryParse, NativeAuthorizeCallbackSuccessForm.Serialize),
+        ["NativeAuthorizeRequest"] = Codec<NativeAuthorizeRequest>(NativeAuthorizeRequestForm.TryParse, NativeAuthorizeRequestForm.Serialize),
+        ["NativeTokenRequest"] = Codec<NativeTokenRequest>(NativeTokenRequestForm.TryParse, NativeTokenRequestForm.Serialize),
+        ["NativeTokenResponse"] = Codec<NativeTokenResponse>(NativeTokenResponseJson.TryParse, NativeTokenResponseJson.Serialize)
+    };
 
     internal static void Run(string root)
     {
@@ -70,11 +166,8 @@ internal static class IdentityCases
         }
 
         foreach (var record in fixture.GetProperty("records").EnumerateObject())
-        {
-            var type = PublicApi.GetType("ArcForges.Contracts.PublicApi.V1." + record.Name) ?? throw new InvalidOperationException("record type " + record.Name);
-            var descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
-            Require(Shape(descriptor) == record.Value.GetString(), record.Name + " exact tags");
-        }
+            Require(Shape(Records[record.Name]) == record.Value.GetString(), record.Name + " exact tags");
+        Require(Records.Count == fixture.GetProperty("records").EnumerateObject().Count(), "record inventory");
         foreach (var enumeration in fixture.GetProperty("enums").EnumerateObject())
         {
             var descriptor = IdentityReflection.Descriptor.EnumTypes.Single(item => item.Name == enumeration.Name);
@@ -85,10 +178,10 @@ internal static class IdentityCases
         }
         foreach (var oneof in fixture.GetProperty("oneofs").EnumerateObject())
         {
-            var type = PublicApi.GetType("ArcForges.Contracts.PublicApi.V1." + oneof.Name)!;
-            var descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
-            Require(descriptor.Oneofs.Count == 1 && descriptor.Oneofs[0].Name == oneof.Value.GetProperty("group").GetString() &&
-                descriptor.Oneofs[0].Fields.Select(field => field.JsonName).SequenceEqual(oneof.Value.GetProperty("members").EnumerateArray().Select(member => member.GetString()!)),
+            // proto3 optional presence adds synthetic oneofs that are not part of the registry contract.
+            var real = Records[oneof.Name].Oneofs.Where(group => !group.IsSynthetic).ToArray();
+            Require(real.Length == 1 && real[0].Name == oneof.Value.GetProperty("group").GetString() &&
+                real[0].Fields.Select(field => field.JsonName).SequenceEqual(oneof.Value.GetProperty("members").EnumerateArray().Select(member => member.GetString()!)),
                 oneof.Name + " exact oneof members");
         }
         Require(DeviceView.Descriptor.Fields.InDeclarationOrder().Select(field => field.FieldNumber).SequenceEqual(new[] { 1, 2, 3, 4, 5, 6, 8, 10 }), "DeviceView reserves tags 7, 9 and 11");
@@ -98,17 +191,9 @@ internal static class IdentityCases
         foreach (var item in shapeCases)
         {
             var target = item.GetProperty("target").GetString()!;
-            var type = PublicApi.GetType("ArcForges.Contracts.PublicApi.V1." + target) ?? throw new InvalidOperationException("target " + target);
-            var descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static)!.GetValue(null)!;
-            var message = JsonParser.Default.Parse(item.GetProperty("value").GetRawText(), descriptor);
-            var validate = typeof(ContractShapeValidation).GetMethod("IsValid", [type]) ?? throw new InvalidOperationException("validator " + target);
-            var actual = (bool)validate.Invoke(null, [message])!;
+            Require(Shapes.TryGetValue(target, out var validate), "shape target " + target);
+            var actual = validate!(item.GetProperty("value").GetRawText());
             Require(actual == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
-            if (actual)
-            {
-                var clone = descriptor.Parser.ParseFrom(message.ToByteArray());
-                Require((bool)validate.Invoke(null, [clone])!, item.GetProperty("id").GetString() + " binary round-trip");
-            }
         }
 
         var httpVectors = fixture.GetProperty("httpVectors").EnumerateArray().ToArray();
@@ -120,31 +205,38 @@ internal static class IdentityCases
         Console.WriteLine($"CON.07: 3 services, {operations.Length} operations, {shapeCases.Length} shape and {httpVectors.Length} HTTP exception vectors passed.");
     }
 
+    private static Func<string, bool> Shape<T>(MessageParser<T> parser, Func<T, bool> validate) where T : class, IMessage<T>, new() => json =>
+    {
+        var message = JsonParser.Default.Parse<T>(json);
+        var valid = validate(message);
+        if (valid) Require(validate(parser.ParseFrom(message.ToByteArray())), "binary round-trip");
+        return valid;
+    };
+
+    private static Func<byte[], Outcome> Codec<T>(TryParse<T> tryParse, Func<T, byte[]> serialize) where T : class => bytes =>
+    {
+        if (!tryParse(bytes, out var value, out var failure))
+        {
+            var name = failure.ToString();
+            return new Outcome(false, char.ToLowerInvariant(name[0]) + name[1..], null, false);
+        }
+        var canonical = serialize(value!);
+        var again = tryParse(canonical, out var reparsed, out _);
+        return new Outcome(true, "", Encoding.UTF8.GetString(canonical), again && serialize(reparsed!).AsSpan().SequenceEqual(canonical));
+    };
+
     private static void RunHttpVector(JsonElement item)
     {
         var id = item.GetProperty("id").GetString()!;
-        var wire = item.GetProperty("wire").GetString()!;
-        var validator = Validation.GetType("ArcForges.Contracts.Validation." + item.GetProperty("root").GetString() + (wire == "json" ? "Json" : "Form"))
-            ?? throw new InvalidOperationException(id + " validator");
-        var tryParse = validator.GetMethod("TryParse") ?? throw new InvalidOperationException(id + " TryParse");
-        var serialize = validator.GetMethod("Serialize") ?? throw new InvalidOperationException(id + " Serialize");
-        var text = item.GetProperty("text").GetString()!;
-        var arguments = new object?[] { new ReadOnlyMemory<byte>(Encoding.UTF8.GetBytes(text)), null, null };
-        var ok = (bool)tryParse.Invoke(null, arguments)!;
-        Require(ok == item.GetProperty("valid").GetBoolean(), id);
-        if (ok)
+        Require(Codecs.TryGetValue(item.GetProperty("root").GetString()!, out var codec), id + " codec");
+        var outcome = codec!(Encoding.UTF8.GetBytes(item.GetProperty("text").GetString()!));
+        Require(outcome.Ok == item.GetProperty("valid").GetBoolean(), id);
+        if (outcome.Ok)
         {
-            var bytes = (byte[])serialize.Invoke(null, [arguments[1]])!;
-            if (item.TryGetProperty("canonical", out var canonical)) Require(Encoding.UTF8.GetString(bytes) == canonical.GetString(), id + " canonical");
-            var again = new object?[] { new ReadOnlyMemory<byte>(bytes), null, null };
-            Require((bool)tryParse.Invoke(null, again)!, id + " round-trip");
-            Require(((byte[])serialize.Invoke(null, [again[1]])!).AsSpan().SequenceEqual(bytes), id + " lossless");
+            if (item.TryGetProperty("canonical", out var canonical)) Require(outcome.Canonical == canonical.GetString(), id + " canonical");
+            Require(outcome.Lossless, id + " lossless round-trip");
         }
-        else
-        {
-            var failure = arguments[2]!.ToString()!;
-            Require(char.ToLowerInvariant(failure[0]) + failure[1..] == item.GetProperty("failure").GetString(), id + " failure kind");
-        }
+        else Require(outcome.Failure == item.GetProperty("failure").GetString(), id + " failure kind");
     }
 
     private static void RunBounds()

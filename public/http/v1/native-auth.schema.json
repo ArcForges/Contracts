@@ -27,10 +27,7 @@
       "properties": {
         "product": {
           "type": "string",
-          "enum": [
-            "arcscope",
-            "companion"
-          ]
+          "enum": ["arcscope", "companion"]
         },
         "version": {
           "type": "string",
@@ -45,10 +42,7 @@
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
         }
       },
-      "required": [
-        "product",
-        "version"
-      ],
+      "required": ["product", "version"],
       "additionalProperties": false
     },
     "NativeTokenDevice": {
@@ -60,9 +54,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "name": {
           "type": "string",
@@ -77,11 +69,7 @@
         },
         "trust": {
           "type": "string",
-          "enum": [
-            "untrusted",
-            "trusted",
-            "revoked"
-          ]
+          "enum": ["untrusted", "trusted", "revoked"]
         },
         "remoteEnabled": {
           "type": "boolean"
@@ -97,9 +85,7 @@
           "minLength": 1,
           "maxLength": 19,
           "pattern": "^[1-9][0-9]*$",
-          "x-arcforges-rules": [
-            "positiveInt64String"
-          ]
+          "x-arcforges-rules": ["positiveInt64String"]
         },
         "installed": {
           "type": "array",
@@ -109,14 +95,7 @@
           "maxItems": 64
         }
       },
-      "required": [
-        "deviceId",
-        "name",
-        "platform",
-        "trust",
-        "remoteEnabled",
-        "revision"
-      ],
+      "required": ["deviceId", "name", "platform", "trust", "remoteEnabled", "revision"],
       "additionalProperties": false
     },
     "NativeAuthorizeRequest": {
@@ -125,11 +104,7 @@
       "properties": {
         "client_id": {
           "type": "string",
-          "enum": [
-            "arcscope.desktop",
-            "companion.android",
-            "companion.android.selfhost"
-          ]
+          "enum": ["arcscope.desktop", "companion.android", "companion.android.selfhost"]
         },
         "redirect_uri": {
           "type": "string",
@@ -162,9 +137,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         }
       },
       "required": [
@@ -179,9 +152,7 @@
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384,
       "x-arcforges-wire": "form-urlencoded",
-      "x-arcforges-rules": [
-        "nativeClientRedirect"
-      ]
+      "x-arcforges-rules": ["nativeClientRedirect"]
     },
     "NativeAuthorizeCallbackSuccess": {
       "title": "NativeAuthorizeCallbackSuccess",
@@ -200,10 +171,7 @@
           "pattern": "^[\\x21-\\x7E]+$"
         }
       },
-      "required": [
-        "code",
-        "state"
-      ],
+      "required": ["code", "state"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384,
       "x-arcforges-wire": "form-urlencoded"
@@ -225,10 +193,7 @@
           "pattern": "^[\\x21-\\x7E]+$"
         }
       },
-      "required": [
-        "error",
-        "state"
-      ],
+      "required": ["error", "state"],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384,
       "x-arcforges-wire": "form-urlencoded"
@@ -255,11 +220,7 @@
         },
         "client_id": {
           "type": "string",
-          "enum": [
-            "arcscope.desktop",
-            "companion.android",
-            "companion.android.selfhost"
-          ]
+          "enum": ["arcscope.desktop", "companion.android", "companion.android.selfhost"]
         },
         "redirect_uri": {
           "type": "string",
@@ -272,9 +233,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         }
       },
       "required": [
@@ -288,9 +247,7 @@
       "additionalProperties": false,
       "x-arcforges-max-bytes": 16384,
       "x-arcforges-wire": "form-urlencoded",
-      "x-arcforges-rules": [
-        "nativeClientRedirect"
-      ]
+      "x-arcforges-rules": ["nativeClientRedirect"]
     },
     "NativeTokenResponse": {
       "title": "NativeTokenResponse",
@@ -301,9 +258,7 @@
           "minLength": 36,
           "maxLength": 36,
           "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "x-arcforges-rules": [
-            "nonzeroUuid"
-          ]
+          "x-arcforges-rules": ["nonzeroUuid"]
         },
         "accessToken": {
           "type": "string",
@@ -335,19 +290,11 @@
           "minLength": 1,
           "maxLength": 20,
           "pattern": "^(0|[1-9][0-9]*)$",
-          "x-arcforges-rules": [
-            "uint64String"
-          ]
+          "x-arcforges-rules": ["uint64String"]
         },
         "purpose": {
           "type": "string",
-          "enum": [
-            "authenticate",
-            "enroll",
-            "stepUp",
-            "recover",
-            "cancelDeletion"
-          ]
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
         }
       },
       "required": [
@@ -374,9 +321,7 @@
       "csrf": "none",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "NativeAuthorizeRequest"
-      ],
+      "request": ["NativeAuthorizeRequest"],
       "response": []
     },
     {
@@ -388,12 +333,8 @@
       "csrf": "none",
       "setCookie": "none",
       "cache": "no-store",
-      "request": [
-        "NativeTokenRequest"
-      ],
-      "response": [
-        "NativeTokenResponse"
-      ]
+      "request": ["NativeTokenRequest"],
+      "response": ["NativeTokenResponse"]
     }
   ],
   "x-arcforges-schema-version": "1"

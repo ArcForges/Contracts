@@ -12,10 +12,7 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "arcscope",
-            "companion"
-          ]
+          "enumValues": ["arcscope", "companion"]
         },
         "platform": {
           "required": true,
@@ -36,12 +33,7 @@
           "required": true
         },
         "method": {
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "challenge": {
           "required": true,
@@ -64,26 +56,13 @@
         },
         "purpose": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         },
         "recoveryMethod": {
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         }
       },
-      "rules": [
-        "authChallengePurpose"
-      ]
+      "rules": ["authChallengePurpose"]
     },
     "arcforges.publicapi.v1.WebAuthnOptions": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WebAuthnOptions",
@@ -115,15 +94,11 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "required"
-          ]
+          "enumValues": ["required"]
         },
         "algorithms": {
           "items": {
-            "enumValues": [
-              -7
-            ]
+            "enumValues": [-7]
           },
           "minItems": 1,
           "maxItems": 1
@@ -215,9 +190,7 @@
           "maxUtf8Bytes": 8192
         }
       },
-      "oneofRequired": [
-        "proof"
-      ]
+      "oneofRequired": ["proof"]
     },
     "arcforges.publicapi.v1.NativeSession": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.NativeSession",
@@ -249,13 +222,7 @@
         },
         "purpose": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         }
       }
     },
@@ -284,13 +251,7 @@
         },
         "purpose": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         }
       }
     },
@@ -380,9 +341,7 @@
         },
         "avatar": {},
         "clearAvatar": {
-          "enumValues": [
-            true
-          ]
+          "enumValues": [true]
         },
         "locale": {
           "maxLength": 128,
@@ -404,12 +363,7 @@
         },
         "method": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "name": {
           "required": true,
@@ -433,10 +387,7 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "arcscope",
-            "companion"
-          ]
+          "enumValues": ["arcscope", "companion"]
         },
         "createdAt": {
           "required": true
@@ -661,9 +612,7 @@
         },
         "protection": {
           "required": true,
-          "enumValues": [
-            1
-          ]
+          "enumValues": [1]
         },
         "revision": {
           "required": true
@@ -687,11 +636,7 @@
         },
         "trust": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         },
         "remoteEnabled": {
           "required": true
@@ -713,10 +658,7 @@
           "required": true,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
-          "enumValues": [
-            "arcscope",
-            "companion"
-          ]
+          "enumValues": ["arcscope", "companion"]
         },
         "version": {
           "required": true,
@@ -763,9 +705,7 @@
           "maxLength": 128
         }
       },
-      "oneofRequired": [
-        "replacement"
-      ]
+      "oneofRequired": ["replacement"]
     },
     "arcforges.publicapi.v1.EnrollmentProof": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.EnrollmentProof",
@@ -785,9 +725,7 @@
           "maxUtf8Bytes": 8192
         }
       },
-      "oneofRequired": [
-        "proof"
-      ]
+      "oneofRequired": ["proof"]
     },
     "arcforges.publicapi.v1.IdentityServiceBeginPasskeyRegistrationRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginPasskeyRegistrationRequest",
@@ -818,9 +756,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCompletePasskeyRegistrationRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompletePasskeyRegistrationRequest",
@@ -853,9 +789,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceBeginAuthenticationRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginAuthenticationRequest",
@@ -865,12 +799,7 @@
         },
         "method": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "loginHint": {
           "maxLength": 320,
@@ -885,13 +814,7 @@
         },
         "purpose": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         }
       }
     },
@@ -912,9 +835,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCompleteAuthenticationRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteAuthenticationRequest",
@@ -947,9 +868,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRequestEmailCodeRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestEmailCodeRequest",
@@ -959,13 +878,7 @@
         },
         "purpose": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         },
         "email": {
           "required": true,
@@ -994,9 +907,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRedeemEmailCodeRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRedeemEmailCodeRequest",
@@ -1031,9 +942,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRefreshSessionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRefreshSessionRequest",
@@ -1068,9 +977,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRevokeSessionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeSessionRequest",
@@ -1100,9 +1007,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRevokeAllSessionsRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeAllSessionsRequest",
@@ -1129,9 +1034,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceListAuthIdentitiesRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthIdentitiesRequest",
@@ -1166,9 +1069,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRemoveAuthIdentityRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRemoveAuthIdentityRequest",
@@ -1198,9 +1099,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceBeginStepUpRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginStepUpRequest",
@@ -1215,12 +1114,7 @@
         },
         "method": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "targetHash": {
           "maxLength": 64,
@@ -1245,9 +1139,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCompleteStepUpRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteStepUpRequest",
@@ -1280,9 +1172,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceBeginRecoveryRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginRecoveryRequest",
@@ -1296,12 +1186,7 @@
         },
         "method": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4
-          ]
+          "enumValues": [1, 2, 3, 4]
         },
         "accountHint": {
           "maxLength": 128,
@@ -1329,9 +1214,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCompleteRecoveryRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteRecoveryRequest",
@@ -1367,9 +1250,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRequestAccountDeletionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestAccountDeletionRequest",
@@ -1396,9 +1277,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCancelAccountDeletionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCancelAccountDeletionRequest",
@@ -1428,9 +1307,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceGetProfileRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetProfileRequest",
@@ -1458,9 +1335,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceUpdateProfileRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceUpdateProfileRequest",
@@ -1490,9 +1365,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceListAuthProvidersRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthProvidersRequest",
@@ -1521,9 +1394,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceBeginEmailChangeRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginEmailChangeRequest",
@@ -1555,9 +1426,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCompleteEmailChangeRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEmailChangeRequest",
@@ -1592,9 +1461,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRenameAuthIdentityRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRenameAuthIdentityRequest",
@@ -1628,9 +1495,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceGenerateRecoveryCodesRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGenerateRecoveryCodesRequest",
@@ -1657,9 +1522,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceListSessionsRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSessionsRequest",
@@ -1694,9 +1557,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceListApiTokensRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListApiTokensRequest",
@@ -1731,9 +1592,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCreateApiTokenRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCreateApiTokenRequest",
@@ -1785,9 +1644,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceRevokeApiTokenRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeApiTokenRequest",
@@ -1817,9 +1674,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceListSecurityActivityRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSecurityActivityRequest",
@@ -1854,9 +1709,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceGetAccountDeletionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetAccountDeletionRequest",
@@ -1882,9 +1735,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceChangePasswordRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceChangePasswordRequest",
@@ -1917,9 +1768,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.IdentityServiceCompleteEnrollmentRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEnrollmentRequest",
@@ -1956,9 +1805,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServiceGetHealthRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetHealthRequest",
@@ -1986,9 +1833,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServiceRequestDataDeletionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceRequestDataDeletionRequest",
@@ -2023,9 +1868,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServicePreviewDataDeletionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServicePreviewDataDeletionRequest",
@@ -2053,9 +1896,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServiceGetDataDeletionRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetDataDeletionRequest",
@@ -2086,9 +1927,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServiceListRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceListRequest",
@@ -2123,9 +1962,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServiceGetRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetRequest",
@@ -2156,9 +1993,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.WorkspaceServiceUpdateSettingsRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceUpdateSettingsRequest",
@@ -2170,9 +2005,7 @@
           "maxLength": 256
         },
         "protection": {
-          "enumValues": [
-            1
-          ]
+          "enumValues": [1]
         }
       }
     },
@@ -2193,9 +2026,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceSignOutRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSignOutRequest",
@@ -2225,9 +2056,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceGetRemotePolicyRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetRemotePolicyRequest",
@@ -2258,9 +2087,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceSetRemotePolicyRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemotePolicyRequest",
@@ -2290,9 +2117,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceRegisterRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRegisterRequest",
@@ -2309,7 +2134,8 @@
         "product": {
           "required": true,
           "maxLength": 128,
-          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["arcscope", "companion"]
         },
         "platform": {
           "required": true,
@@ -2344,9 +2170,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceListRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceListRequest",
@@ -2381,9 +2205,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceRenameRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRenameRequest",
@@ -2417,9 +2239,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceSetTrustRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetTrustRequest",
@@ -2432,11 +2252,7 @@
         },
         "trust": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         }
       }
     },
@@ -2457,9 +2273,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceSetRemoteEnabledRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemoteEnabledRequest",
@@ -2492,9 +2306,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceRevokeRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRevokeRequest",
@@ -2524,9 +2336,7 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
     "arcforges.publicapi.v1.DeviceServiceGetCapabilitiesRequest": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetCapabilitiesRequest",
@@ -2564,9 +2374,7 @@
         "error": {},
         "encodedBody": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     }
   }
 }
