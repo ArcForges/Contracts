@@ -3512,7 +3512,7 @@ function checkAccountProfile(input: unknown, context: ValidationContext): boolea
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 320) return false;
-    if ((new RegExp("^[!-~]+@[!-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if ((new RegExp("^[!-?A-~]+@[!-?A-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.locale === undefined) return false;
   if (value.locale !== undefined) {
@@ -12228,7 +12228,7 @@ function checkIdentityServiceBeginAuthenticationRequest(input: unknown, context:
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 320) return false;
-    if ((new RegExp("^[!-~]+@[!-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if ((new RegExp("^[!-?A-~]+@[!-?A-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.installation === undefined) return false;
   if (value.installation !== undefined) {
@@ -12307,7 +12307,7 @@ function checkIdentityServiceBeginEmailChangeRequest(input: unknown, context: Va
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 320) return false;
-    if ((new RegExp("^[!-~]+@[!-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if ((new RegExp("^[!-?A-~]+@[!-?A-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -12425,7 +12425,7 @@ function checkIdentityServiceBeginRecoveryRequest(input: unknown, context: Valid
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 320) return false;
-    if ((new RegExp("^[!-~]+@[!-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if ((new RegExp("^[!-?A-~]+@[!-?A-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.method === undefined) return false;
   if (value.method !== undefined) {
@@ -13992,7 +13992,7 @@ function checkIdentityServiceRequestEmailCodeRequest(input: unknown, context: Va
     if (typeof fieldValue !== "string") return false;
     if (!validUnicode(fieldValue)) return false;
     if ([...fieldValue].length > 320) return false;
-    if ((new RegExp("^[!-~]+@[!-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if ((new RegExp("^[!-?A-~]+@[!-?A-~]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
   if (value.flowId === undefined) return false;
   if (value.flowId !== undefined) {

@@ -88,7 +88,7 @@ function check2(value: unknown): boolean {
   if (typeof value !== 'string' || !validText(value)) return false;
   if ([...value].length < 3) return false;
   if ([...value].length > 320) return false;
-  if ((new RegExp("^[\\x21-\\x7E]+@[\\x21-\\x7E]+$", 'u')).exec(value)?.[0] !== value) return false;
+  if ((new RegExp("^[\\x21-\\x3F\\x41-\\x7E]+@[\\x21-\\x3F\\x41-\\x7E]+$", 'u')).exec(value)?.[0] !== value) return false;
   return true;
 }
 function check3(value: unknown): boolean {

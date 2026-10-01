@@ -784,7 +784,7 @@
           "type": "string",
           "minLength": 3,
           "maxLength": 320,
-          "pattern": "^[\\x21-\\x7E]+@[\\x21-\\x7E]+$"
+          "pattern": "^[\\x21-\\x3F\\x41-\\x7E]+@[\\x21-\\x3F\\x41-\\x7E]+$"
         },
         "installation": {
           "$ref": "#/$defs/BrowserInstallationClaim"
@@ -856,7 +856,7 @@
           "type": "string",
           "minLength": 3,
           "maxLength": 320,
-          "pattern": "^[\\x21-\\x7E]+@[\\x21-\\x7E]+$"
+          "pattern": "^[\\x21-\\x3F\\x41-\\x7E]+@[\\x21-\\x3F\\x41-\\x7E]+$"
         },
         "method": {
           "type": "string",

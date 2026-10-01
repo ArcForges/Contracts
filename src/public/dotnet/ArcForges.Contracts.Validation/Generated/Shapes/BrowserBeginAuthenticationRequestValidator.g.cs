@@ -105,7 +105,7 @@ public static class BrowserBeginAuthenticationRequestJson
         if (!ValidText(text)) return false;
         if (ScalarLength(text) < 3) return false;
         if (ScalarLength(text) > 320) return false;
-        if (!Matches(text, "^[\\x21-\\x7E]+@[\\x21-\\x7E]+$")) return false;
+        if (!Matches(text, "^[\\x21-\\x3F\\x41-\\x7E]+@[\\x21-\\x3F\\x41-\\x7E]+$")) return false;
         return true;
     }
     private static bool Check3(global::System.Text.Json.JsonElement value)

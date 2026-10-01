@@ -197,7 +197,7 @@ test("CON.07 form-urlencoded roots keep the specified 16 KiB bound and refuse no
     "malformed",
   );
   assert.equal(
-    api.tryParseNativeTokenRequestForm(new TextEncoder().encode(form.replace("&", "\n"))).failure,
+    api.tryParseNativeTokenRequestForm(new TextEncoder().encode(form.replaceAll("&", "\n"))).failure,
     "malformed",
   );
   assert.throws(() => api.parseNativeTokenRequestForm("grant_type=authorization_code"), {

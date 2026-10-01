@@ -3528,7 +3528,7 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.PrimaryEmail)) return false;
             if (ScalarLength(value.PrimaryEmail) > 320) return false;
-            if (!Matches(value.PrimaryEmail, "^[!-~]+@[!-~]+$")) return false;
+            if (!Matches(value.PrimaryEmail, "^[!-?A-~]+@[!-?A-~]+$")) return false;
         }
         if (!value.HasLocale) return false;
         if (value.HasLocale)
@@ -10820,7 +10820,7 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.LoginHint)) return false;
             if (ScalarLength(value.LoginHint) > 320) return false;
-            if (!Matches(value.LoginHint, "^[!-~]+@[!-~]+$")) return false;
+            if (!Matches(value.LoginHint, "^[!-?A-~]+@[!-?A-~]+$")) return false;
         }
         if (value.Installation is null) return false;
         if (!Check(value.Installation, context)) return false;
@@ -10884,7 +10884,7 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.Email)) return false;
             if (ScalarLength(value.Email) > 320) return false;
-            if (!Matches(value.Email, "^[!-~]+@[!-~]+$")) return false;
+            if (!Matches(value.Email, "^[!-?A-~]+@[!-?A-~]+$")) return false;
         }
         return true;
         }
@@ -10992,7 +10992,7 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.Email)) return false;
             if (ScalarLength(value.Email) > 320) return false;
-            if (!Matches(value.Email, "^[!-~]+@[!-~]+$")) return false;
+            if (!Matches(value.Email, "^[!-?A-~]+@[!-?A-~]+$")) return false;
         }
         if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
         if (value.HasAccountHint)
@@ -12337,7 +12337,7 @@ public static class ContractShapeValidation
         {
             if (!ValidUnicode(value.Email)) return false;
             if (ScalarLength(value.Email) > 320) return false;
-            if (!Matches(value.Email, "^[!-~]+@[!-~]+$")) return false;
+            if (!Matches(value.Email, "^[!-?A-~]+@[!-?A-~]+$")) return false;
         }
         if (value.FlowId is null) return false;
         if (!Check(value.FlowId, context)) return false;

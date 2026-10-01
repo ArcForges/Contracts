@@ -316,7 +316,7 @@
         "avatar": {},
         "primaryEmail": {
           "maxLength": 320,
-          "pattern": "^[!-~]+@[!-~]+$"
+          "pattern": "^[!-?A-~]+@[!-?A-~]+$"
         },
         "locale": {
           "required": true,
@@ -803,7 +803,7 @@
         },
         "loginHint": {
           "maxLength": 320,
-          "pattern": "^[!-~]+@[!-~]+$"
+          "pattern": "^[!-?A-~]+@[!-?A-~]+$"
         },
         "installation": {
           "required": true
@@ -883,7 +883,7 @@
         "email": {
           "required": true,
           "maxLength": 320,
-          "pattern": "^[!-~]+@[!-~]+$"
+          "pattern": "^[!-?A-~]+@[!-?A-~]+$"
         },
         "flowId": {
           "required": true
@@ -1182,7 +1182,7 @@
         },
         "email": {
           "maxLength": 320,
-          "pattern": "^[!-~]+@[!-~]+$"
+          "pattern": "^[!-?A-~]+@[!-?A-~]+$"
         },
         "method": {
           "required": true,
@@ -1405,7 +1405,7 @@
         "email": {
           "required": true,
           "maxLength": 320,
-          "pattern": "^[!-~]+@[!-~]+$"
+          "pattern": "^[!-?A-~]+@[!-?A-~]+$"
         }
       }
     },
