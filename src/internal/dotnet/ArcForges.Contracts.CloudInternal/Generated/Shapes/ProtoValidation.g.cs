@@ -1011,7 +1011,11 @@ public static class ContractShapeValidation
         {
         if (value.SubmissionId is null) return false;
         if (!Check(value.SubmissionId, context)) return false;
-        if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        if (!value.HasDecision) return false;
+        if (value.HasDecision)
+        {
+            if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        }
         if (!value.HasReason) return false;
         if (value.HasReason)
         {
@@ -2801,7 +2805,11 @@ public static class ContractShapeValidation
         if (!Check(value.Meta, context)) return false;
         if (value.SubmissionId is null) return false;
         if (!Check(value.SubmissionId, context)) return false;
-        if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        if (!value.HasDecision) return false;
+        if (value.HasDecision)
+        {
+            if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        }
         if (!value.HasReason) return false;
         if (value.HasReason)
         {

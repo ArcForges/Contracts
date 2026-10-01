@@ -349,7 +349,7 @@ internal static class OperatorCases
                     break;
             }
             if (!repeated && field.FieldType is not FieldType.Message && field.RealContainingOneof is null)
-                Require(field.Proto.Proto3Optional, label + " explicit presence");
+                Require(field.HasPresence, label + " explicit presence");
         }
     }
 

@@ -169,7 +169,7 @@ message OperatorRefundInput {
 
 message OperatorCatalogReviewInput {
   arcforges.foundation.v1.Id submission_id = 1 [json_name = "submissionId"];
-  arcforges.catalog.v1.CatalogReviewDecision decision = 2 [json_name = "decision"];
+  optional arcforges.catalog.v1.CatalogReviewDecision decision = 2 [json_name = "decision"];
   optional string reason = 3 [json_name = "reason"];
   optional string evidence = 4 [json_name = "evidence"];
 }
@@ -802,7 +802,7 @@ message OperatorServiceSetCaseStateResponse {
 message OperatorServiceReviewCatalogSubmissionRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   arcforges.foundation.v1.Id submission_id = 10 [json_name = "submissionId"];
-  arcforges.catalog.v1.CatalogReviewDecision decision = 11 [json_name = "decision"];
+  optional arcforges.catalog.v1.CatalogReviewDecision decision = 11 [json_name = "decision"];
   optional string reason = 12 [json_name = "reason"];
   optional string evidence = 13 [json_name = "evidence"];
   OperatorCallContext context = 100 [json_name = "context"];

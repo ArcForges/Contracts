@@ -597,14 +597,8 @@ test("CON.14 AdjustCredit delta is sint64 ZigZag on the wire", () => {
   const schema = operatorClient.OperatorAdjustCreditInputSchema;
   const field = schema.fields.find((candidate) => candidate.number === 2);
   assert.equal(field.scalar, ScalarType.SINT64);
-  const message = fromJson(schema, {
-    lotId: { value: "ESIzRFVmd4iZqrvM3e7/AA==" },
-    deltaMicro: "-1",
-    adjustmentId: { value: "ESIzRFVmd4iZqrvM3e7/AA==" },
-  });
-  const bytes = toBinary(schema, message);
-  // field 2, varint, ZigZag(-1) = 1 (an int64 encoding would be a 10-byte varint ending in 0x01).
-  const index = bytes.indexOf(0x10);
-  assert.deepEqual([...bytes.slice(index, index + 2)], [0x10, 0x01]);
+  const bytes = toBinary(schema, fromJson(schema, { deltaMicro: "-1" }));
+  // field 2, varint, ZigZag(-1) = 1; an int64 encoding would be a 10-byte two's-complement varint.
+  assert.deepEqual([...bytes], [0x10, 0x01]);
   assert.equal(fromBinary(schema, bytes).deltaMicro, -1n);
 });

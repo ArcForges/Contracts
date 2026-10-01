@@ -1,22 +1,11 @@
 {
   "schemaVersion": "con-14-operator-fixtures.v1",
   "license": "Apache-2.0",
-  "authority": [
-    "Registry04 §9.1",
-    "Registry04 §9.2",
-    "Plan CON.14 validation"
-  ],
+  "authority": ["Registry04 §9.1", "Registry04 §9.2", "Plan CON.14 validation"],
   "evidenceClass": "Independent declarative schema/protocol expectations only; no owner/runtime authorization, persistence, transaction, concurrency, identity-provider, or external-provider behavior is executed.",
   "protocolExpectations": {
     "proposalLifetimeMinutes": 15,
-    "proposalStates": [
-      "pending",
-      "approved",
-      "rejected",
-      "expired",
-      "invalidated",
-      "executed"
-    ],
+    "proposalStates": ["pending", "approved", "rejected", "expired", "invalidated", "executed"],
     "approvalBinds": [
       "distinct eligible operator identity",
       "exact proposal hash",
@@ -79,11 +68,7 @@
         "9 expiresAt Instant?",
         "10 revision Revision"
       ],
-      "OperatorCallContext": [
-        "1 caseId Id",
-        "2 incidentId Id",
-        "3 purpose Text"
-      ],
+      "OperatorCallContext": ["1 caseId Id", "2 incidentId Id", "3 purpose Text"],
       "OperatorProposalRef": [
         "1 proposalId Id",
         "2 proposalHash Hash",
@@ -99,10 +84,7 @@
         "7 source OperatorGrantSource",
         "8 kind OperatorGrantKind"
       ],
-      "OperatorRevokeGrantInput": [
-        "1 grantId Id",
-        "2 revocationId Id"
-      ],
+      "OperatorRevokeGrantInput": ["1 grantId Id", "2 revocationId Id"],
       "OperatorIssueCreditInput": [
         "1 lotId Id",
         "2 workspaceId Id",
@@ -132,12 +114,7 @@
         "3 reason ReasonCode",
         "4 evidence Text"
       ],
-      "OperatorAppealInput": [
-        "1 appealId Id",
-        "2 actionId Id",
-        "3 decision Key",
-        "4 reason Text"
-      ],
+      "OperatorAppealInput": ["1 appealId Id", "2 actionId Id", "3 decision Key", "4 reason Text"],
       "OperatorKillInput": [
         "1 actionId Id",
         "2 mode Key",
@@ -200,56 +177,15 @@
       ]
     },
     "methods": {
-      "ReviewCatalogSubmission": {
-        "operationId": "catalog.review",
-        "request": [
-          "10 submissionId Id",
-          "11 decision CatalogReviewDecision",
-          "12 reason ReasonCode",
-          "13 evidence Text",
-          "100 context OperatorCallContext",
-          "101 proposal OperatorProposalRef"
-        ],
-        "value": [
-          "10 submission CatalogSubmissionView"
-        ]
-      },
-      "RevokeCatalogVersion": {
-        "operationId": "catalog.revoke",
-        "request": [
-          "10 packageId Key",
-          "11 version Key",
-          "12 reason ReasonCode",
-          "13 evidence Text",
-          "100 context OperatorCallContext",
-          "101 proposal OperatorProposalRef"
-        ],
-        "value": [
-          "10 version CatalogVersionView"
-        ]
-      },
       "ListCases": {
         "operationId": "operator.listCases",
-        "request": [
-          "10 page PageRequest",
-          "11 state Key?",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 cases SupportCase[]",
-          "11 page PageState"
-        ]
+        "request": ["10 page PageRequest", "11 state Key?", "100 context OperatorCallContext"],
+        "value": ["10 cases SupportCase[]", "11 page PageState"]
       },
       "GetCase": {
         "operationId": "operator.getCase",
-        "request": [
-          "10 caseId Id",
-          "100 context OperatorCallContext",
-          "102 messages PageRequest?"
-        ],
-        "value": [
-          "10 case SupportCase"
-        ]
+        "request": ["10 caseId Id", "100 context OperatorCallContext", "102 messages PageRequest?"],
+        "value": ["10 case SupportCase"]
       },
       "RequestAccess": {
         "operationId": "operator.requestAccess",
@@ -262,9 +198,7 @@
           "15 until Instant",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 access OperatorAccess"
-        ]
+        "value": ["10 access OperatorAccess"]
       },
       "ApproveAccess": {
         "operationId": "operator.approveAccess",
@@ -274,30 +208,17 @@
           "12 approve bool",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 access OperatorAccess"
-        ]
+        "value": ["10 access OperatorAccess"]
       },
       "EndAccess": {
         "operationId": "operator.endAccess",
-        "request": [
-          "10 accessId Id",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 receipt Receipt"
-        ]
+        "request": ["10 accessId Id", "100 context OperatorCallContext"],
+        "value": ["10 receipt Receipt"]
       },
       "ReadDiagnostic": {
         "operationId": "operator.readDiagnostic",
-        "request": [
-          "10 accessId Id",
-          "11 resourceId Id",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 ticket TransferTicket"
-        ]
+        "request": ["10 accessId Id", "11 resourceId Id", "100 context OperatorCallContext"],
+        "value": ["10 ticket TransferTicket"]
       },
       "ProposeEnforcement": {
         "operationId": "operator.proposeEnforcement",
@@ -310,9 +231,7 @@
           "15 until Instant?",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 action OperatorAction"
-        ]
+        "value": ["10 action OperatorAction"]
       },
       "DecideEnforcement": {
         "operationId": "operator.decideEnforcement",
@@ -322,20 +241,12 @@
           "12 approve bool",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 action OperatorAction"
-        ]
+        "value": ["10 action OperatorAction"]
       },
       "GetAppeal": {
         "operationId": "operator.getAppeal",
-        "request": [
-          "10 appealId Id",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 case SupportCase",
-          "11 action OperatorAction"
-        ]
+        "request": ["10 appealId Id", "100 context OperatorCallContext"],
+        "value": ["10 case SupportCase", "11 action OperatorAction"]
       },
       "ResolveAppeal": {
         "operationId": "operator.resolveAppeal",
@@ -347,9 +258,7 @@
           "100 context OperatorCallContext",
           "101 proposal OperatorProposalRef"
         ],
-        "value": [
-          "10 action OperatorAction"
-        ]
+        "value": ["10 action OperatorAction"]
       },
       "StageConfiguration": {
         "operationId": "operator.stageConfiguration",
@@ -359,19 +268,12 @@
           "12 document ConfigurationDocument",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 validation ConfigValidation"
-        ]
+        "value": ["10 validation ConfigValidation"]
       },
       "ValidateConfiguration": {
         "operationId": "operator.validateConfiguration",
-        "request": [
-          "10 configId Id",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 validation ConfigValidation"
-        ]
+        "request": ["10 configId Id", "100 context OperatorCallContext"],
+        "value": ["10 validation ConfigValidation"]
       },
       "ApproveConfiguration": {
         "operationId": "operator.approveConfiguration",
@@ -382,10 +284,7 @@
           "13 reason Text",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 approvalId Id",
-          "11 expiresAt Instant"
-        ]
+        "value": ["10 approvalId Id", "11 expiresAt Instant"]
       },
       "ActivateConfiguration": {
         "operationId": "operator.activateConfiguration",
@@ -395,20 +294,12 @@
           "12 secondApprovalId Id",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 activeVersion Key"
-        ]
+        "value": ["10 activeVersion Key"]
       },
       "GetConfiguration": {
         "operationId": "operator.getConfiguration",
-        "request": [
-          "10 configId Id?",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 document ConfigurationDocument",
-          "11 validation ConfigValidation"
-        ]
+        "request": ["10 configId Id?", "100 context OperatorCallContext"],
+        "value": ["10 document ConfigurationDocument", "11 validation ConfigValidation"]
       },
       "SetKillSwitch": {
         "operationId": "operator.setKillSwitch",
@@ -421,9 +312,7 @@
           "100 context OperatorCallContext",
           "101 proposal OperatorProposalRef"
         ],
-        "value": [
-          "10 action OperatorAction"
-        ]
+        "value": ["10 action OperatorAction"]
       },
       "StartBreakGlass": {
         "operationId": "operator.startBreakGlass",
@@ -434,20 +323,12 @@
           "13 reason Text",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 access OperatorAccess"
-        ]
+        "value": ["10 access OperatorAccess"]
       },
       "EndBreakGlass": {
         "operationId": "operator.endBreakGlass",
-        "request": [
-          "10 accessId Id",
-          "11 outcome Text",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 receipt Receipt"
-        ]
+        "request": ["10 accessId Id", "11 outcome Text", "100 context OperatorCallContext"],
+        "value": ["10 receipt Receipt"]
       },
       "ProposeAction": {
         "operationId": "operator.proposeAction",
@@ -458,9 +339,7 @@
           "13 reason Text",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 proposal OperatorProposal"
-        ]
+        "value": ["10 proposal OperatorProposal"]
       },
       "ApproveAction": {
         "operationId": "operator.approveAction",
@@ -471,85 +350,42 @@
           "13 reason Text",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 proposal OperatorProposal"
-        ]
+        "value": ["10 proposal OperatorProposal"]
       },
       "GetProposal": {
         "operationId": "operator.getProposal",
-        "request": [
-          "10 proposalId Id",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 proposal OperatorProposal",
-          "11 ownerResult OperatorResult?"
-        ]
+        "request": ["10 proposalId Id", "100 context OperatorCallContext"],
+        "value": ["10 proposal OperatorProposal", "11 ownerResult OperatorResult?"]
       },
       "GrantEntitlement": {
         "operationId": "operator.grantEntitlement",
-        "request": [
-          "10 proposal OperatorProposalRef",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 grant Grant",
-          "11 receipt Receipt"
-        ]
+        "request": ["10 proposal OperatorProposalRef", "100 context OperatorCallContext"],
+        "value": ["10 grant Grant", "11 receipt Receipt"]
       },
       "RevokeEntitlement": {
         "operationId": "operator.revokeEntitlement",
-        "request": [
-          "10 proposal OperatorProposalRef",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 grant Grant",
-          "11 receipt Receipt"
-        ]
+        "request": ["10 proposal OperatorProposalRef", "100 context OperatorCallContext"],
+        "value": ["10 grant Grant", "11 receipt Receipt"]
       },
       "IssueCompensation": {
         "operationId": "operator.issueCompensation",
-        "request": [
-          "10 proposal OperatorProposalRef",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 lot CreditLot",
-          "11 receipt Receipt"
-        ]
+        "request": ["10 proposal OperatorProposalRef", "100 context OperatorCallContext"],
+        "value": ["10 lot CreditLot", "11 receipt Receipt"]
       },
       "AdjustCompensation": {
         "operationId": "operator.adjustCompensation",
-        "request": [
-          "10 proposal OperatorProposalRef",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 lot CreditLot",
-          "11 receipt Receipt"
-        ]
+        "request": ["10 proposal OperatorProposalRef", "100 context OperatorCallContext"],
+        "value": ["10 lot CreditLot", "11 receipt Receipt"]
       },
       "DecideRefund": {
         "operationId": "operator.decideRefund",
-        "request": [
-          "10 proposal OperatorProposalRef",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 refund RefundView",
-          "11 receipt Receipt"
-        ]
+        "request": ["10 proposal OperatorProposalRef", "100 context OperatorCallContext"],
+        "value": ["10 refund RefundView", "11 receipt Receipt"]
       },
       "GetCatalogSubmission": {
         "operationId": "operator.getCatalogSubmission",
-        "request": [
-          "10 submissionId Id",
-          "100 context OperatorCallContext"
-        ],
-        "value": [
-          "10 submission CatalogSubmissionView"
-        ]
+        "request": ["10 submissionId Id", "100 context OperatorCallContext"],
+        "value": ["10 submission CatalogSubmissionView"]
       },
       "ReplyCase": {
         "operationId": "operator.replyCase",
@@ -559,9 +395,7 @@
           "12 text Text",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 case SupportCase"
-        ]
+        "value": ["10 case SupportCase"]
       },
       "SetCaseState": {
         "operationId": "operator.setCaseState",
@@ -571,9 +405,31 @@
           "12 reason Text",
           "100 context OperatorCallContext"
         ],
-        "value": [
-          "10 case SupportCase"
-        ]
+        "value": ["10 case SupportCase"]
+      },
+      "ReviewCatalogSubmission": {
+        "operationId": "catalog.review",
+        "request": [
+          "10 submissionId Id",
+          "11 decision CatalogReviewDecision",
+          "12 reason ReasonCode",
+          "13 evidence Text",
+          "100 context OperatorCallContext",
+          "101 proposal OperatorProposalRef"
+        ],
+        "value": ["10 submission CatalogSubmissionView"]
+      },
+      "RevokeCatalogVersion": {
+        "operationId": "catalog.revoke",
+        "request": [
+          "10 packageId Key",
+          "11 version Key",
+          "12 reason ReasonCode",
+          "13 evidence Text",
+          "100 context OperatorCallContext",
+          "101 proposal OperatorProposalRef"
+        ],
+        "value": ["10 version CatalogVersionView"]
       }
     },
     "enums": {
@@ -585,26 +441,10 @@
         "invalidated",
         "executed"
       ],
-      "OperatorRefundDecision": [
-        "approve",
-        "reject"
-      ],
-      "OperatorGrantSource": [
-        "administrative",
-        "compensation"
-      ],
-      "OperatorGrantKind": [
-        "capability",
-        "quota",
-        "allowance"
-      ],
-      "SupportCaseState": [
-        "open",
-        "inProgress",
-        "awaitingUser",
-        "resolved",
-        "closed"
-      ]
+      "OperatorRefundDecision": ["approve", "reject"],
+      "OperatorGrantSource": ["administrative", "compensation"],
+      "OperatorGrantKind": ["capability", "quota", "allowance"],
+      "SupportCaseState": ["open", "inProgress", "awaitingUser", "resolved", "closed"]
     }
   },
   "operationMatrix": [
@@ -616,12 +456,7 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
     },
     {
       "operationId": "operator.getCase",
@@ -631,12 +466,7 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
     },
     {
       "operationId": "operator.requestAccess",
@@ -646,11 +476,7 @@
       "approval": "foreground",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety"]
     },
     {
       "operationId": "operator.approveAccess",
@@ -660,10 +486,7 @@
       "approval": "secondOperatorAndOwnerConsent",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "recoverySpecialist",
-        "security"
-      ]
+      "roles": ["recoverySpecialist", "security"]
     },
     {
       "operationId": "operator.endAccess",
@@ -673,12 +496,7 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
     },
     {
       "operationId": "operator.readDiagnostic",
@@ -688,11 +506,7 @@
       "approval": "activeAccessGrant",
       "stepUp": true,
       "egress": "diagnosticToOperator",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety"]
     },
     {
       "operationId": "operator.proposeEnforcement",
@@ -702,9 +516,7 @@
       "approval": "foreground",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "trustSafety"
-      ]
+      "roles": ["trustSafety"]
     },
     {
       "operationId": "operator.decideEnforcement",
@@ -714,9 +526,7 @@
       "approval": "secondOperator",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "security"
-      ]
+      "roles": ["security"]
     },
     {
       "operationId": "operator.getAppeal",
@@ -726,10 +536,7 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["trustSafety", "security"]
     },
     {
       "operationId": "operator.resolveAppeal",
@@ -739,9 +546,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "trustSafety"
-      ]
+      "roles": ["trustSafety"]
     },
     {
       "operationId": "operator.stageConfiguration",
@@ -751,9 +556,7 @@
       "approval": "foreground",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "operations"
-      ]
+      "roles": ["operations"]
     },
     {
       "operationId": "operator.validateConfiguration",
@@ -763,9 +566,7 @@
       "approval": "none",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "operations"
-      ]
+      "roles": ["operations"]
     },
     {
       "operationId": "operator.approveConfiguration",
@@ -775,9 +576,7 @@
       "approval": "secondOperator",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "security"
-      ]
+      "roles": ["security"]
     },
     {
       "operationId": "operator.activateConfiguration",
@@ -787,9 +586,7 @@
       "approval": "secondOperatorReceipt",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "operations"
-      ]
+      "roles": ["operations"]
     },
     {
       "operationId": "operator.getConfiguration",
@@ -799,10 +596,7 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "operations",
-        "security"
-      ]
+      "roles": ["operations", "security"]
     },
     {
       "operationId": "operator.setKillSwitch",
@@ -812,9 +606,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "operations"
-      ]
+      "roles": ["operations"]
     },
     {
       "operationId": "operator.startBreakGlass",
@@ -824,9 +616,7 @@
       "approval": "alarmedIncident",
       "stepUp": true,
       "egress": "caseBoundRecovery",
-      "roles": [
-        "security"
-      ]
+      "roles": ["security"]
     },
     {
       "operationId": "operator.endBreakGlass",
@@ -836,9 +626,7 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "security"
-      ]
+      "roles": ["security"]
     },
     {
       "operationId": "operator.proposeAction",
@@ -881,10 +669,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist"]
     },
     {
       "operationId": "operator.revokeEntitlement",
@@ -894,10 +679,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist"]
     },
     {
       "operationId": "operator.issueCompensation",
@@ -907,9 +689,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "customerSupport"
-      ]
+      "roles": ["customerSupport"]
     },
     {
       "operationId": "operator.adjustCompensation",
@@ -919,9 +699,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "customerSupport"
-      ]
+      "roles": ["customerSupport"]
     },
     {
       "operationId": "operator.decideRefund",
@@ -931,9 +709,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "paymentProvider",
-      "roles": [
-        "customerSupport"
-      ]
+      "roles": ["customerSupport"]
     },
     {
       "operationId": "operator.getCatalogSubmission",
@@ -943,10 +719,7 @@
       "approval": "none",
       "stepUp": false,
       "egress": "none",
-      "roles": [
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["trustSafety", "security"]
     },
     {
       "operationId": "operator.replyCase",
@@ -956,12 +729,7 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "caseOwnerNotification",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
     },
     {
       "operationId": "operator.setCaseState",
@@ -971,12 +739,7 @@
       "approval": "foreground",
       "stepUp": false,
       "egress": "caseOwnerNotification",
-      "roles": [
-        "customerSupport",
-        "recoverySpecialist",
-        "trustSafety",
-        "security"
-      ]
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
     },
     {
       "operationId": "catalog.review",
@@ -986,9 +749,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "trustSafety"
-      ]
+      "roles": ["trustSafety"]
     },
     {
       "operationId": "catalog.revoke",
@@ -998,9 +759,7 @@
       "approval": "approvedProposal",
       "stepUp": true,
       "egress": "none",
-      "roles": [
-        "trustSafety"
-      ]
+      "roles": ["trustSafety"]
     }
   ],
   "mutationVectors": [
@@ -1008,82 +767,50 @@
       "id": "mutation-grant",
       "variant": "grant",
       "executingOperation": "operator.grantEntitlement",
-      "proposerRoles": [
-        "customerSupport",
-        "recoverySpecialist"
-      ],
+      "proposerRoles": ["customerSupport", "recoverySpecialist"],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "absent grant=0 plus captured configuration/profile hash",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-revoke-grant",
       "variant": "revokeGrant",
       "executingOperation": "operator.revokeEntitlement",
-      "proposerRoles": [
-        "customerSupport",
-        "recoverySpecialist"
-      ],
+      "proposerRoles": ["customerSupport", "recoverySpecialist"],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "entitlement snapshot version and exact unrevoked grant identity",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-issue-credit",
       "variant": "issueCredit",
       "executingOperation": "operator.issueCompensation",
-      "proposerRoles": [
-        "customerSupport"
-      ],
+      "proposerRoles": ["customerSupport"],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "absent lot=0 plus captured configuration hash",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-adjust-credit",
       "variant": "adjustCredit",
       "executingOperation": "operator.adjustCompensation",
-      "proposerRoles": [
-        "customerSupport"
-      ],
+      "proposerRoles": ["customerSupport"],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "credit_lot.rev and current held/remaining balances",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-refund",
       "variant": "refund",
       "executingOperation": "operator.decideRefund",
-      "proposerRoles": [
-        "customerSupport"
-      ],
+      "proposerRoles": ["customerSupport"],
       "distinctApproverRole": "operations",
       "ownerRevisionGuard": "commerce.refund.rev and current payment/refundable balance",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "ownerEffectBoundary": "approval commits a refund intent/hold/outbox; it does not assert that the provider refunded",
       "runtimeAcceptanceProven": false
     },
@@ -1091,66 +818,42 @@
       "id": "mutation-catalog-review",
       "variant": "catalogReview",
       "executingOperation": "catalog.review",
-      "proposerRoles": [
-        "trustSafety"
-      ],
+      "proposerRoles": ["trustSafety"],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "PackageCatalog submission revision",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-catalog-revoke",
       "variant": "catalogRevoke",
       "executingOperation": "catalog.revoke",
-      "proposerRoles": [
-        "trustSafety"
-      ],
+      "proposerRoles": ["trustSafety"],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "PackageCatalog published version revision",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-appeal",
       "variant": "appeal",
       "executingOperation": "operator.resolveAppeal",
-      "proposerRoles": [
-        "trustSafety"
-      ],
+      "proposerRoles": ["trustSafety"],
       "distinctApproverRole": "security",
       "proposerMustDifferFrom": "original enforcement proposer",
       "approverMustDifferFrom": "original enforcement approver",
       "ownerRevisionGuard": "enforcement action revision and pending appeal",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     },
     {
       "id": "mutation-kill-switch",
       "variant": "kill",
       "executingOperation": "operator.setKillSwitch",
-      "proposerRoles": [
-        "operations"
-      ],
+      "proposerRoles": ["operations"],
       "distinctApproverRole": "security",
       "ownerRevisionGuard": "Policy control revision (0 for absent control)",
-      "expectedProposalLifecycle": [
-        "pending",
-        "approved",
-        "executed"
-      ],
+      "expectedProposalLifecycle": ["pending", "approved", "executed"],
       "runtimeAcceptanceProven": false
     }
   ],
