@@ -2,7 +2,7 @@
   "schemaVersion": "proto-constraints.v1",
   "license": "Apache-2.0",
   "messages": {
-    "ConfigValidation": {
+    "arcforges.operator.v1.ConfigValidation": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.ConfigValidation",
       "fields": {
         "configId": {
@@ -36,7 +36,7 @@
         }
       }
     },
-    "ConfigurationDocument": {
+    "arcforges.operator.v1.ConfigurationDocument": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.ConfigurationDocument",
       "fields": {
         "schemaVersion": {
@@ -66,7 +66,7 @@
         }
       }
     },
-    "OperatorAccess": {
+    "arcforges.operator.v1.OperatorAccess": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAccess",
       "fields": {
         "accessId": {
@@ -102,7 +102,7 @@
         }
       }
     },
-    "OperatorAction": {
+    "arcforges.operator.v1.OperatorAction": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAction",
       "fields": {
         "actionId": {
@@ -143,7 +143,7 @@
         }
       }
     },
-    "OperatorAdjustCreditInput": {
+    "arcforges.operator.v1.OperatorAdjustCreditInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAdjustCreditInput",
       "fields": {
         "lotId": {
@@ -158,7 +158,7 @@
         "newLotId": {}
       }
     },
-    "OperatorAppealInput": {
+    "arcforges.operator.v1.OperatorAppealInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAppealInput",
       "fields": {
         "appealId": {
@@ -179,7 +179,7 @@
         }
       }
     },
-    "OperatorCatalogReviewInput": {
+    "arcforges.operator.v1.OperatorCatalogReviewInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCatalogReviewInput",
       "fields": {
         "submissionId": {
@@ -187,10 +187,7 @@
         },
         "decision": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "reason": {
           "required": true
@@ -201,7 +198,7 @@
         }
       }
     },
-    "OperatorCatalogRevokeInput": {
+    "arcforges.operator.v1.OperatorCatalogRevokeInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCatalogRevokeInput",
       "fields": {
         "packageId": {
@@ -225,7 +222,7 @@
         }
       }
     },
-    "OperatorGrantInput": {
+    "arcforges.operator.v1.OperatorGrantInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorGrantInput",
       "fields": {
         "grantId": {
@@ -254,22 +251,15 @@
         },
         "source": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "kind": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3
-          ]
+          "enumValues": [1, 2, 3]
         }
       }
     },
-    "OperatorIssueCreditInput": {
+    "arcforges.operator.v1.OperatorIssueCreditInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorIssueCreditInput",
       "fields": {
         "lotId": {
@@ -288,7 +278,7 @@
         }
       }
     },
-    "OperatorKillInput": {
+    "arcforges.operator.v1.OperatorKillInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorKillInput",
       "fields": {
         "actionId": {
@@ -310,7 +300,7 @@
         }
       }
     },
-    "OperatorMutation": {
+    "arcforges.operator.v1.OperatorMutation": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorMutation",
       "fields": {
         "grant": {},
@@ -323,11 +313,9 @@
         "appeal": {},
         "kill": {}
       },
-      "oneofRequired": [
-        "mutation"
-      ]
+      "oneofRequired": ["mutation"]
     },
-    "OperatorProposal": {
+    "arcforges.operator.v1.OperatorProposal": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorProposal",
       "fields": {
         "proposalId": {
@@ -374,14 +362,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
+          "enumValues": [1, 2, 3, 4, 5, 6]
         },
         "expiresAt": {
           "required": true
@@ -399,7 +380,7 @@
         }
       }
     },
-    "OperatorProposalRef": {
+    "arcforges.operator.v1.OperatorProposalRef": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorProposalRef",
       "fields": {
         "proposalId": {
@@ -416,7 +397,7 @@
         }
       }
     },
-    "OperatorRefundInput": {
+    "arcforges.operator.v1.OperatorRefundInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorRefundInput",
       "fields": {
         "refundId": {
@@ -424,15 +405,12 @@
         },
         "decision": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "amount": {}
       }
     },
-    "OperatorResult": {
+    "arcforges.operator.v1.OperatorResult": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorResult",
       "fields": {
         "grant": {},
@@ -442,11 +420,9 @@
         "catalogVersion": {},
         "action": {}
       },
-      "oneofRequired": [
-        "result"
-      ]
+      "oneofRequired": ["result"]
     },
-    "OperatorRevokeGrantInput": {
+    "arcforges.operator.v1.OperatorRevokeGrantInput": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorRevokeGrantInput",
       "fields": {
         "grantId": {
@@ -457,7 +433,7 @@
         }
       }
     },
-    "OperatorServiceActivateConfigurationRequest": {
+    "arcforges.operator.v1.OperatorServiceActivateConfigurationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationRequest",
       "fields": {
         "meta": {
@@ -480,7 +456,7 @@
         }
       }
     },
-    "OperatorServiceActivateConfigurationResponse": {
+    "arcforges.operator.v1.OperatorServiceActivateConfigurationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationResponse",
       "fields": {
         "meta": {
@@ -489,11 +465,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceActivateConfigurationValue": {
+    "arcforges.operator.v1.OperatorServiceActivateConfigurationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationValue",
       "fields": {
         "activeVersion": {
@@ -504,7 +478,7 @@
         }
       }
     },
-    "OperatorServiceAdjustCompensationRequest": {
+    "arcforges.operator.v1.OperatorServiceAdjustCompensationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationRequest",
       "fields": {
         "meta": {
@@ -518,7 +492,7 @@
         }
       }
     },
-    "OperatorServiceAdjustCompensationResponse": {
+    "arcforges.operator.v1.OperatorServiceAdjustCompensationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationResponse",
       "fields": {
         "meta": {
@@ -527,11 +501,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceAdjustCompensationValue": {
+    "arcforges.operator.v1.OperatorServiceAdjustCompensationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationValue",
       "fields": {
         "lot": {
@@ -542,7 +514,7 @@
         }
       }
     },
-    "OperatorServiceApproveAccessRequest": {
+    "arcforges.operator.v1.OperatorServiceApproveAccessRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessRequest",
       "fields": {
         "meta": {
@@ -565,7 +537,7 @@
         }
       }
     },
-    "OperatorServiceApproveAccessResponse": {
+    "arcforges.operator.v1.OperatorServiceApproveAccessResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessResponse",
       "fields": {
         "meta": {
@@ -574,11 +546,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceApproveAccessValue": {
+    "arcforges.operator.v1.OperatorServiceApproveAccessValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessValue",
       "fields": {
         "access": {
@@ -586,7 +556,7 @@
         }
       }
     },
-    "OperatorServiceApproveActionRequest": {
+    "arcforges.operator.v1.OperatorServiceApproveActionRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionRequest",
       "fields": {
         "meta": {
@@ -613,7 +583,7 @@
         }
       }
     },
-    "OperatorServiceApproveActionResponse": {
+    "arcforges.operator.v1.OperatorServiceApproveActionResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionResponse",
       "fields": {
         "meta": {
@@ -622,11 +592,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceApproveActionValue": {
+    "arcforges.operator.v1.OperatorServiceApproveActionValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionValue",
       "fields": {
         "proposal": {
@@ -634,7 +602,7 @@
         }
       }
     },
-    "OperatorServiceApproveConfigurationRequest": {
+    "arcforges.operator.v1.OperatorServiceApproveConfigurationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationRequest",
       "fields": {
         "meta": {
@@ -661,7 +629,7 @@
         }
       }
     },
-    "OperatorServiceApproveConfigurationResponse": {
+    "arcforges.operator.v1.OperatorServiceApproveConfigurationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationResponse",
       "fields": {
         "meta": {
@@ -670,11 +638,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceApproveConfigurationValue": {
+    "arcforges.operator.v1.OperatorServiceApproveConfigurationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationValue",
       "fields": {
         "approvalId": {
@@ -685,7 +651,7 @@
         }
       }
     },
-    "OperatorServiceDecideEnforcementRequest": {
+    "arcforges.operator.v1.OperatorServiceDecideEnforcementRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementRequest",
       "fields": {
         "meta": {
@@ -708,7 +674,7 @@
         }
       }
     },
-    "OperatorServiceDecideEnforcementResponse": {
+    "arcforges.operator.v1.OperatorServiceDecideEnforcementResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementResponse",
       "fields": {
         "meta": {
@@ -717,11 +683,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceDecideEnforcementValue": {
+    "arcforges.operator.v1.OperatorServiceDecideEnforcementValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementValue",
       "fields": {
         "action": {
@@ -729,7 +693,7 @@
         }
       }
     },
-    "OperatorServiceDecideRefundRequest": {
+    "arcforges.operator.v1.OperatorServiceDecideRefundRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundRequest",
       "fields": {
         "meta": {
@@ -743,7 +707,7 @@
         }
       }
     },
-    "OperatorServiceDecideRefundResponse": {
+    "arcforges.operator.v1.OperatorServiceDecideRefundResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundResponse",
       "fields": {
         "meta": {
@@ -752,11 +716,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceDecideRefundValue": {
+    "arcforges.operator.v1.OperatorServiceDecideRefundValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundValue",
       "fields": {
         "refund": {
@@ -767,7 +729,7 @@
         }
       }
     },
-    "OperatorServiceEndAccessRequest": {
+    "arcforges.operator.v1.OperatorServiceEndAccessRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessRequest",
       "fields": {
         "meta": {
@@ -781,7 +743,7 @@
         }
       }
     },
-    "OperatorServiceEndAccessResponse": {
+    "arcforges.operator.v1.OperatorServiceEndAccessResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessResponse",
       "fields": {
         "meta": {
@@ -790,11 +752,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceEndAccessValue": {
+    "arcforges.operator.v1.OperatorServiceEndAccessValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessValue",
       "fields": {
         "receipt": {
@@ -802,7 +762,7 @@
         }
       }
     },
-    "OperatorServiceEndBreakGlassRequest": {
+    "arcforges.operator.v1.OperatorServiceEndBreakGlassRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassRequest",
       "fields": {
         "meta": {
@@ -820,7 +780,7 @@
         }
       }
     },
-    "OperatorServiceEndBreakGlassResponse": {
+    "arcforges.operator.v1.OperatorServiceEndBreakGlassResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassResponse",
       "fields": {
         "meta": {
@@ -829,11 +789,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceEndBreakGlassValue": {
+    "arcforges.operator.v1.OperatorServiceEndBreakGlassValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassValue",
       "fields": {
         "receipt": {
@@ -841,7 +799,7 @@
         }
       }
     },
-    "OperatorServiceGetAppealRequest": {
+    "arcforges.operator.v1.OperatorServiceGetAppealRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealRequest",
       "fields": {
         "meta": {
@@ -855,7 +813,7 @@
         }
       }
     },
-    "OperatorServiceGetAppealResponse": {
+    "arcforges.operator.v1.OperatorServiceGetAppealResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealResponse",
       "fields": {
         "meta": {
@@ -864,11 +822,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceGetAppealValue": {
+    "arcforges.operator.v1.OperatorServiceGetAppealValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealValue",
       "fields": {
         "case": {
@@ -879,7 +835,7 @@
         }
       }
     },
-    "OperatorServiceGetCaseRequest": {
+    "arcforges.operator.v1.OperatorServiceGetCaseRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseRequest",
       "fields": {
         "meta": {
@@ -894,7 +850,7 @@
         "messages": {}
       }
     },
-    "OperatorServiceGetCaseResponse": {
+    "arcforges.operator.v1.OperatorServiceGetCaseResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseResponse",
       "fields": {
         "meta": {
@@ -903,11 +859,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceGetCaseValue": {
+    "arcforges.operator.v1.OperatorServiceGetCaseValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseValue",
       "fields": {
         "case": {
@@ -915,7 +869,7 @@
         }
       }
     },
-    "OperatorServiceGetCatalogSubmissionRequest": {
+    "arcforges.operator.v1.OperatorServiceGetCatalogSubmissionRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionRequest",
       "fields": {
         "meta": {
@@ -929,7 +883,7 @@
         }
       }
     },
-    "OperatorServiceGetCatalogSubmissionResponse": {
+    "arcforges.operator.v1.OperatorServiceGetCatalogSubmissionResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionResponse",
       "fields": {
         "meta": {
@@ -938,11 +892,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceGetCatalogSubmissionValue": {
+    "arcforges.operator.v1.OperatorServiceGetCatalogSubmissionValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionValue",
       "fields": {
         "submission": {
@@ -950,7 +902,7 @@
         }
       }
     },
-    "OperatorServiceGetConfigurationRequest": {
+    "arcforges.operator.v1.OperatorServiceGetConfigurationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationRequest",
       "fields": {
         "meta": {
@@ -962,7 +914,7 @@
         }
       }
     },
-    "OperatorServiceGetConfigurationResponse": {
+    "arcforges.operator.v1.OperatorServiceGetConfigurationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationResponse",
       "fields": {
         "meta": {
@@ -971,11 +923,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceGetConfigurationValue": {
+    "arcforges.operator.v1.OperatorServiceGetConfigurationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationValue",
       "fields": {
         "document": {
@@ -986,7 +936,7 @@
         }
       }
     },
-    "OperatorServiceGetProposalRequest": {
+    "arcforges.operator.v1.OperatorServiceGetProposalRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalRequest",
       "fields": {
         "meta": {
@@ -1000,7 +950,7 @@
         }
       }
     },
-    "OperatorServiceGetProposalResponse": {
+    "arcforges.operator.v1.OperatorServiceGetProposalResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalResponse",
       "fields": {
         "meta": {
@@ -1009,11 +959,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceGetProposalValue": {
+    "arcforges.operator.v1.OperatorServiceGetProposalValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalValue",
       "fields": {
         "proposal": {
@@ -1022,7 +970,7 @@
         "ownerResult": {}
       }
     },
-    "OperatorServiceGrantEntitlementRequest": {
+    "arcforges.operator.v1.OperatorServiceGrantEntitlementRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementRequest",
       "fields": {
         "meta": {
@@ -1036,7 +984,7 @@
         }
       }
     },
-    "OperatorServiceGrantEntitlementResponse": {
+    "arcforges.operator.v1.OperatorServiceGrantEntitlementResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementResponse",
       "fields": {
         "meta": {
@@ -1045,11 +993,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceGrantEntitlementValue": {
+    "arcforges.operator.v1.OperatorServiceGrantEntitlementValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementValue",
       "fields": {
         "grant": {
@@ -1060,7 +1006,7 @@
         }
       }
     },
-    "OperatorServiceIssueCompensationRequest": {
+    "arcforges.operator.v1.OperatorServiceIssueCompensationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationRequest",
       "fields": {
         "meta": {
@@ -1074,7 +1020,7 @@
         }
       }
     },
-    "OperatorServiceIssueCompensationResponse": {
+    "arcforges.operator.v1.OperatorServiceIssueCompensationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationResponse",
       "fields": {
         "meta": {
@@ -1083,11 +1029,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceIssueCompensationValue": {
+    "arcforges.operator.v1.OperatorServiceIssueCompensationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationValue",
       "fields": {
         "lot": {
@@ -1098,7 +1042,7 @@
         }
       }
     },
-    "OperatorServiceListCasesRequest": {
+    "arcforges.operator.v1.OperatorServiceListCasesRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesRequest",
       "fields": {
         "meta": {
@@ -1117,7 +1061,7 @@
         }
       }
     },
-    "OperatorServiceListCasesResponse": {
+    "arcforges.operator.v1.OperatorServiceListCasesResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesResponse",
       "fields": {
         "meta": {
@@ -1126,11 +1070,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceListCasesValue": {
+    "arcforges.operator.v1.OperatorServiceListCasesValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesValue",
       "fields": {
         "cases": {
@@ -1141,7 +1083,7 @@
         }
       }
     },
-    "OperatorServiceProposeActionRequest": {
+    "arcforges.operator.v1.OperatorServiceProposeActionRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionRequest",
       "fields": {
         "meta": {
@@ -1165,7 +1107,7 @@
         }
       }
     },
-    "OperatorServiceProposeActionResponse": {
+    "arcforges.operator.v1.OperatorServiceProposeActionResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionResponse",
       "fields": {
         "meta": {
@@ -1174,11 +1116,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceProposeActionValue": {
+    "arcforges.operator.v1.OperatorServiceProposeActionValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionValue",
       "fields": {
         "proposal": {
@@ -1186,7 +1126,7 @@
         }
       }
     },
-    "OperatorServiceProposeEnforcementRequest": {
+    "arcforges.operator.v1.OperatorServiceProposeEnforcementRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementRequest",
       "fields": {
         "meta": {
@@ -1217,7 +1157,7 @@
         }
       }
     },
-    "OperatorServiceProposeEnforcementResponse": {
+    "arcforges.operator.v1.OperatorServiceProposeEnforcementResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementResponse",
       "fields": {
         "meta": {
@@ -1226,11 +1166,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceProposeEnforcementValue": {
+    "arcforges.operator.v1.OperatorServiceProposeEnforcementValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementValue",
       "fields": {
         "action": {
@@ -1238,7 +1176,7 @@
         }
       }
     },
-    "OperatorServiceReadDiagnosticRequest": {
+    "arcforges.operator.v1.OperatorServiceReadDiagnosticRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticRequest",
       "fields": {
         "meta": {
@@ -1255,7 +1193,7 @@
         }
       }
     },
-    "OperatorServiceReadDiagnosticResponse": {
+    "arcforges.operator.v1.OperatorServiceReadDiagnosticResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticResponse",
       "fields": {
         "meta": {
@@ -1264,11 +1202,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceReadDiagnosticValue": {
+    "arcforges.operator.v1.OperatorServiceReadDiagnosticValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticValue",
       "fields": {
         "ticket": {
@@ -1276,7 +1212,7 @@
         }
       }
     },
-    "OperatorServiceReplyCaseRequest": {
+    "arcforges.operator.v1.OperatorServiceReplyCaseRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseRequest",
       "fields": {
         "meta": {
@@ -1297,7 +1233,7 @@
         }
       }
     },
-    "OperatorServiceReplyCaseResponse": {
+    "arcforges.operator.v1.OperatorServiceReplyCaseResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseResponse",
       "fields": {
         "meta": {
@@ -1306,11 +1242,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceReplyCaseValue": {
+    "arcforges.operator.v1.OperatorServiceReplyCaseValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseValue",
       "fields": {
         "case": {
@@ -1318,7 +1252,7 @@
         }
       }
     },
-    "OperatorServiceRequestAccessRequest": {
+    "arcforges.operator.v1.OperatorServiceRequestAccessRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessRequest",
       "fields": {
         "meta": {
@@ -1348,7 +1282,7 @@
         }
       }
     },
-    "OperatorServiceRequestAccessResponse": {
+    "arcforges.operator.v1.OperatorServiceRequestAccessResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessResponse",
       "fields": {
         "meta": {
@@ -1357,11 +1291,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceRequestAccessValue": {
+    "arcforges.operator.v1.OperatorServiceRequestAccessValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessValue",
       "fields": {
         "access": {
@@ -1369,7 +1301,7 @@
         }
       }
     },
-    "OperatorServiceResolveAppealRequest": {
+    "arcforges.operator.v1.OperatorServiceResolveAppealRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealRequest",
       "fields": {
         "meta": {
@@ -1399,7 +1331,7 @@
         }
       }
     },
-    "OperatorServiceResolveAppealResponse": {
+    "arcforges.operator.v1.OperatorServiceResolveAppealResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealResponse",
       "fields": {
         "meta": {
@@ -1408,11 +1340,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceResolveAppealValue": {
+    "arcforges.operator.v1.OperatorServiceResolveAppealValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealValue",
       "fields": {
         "action": {
@@ -1420,7 +1350,7 @@
         }
       }
     },
-    "OperatorServiceReviewCatalogSubmissionRequest": {
+    "arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionRequest",
       "fields": {
         "meta": {
@@ -1431,10 +1361,7 @@
         },
         "decision": {
           "required": true,
-          "enumValues": [
-            1,
-            2
-          ]
+          "enumValues": [1, 2]
         },
         "reason": {
           "required": true
@@ -1451,7 +1378,7 @@
         }
       }
     },
-    "OperatorServiceReviewCatalogSubmissionResponse": {
+    "arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionResponse",
       "fields": {
         "meta": {
@@ -1460,11 +1387,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceReviewCatalogSubmissionValue": {
+    "arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionValue",
       "fields": {
         "submission": {
@@ -1472,7 +1397,7 @@
         }
       }
     },
-    "OperatorServiceRevokeCatalogVersionRequest": {
+    "arcforges.operator.v1.OperatorServiceRevokeCatalogVersionRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionRequest",
       "fields": {
         "meta": {
@@ -1505,7 +1430,7 @@
         }
       }
     },
-    "OperatorServiceRevokeCatalogVersionResponse": {
+    "arcforges.operator.v1.OperatorServiceRevokeCatalogVersionResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionResponse",
       "fields": {
         "meta": {
@@ -1514,11 +1439,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceRevokeCatalogVersionValue": {
+    "arcforges.operator.v1.OperatorServiceRevokeCatalogVersionValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionValue",
       "fields": {
         "version": {
@@ -1526,7 +1449,7 @@
         }
       }
     },
-    "OperatorServiceRevokeEntitlementRequest": {
+    "arcforges.operator.v1.OperatorServiceRevokeEntitlementRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementRequest",
       "fields": {
         "meta": {
@@ -1540,7 +1463,7 @@
         }
       }
     },
-    "OperatorServiceRevokeEntitlementResponse": {
+    "arcforges.operator.v1.OperatorServiceRevokeEntitlementResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementResponse",
       "fields": {
         "meta": {
@@ -1549,11 +1472,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceRevokeEntitlementValue": {
+    "arcforges.operator.v1.OperatorServiceRevokeEntitlementValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementValue",
       "fields": {
         "grant": {
@@ -1564,7 +1485,7 @@
         }
       }
     },
-    "OperatorServiceSetCaseStateRequest": {
+    "arcforges.operator.v1.OperatorServiceSetCaseStateRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateRequest",
       "fields": {
         "meta": {
@@ -1575,13 +1496,7 @@
         },
         "state": {
           "required": true,
-          "enumValues": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
+          "enumValues": [1, 2, 3, 4, 5]
         },
         "reason": {
           "required": true,
@@ -1592,7 +1507,7 @@
         }
       }
     },
-    "OperatorServiceSetCaseStateResponse": {
+    "arcforges.operator.v1.OperatorServiceSetCaseStateResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateResponse",
       "fields": {
         "meta": {
@@ -1601,11 +1516,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceSetCaseStateValue": {
+    "arcforges.operator.v1.OperatorServiceSetCaseStateValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateValue",
       "fields": {
         "case": {
@@ -1613,7 +1526,7 @@
         }
       }
     },
-    "OperatorServiceSetKillSwitchRequest": {
+    "arcforges.operator.v1.OperatorServiceSetKillSwitchRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchRequest",
       "fields": {
         "meta": {
@@ -1644,7 +1557,7 @@
         }
       }
     },
-    "OperatorServiceSetKillSwitchResponse": {
+    "arcforges.operator.v1.OperatorServiceSetKillSwitchResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchResponse",
       "fields": {
         "meta": {
@@ -1653,11 +1566,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceSetKillSwitchValue": {
+    "arcforges.operator.v1.OperatorServiceSetKillSwitchValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchValue",
       "fields": {
         "action": {
@@ -1665,7 +1576,7 @@
         }
       }
     },
-    "OperatorServiceStageConfigurationRequest": {
+    "arcforges.operator.v1.OperatorServiceStageConfigurationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationRequest",
       "fields": {
         "meta": {
@@ -1688,7 +1599,7 @@
         }
       }
     },
-    "OperatorServiceStageConfigurationResponse": {
+    "arcforges.operator.v1.OperatorServiceStageConfigurationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationResponse",
       "fields": {
         "meta": {
@@ -1697,11 +1608,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceStageConfigurationValue": {
+    "arcforges.operator.v1.OperatorServiceStageConfigurationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationValue",
       "fields": {
         "validation": {
@@ -1709,7 +1618,7 @@
         }
       }
     },
-    "OperatorServiceStartBreakGlassRequest": {
+    "arcforges.operator.v1.OperatorServiceStartBreakGlassRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassRequest",
       "fields": {
         "meta": {
@@ -1725,14 +1634,15 @@
           "items": {}
         },
         "reason": {
-          "required": true
+          "required": true,
+          "maxUtf8Bytes": 262144
         },
         "context": {
           "required": true
         }
       }
     },
-    "OperatorServiceStartBreakGlassResponse": {
+    "arcforges.operator.v1.OperatorServiceStartBreakGlassResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassResponse",
       "fields": {
         "meta": {
@@ -1741,11 +1651,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceStartBreakGlassValue": {
+    "arcforges.operator.v1.OperatorServiceStartBreakGlassValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassValue",
       "fields": {
         "access": {
@@ -1753,7 +1661,7 @@
         }
       }
     },
-    "OperatorServiceValidateConfigurationRequest": {
+    "arcforges.operator.v1.OperatorServiceValidateConfigurationRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationRequest",
       "fields": {
         "meta": {
@@ -1767,7 +1675,7 @@
         }
       }
     },
-    "OperatorServiceValidateConfigurationResponse": {
+    "arcforges.operator.v1.OperatorServiceValidateConfigurationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationResponse",
       "fields": {
         "meta": {
@@ -1776,11 +1684,9 @@
         "value": {},
         "error": {}
       },
-      "oneofRequired": [
-        "outcome"
-      ]
+      "oneofRequired": ["outcome"]
     },
-    "OperatorServiceValidateConfigurationValue": {
+    "arcforges.operator.v1.OperatorServiceValidateConfigurationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationValue",
       "fields": {
         "validation": {

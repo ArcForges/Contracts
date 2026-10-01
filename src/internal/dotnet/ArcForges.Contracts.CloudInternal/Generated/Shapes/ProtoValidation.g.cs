@@ -8,6 +8,83 @@ namespace ArcForges.Contracts.CloudInternal.Shapes;
 /// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>
 public static class ContractShapeValidation
 {
+    /// <summary>Checks the declared wire/profile constraints of arcforges.catalog.v1.CatalogSubmissionView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Catalog.V1.CatalogSubmissionView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Catalog.V1.CatalogSubmissionView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.SubmissionId is null) return false;
+        if (!Check(value.SubmissionId, context)) return false;
+        if (value.Version is null) return false;
+        if (!Check(value.Version, context)) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.catalog.v1.CatalogVersionView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Catalog.V1.CatalogVersionView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Catalog.V1.CatalogVersionView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasPackageId) return false;
+        if (value.HasPackageId)
+        {
+            if (!ValidUnicode(value.PackageId)) return false;
+            if (ScalarLength(value.PackageId) > 128) return false;
+            if (!Matches(value.PackageId, "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*\\.[a-z][a-z0-9-]*$")) return false;
+        }
+        if (!value.HasVersion) return false;
+        if (value.HasVersion)
+        {
+            if (!ValidUnicode(value.Version)) return false;
+            if (ScalarLength(value.Version) > 128) return false;
+            if (!Matches(value.Version, "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$")) return false;
+        }
+        if (value.Archive is null) return false;
+        if (!Check(value.Archive, context)) return false;
+        if (!value.HasDigest) return false;
+        if (value.HasDigest)
+        {
+            if (!ValidUnicode(value.Digest)) return false;
+            if (ScalarLength(value.Digest) > 128) return false;
+            if (!Matches(value.Digest, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasManifestHash) return false;
+        if (value.HasManifestHash)
+        {
+            if (!ValidUnicode(value.ManifestHash)) return false;
+            if (ScalarLength(value.ManifestHash) > 128) return false;
+            if (!Matches(value.ManifestHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (value.State != "submitted" && value.State != "reviewing" && value.State != "published" && value.State != "rejected" && value.State != "revoked") return false;
+        }
+        if (value.PublishedAt is not null)
+        {
+            if (!Check(value.PublishedAt, context)) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.cf.v1.RunStreamRequest.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamRequest? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamRequest? value, ValidationContext context)
@@ -27,6 +104,183 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.AggregateRef.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.AggregateRef? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.AggregateRef? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if (!ValidUnicode(value.Kind)) return false;
+            if (ScalarLength(value.Kind) < 1) return false;
+            if (!Matches(value.Kind, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Id is null) return false;
+        if (!Check(value.Id, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ApplicationScope.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ApplicationScope? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ApplicationScope? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasProductId) return false;
+        if (value.HasProductId)
+        {
+            if (!ValidUnicode(value.ProductId)) return false;
+            if (value.ProductId != "arcscope" && value.ProductId != "companion") return false;
+        }
+        if (value.InstallationId is not null)
+        {
+            if (!Check(value.InstallationId, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ArcError.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ArcError? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ArcError? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasCode) return false;
+        if (value.HasCode)
+        {
+            if (!ValidUnicode(value.Code)) return false;
+        }
+        if (!value.HasCategory) return false;
+        if (value.HasCategory)
+        {
+            if ((int)value.Category != 1 && (int)value.Category != 2 && (int)value.Category != 3 && (int)value.Category != 4 && (int)value.Category != 5 && (int)value.Category != 6 && (int)value.Category != 7 && (int)value.Category != 8 && (int)value.Category != 9) return false;
+        }
+        if (!value.HasMessageKey) return false;
+        if (value.HasMessageKey)
+        {
+            if (!ValidUnicode(value.MessageKey)) return false;
+            if (!Matches(value.MessageKey, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Retry is null) return false;
+        if (!Check(value.Retry, context)) return false;
+        if (!value.HasEffect) return false;
+        if (value.HasEffect)
+        {
+            if ((int)value.Effect != 1 && (int)value.Effect != 2 && (int)value.Effect != 3) return false;
+        }
+        if (value.CorrelationId is null) return false;
+        if (!Check(value.CorrelationId, context)) return false;
+        if (value.Details is not null)
+        {
+            if (!Check(value.Details, context)) return false;
+        }
+        var knownCategory = ErrorCategoryFor(value.Code);
+        if (knownCategory != 0 && (int)value.Category != knownCategory) return false;
+        if (knownCategory != 0 && value.Code is not ("dependency.unavailable" or "dependency.timeout" or "internal.unexpected" or "resource.parser_failed") && (int)value.Effect != 1) return false;
+        if (value.Code == "dependency.timeout" && (int)value.Effect != 3) return false;
+        if (value.Code is "entitlement.capacity_exhausted" or "capacity.rate_limited" or "capacity.busy" && (int)value.Retry.Mode != 3) return false;
+        if (NoRetryCode(value.Code) && (int)value.Retry.Mode != 1) return false;
+        if ((int)value.Effect == 3 && (int)value.Retry.Mode == 3) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.BlobRef.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.BlobRef? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.BlobRef? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.BlobId is null) return false;
+        if (!Check(value.BlobId, context)) return false;
+        if (!value.HasContentHash) return false;
+        if (value.HasContentHash)
+        {
+            if (!ValidUnicode(value.ContentHash)) return false;
+            if (!Matches(value.ContentHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasSizeBytes) return false;
+        if (value.HasSizeBytes)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ByteRange.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ByteRange? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ByteRange? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasOffset) return false;
+        if (value.HasOffset)
+        {
+        }
+        if (!value.HasLength) return false;
+        if (value.HasLength)
+        {
+            if (value.Length < 1UL) return false;
+        }
+        if (value.Length == 0 || value.Offset > ulong.MaxValue - value.Length) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.Decimal.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Decimal? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Decimal? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasValue) return false;
+        if (value.HasValue)
+        {
+            if (!ValidUnicode(value.Value)) return false;
+        }
+        if (!CanonicalDecimal(value.Value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ErrorDetails.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ErrorDetails? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ErrorDetails? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.DetailCase == 1)
+        {
+            if (!Check(value.Revision, context)) return false;
+        }
+        if ((int)value.DetailCase == 2)
+        {
+            if (!Check(value.Limit, context)) return false;
+        }
+        if ((int)value.DetailCase == 3)
+        {
+            if (!Check(value.Upgrade, context)) return false;
+        }
+        if ((int)value.DetailCase == 4)
+        {
+            if (!Check(value.State, context)) return false;
+        }
+        if ((int)value.DetailCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.Id.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Id? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Id? value, ValidationContext context)
@@ -40,6 +294,683 @@ public static class ContractShapeValidation
             if (value.Value.Length != 16) return false;
         }
         if (!Nonzero(value.Value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.Instant.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Instant? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Instant? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasUnixSeconds) return false;
+        if (value.HasUnixSeconds)
+        {
+            if (value.UnixSeconds < -62135596800L) return false;
+            if (value.UnixSeconds > 253402300799L) return false;
+        }
+        if (!value.HasNanos) return false;
+        if (value.HasNanos)
+        {
+            if (value.Nanos < 0) return false;
+            if (value.Nanos > 999999999) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.LimitFailure.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.LimitFailure? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.LimitFailure? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasLimitName) return false;
+        if (value.HasLimitName)
+        {
+            if (!ValidUnicode(value.LimitName)) return false;
+            if (!Matches(value.LimitName, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Maximum is not null)
+        {
+            if (!Check(value.Maximum, context)) return false;
+        }
+        if (value.Available is not null)
+        {
+            if (!Check(value.Available, context)) return false;
+        }
+        if (value.RecoveryAt is not null)
+        {
+            if (!Check(value.RecoveryAt, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.NativeContentRev.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.NativeContentRev? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.NativeContentRev? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasValue) return false;
+        if (value.HasValue)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.PageRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.PageRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.PageRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasCursor)
+        {
+            if (!ValidUnicode(value.Cursor)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Cursor) > 4096) return false;
+        }
+        if (value.HasLimit)
+        {
+            if (value.Limit < 1) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.PageState.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.PageState? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.PageState? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.HasNextCursor)
+        {
+            if (!ValidUnicode(value.NextCursor)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.NextCursor) > 4096) return false;
+        }
+        if (!value.HasHasMore) return false;
+        if (value.HasHasMore)
+        {
+        }
+        if (value.HasMore && (!value.HasNextCursor || value.NextCursor.Length == 0)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.Receipt.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Receipt? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Receipt? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CommandId is null) return false;
+        if (!Check(value.CommandId, context)) return false;
+        if (value.ResultRevision is not null)
+        {
+            if (!Check(value.ResultRevision, context)) return false;
+        }
+        if (!value.HasEffect) return false;
+        if (value.HasEffect)
+        {
+            if ((int)value.Effect != 1 && (int)value.Effect != 2 && (int)value.Effect != 3) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.RequestMeta.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.RequestMeta? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.RequestMeta? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CommandId is not null)
+        {
+            if (!Check(value.CommandId, context)) return false;
+        }
+        if (value.ExpectedRev is not null)
+        {
+            if (!Check(value.ExpectedRev, context)) return false;
+        }
+        if (value.CorrelationId is null) return false;
+        if (!Check(value.CorrelationId, context)) return false;
+        if (value.WorkspaceId is not null)
+        {
+            if (!Check(value.WorkspaceId, context)) return false;
+        }
+        if (value.ExpectedNative is not null)
+        {
+            if (!Check(value.ExpectedNative, context)) return false;
+        }
+        if (value.HasRecoveryGeneration)
+        {
+        }
+        if (value.ApplicationScope is not null)
+        {
+            if (!Check(value.ApplicationScope, context)) return false;
+        }
+        if ((value.ExpectedRev is null ? 0 : 1) + (value.ExpectedNative is null ? 0 : 1) > 1) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ResourceRef.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ResourceRef? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ResourceRef? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RealmId is null) return false;
+        if (!Check(value.RealmId, context)) return false;
+        if (value.WorkspaceId is not null)
+        {
+            if (!Check(value.WorkspaceId, context)) return false;
+        }
+        if (!value.HasOwnerAppId) return false;
+        if (value.HasOwnerAppId)
+        {
+            if (!ValidUnicode(value.OwnerAppId)) return false;
+            if (!Matches(value.OwnerAppId, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasResourceKind) return false;
+        if (value.HasResourceKind)
+        {
+            if (!ValidUnicode(value.ResourceKind)) return false;
+            if (!Matches(value.ResourceKind, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.ResourceId is null) return false;
+        if (!Check(value.ResourceId, context)) return false;
+        if (value.HasDisplayHint)
+        {
+            if (!ValidUnicode(value.DisplayHint)) return false;
+            if (ScalarLength(value.DisplayHint) > 256) return false;
+        }
+        if (!value.HasAvailability) return false;
+        if (value.HasAvailability)
+        {
+            if ((int)value.Availability != 1 && (int)value.Availability != 2 && (int)value.Availability != 3 && (int)value.Availability != 4 && (int)value.Availability != 5) return false;
+        }
+        if (value.HoldingDeviceId is not null)
+        {
+            if (!Check(value.HoldingDeviceId, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ResourceVersionRef.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ResourceVersionRef? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ResourceVersionRef? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Resource is null) return false;
+        if (!Check(value.Resource, context)) return false;
+        if ((int)value.RevisionCase == 2)
+        {
+            if (!Check(value.Cloud, context)) return false;
+        }
+        if ((int)value.RevisionCase == 3)
+        {
+            if (!Check(value.Native, context)) return false;
+        }
+        if (value.HasContentHash)
+        {
+            if (!ValidUnicode(value.ContentHash)) return false;
+            if (!Matches(value.ContentHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (value.Blob is not null)
+        {
+            if (!Check(value.Blob, context)) return false;
+        }
+        if ((int)value.RevisionCase == 0) return false;
+        if ((int)value.RevisionCase == 2 && value.Cloud.Value <= 0) return false;
+        if (value.Blob is not null && (!value.HasContentHash || value.ContentHash != value.Blob.ContentHash)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.ResponseMeta.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ResponseMeta? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.ResponseMeta? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ResultRev is not null)
+        {
+            if (!Check(value.ResultRev, context)) return false;
+        }
+        if (value.HasEntitlementVersion)
+        {
+        }
+        foreach (var item in value.Warnings)
+        {
+            if (!ValidUnicode(item)) return false;
+        }
+        if (value.CorrelationId is null) return false;
+        if (!Check(value.CorrelationId, context)) return false;
+        if (value.HasRecoveryGeneration)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.RetryAdvice.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.RetryAdvice? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.RetryAdvice? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasMode) return false;
+        if (value.HasMode)
+        {
+            if ((int)value.Mode != 1 && (int)value.Mode != 2 && (int)value.Mode != 3 && (int)value.Mode != 4) return false;
+        }
+        if (value.RetryAt is not null)
+        {
+            if (!Check(value.RetryAt, context)) return false;
+        }
+        if (value.HasReconciliationOperation)
+        {
+            if (!ValidUnicode(value.ReconciliationOperation)) return false;
+            if (!Matches(value.ReconciliationOperation, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (((int)value.Mode == 3) != (value.RetryAt is not null)) return false;
+        if (((int)value.Mode == 4) != value.HasReconciliationOperation) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.Revision.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Revision? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Revision? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasValue) return false;
+        if (value.HasValue)
+        {
+            if (value.Value < 0L) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.RevisionConflict.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.RevisionConflict? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.RevisionConflict? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Expected is not null)
+        {
+            if (!Check(value.Expected, context)) return false;
+        }
+        if (value.Actual is not null)
+        {
+            if (!Check(value.Actual, context)) return false;
+        }
+        if (value.ConflictId is not null)
+        {
+            if (!Check(value.ConflictId, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.StateFailure.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.StateFailure? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.StateFailure? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (value.Resource is not null)
+        {
+            if (!Check(value.Resource, context)) return false;
+        }
+        if (value.Native is not null)
+        {
+            if (!Check(value.Native, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.TransferTicket.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.TransferTicket? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.TransferTicket? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.TicketId is null) return false;
+        if (!Check(value.TicketId, context)) return false;
+        if (!value.HasUrl) return false;
+        if (value.HasUrl)
+        {
+            if (!ValidUnicode(value.Url)) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (value.ResourceId is null) return false;
+        if (!Check(value.ResourceId, context)) return false;
+        if (value.Range is not null)
+        {
+            if (!Check(value.Range, context)) return false;
+        }
+        if (!value.HasMaxPartBytes) return false;
+        if (value.HasMaxPartBytes)
+        {
+            if (value.MaxPartBytes < 1) return false;
+            if (value.MaxPartBytes > 8388608) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.VersionFailure.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.VersionFailure? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.VersionFailure? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasMinReadable) return false;
+        if (value.HasMinReadable)
+        {
+            if (!ValidUnicode(value.MinReadable)) return false;
+            if (!Matches(value.MinReadable, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasMinWritable) return false;
+        if (value.HasMinWritable)
+        {
+            if (!ValidUnicode(value.MinWritable)) return false;
+            if (!Matches(value.MinWritable, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReceived) return false;
+        if (value.HasReceived)
+        {
+            if (!ValidUnicode(value.Received)) return false;
+            if (!Matches(value.Received, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.ConfigValidation.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ConfigValidation? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ConfigValidation? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ConfigId is null) return false;
+        if (!Check(value.ConfigId, context)) return false;
+        if (!value.HasConfigHash) return false;
+        if (value.HasConfigHash)
+        {
+            if (!ValidUnicode(value.ConfigHash)) return false;
+            if (ScalarLength(value.ConfigHash) < 64) return false;
+            if (ScalarLength(value.ConfigHash) > 64) return false;
+            if (!Matches(value.ConfigHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (!ValidUnicode(value.SchemaVersion)) return false;
+            if (ScalarLength(value.SchemaVersion) < 1) return false;
+            if (ScalarLength(value.SchemaVersion) > 128) return false;
+            if (!Matches(value.SchemaVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        foreach (var item in value.Problems)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.HasWorkerAcknowledgement)
+        {
+            if (!ValidUnicode(value.WorkerAcknowledgement)) return false;
+            if (ScalarLength(value.WorkerAcknowledgement) < 64) return false;
+            if (ScalarLength(value.WorkerAcknowledgement) > 64) return false;
+            if (!Matches(value.WorkerAcknowledgement, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasCompatible) return false;
+        if (value.HasCompatible)
+        {
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.ConfigurationDocument.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ConfigurationDocument? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ConfigurationDocument? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (!ValidUnicode(value.SchemaVersion)) return false;
+            if (ScalarLength(value.SchemaVersion) < 1) return false;
+            if (ScalarLength(value.SchemaVersion) > 128) return false;
+            if (!Matches(value.SchemaVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasCanonicalJson) return false;
+        if (value.HasCanonicalJson)
+        {
+            if (value.CanonicalJson.Length > 1048576) return false;
+        }
+        if (!value.HasDocumentHash) return false;
+        if (value.HasDocumentHash)
+        {
+            if (!ValidUnicode(value.DocumentHash)) return false;
+            if (ScalarLength(value.DocumentHash) < 64) return false;
+            if (ScalarLength(value.DocumentHash) > 64) return false;
+            if (!Matches(value.DocumentHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasParentVersion) return false;
+        if (value.HasParentVersion)
+        {
+            if (!ValidUnicode(value.ParentVersion)) return false;
+            if (ScalarLength(value.ParentVersion) < 1) return false;
+            if (ScalarLength(value.ParentVersion) > 128) return false;
+            if (!Matches(value.ParentVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.CreatedAt is null) return false;
+        if (!Check(value.CreatedAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorAccess.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAccess? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAccess? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (value.OperatorId is null) return false;
+        if (!Check(value.OperatorId, context)) return false;
+        if (value.CaseId is not null)
+        {
+            if (!Check(value.CaseId, context)) return false;
+        }
+        if (value.WorkspaceId is null) return false;
+        if (!Check(value.WorkspaceId, context)) return false;
+        foreach (var item in value.Resources)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if (!ValidUnicode(value.Purpose)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Purpose) > 262144) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) < 1) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.ConsentRef is not null)
+        {
+            if (!Check(value.ConsentRef, context)) return false;
+        }
+        if (value.SecondOperatorId is not null)
+        {
+            if (!Check(value.SecondOperatorId, context)) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorAction.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAction? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAction? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (value.ProposerId is null) return false;
+        if (!Check(value.ProposerId, context)) return false;
+        if (value.ApproverId is not null)
+        {
+            if (!Check(value.ApproverId, context)) return false;
+        }
+        if (value.Target is null) return false;
+        if (!Check(value.Target, context)) return false;
+        if (!value.HasAction) return false;
+        if (value.HasAction)
+        {
+            if (!ValidUnicode(value.Action)) return false;
+            if (ScalarLength(value.Action) < 1) return false;
+            if (ScalarLength(value.Action) > 128) return false;
+            if (!Matches(value.Action, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (ScalarLength(value.ProposalHash) < 64) return false;
+            if (ScalarLength(value.ProposalHash) > 64) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) < 1) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.ExpiresAt is not null)
+        {
+            if (!Check(value.ExpiresAt, context)) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorAdjustCreditInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAdjustCreditInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAdjustCreditInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.LotId is null) return false;
+        if (!Check(value.LotId, context)) return false;
+        if (!value.HasDeltaMicro) return false;
+        if (value.HasDeltaMicro)
+        {
+        }
+        if (value.AdjustmentId is null) return false;
+        if (!Check(value.AdjustmentId, context)) return false;
+        if (value.NewLotId is not null)
+        {
+            if (!Check(value.NewLotId, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorAppealInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAppealInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorAppealInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.AppealId is null) return false;
+        if (!Check(value.AppealId, context)) return false;
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (!value.HasDecision) return false;
+        if (value.HasDecision)
+        {
+            if (!ValidUnicode(value.Decision)) return false;
+            if (ScalarLength(value.Decision) < 1) return false;
+            if (ScalarLength(value.Decision) > 128) return false;
+            if (!Matches(value.Decision, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -71,6 +1002,2338 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorCatalogReviewInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCatalogReviewInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCatalogReviewInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.SubmissionId is null) return false;
+        if (!Check(value.SubmissionId, context)) return false;
+        if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (!value.HasEvidence) return false;
+        if (value.HasEvidence)
+        {
+            if (!ValidUnicode(value.Evidence)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Evidence) > 262144) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorCatalogRevokeInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCatalogRevokeInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCatalogRevokeInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasPackageId) return false;
+        if (value.HasPackageId)
+        {
+            if (!ValidUnicode(value.PackageId)) return false;
+            if (ScalarLength(value.PackageId) < 1) return false;
+            if (ScalarLength(value.PackageId) > 128) return false;
+            if (!Matches(value.PackageId, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasVersion) return false;
+        if (value.HasVersion)
+        {
+            if (!ValidUnicode(value.Version)) return false;
+            if (ScalarLength(value.Version) < 1) return false;
+            if (ScalarLength(value.Version) > 128) return false;
+            if (!Matches(value.Version, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (!value.HasEvidence) return false;
+        if (value.HasEvidence)
+        {
+            if (!ValidUnicode(value.Evidence)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Evidence) > 262144) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorGrantInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorGrantInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorGrantInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.GrantId is null) return false;
+        if (!Check(value.GrantId, context)) return false;
+        if (value.WorkspaceId is null) return false;
+        if (!Check(value.WorkspaceId, context)) return false;
+        if (!value.HasSubject) return false;
+        if (value.HasSubject)
+        {
+            if (!ValidUnicode(value.Subject)) return false;
+            if (ScalarLength(value.Subject) < 1) return false;
+            if (ScalarLength(value.Subject) > 128) return false;
+            if (!Matches(value.Subject, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasEntitlementProfileId) return false;
+        if (value.HasEntitlementProfileId)
+        {
+            if (!ValidUnicode(value.EntitlementProfileId)) return false;
+            if (ScalarLength(value.EntitlementProfileId) < 1) return false;
+            if (ScalarLength(value.EntitlementProfileId) > 128) return false;
+            if (!Matches(value.EntitlementProfileId, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.StartsAt is null) return false;
+        if (!Check(value.StartsAt, context)) return false;
+        if (value.EndsAt is null) return false;
+        if (!Check(value.EndsAt, context)) return false;
+        if (!value.HasSource) return false;
+        if (value.HasSource)
+        {
+            if ((int)value.Source != 1 && (int)value.Source != 2) return false;
+        }
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if ((int)value.Kind != 1 && (int)value.Kind != 2 && (int)value.Kind != 3) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorIssueCreditInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorIssueCreditInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorIssueCreditInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.LotId is null) return false;
+        if (!Check(value.LotId, context)) return false;
+        if (value.WorkspaceId is null) return false;
+        if (!Check(value.WorkspaceId, context)) return false;
+        if (!value.HasAmountMicro) return false;
+        if (value.HasAmountMicro)
+        {
+            if (value.AmountMicro < 1UL) return false;
+            if (value.AmountMicro > 9223372036854775807UL) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorKillInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorKillInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorKillInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (!value.HasMode) return false;
+        if (value.HasMode)
+        {
+            if (!ValidUnicode(value.Mode)) return false;
+            if (ScalarLength(value.Mode) < 1) return false;
+            if (ScalarLength(value.Mode) > 128) return false;
+            if (!Matches(value.Mode, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Scope is not null)
+        {
+            if (!Check(value.Scope, context)) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Until is null) return false;
+        if (!Check(value.Until, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorMutation.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorMutation? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorMutation? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.MutationCase == 1)
+        {
+            if (!Check(value.Grant, context)) return false;
+        }
+        if ((int)value.MutationCase == 2)
+        {
+            if (!Check(value.RevokeGrant, context)) return false;
+        }
+        if ((int)value.MutationCase == 3)
+        {
+            if (!Check(value.IssueCredit, context)) return false;
+        }
+        if ((int)value.MutationCase == 4)
+        {
+            if (!Check(value.AdjustCredit, context)) return false;
+        }
+        if ((int)value.MutationCase == 5)
+        {
+            if (!Check(value.Refund, context)) return false;
+        }
+        if ((int)value.MutationCase == 6)
+        {
+            if (!Check(value.CatalogReview, context)) return false;
+        }
+        if ((int)value.MutationCase == 7)
+        {
+            if (!Check(value.CatalogRevoke, context)) return false;
+        }
+        if ((int)value.MutationCase == 8)
+        {
+            if (!Check(value.Appeal, context)) return false;
+        }
+        if ((int)value.MutationCase == 9)
+        {
+            if (!Check(value.Kill, context)) return false;
+        }
+        if ((int)value.MutationCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorProposal.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorProposal? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorProposal? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ProposalId is null) return false;
+        if (!Check(value.ProposalId, context)) return false;
+        if (value.Mutation is null) return false;
+        if (!Check(value.Mutation, context)) return false;
+        if (!value.HasTargetOperation) return false;
+        if (value.HasTargetOperation)
+        {
+            if (!ValidUnicode(value.TargetOperation)) return false;
+            if (ScalarLength(value.TargetOperation) < 1) return false;
+            if (ScalarLength(value.TargetOperation) > 128) return false;
+            if (!Matches(value.TargetOperation, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (!value.HasProposerSubject) return false;
+        if (value.HasProposerSubject)
+        {
+            if (!ValidUnicode(value.ProposerSubject)) return false;
+            if (ScalarLength(value.ProposerSubject) < 1) return false;
+            if (ScalarLength(value.ProposerSubject) > 128) return false;
+            if (!Matches(value.ProposerSubject, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.HasApproverSubject)
+        {
+            if (!ValidUnicode(value.ApproverSubject)) return false;
+            if (ScalarLength(value.ApproverSubject) < 1) return false;
+            if (ScalarLength(value.ApproverSubject) > 128) return false;
+            if (!Matches(value.ApproverSubject, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (ScalarLength(value.ProposalHash) < 64) return false;
+            if (ScalarLength(value.ProposalHash) > 64) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (value.OwnerRevision is null) return false;
+        if (!Check(value.OwnerRevision, context)) return false;
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if ((int)value.State != 1 && (int)value.State != 2 && (int)value.State != 3 && (int)value.State != 4 && (int)value.State != 5 && (int)value.State != 6) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (value.ConsumedByCommandId is not null)
+        {
+            if (!Check(value.ConsumedByCommandId, context)) return false;
+        }
+        if (value.ResultRef is not null)
+        {
+            if (!Check(value.ResultRef, context)) return false;
+        }
+        if (!value.HasRecoveryGeneration) return false;
+        if (value.HasRecoveryGeneration)
+        {
+        }
+        if (!value.HasConfigurationHash) return false;
+        if (value.HasConfigurationHash)
+        {
+            if (!ValidUnicode(value.ConfigurationHash)) return false;
+            if (ScalarLength(value.ConfigurationHash) < 64) return false;
+            if (ScalarLength(value.ConfigurationHash) > 64) return false;
+            if (!Matches(value.ConfigurationHash, "^[0-9a-f]{64}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorProposalRef.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorProposalRef? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorProposalRef? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ProposalId is null) return false;
+        if (!Check(value.ProposalId, context)) return false;
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (ScalarLength(value.ProposalHash) < 64) return false;
+            if (ScalarLength(value.ProposalHash) > 64) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (value.ExpectedProposalRevision is null) return false;
+        if (!Check(value.ExpectedProposalRevision, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorRefundInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorRefundInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorRefundInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RefundId is null) return false;
+        if (!Check(value.RefundId, context)) return false;
+        if (!value.HasDecision) return false;
+        if (value.HasDecision)
+        {
+            if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        }
+        if (value.Amount is not null)
+        {
+            if (!Check(value.Amount, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorResult.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorResult? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorResult? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.ResultCase == 1)
+        {
+            if (!Check(value.Grant, context)) return false;
+        }
+        if ((int)value.ResultCase == 2)
+        {
+            if (!Check(value.Credit, context)) return false;
+        }
+        if ((int)value.ResultCase == 3)
+        {
+            if (!Check(value.Refund, context)) return false;
+        }
+        if ((int)value.ResultCase == 4)
+        {
+            if (!Check(value.Submission, context)) return false;
+        }
+        if ((int)value.ResultCase == 5)
+        {
+            if (!Check(value.CatalogVersion, context)) return false;
+        }
+        if ((int)value.ResultCase == 6)
+        {
+            if (!Check(value.Action, context)) return false;
+        }
+        if ((int)value.ResultCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorRevokeGrantInput.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorRevokeGrantInput? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorRevokeGrantInput? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.GrantId is null) return false;
+        if (!Check(value.GrantId, context)) return false;
+        if (value.RevocationId is null) return false;
+        if (!Check(value.RevocationId, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceActivateConfigurationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ConfigId is null) return false;
+        if (!Check(value.ConfigId, context)) return false;
+        if (!value.HasValidationHash) return false;
+        if (value.HasValidationHash)
+        {
+            if (!ValidUnicode(value.ValidationHash)) return false;
+            if (ScalarLength(value.ValidationHash) < 64) return false;
+            if (ScalarLength(value.ValidationHash) > 64) return false;
+            if (!Matches(value.ValidationHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (value.SecondApprovalId is null) return false;
+        if (!Check(value.SecondApprovalId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceActivateConfigurationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceActivateConfigurationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceActivateConfigurationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasActiveVersion) return false;
+        if (value.HasActiveVersion)
+        {
+            if (!ValidUnicode(value.ActiveVersion)) return false;
+            if (ScalarLength(value.ActiveVersion) < 1) return false;
+            if (ScalarLength(value.ActiveVersion) > 128) return false;
+            if (!Matches(value.ActiveVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceAdjustCompensationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceAdjustCompensationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceAdjustCompensationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceAdjustCompensationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Lot is null) return false;
+        if (!Check(value.Lot, context)) return false;
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveAccessRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (ScalarLength(value.ProposalHash) < 64) return false;
+            if (ScalarLength(value.ProposalHash) > 64) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasApprove) return false;
+        if (value.HasApprove)
+        {
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveAccessResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveAccessValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveAccessValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Access is null) return false;
+        if (!Check(value.Access, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveActionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ProposalId is null) return false;
+        if (!Check(value.ProposalId, context)) return false;
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (ScalarLength(value.ProposalHash) < 64) return false;
+            if (ScalarLength(value.ProposalHash) > 64) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasApprove) return false;
+        if (value.HasApprove)
+        {
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveActionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveActionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveActionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveConfigurationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ConfigId is null) return false;
+        if (!Check(value.ConfigId, context)) return false;
+        if (!value.HasValidationHash) return false;
+        if (value.HasValidationHash)
+        {
+            if (!ValidUnicode(value.ValidationHash)) return false;
+            if (ScalarLength(value.ValidationHash) < 64) return false;
+            if (ScalarLength(value.ValidationHash) > 64) return false;
+            if (!Matches(value.ValidationHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasApprove) return false;
+        if (value.HasApprove)
+        {
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveConfigurationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceApproveConfigurationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceApproveConfigurationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ApprovalId is null) return false;
+        if (!Check(value.ApprovalId, context)) return false;
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceDecideEnforcementRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (!value.HasProposalHash) return false;
+        if (value.HasProposalHash)
+        {
+            if (!ValidUnicode(value.ProposalHash)) return false;
+            if (ScalarLength(value.ProposalHash) < 64) return false;
+            if (ScalarLength(value.ProposalHash) > 64) return false;
+            if (!Matches(value.ProposalHash, "^[0-9a-f]{64}$")) return false;
+        }
+        if (!value.HasApprove) return false;
+        if (value.HasApprove)
+        {
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceDecideEnforcementResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceDecideEnforcementValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideEnforcementValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Action is null) return false;
+        if (!Check(value.Action, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceDecideRefundRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceDecideRefundResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceDecideRefundValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceDecideRefundValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Refund is null) return false;
+        if (!Check(value.Refund, context)) return false;
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceEndAccessRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceEndAccessResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceEndAccessValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndAccessValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceEndBreakGlassRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (!value.HasOutcome) return false;
+        if (value.HasOutcome)
+        {
+            if (!ValidUnicode(value.Outcome)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Outcome) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceEndBreakGlassResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceEndBreakGlassValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceEndBreakGlassValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetAppealRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AppealId is null) return false;
+        if (!Check(value.AppealId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetAppealResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetAppealValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetAppealValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Case is null) return false;
+        if (!Check(value.Case, context)) return false;
+        if (value.Action is null) return false;
+        if (!Check(value.Action, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetCaseRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.CaseId is null) return false;
+        if (!Check(value.CaseId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Messages is not null)
+        {
+            if (!Check(value.Messages, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetCaseResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetCaseValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCaseValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Case is null) return false;
+        if (!Check(value.Case, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetCatalogSubmissionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.SubmissionId is null) return false;
+        if (!Check(value.SubmissionId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetCatalogSubmissionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetCatalogSubmissionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetCatalogSubmissionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Submission is null) return false;
+        if (!Check(value.Submission, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetConfigurationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ConfigId is not null)
+        {
+            if (!Check(value.ConfigId, context)) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetConfigurationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetConfigurationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Document is null) return false;
+        if (!Check(value.Document, context)) return false;
+        if (value.Validation is null) return false;
+        if (!Check(value.Validation, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetProposalRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ProposalId is null) return false;
+        if (!Check(value.ProposalId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetProposalResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGetProposalValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        if (value.OwnerResult is not null)
+        {
+            if (!Check(value.OwnerResult, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGrantEntitlementRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGrantEntitlementResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceGrantEntitlementValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGrantEntitlementValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Grant is null) return false;
+        if (!Check(value.Grant, context)) return false;
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceIssueCompensationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceIssueCompensationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceIssueCompensationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceIssueCompensationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Lot is null) return false;
+        if (!Check(value.Lot, context)) return false;
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceListCasesRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) < 1) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceListCasesResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceListCasesValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceListCasesValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        foreach (var item in value.Cases)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Page is null) return false;
+        if (!Check(value.Page, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceProposeActionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ProposalId is null) return false;
+        if (!Check(value.ProposalId, context)) return false;
+        if (value.Mutation is null) return false;
+        if (!Check(value.Mutation, context)) return false;
+        if (value.ExpectedOwnerRevision is null) return false;
+        if (!Check(value.ExpectedOwnerRevision, context)) return false;
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceProposeActionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceProposeActionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeActionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceProposeEnforcementRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (value.CaseId is null) return false;
+        if (!Check(value.CaseId, context)) return false;
+        if (value.UserId is null) return false;
+        if (!Check(value.UserId, context)) return false;
+        if (!value.HasAction) return false;
+        if (value.HasAction)
+        {
+            if (!ValidUnicode(value.Action)) return false;
+            if (ScalarLength(value.Action) < 1) return false;
+            if (ScalarLength(value.Action) > 128) return false;
+            if (!Matches(value.Action, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Until is not null)
+        {
+            if (!Check(value.Until, context)) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceProposeEnforcementResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceProposeEnforcementValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceProposeEnforcementValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Action is null) return false;
+        if (!Check(value.Action, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReadDiagnosticRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (value.ResourceId is null) return false;
+        if (!Check(value.ResourceId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReadDiagnosticResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReadDiagnosticValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReadDiagnosticValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Ticket is null) return false;
+        if (!Check(value.Ticket, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReplyCaseRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.CaseId is null) return false;
+        if (!Check(value.CaseId, context)) return false;
+        if (value.MessageId is null) return false;
+        if (!Check(value.MessageId, context)) return false;
+        if (!value.HasText) return false;
+        if (value.HasText)
+        {
+            if (!ValidUnicode(value.Text)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Text) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReplyCaseResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReplyCaseValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReplyCaseValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Case is null) return false;
+        if (!Check(value.Case, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRequestAccessRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (value.CaseId is null) return false;
+        if (!Check(value.CaseId, context)) return false;
+        if (value.WorkspaceId is null) return false;
+        if (!Check(value.WorkspaceId, context)) return false;
+        foreach (var item in value.Resources)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Until is null) return false;
+        if (!Check(value.Until, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRequestAccessResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRequestAccessValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRequestAccessValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Access is null) return false;
+        if (!Check(value.Access, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceResolveAppealRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AppealId is null) return false;
+        if (!Check(value.AppealId, context)) return false;
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (!value.HasDecision) return false;
+        if (value.HasDecision)
+        {
+            if (!ValidUnicode(value.Decision)) return false;
+            if (ScalarLength(value.Decision) < 1) return false;
+            if (ScalarLength(value.Decision) > 128) return false;
+            if (!Matches(value.Decision, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceResolveAppealResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceResolveAppealValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceResolveAppealValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Action is null) return false;
+        if (!Check(value.Action, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.SubmissionId is null) return false;
+        if (!Check(value.SubmissionId, context)) return false;
+        if ((int)value.Decision != 1 && (int)value.Decision != 2) return false;
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (!value.HasEvidence) return false;
+        if (value.HasEvidence)
+        {
+            if (!ValidUnicode(value.Evidence)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Evidence) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceReviewCatalogSubmissionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceReviewCatalogSubmissionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Submission is null) return false;
+        if (!Check(value.Submission, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRevokeCatalogVersionRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (!value.HasPackageId) return false;
+        if (value.HasPackageId)
+        {
+            if (!ValidUnicode(value.PackageId)) return false;
+            if (ScalarLength(value.PackageId) < 1) return false;
+            if (ScalarLength(value.PackageId) > 128) return false;
+            if (!Matches(value.PackageId, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasVersion) return false;
+        if (value.HasVersion)
+        {
+            if (!ValidUnicode(value.Version)) return false;
+            if (ScalarLength(value.Version) < 1) return false;
+            if (ScalarLength(value.Version) > 128) return false;
+            if (!Matches(value.Version, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+        }
+        if (!value.HasEvidence) return false;
+        if (value.HasEvidence)
+        {
+            if (!ValidUnicode(value.Evidence)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Evidence) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRevokeCatalogVersionResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRevokeCatalogVersionValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeCatalogVersionValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Version is null) return false;
+        if (!Check(value.Version, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRevokeEntitlementRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRevokeEntitlementResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceRevokeEntitlementValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceRevokeEntitlementValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Grant is null) return false;
+        if (!Check(value.Grant, context)) return false;
+        if (value.Receipt is null) return false;
+        if (!Check(value.Receipt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceSetCaseStateRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.CaseId is null) return false;
+        if (!Check(value.CaseId, context)) return false;
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if ((int)value.State != 1 && (int)value.State != 2 && (int)value.State != 3 && (int)value.State != 4 && (int)value.State != 5) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceSetCaseStateResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceSetCaseStateValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetCaseStateValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Case is null) return false;
+        if (!Check(value.Case, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceSetKillSwitchRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ActionId is null) return false;
+        if (!Check(value.ActionId, context)) return false;
+        if (!value.HasMode) return false;
+        if (value.HasMode)
+        {
+            if (!ValidUnicode(value.Mode)) return false;
+            if (ScalarLength(value.Mode) < 1) return false;
+            if (ScalarLength(value.Mode) > 128) return false;
+            if (!Matches(value.Mode, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Scope is not null)
+        {
+            if (!Check(value.Scope, context)) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Until is null) return false;
+        if (!Check(value.Until, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        if (value.Proposal is null) return false;
+        if (!Check(value.Proposal, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceSetKillSwitchResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceSetKillSwitchValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceSetKillSwitchValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Action is null) return false;
+        if (!Check(value.Action, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceStageConfigurationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ConfigId is null) return false;
+        if (!Check(value.ConfigId, context)) return false;
+        if (!value.HasParentVersion) return false;
+        if (value.HasParentVersion)
+        {
+            if (!ValidUnicode(value.ParentVersion)) return false;
+            if (ScalarLength(value.ParentVersion) < 1) return false;
+            if (ScalarLength(value.ParentVersion) > 128) return false;
+            if (!Matches(value.ParentVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.Document is null) return false;
+        if (!Check(value.Document, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceStageConfigurationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceStageConfigurationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Validation is null) return false;
+        if (!Check(value.Validation, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceStartBreakGlassRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.AccessId is null) return false;
+        if (!Check(value.AccessId, context)) return false;
+        if (value.IncidentId is null) return false;
+        if (!Check(value.IncidentId, context)) return false;
+        foreach (var item in value.Resources)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasReason) return false;
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Reason) > 262144) return false;
+        }
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceStartBreakGlassResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceStartBreakGlassValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStartBreakGlassValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Access is null) return false;
+        if (!Check(value.Access, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceValidateConfigurationRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if (value.ConfigId is null) return false;
+        if (!Check(value.ConfigId, context)) return false;
+        if (value.Context is null) return false;
+        if (!Check(value.Context, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceValidateConfigurationResponse.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationResponse? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationResponse? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Meta is null) return false;
+        if (!Check(value.Meta, context)) return false;
+        if ((int)value.OutcomeCase == 2)
+        {
+            if (!Check(value.Value, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 3)
+        {
+            if (!Check(value.Error, context)) return false;
+        }
+        if ((int)value.OutcomeCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.OperatorServiceValidateConfigurationValue.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationValue? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceValidateConfigurationValue? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Validation is null) return false;
+        if (!Check(value.Validation, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.CreditLot.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.CreditLot? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.CreditLot? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.LotId is null) return false;
+        if (!Check(value.LotId, context)) return false;
+        if (!value.HasKind) return false;
+        if (value.HasKind)
+        {
+            if (!ValidUnicode(value.Kind)) return false;
+            if (ScalarLength(value.Kind) > 128) return false;
+            if (!Matches(value.Kind, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasAmount) return false;
+        if (value.HasAmount)
+        {
+        }
+        if (!value.HasRemaining) return false;
+        if (value.HasRemaining)
+        {
+        }
+        if (value.ExpiresAt is not null)
+        {
+            if (!Check(value.ExpiresAt, context)) return false;
+        }
+        if (value.SourceOrderId is not null)
+        {
+            if (!Check(value.SourceOrderId, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ExecutionOwner.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ExecutionOwner? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ExecutionOwner? value, ValidationContext context)
@@ -87,6 +3350,157 @@ public static class ContractShapeValidation
             if (!Check(value.TurnId, context)) return false;
         }
         if ((int)value.OwnerCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.Grant.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.Grant? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.Grant? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.GrantId is null) return false;
+        if (!Check(value.GrantId, context)) return false;
+        if (!value.HasCapability) return false;
+        if (value.HasCapability)
+        {
+            if (!ValidUnicode(value.Capability)) return false;
+            if (ScalarLength(value.Capability) > 128) return false;
+            if (!Matches(value.Capability, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasSource) return false;
+        if (value.HasSource)
+        {
+            if (!ValidUnicode(value.Source)) return false;
+            if (ScalarLength(value.Source) > 128) return false;
+            if (!Matches(value.Source, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.StartsAt is null) return false;
+        if (!Check(value.StartsAt, context)) return false;
+        if (value.EndsAt is not null)
+        {
+            if (!Check(value.EndsAt, context)) return false;
+        }
+        if (value.RevokedAt is not null)
+        {
+            if (!Check(value.RevokedAt, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.RefundView.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.RefundView? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.RefundView? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RefundId is null) return false;
+        if (!Check(value.RefundId, context)) return false;
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.PaymentId is null) return false;
+        if (!Check(value.PaymentId, context)) return false;
+        if (value.Amount is not null)
+        {
+            if (!Check(value.Amount, context)) return false;
+        }
+        if (value.HasReason)
+        {
+            if (!ValidUnicode(value.Reason)) return false;
+            if (ScalarLength(value.Reason) > 128) return false;
+            if (!Matches(value.Reason, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.SupportCase.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SupportCase? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SupportCase? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.CaseId is null) return false;
+        if (!Check(value.CaseId, context)) return false;
+        if (!value.HasSubject) return false;
+        if (value.HasSubject)
+        {
+            if (!ValidUnicode(value.Subject)) return false;
+            if (ScalarLength(value.Subject) > 256) return false;
+        }
+        if (!value.HasState) return false;
+        if (value.HasState)
+        {
+            if (!ValidUnicode(value.State)) return false;
+            if (ScalarLength(value.State) > 128) return false;
+            if (!Matches(value.State, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.State != "open" && value.State != "inProgress" && value.State != "awaitingUser" && value.State != "resolved" && value.State != "closed") return false;
+        }
+        if (value.Messages.Count > 100) return false;
+        foreach (var item in value.Messages)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        if (!value.HasCategory) return false;
+        if (value.HasCategory)
+        {
+            if (!ValidUnicode(value.Category)) return false;
+            if (ScalarLength(value.Category) > 128) return false;
+            if (!Matches(value.Category, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+            if (value.Category != "support" && value.Category != "bug" && value.Category != "communityReport" && value.Category != "appeal" && value.Category != "security") return false;
+        }
+        if (value.RelatedActionId is not null)
+        {
+            if (!Check(value.RelatedActionId, context)) return false;
+        }
+        if (value.MessagePage is not null)
+        {
+            if (!Check(value.MessagePage, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.SupportMessage.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SupportMessage? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.SupportMessage? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.MessageId is null) return false;
+        if (!Check(value.MessageId, context)) return false;
+        if (!value.HasActorKind) return false;
+        if (value.HasActorKind)
+        {
+            if (!ValidUnicode(value.ActorKind)) return false;
+            if (ScalarLength(value.ActorKind) > 128) return false;
+            if (!Matches(value.ActorKind, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasText) return false;
+        if (value.HasText)
+        {
+            if (!ValidUnicode(value.Text)) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Text) > 262144) return false;
+        }
+        if (value.CreatedAt is null) return false;
+        if (!Check(value.CreatedAt, context)) return false;
+        if (value.Diagnostic is not null)
+        {
+            if (!Check(value.Diagnostic, context)) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }

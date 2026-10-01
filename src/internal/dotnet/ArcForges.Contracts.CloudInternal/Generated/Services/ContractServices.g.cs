@@ -10,6 +10,7 @@ public static class ContractServices
     /// <summary>The package's authored service descriptors in schema order.</summary>
     public static global::System.Collections.Generic.IReadOnlyList<global::Google.Protobuf.Reflection.ServiceDescriptor> All { get; } =
     [
+        global::ArcForges.Contracts.CloudInternal.Operator.V1.OperatorService.Descriptor,
         global::ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.Descriptor,
     ];
 }

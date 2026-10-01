@@ -128,6 +128,7 @@ ArcForges.Contracts.PublicApi.V1.HistoryService.BindService(binder, new HistoryE
 ArcForges.Contracts.Events.V1.ExecutionService.BindService(binder, new ExecutionEndpoint());
 ArcForges.Contracts.Events.V1.EventService.BindService(binder, new EventEndpoint());
 ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.BindService(binder, new RunStreamEndpoint());
+ArcForges.Contracts.CloudInternal.Operator.V1.OperatorService.BindService(binder, new OperatorEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -400,3 +401,5 @@ internal sealed class ExecutionEndpoint : ArcForges.Contracts.Events.V1.Executio
 internal sealed class EventEndpoint : ArcForges.Contracts.Events.V1.EventService.EventServiceBase;
 
 internal sealed class RunStreamEndpoint : ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.RunStreamServiceBase;
+
+internal sealed class OperatorEndpoint : ArcForges.Contracts.CloudInternal.Operator.V1.OperatorService.OperatorServiceBase;

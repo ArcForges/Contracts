@@ -275,6 +275,77 @@ class OperationScopeTests(unittest.TestCase):
             with self.subTest(authorization_field=field), self.assertRaises(ValueError):
                 gate.authorization(hostile, set())
 
+    def break_glass_row(self):
+        return {
+            'operationId': 'operator.startBreakGlass',
+            'binding': 'arcforges.operator.v1.OperatorService/StartBreakGlass',
+            'kind': 'proto',
+            'source': 'internal/proto/arcforges/operator/v1/operator.proto',
+            'scope': 'operator',
+            'surface': 'operator',
+            'profile': 'operator',
+            'sourceRule': 'docs/architecture/contracts/04-protobuf-wire-registry.md#91-complete-operator-authorization-and-call-context',
+            'idempotency': 'CC',
+            'authorization': {
+                'capability': None,
+                'risk': 'R4',
+                'approval': 'alarmedIncident',
+                'stepUp': True,
+                'localPresence': False,
+                'egress': 'caseBoundRecovery',
+                'patEligible': False,
+                'actorKinds': ['operator'],
+            },
+        }
+
+    def test_operator_break_glass_r4_is_one_exact_operator_binding(self):
+        row = self.break_glass_row()
+        self.assertEqual(gate.authorization(row, set()), (['operator'], []))
+
+        context_mutations = [
+            ('operationId', 'operator.endBreakGlass'),
+            ('binding', 'arcforges.operator.v1.OperatorService/EndBreakGlass'),
+            ('kind', 'http'),
+            ('source', 'internal/proto/arcforges/operator/v1/other.proto'),
+            ('scope', 'account'),
+            ('surface', 'public'),
+            ('profile', 'human-owner'),
+            ('idempotency', 'IW'),
+        ]
+        for field, wrong in context_mutations:
+            hostile = copy.deepcopy(row)
+            hostile[field] = wrong
+            with self.subTest(field=field, wrong=wrong), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+
+        for field, wrong in [('actorKinds', ['human']), ('actorKinds', ['operator', 'service']),
+                             ('patEligible', True), ('capability', 'operator.startBreakGlass'),
+                             ('localPresence', True), ('stepUp', 'yes')]:
+            hostile = copy.deepcopy(row)
+            hostile['authorization'][field] = wrong
+            with self.subTest(authorization_field=field, wrong=wrong), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+
+        for wrong in ('R5', 'r4', 'R4+', 'R4 ', 'R 4', 'R4.0'):
+            hostile = copy.deepcopy(row)
+            hostile['authorization']['risk'] = wrong
+            with self.subTest(risk=wrong), self.assertRaisesRegex(ValueError, 'unclassified risk'):
+                gate.authorization(hostile, set())
+
+        other = copy.deepcopy(row)
+        other.update(operationId='operator.endBreakGlass', idempotency='IW',
+                     binding='arcforges.operator.v1.OperatorService/EndBreakGlass')
+        with self.assertRaisesRegex(ValueError, 'unclassified risk'):
+            gate.authorization(other, set())
+        public = self.task_create_row()
+        public['authorization']['risk'] = 'R4'
+        with self.assertRaises(ValueError):
+            gate.authorization(public, set())
+        human = self.cf_service_row('cf.ai.authorize')
+        human['authorization']['risk'] = 'R4'
+        with self.assertRaises(ValueError):
+            gate.authorization(human, set())
+
     def test_cf_service_ports_are_exact_closed_transport_bindings(self):
         self.assertEqual(gate.CF_SERVICE_OPERATIONS, CF_SERVICE_EXPECTATIONS)
         operations = list(CF_SERVICE_EXPECTATIONS)
@@ -518,7 +589,7 @@ class OperationScopeTests(unittest.TestCase):
         self.assertEqual(len(result["operations"]), len(oracle["operations"]))
         self.assertEqual(result["registered"] + result["pending"] + result["reserved"], len(oracle["operations"]))
         self.assertEqual((result["registered"], result["pending"], result["reserved"],
-                          len(result["operations"])), (249, 86, 7, 342))
+                          len(result["operations"])), (280, 55, 7, 342))
         self.assertEqual(result["privateServiceProjections"], [{
             "binding": CON11_PRIVATE_BINDING,
             "source": CON11_PRIVATE_SOURCE,

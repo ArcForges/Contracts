@@ -302,7 +302,7 @@ def generate(check: bool = False) -> None:
                     # Imported public definitions keep their single generated owner.
                     for file in output.rglob("*.ts"):
                         value = file.read_text(encoding="utf-8")
-                        value = re.sub(r'from "(?:\.\./)+(?:foundation|events|hello)/v1/[^"/]+_pb\.js"',
+                        value = re.sub(r'from "(?:\.\./)+(?:foundation|events|hello|publicapi|catalog)/v1/[^"/]+_pb\.js"',
                                        'from "@arcforges/proto"', value)
                         file.write_text(value, encoding="utf-8")
             for file in output.rglob("*"):

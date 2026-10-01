@@ -1,11 +1,7 @@
 {
   "schemaVersion": "con-14-operator-fixtures.v1",
   "license": "Apache-2.0",
-  "authority": [
-    "Registry04 §9.1",
-    "Registry04 §9.2",
-    "Plan CON.14 validation"
-  ],
+  "authority": ["Registry04 §9.1", "Registry04 §9.2", "Plan CON.14 validation"],
   "evidenceClass": "Independent declarative schema/protocol expectations only; no owner/runtime authorization, persistence, transaction, concurrency, identity-provider, or external-provider behavior is executed.",
   "protocolExpectations": {
     "proposalLifetimeMinutes": 15,
@@ -37,6 +33,328 @@
     "sameCommandAndHashAfterLostResponse": "return the original receipt without repeating the owner effect",
     "changedContentWithReusedCommand": "refuse with command.reused_identifier"
   },
+  "roleVocabulary": [
+    "customerSupport",
+    "recoverySpecialist",
+    "operations",
+    "trustSafety",
+    "security"
+  ],
+  "operationMatrix": [
+    {
+      "operationId": "operator.listCases",
+      "method": "ListCases",
+      "class": "Q",
+      "risk": "R1",
+      "approval": "none",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+    },
+    {
+      "operationId": "operator.getCase",
+      "method": "GetCase",
+      "class": "Q",
+      "risk": "R1",
+      "approval": "none",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+    },
+    {
+      "operationId": "operator.requestAccess",
+      "method": "RequestAccess",
+      "class": "CC",
+      "risk": "R3",
+      "approval": "foreground",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety"]
+    },
+    {
+      "operationId": "operator.approveAccess",
+      "method": "ApproveAccess",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "secondOperatorAndOwnerConsent",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["recoverySpecialist", "security"]
+    },
+    {
+      "operationId": "operator.endAccess",
+      "method": "EndAccess",
+      "class": "IW",
+      "risk": "R2",
+      "approval": "foreground",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+    },
+    {
+      "operationId": "operator.readDiagnostic",
+      "method": "ReadDiagnostic",
+      "class": "Q",
+      "risk": "R3",
+      "approval": "activeAccessGrant",
+      "stepUp": true,
+      "egress": "diagnosticToOperator",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety"]
+    },
+    {
+      "operationId": "operator.proposeEnforcement",
+      "method": "ProposeEnforcement",
+      "class": "CC",
+      "risk": "R3",
+      "approval": "foreground",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["trustSafety"]
+    },
+    {
+      "operationId": "operator.decideEnforcement",
+      "method": "DecideEnforcement",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "secondOperator",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["security"]
+    },
+    {
+      "operationId": "operator.getAppeal",
+      "method": "GetAppeal",
+      "class": "Q",
+      "risk": "R1",
+      "approval": "none",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["trustSafety", "security"]
+    },
+    {
+      "operationId": "operator.resolveAppeal",
+      "method": "ResolveAppeal",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["trustSafety"]
+    },
+    {
+      "operationId": "operator.stageConfiguration",
+      "method": "StageConfiguration",
+      "class": "CC",
+      "risk": "R3",
+      "approval": "foreground",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["operations"]
+    },
+    {
+      "operationId": "operator.validateConfiguration",
+      "method": "ValidateConfiguration",
+      "class": "Q",
+      "risk": "R3",
+      "approval": "none",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["operations"]
+    },
+    {
+      "operationId": "operator.approveConfiguration",
+      "method": "ApproveConfiguration",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "secondOperator",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["security"]
+    },
+    {
+      "operationId": "operator.activateConfiguration",
+      "method": "ActivateConfiguration",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "secondOperatorReceipt",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["operations"]
+    },
+    {
+      "operationId": "operator.getConfiguration",
+      "method": "GetConfiguration",
+      "class": "Q",
+      "risk": "R2",
+      "approval": "none",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["operations", "security"]
+    },
+    {
+      "operationId": "operator.setKillSwitch",
+      "method": "SetKillSwitch",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["operations"]
+    },
+    {
+      "operationId": "operator.startBreakGlass",
+      "method": "StartBreakGlass",
+      "class": "CC",
+      "risk": "R4",
+      "approval": "alarmedIncident",
+      "stepUp": true,
+      "egress": "caseBoundRecovery",
+      "roles": ["security"]
+    },
+    {
+      "operationId": "operator.endBreakGlass",
+      "method": "EndBreakGlass",
+      "class": "IW",
+      "risk": "R2",
+      "approval": "foreground",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["security"]
+    },
+    {
+      "operationId": "operator.proposeAction",
+      "method": "ProposeAction",
+      "class": "CC",
+      "risk": "R3",
+      "approval": "foreground",
+      "stepUp": true,
+      "egress": "none",
+      "roles": null,
+      "payloadBoundRoles": "proposer"
+    },
+    {
+      "operationId": "operator.approveAction",
+      "method": "ApproveAction",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "secondOperator",
+      "stepUp": true,
+      "egress": "none",
+      "roles": null,
+      "payloadBoundRoles": "approver"
+    },
+    {
+      "operationId": "operator.getProposal",
+      "method": "GetProposal",
+      "class": "Q",
+      "risk": "R2",
+      "approval": "none",
+      "stepUp": false,
+      "egress": "none",
+      "roles": null,
+      "payloadBoundRoles": "proposerOrApprover"
+    },
+    {
+      "operationId": "operator.grantEntitlement",
+      "method": "GrantEntitlement",
+      "class": "CC",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["customerSupport", "recoverySpecialist"]
+    },
+    {
+      "operationId": "operator.revokeEntitlement",
+      "method": "RevokeEntitlement",
+      "class": "DE",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["customerSupport", "recoverySpecialist"]
+    },
+    {
+      "operationId": "operator.issueCompensation",
+      "method": "IssueCompensation",
+      "class": "CC",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["customerSupport"]
+    },
+    {
+      "operationId": "operator.adjustCompensation",
+      "method": "AdjustCompensation",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["customerSupport"]
+    },
+    {
+      "operationId": "operator.decideRefund",
+      "method": "DecideRefund",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "paymentProvider",
+      "roles": ["customerSupport"]
+    },
+    {
+      "operationId": "operator.getCatalogSubmission",
+      "method": "GetCatalogSubmission",
+      "class": "Q",
+      "risk": "R2",
+      "approval": "none",
+      "stepUp": false,
+      "egress": "none",
+      "roles": ["trustSafety", "security"]
+    },
+    {
+      "operationId": "operator.replyCase",
+      "method": "ReplyCase",
+      "class": "CC",
+      "risk": "R2",
+      "approval": "foreground",
+      "stepUp": false,
+      "egress": "caseOwnerNotification",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+    },
+    {
+      "operationId": "operator.setCaseState",
+      "method": "SetCaseState",
+      "class": "IW",
+      "risk": "R2",
+      "approval": "foreground",
+      "stepUp": false,
+      "egress": "caseOwnerNotification",
+      "roles": ["customerSupport", "recoverySpecialist", "trustSafety", "security"]
+    },
+    {
+      "operationId": "catalog.review",
+      "method": "ReviewCatalogSubmission",
+      "class": "IW",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["trustSafety"]
+    },
+    {
+      "operationId": "catalog.revoke",
+      "method": "RevokeCatalogVersion",
+      "class": "DE",
+      "risk": "R3",
+      "approval": "approvedProposal",
+      "stepUp": true,
+      "egress": "none",
+      "roles": ["trustSafety"]
+    }
+  ],
   "mutationVectors": [
     {
       "id": "mutation-grant",
@@ -135,7 +453,14 @@
   "negativeVectors": [
     {
       "id": "non-operator-caller-refused",
-      "callerClasses": ["customer cookie", "native session", "personal access token", "agent", "service credential", "public Web/Android origin"],
+      "callerClasses": [
+        "customer cookie",
+        "native session",
+        "personal access token",
+        "agent",
+        "service credential",
+        "public Web/Android origin"
+      ],
       "expectedBoundary": "refuse; OperatorService is available only through its separate operator origin/session and CSRF binding",
       "runtimeAcceptanceProven": false
     },
@@ -200,6 +525,1249 @@
       "scenario": "The owner batch committed but the response was lost; the original proposer retries the exact same commandId and canonical hash.",
       "expectedBoundary": "return the original receipt and resulting proposal state without a second owner effect",
       "runtimeAcceptanceProven": false
+    }
+  ],
+  "shapeCases": [
+    {
+      "id": "call-context-case-valid",
+      "target": "OperatorCallContext",
+      "valid": true,
+      "value": {
+        "caseId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "purpose": "Resolve the reported billing problem"
+      }
+    },
+    {
+      "id": "call-context-incident-valid",
+      "target": "OperatorCallContext",
+      "valid": true,
+      "value": {
+        "incidentId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "purpose": "Queue triage for the declared incident"
+      }
+    },
+    {
+      "id": "call-context-missing-subject-invalid",
+      "target": "OperatorCallContext",
+      "valid": false,
+      "value": {
+        "purpose": "No case or incident"
+      }
+    },
+    {
+      "id": "call-context-missing-purpose-invalid",
+      "target": "OperatorCallContext",
+      "valid": false,
+      "value": {
+        "caseId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        }
+      }
+    },
+    {
+      "id": "call-context-zero-case-id-invalid",
+      "target": "OperatorCallContext",
+      "valid": false,
+      "value": {
+        "caseId": {
+          "value": "AAAAAAAAAAAAAAAAAAAAAA=="
+        },
+        "purpose": "Zero identifier"
+      }
+    },
+    {
+      "id": "proposal-ref-valid",
+      "target": "OperatorProposalRef",
+      "valid": true,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "expectedProposalRevision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "proposal-ref-uppercase-hash-invalid",
+      "target": "OperatorProposalRef",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF",
+        "expectedProposalRevision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "proposal-ref-short-hash-invalid",
+      "target": "OperatorProposalRef",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde",
+        "expectedProposalRevision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "proposal-ref-missing-revision-invalid",
+      "target": "OperatorProposalRef",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "proposal-ref-negative-revision-invalid",
+      "target": "OperatorProposalRef",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "expectedProposalRevision": {
+          "value": "-1"
+        }
+      }
+    },
+    {
+      "id": "mutation-grant-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "grant": {
+          "grantId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "workspaceId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "subject": "capability.assistant",
+          "entitlementProfileId": "profile.compensation",
+          "startsAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          },
+          "endsAt": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          },
+          "source": "OPERATOR_GRANT_SOURCE_COMPENSATION",
+          "kind": "OPERATOR_GRANT_KIND_CAPABILITY"
+        }
+      }
+    },
+    {
+      "id": "mutation-empty-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "mutation-grant-unspecified-source-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "grant": {
+          "grantId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "workspaceId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "subject": "capability.assistant",
+          "entitlementProfileId": "profile.compensation",
+          "startsAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          },
+          "endsAt": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          },
+          "source": "OPERATOR_GRANT_SOURCE_UNSPECIFIED",
+          "kind": "OPERATOR_GRANT_KIND_CAPABILITY"
+        }
+      }
+    },
+    {
+      "id": "mutation-grant-subject-not-key-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "grant": {
+          "grantId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "workspaceId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "subject": "not a key",
+          "entitlementProfileId": "profile.compensation",
+          "startsAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          },
+          "endsAt": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          },
+          "source": "OPERATOR_GRANT_SOURCE_COMPENSATION",
+          "kind": "OPERATOR_GRANT_KIND_CAPABILITY"
+        }
+      }
+    },
+    {
+      "id": "mutation-issue-credit-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "issueCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "workspaceId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "amountMicro": "9223372036854775807",
+          "expiresAt": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-issue-credit-zero-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "issueCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "workspaceId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "amountMicro": "0",
+          "expiresAt": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-issue-credit-overflow-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "issueCredit": {
+          "lotId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "workspaceId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "amountMicro": "9223372036854775808",
+          "expiresAt": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-refund-approve-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "refund": {
+          "refundId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "OPERATOR_REFUND_DECISION_APPROVE",
+          "amount": {
+            "value": "12.50"
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-refund-unspecified-decision-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "refund": {
+          "refundId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "OPERATOR_REFUND_DECISION_UNSPECIFIED"
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-review-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "catalogReview": {
+          "submissionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+          "reason": "review.approved",
+          "evidence": "Independent manifest and archive review passed."
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-review-unspecified-decision-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "catalogReview": {
+          "submissionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "CATALOG_REVIEW_DECISION_UNSPECIFIED",
+          "reason": "review.approved",
+          "evidence": "Independent manifest and archive review passed."
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-review-missing-evidence-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "catalogReview": {
+          "submissionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+          "reason": "review.approved"
+        }
+      }
+    },
+    {
+      "id": "mutation-catalog-revoke-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "catalogRevoke": {
+          "packageId": "publisher.example-package",
+          "version": "1.2.3",
+          "reason": "security.revoked",
+          "evidence": "Confirmed vulnerable release."
+        }
+      }
+    },
+    {
+      "id": "mutation-kill-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "kill": {
+          "actionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "mode": "kill.mode.example",
+          "reason": "Contain the incident.",
+          "until": {
+            "unixSeconds": "3600",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "mutation-kill-missing-until-invalid",
+      "target": "OperatorMutation",
+      "valid": false,
+      "value": {
+        "kill": {
+          "actionId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "mode": "kill.mode.example",
+          "reason": "Contain the incident."
+        }
+      }
+    },
+    {
+      "id": "mutation-appeal-valid",
+      "target": "OperatorMutation",
+      "valid": true,
+      "value": {
+        "appeal": {
+          "appealId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "actionId": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          },
+          "decision": "uphold",
+          "reason": "The enforcement remains justified."
+        }
+      }
+    },
+    {
+      "id": "proposal-pending-valid",
+      "target": "OperatorProposal",
+      "valid": true,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mutation": {
+          "revokeGrant": {
+            "grantId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "revocationId": {
+              "value": "qrvM3e7/ABEiM0RVZneImQ=="
+            }
+          }
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_PENDING",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "recoveryGeneration": "7",
+        "configurationHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "proposal-executed-valid",
+      "target": "OperatorProposal",
+      "valid": true,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mutation": {
+          "revokeGrant": {
+            "grantId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "revocationId": {
+              "value": "qrvM3e7/ABEiM0RVZneImQ=="
+            }
+          }
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_EXECUTED",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "recoveryGeneration": "7",
+        "configurationHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "approverSubject": "operator.bob",
+        "consumedByCommandId": {
+          "value": "qrvM3e7/ABEiM0RVZneImQ=="
+        },
+        "resultRef": {
+          "kind": "entitlement.grant",
+          "id": {
+            "value": "qrvM3e7/ABEiM0RVZneImQ=="
+          }
+        }
+      }
+    },
+    {
+      "id": "proposal-unspecified-state-invalid",
+      "target": "OperatorProposal",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mutation": {
+          "revokeGrant": {
+            "grantId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "revocationId": {
+              "value": "qrvM3e7/ABEiM0RVZneImQ=="
+            }
+          }
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_UNSPECIFIED",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "recoveryGeneration": "7",
+        "configurationHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "proposal-missing-hash-invalid",
+      "target": "OperatorProposal",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mutation": {
+          "revokeGrant": {
+            "grantId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "revocationId": {
+              "value": "qrvM3e7/ABEiM0RVZneImQ=="
+            }
+          }
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_PENDING",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "recoveryGeneration": "7",
+        "configurationHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "proposal-missing-configuration-hash-invalid",
+      "target": "OperatorProposal",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mutation": {
+          "revokeGrant": {
+            "grantId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "revocationId": {
+              "value": "qrvM3e7/ABEiM0RVZneImQ=="
+            }
+          }
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_PENDING",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "recoveryGeneration": "7"
+      }
+    },
+    {
+      "id": "proposal-missing-recovery-generation-invalid",
+      "target": "OperatorProposal",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mutation": {
+          "revokeGrant": {
+            "grantId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "revocationId": {
+              "value": "qrvM3e7/ABEiM0RVZneImQ=="
+            }
+          }
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_PENDING",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "configurationHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "proposal-missing-mutation-invalid",
+      "target": "OperatorProposal",
+      "valid": false,
+      "value": {
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "targetOperation": "operator.revokeEntitlement",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "reason": "Remove the mistaken administrative grant.",
+        "proposerSubject": "operator.alice",
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "ownerRevision": {
+          "value": "4"
+        },
+        "revision": {
+          "value": "1"
+        },
+        "state": "OPERATOR_PROPOSAL_STATE_PENDING",
+        "expiresAt": {
+          "unixSeconds": "900",
+          "nanos": 0
+        },
+        "recoveryGeneration": "7",
+        "configurationHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "id": "approve-action-valid",
+      "target": "OperatorServiceApproveActionRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "approve": true,
+        "reason": "Second operator reviewed the exact diff.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "approve-action-reject-valid",
+      "target": "OperatorServiceApproveActionRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "approve": false,
+        "reason": "Second operator reviewed the exact diff.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "approve-action-missing-decision-invalid",
+      "target": "OperatorServiceApproveActionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "reason": "Second operator reviewed the exact diff.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "approve-action-missing-context-invalid",
+      "target": "OperatorServiceApproveActionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "approve": true,
+        "reason": "Second operator reviewed the exact diff."
+      }
+    },
+    {
+      "id": "approve-action-bad-hash-invalid",
+      "target": "OperatorServiceApproveActionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposalId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proposalHash": "ABC",
+        "approve": true,
+        "reason": "Second operator reviewed the exact diff.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "grant-entitlement-valid",
+      "target": "OperatorServiceGrantEntitlementRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
+        },
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "grant-entitlement-missing-proposal-invalid",
+      "target": "OperatorServiceGrantEntitlementRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "grant-entitlement-missing-context-invalid",
+      "target": "OperatorServiceGrantEntitlementRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "catalog-review-request-valid",
+      "target": "OperatorServiceReviewCatalogSubmissionRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "submissionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+        "reason": "review.approved",
+        "evidence": "Independent review passed.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "catalog-review-request-missing-proposal-invalid",
+      "target": "OperatorServiceReviewCatalogSubmissionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "submissionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "decision": "CATALOG_REVIEW_DECISION_APPROVE",
+        "reason": "review.approved",
+        "evidence": "Independent review passed.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "kill-switch-request-valid",
+      "target": "OperatorServiceSetKillSwitchRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "actionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mode": "kill.mode.example",
+        "reason": "Contain the incident.",
+        "until": {
+          "unixSeconds": "3600",
+          "nanos": 0
+        },
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "proposal": {
+          "proposalId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "proposalHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "expectedProposalRevision": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "kill-switch-request-missing-proposal-invalid",
+      "target": "OperatorServiceSetKillSwitchRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "actionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "mode": "kill.mode.example",
+        "reason": "Contain the incident.",
+        "until": {
+          "unixSeconds": "3600",
+          "nanos": 0
+        },
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "case-state-request-valid",
+      "target": "OperatorServiceSetCaseStateRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "caseId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "state": "SUPPORT_CASE_STATE_RESOLVED",
+        "reason": "The customer confirmed the fix.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "case-state-request-unspecified-state-invalid",
+      "target": "OperatorServiceSetCaseStateRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "caseId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "state": "SUPPORT_CASE_STATE_UNSPECIFIED",
+        "reason": "The customer confirmed the fix.",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "get-case-with-message-page-valid",
+      "target": "OperatorServiceGetCaseRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "caseId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "messages": {
+          "limit": 50
+        }
+      }
+    },
+    {
+      "id": "get-case-zero-message-limit-invalid",
+      "target": "OperatorServiceGetCaseRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "caseId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "messages": {
+          "limit": 0
+        }
+      }
+    },
+    {
+      "id": "list-cases-request-valid",
+      "target": "OperatorServiceListCasesRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "page": {
+          "limit": 25
+        },
+        "state": "open",
+        "context": {
+          "incidentId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Triage the declared incident queue"
+        }
+      }
+    },
+    {
+      "id": "list-cases-request-missing-context-invalid",
+      "target": "OperatorServiceListCasesRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "page": {
+          "limit": 25
+        }
+      }
+    },
+    {
+      "id": "response-empty-outcome-invalid",
+      "target": "OperatorServiceGetCaseResponse",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        }
+      }
+    },
+    {
+      "id": "response-error-outcome-valid",
+      "target": "OperatorServiceGetCaseResponse",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "error": {
+          "code": "perm.resource_denied",
+          "category": "ERROR_CATEGORY_AUTHORIZATION",
+          "messageKey": "error.perm.resource_denied",
+          "retry": {
+            "mode": "RETRY_MODE_NEVER"
+          },
+          "effect": "EFFECT_CERTAINTY_DID_NOT_HAPPEN",
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        }
+      }
+    },
+    {
+      "id": "configuration-document-valid",
+      "target": "ConfigurationDocument",
+      "valid": true,
+      "value": {
+        "schemaVersion": "config.v1",
+        "canonicalJson": "e30=",
+        "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "parentVersion": "config.v0",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "configuration-document-missing-json-invalid",
+      "target": "ConfigurationDocument",
+      "valid": false,
+      "value": {
+        "schemaVersion": "config.v1",
+        "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "parentVersion": "config.v0",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "configuration-document-over-one-mib-invalid",
+      "target": "ConfigurationDocument",
+      "valid": false,
+      "value": {
+        "schemaVersion": "config.v1",
+        "canonicalJson": {
+          "generatedBytes": 1048577
+        },
+        "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "parentVersion": "config.v0",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "config-validation-valid",
+      "target": "ConfigValidation",
+      "valid": true,
+      "value": {
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "schemaVersion": "config.v1",
+        "compatible": true,
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "config-validation-missing-compatibility-invalid",
+      "target": "ConfigValidation",
+      "valid": false,
+      "value": {
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "schemaVersion": "config.v1",
+        "revision": {
+          "value": "1"
+        }
+      }
     }
   ]
 }

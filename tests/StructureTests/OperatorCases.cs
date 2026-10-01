@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using ArcForges.Contracts.CloudInternal.Operator.V1;
+using CloudShapes = ArcForges.Contracts.CloudInternal.Shapes.ContractShapeValidation;
 
 internal static class OperatorCases
 {
@@ -92,7 +95,7 @@ internal static class OperatorCases
             var path = $"/{service.FullName}/{method.Name}";
             var request = method.InputType;
             var response = method.OutputType;
-            Require(path.StartsWith("/arcforges.operator.v1/OperatorService/", StringComparison.Ordinal), path + " internal path");
+            Require(path.StartsWith("/arcforges.operator.v1.OperatorService/", StringComparison.Ordinal), path + " internal path");
             Require(!method.IsClientStreaming && !method.IsServerStreaming, path + " unary");
             Require(request.File == file && response.File == file, path + " request/response stay in the internal file");
             Require(request.Name == "OperatorService" + method.Name + "Request", path + " request identity");
@@ -161,7 +164,144 @@ internal static class OperatorCases
         AssertFieldType(file, "OperatorResult", 5, "arcforges.catalog.v1.CatalogVersionView");
         AssertFieldType(file, "OperatorResult", 6, OperatorPackage + ".OperatorAction");
 
-        Console.WriteLine("CON.14: internal operator descriptor, exact methods, context/proposal tags and Registry04 record shapes passed.");
+        AssertOperationMatrix(root, fixture, service, methodNames);
+        AssertShapeCases(fixture.GetProperty("shapeCases"));
+
+        Console.WriteLine("CON.14: internal operator descriptor, exact methods, authorization matrix, shape vectors, context/proposal tags and Registry04 record shapes passed.");
+    }
+
+    // Independent Registry04 section 9.1 oracle: operation|method|class|risk|approval|stepUp|egress|roles.
+    private static readonly string[] Matrix =
+    {
+            "operator.listCases|ListCases|Q|R1|none|false|none|CS,RS,TS,SE",
+            "operator.getCase|GetCase|Q|R1|none|false|none|CS,RS,TS,SE",
+            "operator.requestAccess|RequestAccess|CC|R3|foreground|true|none|CS,RS,TS",
+            "operator.approveAccess|ApproveAccess|IW|R3|secondOperatorAndOwnerConsent|true|none|RS,SE",
+            "operator.endAccess|EndAccess|IW|R2|foreground|false|none|CS,RS,TS,SE",
+            "operator.readDiagnostic|ReadDiagnostic|Q|R3|activeAccessGrant|true|diagnosticToOperator|CS,RS,TS",
+            "operator.proposeEnforcement|ProposeEnforcement|CC|R3|foreground|true|none|TS",
+            "operator.decideEnforcement|DecideEnforcement|IW|R3|secondOperator|true|none|SE",
+            "operator.getAppeal|GetAppeal|Q|R1|none|false|none|TS,SE",
+            "operator.resolveAppeal|ResolveAppeal|IW|R3|approvedProposal|true|none|TS",
+            "operator.stageConfiguration|StageConfiguration|CC|R3|foreground|true|none|OP",
+            "operator.validateConfiguration|ValidateConfiguration|Q|R3|none|true|none|OP",
+            "operator.approveConfiguration|ApproveConfiguration|IW|R3|secondOperator|true|none|SE",
+            "operator.activateConfiguration|ActivateConfiguration|IW|R3|secondOperatorReceipt|true|none|OP",
+            "operator.getConfiguration|GetConfiguration|Q|R2|none|false|none|OP,SE",
+            "operator.setKillSwitch|SetKillSwitch|IW|R3|approvedProposal|true|none|OP",
+            "operator.startBreakGlass|StartBreakGlass|CC|R4|alarmedIncident|true|caseBoundRecovery|SE",
+            "operator.endBreakGlass|EndBreakGlass|IW|R2|foreground|false|none|SE",
+            "operator.proposeAction|ProposeAction|CC|R3|foreground|true|none|proposer",
+            "operator.approveAction|ApproveAction|IW|R3|secondOperator|true|none|approver",
+            "operator.getProposal|GetProposal|Q|R2|none|false|none|proposerOrApprover",
+            "operator.grantEntitlement|GrantEntitlement|CC|R3|approvedProposal|true|none|CS,RS",
+            "operator.revokeEntitlement|RevokeEntitlement|DE|R3|approvedProposal|true|none|CS,RS",
+            "operator.issueCompensation|IssueCompensation|CC|R3|approvedProposal|true|none|CS",
+            "operator.adjustCompensation|AdjustCompensation|IW|R3|approvedProposal|true|none|CS",
+            "operator.decideRefund|DecideRefund|IW|R3|approvedProposal|true|paymentProvider|CS",
+            "operator.getCatalogSubmission|GetCatalogSubmission|Q|R2|none|false|none|TS,SE",
+            "operator.replyCase|ReplyCase|CC|R2|foreground|false|caseOwnerNotification|CS,RS,TS,SE",
+            "operator.setCaseState|SetCaseState|IW|R2|foreground|false|caseOwnerNotification|CS,RS,TS,SE",
+            "catalog.review|ReviewCatalogSubmission|IW|R3|approvedProposal|true|none|TS",
+            "catalog.revoke|RevokeCatalogVersion|DE|R3|approvedProposal|true|none|TS",
+    };
+
+    private static void AssertOperationMatrix(string root, JsonElement fixture, ServiceDescriptor service, string[] methodNames)
+    {
+        var abbreviations = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["CS"] = "customerSupport", ["RS"] = "recoverySpecialist", ["OP"] = "operations",
+            ["TS"] = "trustSafety", ["SE"] = "security"
+        };
+        AssertStrings(fixture.GetProperty("roleVocabulary"), "customerSupport", "recoverySpecialist", "operations", "trustSafety", "security");
+        var matrix = fixture.GetProperty("operationMatrix").EnumerateArray().ToArray();
+        using var exportDocument = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "eng/operations/con-14.json")));
+        var exports = exportDocument.RootElement.GetProperty("operations").EnumerateArray().ToArray();
+        Require(Matrix.Length == 31 && matrix.Length == 31 && exports.Length == 31, "31 matrix, oracle and export rows");
+        Require(Matrix.Count(row => row.StartsWith("operator.", StringComparison.Ordinal)) == 29 &&
+            Matrix.Count(row => row.StartsWith("catalog.", StringComparison.Ordinal)) == 2, "29 operator.* plus 2 catalog.* operations");
+        Require(Matrix.Select(row => row.Split("|")[1]).SequenceEqual(methodNames), "oracle methods follow the service order");
+        for (var index = 0; index < Matrix.Length; index++)
+        {
+            var oracle = Matrix[index].Split("|");
+            var row = matrix[index];
+            var name = oracle[0];
+            Require(row.GetProperty("operationId").GetString() == name, name + " matrix identity");
+            Require(row.GetProperty("method").GetString() == oracle[1], name + " matrix method");
+            Require(row.GetProperty("class").GetString() == oracle[2], name + " matrix class");
+            Require(row.GetProperty("risk").GetString() == oracle[3], name + " matrix risk");
+            Require(row.GetProperty("approval").GetString() == oracle[4], name + " matrix approval");
+            Require(row.GetProperty("stepUp").GetBoolean() == (oracle[5] == "true"), name + " matrix step-up");
+            Require(row.GetProperty("egress").GetString() == oracle[6], name + " matrix egress");
+            if (abbreviations.ContainsKey(oracle[7].Split(",")[0]))
+            {
+                AssertStrings(row.GetProperty("roles"), oracle[7].Split(",").Select(role => abbreviations[role]).ToArray());
+                Require(!row.TryGetProperty("payloadBoundRoles", out _), name + " fixed roles have no payload binding");
+            }
+            else
+            {
+                Require(row.GetProperty("roles").ValueKind == JsonValueKind.Null &&
+                    row.GetProperty("payloadBoundRoles").GetString() == oracle[7], name + " payload-bound roles");
+            }
+
+            var exported = exports[index];
+            Require(exported.GetProperty("operationId").GetString() == name, name + " export identity");
+            Require(exported.GetProperty("binding").GetString() == OperatorPackage + ".OperatorService/" + oracle[1], name + " export binding");
+            Require(exported.GetProperty("kind").GetString() == "proto" &&
+                exported.GetProperty("source").GetString() == "internal/proto/arcforges/operator/v1/operator.proto" &&
+                exported.GetProperty("scope").GetString() == "operator" && exported.GetProperty("surface").GetString() == "operator" &&
+                exported.GetProperty("profile").GetString() == "operator", name + " operator boundary");
+            Require(exported.GetProperty("idempotency").GetString() == oracle[2], name + " export class");
+            var auth = exported.GetProperty("authorization");
+            Require(auth.EnumerateObject().Count() == 8, name + " exactly eight authorization fields");
+            Require(auth.GetProperty("capability").ValueKind == JsonValueKind.Null, name + " has no tool capability");
+            Require(auth.GetProperty("risk").GetString() == oracle[3] && auth.GetProperty("approval").GetString() == oracle[4] &&
+                auth.GetProperty("stepUp").GetBoolean() == (oracle[5] == "true") && auth.GetProperty("egress").GetString() == oracle[6],
+                name + " export authorization metadata");
+            Require(auth.GetProperty("localPresence").ValueKind == JsonValueKind.False &&
+                auth.GetProperty("patEligible").ValueKind == JsonValueKind.False, name + " no local-presence or PAT reachability");
+            AssertStrings(auth.GetProperty("actorKinds"), "operator");
+            Require(service.Methods[index].Name == oracle[1], name + " method order");
+        }
+    }
+
+    private static void AssertShapeCases(JsonElement cases)
+    {
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        var positive = 0;
+        var negative = 0;
+        foreach (var item in cases.EnumerateArray())
+        {
+            var id = item.GetProperty("id").GetString()!;
+            Require(seen.Add(id), "unique shape case " + id);
+            var node = JsonNode.Parse(item.GetProperty("value").GetRawText())!;
+            if (node is JsonObject obj && obj["canonicalJson"] is JsonObject generated)
+                obj["canonicalJson"] = Convert.ToBase64String(new byte[generated["generatedBytes"]!.GetValue<int>()]);
+            var json = node.ToJsonString();
+            var target = item.GetProperty("target").GetString()!;
+            var actual = target switch
+            {
+                "OperatorCallContext" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorCallContext>(json)),
+                "OperatorProposalRef" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorProposalRef>(json)),
+                "OperatorMutation" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorMutation>(json)),
+                "OperatorProposal" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorProposal>(json)),
+                "ConfigurationDocument" => CloudShapes.IsValid(JsonParser.Default.Parse<ConfigurationDocument>(json)),
+                "ConfigValidation" => CloudShapes.IsValid(JsonParser.Default.Parse<ConfigValidation>(json)),
+                "OperatorServiceApproveActionRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceApproveActionRequest>(json)),
+                "OperatorServiceGrantEntitlementRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceGrantEntitlementRequest>(json)),
+                "OperatorServiceReviewCatalogSubmissionRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceReviewCatalogSubmissionRequest>(json)),
+                "OperatorServiceSetKillSwitchRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceSetKillSwitchRequest>(json)),
+                "OperatorServiceSetCaseStateRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceSetCaseStateRequest>(json)),
+                "OperatorServiceGetCaseRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceGetCaseRequest>(json)),
+                "OperatorServiceListCasesRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceListCasesRequest>(json)),
+                "OperatorServiceGetCaseResponse" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceGetCaseResponse>(json)),
+                _ => throw new InvalidOperationException("Unknown CON.14 shape target: " + target)
+            };
+            var expected = item.GetProperty("valid").GetBoolean();
+            Require(actual == expected, "shape case " + id);
+            if (expected) positive++; else negative++;
+        }
+        Require(positive >= 20 && negative >= 30, $"shape coverage positives={positive} negatives={negative}");
     }
 
     private static void AssertProtocolExpectations(JsonElement protocol)
