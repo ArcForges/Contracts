@@ -29881,7 +29881,7 @@
     },
     {
       "path": "internal/storage-http/v1/schema.json",
-      "sha256": "a38ce06edf0963daad5ce2fe093914f438395181e7d9c66703de3f09f1f3e72a"
+      "sha256": "4560313756d5efdf3fdab5785cc9b898d358f70e9e1377ccc4c824377dfc89c7"
     },
     {
       "path": "package-lock.json",
