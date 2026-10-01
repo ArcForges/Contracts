@@ -356,9 +356,17 @@ test("the real manifest assigns both private HTTP schemas to the two existing in
   const manifest = JSON.parse(readFileSync(path.join(ROOT, "eng/contract-packages.json"), "utf8"));
   const owners = (schema) =>
     manifest.packages.filter((row) => row.jsonSchemas.includes(schema)).map((row) => row.id);
-  for (const schema of ["internal/cf-http/v1/schema.json", "internal/storage-http/v1/schema.json"]) {
-    assert.deepEqual(owners(schema).sort(), ["@arcforges/ai-internal", "ArcForges.Contracts.CloudInternal"]);
-    assert.ok(readFileSync(path.join(ROOT, schema), "utf8").includes("SPDX-License-Identifier: Apache-2.0"));
+  for (const schema of [
+    "internal/cf-http/v1/schema.json",
+    "internal/storage-http/v1/schema.json",
+  ]) {
+    assert.deepEqual(owners(schema).sort(), [
+      "@arcforges/ai-internal",
+      "ArcForges.Contracts.CloudInternal",
+    ]);
+    assert.ok(
+      readFileSync(path.join(ROOT, schema), "utf8").includes("SPDX-License-Identifier: Apache-2.0"),
+    );
   }
   checkPackageBoundaries(ROOT, manifest);
 });
@@ -378,7 +386,10 @@ test("an internal HTTP schema may reference only an existing internal source and
     jsonSchemas: ["internal/cf-http/v1/schema.json"],
   };
   const write = (reference) =>
-    writeFileSync(path.join(root, "internal/cf-http/v1/schema.json"), JSON.stringify({ $ref: reference }));
+    writeFileSync(
+      path.join(root, "internal/cf-http/v1/schema.json"),
+      JSON.stringify({ $ref: reference }),
+    );
   write("../../ai-http/v1/schema.json#/$defs/ByteRange");
   checkPackageBoundaries(root, { schemaVersion: 1, packages: [row] });
   write("https://attacker.example/schema.json#/$defs/ByteRange");

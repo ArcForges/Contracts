@@ -161,7 +161,16 @@
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,7})?Z$"
         }
       },
-      "required": ["planId", "planVersion", "manifestHash", "requestId", "recoveryGeneration", "ownerScope", "arguments", "deadlineUtc"],
+      "required": [
+        "planId",
+        "planVersion",
+        "manifestHash",
+        "requestId",
+        "recoveryGeneration",
+        "ownerScope",
+        "arguments",
+        "deadlineUtc"
+      ],
       "additionalProperties": false,
       "x-arcforges-max-bytes": 262144
     },
@@ -216,7 +225,15 @@
         },
         "failure": {
           "type": "string",
-          "enum": ["invalidPlan", "staleGeneration", "precondition", "constraint", "overloaded", "unavailable", "unknownOutcome"]
+          "enum": [
+            "invalidPlan",
+            "staleGeneration",
+            "precondition",
+            "constraint",
+            "overloaded",
+            "unavailable",
+            "unknownOutcome"
+          ]
         }
       },
       "required": ["requestId", "manifestHash", "failure"],
@@ -224,16 +241,10 @@
     },
     "ExecutePlanResponse": {
       "title": "ExecutePlanResponse",
-      "oneOf": [
-        { "$ref": "#/$defs/ExecutePlanSuccess" },
-        { "$ref": "#/$defs/ExecutePlanFailure" }
-      ],
+      "oneOf": [{ "$ref": "#/$defs/ExecutePlanSuccess" }, { "$ref": "#/$defs/ExecutePlanFailure" }],
       "x-arcforges-max-bytes": 262144
     }
   },
-  "oneOf": [
-    { "$ref": "#/$defs/ExecutePlanRequest" },
-    { "$ref": "#/$defs/ExecutePlanResponse" }
-  ],
+  "oneOf": [{ "$ref": "#/$defs/ExecutePlanRequest" }, { "$ref": "#/$defs/ExecutePlanResponse" }],
   "x-arcforges-schema-version": "1"
 }

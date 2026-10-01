@@ -31,7 +31,7 @@ class SerializationPolicy(unittest.TestCase):
     def test_current_repository_passes(self):
         result = gate.audit(ROOT)
         self.assertEqual(result["result"], "passed")
-        self.assertEqual(result["strictJsonContexts"], 41)
+        self.assertEqual(result["strictJsonContexts"], 78)
         self.assertGreaterEqual(result["packableAotProjects"], 12)
 
     def test_forbidden_dependencies_in_every_lock_kind(self):
