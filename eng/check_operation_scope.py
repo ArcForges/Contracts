@@ -65,6 +65,24 @@ PAT_OPERATIONS = {"workspace.list", "workspace.get", "catalog.search", "catalog.
                   "resource.renewUploadTicket", "support.listCases"}
 # These are immutable migration-example identities, not wildcards or production grants.
 EXAMPLES = {"arcforges.hello.v1.HelloService/SayHello": "public/proto/arcforges/hello/v1/hello.proto"}
+# CON.11's private RunStream binding is a schema projection for an already
+# authenticated attempt, not a caller operation. Keep this one exact exception
+# tied to its authored source and independent RPC fixture; do not generalize it.
+CON11_EXPORT = "eng/operations/con-11.json"
+CON11_PRIVATE_RUN_STREAM = {
+    "binding": "arcforges.cf.v1.RunStreamService/Run",
+    "source": "internal/proto/arcforges/cf/v1/stream.proto",
+    "fixture": "fixtures/internal/con-11-run-stream.json",
+    "rpcVector": {
+        "id": "cloudinternal.run-stream.run",
+        "service": "arcforges.cf.v1.RunStreamService",
+        "method": "Run",
+        "input": "RunStreamRequest",
+        "output": "arcforges.events.v1.StreamFrame",
+        "streamType": "serverStreaming",
+        "requestFields": [["execution", 1], ["attemptId", 2], ["generation", 3]],
+    },
+}
 HUMAN_ONLY = {"approval.decide", "IChatOperations.SubmitApproval", "source.createConsent",
               "source.revokeConsent", "source.setPolicy", "source.clearPolicy", "preference.put",
               "connector.beginConnection", "connector.completeConnection", "connector.revokeConnection",
@@ -155,6 +173,32 @@ def proto_methods(root: Path) -> dict[str, str]:
                     require(binding not in methods, f"ambiguous duplicate method: {binding}")
                     methods[binding] = path.relative_to(root).as_posix()
     return methods
+
+
+def private_service_projections(root: Path, methods: dict[str, str], bindings: set[str]) -> list[dict]:
+    """Validate and separately report CON.11's one closed private schema projection."""
+    # Small isolated unit-test roots do not contain the CON.11 domain export.
+    # In the real Contracts tree that export makes the projection mandatory,
+    # even if its proto or fixture is accidentally removed.
+    if not (root / CON11_EXPORT).is_file():
+        return []
+
+    binding = CON11_PRIVATE_RUN_STREAM["binding"]
+    source = CON11_PRIVATE_RUN_STREAM["source"]
+    require(methods.get(binding) == source,
+            "CON.11 private RunStream projection has a missing or wrong source binding")
+    require(binding not in bindings,
+            "CON.11 private RunStream projection must not have an operation export")
+
+    fixture_path = source_path(root, CON11_PRIVATE_RUN_STREAM["fixture"])
+    fixture = load(fixture_path)
+    require(fixture.get("schemaVersion") == "con-11-run-stream.v1",
+            "CON.11 private RunStream fixture identity mismatch")
+    require(fixture.get("rpcVectors") == [CON11_PRIVATE_RUN_STREAM["rpcVector"]],
+            "CON.11 private RunStream fixture RPC vector mismatch")
+    return [{"binding": binding, "source": source,
+             "fixture": CON11_PRIVATE_RUN_STREAM["fixture"],
+             "rpcVectorId": CON11_PRIVATE_RUN_STREAM["rpcVector"]["id"]}]
 
 
 def public_imports(root: Path) -> None:
@@ -405,6 +449,8 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
             require(row.get("scope") == oracle[operation], f"{operation}: scope disagrees with oracle")
             binding = row.get("binding")
             require(isinstance(binding, str) and bool(binding) and binding not in bindings, f"ambiguous binding: {binding}")
+            require(binding != CON11_PRIVATE_RUN_STREAM["binding"],
+                    "CON.11 private RunStream projection must not have an operation export")
             source = row.get("source")
             source_path(root, source)
             if row.get("kind") == "proto":
@@ -417,11 +463,15 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
             bindings.add(binding)
             exported[operation] = {**row, "reachableActors": actors, "derivedFields": derived,
                                    "metadataSource": path.relative_to(root).as_posix()}
+    private_projections = private_service_projections(root, methods, bindings)
+    private_projection_bindings = {projection["binding"] for projection in private_projections}
     examples = []
     for binding, source in methods.items():
         if EXAMPLES.get(binding) == source:
             require(binding not in bindings, f"migration example exported as production: {binding}")
             examples.append(binding)
+        elif binding in private_projection_bindings:
+            continue
         else:
             require(binding in bindings, f"unclassified registered method: {binding}")
     matrix = []
@@ -432,7 +482,8 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
     return {"schemaVersion": "operation-reachability.v1", "result": "passed", "oracle": manifest.get("oracle"),
             "registered": len(exported), "pending": sum(r["status"] == "pending" for r in matrix),
             "reserved": sum(r["status"] == "reserved" for r in matrix), "migrationExamples": sorted(examples),
-            "operations": matrix, "coverage": "offline metadata policy only; no runtime authorization acceptance"}
+            "operations": matrix, "privateServiceProjections": private_projections,
+            "coverage": "offline metadata policy only; no runtime authorization acceptance"}
 
 
 def main() -> int:

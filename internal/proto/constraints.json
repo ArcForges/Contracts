@@ -2544,6 +2544,20 @@
       },
       "oneofRequired": ["outcome"]
     },
+    "arcforges.cf.v1.RunStreamRequest": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamRequest",
+      "fields": {
+        "execution": {
+          "required": true
+        },
+        "attemptId": {
+          "required": true
+        },
+        "generation": {
+          "required": true
+        }
+      }
+    },
     "arcforges.operator.v1.OperatorCallContext": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCallContext",
       "fields": {

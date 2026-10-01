@@ -1,0 +1,300 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "application.disconnect",
+      "binding": "arcforges.publicapi.v1.ApplicationService/Disconnect",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "application.heartbeat",
+      "binding": "arcforges.publicapi.v1.ApplicationService/Heartbeat",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "application.list",
+      "binding": "arcforges.publicapi.v1.ApplicationService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "events.poll",
+      "binding": "arcforges.events.v1.EventService/Poll",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#7-event-and-exception-registries",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "authorizedHintResponseOnly",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "events.watch",
+      "binding": "arcforges.events.v1.EventService/Watch",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "resource-owner",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "execution.acknowledgeOutput",
+      "binding": "arcforges.events.v1.ExecutionService/AcknowledgeOutput",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "execution.purgeTransient",
+      "binding": "arcforges.events.v1.ExecutionService/PurgeTransient",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "execution.readOutput",
+      "binding": "arcforges.events.v1.ExecutionService/ReadOutput",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "execution.startTransientTurn",
+      "binding": "arcforges.events.v1.ExecutionService/StartTransientTurn",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "existingAdmissionContextPolicyToSelectedCloudOrWorkersAiRoute",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "execution.watchOutput",
+      "binding": "arcforges.events.v1.ExecutionService/WatchOutput",
+      "kind": "proto",
+      "source": "public/proto/arcforges/events/v1/events.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "history.beginImport",
+      "binding": "arcforges.publicapi.v1.HistoryService/BeginImport",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "foregroundSaveToCloud",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "thisApplicationAdmittedCloudHistoryDestinationOnly",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "history.cancelImport",
+      "binding": "arcforges.publicapi.v1.HistoryService/CancelImport",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "history.finalizeImport",
+      "binding": "arcforges.publicapi.v1.HistoryService/FinalizeImport",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "recordedSaveToCloudConsent",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "recordedBeginConsentDestinationAndSnapshotOnly",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "history.getImport",
+      "binding": "arcforges.publicapi.v1.HistoryService/GetImport",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/application.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/10-application-scope-and-streams.md#4-added-operation-catalogue",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    }
+  ]
+}

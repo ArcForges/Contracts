@@ -65,6 +65,8 @@ var services = fixture.RootElement.GetProperty("services");
 var catalogues = new Dictionary<string, IReadOnlyList<ServiceDescriptor>>(StringComparer.Ordinal)
 {
     ["ArcForges.Contracts.PublicApi"] = ArcForges.Contracts.PublicApi.ContractServices.All,
+    ["ArcForges.Contracts.Events"] = ArcForges.Contracts.Events.ContractServices.All,
+    ["ArcForges.Contracts.CloudInternal"] = ArcForges.Contracts.CloudInternal.ContractServices.All,
     ["ArcForges.Sdk.Contracts"] = ArcForges.Sdk.Contracts.ContractServices.All,
     ["ArcForges.Contracts.LocalRpc.Platform"] = ArcForges.Contracts.LocalRpc.Platform.ContractServices.All,
     ["ArcForges.Contracts.LocalRpc.Sandbox"] = ArcForges.Contracts.LocalRpc.Sandbox.ContractServices.All,
@@ -121,6 +123,11 @@ ArcForges.Contracts.PublicApi.V1.DataService.BindService(binder, new DataEndpoin
 ArcForges.Contracts.PublicApi.V1.ExportService.BindService(binder, new ExportEndpoint());
 ArcForges.Contracts.Simulation.V1.SimulationService.BindService(binder, new SimulationEndpoint());
 ArcForges.Contracts.PublicApi.V1.ScopeService.BindService(binder, new ScopeEndpoint());
+ArcForges.Contracts.PublicApi.V1.ApplicationService.BindService(binder, new ApplicationEndpoint());
+ArcForges.Contracts.PublicApi.V1.HistoryService.BindService(binder, new HistoryEndpoint());
+ArcForges.Contracts.Events.V1.ExecutionService.BindService(binder, new ExecutionEndpoint());
+ArcForges.Contracts.Events.V1.EventService.BindService(binder, new EventEndpoint());
+ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.BindService(binder, new RunStreamEndpoint());
 var expectedMethods = services.GetProperty("methods").EnumerateObject()
     .SelectMany(service => service.Value.EnumerateArray().Select(value => value.GetString()!)).ToArray();
 Require(binder.Methods.SequenceEqual(expectedMethods), "bound methods " + string.Join(",", binder.Methods));
@@ -147,6 +154,8 @@ FileDescriptor[] files =
     ArcForges.Contracts.LocalRpc.Scope.V1.ScopeReflection.Descriptor,
     ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReflection.Descriptor,
     ArcForges.Contracts.Simulation.V1.SimulationReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.ApplicationReflection.Descriptor,
+    ArcForges.Contracts.CloudInternal.Cf.V1.StreamReflection.Descriptor,
 ];
 var serviceCount = 0;
 foreach (var file in files)
@@ -381,3 +390,13 @@ internal sealed class ExportEndpoint : ArcForges.Contracts.PublicApi.V1.ExportSe
 internal sealed class SimulationEndpoint : ArcForges.Contracts.Simulation.V1.SimulationService.SimulationServiceBase;
 
 internal sealed class ScopeEndpoint : ArcForges.Contracts.PublicApi.V1.ScopeService.ScopeServiceBase;
+
+internal sealed class ApplicationEndpoint : ArcForges.Contracts.PublicApi.V1.ApplicationService.ApplicationServiceBase;
+
+internal sealed class HistoryEndpoint : ArcForges.Contracts.PublicApi.V1.HistoryService.HistoryServiceBase;
+
+internal sealed class ExecutionEndpoint : ArcForges.Contracts.Events.V1.ExecutionService.ExecutionServiceBase;
+
+internal sealed class EventEndpoint : ArcForges.Contracts.Events.V1.EventService.EventServiceBase;
+
+internal sealed class RunStreamEndpoint : ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.RunStreamServiceBase;

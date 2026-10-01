@@ -4,6 +4,7 @@ export * from "./gen/arcforges/catalog/v1/catalog_pb.js";
 export * from "./gen/arcforges/events/v1/events_pb.js";
 export * from "./gen/arcforges/foundation/v1/foundation_pb.js";
 export * from "./gen/arcforges/hello/v1/hello_pb.js";
+export * from "./gen/arcforges/publicapi/v1/application_pb.js";
 export * from "./gen/arcforges/publicapi/v1/chat_pb.js";
 export * from "./gen/arcforges/publicapi/v1/commerce_pb.js";
 export * from "./gen/arcforges/publicapi/v1/content_pb.js";

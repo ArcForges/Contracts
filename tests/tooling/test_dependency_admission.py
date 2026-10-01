@@ -624,7 +624,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 67)
+        self.assertEqual(len(config['allowlists']), 70)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -774,7 +774,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -1920,6 +1920,7 @@ class DependencyAdmission(unittest.TestCase):
         # with the existing normalized_page rule; these are public content hashes.
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
         frozen_head = 'e04d5a3026a827196b7b62eac6fc5180391c2c00'
+        policy_history_head = 'e88cd0f94f01985a166a18d2f43526486b2b5761'
         policy_path = 'eng/policy/dependency-policy.json'
         receipt_path = 'eng/policy/dependency-reviews/con-24-r1.json'
         profile_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r18.json'
@@ -1935,25 +1936,30 @@ class DependencyAdmission(unittest.TestCase):
 
         head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
                                        text=True).strip()
-        self.assertEqual(subprocess.run(
-            ['git', 'merge-base', '--is-ancestor', frozen_head, head],
-            cwd=ROOT, check=False).returncode, 0)
+        for earlier, later in [(frozen_head, policy_history_head),
+                               (policy_history_head, head)]:
+            self.assertEqual(subprocess.run(
+                ['git', 'merge-base', '--is-ancestor', earlier, later],
+                cwd=ROOT, check=False).returncode, 0)
 
         frozen_allowlists = tomllib.loads(
-            git_blob(frozen_head, '.gitleaks.toml').decode('utf-8'))['allowlists']
-        self.assertEqual(config['allowlists'][:-3], frozen_allowlists)
-        groups = config['allowlists'][-3:]
+            git_blob(policy_history_head, '.gitleaks.toml').decode('utf-8'))['allowlists']
+        self.assertEqual(len(frozen_allowlists), 67)
+        self.assertEqual(config['allowlists'][:67], frozen_allowlists)
+        groups = config['allowlists'][64:67]
         self.assertEqual({row['description'] for row in groups}, expected_descriptions)
         self.assertEqual(len(groups), 3)
         by_description = {row['description']: row for row in groups}
 
+        frozen_policy_blob = git_blob(policy_history_head, policy_path)
+        self.assertEqual(git_blob(frozen_head, policy_path), frozen_policy_blob)
         frozen_blobs = {
-            policy_path: git_blob(frozen_head, policy_path),
+            policy_path: frozen_policy_blob,
             receipt_path: git_blob(frozen_head, receipt_path),
             profile_path: git_blob(frozen_head, profile_path),
         }
-        for path, blob in frozen_blobs.items():
-            self.assertEqual(blob, git_blob(head, path))
+        for path in (receipt_path, profile_path):
+            self.assertEqual(frozen_blobs[path], git_blob(head, path))
 
         def parse_json_line(blob, line_number):
             lines = blob.decode('utf-8').splitlines()
@@ -2156,6 +2162,217 @@ class DependencyAdmission(unittest.TestCase):
                 self.assertIsNone(re.fullmatch(path_pattern, outer_path + '.backup'))
                 self.assertIsNone(re.fullmatch(path_pattern, 'src/secrets.json'))
 
+
+    def test_con11_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
+        config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
+        self.assertEqual(len(config['allowlists']), 70)
+        groups = config['allowlists'][67:]
+        expected_descriptions = {
+            'CON.11 reviewed dependency policy public input digest',
+            'CON.11 reviewed immutable dependency receipt public input digests',
+            'CON.11 reviewed Dokka r19 public profile exact source digest rows',
+        }
+        self.assertEqual(len(groups), 3)
+        self.assertEqual({row['description'] for row in groups}, expected_descriptions)
+        by_description = {row['description']: row for row in groups}
+
+        scan_head = '1ea545850b73705a5c37ab9d69184ed2c7df013c'
+        profile_head = 'f248b048bbe1582c82158c0b52897b39737f7e89'
+        policy_path = 'eng/policy/dependency-policy.json'
+        receipt_path = 'eng/policy/dependency-reviews/con-11-r1.json'
+        profile_path = 'eng/provenance/artifact-profiles/dokka-2-2-0-r19.json'
+
+        def git_blob(commit, path):
+            return subprocess.check_output(['git', 'show', f'{commit}:{path}'], cwd=ROOT)
+
+        head = subprocess.check_output(
+            ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        for earlier in (scan_head, profile_head):
+            self.assertEqual(subprocess.run(
+                ['git', 'merge-base', '--is-ancestor', earlier, head],
+                cwd=ROOT, check=False).returncode, 0)
+
+        def parse_json_line(blob, line_number):
+            lines = blob.decode('utf-8').splitlines()
+            self.assertLessEqual(line_number, len(lines))
+            match = re.fullmatch(
+                r'\s*"([^"]+)"\s*:\s*"([0-9a-f]{64})",?\s*',
+                lines[line_number - 1])
+            self.assertIsNotNone(match)
+            return match.group(1), match.group(2)
+
+        policy_blob = git_blob(scan_head, policy_path)
+        policy_document = json.loads(policy_blob)
+        policy_occurrences = [
+            (line_number, *parse_json_line(policy_blob, line_number))
+            for line_number in (19, 2490)
+        ]
+        self.assertEqual(
+            policy_occurrences,
+            [
+                (19, 'eng/policy/contract-access.json',
+                 '99e2e46d33a86a1486ecdc71d314f553a224433259cbf9c93e93417d635a9188'),
+                (2490, 'eng/policy/contract-access.json',
+                 '99e2e46d33a86a1486ecdc71d314f553a224433259cbf9c93e93417d635a9188'),
+            ])
+        self.assertEqual(len({(key, digest) for _, key, digest in policy_occurrences}), 1)
+        for _, key, digest in policy_occurrences:
+            self.assertEqual(policy_document['inputHashes'][key], digest)
+            self.assertEqual(
+                digest, hashlib.sha256(git_blob(scan_head, key)).hexdigest())
+
+        receipt_blob = git_blob(scan_head, receipt_path)
+        receipt_document = json.loads(receipt_blob)
+        receipt_hashes = receipt_document['review']['inputHashes']
+        receipt_occurrences = [
+            (line_number, *parse_json_line(receipt_blob, line_number))
+            for line_number in (22, 76, 142, 198)
+        ]
+        self.assertEqual(
+            [row[0] for row in receipt_occurrences], [22, 76, 142, 198])
+        self.assertEqual(
+            [digest for _, key, digest in receipt_occurrences],
+            [receipt_hashes[key] for _, key, _ in receipt_occurrences])
+        for _, key, digest in receipt_occurrences:
+            self.assertEqual(
+                digest, hashlib.sha256(git_blob(scan_head, key)).hexdigest())
+
+        profile_blob = git_blob(profile_head, profile_path)
+        self.assertEqual(profile_blob, git_blob(head, profile_path))
+        profile_lines = profile_blob.decode('utf-8').splitlines()
+        profile_document = json.loads(profile_blob)
+        profile_maps = [module['pages'] for module in profile_document['modules'].values()]
+        profile_maps.append(profile_document['inputs'])
+        reported_line_numbers = [
+            1133, 1135, 1137, 1138, 1891, 1892, 1893, 4213, 4239, 4256, 4281, 4282,
+            4304, 4316, 4321, 4326, 4332, 4333, 4337, 4342, 4347, 4348, 4352, 4359,
+            4360, 4370, 4371, 4375, 4529, 4535, 4541, 4550, 4551, 4554, 4562, 4570,
+            4571, 4574, 4581, 4582, 4595, 4596, 4599, 4625, 4648, 4649, 4671, 4714,
+            4715, 4780, 4781, 4803, 6853, 6854, 6855, 6857, 6859, 6860, 6861, 6863,
+            6866, 6878, 6879, 6880, 6881, 6882, 6883, 6885, 6886, 6887, 6900, 6901,
+            6902, 6913, 6915, 6916, 6917, 6918, 6920, 6921, 6922, 6928, 6929, 6930,
+            6931, 6932, 6933, 6949, 6950, 6951, 6952, 6953, 6954, 6956, 6957, 6958,
+            7137, 7151, 7154, 7166, 7167, 7174, 7182, 7192, 7193, 7200, 7214, 7215,
+            7233, 7234, 7241, 7625, 7654, 7666, 7704, 7705, 7740, 7774, 7805, 7806,
+            7841, 7873, 7874, 7933, 7934, 7969, 8352, 8354, 8357, 8360, 8361, 8364,
+            8367, 8369, 8370, 8373, 8376, 8377, 8383, 8384, 8387, 8462, 8471, 8476,
+            8485, 8486, 8492, 8500, 8508, 8509, 8515, 8526, 8527, 8541, 8542, 8548,
+            13907, 13915, 13916, 13917, 13918, 13924, 13925, 13926, 13930, 13935, 13936, 13937,
+            13938, 13949, 13958, 13959, 13960, 13961, 15166, 15176, 15183, 15184, 15194, 15200,
+            15201, 15214, 15215, 15226, 15227, 22678, 22682, 22686, 22690, 22692, 22697, 22700,
+            22701, 22707, 22708, 22710, 22714, 22717, 22721, 22723, 22724, 22730, 22731, 22733,
+            22737, 22742, 22743, 22749, 22750, 22759, 22760, 22766, 22767, 22769, 22773, 22871,
+            22874, 22878, 22881, 22883, 22888, 22896, 22897, 22900, 22901, 22903, 22906, 22914,
+            22917, 22924, 22925, 22928, 22929, 22931, 22934, 22939, 22940, 22943, 22944, 22957,
+            22958, 22961, 22962, 22964, 22967, 26294, 26299, 26302, 26319, 26320, 26338, 26353,
+            26362, 26363, 26381, 26393, 26394, 26414, 26437, 29081, 29082, 29083, 29085, 29087,
+            29088, 29090, 29093, 29096, 29099, 29100, 29102, 29105, 29106, 29108, 29111, 29112,
+            29114, 29116, 29117, 29119, 29122, 29123, 29125, 29129, 29130, 29132, 29140, 29142,
+            29144, 29147, 29148, 29150, 29165, 29167, 29170, 29172, 29174, 29178, 29188, 29191,
+            29195, 29197, 29206, 29208, 29215, 29218, 29222, 29224, 29230, 29233, 29246, 29250,
+            29254, 29256, 29563, 29567, 29574, 29580, 29581, 29585, 29590, 29595, 29596, 29600,
+            29608, 29609, 29619, 29620, 29624, 29853, 29863, 29869, 29881, 29882, 29890, 29898,
+            29907, 29908, 29916, 29929, 29930, 29948, 29949, 29957, 32167, 32173, 32179, 32189,
+            32196, 32204, 32211, 32218, 32226, 32240, 32248, 44507, 44508, 44509, 55473, 55479,
+        ]
+        self.assertEqual(len(reported_line_numbers), 360)
+        self.assertEqual(len(set(reported_line_numbers)), 360)
+        self.assertEqual(reported_line_numbers, sorted(reported_line_numbers))
+        profile_occurrences = [
+            (line_number, *parse_json_line(profile_blob, line_number))
+            for line_number in reported_line_numbers
+        ]
+        profile_rows = {(key, digest) for _, key, digest in profile_occurrences}
+        self.assertEqual(len(profile_rows), 360)
+        for _, key, digest in profile_occurrences:
+            values = [mapping[key] for mapping in profile_maps if key in mapping]
+            self.assertEqual(values, [digest])
+        source_rows = {(key, digest) for key, digest in profile_rows
+                       if key.endswith(('.java', '.kt'))}
+        html_rows = {key for key, _ in profile_rows if key.endswith('.html')}
+        self.assertEqual(len(source_rows), 7)
+        self.assertEqual(len(html_rows), 353)
+        for key, digest in source_rows:
+            self.assertEqual(
+                digest, hashlib.sha256(git_blob(profile_head, key)).hexdigest())
+
+        canonical_profile_lines = ''.join(
+            f'{line_number}\t{key}\t{digest}\n'
+            for line_number, key, digest in profile_occurrences)
+        self.assertEqual(
+            hashlib.sha256(canonical_profile_lines.encode('utf-8')).hexdigest(),
+            'ed4163812589de05acbf59cca735edc78ec747ffaa998c348f6fef79c009178b')
+        canonical_profile_pairs = ''.join(
+            f'{key}\t{digest}\n' for key, digest in sorted(profile_rows))
+        self.assertEqual(
+            hashlib.sha256(canonical_profile_pairs.encode('utf-8')).hexdigest(),
+            '69be3b95b5910fb20b07ccb558363e42232b51f961a051b4c94c2d40aefbc335')
+
+        observations = {
+            'policy': (policy_path, policy_occurrences),
+            'receipt': (receipt_path, receipt_occurrences),
+            'profile': (profile_path, profile_occurrences),
+        }
+        expected_occurrences = 0
+        all_tuples = set()
+        expected_rows = {}
+        for name, (outer_path, occurrences) in observations.items():
+            expected_occurrences += len(occurrences)
+            tuples = {(outer_path, key, digest) for _, key, digest in occurrences}
+            all_tuples.update(tuples)
+            expected_rows[name] = {(key, digest) for _, key, digest in occurrences}
+        self.assertEqual(expected_occurrences, 366)
+        self.assertEqual(len(all_tuples), 365)
+        self.assertEqual([len(expected_rows[name]) for name in ('policy', 'receipt', 'profile')],
+                         [1, 4, 360])
+
+        for name, (outer_path, occurrences) in observations.items():
+            with self.subTest(source=name):
+                suffix = {
+                    'policy': 'CON.11 reviewed dependency policy public input digest',
+                    'receipt': 'CON.11 reviewed immutable dependency receipt public input digests',
+                    'profile': 'CON.11 reviewed Dokka r19 public profile exact source digest rows',
+                }[name]
+                group = by_description[suffix]
+                path_pattern = '^' + re.escape(outer_path) + '$'
+                self.assertEqual(group['targetRules'], ['generic-api-key'])
+                self.assertEqual(group['condition'], 'AND')
+                self.assertEqual(group['regexTarget'], 'line')
+                self.assertEqual(group['paths'], [path_pattern])
+                ordered_rows = sorted(expected_rows[name])
+                expected_patterns = [
+                    r'(?s)^\s*"' + re.escape(key) + r'":\s*"' + digest + r'",?\s*$'
+                    for key, digest in ordered_rows
+                ]
+                self.assertEqual(group['regexes'], expected_patterns)
+                self.assertEqual(len(group['regexes']), len(set(group['regexes'])))
+                source_blob = {
+                    'policy': policy_blob,
+                    'receipt': receipt_blob,
+                    'profile': profile_blob,
+                }[name]
+                source_lines = source_blob.decode('utf-8').splitlines()
+                for line_number, key, digest in occurrences:
+                    line = source_lines[line_number - 1]
+                    self.assertEqual(parse_json_line(source_blob, line_number), (key, digest))
+                    self.assertEqual(
+                        sum(re.fullmatch(pattern, line) is not None
+                            for pattern in group['regexes']), 1)
+                for (key, digest), pattern in zip(
+                        ordered_rows, group['regexes'], strict=True):
+                    line = f'  "{key}": "{digest}",'
+                    self.assertIsNotNone(re.fullmatch(pattern, line))
+                    wrong_digest = '0' * 64 if digest != '0' * 64 else '1' * 64
+                    unrelated_digest = 'a' * 64 if digest != 'a' * 64 else 'b' * 64
+                    for rejected_line in [
+                        line.replace(digest, wrong_digest),
+                        line.replace('"' + key + '"', '"unrelated-key"'),
+                        f'  "unrelated-key": "{unrelated_digest}",',
+                        line + ' "credential": "synthetic-secret"',
+                    ]:
+                        self.assertIsNone(re.fullmatch(pattern, rejected_line))
+                self.assertIsNone(re.fullmatch(path_pattern, outer_path + '.backup'))
+                self.assertIsNone(re.fullmatch(path_pattern, 'src/secrets.json'))
 
 if __name__ == '__main__':
     unittest.main()

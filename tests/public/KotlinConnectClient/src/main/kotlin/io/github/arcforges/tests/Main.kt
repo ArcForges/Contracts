@@ -32,6 +32,7 @@ fun main(args: Array<String>) = runBlocking {
         check(identity.getAsJsonObject("axes").getAsJsonObject("ContractSet").getAsJsonArray("values")[0].asJsonObject["version"].asString == "1")
     }
     println("Published JVM module build identities verified.")
+    Con11ApplicationStreamsCases.run()
     SupportCases.run()
     SimulationCases.run()
     Con24ScopeLibraryCases.run()

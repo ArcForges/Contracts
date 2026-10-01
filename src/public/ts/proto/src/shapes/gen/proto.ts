@@ -703,6 +703,127 @@ function checkPublisherView(input: unknown, context: ValidationContext): boolean
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isApplicationPresenceChanged(input: unknown): boolean { return checkApplicationPresenceChanged(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationPresenceChanged(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.target === undefined) return false;
+  if (value.target !== undefined) {
+    const fieldValue = value.target;
+    if (!checkApplicationTarget(fieldValue, context)) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "online" && fieldValue !== "idle" && fieldValue !== "offline" && fieldValue !== "incompatible" && fieldValue !== "revoked") return false;
+  }
+  if (value.eligible === undefined) return false;
+  if (value.eligible !== undefined) {
+    const fieldValue = value.eligible;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApprovalRaised(input: unknown): boolean { return checkApprovalRaised(input, {active: new Set<object>(), depth: 0}); }
+function checkApprovalRaised(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.approvalId === undefined) return false;
+  if (value.approvalId !== undefined) {
+    const fieldValue = value.approvalId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.taskId === undefined) return false;
+  if (value.taskId !== undefined) {
+    const fieldValue = value.taskId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.risk === undefined) return false;
+  if (value.risk !== undefined) {
+    const fieldValue = value.risk;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.expiresAt === undefined) return false;
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApprovalResolved(input: unknown): boolean { return checkApprovalResolved(input, {active: new Set<object>(), depth: 0}); }
+function checkApprovalResolved(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.approvalId === undefined) return false;
+  if (value.approvalId !== undefined) {
+    const fieldValue = value.approvalId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.decision === undefined) return false;
+  if (value.decision !== undefined) {
+    const fieldValue = value.decision;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isBridgeRequestAvailable(input: unknown): boolean { return checkBridgeRequestAvailable(input, {active: new Set<object>(), depth: 0}); }
+function checkBridgeRequestAvailable(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.count === undefined) return false;
+  if (value.count !== undefined) {
+    const fieldValue = value.count;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 0) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isCapacityChanged(input: unknown): boolean { return checkCapacityChanged(input, {active: new Set<object>(), depth: 0}); }
+function checkCapacityChanged(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.recoveryAt !== undefined) {
+    const fieldValue = value.recoveryAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConfigRevisionActivated(input: unknown): boolean { return checkConfigRevisionActivated(input, {active: new Set<object>(), depth: 0}); }
+function checkConfigRevisionActivated(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.configId === undefined) return false;
+  if (value.configId !== undefined) {
+    const fieldValue = value.configId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isEntitlementChanged(input: unknown): boolean { return checkEntitlementChanged(input, {active: new Set<object>(), depth: 0}); }
 function checkEntitlementChanged(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -714,6 +835,1077 @@ function checkEntitlementChanged(input: unknown, context: ValidationContext): bo
     const fieldValue = value.entitlementVersion;
     if (typeof fieldValue !== "bigint") return false;
     if (fieldValue < -9223372036854775808n || fieldValue > 9223372036854775807n) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isEvent(input: unknown): boolean { return checkEvent(input, {active: new Set<object>(), depth: 0}); }
+function checkEvent(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.subscriptionKey === undefined) return false;
+  if (value.subscriptionKey !== undefined) {
+    const fieldValue = value.subscriptionKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.seq === undefined) return false;
+  if (value.seq !== undefined) {
+    const fieldValue = value.seq;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.workspaceId === undefined) return false;
+  if (value.workspaceId !== undefined) {
+    const fieldValue = value.workspaceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.occurredAt === undefined) return false;
+  if (value.occurredAt !== undefined) {
+    const fieldValue = value.occurredAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.correlationId === undefined) return false;
+  if (value.correlationId !== undefined) {
+    const fieldValue = value.correlationId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "syncChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkSyncChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "syncConflictRaised") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkSyncConflictRaised(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "taskStateChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkTaskStateChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "taskProgress") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkTaskProgress(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "taskOutputAppended") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkTaskOutputAppended(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "approvalRaised") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkApprovalRaised(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "approvalResolved") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkApprovalResolved(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "entitlementChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkEntitlementChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "applicationPresenceChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkApplicationPresenceChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "bridgeRequestAvailable") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkBridgeRequestAvailable(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "notificationRaised") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkNotificationRaised(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "policyBundleAvailable") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkPolicyBundleAvailable(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "resourceCommitted") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkResourceCommitted(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "capacityChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkCapacityChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "serviceTermChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkServiceTermChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "simulationStateChanged") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkSimulationStateChanged(fieldValue, context)) return false;
+  }
+  if ((value.payload as {case?: string} | undefined)?.case === "configRevisionActivated") {
+    const fieldValue = (value.payload as {value: unknown}).value;
+    if (!checkConfigRevisionActivated(fieldValue, context)) return false;
+  }
+  if (value.payload === undefined || typeof value.payload !== 'object' || value.payload === null) return false;
+  if ((value.payload as {case?: string}).case !== "syncChanged" && (value.payload as {case?: string}).case !== "syncConflictRaised" && (value.payload as {case?: string}).case !== "taskStateChanged" && (value.payload as {case?: string}).case !== "taskProgress" && (value.payload as {case?: string}).case !== "taskOutputAppended" && (value.payload as {case?: string}).case !== "approvalRaised" && (value.payload as {case?: string}).case !== "approvalResolved" && (value.payload as {case?: string}).case !== "entitlementChanged" && (value.payload as {case?: string}).case !== "applicationPresenceChanged" && (value.payload as {case?: string}).case !== "bridgeRequestAvailable" && (value.payload as {case?: string}).case !== "notificationRaised" && (value.payload as {case?: string}).case !== "policyBundleAvailable" && (value.payload as {case?: string}).case !== "resourceCommitted" && (value.payload as {case?: string}).case !== "capacityChanged" && (value.payload as {case?: string}).case !== "serviceTermChanged" && (value.payload as {case?: string}).case !== "simulationStateChanged" && (value.payload as {case?: string}).case !== "configRevisionActivated") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isEventServicePollRequest(input: unknown): boolean { return checkEventServicePollRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkEventServicePollRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.subscriptionKey === undefined) return false;
+  if (value.subscriptionKey !== undefined) {
+    const fieldValue = value.subscriptionKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.cursor !== undefined) {
+    const fieldValue = value.cursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.limit !== undefined) {
+    const fieldValue = value.limit;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 200) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isEventServicePollResponse(input: unknown): boolean { return checkEventServicePollResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkEventServicePollResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEventServicePollValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isEventServicePollValue(input: unknown): boolean { return checkEventServicePollValue(input, {active: new Set<object>(), depth: 0}); }
+function checkEventServicePollValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.events === undefined) return false;
+  if (value.events !== undefined) {
+    const fieldValue = value.events;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 200) return false;
+    for (const item of fieldValue) {
+    if (!checkEvent(item, context)) return false;
+    }
+  }
+  if (value.nextCursor === undefined) return false;
+  if (value.nextCursor !== undefined) {
+    const fieldValue = value.nextCursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.resetRequired === undefined) return false;
+  if (value.resetRequired !== undefined) {
+    const fieldValue = value.resetRequired;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isEventServiceWatchRequest(input: unknown): boolean { return checkEventServiceWatchRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkEventServiceWatchRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.subscriptionKey === undefined) return false;
+  if (value.subscriptionKey !== undefined) {
+    const fieldValue = value.subscriptionKey;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.cursor !== undefined) {
+    const fieldValue = value.cursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.filter === undefined) return false;
+  if (value.filter !== undefined) {
+    const fieldValue = value.filter;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 17) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionOutput(input: unknown): boolean { return checkExecutionOutput(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionOutput(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.execution === undefined) return false;
+  if (value.execution !== undefined) {
+    const fieldValue = value.execution;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.message !== undefined) {
+    const fieldValue = value.message;
+    if (!checkMessageView(fieldValue, context)) return false;
+  }
+  if (value.body !== undefined) {
+    const fieldValue = value.body;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.finalHash !== undefined) {
+    const fieldValue = value.finalHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.attemptId !== undefined) {
+    const fieldValue = value.attemptId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.streamId !== undefined) {
+    const fieldValue = value.streamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.successorStreamId !== undefined) {
+    const fieldValue = value.successorStreamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.truncated === undefined) return false;
+  if (value.truncated !== undefined) {
+    const fieldValue = value.truncated;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.finalMessage !== undefined) {
+    const fieldValue = value.finalMessage;
+    if (!checkVersionedRef(fieldValue, context)) return false;
+  }
+  if (value.noAnswerReason !== undefined) {
+    const fieldValue = value.noAnswerReason;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionProgress(input: unknown): boolean { return checkExecutionProgress(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionProgress(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.execution === undefined) return false;
+  if (value.execution !== undefined) {
+    const fieldValue = value.execution;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if ((value.owner_progress as {case?: string} | undefined)?.case === "task") {
+    const fieldValue = (value.owner_progress as {value: unknown}).value;
+    if (!checkTaskSnapshot(fieldValue, context)) return false;
+  }
+  if ((value.owner_progress as {case?: string} | undefined)?.case === "turn") {
+    const fieldValue = (value.owner_progress as {value: unknown}).value;
+    if (!checkChatTurnProgress(fieldValue, context)) return false;
+  }
+  if (value.attemptId !== undefined) {
+    const fieldValue = value.attemptId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.streamId !== undefined) {
+    const fieldValue = value.streamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.streamState === undefined) return false;
+  if (value.streamState !== undefined) {
+    const fieldValue = value.streamState;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "absent" && fieldValue !== "open" && fieldValue !== "completed" && fieldValue !== "truncated" && fieldValue !== "superseded" && fieldValue !== "evicted") return false;
+  }
+  if (value.successorStreamId !== undefined) {
+    const fieldValue = value.successorStreamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.iterationOutput !== undefined) {
+    const fieldValue = value.iterationOutput;
+    if (!checkVersionedRef(fieldValue, context)) return false;
+  }
+  if (value.finalMessage !== undefined) {
+    const fieldValue = value.finalMessage;
+    if (!checkVersionedRef(fieldValue, context)) return false;
+  }
+  if (value.noAnswerReason !== undefined) {
+    const fieldValue = value.noAnswerReason;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+  }
+  if (value.retryAfterMs !== undefined) {
+    const fieldValue = value.retryAfterMs;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+  }
+  if (value.attemptState !== undefined) {
+    const fieldValue = value.attemptState;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "intentCommitted" && fieldValue !== "outcomeRecorded" && fieldValue !== "unknown" && fieldValue !== "reconciled") return false;
+  }
+  if (value.owner_progress === undefined || typeof value.owner_progress !== 'object' || value.owner_progress === null) return false;
+  if ((value.owner_progress as {case?: string}).case !== "task" && (value.owner_progress as {case?: string}).case !== "turn") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceAcknowledgeOutputRequest(input: unknown): boolean { return checkExecutionServiceAcknowledgeOutputRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceAcknowledgeOutputRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.owner === undefined) return false;
+  if (value.owner !== undefined) {
+    const fieldValue = value.owner;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if (value.finalHash === undefined) return false;
+  if (value.finalHash !== undefined) {
+    const fieldValue = value.finalHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceAcknowledgeOutputResponse(input: unknown): boolean { return checkExecutionServiceAcknowledgeOutputResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceAcknowledgeOutputResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkExecutionServiceAcknowledgeOutputValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceAcknowledgeOutputValue(input: unknown): boolean { return checkExecutionServiceAcknowledgeOutputValue(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceAcknowledgeOutputValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServicePurgeTransientRequest(input: unknown): boolean { return checkExecutionServicePurgeTransientRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServicePurgeTransientRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.owner === undefined) return false;
+  if (value.owner !== undefined) {
+    const fieldValue = value.owner;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServicePurgeTransientResponse(input: unknown): boolean { return checkExecutionServicePurgeTransientResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServicePurgeTransientResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkExecutionServicePurgeTransientValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServicePurgeTransientValue(input: unknown): boolean { return checkExecutionServicePurgeTransientValue(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServicePurgeTransientValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceReadOutputRequest(input: unknown): boolean { return checkExecutionServiceReadOutputRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceReadOutputRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.owner === undefined) return false;
+  if (value.owner !== undefined) {
+    const fieldValue = value.owner;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if (value.cursor !== undefined) {
+    const fieldValue = value.cursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.limit !== undefined) {
+    const fieldValue = value.limit;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 100) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceReadOutputResponse(input: unknown): boolean { return checkExecutionServiceReadOutputResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceReadOutputResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkExecutionServiceReadOutputValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceReadOutputValue(input: unknown): boolean { return checkExecutionServiceReadOutputValue(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceReadOutputValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.chunks === undefined) return false;
+  if (value.chunks !== undefined) {
+    const fieldValue = value.chunks;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 100) return false;
+    for (const item of fieldValue) {
+    if (!checkOutputChunk(item, context)) return false;
+    }
+  }
+  if (value.position === undefined) return false;
+  if (value.position !== undefined) {
+    const fieldValue = value.position;
+    if (!checkStreamPosition(fieldValue, context)) return false;
+  }
+  if (value.terminal !== undefined) {
+    const fieldValue = value.terminal;
+    if (!checkExecutionOutput(fieldValue, context)) return false;
+  }
+  if (value.resetRequired === undefined) return false;
+  if (value.resetRequired !== undefined) {
+    const fieldValue = value.resetRequired;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.progress === undefined) return false;
+  if (value.progress !== undefined) {
+    const fieldValue = value.progress;
+    if (!checkExecutionProgress(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceStartTransientTurnRequest(input: unknown): boolean { return checkExecutionServiceStartTransientTurnRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceStartTransientTurnRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.turn === undefined) return false;
+  if (value.turn !== undefined) {
+    const fieldValue = value.turn;
+    if (!checkTransientTurnRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceStartTransientTurnResponse(input: unknown): boolean { return checkExecutionServiceStartTransientTurnResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceStartTransientTurnResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkExecutionServiceStartTransientTurnValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceStartTransientTurnValue(input: unknown): boolean { return checkExecutionServiceStartTransientTurnValue(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceStartTransientTurnValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.owner === undefined) return false;
+  if (value.owner !== undefined) {
+    const fieldValue = value.owner;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if (value.run === undefined) return false;
+  if (value.run !== undefined) {
+    const fieldValue = value.run;
+    if (!checkRunView(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isExecutionServiceWatchOutputRequest(input: unknown): boolean { return checkExecutionServiceWatchOutputRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkExecutionServiceWatchOutputRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.owner === undefined) return false;
+  if (value.owner !== undefined) {
+    const fieldValue = value.owner;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if (value.cursor !== undefined) {
+    const fieldValue = value.cursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isNotificationRaised(input: unknown): boolean { return checkNotificationRaised(input, {active: new Set<object>(), depth: 0}); }
+function checkNotificationRaised(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.notificationId === undefined) return false;
+  if (value.notificationId !== undefined) {
+    const fieldValue = value.notificationId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.durability === undefined) return false;
+  if (value.durability !== undefined) {
+    const fieldValue = value.durability;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isOutputChunk(input: unknown): boolean { return checkOutputChunk(input, {active: new Set<object>(), depth: 0}); }
+function checkOutputChunk(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.execution === undefined) return false;
+  if (value.execution !== undefined) {
+    const fieldValue = value.execution;
+    if (!checkExecutionOwner(fieldValue, context)) return false;
+  }
+  if (value.offset === undefined) return false;
+  if (value.offset !== undefined) {
+    const fieldValue = value.offset;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.data === undefined) return false;
+  if (value.data !== undefined) {
+    const fieldValue = value.data;
+    if (!(fieldValue instanceof Uint8Array)) return false;
+    if (fieldValue.length > 32768) return false;
+  }
+  if (value.chunkHash === undefined) return false;
+  if (value.chunkHash !== undefined) {
+    const fieldValue = value.chunkHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "text" && fieldValue !== "toolStatus" && fieldValue !== "usage") return false;
+  }
+  if (value.attemptId === undefined) return false;
+  if (value.attemptId !== undefined) {
+    const fieldValue = value.attemptId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.streamId === undefined) return false;
+  if (value.streamId !== undefined) {
+    const fieldValue = value.streamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isPolicyBundleAvailable(input: unknown): boolean { return checkPolicyBundleAvailable(input, {active: new Set<object>(), depth: 0}); }
+function checkPolicyBundleAvailable(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.version === undefined) return false;
+  if (value.version !== undefined) {
+    const fieldValue = value.version;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isResourceCommitted(input: unknown): boolean { return checkResourceCommitted(input, {active: new Set<object>(), depth: 0}); }
+function checkResourceCommitted(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.resourceId === undefined) return false;
+  if (value.resourceId !== undefined) {
+    const fieldValue = value.resourceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.sha256 === undefined) return false;
+  if (value.sha256 !== undefined) {
+    const fieldValue = value.sha256;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isServiceTermChanged(input: unknown): boolean { return checkServiceTermChanged(input, {active: new Set<object>(), depth: 0}); }
+function checkServiceTermChanged(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.workspaceId === undefined) return false;
+  if (value.workspaceId !== undefined) {
+    const fieldValue = value.workspaceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationStateChanged(input: unknown): boolean { return checkSimulationStateChanged(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationStateChanged(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.committedSequence === undefined) return false;
+  if (value.committedSequence !== undefined) {
+    const fieldValue = value.committedSequence;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < -9223372036854775808n || fieldValue > 9223372036854775807n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isStreamFrame(input: unknown): boolean { return checkStreamFrame(input, {active: new Set<object>(), depth: 0}); }
+function checkStreamFrame(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if (value.position === undefined) return false;
+  if (value.position !== undefined) {
+    const fieldValue = value.position;
+    if (!checkStreamPosition(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "hint") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkEvent(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "output") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkOutputChunk(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "reset") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkStreamReset(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "terminal") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkExecutionOutput(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "heartbeat") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.frame as {case?: string} | undefined)?.case === "progress") {
+    const fieldValue = (value.frame as {value: unknown}).value;
+    if (!checkExecutionProgress(fieldValue, context)) return false;
+  }
+  if (value.frame === undefined || typeof value.frame !== 'object' || value.frame === null) return false;
+  if ((value.frame as {case?: string}).case !== "hint" && (value.frame as {case?: string}).case !== "output" && (value.frame as {case?: string}).case !== "reset" && (value.frame as {case?: string}).case !== "terminal" && (value.frame as {case?: string}).case !== "heartbeat" && (value.frame as {case?: string}).case !== "error" && (value.frame as {case?: string}).case !== "progress") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isStreamPosition(input: unknown): boolean { return checkStreamPosition(input, {active: new Set<object>(), depth: 0}); }
+function checkStreamPosition(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.cursor === undefined) return false;
+  if (value.cursor !== undefined) {
+    const fieldValue = value.cursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.sequence === undefined) return false;
+  if (value.sequence !== undefined) {
+    const fieldValue = value.sequence;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.generation === undefined) return false;
+  if (value.generation !== undefined) {
+    const fieldValue = value.generation;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.contentHash !== undefined) {
+    const fieldValue = value.contentHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isStreamReset(input: unknown): boolean { return checkStreamReset(input, {active: new Set<object>(), depth: 0}); }
+function checkStreamReset(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.reason === undefined) return false;
+  if (value.reason !== undefined) {
+    const fieldValue = value.reason;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "expired" && fieldValue !== "gap" && fieldValue !== "recoveryGeneration" && fieldValue !== "permissionChanged") return false;
+  }
+  if (value.resumeFrom !== undefined) {
+    const fieldValue = value.resumeFrom;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.snapshotRequired === undefined) return false;
+  if (value.snapshotRequired !== undefined) {
+    const fieldValue = value.snapshotRequired;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if (value.successorStreamId !== undefined) {
+    const fieldValue = value.successorStreamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.truncated === undefined) return false;
+  if (value.truncated !== undefined) {
+    const fieldValue = value.truncated;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSyncChanged(input: unknown): boolean { return checkSyncChanged(input, {active: new Set<object>(), depth: 0}); }
+function checkSyncChanged(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.root === undefined) return false;
+  if (value.root !== undefined) {
+    const fieldValue = value.root;
+    if (!checkAggregateRef(fieldValue, context)) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.originDeviceId !== undefined) {
+    const fieldValue = value.originDeviceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSyncConflictRaised(input: unknown): boolean { return checkSyncConflictRaised(input, {active: new Set<object>(), depth: 0}); }
+function checkSyncConflictRaised(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.conflictId === undefined) return false;
+  if (value.conflictId !== undefined) {
+    const fieldValue = value.conflictId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.root === undefined) return false;
+  if (value.root !== undefined) {
+    const fieldValue = value.root;
+    if (!checkAggregateRef(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isTaskOutputAppended(input: unknown): boolean { return checkTaskOutputAppended(input, {active: new Set<object>(), depth: 0}); }
+function checkTaskOutputAppended(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.taskId === undefined) return false;
+  if (value.taskId !== undefined) {
+    const fieldValue = value.taskId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.streamId === undefined) return false;
+  if (value.streamId !== undefined) {
+    const fieldValue = value.streamId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.nextOffset === undefined) return false;
+  if (value.nextOffset !== undefined) {
+    const fieldValue = value.nextOffset;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isTaskProgress(input: unknown): boolean { return checkTaskProgress(input, {active: new Set<object>(), depth: 0}); }
+function checkTaskProgress(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.taskId === undefined) return false;
+  if (value.taskId !== undefined) {
+    const fieldValue = value.taskId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.runId === undefined) return false;
+  if (value.runId !== undefined) {
+    const fieldValue = value.runId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.progress === undefined) return false;
+  if (value.progress !== undefined) {
+    const fieldValue = value.progress;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 0) return false;
+  }
+  if (value.stepOrdinal === undefined) return false;
+  if (value.stepOrdinal !== undefined) {
+    const fieldValue = value.stepOrdinal;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 0) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isTaskStateChanged(input: unknown): boolean { return checkTaskStateChanged(input, {active: new Set<object>(), depth: 0}); }
+function checkTaskStateChanged(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.taskId === undefined) return false;
+  if (value.taskId !== undefined) {
+    const fieldValue = value.taskId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4 && fieldValue !== 5 && fieldValue !== 6 && fieldValue !== 7 && fieldValue !== 8 && fieldValue !== 9) return false;
+  }
+  if (value.reason !== undefined) {
+    const fieldValue = value.reason;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -2920,6 +4112,278 @@ function checkAlignmentSpec(input: unknown, context: ValidationContext): boolean
     if (!checkId(fieldValue, context)) return false;
   }
   if (!alignmentSemantics(value)) return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationPresence(input: unknown): boolean { return checkApplicationPresence(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationPresence(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.target === undefined) return false;
+  if (value.target !== undefined) {
+    const fieldValue = value.target;
+    if (!checkApplicationTarget(fieldValue, context)) return false;
+  }
+  if (value.displayName === undefined) return false;
+  if (value.displayName !== undefined) {
+    const fieldValue = value.displayName;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  if (value.appVersion === undefined) return false;
+  if (value.appVersion !== undefined) {
+    const fieldValue = value.appVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "online" && fieldValue !== "idle" && fieldValue !== "offline" && fieldValue !== "incompatible" && fieldValue !== "revoked") return false;
+  }
+  if (value.lastSeenAt === undefined) return false;
+  if (value.lastSeenAt !== undefined) {
+    const fieldValue = value.lastSeenAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.availableCapabilities === undefined) return false;
+  if (value.availableCapabilities !== undefined) {
+    const fieldValue = value.availableCapabilities;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceDisconnectRequest(input: unknown): boolean { return checkApplicationServiceDisconnectRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceDisconnectRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.target === undefined) return false;
+  if (value.target !== undefined) {
+    const fieldValue = value.target;
+    if (!checkApplicationTarget(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceDisconnectResponse(input: unknown): boolean { return checkApplicationServiceDisconnectResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceDisconnectResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkApplicationServiceDisconnectValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceDisconnectValue(input: unknown): boolean { return checkApplicationServiceDisconnectValue(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceDisconnectValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceHeartbeatRequest(input: unknown): boolean { return checkApplicationServiceHeartbeatRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceHeartbeatRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.target === undefined) return false;
+  if (value.target !== undefined) {
+    const fieldValue = value.target;
+    if (!checkApplicationTarget(fieldValue, context)) return false;
+  }
+  if (value.capabilities === undefined) return false;
+  if (value.capabilities !== undefined) {
+    const fieldValue = value.capabilities;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.appVersion === undefined) return false;
+  if (value.appVersion !== undefined) {
+    const fieldValue = value.appVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceHeartbeatResponse(input: unknown): boolean { return checkApplicationServiceHeartbeatResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceHeartbeatResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkApplicationServiceHeartbeatValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceHeartbeatValue(input: unknown): boolean { return checkApplicationServiceHeartbeatValue(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceHeartbeatValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.presence === undefined) return false;
+  if (value.presence !== undefined) {
+    const fieldValue = value.presence;
+    if (!checkApplicationPresence(fieldValue, context)) return false;
+  }
+  if (value.renewAfterSeconds === undefined) return false;
+  if (value.renewAfterSeconds !== undefined) {
+    const fieldValue = value.renewAfterSeconds;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 10) return false;
+    if (fieldValue > 10) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceListRequest(input: unknown): boolean { return checkApplicationServiceListRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceListRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.deviceId !== undefined) {
+    const fieldValue = value.deviceId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.cursor !== undefined) {
+    const fieldValue = value.cursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
+  if (value.limit !== undefined) {
+    const fieldValue = value.limit;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < 0 || fieldValue > 4294967295) return false;
+    if (fieldValue < 1) return false;
+    if (fieldValue > 100) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceListResponse(input: unknown): boolean { return checkApplicationServiceListResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceListResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkApplicationServiceListValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isApplicationServiceListValue(input: unknown): boolean { return checkApplicationServiceListValue(input, {active: new Set<object>(), depth: 0}); }
+function checkApplicationServiceListValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.applications === undefined) return false;
+  if (value.applications !== undefined) {
+    const fieldValue = value.applications;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 100) return false;
+    for (const item of fieldValue) {
+    if (!checkApplicationPresence(item, context)) return false;
+    }
+  }
+  if (value.nextCursor !== undefined) {
+    const fieldValue = value.nextCursor;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 4096) return false;
+  }
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -7109,6 +8573,73 @@ function checkCommerceServiceRevokeExtraUsageValue(input: unknown, context: Vali
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isCompactionRecord(input: unknown): boolean { return checkCompactionRecord(input, {active: new Set<object>(), depth: 0}); }
+function checkCompactionRecord(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.compactionId === undefined) return false;
+  if (value.compactionId !== undefined) {
+    const fieldValue = value.compactionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.branchId === undefined) return false;
+  if (value.branchId !== undefined) {
+    const fieldValue = value.branchId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.throughOrdinal === undefined) return false;
+  if (value.throughOrdinal !== undefined) {
+    const fieldValue = value.throughOrdinal;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.sourceHash === undefined) return false;
+  if (value.sourceHash !== undefined) {
+    const fieldValue = value.sourceHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.summary === undefined) return false;
+  if (value.summary !== undefined) {
+    const fieldValue = value.summary;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (utf8Length(fieldValue) > 262144) return false;
+  }
+  if (value.modelId === undefined) return false;
+  if (value.modelId !== undefined) {
+    const fieldValue = value.modelId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+    if ((new RegExp("^(?:[A-Za-z0-9._:/-]{1,128}|@cf/[a-z0-9._-]+/[A-Za-z0-9._/-]+)$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.policyVersion === undefined) return false;
+  if (value.policyVersion !== undefined) {
+    const fieldValue = value.policyVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.createdAt === undefined) return false;
+  if (value.createdAt !== undefined) {
+    const fieldValue = value.createdAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.summaryHash === undefined) return false;
+  if (value.summaryHash !== undefined) {
+    const fieldValue = value.summaryHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isConflictResolution(input: unknown): boolean { return checkConflictResolution(input, {active: new Set<object>(), depth: 0}); }
 function checkConflictResolution(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -8903,6 +10434,502 @@ function checkGrant(input: unknown, context: ValidationContext): boolean {
   if (value.revokedAt !== undefined) {
     const fieldValue = value.revokedAt;
     if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryArchiveEnd(input: unknown): boolean { return checkHistoryArchiveEnd(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryArchiveEnd(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.recordCount === undefined) return false;
+  if (value.recordCount !== undefined) {
+    const fieldValue = value.recordCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.precedingBytesHash === undefined) return false;
+  if (value.precedingBytesHash !== undefined) {
+    const fieldValue = value.precedingBytesHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryArchiveHeader(input: unknown): boolean { return checkHistoryArchiveHeader(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryArchiveHeader(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.formatVersion === undefined) return false;
+  if (value.formatVersion !== undefined) {
+    const fieldValue = value.formatVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "assistant-history.v1") return false;
+  }
+  if (value.productId === undefined) return false;
+  if (value.productId !== undefined) {
+    const fieldValue = value.productId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "arcscope" && fieldValue !== "companion") return false;
+  }
+  if (value.sourceConversationId === undefined) return false;
+  if (value.sourceConversationId !== undefined) {
+    const fieldValue = value.sourceConversationId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.sourceRevision === undefined) return false;
+  if (value.sourceRevision !== undefined) {
+    const fieldValue = value.sourceRevision;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.title === undefined) return false;
+  if (value.title !== undefined) {
+    const fieldValue = value.title;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  if (value.branchCount === undefined) return false;
+  if (value.branchCount !== undefined) {
+    const fieldValue = value.branchCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.messageCount === undefined) return false;
+  if (value.messageCount !== undefined) {
+    const fieldValue = value.messageCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.resourceCount === undefined) return false;
+  if (value.resourceCount !== undefined) {
+    const fieldValue = value.resourceCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryArchiveRecord(input: unknown): boolean { return checkHistoryArchiveRecord(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryArchiveRecord(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if ((value.record as {case?: string} | undefined)?.case === "branch") {
+    const fieldValue = (value.record as {value: unknown}).value;
+    if (!checkHistoryBranch(fieldValue, context)) return false;
+  }
+  if ((value.record as {case?: string} | undefined)?.case === "message") {
+    const fieldValue = (value.record as {value: unknown}).value;
+    if (!checkHistoryMessage(fieldValue, context)) return false;
+  }
+  if ((value.record as {case?: string} | undefined)?.case === "resource") {
+    const fieldValue = (value.record as {value: unknown}).value;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.record === undefined || typeof value.record !== 'object' || value.record === null) return false;
+  if ((value.record as {case?: string}).case !== "branch" && (value.record as {case?: string}).case !== "message" && (value.record as {case?: string}).case !== "resource") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryBranch(input: unknown): boolean { return checkHistoryBranch(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryBranch(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.branchId === undefined) return false;
+  if (value.branchId !== undefined) {
+    const fieldValue = value.branchId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.parentBranchId !== undefined) {
+    const fieldValue = value.parentBranchId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.forkMessageId !== undefined) {
+    const fieldValue = value.forkMessageId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryImportManifest(input: unknown): boolean { return checkHistoryImportManifest(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryImportManifest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.importId === undefined) return false;
+  if (value.importId !== undefined) {
+    const fieldValue = value.importId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.productId === undefined) return false;
+  if (value.productId !== undefined) {
+    const fieldValue = value.productId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "arcscope" && fieldValue !== "companion") return false;
+  }
+  if (value.sourceRevision === undefined) return false;
+  if (value.sourceRevision !== undefined) {
+    const fieldValue = value.sourceRevision;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.archive === undefined) return false;
+  if (value.archive !== undefined) {
+    const fieldValue = value.archive;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.messageCount === undefined) return false;
+  if (value.messageCount !== undefined) {
+    const fieldValue = value.messageCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.manifestHash === undefined) return false;
+  if (value.manifestHash !== undefined) {
+    const fieldValue = value.manifestHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.formatVersion === undefined) return false;
+  if (value.formatVersion !== undefined) {
+    const fieldValue = value.formatVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "assistant-history.v1") return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryImportView(input: unknown): boolean { return checkHistoryImportView(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryImportView(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.importId === undefined) return false;
+  if (value.importId !== undefined) {
+    const fieldValue = value.importId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if (fieldValue !== "staging" && fieldValue !== "verifying" && fieldValue !== "ready" && fieldValue !== "committed" && fieldValue !== "canceled" && fieldValue !== "expired" && fieldValue !== "failed") return false;
+  }
+  if (value.conversationId !== undefined) {
+    const fieldValue = value.conversationId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.expiresAt === undefined) return false;
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.failure !== undefined) {
+    const fieldValue = value.failure;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryMessage(input: unknown): boolean { return checkHistoryMessage(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryMessage(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.message === undefined) return false;
+  if (value.message !== undefined) {
+    const fieldValue = value.message;
+    if (!checkMessageView(fieldValue, context)) return false;
+  }
+  if (value.ordinal === undefined) return false;
+  if (value.ordinal !== undefined) {
+    const fieldValue = value.ordinal;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.createdAt === undefined) return false;
+  if (value.createdAt !== undefined) {
+    const fieldValue = value.createdAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceBeginImportRequest(input: unknown): boolean { return checkHistoryServiceBeginImportRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceBeginImportRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.importId === undefined) return false;
+  if (value.importId !== undefined) {
+    const fieldValue = value.importId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.sourceRevision === undefined) return false;
+  if (value.sourceRevision !== undefined) {
+    const fieldValue = value.sourceRevision;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 1n) return false;
+  }
+  if (value.manifestHash === undefined) return false;
+  if (value.manifestHash !== undefined) {
+    const fieldValue = value.manifestHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceBeginImportResponse(input: unknown): boolean { return checkHistoryServiceBeginImportResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceBeginImportResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkHistoryServiceBeginImportValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceBeginImportValue(input: unknown): boolean { return checkHistoryServiceBeginImportValue(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceBeginImportValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.import === undefined) return false;
+  if (value.import !== undefined) {
+    const fieldValue = value.import;
+    if (!checkHistoryImportView(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceCancelImportRequest(input: unknown): boolean { return checkHistoryServiceCancelImportRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceCancelImportRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.importId === undefined) return false;
+  if (value.importId !== undefined) {
+    const fieldValue = value.importId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceCancelImportResponse(input: unknown): boolean { return checkHistoryServiceCancelImportResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceCancelImportResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkHistoryServiceCancelImportValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceCancelImportValue(input: unknown): boolean { return checkHistoryServiceCancelImportValue(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceCancelImportValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.import === undefined) return false;
+  if (value.import !== undefined) {
+    const fieldValue = value.import;
+    if (!checkHistoryImportView(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceFinalizeImportRequest(input: unknown): boolean { return checkHistoryServiceFinalizeImportRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceFinalizeImportRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.manifest === undefined) return false;
+  if (value.manifest !== undefined) {
+    const fieldValue = value.manifest;
+    if (!checkHistoryImportManifest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceFinalizeImportResponse(input: unknown): boolean { return checkHistoryServiceFinalizeImportResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceFinalizeImportResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkHistoryServiceFinalizeImportValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceFinalizeImportValue(input: unknown): boolean { return checkHistoryServiceFinalizeImportValue(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceFinalizeImportValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.import === undefined) return false;
+  if (value.import !== undefined) {
+    const fieldValue = value.import;
+    if (!checkHistoryImportView(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceGetImportRequest(input: unknown): boolean { return checkHistoryServiceGetImportRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceGetImportRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.importId === undefined) return false;
+  if (value.importId !== undefined) {
+    const fieldValue = value.importId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceGetImportResponse(input: unknown): boolean { return checkHistoryServiceGetImportResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceGetImportResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkHistoryServiceGetImportValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isHistoryServiceGetImportValue(input: unknown): boolean { return checkHistoryServiceGetImportValue(input, {active: new Set<object>(), depth: 0}); }
+function checkHistoryServiceGetImportValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.import === undefined) return false;
+  if (value.import !== undefined) {
+    const fieldValue = value.import;
+    if (!checkHistoryImportView(fieldValue, context)) return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -14700,6 +16727,102 @@ function checkToolResult(input: unknown, context: ValidationContext): boolean {
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isTranscriptMessage(input: unknown): boolean { return checkTranscriptMessage(input, {active: new Set<object>(), depth: 0}); }
+function checkTranscriptMessage(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.messageId === undefined) return false;
+  if (value.messageId !== undefined) {
+    const fieldValue = value.messageId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.ordinal === undefined) return false;
+  if (value.ordinal !== undefined) {
+    const fieldValue = value.ordinal;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.role === undefined) return false;
+  if (value.role !== undefined) {
+    const fieldValue = value.role;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 2 && fieldValue !== 3 && fieldValue !== 4) return false;
+  }
+  if (value.parts === undefined) return false;
+  if (value.parts !== undefined) {
+    const fieldValue = value.parts;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 16000) return false;
+    for (const item of fieldValue) {
+    if (!checkMessagePart(item, context)) return false;
+    }
+  }
+  if (value.toolCallId !== undefined) {
+    const fieldValue = value.toolCallId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.toolResultFor !== undefined) {
+    const fieldValue = value.toolResultFor;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isTranscriptWindow(input: unknown): boolean { return checkTranscriptWindow(input, {active: new Set<object>(), depth: 0}); }
+function checkTranscriptWindow(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.branchId === undefined) return false;
+  if (value.branchId !== undefined) {
+    const fieldValue = value.branchId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.branchRevision === undefined) return false;
+  if (value.branchRevision !== undefined) {
+    const fieldValue = value.branchRevision;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.messages === undefined) return false;
+  if (value.messages !== undefined) {
+    const fieldValue = value.messages;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 2000) return false;
+    for (const item of fieldValue) {
+    if (!checkTranscriptMessage(item, context)) return false;
+    }
+  }
+  if (value.firstOrdinal === undefined) return false;
+  if (value.firstOrdinal !== undefined) {
+    const fieldValue = value.firstOrdinal;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.lastOrdinal === undefined) return false;
+  if (value.lastOrdinal !== undefined) {
+    const fieldValue = value.lastOrdinal;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+    if (fieldValue < 0n) return false;
+  }
+  if (value.windowHash === undefined) return false;
+  if (value.windowHash !== undefined) {
+    const fieldValue = value.windowHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isTransferIssue(input: unknown): boolean { return checkTransferIssue(input, {active: new Set<object>(), depth: 0}); }
 function checkTransferIssue(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -15324,6 +17447,82 @@ function checkTransferServiceRequestExportValue(input: unknown, context: Validat
     const fieldValue = value.job;
     if (!checkTransferJob(fieldValue, context)) return false;
   }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isTransientTurnRequest(input: unknown): boolean { return checkTransientTurnRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkTransientTurnRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.turnId !== undefined) {
+    const fieldValue = value.turnId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.branchId === undefined) return false;
+  if (value.branchId !== undefined) {
+    const fieldValue = value.branchId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.requestHash === undefined) return false;
+  if (value.requestHash !== undefined) {
+    const fieldValue = value.requestHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+  }
+  if (value.mode === undefined) return false;
+  if (value.mode !== undefined) {
+    const fieldValue = value.mode;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isInteger(fieldValue) || fieldValue < -2147483648 || fieldValue > 2147483647) return false;
+    if (fieldValue !== 1 && fieldValue !== 3) return false;
+  }
+  if (value.parts === undefined) return false;
+  if (value.parts !== undefined) {
+    const fieldValue = value.parts;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 16000) return false;
+    for (const item of fieldValue) {
+    if (!checkMessagePart(item, context)) return false;
+    }
+  }
+  if (value.context === undefined) return false;
+  if (value.context !== undefined) {
+    const fieldValue = value.context;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 64) return false;
+    for (const item of fieldValue) {
+    if (!checkContextRef(item, context)) return false;
+    }
+  }
+  if (value.profileId !== undefined) {
+    const fieldValue = value.profileId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.target !== undefined) {
+    const fieldValue = value.target;
+    if (!checkApplicationTarget(fieldValue, context)) return false;
+  }
+  if (value.options === undefined) return false;
+  if (value.options !== undefined) {
+    const fieldValue = value.options;
+    if (!checkTurnOptions(fieldValue, context)) return false;
+  }
+  if ((value.transcript_source as {case?: string} | undefined)?.case === "transcript") {
+    const fieldValue = (value.transcript_source as {value: unknown}).value;
+    if (!checkTranscriptWindow(fieldValue, context)) return false;
+  }
+  if ((value.transcript_source as {case?: string} | undefined)?.case === "transcriptObject") {
+    const fieldValue = (value.transcript_source as {value: unknown}).value;
+    if (!checkResourceVersionRef(fieldValue, context)) return false;
+  }
+  if (value.compaction !== undefined) {
+    const fieldValue = value.compaction;
+    if (!checkCompactionRecord(fieldValue, context)) return false;
+  }
+  if (value.transcript_source === undefined || typeof value.transcript_source !== 'object' || value.transcript_source === null) return false;
+  if ((value.transcript_source as {case?: string}).case !== "transcript" && (value.transcript_source as {case?: string}).case !== "transcriptObject" && (value.transcript_source as {case?: string}).case !== undefined) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }

@@ -3,12 +3,341 @@ syntax = "proto3";
 
 package arcforges.events.v1;
 
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/application.proto";
+import "arcforges/publicapi/v1/chat.proto";
+import "arcforges/publicapi/v1/content.proto";
+import "arcforges/publicapi/v1/inprocess-values.proto";
+
 option csharp_namespace = "ArcForges.Contracts.Events.V1";
 option java_package = "io.github.arcforges.contracts.events.v1";
 option java_multiple_files = true;
 option java_outer_classname = "EventsProto";
 
+service ExecutionService {
+  rpc StartTransientTurn(ExecutionServiceStartTransientTurnRequest) returns (ExecutionServiceStartTransientTurnResponse);
+  rpc ReadOutput(ExecutionServiceReadOutputRequest) returns (ExecutionServiceReadOutputResponse);
+  rpc WatchOutput(ExecutionServiceWatchOutputRequest) returns (stream StreamFrame);
+  rpc AcknowledgeOutput(ExecutionServiceAcknowledgeOutputRequest) returns (ExecutionServiceAcknowledgeOutputResponse);
+  rpc PurgeTransient(ExecutionServicePurgeTransientRequest) returns (ExecutionServicePurgeTransientResponse);
+}
+
+service EventService {
+  rpc Poll(EventServicePollRequest) returns (EventServicePollResponse);
+  rpc Watch(EventServiceWatchRequest) returns (stream StreamFrame);
+}
+
+// Event payload alternatives and their declaration order mirror the complete
+// event registry in Design Registry04 §7 (tags 10–26). This oneof is the
+// single schema source for generated language descriptors; event names map
+// to the corresponding lower-camel oneof field.
 // The complete entitlement.changed hint payload; not the full Event envelope.
 message EntitlementChanged {
   optional int64 entitlement_version = 1 [json_name = "entitlementVersion"];
+}
+
+message Event {
+  optional string subscription_key = 1 [json_name = "subscriptionKey"];
+  optional uint64 seq = 2 [json_name = "seq"];
+  arcforges.foundation.v1.Id workspace_id = 3 [json_name = "workspaceId"];
+  arcforges.foundation.v1.Instant occurred_at = 4 [json_name = "occurredAt"];
+  arcforges.foundation.v1.Id correlation_id = 5 [json_name = "correlationId"];
+  oneof payload {
+    SyncChanged sync_changed = 10 [json_name = "syncChanged"];
+    SyncConflictRaised sync_conflict_raised = 11 [json_name = "syncConflictRaised"];
+    TaskStateChanged task_state_changed = 12 [json_name = "taskStateChanged"];
+    TaskProgress task_progress = 13 [json_name = "taskProgress"];
+    TaskOutputAppended task_output_appended = 14 [json_name = "taskOutputAppended"];
+    ApprovalRaised approval_raised = 15 [json_name = "approvalRaised"];
+    ApprovalResolved approval_resolved = 16 [json_name = "approvalResolved"];
+    EntitlementChanged entitlement_changed = 17 [json_name = "entitlementChanged"];
+    ApplicationPresenceChanged application_presence_changed = 18 [json_name = "applicationPresenceChanged"];
+    BridgeRequestAvailable bridge_request_available = 19 [json_name = "bridgeRequestAvailable"];
+    NotificationRaised notification_raised = 20 [json_name = "notificationRaised"];
+    PolicyBundleAvailable policy_bundle_available = 21 [json_name = "policyBundleAvailable"];
+    ResourceCommitted resource_committed = 22 [json_name = "resourceCommitted"];
+    CapacityChanged capacity_changed = 23 [json_name = "capacityChanged"];
+    ServiceTermChanged service_term_changed = 24 [json_name = "serviceTermChanged"];
+    SimulationStateChanged simulation_state_changed = 25 [json_name = "simulationStateChanged"];
+    ConfigRevisionActivated config_revision_activated = 26 [json_name = "configRevisionActivated"];
+  }
+}
+
+message SyncChanged {
+  arcforges.foundation.v1.AggregateRef root = 1 [json_name = "root"];
+  arcforges.foundation.v1.Revision revision = 2 [json_name = "revision"];
+  arcforges.foundation.v1.Id origin_device_id = 3 [json_name = "originDeviceId"];
+}
+
+message SyncConflictRaised {
+  arcforges.foundation.v1.Id conflict_id = 1 [json_name = "conflictId"];
+  arcforges.foundation.v1.AggregateRef root = 2 [json_name = "root"];
+}
+
+message TaskStateChanged {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  optional arcforges.publicapi.v1.TaskState state = 2 [json_name = "state"];
+  optional string reason = 3 [json_name = "reason"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+}
+
+message TaskProgress {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  arcforges.foundation.v1.Id run_id = 2 [json_name = "runId"];
+  optional uint32 progress = 3 [json_name = "progress"];
+  optional uint32 step_ordinal = 4 [json_name = "stepOrdinal"];
+}
+
+message TaskOutputAppended {
+  arcforges.foundation.v1.Id task_id = 1 [json_name = "taskId"];
+  arcforges.foundation.v1.Id stream_id = 2 [json_name = "streamId"];
+  optional uint64 next_offset = 3 [json_name = "nextOffset"];
+}
+
+message ApprovalRaised {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
+  arcforges.foundation.v1.Id task_id = 2 [json_name = "taskId"];
+  optional string risk = 3 [json_name = "risk"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+}
+
+message ApprovalResolved {
+  arcforges.foundation.v1.Id approval_id = 1 [json_name = "approvalId"];
+  optional arcforges.publicapi.v1.ApprovalDecision decision = 2 [json_name = "decision"];
+}
+
+message ApplicationPresenceChanged {
+  arcforges.publicapi.v1.ApplicationTarget target = 1 [json_name = "target"];
+  optional string state = 2 [json_name = "state"];
+  optional bool eligible = 3 [json_name = "eligible"];
+}
+
+message BridgeRequestAvailable {
+  optional uint32 count = 1 [json_name = "count"];
+}
+
+message NotificationRaised {
+  arcforges.foundation.v1.Id notification_id = 1 [json_name = "notificationId"];
+  optional string durability = 2 [json_name = "durability"];
+}
+
+message PolicyBundleAvailable {
+  optional string version = 1 [json_name = "version"];
+}
+
+message ResourceCommitted {
+  arcforges.foundation.v1.Id resource_id = 1 [json_name = "resourceId"];
+  optional string sha256 = 2 [json_name = "sha256"];
+}
+
+message CapacityChanged {
+  arcforges.foundation.v1.Instant recovery_at = 1 [json_name = "recoveryAt"];
+}
+
+message ServiceTermChanged {
+  arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"];
+}
+
+message SimulationStateChanged {
+  arcforges.foundation.v1.Id run_id = 1 [json_name = "runId"];
+  optional string state = 2 [json_name = "state"];
+  optional int64 committed_sequence = 3 [json_name = "committedSequence"];
+}
+
+message ConfigRevisionActivated {
+  arcforges.foundation.v1.Id config_id = 1 [json_name = "configId"];
+}
+
+message StreamPosition {
+  optional string cursor = 1 [json_name = "cursor"];
+  optional uint64 sequence = 2 [json_name = "sequence"];
+  optional uint64 generation = 3 [json_name = "generation"];
+  optional string content_hash = 4 [json_name = "contentHash"];
+}
+
+message StreamFrame {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  StreamPosition position = 2 [json_name = "position"];
+  oneof frame {
+    Event hint = 10 [json_name = "hint"];
+    OutputChunk output = 11 [json_name = "output"];
+    StreamReset reset = 12 [json_name = "reset"];
+    ExecutionOutput terminal = 13 [json_name = "terminal"];
+    arcforges.foundation.v1.Instant heartbeat = 14 [json_name = "heartbeat"];
+    arcforges.foundation.v1.ArcError error = 15 [json_name = "error"];
+    ExecutionProgress progress = 16 [json_name = "progress"];
+  }
+}
+
+message OutputChunk {
+  arcforges.publicapi.v1.ExecutionOwner execution = 1 [json_name = "execution"];
+  optional uint64 offset = 2 [json_name = "offset"];
+  optional bytes data = 3 [json_name = "data"];
+  optional string chunk_hash = 4 [json_name = "chunkHash"];
+  optional string kind = 5 [json_name = "kind"];
+  arcforges.foundation.v1.Id attempt_id = 6 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id stream_id = 7 [json_name = "streamId"];
+}
+
+message StreamReset {
+  optional string reason = 1 [json_name = "reason"];
+  optional string resume_from = 2 [json_name = "resumeFrom"];
+  optional bool snapshot_required = 3 [json_name = "snapshotRequired"];
+  arcforges.foundation.v1.Id successor_stream_id = 4 [json_name = "successorStreamId"];
+  optional bool truncated = 5 [json_name = "truncated"];
+}
+
+message ExecutionOutput {
+  arcforges.publicapi.v1.ExecutionOwner execution = 1 [json_name = "execution"];
+  optional string state = 2 [json_name = "state"];
+  arcforges.publicapi.v1.MessageView message = 3 [json_name = "message"];
+  arcforges.foundation.v1.EncodedBodyRef body = 4 [json_name = "body"];
+  optional string final_hash = 5 [json_name = "finalHash"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Id attempt_id = 7 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id stream_id = 8 [json_name = "streamId"];
+  arcforges.foundation.v1.Id successor_stream_id = 9 [json_name = "successorStreamId"];
+  optional bool truncated = 10 [json_name = "truncated"];
+  arcforges.foundation.v1.VersionedRef final_message = 11 [json_name = "finalMessage"];
+  optional string no_answer_reason = 12 [json_name = "noAnswerReason"];
+}
+
+message ExecutionProgress {
+  arcforges.publicapi.v1.ExecutionOwner execution = 1 [json_name = "execution"];
+  oneof owner_progress {
+    arcforges.publicapi.v1.TaskSnapshot task = 2 [json_name = "task"];
+    arcforges.publicapi.v1.ChatTurnProgress turn = 3 [json_name = "turn"];
+  }
+  arcforges.foundation.v1.Id attempt_id = 4 [json_name = "attemptId"];
+  arcforges.foundation.v1.Id stream_id = 5 [json_name = "streamId"];
+  optional string stream_state = 6 [json_name = "streamState"];
+  arcforges.foundation.v1.Id successor_stream_id = 7 [json_name = "successorStreamId"];
+  arcforges.foundation.v1.VersionedRef iteration_output = 8 [json_name = "iterationOutput"];
+  arcforges.foundation.v1.VersionedRef final_message = 9 [json_name = "finalMessage"];
+  optional string no_answer_reason = 10 [json_name = "noAnswerReason"];
+  optional uint32 retry_after_ms = 11 [json_name = "retryAfterMs"];
+  optional string attempt_state = 12 [json_name = "attemptState"];
+}
+
+message ExecutionServiceStartTransientTurnRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.TransientTurnRequest turn = 10 [json_name = "turn"];
+}
+
+message ExecutionServiceStartTransientTurnValue {
+  arcforges.publicapi.v1.ExecutionOwner owner = 10 [json_name = "owner"];
+  arcforges.publicapi.v1.RunView run = 11 [json_name = "run"];
+}
+
+message ExecutionServiceStartTransientTurnResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExecutionServiceStartTransientTurnValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ExecutionServiceReadOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.ExecutionOwner owner = 10 [json_name = "owner"];
+  optional string cursor = 11 [json_name = "cursor"];
+  optional uint32 limit = 12 [json_name = "limit"];
+}
+
+message ExecutionServiceReadOutputValue {
+  repeated OutputChunk chunks = 10 [json_name = "chunks"];
+  StreamPosition position = 11 [json_name = "position"];
+  ExecutionOutput terminal = 12 [json_name = "terminal"];
+  optional bool reset_required = 13 [json_name = "resetRequired"];
+  ExecutionProgress progress = 14 [json_name = "progress"];
+}
+
+message ExecutionServiceReadOutputResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExecutionServiceReadOutputValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message ExecutionServiceWatchOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.ExecutionOwner owner = 10 [json_name = "owner"];
+  optional string cursor = 11 [json_name = "cursor"];
+}
+
+message ExecutionServiceAcknowledgeOutputRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.ExecutionOwner owner = 10 [json_name = "owner"];
+  optional string final_hash = 11 [json_name = "finalHash"];
+}
+
+message ExecutionServiceAcknowledgeOutputValue {}
+
+message ExecutionServiceAcknowledgeOutputResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExecutionServiceAcknowledgeOutputValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message ExecutionServicePurgeTransientRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.publicapi.v1.ExecutionOwner owner = 10 [json_name = "owner"];
+}
+
+message ExecutionServicePurgeTransientValue {}
+
+message ExecutionServicePurgeTransientResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ExecutionServicePurgeTransientValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4;
+  reserved 5 to 9;
+}
+
+message EventServicePollRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string subscription_key = 10 [json_name = "subscriptionKey"];
+  optional string cursor = 11 [json_name = "cursor"];
+  optional uint32 limit = 12 [json_name = "limit"];
+}
+
+message EventServicePollValue {
+  repeated Event events = 10 [json_name = "events"];
+  optional string next_cursor = 11 [json_name = "nextCursor"];
+  optional bool reset_required = 12 [json_name = "resetRequired"];
+}
+
+message EventServicePollResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    EventServicePollValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message EventServiceWatchRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string subscription_key = 10 [json_name = "subscriptionKey"];
+  optional string cursor = 11 [json_name = "cursor"];
+  repeated string filter = 12 [json_name = "filter"];
 }

@@ -6,17 +6,31 @@
 // @generated from file arcforges/events/v1/events.proto (package arcforges.events.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { AggregateRef, ArcError, EncodedBodyRef, Id, Instant, RequestMeta, ResponseMeta, Revision, VersionedRef } from "../../foundation/v1/foundation_pb.js";
+import { file_arcforges_foundation_v1_foundation } from "../../foundation/v1/foundation_pb.js";
+import type { TransientTurnRequest } from "../../publicapi/v1/application_pb.js";
+import { file_arcforges_publicapi_v1_application } from "../../publicapi/v1/application_pb.js";
+import type { ApplicationTarget, ChatTurnProgress, ExecutionOwner, RunView } from "../../publicapi/v1/chat_pb.js";
+import { file_arcforges_publicapi_v1_chat } from "../../publicapi/v1/chat_pb.js";
+import type { MessageView, TaskSnapshot, TaskState } from "../../publicapi/v1/content_pb.js";
+import { file_arcforges_publicapi_v1_content } from "../../publicapi/v1/content_pb.js";
+import type { ApprovalDecision } from "../../publicapi/v1/inprocess-values_pb.js";
+import { file_arcforges_publicapi_v1_inprocess_values } from "../../publicapi/v1/inprocess-values_pb.js";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file arcforges/events/v1/events.proto.
  */
 export const file_arcforges_events_v1_events: GenFile = /*@__PURE__*/
-  fileDesc("CiBhcmNmb3JnZXMvZXZlbnRzL3YxL2V2ZW50cy5wcm90bxITYXJjZm9yZ2VzLmV2ZW50cy52MSJOChJFbnRpdGxlbWVudENoYW5nZWQSIAoTZW50aXRsZW1lbnRfdmVyc2lvbhgBIAEoA0gAiAEBQhYKFF9lbnRpdGxlbWVudF92ZXJzaW9uQlgKJ2lvLmdpdGh1Yi5hcmNmb3JnZXMuY29udHJhY3RzLmV2ZW50cy52MUILRXZlbnRzUHJvdG9QAaoCHUFyY0Zvcmdlcy5Db250cmFjdHMuRXZlbnRzLlYxYgZwcm90bzM");
+  fileDesc("CiBhcmNmb3JnZXMvZXZlbnRzL3YxL2V2ZW50cy5wcm90bxITYXJjZm9yZ2VzLmV2ZW50cy52MSJOChJFbnRpdGxlbWVudENoYW5nZWQSIAoTZW50aXRsZW1lbnRfdmVyc2lvbhgBIAEoA0gAiAEBQhYKFF9lbnRpdGxlbWVudF92ZXJzaW9uIs4LCgVFdmVudBIdChBzdWJzY3JpcHRpb25fa2V5GAEgASgJSAGIAQESEAoDc2VxGAIgASgESAKIAQESMQoMd29ya3NwYWNlX2lkGAMgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSNQoLb2NjdXJyZWRfYXQYBCABKAsyIC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JbnN0YW50EjMKDmNvcnJlbGF0aW9uX2lkGAUgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSOAoMc3luY19jaGFuZ2VkGAogASgLMiAuYXJjZm9yZ2VzLmV2ZW50cy52MS5TeW5jQ2hhbmdlZEgAEkcKFHN5bmNfY29uZmxpY3RfcmFpc2VkGAsgASgLMicuYXJjZm9yZ2VzLmV2ZW50cy52MS5TeW5jQ29uZmxpY3RSYWlzZWRIABJDChJ0YXNrX3N0YXRlX2NoYW5nZWQYDCABKAsyJS5hcmNmb3JnZXMuZXZlbnRzLnYxLlRhc2tTdGF0ZUNoYW5nZWRIABI6Cg10YXNrX3Byb2dyZXNzGA0gASgLMiEuYXJjZm9yZ2VzLmV2ZW50cy52MS5UYXNrUHJvZ3Jlc3NIABJHChR0YXNrX291dHB1dF9hcHBlbmRlZBgOIAEoCzInLmFyY2Zvcmdlcy5ldmVudHMudjEuVGFza091dHB1dEFwcGVuZGVkSAASPgoPYXBwcm92YWxfcmFpc2VkGA8gASgLMiMuYXJjZm9yZ2VzLmV2ZW50cy52MS5BcHByb3ZhbFJhaXNlZEgAEkIKEWFwcHJvdmFsX3Jlc29sdmVkGBAgASgLMiUuYXJjZm9yZ2VzLmV2ZW50cy52MS5BcHByb3ZhbFJlc29sdmVkSAASRgoTZW50aXRsZW1lbnRfY2hhbmdlZBgRIAEoCzInLmFyY2Zvcmdlcy5ldmVudHMudjEuRW50aXRsZW1lbnRDaGFuZ2VkSAASVwocYXBwbGljYXRpb25fcHJlc2VuY2VfY2hhbmdlZBgSIAEoCzIvLmFyY2Zvcmdlcy5ldmVudHMudjEuQXBwbGljYXRpb25QcmVzZW5jZUNoYW5nZWRIABJPChhicmlkZ2VfcmVxdWVzdF9hdmFpbGFibGUYEyABKAsyKy5hcmNmb3JnZXMuZXZlbnRzLnYxLkJyaWRnZVJlcXVlc3RBdmFpbGFibGVIABJGChNub3RpZmljYXRpb25fcmFpc2VkGBQgASgLMicuYXJjZm9yZ2VzLmV2ZW50cy52MS5Ob3RpZmljYXRpb25SYWlzZWRIABJNChdwb2xpY3lfYnVuZGxlX2F2YWlsYWJsZRgVIAEoCzIqLmFyY2Zvcmdlcy5ldmVudHMudjEuUG9saWN5QnVuZGxlQXZhaWxhYmxlSAASRAoScmVzb3VyY2VfY29tbWl0dGVkGBYgASgLMiYuYXJjZm9yZ2VzLmV2ZW50cy52MS5SZXNvdXJjZUNvbW1pdHRlZEgAEkAKEGNhcGFjaXR5X2NoYW5nZWQYFyABKAsyJC5hcmNmb3JnZXMuZXZlbnRzLnYxLkNhcGFjaXR5Q2hhbmdlZEgAEkcKFHNlcnZpY2VfdGVybV9jaGFuZ2VkGBggASgLMicuYXJjZm9yZ2VzLmV2ZW50cy52MS5TZXJ2aWNlVGVybUNoYW5nZWRIABJPChhzaW11bGF0aW9uX3N0YXRlX2NoYW5nZWQYGSABKAsyKy5hcmNmb3JnZXMuZXZlbnRzLnYxLlNpbXVsYXRpb25TdGF0ZUNoYW5nZWRIABJRChljb25maWdfcmV2aXNpb25fYWN0aXZhdGVkGBogASgLMiwuYXJjZm9yZ2VzLmV2ZW50cy52MS5Db25maWdSZXZpc2lvbkFjdGl2YXRlZEgAQgkKB3BheWxvYWRCEwoRX3N1YnNjcmlwdGlvbl9rZXlCBgoEX3NlcSKuAQoLU3luY0NoYW5nZWQSMwoEcm9vdBgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFnZ3JlZ2F0ZVJlZhIzCghyZXZpc2lvbhgCIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJldmlzaW9uEjUKEG9yaWdpbl9kZXZpY2VfaWQYAyABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZCJ7ChJTeW5jQ29uZmxpY3RSYWlzZWQSMAoLY29uZmxpY3RfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIzCgRyb290GAIgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQWdncmVnYXRlUmVmItYBChBUYXNrU3RhdGVDaGFuZ2VkEiwKB3Rhc2tfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBI1CgVzdGF0ZRgCIAEoDjIhLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuVGFza1N0YXRlSACIAQESEwoGcmVhc29uGAMgASgJSAGIAQESMwoIcmV2aXNpb24YBCABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXZpc2lvbkIICgZfc3RhdGVCCQoHX3JlYXNvbiK5AQoMVGFza1Byb2dyZXNzEiwKB3Rhc2tfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIrCgZydW5faWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIVCghwcm9ncmVzcxgDIAEoDUgAiAEBEhkKDHN0ZXBfb3JkaW5hbBgEIAEoDUgBiAEBQgsKCV9wcm9ncmVzc0IPCg1fc3RlcF9vcmRpbmFsIpwBChJUYXNrT3V0cHV0QXBwZW5kZWQSLAoHdGFza19pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEi4KCXN0cmVhbV9pZBgCIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhgKC25leHRfb2Zmc2V0GAMgASgESACIAQFCDgoMX25leHRfb2Zmc2V0IsIBCg5BcHByb3ZhbFJhaXNlZBIwCgthcHByb3ZhbF9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEiwKB3Rhc2tfaWQYAiABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIRCgRyaXNrGAMgASgJSACIAQESNAoKZXhwaXJlc19hdBgEIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRCBwoFX3Jpc2sikgEKEEFwcHJvdmFsUmVzb2x2ZWQSMAoLYXBwcm92YWxfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBI/CghkZWNpc2lvbhgCIAEoDjIoLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuQXBwcm92YWxEZWNpc2lvbkgAiAEBQgsKCV9kZWNpc2lvbiKZAQoaQXBwbGljYXRpb25QcmVzZW5jZUNoYW5nZWQSOQoGdGFyZ2V0GAEgASgLMikuYXJjZm9yZ2VzLnB1YmxpY2FwaS52MS5BcHBsaWNhdGlvblRhcmdldBISCgVzdGF0ZRgCIAEoCUgAiAEBEhUKCGVsaWdpYmxlGAMgASgISAGIAQFCCAoGX3N0YXRlQgsKCV9lbGlnaWJsZSI2ChZCcmlkZ2VSZXF1ZXN0QXZhaWxhYmxlEhIKBWNvdW50GAEgASgNSACIAQFCCAoGX2NvdW50InIKEk5vdGlmaWNhdGlvblJhaXNlZBI0Cg9ub3RpZmljYXRpb25faWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZBIXCgpkdXJhYmlsaXR5GAIgASgJSACIAQFCDQoLX2R1cmFiaWxpdHkiOQoVUG9saWN5QnVuZGxlQXZhaWxhYmxlEhQKB3ZlcnNpb24YASABKAlIAIgBAUIKCghfdmVyc2lvbiJlChFSZXNvdXJjZUNvbW1pdHRlZBIwCgtyZXNvdXJjZV9pZBgBIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhMKBnNoYTI1NhgCIAEoCUgAiAEBQgkKB19zaGEyNTYiSAoPQ2FwYWNpdHlDaGFuZ2VkEjUKC3JlY292ZXJ5X2F0GAEgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudCJHChJTZXJ2aWNlVGVybUNoYW5nZWQSMQoMd29ya3NwYWNlX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQimwEKFlNpbXVsYXRpb25TdGF0ZUNoYW5nZWQSKwoGcnVuX2lkGAEgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSEgoFc3RhdGUYAiABKAlIAIgBARIfChJjb21taXR0ZWRfc2VxdWVuY2UYAyABKANIAYgBAUIICgZfc3RhdGVCFQoTX2NvbW1pdHRlZF9zZXF1ZW5jZSJJChdDb25maWdSZXZpc2lvbkFjdGl2YXRlZBIuCgljb25maWdfaWQYASABKAsyGy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5JZCKoAQoOU3RyZWFtUG9zaXRpb24SEwoGY3Vyc29yGAEgASgJSACIAQESFQoIc2VxdWVuY2UYAiABKARIAYgBARIXCgpnZW5lcmF0aW9uGAMgASgESAKIAQESGQoMY29udGVudF9oYXNoGAQgASgJSAOIAQFCCQoHX2N1cnNvckILCglfc2VxdWVuY2VCDQoLX2dlbmVyYXRpb25CDwoNX2NvbnRlbnRfaGFzaCL2AwoLU3RyZWFtRnJhbWUSMwoEbWV0YRgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc3BvbnNlTWV0YRI1Cghwb3NpdGlvbhgCIAEoCzIjLmFyY2Zvcmdlcy5ldmVudHMudjEuU3RyZWFtUG9zaXRpb24SKgoEaGludBgKIAEoCzIaLmFyY2Zvcmdlcy5ldmVudHMudjEuRXZlbnRIABIyCgZvdXRwdXQYCyABKAsyIC5hcmNmb3JnZXMuZXZlbnRzLnYxLk91dHB1dENodW5rSAASMQoFcmVzZXQYDCABKAsyIC5hcmNmb3JnZXMuZXZlbnRzLnYxLlN0cmVhbVJlc2V0SAASOAoIdGVybWluYWwYDSABKAsyJC5hcmNmb3JnZXMuZXZlbnRzLnYxLkV4ZWN1dGlvbk91dHB1dEgAEjUKCWhlYXJ0YmVhdBgOIAEoCzIgLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkluc3RhbnRIABIyCgVlcnJvchgPIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySAASOgoIcHJvZ3Jlc3MYECABKAsyJi5hcmNmb3JnZXMuZXZlbnRzLnYxLkV4ZWN1dGlvblByb2dyZXNzSABCBwoFZnJhbWUiqQIKC091dHB1dENodW5rEjkKCWV4ZWN1dGlvbhgBIAEoCzImLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuRXhlY3V0aW9uT3duZXISEwoGb2Zmc2V0GAIgASgESACIAQESEQoEZGF0YRgDIAEoDEgBiAEBEhcKCmNodW5rX2hhc2gYBCABKAlIAogBARIRCgRraW5kGAUgASgJSAOIAQESLwoKYXR0ZW1wdF9pZBgGIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEi4KCXN0cmVhbV9pZBgHIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkQgkKB19vZmZzZXRCBwoFX2RhdGFCDQoLX2NodW5rX2hhc2hCBwoFX2tpbmQi7QEKC1N0cmVhbVJlc2V0EhMKBnJlYXNvbhgBIAEoCUgAiAEBEhgKC3Jlc3VtZV9mcm9tGAIgASgJSAGIAQESHgoRc25hcHNob3RfcmVxdWlyZWQYAyABKAhIAogBARI4ChNzdWNjZXNzb3Jfc3RyZWFtX2lkGAQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSFgoJdHJ1bmNhdGVkGAUgASgISAOIAQFCCQoHX3JlYXNvbkIOCgxfcmVzdW1lX2Zyb21CFAoSX3NuYXBzaG90X3JlcXVpcmVkQgwKCl90cnVuY2F0ZWQi6AQKD0V4ZWN1dGlvbk91dHB1dBI5CglleGVjdXRpb24YASABKAsyJi5hcmNmb3JnZXMucHVibGljYXBpLnYxLkV4ZWN1dGlvbk93bmVyEhIKBXN0YXRlGAIgASgJSACIAQESNAoHbWVzc2FnZRgDIAEoCzIjLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuTWVzc2FnZVZpZXcSNQoEYm9keRgEIAEoCzInLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkVuY29kZWRCb2R5UmVmEhcKCmZpbmFsX2hhc2gYBSABKAlIAYgBARI0CgpleHBpcmVzX2F0GAYgASgLMiAuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSW5zdGFudBIvCgphdHRlbXB0X2lkGAcgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSLgoJc3RyZWFtX2lkGAggASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSOAoTc3VjY2Vzc29yX3N0cmVhbV9pZBgJIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEhYKCXRydW5jYXRlZBgKIAEoCEgCiAEBEjwKDWZpbmFsX21lc3NhZ2UYCyABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5WZXJzaW9uZWRSZWYSHQoQbm9fYW5zd2VyX3JlYXNvbhgMIAEoCUgDiAEBQggKBl9zdGF0ZUINCgtfZmluYWxfaGFzaEIMCgpfdHJ1bmNhdGVkQhMKEV9ub19hbnN3ZXJfcmVhc29uIqgFChFFeGVjdXRpb25Qcm9ncmVzcxI5CglleGVjdXRpb24YASABKAsyJi5hcmNmb3JnZXMucHVibGljYXBpLnYxLkV4ZWN1dGlvbk93bmVyEjQKBHRhc2sYAiABKAsyJC5hcmNmb3JnZXMucHVibGljYXBpLnYxLlRhc2tTbmFwc2hvdEgAEjgKBHR1cm4YAyABKAsyKC5hcmNmb3JnZXMucHVibGljYXBpLnYxLkNoYXRUdXJuUHJvZ3Jlc3NIABIvCgphdHRlbXB0X2lkGAQgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSLgoJc3RyZWFtX2lkGAUgASgLMhsuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuSWQSGQoMc3RyZWFtX3N0YXRlGAYgASgJSAGIAQESOAoTc3VjY2Vzc29yX3N0cmVhbV9pZBgHIAEoCzIbLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLklkEj8KEGl0ZXJhdGlvbl9vdXRwdXQYCCABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5WZXJzaW9uZWRSZWYSPAoNZmluYWxfbWVzc2FnZRgJIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlZlcnNpb25lZFJlZhIdChBub19hbnN3ZXJfcmVhc29uGAogASgJSAKIAQESGwoOcmV0cnlfYWZ0ZXJfbXMYCyABKA1IA4gBARIaCg1hdHRlbXB0X3N0YXRlGAwgASgJSASIAQFCEAoOb3duZXJfcHJvZ3Jlc3NCDwoNX3N0cmVhbV9zdGF0ZUITChFfbm9fYW5zd2VyX3JlYXNvbkIRCg9fcmV0cnlfYWZ0ZXJfbXNCEAoOX2F0dGVtcHRfc3RhdGUioQEKKUV4ZWN1dGlvblNlcnZpY2VTdGFydFRyYW5zaWVudFR1cm5SZXF1ZXN0EjIKBG1ldGEYASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0YRI6CgR0dXJuGAogASgLMiwuYXJjZm9yZ2VzLnB1YmxpY2FwaS52MS5UcmFuc2llbnRUdXJuUmVxdWVzdEoECAIQCiKOAQonRXhlY3V0aW9uU2VydmljZVN0YXJ0VHJhbnNpZW50VHVyblZhbHVlEjUKBW93bmVyGAogASgLMiYuYXJjZm9yZ2VzLnB1YmxpY2FwaS52MS5FeGVjdXRpb25Pd25lchIsCgNydW4YCyABKAsyHy5hcmNmb3JnZXMucHVibGljYXBpLnYxLlJ1blZpZXci+wEKKkV4ZWN1dGlvblNlcnZpY2VTdGFydFRyYW5zaWVudFR1cm5SZXNwb25zZRIzCgRtZXRhGAEgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVzcG9uc2VNZXRhEk0KBXZhbHVlGAIgASgLMjwuYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlU3RhcnRUcmFuc2llbnRUdXJuVmFsdWVIABIyCgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySABCCQoHb3V0Y29tZUoECAQQBUoECAUQCiLSAQohRXhlY3V0aW9uU2VydmljZVJlYWRPdXRwdXRSZXF1ZXN0EjIKBG1ldGEYASABKAsyJC5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXF1ZXN0TWV0YRI1CgVvd25lchgKIAEoCzImLmFyY2Zvcmdlcy5wdWJsaWNhcGkudjEuRXhlY3V0aW9uT3duZXISEwoGY3Vyc29yGAsgASgJSACIAQESEgoFbGltaXQYDCABKA1IAYgBAUIJCgdfY3Vyc29yQggKBl9saW1pdEoECAIQCiKsAgofRXhlY3V0aW9uU2VydmljZVJlYWRPdXRwdXRWYWx1ZRIwCgZjaHVua3MYCiADKAsyIC5hcmNmb3JnZXMuZXZlbnRzLnYxLk91dHB1dENodW5rEjUKCHBvc2l0aW9uGAsgASgLMiMuYXJjZm9yZ2VzLmV2ZW50cy52MS5TdHJlYW1Qb3NpdGlvbhI2Cgh0ZXJtaW5hbBgMIAEoCzIkLmFyY2Zvcmdlcy5ldmVudHMudjEuRXhlY3V0aW9uT3V0cHV0EhsKDnJlc2V0X3JlcXVpcmVkGA0gASgISACIAQESOAoIcHJvZ3Jlc3MYDiABKAsyJi5hcmNmb3JnZXMuZXZlbnRzLnYxLkV4ZWN1dGlvblByb2dyZXNzQhEKD19yZXNldF9yZXF1aXJlZCKmAgoiRXhlY3V0aW9uU2VydmljZVJlYWRPdXRwdXRSZXNwb25zZRIzCgRtZXRhGAEgASgLMiUuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVzcG9uc2VNZXRhEkUKBXZhbHVlGAIgASgLMjQuYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlUmVhZE91dHB1dFZhbHVlSAASMgoFZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJvckgAEj8KDGVuY29kZWRfYm9keRgEIAEoCzInLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkVuY29kZWRCb2R5UmVmSABCCQoHb3V0Y29tZUoECAUQCiK1AQoiRXhlY3V0aW9uU2VydmljZVdhdGNoT3V0cHV0UmVxdWVzdBIyCgRtZXRhGAEgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGESNQoFb3duZXIYCiABKAsyJi5hcmNmb3JnZXMucHVibGljYXBpLnYxLkV4ZWN1dGlvbk93bmVyEhMKBmN1cnNvchgLIAEoCUgAiAEBQgkKB19jdXJzb3JKBAgCEAoiwwEKKEV4ZWN1dGlvblNlcnZpY2VBY2tub3dsZWRnZU91dHB1dFJlcXVlc3QSMgoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhEjUKBW93bmVyGAogASgLMiYuYXJjZm9yZ2VzLnB1YmxpY2FwaS52MS5FeGVjdXRpb25Pd25lchIXCgpmaW5hbF9oYXNoGAsgASgJSACIAQFCDQoLX2ZpbmFsX2hhc2hKBAgCEAoiKAomRXhlY3V0aW9uU2VydmljZUFja25vd2xlZGdlT3V0cHV0VmFsdWUi+QEKKUV4ZWN1dGlvblNlcnZpY2VBY2tub3dsZWRnZU91dHB1dFJlc3BvbnNlEjMKBG1ldGEYASABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNwb25zZU1ldGESTAoFdmFsdWUYAiABKAsyOy5hcmNmb3JnZXMuZXZlbnRzLnYxLkV4ZWN1dGlvblNlcnZpY2VBY2tub3dsZWRnZU91dHB1dFZhbHVlSAASMgoFZXJyb3IYAyABKAsyIS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5BcmNFcnJvckgAQgkKB291dGNvbWVKBAgEEAVKBAgFEAoimAEKJUV4ZWN1dGlvblNlcnZpY2VQdXJnZVRyYW5zaWVudFJlcXVlc3QSMgoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhEjUKBW93bmVyGAogASgLMiYuYXJjZm9yZ2VzLnB1YmxpY2FwaS52MS5FeGVjdXRpb25Pd25lckoECAIQCiIlCiNFeGVjdXRpb25TZXJ2aWNlUHVyZ2VUcmFuc2llbnRWYWx1ZSLzAQomRXhlY3V0aW9uU2VydmljZVB1cmdlVHJhbnNpZW50UmVzcG9uc2USMwoEbWV0YRgBIAEoCzIlLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlc3BvbnNlTWV0YRJJCgV2YWx1ZRgCIAEoCzI4LmFyY2Zvcmdlcy5ldmVudHMudjEuRXhlY3V0aW9uU2VydmljZVB1cmdlVHJhbnNpZW50VmFsdWVIABIyCgVlcnJvchgDIAEoCzIhLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLkFyY0Vycm9ySABCCQoHb3V0Y29tZUoECAQQBUoECAUQCiLFAQoXRXZlbnRTZXJ2aWNlUG9sbFJlcXVlc3QSMgoEbWV0YRgBIAEoCzIkLmFyY2Zvcmdlcy5mb3VuZGF0aW9uLnYxLlJlcXVlc3RNZXRhEh0KEHN1YnNjcmlwdGlvbl9rZXkYCiABKAlIAIgBARITCgZjdXJzb3IYCyABKAlIAYgBARISCgVsaW1pdBgMIAEoDUgCiAEBQhMKEV9zdWJzY3JpcHRpb25fa2V5QgkKB19jdXJzb3JCCAoGX2xpbWl0SgQIAhAKIp0BChVFdmVudFNlcnZpY2VQb2xsVmFsdWUSKgoGZXZlbnRzGAogAygLMhouYXJjZm9yZ2VzLmV2ZW50cy52MS5FdmVudBIYCgtuZXh0X2N1cnNvchgLIAEoCUgAiAEBEhsKDnJlc2V0X3JlcXVpcmVkGAwgASgISAGIAQFCDgoMX25leHRfY3Vyc29yQhEKD19yZXNldF9yZXF1aXJlZCKSAgoYRXZlbnRTZXJ2aWNlUG9sbFJlc3BvbnNlEjMKBG1ldGEYASABKAsyJS5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5SZXNwb25zZU1ldGESOwoFdmFsdWUYAiABKAsyKi5hcmNmb3JnZXMuZXZlbnRzLnYxLkV2ZW50U2VydmljZVBvbGxWYWx1ZUgAEjIKBWVycm9yGAMgASgLMiEuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuQXJjRXJyb3JIABI/CgxlbmNvZGVkX2JvZHkYBCABKAsyJy5hcmNmb3JnZXMuZm91bmRhdGlvbi52MS5FbmNvZGVkQm9keVJlZkgAQgkKB291dGNvbWVKBAgFEAoiuAEKGEV2ZW50U2VydmljZVdhdGNoUmVxdWVzdBIyCgRtZXRhGAEgASgLMiQuYXJjZm9yZ2VzLmZvdW5kYXRpb24udjEuUmVxdWVzdE1ldGESHQoQc3Vic2NyaXB0aW9uX2tleRgKIAEoCUgAiAEBEhMKBmN1cnNvchgLIAEoCUgBiAEBEg4KBmZpbHRlchgMIAMoCUITChFfc3Vic2NyaXB0aW9uX2tleUIJCgdfY3Vyc29ySgQIAhAKMrYFChBFeGVjdXRpb25TZXJ2aWNlEpUBChJTdGFydFRyYW5zaWVudFR1cm4SPi5hcmNmb3JnZXMuZXZlbnRzLnYxLkV4ZWN1dGlvblNlcnZpY2VTdGFydFRyYW5zaWVudFR1cm5SZXF1ZXN0Gj8uYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlU3RhcnRUcmFuc2llbnRUdXJuUmVzcG9uc2USfQoKUmVhZE91dHB1dBI2LmFyY2Zvcmdlcy5ldmVudHMudjEuRXhlY3V0aW9uU2VydmljZVJlYWRPdXRwdXRSZXF1ZXN0GjcuYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlUmVhZE91dHB1dFJlc3BvbnNlEmoKC1dhdGNoT3V0cHV0EjcuYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlV2F0Y2hPdXRwdXRSZXF1ZXN0GiAuYXJjZm9yZ2VzLmV2ZW50cy52MS5TdHJlYW1GcmFtZTABEpIBChFBY2tub3dsZWRnZU91dHB1dBI9LmFyY2Zvcmdlcy5ldmVudHMudjEuRXhlY3V0aW9uU2VydmljZUFja25vd2xlZGdlT3V0cHV0UmVxdWVzdBo+LmFyY2Zvcmdlcy5ldmVudHMudjEuRXhlY3V0aW9uU2VydmljZUFja25vd2xlZGdlT3V0cHV0UmVzcG9uc2USiQEKDlB1cmdlVHJhbnNpZW50EjouYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlUHVyZ2VUcmFuc2llbnRSZXF1ZXN0GjsuYXJjZm9yZ2VzLmV2ZW50cy52MS5FeGVjdXRpb25TZXJ2aWNlUHVyZ2VUcmFuc2llbnRSZXNwb25zZTLPAQoMRXZlbnRTZXJ2aWNlEmMKBFBvbGwSLC5hcmNmb3JnZXMuZXZlbnRzLnYxLkV2ZW50U2VydmljZVBvbGxSZXF1ZXN0Gi0uYXJjZm9yZ2VzLmV2ZW50cy52MS5FdmVudFNlcnZpY2VQb2xsUmVzcG9uc2USWgoFV2F0Y2gSLS5hcmNmb3JnZXMuZXZlbnRzLnYxLkV2ZW50U2VydmljZVdhdGNoUmVxdWVzdBogLmFyY2Zvcmdlcy5ldmVudHMudjEuU3RyZWFtRnJhbWUwAUJYCidpby5naXRodWIuYXJjZm9yZ2VzLmNvbnRyYWN0cy5ldmVudHMudjFCC0V2ZW50c1Byb3RvUAGqAh1BcmNGb3JnZXMuQ29udHJhY3RzLkV2ZW50cy5WMWIGcHJvdG8z", [file_arcforges_foundation_v1_foundation, file_arcforges_publicapi_v1_application, file_arcforges_publicapi_v1_chat, file_arcforges_publicapi_v1_content, file_arcforges_publicapi_v1_inprocess_values]);
 
 /**
+ * Event payload alternatives and their declaration order mirror the complete
+ * event registry in Design Registry04 §7 (tags 10–26). This oneof is the
+ * single schema source for generated language descriptors; event names map
+ * to the corresponding lower-camel oneof field.
  * The complete entitlement.changed hint payload; not the full Event envelope.
  *
  * @generated from message arcforges.events.v1.EntitlementChanged
@@ -34,3 +48,1418 @@ export type EntitlementChanged = Message<"arcforges.events.v1.EntitlementChanged
  */
 export const EntitlementChangedSchema: GenMessage<EntitlementChanged> = /*@__PURE__*/
   messageDesc(file_arcforges_events_v1_events, 0);
+
+/**
+ * @generated from message arcforges.events.v1.Event
+ */
+export type Event = Message<"arcforges.events.v1.Event"> & {
+  /**
+   * @generated from field: optional string subscription_key = 1;
+   */
+  subscriptionKey?: string | undefined;
+
+  /**
+   * @generated from field: optional uint64 seq = 2;
+   */
+  seq?: bigint | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id workspace_id = 3;
+   */
+  workspaceId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Instant occurred_at = 4;
+   */
+  occurredAt?: Instant | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id correlation_id = 5;
+   */
+  correlationId?: Id | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.Event.payload
+   */
+  payload: {
+    /**
+     * @generated from field: arcforges.events.v1.SyncChanged sync_changed = 10;
+     */
+    value: SyncChanged;
+    case: "syncChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.SyncConflictRaised sync_conflict_raised = 11;
+     */
+    value: SyncConflictRaised;
+    case: "syncConflictRaised";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.TaskStateChanged task_state_changed = 12;
+     */
+    value: TaskStateChanged;
+    case: "taskStateChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.TaskProgress task_progress = 13;
+     */
+    value: TaskProgress;
+    case: "taskProgress";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.TaskOutputAppended task_output_appended = 14;
+     */
+    value: TaskOutputAppended;
+    case: "taskOutputAppended";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ApprovalRaised approval_raised = 15;
+     */
+    value: ApprovalRaised;
+    case: "approvalRaised";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ApprovalResolved approval_resolved = 16;
+     */
+    value: ApprovalResolved;
+    case: "approvalResolved";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.EntitlementChanged entitlement_changed = 17;
+     */
+    value: EntitlementChanged;
+    case: "entitlementChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ApplicationPresenceChanged application_presence_changed = 18;
+     */
+    value: ApplicationPresenceChanged;
+    case: "applicationPresenceChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.BridgeRequestAvailable bridge_request_available = 19;
+     */
+    value: BridgeRequestAvailable;
+    case: "bridgeRequestAvailable";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.NotificationRaised notification_raised = 20;
+     */
+    value: NotificationRaised;
+    case: "notificationRaised";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.PolicyBundleAvailable policy_bundle_available = 21;
+     */
+    value: PolicyBundleAvailable;
+    case: "policyBundleAvailable";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ResourceCommitted resource_committed = 22;
+     */
+    value: ResourceCommitted;
+    case: "resourceCommitted";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.CapacityChanged capacity_changed = 23;
+     */
+    value: CapacityChanged;
+    case: "capacityChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ServiceTermChanged service_term_changed = 24;
+     */
+    value: ServiceTermChanged;
+    case: "serviceTermChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.SimulationStateChanged simulation_state_changed = 25;
+     */
+    value: SimulationStateChanged;
+    case: "simulationStateChanged";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ConfigRevisionActivated config_revision_activated = 26;
+     */
+    value: ConfigRevisionActivated;
+    case: "configRevisionActivated";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.Event.
+ * Use `create(EventSchema)` to create a new message.
+ */
+export const EventSchema: GenMessage<Event> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 1);
+
+/**
+ * @generated from message arcforges.events.v1.SyncChanged
+ */
+export type SyncChanged = Message<"arcforges.events.v1.SyncChanged"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.AggregateRef root = 1;
+   */
+  root?: AggregateRef | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Revision revision = 2;
+   */
+  revision?: Revision | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id origin_device_id = 3;
+   */
+  originDeviceId?: Id | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.SyncChanged.
+ * Use `create(SyncChangedSchema)` to create a new message.
+ */
+export const SyncChangedSchema: GenMessage<SyncChanged> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 2);
+
+/**
+ * @generated from message arcforges.events.v1.SyncConflictRaised
+ */
+export type SyncConflictRaised = Message<"arcforges.events.v1.SyncConflictRaised"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id conflict_id = 1;
+   */
+  conflictId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.AggregateRef root = 2;
+   */
+  root?: AggregateRef | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.SyncConflictRaised.
+ * Use `create(SyncConflictRaisedSchema)` to create a new message.
+ */
+export const SyncConflictRaisedSchema: GenMessage<SyncConflictRaised> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 3);
+
+/**
+ * @generated from message arcforges.events.v1.TaskStateChanged
+ */
+export type TaskStateChanged = Message<"arcforges.events.v1.TaskStateChanged"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id task_id = 1;
+   */
+  taskId?: Id | undefined;
+
+  /**
+   * @generated from field: optional arcforges.publicapi.v1.TaskState state = 2;
+   */
+  state?: TaskState | undefined;
+
+  /**
+   * @generated from field: optional string reason = 3;
+   */
+  reason?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Revision revision = 4;
+   */
+  revision?: Revision | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.TaskStateChanged.
+ * Use `create(TaskStateChangedSchema)` to create a new message.
+ */
+export const TaskStateChangedSchema: GenMessage<TaskStateChanged> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 4);
+
+/**
+ * @generated from message arcforges.events.v1.TaskProgress
+ */
+export type TaskProgress = Message<"arcforges.events.v1.TaskProgress"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id task_id = 1;
+   */
+  taskId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id run_id = 2;
+   */
+  runId?: Id | undefined;
+
+  /**
+   * @generated from field: optional uint32 progress = 3;
+   */
+  progress?: number | undefined;
+
+  /**
+   * @generated from field: optional uint32 step_ordinal = 4;
+   */
+  stepOrdinal?: number | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.TaskProgress.
+ * Use `create(TaskProgressSchema)` to create a new message.
+ */
+export const TaskProgressSchema: GenMessage<TaskProgress> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 5);
+
+/**
+ * @generated from message arcforges.events.v1.TaskOutputAppended
+ */
+export type TaskOutputAppended = Message<"arcforges.events.v1.TaskOutputAppended"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id task_id = 1;
+   */
+  taskId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id stream_id = 2;
+   */
+  streamId?: Id | undefined;
+
+  /**
+   * @generated from field: optional uint64 next_offset = 3;
+   */
+  nextOffset?: bigint | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.TaskOutputAppended.
+ * Use `create(TaskOutputAppendedSchema)` to create a new message.
+ */
+export const TaskOutputAppendedSchema: GenMessage<TaskOutputAppended> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 6);
+
+/**
+ * @generated from message arcforges.events.v1.ApprovalRaised
+ */
+export type ApprovalRaised = Message<"arcforges.events.v1.ApprovalRaised"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id approval_id = 1;
+   */
+  approvalId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id task_id = 2;
+   */
+  taskId?: Id | undefined;
+
+  /**
+   * @generated from field: optional string risk = 3;
+   */
+  risk?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Instant expires_at = 4;
+   */
+  expiresAt?: Instant | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ApprovalRaised.
+ * Use `create(ApprovalRaisedSchema)` to create a new message.
+ */
+export const ApprovalRaisedSchema: GenMessage<ApprovalRaised> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 7);
+
+/**
+ * @generated from message arcforges.events.v1.ApprovalResolved
+ */
+export type ApprovalResolved = Message<"arcforges.events.v1.ApprovalResolved"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id approval_id = 1;
+   */
+  approvalId?: Id | undefined;
+
+  /**
+   * @generated from field: optional arcforges.publicapi.v1.ApprovalDecision decision = 2;
+   */
+  decision?: ApprovalDecision | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ApprovalResolved.
+ * Use `create(ApprovalResolvedSchema)` to create a new message.
+ */
+export const ApprovalResolvedSchema: GenMessage<ApprovalResolved> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 8);
+
+/**
+ * @generated from message arcforges.events.v1.ApplicationPresenceChanged
+ */
+export type ApplicationPresenceChanged = Message<"arcforges.events.v1.ApplicationPresenceChanged"> & {
+  /**
+   * @generated from field: arcforges.publicapi.v1.ApplicationTarget target = 1;
+   */
+  target?: ApplicationTarget | undefined;
+
+  /**
+   * @generated from field: optional string state = 2;
+   */
+  state?: string | undefined;
+
+  /**
+   * @generated from field: optional bool eligible = 3;
+   */
+  eligible?: boolean | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ApplicationPresenceChanged.
+ * Use `create(ApplicationPresenceChangedSchema)` to create a new message.
+ */
+export const ApplicationPresenceChangedSchema: GenMessage<ApplicationPresenceChanged> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 9);
+
+/**
+ * @generated from message arcforges.events.v1.BridgeRequestAvailable
+ */
+export type BridgeRequestAvailable = Message<"arcforges.events.v1.BridgeRequestAvailable"> & {
+  /**
+   * @generated from field: optional uint32 count = 1;
+   */
+  count?: number | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.BridgeRequestAvailable.
+ * Use `create(BridgeRequestAvailableSchema)` to create a new message.
+ */
+export const BridgeRequestAvailableSchema: GenMessage<BridgeRequestAvailable> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 10);
+
+/**
+ * @generated from message arcforges.events.v1.NotificationRaised
+ */
+export type NotificationRaised = Message<"arcforges.events.v1.NotificationRaised"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id notification_id = 1;
+   */
+  notificationId?: Id | undefined;
+
+  /**
+   * @generated from field: optional string durability = 2;
+   */
+  durability?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.NotificationRaised.
+ * Use `create(NotificationRaisedSchema)` to create a new message.
+ */
+export const NotificationRaisedSchema: GenMessage<NotificationRaised> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 11);
+
+/**
+ * @generated from message arcforges.events.v1.PolicyBundleAvailable
+ */
+export type PolicyBundleAvailable = Message<"arcforges.events.v1.PolicyBundleAvailable"> & {
+  /**
+   * @generated from field: optional string version = 1;
+   */
+  version?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.PolicyBundleAvailable.
+ * Use `create(PolicyBundleAvailableSchema)` to create a new message.
+ */
+export const PolicyBundleAvailableSchema: GenMessage<PolicyBundleAvailable> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 12);
+
+/**
+ * @generated from message arcforges.events.v1.ResourceCommitted
+ */
+export type ResourceCommitted = Message<"arcforges.events.v1.ResourceCommitted"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id resource_id = 1;
+   */
+  resourceId?: Id | undefined;
+
+  /**
+   * @generated from field: optional string sha256 = 2;
+   */
+  sha256?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ResourceCommitted.
+ * Use `create(ResourceCommittedSchema)` to create a new message.
+ */
+export const ResourceCommittedSchema: GenMessage<ResourceCommitted> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 13);
+
+/**
+ * @generated from message arcforges.events.v1.CapacityChanged
+ */
+export type CapacityChanged = Message<"arcforges.events.v1.CapacityChanged"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Instant recovery_at = 1;
+   */
+  recoveryAt?: Instant | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.CapacityChanged.
+ * Use `create(CapacityChangedSchema)` to create a new message.
+ */
+export const CapacityChangedSchema: GenMessage<CapacityChanged> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 14);
+
+/**
+ * @generated from message arcforges.events.v1.ServiceTermChanged
+ */
+export type ServiceTermChanged = Message<"arcforges.events.v1.ServiceTermChanged"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id workspace_id = 1;
+   */
+  workspaceId?: Id | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ServiceTermChanged.
+ * Use `create(ServiceTermChangedSchema)` to create a new message.
+ */
+export const ServiceTermChangedSchema: GenMessage<ServiceTermChanged> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 15);
+
+/**
+ * @generated from message arcforges.events.v1.SimulationStateChanged
+ */
+export type SimulationStateChanged = Message<"arcforges.events.v1.SimulationStateChanged"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id run_id = 1;
+   */
+  runId?: Id | undefined;
+
+  /**
+   * @generated from field: optional string state = 2;
+   */
+  state?: string | undefined;
+
+  /**
+   * @generated from field: optional int64 committed_sequence = 3;
+   */
+  committedSequence?: bigint | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.SimulationStateChanged.
+ * Use `create(SimulationStateChangedSchema)` to create a new message.
+ */
+export const SimulationStateChangedSchema: GenMessage<SimulationStateChanged> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 16);
+
+/**
+ * @generated from message arcforges.events.v1.ConfigRevisionActivated
+ */
+export type ConfigRevisionActivated = Message<"arcforges.events.v1.ConfigRevisionActivated"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.Id config_id = 1;
+   */
+  configId?: Id | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ConfigRevisionActivated.
+ * Use `create(ConfigRevisionActivatedSchema)` to create a new message.
+ */
+export const ConfigRevisionActivatedSchema: GenMessage<ConfigRevisionActivated> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 17);
+
+/**
+ * @generated from message arcforges.events.v1.StreamPosition
+ */
+export type StreamPosition = Message<"arcforges.events.v1.StreamPosition"> & {
+  /**
+   * @generated from field: optional string cursor = 1;
+   */
+  cursor?: string | undefined;
+
+  /**
+   * @generated from field: optional uint64 sequence = 2;
+   */
+  sequence?: bigint | undefined;
+
+  /**
+   * @generated from field: optional uint64 generation = 3;
+   */
+  generation?: bigint | undefined;
+
+  /**
+   * @generated from field: optional string content_hash = 4;
+   */
+  contentHash?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.StreamPosition.
+ * Use `create(StreamPositionSchema)` to create a new message.
+ */
+export const StreamPositionSchema: GenMessage<StreamPosition> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 18);
+
+/**
+ * @generated from message arcforges.events.v1.StreamFrame
+ */
+export type StreamFrame = Message<"arcforges.events.v1.StreamFrame"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResponseMeta meta = 1;
+   */
+  meta?: ResponseMeta | undefined;
+
+  /**
+   * @generated from field: arcforges.events.v1.StreamPosition position = 2;
+   */
+  position?: StreamPosition | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.StreamFrame.frame
+   */
+  frame: {
+    /**
+     * @generated from field: arcforges.events.v1.Event hint = 10;
+     */
+    value: Event;
+    case: "hint";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.OutputChunk output = 11;
+     */
+    value: OutputChunk;
+    case: "output";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.StreamReset reset = 12;
+     */
+    value: StreamReset;
+    case: "reset";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ExecutionOutput terminal = 13;
+     */
+    value: ExecutionOutput;
+    case: "terminal";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.Instant heartbeat = 14;
+     */
+    value: Instant;
+    case: "heartbeat";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.ArcError error = 15;
+     */
+    value: ArcError;
+    case: "error";
+  } | {
+    /**
+     * @generated from field: arcforges.events.v1.ExecutionProgress progress = 16;
+     */
+    value: ExecutionProgress;
+    case: "progress";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.StreamFrame.
+ * Use `create(StreamFrameSchema)` to create a new message.
+ */
+export const StreamFrameSchema: GenMessage<StreamFrame> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 19);
+
+/**
+ * @generated from message arcforges.events.v1.OutputChunk
+ */
+export type OutputChunk = Message<"arcforges.events.v1.OutputChunk"> & {
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner execution = 1;
+   */
+  execution?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from field: optional uint64 offset = 2;
+   */
+  offset?: bigint | undefined;
+
+  /**
+   * @generated from field: optional bytes data = 3;
+   */
+  data?: Uint8Array | undefined;
+
+  /**
+   * @generated from field: optional string chunk_hash = 4;
+   */
+  chunkHash?: string | undefined;
+
+  /**
+   * @generated from field: optional string kind = 5;
+   */
+  kind?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id attempt_id = 6;
+   */
+  attemptId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id stream_id = 7;
+   */
+  streamId?: Id | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.OutputChunk.
+ * Use `create(OutputChunkSchema)` to create a new message.
+ */
+export const OutputChunkSchema: GenMessage<OutputChunk> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 20);
+
+/**
+ * @generated from message arcforges.events.v1.StreamReset
+ */
+export type StreamReset = Message<"arcforges.events.v1.StreamReset"> & {
+  /**
+   * @generated from field: optional string reason = 1;
+   */
+  reason?: string | undefined;
+
+  /**
+   * @generated from field: optional string resume_from = 2;
+   */
+  resumeFrom?: string | undefined;
+
+  /**
+   * @generated from field: optional bool snapshot_required = 3;
+   */
+  snapshotRequired?: boolean | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id successor_stream_id = 4;
+   */
+  successorStreamId?: Id | undefined;
+
+  /**
+   * @generated from field: optional bool truncated = 5;
+   */
+  truncated?: boolean | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.StreamReset.
+ * Use `create(StreamResetSchema)` to create a new message.
+ */
+export const StreamResetSchema: GenMessage<StreamReset> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 21);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionOutput
+ */
+export type ExecutionOutput = Message<"arcforges.events.v1.ExecutionOutput"> & {
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner execution = 1;
+   */
+  execution?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from field: optional string state = 2;
+   */
+  state?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.MessageView message = 3;
+   */
+  message?: MessageView | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.EncodedBodyRef body = 4;
+   */
+  body?: EncodedBodyRef | undefined;
+
+  /**
+   * @generated from field: optional string final_hash = 5;
+   */
+  finalHash?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Instant expires_at = 6;
+   */
+  expiresAt?: Instant | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id attempt_id = 7;
+   */
+  attemptId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id stream_id = 8;
+   */
+  streamId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id successor_stream_id = 9;
+   */
+  successorStreamId?: Id | undefined;
+
+  /**
+   * @generated from field: optional bool truncated = 10;
+   */
+  truncated?: boolean | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.VersionedRef final_message = 11;
+   */
+  finalMessage?: VersionedRef | undefined;
+
+  /**
+   * @generated from field: optional string no_answer_reason = 12;
+   */
+  noAnswerReason?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionOutput.
+ * Use `create(ExecutionOutputSchema)` to create a new message.
+ */
+export const ExecutionOutputSchema: GenMessage<ExecutionOutput> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 22);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionProgress
+ */
+export type ExecutionProgress = Message<"arcforges.events.v1.ExecutionProgress"> & {
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner execution = 1;
+   */
+  execution?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.ExecutionProgress.owner_progress
+   */
+  ownerProgress: {
+    /**
+     * @generated from field: arcforges.publicapi.v1.TaskSnapshot task = 2;
+     */
+    value: TaskSnapshot;
+    case: "task";
+  } | {
+    /**
+     * @generated from field: arcforges.publicapi.v1.ChatTurnProgress turn = 3;
+     */
+    value: ChatTurnProgress;
+    case: "turn";
+  } | { case: undefined; value?: undefined };
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id attempt_id = 4;
+   */
+  attemptId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id stream_id = 5;
+   */
+  streamId?: Id | undefined;
+
+  /**
+   * @generated from field: optional string stream_state = 6;
+   */
+  streamState?: string | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.Id successor_stream_id = 7;
+   */
+  successorStreamId?: Id | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.VersionedRef iteration_output = 8;
+   */
+  iterationOutput?: VersionedRef | undefined;
+
+  /**
+   * @generated from field: arcforges.foundation.v1.VersionedRef final_message = 9;
+   */
+  finalMessage?: VersionedRef | undefined;
+
+  /**
+   * @generated from field: optional string no_answer_reason = 10;
+   */
+  noAnswerReason?: string | undefined;
+
+  /**
+   * @generated from field: optional uint32 retry_after_ms = 11;
+   */
+  retryAfterMs?: number | undefined;
+
+  /**
+   * @generated from field: optional string attempt_state = 12;
+   */
+  attemptState?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionProgress.
+ * Use `create(ExecutionProgressSchema)` to create a new message.
+ */
+export const ExecutionProgressSchema: GenMessage<ExecutionProgress> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 23);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceStartTransientTurnRequest
+ */
+export type ExecutionServiceStartTransientTurnRequest = Message<"arcforges.events.v1.ExecutionServiceStartTransientTurnRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.TransientTurnRequest turn = 10;
+   */
+  turn?: TransientTurnRequest | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceStartTransientTurnRequest.
+ * Use `create(ExecutionServiceStartTransientTurnRequestSchema)` to create a new message.
+ */
+export const ExecutionServiceStartTransientTurnRequestSchema: GenMessage<ExecutionServiceStartTransientTurnRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 24);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceStartTransientTurnValue
+ */
+export type ExecutionServiceStartTransientTurnValue = Message<"arcforges.events.v1.ExecutionServiceStartTransientTurnValue"> & {
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner owner = 10;
+   */
+  owner?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.RunView run = 11;
+   */
+  run?: RunView | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceStartTransientTurnValue.
+ * Use `create(ExecutionServiceStartTransientTurnValueSchema)` to create a new message.
+ */
+export const ExecutionServiceStartTransientTurnValueSchema: GenMessage<ExecutionServiceStartTransientTurnValue> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 25);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceStartTransientTurnResponse
+ */
+export type ExecutionServiceStartTransientTurnResponse = Message<"arcforges.events.v1.ExecutionServiceStartTransientTurnResponse"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResponseMeta meta = 1;
+   */
+  meta?: ResponseMeta | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.ExecutionServiceStartTransientTurnResponse.outcome
+   */
+  outcome: {
+    /**
+     * @generated from field: arcforges.events.v1.ExecutionServiceStartTransientTurnValue value = 2;
+     */
+    value: ExecutionServiceStartTransientTurnValue;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.ArcError error = 3;
+     */
+    value: ArcError;
+    case: "error";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceStartTransientTurnResponse.
+ * Use `create(ExecutionServiceStartTransientTurnResponseSchema)` to create a new message.
+ */
+export const ExecutionServiceStartTransientTurnResponseSchema: GenMessage<ExecutionServiceStartTransientTurnResponse> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 26);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceReadOutputRequest
+ */
+export type ExecutionServiceReadOutputRequest = Message<"arcforges.events.v1.ExecutionServiceReadOutputRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner owner = 10;
+   */
+  owner?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from field: optional string cursor = 11;
+   */
+  cursor?: string | undefined;
+
+  /**
+   * @generated from field: optional uint32 limit = 12;
+   */
+  limit?: number | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceReadOutputRequest.
+ * Use `create(ExecutionServiceReadOutputRequestSchema)` to create a new message.
+ */
+export const ExecutionServiceReadOutputRequestSchema: GenMessage<ExecutionServiceReadOutputRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 27);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceReadOutputValue
+ */
+export type ExecutionServiceReadOutputValue = Message<"arcforges.events.v1.ExecutionServiceReadOutputValue"> & {
+  /**
+   * @generated from field: repeated arcforges.events.v1.OutputChunk chunks = 10;
+   */
+  chunks: OutputChunk[];
+
+  /**
+   * @generated from field: arcforges.events.v1.StreamPosition position = 11;
+   */
+  position?: StreamPosition | undefined;
+
+  /**
+   * @generated from field: arcforges.events.v1.ExecutionOutput terminal = 12;
+   */
+  terminal?: ExecutionOutput | undefined;
+
+  /**
+   * @generated from field: optional bool reset_required = 13;
+   */
+  resetRequired?: boolean | undefined;
+
+  /**
+   * @generated from field: arcforges.events.v1.ExecutionProgress progress = 14;
+   */
+  progress?: ExecutionProgress | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceReadOutputValue.
+ * Use `create(ExecutionServiceReadOutputValueSchema)` to create a new message.
+ */
+export const ExecutionServiceReadOutputValueSchema: GenMessage<ExecutionServiceReadOutputValue> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 28);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceReadOutputResponse
+ */
+export type ExecutionServiceReadOutputResponse = Message<"arcforges.events.v1.ExecutionServiceReadOutputResponse"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResponseMeta meta = 1;
+   */
+  meta?: ResponseMeta | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.ExecutionServiceReadOutputResponse.outcome
+   */
+  outcome: {
+    /**
+     * @generated from field: arcforges.events.v1.ExecutionServiceReadOutputValue value = 2;
+     */
+    value: ExecutionServiceReadOutputValue;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.ArcError error = 3;
+     */
+    value: ArcError;
+    case: "error";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.EncodedBodyRef encoded_body = 4;
+     */
+    value: EncodedBodyRef;
+    case: "encodedBody";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceReadOutputResponse.
+ * Use `create(ExecutionServiceReadOutputResponseSchema)` to create a new message.
+ */
+export const ExecutionServiceReadOutputResponseSchema: GenMessage<ExecutionServiceReadOutputResponse> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 29);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceWatchOutputRequest
+ */
+export type ExecutionServiceWatchOutputRequest = Message<"arcforges.events.v1.ExecutionServiceWatchOutputRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner owner = 10;
+   */
+  owner?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from field: optional string cursor = 11;
+   */
+  cursor?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceWatchOutputRequest.
+ * Use `create(ExecutionServiceWatchOutputRequestSchema)` to create a new message.
+ */
+export const ExecutionServiceWatchOutputRequestSchema: GenMessage<ExecutionServiceWatchOutputRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 30);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceAcknowledgeOutputRequest
+ */
+export type ExecutionServiceAcknowledgeOutputRequest = Message<"arcforges.events.v1.ExecutionServiceAcknowledgeOutputRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner owner = 10;
+   */
+  owner?: ExecutionOwner | undefined;
+
+  /**
+   * @generated from field: optional string final_hash = 11;
+   */
+  finalHash?: string | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceAcknowledgeOutputRequest.
+ * Use `create(ExecutionServiceAcknowledgeOutputRequestSchema)` to create a new message.
+ */
+export const ExecutionServiceAcknowledgeOutputRequestSchema: GenMessage<ExecutionServiceAcknowledgeOutputRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 31);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceAcknowledgeOutputValue
+ */
+export type ExecutionServiceAcknowledgeOutputValue = Message<"arcforges.events.v1.ExecutionServiceAcknowledgeOutputValue"> & {
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceAcknowledgeOutputValue.
+ * Use `create(ExecutionServiceAcknowledgeOutputValueSchema)` to create a new message.
+ */
+export const ExecutionServiceAcknowledgeOutputValueSchema: GenMessage<ExecutionServiceAcknowledgeOutputValue> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 32);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServiceAcknowledgeOutputResponse
+ */
+export type ExecutionServiceAcknowledgeOutputResponse = Message<"arcforges.events.v1.ExecutionServiceAcknowledgeOutputResponse"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResponseMeta meta = 1;
+   */
+  meta?: ResponseMeta | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.ExecutionServiceAcknowledgeOutputResponse.outcome
+   */
+  outcome: {
+    /**
+     * @generated from field: arcforges.events.v1.ExecutionServiceAcknowledgeOutputValue value = 2;
+     */
+    value: ExecutionServiceAcknowledgeOutputValue;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.ArcError error = 3;
+     */
+    value: ArcError;
+    case: "error";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServiceAcknowledgeOutputResponse.
+ * Use `create(ExecutionServiceAcknowledgeOutputResponseSchema)` to create a new message.
+ */
+export const ExecutionServiceAcknowledgeOutputResponseSchema: GenMessage<ExecutionServiceAcknowledgeOutputResponse> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 33);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServicePurgeTransientRequest
+ */
+export type ExecutionServicePurgeTransientRequest = Message<"arcforges.events.v1.ExecutionServicePurgeTransientRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: arcforges.publicapi.v1.ExecutionOwner owner = 10;
+   */
+  owner?: ExecutionOwner | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServicePurgeTransientRequest.
+ * Use `create(ExecutionServicePurgeTransientRequestSchema)` to create a new message.
+ */
+export const ExecutionServicePurgeTransientRequestSchema: GenMessage<ExecutionServicePurgeTransientRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 34);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServicePurgeTransientValue
+ */
+export type ExecutionServicePurgeTransientValue = Message<"arcforges.events.v1.ExecutionServicePurgeTransientValue"> & {
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServicePurgeTransientValue.
+ * Use `create(ExecutionServicePurgeTransientValueSchema)` to create a new message.
+ */
+export const ExecutionServicePurgeTransientValueSchema: GenMessage<ExecutionServicePurgeTransientValue> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 35);
+
+/**
+ * @generated from message arcforges.events.v1.ExecutionServicePurgeTransientResponse
+ */
+export type ExecutionServicePurgeTransientResponse = Message<"arcforges.events.v1.ExecutionServicePurgeTransientResponse"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResponseMeta meta = 1;
+   */
+  meta?: ResponseMeta | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.ExecutionServicePurgeTransientResponse.outcome
+   */
+  outcome: {
+    /**
+     * @generated from field: arcforges.events.v1.ExecutionServicePurgeTransientValue value = 2;
+     */
+    value: ExecutionServicePurgeTransientValue;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.ArcError error = 3;
+     */
+    value: ArcError;
+    case: "error";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.ExecutionServicePurgeTransientResponse.
+ * Use `create(ExecutionServicePurgeTransientResponseSchema)` to create a new message.
+ */
+export const ExecutionServicePurgeTransientResponseSchema: GenMessage<ExecutionServicePurgeTransientResponse> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 36);
+
+/**
+ * @generated from message arcforges.events.v1.EventServicePollRequest
+ */
+export type EventServicePollRequest = Message<"arcforges.events.v1.EventServicePollRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: optional string subscription_key = 10;
+   */
+  subscriptionKey?: string | undefined;
+
+  /**
+   * @generated from field: optional string cursor = 11;
+   */
+  cursor?: string | undefined;
+
+  /**
+   * @generated from field: optional uint32 limit = 12;
+   */
+  limit?: number | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.EventServicePollRequest.
+ * Use `create(EventServicePollRequestSchema)` to create a new message.
+ */
+export const EventServicePollRequestSchema: GenMessage<EventServicePollRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 37);
+
+/**
+ * @generated from message arcforges.events.v1.EventServicePollValue
+ */
+export type EventServicePollValue = Message<"arcforges.events.v1.EventServicePollValue"> & {
+  /**
+   * @generated from field: repeated arcforges.events.v1.Event events = 10;
+   */
+  events: Event[];
+
+  /**
+   * @generated from field: optional string next_cursor = 11;
+   */
+  nextCursor?: string | undefined;
+
+  /**
+   * @generated from field: optional bool reset_required = 12;
+   */
+  resetRequired?: boolean | undefined;
+};
+
+/**
+ * Describes the message arcforges.events.v1.EventServicePollValue.
+ * Use `create(EventServicePollValueSchema)` to create a new message.
+ */
+export const EventServicePollValueSchema: GenMessage<EventServicePollValue> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 38);
+
+/**
+ * @generated from message arcforges.events.v1.EventServicePollResponse
+ */
+export type EventServicePollResponse = Message<"arcforges.events.v1.EventServicePollResponse"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.ResponseMeta meta = 1;
+   */
+  meta?: ResponseMeta | undefined;
+
+  /**
+   * @generated from oneof arcforges.events.v1.EventServicePollResponse.outcome
+   */
+  outcome: {
+    /**
+     * @generated from field: arcforges.events.v1.EventServicePollValue value = 2;
+     */
+    value: EventServicePollValue;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.ArcError error = 3;
+     */
+    value: ArcError;
+    case: "error";
+  } | {
+    /**
+     * @generated from field: arcforges.foundation.v1.EncodedBodyRef encoded_body = 4;
+     */
+    value: EncodedBodyRef;
+    case: "encodedBody";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message arcforges.events.v1.EventServicePollResponse.
+ * Use `create(EventServicePollResponseSchema)` to create a new message.
+ */
+export const EventServicePollResponseSchema: GenMessage<EventServicePollResponse> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 39);
+
+/**
+ * @generated from message arcforges.events.v1.EventServiceWatchRequest
+ */
+export type EventServiceWatchRequest = Message<"arcforges.events.v1.EventServiceWatchRequest"> & {
+  /**
+   * @generated from field: arcforges.foundation.v1.RequestMeta meta = 1;
+   */
+  meta?: RequestMeta | undefined;
+
+  /**
+   * @generated from field: optional string subscription_key = 10;
+   */
+  subscriptionKey?: string | undefined;
+
+  /**
+   * @generated from field: optional string cursor = 11;
+   */
+  cursor?: string | undefined;
+
+  /**
+   * @generated from field: repeated string filter = 12;
+   */
+  filter: string[];
+};
+
+/**
+ * Describes the message arcforges.events.v1.EventServiceWatchRequest.
+ * Use `create(EventServiceWatchRequestSchema)` to create a new message.
+ */
+export const EventServiceWatchRequestSchema: GenMessage<EventServiceWatchRequest> = /*@__PURE__*/
+  messageDesc(file_arcforges_events_v1_events, 40);
+
+/**
+ * @generated from service arcforges.events.v1.ExecutionService
+ */
+export const ExecutionService: GenService<{
+  /**
+   * @generated from rpc arcforges.events.v1.ExecutionService.StartTransientTurn
+   */
+  startTransientTurn: {
+    methodKind: "unary";
+    input: typeof ExecutionServiceStartTransientTurnRequestSchema;
+    output: typeof ExecutionServiceStartTransientTurnResponseSchema;
+  },
+  /**
+   * @generated from rpc arcforges.events.v1.ExecutionService.ReadOutput
+   */
+  readOutput: {
+    methodKind: "unary";
+    input: typeof ExecutionServiceReadOutputRequestSchema;
+    output: typeof ExecutionServiceReadOutputResponseSchema;
+  },
+  /**
+   * @generated from rpc arcforges.events.v1.ExecutionService.WatchOutput
+   */
+  watchOutput: {
+    methodKind: "server_streaming";
+    input: typeof ExecutionServiceWatchOutputRequestSchema;
+    output: typeof StreamFrameSchema;
+  },
+  /**
+   * @generated from rpc arcforges.events.v1.ExecutionService.AcknowledgeOutput
+   */
+  acknowledgeOutput: {
+    methodKind: "unary";
+    input: typeof ExecutionServiceAcknowledgeOutputRequestSchema;
+    output: typeof ExecutionServiceAcknowledgeOutputResponseSchema;
+  },
+  /**
+   * @generated from rpc arcforges.events.v1.ExecutionService.PurgeTransient
+   */
+  purgeTransient: {
+    methodKind: "unary";
+    input: typeof ExecutionServicePurgeTransientRequestSchema;
+    output: typeof ExecutionServicePurgeTransientResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_arcforges_events_v1_events, 0);
+
+/**
+ * @generated from service arcforges.events.v1.EventService
+ */
+export const EventService: GenService<{
+  /**
+   * @generated from rpc arcforges.events.v1.EventService.Poll
+   */
+  poll: {
+    methodKind: "unary";
+    input: typeof EventServicePollRequestSchema;
+    output: typeof EventServicePollResponseSchema;
+  },
+  /**
+   * @generated from rpc arcforges.events.v1.EventService.Watch
+   */
+  watch: {
+    methodKind: "server_streaming";
+    input: typeof EventServiceWatchRequestSchema;
+    output: typeof StreamFrameSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_arcforges_events_v1_events, 1);

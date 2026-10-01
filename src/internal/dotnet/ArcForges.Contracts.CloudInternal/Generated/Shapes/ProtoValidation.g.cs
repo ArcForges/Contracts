@@ -8,6 +8,25 @@ namespace ArcForges.Contracts.CloudInternal.Shapes;
 /// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>
 public static class ContractShapeValidation
 {
+    /// <summary>Checks the declared wire/profile constraints of arcforges.cf.v1.RunStreamRequest.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamRequest? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamRequest? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Execution is null) return false;
+        if (!Check(value.Execution, context)) return false;
+        if (value.AttemptId is null) return false;
+        if (!Check(value.AttemptId, context)) return false;
+        if (!value.HasGeneration) return false;
+        if (value.HasGeneration)
+        {
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.foundation.v1.Id.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Id? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.Foundation.V1.Id? value, ValidationContext context)
@@ -48,6 +67,26 @@ public static class ContractShapeValidation
             if (global::System.Text.Encoding.UTF8.GetByteCount(value.Purpose) > 262144) return false;
         }
         if ((int)value.ContextCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ExecutionOwner.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ExecutionOwner? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ExecutionOwner? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.OwnerCase == 1)
+        {
+            if (!Check(value.TaskId, context)) return false;
+        }
+        if ((int)value.OwnerCase == 2)
+        {
+            if (!Check(value.TurnId, context)) return false;
+        }
+        if ((int)value.OwnerCase == 0) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -161,5 +200,245 @@ public static class ContractShapeValidation
         "entitlement.no_service_term" or "entitlement.not_entitled" or "entitlement.extra_credits_required" or "entitlement.credits_exhausted" or
         "validation.invalid_request" or "validation.ast_bounds_exceeded" or "validation.unsupported_version" or "identity.last_credential" or
         "conflict.duplicate_identifier" or "command.reused_identifier" or "state.not_found" or "state.invalid_transition" or "state.gone" or "resource.integrity_failed";
+
+
+
+
+
+
+    private static bool StructuredBounds(global::ArcForges.Contracts.PublicApi.V1.StructuredValue root)
+    {
+        var pending = new global::System.Collections.Generic.Stack<(global::ArcForges.Contracts.PublicApi.V1.StructuredValue Node, int Depth)>();
+        pending.Push((root, 1));
+        while (pending.TryPop(out var next))
+        {
+            if (next.Depth > 16) return false;
+            if ((int)next.Node.ValueCase == 1 && !next.Node.Null) return false;
+            if ((int)next.Node.ValueCase == 8) foreach (var item in next.Node.List.Items) pending.Push((item, next.Depth + 1));
+            if ((int)next.Node.ValueCase == 9) foreach (var item in next.Node.Record.Entries) pending.Push((item.Value, next.Depth + 1));
+        }
+        return true;
+    }
+
+
+
+
+
+
+    private static int CompareScopeTime(global::ArcForges.Contracts.PublicApi.V1.ScopeTime a, global::ArcForges.Contracts.PublicApi.V1.ScopeTime b) =>
+        ((global::System.Numerics.BigInteger)a.Ticks * a.Rate.Denominator * b.Rate.Numerator).CompareTo((global::System.Numerics.BigInteger)b.Ticks * b.Rate.Denominator * a.Rate.Numerator);
+    private static bool AlignmentSemantics(global::ArcForges.Contracts.PublicApi.V1.AlignmentSpec value) => value.Kind switch
+    {
+        "absoluteTime" => value.LeftAnchor is null && value.RightAnchor is null && value.Offset is null && value.EventId is null,
+        "trigger" => value.LeftAnchor is not null && value.RightAnchor is not null && value.Offset is null && value.EventId is null,
+        "event" => value.LeftAnchor is not null && value.RightAnchor is not null && value.Offset is null && value.EventId is not null,
+        "manualOffset" => value.LeftAnchor is null && value.RightAnchor is null && value.Offset is not null && value.EventId is null,
+        _ => false,
+    };
+    private static bool CursorSemantics(global::ArcForges.Contracts.PublicApi.V1.CursorResult value)
+    {
+        var a = value.A.Time; var b = value.B.Time; var d = value.DeltaTime;
+        var left = (global::System.Numerics.BigInteger)d.Ticks * d.Rate.Denominator * a.Rate.Numerator * b.Rate.Numerator;
+        var right = ((global::System.Numerics.BigInteger)b.Ticks * b.Rate.Denominator * a.Rate.Numerator - (global::System.Numerics.BigInteger)a.Ticks * a.Rate.Denominator * b.Rate.Numerator) * d.Rate.Numerator;
+        var expected = value.B.Value - value.A.Value;
+        return left == right && double.IsFinite(expected) && Math.Abs(value.DeltaValue - expected) <= 1e-12 + 1e-9 * Math.Abs(expected);
+    }
+    private static bool ConfigurationSemantics(global::ArcForges.Contracts.PublicApi.V1.ScopeConfiguration value)
+    {
+        if (!UniqueIds(value.Channels.Select(x => x.ChannelId.Value))) return false;
+        var channels = value.Channels.Select(x => IdKey(x.ChannelId.Value)).ToHashSet(global::System.StringComparer.Ordinal);
+        if (value.Framing.Fields.Any(x => !channels.Contains(IdKey(x.ChannelId.Value)))) return false;
+        return value.Trigger?.ChannelId is null || channels.Contains(IdKey(value.Trigger.ChannelId.Value));
+    }
+    private static bool FrameSemantics(global::ArcForges.Contracts.PublicApi.V1.FrameConfiguration value)
+    {
+        if (!UniqueIds(value.Fields.Select(x => x.ChannelId.Value))) return false;
+        var newline = value.End.Span.SequenceEqual(new byte[] { 10 }) || value.End.Span.SequenceEqual(new byte[] { 13, 10 });
+        switch (value.Kind)
+        {
+            case "delimitedText":
+                return value.Start.Length <= 16 && value.End.Length is >= 1 and <= 16 && !value.HasDelimiter && !value.HasFrameBytes && !value.Header && value.Fields.All(x => !x.HasOffset && x.JsonPath.Count == 0);
+            case "csvLine":
+                return value.Start.Length == 0 && newline && !value.HasEscapeByte && value.HasDelimiter && value.Delimiter is 44 or 59 or 9 && !value.HasFrameBytes && value.Fields.All(x => x.HasColumn && !x.HasOffset && x.JsonPath.Count == 0);
+            case "jsonLine":
+                return value.Start.Length == 0 && newline && !value.HasEscapeByte && !value.HasDelimiter && !value.HasFrameBytes && !value.Header && value.Fields.All(x => !x.HasColumn && !x.HasOffset && x.JsonPath.Count != 0);
+            case "canonicalReplay":
+                return value.Start.Length == 0 && value.End.Length == 0 && !value.HasEscapeByte && !value.HasDelimiter && !value.HasFrameBytes && !value.Header && value.Fields.Count == 0 && value.Checksum is null;
+            case "fixedBinary":
+                if (value.Start.Length != 0 || value.End.Length != 0 || value.HasEscapeByte || value.HasDelimiter || value.Header || !value.HasFrameBytes || value.FrameBytes is 0 or > 1048576 || value.ByteOrder is not ("little" or "big")) return false;
+                var intervals = new global::System.Collections.Generic.List<(ulong From, ulong Until)>();
+                foreach (var field in value.Fields)
+                {
+                    var width = field.ScalarType switch { "u8" or "i8" or "bool" => 1, "u16" or "i16" => 2, "u32" or "i32" or "f32" => 4, "u64" or "i64" or "f64" => 8, _ => 0 };
+                    if (width == 0 || !field.HasOffset || field.HasColumn || field.JsonPath.Count != 0 || (ulong)field.Offset + (uint)width > value.FrameBytes) return false;
+                    var end = (ulong)field.Offset + (uint)width;
+                    if (intervals.Any(x => field.Offset < x.Until && x.From < end)) return false;
+                    intervals.Add((field.Offset, end));
+                }
+                if (value.Checksum is not null)
+                {
+                    var width = value.Checksum.Algorithm switch { "xor8" => 1, "crc16CcittFalse" => 2, "crc32IsoHdlc" => 4, _ => -1 };
+                    if (width < 0 || (ulong)value.Checksum.Offset + (uint)width > value.FrameBytes || value.Checksum.Input.Offset + value.Checksum.Input.Length > value.FrameBytes) return false;
+                }
+                return true;
+            default: return false;
+        }
+    }
+    private static bool ChecksumSemantics(global::ArcForges.Contracts.PublicApi.V1.ChecksumSpec value)
+    {
+        var width = value.Algorithm switch { "xor8" => 1UL, "crc16CcittFalse" => 2UL, "crc32IsoHdlc" => 4UL, _ => 0UL };
+        return width != 0 && (value.ByteOrder is "little" or "big") &&
+            (value.Input.Offset + value.Input.Length <= value.Offset || (ulong)value.Offset + width <= value.Input.Offset);
+    }
+    private static bool TriggerSemantics(global::ArcForges.Contracts.PublicApi.V1.TriggerConfiguration value)
+    {
+        if (value.Hysteresis < 0 || value.Holdoff.Ticks < 0 || value.Pre.Ticks < 0 || value.Post.Ticks < 0 || value.MaxOccurrences == 0 || (!value.Repeated && value.MaxOccurrences != 1)) return false;
+        return value.Kind switch
+        {
+            "manual" => value.ChannelId is null && !value.HasThreshold && !value.HasDirection && value.Hysteresis == 0,
+            "edge" => value.ChannelId is not null && value.HasThreshold && value.HasDirection && value.Direction is "rising" or "falling" or "either",
+            _ => false,
+        };
+    }
+    private static bool PulseFamily(string family) => family is "frequency" or "dutyCycle" or "riseTime" or "fallTime";
+    private static bool ThresholdSemantics(global::ArcForges.Contracts.PublicApi.V1.MeasurementThreshold value)
+    {
+        if (!PulseFamily(value.Family)) return false;
+        return value.Name switch
+        {
+            "low" or "high" => true,
+            "fraction10" => value.Unit == "1" && value.Value == 0.1,
+            "fraction50" => value.Unit == "1" && value.Value == 0.5,
+            "fraction90" => value.Unit == "1" && value.Value == 0.9,
+            _ => false,
+        };
+    }
+    private static string? FixedUnit(string name) => name switch
+    {
+        "count" or "eventCount" or "dutyCycle" => "1",
+        "duration" or "riseTime" or "fallTime" or "deltaTime" => "s",
+        "frequency" => "Hz",
+        _ => null,
+    };
+    private static bool FamilySemantics(global::ArcForges.Contracts.PublicApi.V1.FamilyResult value)
+    {
+        if (value.Status != "ok")
+        {
+            if (value.Values.Count != 0 || !value.HasReason) return false;
+            if (value.Status == "invalid") return value.Reason is "invalidTimeOrder" or "invalidConfiguration" or "numericOverflow";
+            return value.Status == "insufficient" && (value.Reason switch
+            {
+                "noFiniteSamples" => value.Family is not ("count" or "duration" or "eventCount"),
+                "noCompleteCycle" => value.Family is "frequency" or "dutyCycle",
+                "noCompleteEdge" => value.Family is "riseTime" or "fallTime",
+                "cursorUnavailable" => value.Family == "cursorDelta",
+                _ => false,
+            });
+        }
+        if (value.HasReason) return false;
+        if (value.ValidCount == 0 && value.Family is ("minimum" or "maximum" or "mean" or "rms" or "peakToPeak" or "standardDeviation")) return false;
+        if (value.Family == "cursorDelta")
+        {
+            if (value.Values.Count != 2 || !value.Values.Select(x => x.Name).ToHashSet(global::System.StringComparer.Ordinal).SetEquals(new[] { "deltaTime", "deltaValue" })) return false;
+        }
+        else if (value.Values.Count != 1 || value.Values[0].Name != value.Family) return false;
+        foreach (var item in value.Values)
+        {
+            if (FixedUnit(item.Name) is { } unit && item.Unit != unit) return false;
+            if (item.Name == "dutyCycle" && (item.Value < 0 || item.Value > 1)) return false;
+            if (item.Name is "duration" or "frequency" && item.Value <= 0) return false;
+            if (item.Name is "rms" or "peakToPeak" or "standardDeviation" or "riseTime" or "fallTime" && item.Value < 0) return false;
+            if (item.Name == "count" && item.Count != value.ValidCount) return false;
+        }
+        return true;
+    }
+    private static bool SourceSemantics(global::ArcForges.Contracts.PublicApi.V1.MeasurementSource value, global::ArcForges.Contracts.PublicApi.V1.ScopeConfiguration configuration)
+    {
+        if (!value.Capture.HasContentHash || !value.Configuration.HasContentHash) return false;
+        if (value.Decoder is not null && !value.Decoder.HasContentHash || value.TimeMapping is not null && !value.TimeMapping.HasContentHash || value.EventSet is not null && !value.EventSet.HasContentHash) return false;
+        if ((int)value.Configuration.RevisionCase == 3 && value.Configuration.Native.Value != configuration.Revision.Value) return false;
+        return configuration.Channels.Any(x => x.ChannelId.Value.Equals(value.ChannelId.Value));
+    }
+    private static bool ThresholdBindings(global::System.Collections.Generic.IEnumerable<global::ArcForges.Contracts.PublicApi.V1.MeasurementThreshold> values,
+        global::System.Collections.Generic.Dictionary<string, global::ArcForges.Contracts.PublicApi.V1.ChannelDefinition> channels,
+        global::System.Collections.Generic.HashSet<string> families, bool result, bool levels, bool fractions,
+        out global::System.Collections.Generic.Dictionary<string, global::ArcForges.Contracts.PublicApi.V1.MeasurementThreshold> resolved)
+    {
+        resolved = new(global::System.StringComparer.Ordinal);
+        foreach (var threshold in values)
+        {
+            if (!families.Contains(threshold.Family) || (result && threshold.ChannelId is null)) return false;
+            var level = threshold.Name is "low" or "high";
+            if (level ? !levels : !fractions) return false;
+            var targets = threshold.ChannelId is null ? channels.Where(x => !level || x.Value.Unit == threshold.Unit).Select(x => x.Key).ToArray() : new[] { IdKey(threshold.ChannelId.Value) };
+            if (targets.Length == 0) return false;
+            foreach (var target in targets)
+            {
+                if (!channels.TryGetValue(target, out var channel) || (level && threshold.Unit != channel.Unit) || !resolved.TryAdd(target + ":" + threshold.Family + ":" + threshold.Name, threshold)) return false;
+            }
+        }
+        foreach (var (key, threshold) in resolved)
+        {
+            if (threshold.Name is not ("low" or "high")) continue;
+            var prefix = key[..(key.LastIndexOf(':') + 1)];
+            if (!resolved.TryGetValue(prefix + "low", out var low) || !resolved.TryGetValue(prefix + "high", out var high) || low.Value >= high.Value) return false;
+        }
+        return true;
+    }
+    private static bool MeasurementRequestSemantics(global::ArcForges.Contracts.PublicApi.V1.MeasurementRequest value)
+    {
+        if (value.Channels.Count == 0 || !UniqueIds(value.Channels.Select(x => x.Value)) || value.Families.Count == 0 || value.Families.Distinct(global::System.StringComparer.Ordinal).Count() != value.Families.Count) return false;
+        if (!SourceSemantics(value.Source, value.Configuration) || !value.Channels.Any(x => x.Value.Equals(value.Source.ChannelId.Value))) return false;
+        if ((int)value.Source.Capture.RevisionCase == 3 && value.Source.Capture.Native.Value != value.SourceRevision.Value) return false;
+        var available = value.Configuration.Channels.ToDictionary(x => IdKey(x.ChannelId.Value), global::System.StringComparer.Ordinal);
+        var channels = new global::System.Collections.Generic.Dictionary<string, global::ArcForges.Contracts.PublicApi.V1.ChannelDefinition>(global::System.StringComparer.Ordinal);
+        foreach (var id in value.Channels)
+        {
+            if (!available.TryGetValue(IdKey(id.Value), out var channel)) return false;
+            channels.Add(IdKey(id.Value), channel);
+        }
+        var families = value.Families.ToHashSet(global::System.StringComparer.Ordinal);
+        if (!ThresholdBindings(value.ReferenceLevels, channels, families, false, true, false, out _) || !ThresholdBindings(value.Thresholds, channels, families, false, false, true, out _)) return false;
+        if (families.Contains("cursorDelta") ? value.Cursors.Count != 2 : value.Cursors.Count != 0) return false;
+        foreach (var cursor in value.Cursors)
+            if (!channels.ContainsKey(IdKey(cursor.ChannelId.Value)) || CompareScopeTime(cursor.Time, value.Window.Start) < 0 || CompareScopeTime(cursor.Time, value.Window.End) >= 0) return false;
+        return value.Cursors.Count != 2 || channels[IdKey(value.Cursors[0].ChannelId.Value)].Unit == channels[IdKey(value.Cursors[1].ChannelId.Value)].Unit;
+    }
+    private static bool MeasurementResultSemantics(global::ArcForges.Contracts.PublicApi.V1.MeasurementResult value)
+    {
+        if (!SourceSemantics(value.Source, value.Configuration) || value.RunCount > value.FiniteCount || value.RequestedDuration.Ticks <= 0 || value.CoveredDuration.Ticks < 0 || value.TimingUncertainty.Ticks < 0 || CompareScopeTime(value.CoveredDuration, value.RequestedDuration) > 0) return false;
+        if (value.FiniteCount == 0 ? value.RunCount != 0 || value.CoveredDuration.Ticks != 0 : value.RunCount == 0) return false;
+        var channels = value.Configuration.Channels.ToDictionary(x => IdKey(x.ChannelId.Value), global::System.StringComparer.Ordinal);
+        var pairs = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+        var families = value.Families.Select(x => x.Family).ToHashSet(global::System.StringComparer.Ordinal);
+        foreach (var family in value.Families)
+        {
+            if (!channels.TryGetValue(IdKey(family.ChannelId.Value), out var channel) || !pairs.Add(IdKey(family.ChannelId.Value) + ":" + family.Family)) return false;
+            foreach (var item in family.Values)
+                if (FixedUnit(item.Name) is null && item.Unit != channel.Unit) return false;
+        }
+        if (!ThresholdBindings(value.ResolvedThresholds, channels, families, true, true, true, out var resolved)) return false;
+        if (resolved.Keys.Any(key => !pairs.Contains(key[..key.LastIndexOf(':')]))) return false;
+        foreach (var family in value.Families.Where(x => x.Status == "ok" && PulseFamily(x.Family)))
+        {
+            var prefix = IdKey(family.ChannelId.Value) + ":" + family.Family + ":";
+            if (new[] { "low", "high", "fraction10", "fraction50", "fraction90" }.Any(name => !resolved.ContainsKey(prefix + name))) return false;
+        }
+        var cursorFamilies = value.Families.Where(x => x.Family == "cursorDelta" && x.Status == "ok").ToArray();
+        if ((value.Cursor is not null) != (cursorFamilies.Length != 0)) return false;
+        if (value.Cursor is null) return true;
+        if (!channels.TryGetValue(IdKey(value.Cursor.A.ChannelId.Value), out var left) || !channels.TryGetValue(IdKey(value.Cursor.B.ChannelId.Value), out var right) || left.Unit != right.Unit) return false;
+        var seconds = (double)value.Cursor.DeltaTime.Ticks * value.Cursor.DeltaTime.Rate.Denominator / value.Cursor.DeltaTime.Rate.Numerator;
+        foreach (var family in cursorFamilies)
+        {
+            if (channels[IdKey(family.ChannelId.Value)].Unit != left.Unit) return false;
+            foreach (var item in family.Values)
+            {
+                var expected = item.Name == "deltaTime" ? seconds : value.Cursor.DeltaValue;
+                if (Math.Abs(item.Value - expected) > 1e-12 + 1e-9 * Math.Abs(expected)) return false;
+            }
+        }
+        return true;
+    }
 
 }
