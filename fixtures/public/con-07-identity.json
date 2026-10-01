@@ -1,0 +1,4157 @@
+{
+  "schemaVersion": "con-07-identity.v1",
+  "license": "Apache-2.0",
+  "evidenceClass": "offline public-contract shape, serialization and authorization-metadata vectors; owner runtime journeys are declarative and not executed by CON.07",
+  "services": {
+    "arcforges.publicapi.v1.IdentityService": [
+      "BeginPasskeyRegistration",
+      "CompletePasskeyRegistration",
+      "BeginAuthentication",
+      "CompleteAuthentication",
+      "RequestEmailCode",
+      "RedeemEmailCode",
+      "RefreshSession",
+      "RevokeSession",
+      "RevokeAllSessions",
+      "ListAuthIdentities",
+      "RemoveAuthIdentity",
+      "BeginStepUp",
+      "CompleteStepUp",
+      "BeginRecovery",
+      "CompleteRecovery",
+      "RequestAccountDeletion",
+      "CancelAccountDeletion",
+      "GetProfile",
+      "UpdateProfile",
+      "ListAuthProviders",
+      "BeginEmailChange",
+      "CompleteEmailChange",
+      "RenameAuthIdentity",
+      "GenerateRecoveryCodes",
+      "ListSessions",
+      "ListApiTokens",
+      "CreateApiToken",
+      "RevokeApiToken",
+      "ListSecurityActivity",
+      "GetAccountDeletion",
+      "ChangePassword",
+      "CompleteEnrollment"
+    ],
+    "arcforges.publicapi.v1.WorkspaceService": [
+      "GetHealth",
+      "RequestDataDeletion",
+      "PreviewDataDeletion",
+      "GetDataDeletion",
+      "List",
+      "Get",
+      "UpdateSettings"
+    ],
+    "arcforges.publicapi.v1.DeviceService": [
+      "SignOut",
+      "GetRemotePolicy",
+      "SetRemotePolicy",
+      "Register",
+      "List",
+      "Rename",
+      "SetTrust",
+      "SetRemoteEnabled",
+      "Revoke",
+      "GetCapabilities"
+    ]
+  },
+  "enums": {
+    "AuthMethod": [
+      "passkey",
+      "email",
+      "password",
+      "oidc"
+    ],
+    "AuthPurpose": [
+      "authenticate",
+      "enroll",
+      "stepUp",
+      "recover",
+      "cancelDeletion"
+    ],
+    "RecoveryMethod": [
+      "emailCode",
+      "recoveryCode",
+      "passkey",
+      "adminGrant"
+    ],
+    "ProtectionProfile": [
+      "standard"
+    ],
+    "TrustLevel": [
+      "untrusted",
+      "trusted",
+      "revoked"
+    ]
+  },
+  "oneofs": {
+    "AuthProof": {
+      "group": "proof",
+      "members": [
+        "passkey",
+        "emailCode",
+        "recoveryCode",
+        "password",
+        "providerReceipt",
+        "adminGrant"
+      ],
+      "required": true
+    },
+    "CredentialReplacement": {
+      "group": "replacement",
+      "members": [
+        "passkey",
+        "password"
+      ],
+      "required": true
+    },
+    "EnrollmentProof": {
+      "group": "proof",
+      "members": [
+        "emailCode",
+        "localCode",
+        "providerReceipt"
+      ],
+      "required": true
+    },
+    "ProfileUpdate": {
+      "group": "change",
+      "members": [
+        "avatar",
+        "clearAvatar"
+      ],
+      "required": false
+    }
+  },
+  "records": {
+    "InstallationClaim": "1:installation_id,2:product,3:platform,4:app_version",
+    "AuthChallenge": "1:flow_id,2:method,3:challenge,4:rp_id,5:expires_at,6:options,7:provider_id,8:redirect_url,9:purpose,10:recovery_method",
+    "WebAuthnOptions": "1:rp_id,2:user_handle,3:allowed_credentials,4:excluded_credentials,5:user_verification,6:algorithms",
+    "WebAuthnCreation": "1:credential_id,2:client_data_json,3:attestation_object,4:transports",
+    "WebAuthnAssertion": "1:credential_id,2:client_data_json,3:authenticator_data,4:signature,5:user_handle",
+    "AuthProof": "1:passkey,2:email_code,3:recovery_code,4:password,5:provider_receipt,6:admin_grant",
+    "NativeSession": "1:session_id,2:access_token,3:access_expires_at,4:refresh_token,5:refresh_expires_at,6:device,7:recovery_generation,8:purpose",
+    "SessionView": "1:session_id,2:expires_at,3:idle_expires_at,4:user_id,5:device_id,6:workspace_ids,7:recovery_generation,8:purpose",
+    "CredentialSummary": "1:credential_id,2:kind,3:display_name,4:created_at,5:last_used_at",
+    "StepUpEvidence": "1:operation_class,2:expires_at",
+    "DeletionStatus": "1:deletion_id,2:state,3:grace_ends_at,4:purge_after",
+    "AccountProfile": "1:display_name,2:avatar,3:primary_email,4:locale,5:timezone,6:revision",
+    "ProfileUpdate": "1:display_name,2:avatar,3:clear_avatar,4:locale,5:timezone",
+    "AuthProviderView": "1:provider_id,2:method,3:name,4:enrollment",
+    "SessionSummary": "1:session_id,2:device_id,3:product,4:created_at,5:last_used_at,6:expires_at,7:current,8:revision",
+    "ApiTokenView": "1:token_id,2:name,3:scopes,4:workspace_id,5:expires_at,6:last_used_at,7:revoked_at,8:revision",
+    "RecoveryCodeSet": "1:set_id,2:codes,3:created_at",
+    "RemoteCapabilityPolicy": "1:device_id,2:allowed_capabilities,3:require_local_confirmation,4:revision",
+    "SecurityActivity": "1:event_id,2:kind,3:occurred_at,4:device_id,5:actor,6:reason",
+    "DataDeletionPreview": "1:snapshot_hash,2:publication_watermark,3:counts,4:active_job_count,5:expires_at",
+    "DeletionCount": "1:kind,2:count,3:bytes",
+    "WorkspaceHealth": "1:workspace_id,2:state,3:recovery_generation,4:last_backup_at,5:storage,6:pending_jobs,7:reason",
+    "DataDeletionView": "1:deletion_id,2:state,3:counts,4:created_at,5:completed_at,6:revision",
+    "WorkspaceView": "1:workspace_id,2:owner_user_id,3:name,4:protection,5:revision",
+    "DeviceView": "1:device_id,2:name,3:platform,4:trust,5:remote_enabled,6:revoked_at,8:revision,10:installed",
+    "InstalledProduct": "1:product,2:version,3:installed_at",
+    "DeviceCapabilityView": "1:instance,2:descriptor,3:remote_allowed,4:reasons,5:observed_at,6:expires_at",
+    "CredentialReplacement": "1:passkey,2:password",
+    "EnrollmentProof": "1:email_code,2:local_code,3:provider_receipt"
+  },
+  "operations": [
+    {
+      "id": "identity.beginPasskeyRegistration",
+      "service": "IdentityService",
+      "method": "BeginPasskeyRegistration",
+      "requestTags": "1:meta,10:display_name",
+      "valueTags": "10:challenge",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R2",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.completePasskeyRegistration",
+      "service": "IdentityService",
+      "method": "CompletePasskeyRegistration",
+      "requestTags": "1:meta,10:flow_id,11:credential",
+      "valueTags": "10:credential",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R2",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.beginAuthentication",
+      "service": "IdentityService",
+      "method": "BeginAuthentication",
+      "requestTags": "1:meta,10:method,11:login_hint,12:installation,13:provider_id,14:purpose",
+      "valueTags": "10:challenge",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.completeAuthentication",
+      "service": "IdentityService",
+      "method": "CompleteAuthentication",
+      "requestTags": "1:meta,10:flow_id,11:proof",
+      "valueTags": "10:session",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.requestEmailCode",
+      "service": "IdentityService",
+      "method": "RequestEmailCode",
+      "requestTags": "1:meta,10:purpose,11:email,12:flow_id",
+      "valueTags": "10:challenge",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.redeemEmailCode",
+      "service": "IdentityService",
+      "method": "RedeemEmailCode",
+      "requestTags": "1:meta,10:flow_id,11:code",
+      "valueTags": "10:session",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.refreshSession",
+      "service": "IdentityService",
+      "method": "RefreshSession",
+      "requestTags": "1:meta,10:refresh_token,11:installation_id",
+      "valueTags": "10:session",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.revokeSession",
+      "service": "IdentityService",
+      "method": "RevokeSession",
+      "requestTags": "1:meta,10:session_id",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "DE",
+      "risk": "R2",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.revokeAllSessions",
+      "service": "IdentityService",
+      "method": "RevokeAllSessions",
+      "requestTags": "1:meta",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "DE",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.listAuthIdentities",
+      "service": "IdentityService",
+      "method": "ListAuthIdentities",
+      "requestTags": "1:meta,10:page",
+      "valueTags": "10:items,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.removeAuthIdentity",
+      "service": "IdentityService",
+      "method": "RemoveAuthIdentity",
+      "requestTags": "1:meta,10:credential_id",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "DE",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.beginStepUp",
+      "service": "IdentityService",
+      "method": "BeginStepUp",
+      "requestTags": "1:meta,10:operation_class,11:method,12:target_hash",
+      "valueTags": "10:challenge",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.completeStepUp",
+      "service": "IdentityService",
+      "method": "CompleteStepUp",
+      "requestTags": "1:meta,10:flow_id,11:proof",
+      "valueTags": "10:evidence",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.beginRecovery",
+      "service": "IdentityService",
+      "method": "BeginRecovery",
+      "requestTags": "1:meta,10:email,11:method,12:account_hint,13:installation",
+      "valueTags": "10:challenge",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.completeRecovery",
+      "service": "IdentityService",
+      "method": "CompleteRecovery",
+      "requestTags": "1:meta,10:flow_id,11:proof,12:replacement",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.requestAccountDeletion",
+      "service": "IdentityService",
+      "method": "RequestAccountDeletion",
+      "requestTags": "1:meta",
+      "valueTags": "10:deletion",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R4",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.cancelAccountDeletion",
+      "service": "IdentityService",
+      "method": "CancelAccountDeletion",
+      "requestTags": "1:meta,10:deletion_id",
+      "valueTags": "10:deletion",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R3",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.getProfile",
+      "service": "IdentityService",
+      "method": "GetProfile",
+      "requestTags": "1:meta",
+      "valueTags": "10:profile",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.updateProfile",
+      "service": "IdentityService",
+      "method": "UpdateProfile",
+      "requestTags": "1:meta,10:patch",
+      "valueTags": "10:profile",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R2",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.listAuthProviders",
+      "service": "IdentityService",
+      "method": "ListAuthProviders",
+      "requestTags": "1:meta",
+      "valueTags": "10:providers",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.beginEmailChange",
+      "service": "IdentityService",
+      "method": "BeginEmailChange",
+      "requestTags": "1:meta,10:email",
+      "valueTags": "10:challenge",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.completeEmailChange",
+      "service": "IdentityService",
+      "method": "CompleteEmailChange",
+      "requestTags": "1:meta,10:flow_id,11:code",
+      "valueTags": "10:profile",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R3",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.renameAuthIdentity",
+      "service": "IdentityService",
+      "method": "RenameAuthIdentity",
+      "requestTags": "1:meta,10:credential_id,11:name",
+      "valueTags": "10:credential",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R2",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.generateRecoveryCodes",
+      "service": "IdentityService",
+      "method": "GenerateRecoveryCodes",
+      "requestTags": "1:meta",
+      "valueTags": "10:set",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.listSessions",
+      "service": "IdentityService",
+      "method": "ListSessions",
+      "requestTags": "1:meta,10:page",
+      "valueTags": "10:sessions,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.listApiTokens",
+      "service": "IdentityService",
+      "method": "ListApiTokens",
+      "requestTags": "1:meta,10:page",
+      "valueTags": "10:tokens,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.createApiToken",
+      "service": "IdentityService",
+      "method": "CreateApiToken",
+      "requestTags": "1:meta,10:token_id,11:name,12:workspace_id,13:scopes,14:expires_at",
+      "valueTags": "10:token,11:secret",
+      "encodedBody": false,
+      "idempotency": "CC",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.revokeApiToken",
+      "service": "IdentityService",
+      "method": "RevokeApiToken",
+      "requestTags": "1:meta,10:token_id",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "DE",
+      "risk": "R3",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.listSecurityActivity",
+      "service": "IdentityService",
+      "method": "ListSecurityActivity",
+      "requestTags": "1:meta,10:page",
+      "valueTags": "10:events,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.getAccountDeletion",
+      "service": "IdentityService",
+      "method": "GetAccountDeletion",
+      "requestTags": "1:meta",
+      "valueTags": "10:deletion",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "identity.changePassword",
+      "service": "IdentityService",
+      "method": "ChangePassword",
+      "requestTags": "1:meta,10:password",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "workspace.getHealth",
+      "service": "WorkspaceService",
+      "method": "GetHealth",
+      "requestTags": "1:meta",
+      "valueTags": "10:health",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "workspace.requestDataDeletion",
+      "service": "WorkspaceService",
+      "method": "RequestDataDeletion",
+      "requestTags": "1:meta,10:deletion_id,11:preview_hash",
+      "valueTags": "10:deletion",
+      "encodedBody": false,
+      "idempotency": "CC",
+      "risk": "R4",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "workspace.previewDataDeletion",
+      "service": "WorkspaceService",
+      "method": "PreviewDataDeletion",
+      "requestTags": "1:meta",
+      "valueTags": "10:preview",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "workspace.getDataDeletion",
+      "service": "WorkspaceService",
+      "method": "GetDataDeletion",
+      "requestTags": "1:meta,10:deletion_id",
+      "valueTags": "10:deletion",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "device.signOut",
+      "service": "DeviceService",
+      "method": "SignOut",
+      "requestTags": "1:meta,10:device_id",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "DE",
+      "risk": "R3",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.getRemotePolicy",
+      "service": "DeviceService",
+      "method": "GetRemotePolicy",
+      "requestTags": "1:meta,10:device_id",
+      "valueTags": "10:policy",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.setRemotePolicy",
+      "service": "DeviceService",
+      "method": "SetRemotePolicy",
+      "requestTags": "1:meta,10:policy",
+      "valueTags": "10:policy",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "workspace.list",
+      "service": "WorkspaceService",
+      "method": "List",
+      "requestTags": "1:meta,10:page",
+      "valueTags": "10:items,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": true
+    },
+    {
+      "id": "workspace.get",
+      "service": "WorkspaceService",
+      "method": "Get",
+      "requestTags": "1:meta,10:workspace_id",
+      "valueTags": "10:workspace",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": true
+    },
+    {
+      "id": "workspace.updateSettings",
+      "service": "WorkspaceService",
+      "method": "UpdateSettings",
+      "requestTags": "1:meta,10:name,11:protection",
+      "valueTags": "10:workspace",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R2",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "device.register",
+      "service": "DeviceService",
+      "method": "Register",
+      "requestTags": "1:meta,10:device_id,11:installation_id,12:product,13:platform,14:name,15:public_key",
+      "valueTags": "10:device",
+      "encodedBody": false,
+      "idempotency": "CC",
+      "risk": "R2",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.list",
+      "service": "DeviceService",
+      "method": "List",
+      "requestTags": "1:meta,10:page",
+      "valueTags": "10:items,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.rename",
+      "service": "DeviceService",
+      "method": "Rename",
+      "requestTags": "1:meta,10:device_id,11:name",
+      "valueTags": "10:device",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.setTrust",
+      "service": "DeviceService",
+      "method": "SetTrust",
+      "requestTags": "1:meta,10:device_id,11:trust",
+      "valueTags": "10:device",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.setRemoteEnabled",
+      "service": "DeviceService",
+      "method": "SetRemoteEnabled",
+      "requestTags": "1:meta,10:device_id,11:enabled",
+      "valueTags": "10:device",
+      "encodedBody": false,
+      "idempotency": "IW",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "device.revoke",
+      "service": "DeviceService",
+      "method": "Revoke",
+      "requestTags": "1:meta,10:device_id",
+      "valueTags": "10:receipt",
+      "encodedBody": false,
+      "idempotency": "DE",
+      "risk": "R3",
+      "stepUp": true,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    },
+    {
+      "id": "identity.completeEnrollment",
+      "service": "IdentityService",
+      "method": "CompleteEnrollment",
+      "requestTags": "1:meta,10:flow_id,11:proof,12:credential,13:profile",
+      "valueTags": "10:session",
+      "encodedBody": false,
+      "idempotency": "NI",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "one-use-auth",
+      "actorKinds": [
+        "preauth"
+      ],
+      "scope": "account",
+      "patEligible": false
+    },
+    {
+      "id": "device.getCapabilities",
+      "service": "DeviceService",
+      "method": "GetCapabilities",
+      "requestTags": "1:meta,10:device_id,11:page",
+      "valueTags": "10:capabilities,11:page",
+      "encodedBody": true,
+      "idempotency": "Q",
+      "risk": "R1",
+      "stepUp": false,
+      "profile": "human-owner",
+      "actorKinds": [
+        "human"
+      ],
+      "scope": "application-target",
+      "patEligible": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "installation-claim-valid",
+      "target": "InstallationClaim",
+      "valid": true,
+      "value": {
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcscope",
+        "platform": "windows",
+        "appVersion": "1.0.0"
+      }
+    },
+    {
+      "id": "installation-claim-legacy-product",
+      "target": "InstallationClaim",
+      "valid": false,
+      "value": {
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcnotes",
+        "platform": "windows",
+        "appVersion": "1.0.0"
+      }
+    },
+    {
+      "id": "installation-claim-bad-version-key",
+      "target": "InstallationClaim",
+      "valid": false,
+      "value": {
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcscope",
+        "platform": "windows",
+        "appVersion": "not a key"
+      }
+    },
+    {
+      "id": "installation-claim-missing-id",
+      "target": "InstallationClaim",
+      "valid": false,
+      "value": {
+        "product": "arcscope",
+        "platform": "windows",
+        "appVersion": "1.0.0"
+      }
+    },
+    {
+      "id": "auth-challenge-authenticate-valid",
+      "target": "AuthChallenge",
+      "valid": true,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "method": "AUTH_METHOD_PASSKEY",
+        "challenge": "AQID",
+        "rpId": "arcforges.com",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "options": {
+          "rpId": "arcforges.com",
+          "allowedCredentials": [
+            "Yw=="
+          ],
+          "userVerification": "required",
+          "algorithms": [
+            -7
+          ]
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "auth-challenge-recover-valid",
+      "target": "AuthChallenge",
+      "valid": true,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "challenge": "",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "purpose": "AUTH_PURPOSE_RECOVER",
+        "recoveryMethod": "RECOVERY_METHOD_EMAIL_CODE"
+      }
+    },
+    {
+      "id": "auth-challenge-recover-without-recovery-method",
+      "target": "AuthChallenge",
+      "valid": false,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "challenge": "",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "purpose": "AUTH_PURPOSE_RECOVER",
+        "method": "AUTH_METHOD_EMAIL"
+      }
+    },
+    {
+      "id": "auth-challenge-authenticate-with-recovery-method",
+      "target": "AuthChallenge",
+      "valid": false,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "method": "AUTH_METHOD_PASSKEY",
+        "challenge": "AQID",
+        "rpId": "arcforges.com",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "options": {
+          "rpId": "arcforges.com",
+          "allowedCredentials": [
+            "Yw=="
+          ],
+          "userVerification": "required",
+          "algorithms": [
+            -7
+          ]
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE",
+        "recoveryMethod": "RECOVERY_METHOD_PASSKEY"
+      }
+    },
+    {
+      "id": "auth-challenge-authenticate-without-method",
+      "target": "AuthChallenge",
+      "valid": false,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "challenge": "AQID",
+        "rpId": "arcforges.com",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "options": {
+          "rpId": "arcforges.com",
+          "allowedCredentials": [
+            "Yw=="
+          ],
+          "userVerification": "required",
+          "algorithms": [
+            -7
+          ]
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "auth-challenge-33-byte-challenge",
+      "target": "AuthChallenge",
+      "valid": false,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "method": "AUTH_METHOD_PASSKEY",
+        "challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "rpId": "arcforges.com",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "options": {
+          "rpId": "arcforges.com",
+          "allowedCredentials": [
+            "Yw=="
+          ],
+          "userVerification": "required",
+          "algorithms": [
+            -7
+          ]
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "auth-challenge-32-byte-challenge",
+      "target": "AuthChallenge",
+      "valid": true,
+      "value": {
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "method": "AUTH_METHOD_PASSKEY",
+        "challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "rpId": "arcforges.com",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "options": {
+          "rpId": "arcforges.com",
+          "allowedCredentials": [
+            "Yw=="
+          ],
+          "userVerification": "required",
+          "algorithms": [
+            -7
+          ]
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "webauthn-options-non-es256",
+      "target": "WebAuthnOptions",
+      "valid": false,
+      "value": {
+        "rpId": "arcforges.com",
+        "userVerification": "required",
+        "algorithms": [
+          -8
+        ]
+      }
+    },
+    {
+      "id": "webauthn-options-user-verification-not-required",
+      "target": "WebAuthnOptions",
+      "valid": false,
+      "value": {
+        "rpId": "arcforges.com",
+        "userVerification": "preferred",
+        "algorithms": [
+          -7
+        ]
+      }
+    },
+    {
+      "id": "webauthn-options-valid",
+      "target": "WebAuthnOptions",
+      "valid": true,
+      "value": {
+        "rpId": "arcforges.com",
+        "userVerification": "required",
+        "algorithms": [
+          -7
+        ]
+      }
+    },
+    {
+      "id": "webauthn-creation-valid",
+      "target": "WebAuthnCreation",
+      "valid": true,
+      "value": {
+        "credentialId": "Y3JlZA==",
+        "clientDataJson": "e30=",
+        "attestationObject": "bm9uZQ=="
+      }
+    },
+    {
+      "id": "webauthn-creation-empty-credential-id",
+      "target": "WebAuthnCreation",
+      "valid": false,
+      "value": {
+        "credentialId": "",
+        "clientDataJson": "e30=",
+        "attestationObject": "bm9uZQ=="
+      }
+    },
+    {
+      "id": "webauthn-assertion-valid",
+      "target": "WebAuthnAssertion",
+      "valid": true,
+      "value": {
+        "credentialId": "Y3JlZA==",
+        "clientDataJson": "e30=",
+        "authenticatorData": "ZGF0YQ==",
+        "signature": "c2ln"
+      }
+    },
+    {
+      "id": "webauthn-assertion-missing-signature",
+      "target": "WebAuthnAssertion",
+      "valid": false,
+      "value": {
+        "credentialId": "Y3JlZA==",
+        "clientDataJson": "e30=",
+        "authenticatorData": "ZGF0YQ=="
+      }
+    },
+    {
+      "id": "auth-proof-passkey",
+      "target": "AuthProof",
+      "valid": true,
+      "value": {
+        "passkey": {
+          "credentialId": "Y3JlZA==",
+          "clientDataJson": "e30=",
+          "authenticatorData": "ZGF0YQ==",
+          "signature": "c2ln"
+        }
+      }
+    },
+    {
+      "id": "auth-proof-email-code",
+      "target": "AuthProof",
+      "valid": true,
+      "value": {
+        "emailCode": "123456"
+      }
+    },
+    {
+      "id": "auth-proof-recovery-code",
+      "target": "AuthProof",
+      "valid": true,
+      "value": {
+        "recoveryCode": "recovery-code"
+      }
+    },
+    {
+      "id": "auth-proof-password",
+      "target": "AuthProof",
+      "valid": true,
+      "value": {
+        "password": "correct horse battery staple"
+      }
+    },
+    {
+      "id": "auth-proof-provider-receipt",
+      "target": "AuthProof",
+      "valid": true,
+      "value": {
+        "providerReceipt": "receipt"
+      }
+    },
+    {
+      "id": "auth-proof-admin-grant",
+      "target": "AuthProof",
+      "valid": true,
+      "value": {
+        "adminGrant": "grant"
+      }
+    },
+    {
+      "id": "auth-proof-no-variant",
+      "target": "AuthProof",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "auth-proof-empty-email-code",
+      "target": "AuthProof",
+      "valid": false,
+      "value": {
+        "emailCode": ""
+      }
+    },
+    {
+      "id": "auth-proof-passkey-missing-signature",
+      "target": "AuthProof",
+      "valid": false,
+      "value": {
+        "passkey": {
+          "credentialId": "Y3JlZA==",
+          "clientDataJson": "e30=",
+          "authenticatorData": "ZGF0YQ=="
+        }
+      }
+    },
+    {
+      "id": "enrollment-proof-email-code",
+      "target": "EnrollmentProof",
+      "valid": true,
+      "value": {
+        "emailCode": "123456"
+      }
+    },
+    {
+      "id": "enrollment-proof-local-code",
+      "target": "EnrollmentProof",
+      "valid": true,
+      "value": {
+        "localCode": "local"
+      }
+    },
+    {
+      "id": "enrollment-proof-no-variant",
+      "target": "EnrollmentProof",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "credential-replacement-passkey",
+      "target": "CredentialReplacement",
+      "valid": true,
+      "value": {
+        "passkey": {
+          "credentialId": "Y3JlZA==",
+          "clientDataJson": "e30=",
+          "attestationObject": "bm9uZQ=="
+        }
+      }
+    },
+    {
+      "id": "credential-replacement-password-15-scalars",
+      "target": "CredentialReplacement",
+      "valid": true,
+      "value": {
+        "password": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+      }
+    },
+    {
+      "id": "credential-replacement-password-14-scalars",
+      "target": "CredentialReplacement",
+      "valid": false,
+      "value": {
+        "password": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+      }
+    },
+    {
+      "id": "credential-replacement-password-129-scalars",
+      "target": "CredentialReplacement",
+      "valid": false,
+      "value": {
+        "password": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "id": "credential-replacement-no-variant",
+      "target": "CredentialReplacement",
+      "valid": false,
+      "value": {}
+    },
+    {
+      "id": "native-session-valid",
+      "target": "NativeSession",
+      "valid": true,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "accessToken": "access",
+        "accessExpiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "refreshToken": "refresh",
+        "refreshExpiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "device": {
+          "deviceId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "name": "Workstation",
+          "platform": "windows",
+          "trust": "TRUST_LEVEL_TRUSTED",
+          "remoteEnabled": false,
+          "revision": {
+            "value": "1"
+          },
+          "installed": [
+            {
+              "product": "arcscope",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        "recoveryGeneration": "1",
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "native-session-missing-refresh-token",
+      "target": "NativeSession",
+      "valid": false,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "accessToken": "access",
+        "accessExpiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "refreshExpiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "device": {
+          "deviceId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "name": "Workstation",
+          "platform": "windows",
+          "trust": "TRUST_LEVEL_TRUSTED",
+          "remoteEnabled": false,
+          "revision": {
+            "value": "1"
+          },
+          "installed": [
+            {
+              "product": "arcscope",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        "recoveryGeneration": "1",
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "native-session-unspecified-purpose",
+      "target": "NativeSession",
+      "valid": false,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "accessToken": "access",
+        "accessExpiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "refreshToken": "refresh",
+        "refreshExpiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "device": {
+          "deviceId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "name": "Workstation",
+          "platform": "windows",
+          "trust": "TRUST_LEVEL_TRUSTED",
+          "remoteEnabled": false,
+          "revision": {
+            "value": "1"
+          },
+          "installed": [
+            {
+              "product": "arcscope",
+              "version": "1.0.0"
+            }
+          ]
+        },
+        "recoveryGeneration": "1",
+        "purpose": "AUTH_PURPOSE_UNSPECIFIED"
+      }
+    },
+    {
+      "id": "session-view-valid",
+      "target": "SessionView",
+      "valid": true,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "userId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "workspaceIds": [
+          {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        ],
+        "recoveryGeneration": "1",
+        "purpose": "AUTH_PURPOSE_STEP_UP"
+      }
+    },
+    {
+      "id": "session-view-unspecified-purpose",
+      "target": "SessionView",
+      "valid": false,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "userId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "workspaceIds": [
+          {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        ],
+        "recoveryGeneration": "1",
+        "purpose": "AUTH_PURPOSE_UNSPECIFIED"
+      }
+    },
+    {
+      "id": "credential-summary-valid",
+      "target": "CredentialSummary",
+      "valid": true,
+      "value": {
+        "credentialId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "kind": "passkey",
+        "displayName": "Laptop",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "credential-summary-invalid-kind",
+      "target": "CredentialSummary",
+      "valid": false,
+      "value": {
+        "credentialId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "kind": "not a key",
+        "displayName": "Laptop",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "step-up-evidence-valid",
+      "target": "StepUpEvidence",
+      "valid": true,
+      "value": {
+        "operationClass": "identity.removeAuthIdentity",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "step-up-evidence-invalid-class",
+      "target": "StepUpEvidence",
+      "valid": false,
+      "value": {
+        "operationClass": "not a key",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "deletion-status-valid",
+      "target": "DeletionStatus",
+      "valid": true,
+      "value": {
+        "deletionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "state": "pending",
+        "graceEndsAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "deletion-status-missing-grace",
+      "target": "DeletionStatus",
+      "valid": false,
+      "value": {
+        "deletionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "state": "pending"
+      }
+    },
+    {
+      "id": "account-profile-valid",
+      "target": "AccountProfile",
+      "valid": true,
+      "value": {
+        "displayName": "Ada",
+        "locale": "en-US",
+        "timezone": "America/New_York",
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "account-profile-invalid-locale",
+      "target": "AccountProfile",
+      "valid": false,
+      "value": {
+        "displayName": "Ada",
+        "locale": "en US",
+        "timezone": "America/New_York",
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "profile-update-name-only",
+      "target": "ProfileUpdate",
+      "valid": true,
+      "value": {
+        "displayName": "Ada"
+      }
+    },
+    {
+      "id": "profile-update-clear-avatar",
+      "target": "ProfileUpdate",
+      "valid": true,
+      "value": {
+        "clearAvatar": true
+      }
+    },
+    {
+      "id": "profile-update-clear-avatar-false",
+      "target": "ProfileUpdate",
+      "valid": false,
+      "value": {
+        "clearAvatar": false
+      }
+    },
+    {
+      "id": "auth-provider-view-valid",
+      "target": "AuthProviderView",
+      "valid": true,
+      "value": {
+        "providerId": "email",
+        "method": "AUTH_METHOD_EMAIL",
+        "name": "Email",
+        "enrollment": true
+      }
+    },
+    {
+      "id": "auth-provider-view-unspecified-method",
+      "target": "AuthProviderView",
+      "valid": false,
+      "value": {
+        "providerId": "email",
+        "method": "AUTH_METHOD_UNSPECIFIED",
+        "name": "Email",
+        "enrollment": true
+      }
+    },
+    {
+      "id": "session-summary-valid",
+      "target": "SessionSummary",
+      "valid": true,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "companion",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "current": true,
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "session-summary-legacy-product",
+      "target": "SessionSummary",
+      "valid": false,
+      "value": {
+        "sessionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcchat",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "current": true,
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "api-token-view-valid",
+      "target": "ApiTokenView",
+      "valid": true,
+      "value": {
+        "tokenId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "CLI",
+        "scopes": [
+          "workspace.get",
+          "workspace.list"
+        ],
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "api-token-view-duplicate-scope",
+      "target": "ApiTokenView",
+      "valid": false,
+      "value": {
+        "tokenId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "CLI",
+        "scopes": [
+          "workspace.get",
+          "workspace.get"
+        ],
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        },
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "recovery-code-set-ten",
+      "target": "RecoveryCodeSet",
+      "valid": true,
+      "value": {
+        "setId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "codes": [
+          "code-0",
+          "code-1",
+          "code-2",
+          "code-3",
+          "code-4",
+          "code-5",
+          "code-6",
+          "code-7",
+          "code-8",
+          "code-9"
+        ],
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "recovery-code-set-nine",
+      "target": "RecoveryCodeSet",
+      "valid": false,
+      "value": {
+        "setId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "codes": [
+          "code-0",
+          "code-1",
+          "code-2",
+          "code-3",
+          "code-4",
+          "code-5",
+          "code-6",
+          "code-7",
+          "code-8"
+        ],
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "remote-policy-valid",
+      "target": "RemoteCapabilityPolicy",
+      "valid": true,
+      "value": {
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "allowedCapabilities": [
+          "IScopeOperations.StartCapture"
+        ],
+        "requireLocalConfirmation": [],
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "remote-policy-duplicate-capability",
+      "target": "RemoteCapabilityPolicy",
+      "valid": false,
+      "value": {
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "allowedCapabilities": [
+          "a.b",
+          "a.b"
+        ],
+        "requireLocalConfirmation": [],
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "remote-policy-missing-device",
+      "target": "RemoteCapabilityPolicy",
+      "valid": false,
+      "value": {
+        "allowedCapabilities": [],
+        "requireLocalConfirmation": [],
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "security-activity-valid",
+      "target": "SecurityActivity",
+      "valid": true,
+      "value": {
+        "eventId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "kind": "sessionCreated",
+        "occurredAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "actor": {
+          "initiator": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "owner": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "actorKind": "human"
+        }
+      }
+    },
+    {
+      "id": "security-activity-invalid-kind",
+      "target": "SecurityActivity",
+      "valid": false,
+      "value": {
+        "eventId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "kind": "bad kind",
+        "occurredAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "actor": {
+          "initiator": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "owner": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "actorKind": "human"
+        }
+      }
+    },
+    {
+      "id": "data-deletion-preview-valid",
+      "target": "DataDeletionPreview",
+      "valid": true,
+      "value": {
+        "snapshotHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "publicationWatermark": "7",
+        "counts": [
+          {
+            "kind": "chat.message",
+            "count": "3",
+            "bytes": "100"
+          }
+        ],
+        "activeJobCount": "0",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "data-deletion-preview-bad-hash",
+      "target": "DataDeletionPreview",
+      "valid": false,
+      "value": {
+        "snapshotHash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "publicationWatermark": "7",
+        "counts": [],
+        "activeJobCount": "0",
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "workspace-health-valid",
+      "target": "WorkspaceHealth",
+      "valid": true,
+      "value": {
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "state": "healthy",
+        "recoveryGeneration": "1"
+      }
+    },
+    {
+      "id": "data-deletion-view-valid",
+      "target": "DataDeletionView",
+      "valid": true,
+      "value": {
+        "deletionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "state": "running",
+        "createdAt": {
+          "unixSeconds": "1",
+          "nanos": 0
+        },
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "workspace-view-valid",
+      "target": "WorkspaceView",
+      "valid": true,
+      "value": {
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "ownerUserId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "Home",
+        "protection": "PROTECTION_PROFILE_STANDARD",
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "workspace-view-unspecified-protection",
+      "target": "WorkspaceView",
+      "valid": false,
+      "value": {
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "ownerUserId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "Home",
+        "protection": "PROTECTION_PROFILE_UNSPECIFIED",
+        "revision": {
+          "value": "1"
+        }
+      }
+    },
+    {
+      "id": "device-view-valid",
+      "target": "DeviceView",
+      "valid": true,
+      "value": {
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "Workstation",
+        "platform": "windows",
+        "trust": "TRUST_LEVEL_TRUSTED",
+        "remoteEnabled": false,
+        "revision": {
+          "value": "1"
+        },
+        "installed": [
+          {
+            "product": "arcscope",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "device-view-unspecified-trust",
+      "target": "DeviceView",
+      "valid": false,
+      "value": {
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "Workstation",
+        "platform": "windows",
+        "trust": "TRUST_LEVEL_UNSPECIFIED",
+        "remoteEnabled": false,
+        "revision": {
+          "value": "1"
+        },
+        "installed": [
+          {
+            "product": "arcscope",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "device-view-missing-revision",
+      "target": "DeviceView",
+      "valid": false,
+      "value": {
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "Workstation",
+        "platform": "windows",
+        "trust": "TRUST_LEVEL_TRUSTED",
+        "remoteEnabled": false,
+        "installed": [
+          {
+            "product": "arcscope",
+            "version": "1.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "installed-product-legacy",
+      "target": "InstalledProduct",
+      "valid": false,
+      "value": {
+        "product": "arcslate",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "id": "begin-authentication-request-valid",
+      "target": "IdentityServiceBeginAuthenticationRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "method": "AUTH_METHOD_EMAIL",
+        "loginHint": "user@example.com",
+        "installation": {
+          "installationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "product": "arcscope",
+          "platform": "windows",
+          "appVersion": "1.0.0"
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "begin-authentication-request-missing-meta",
+      "target": "IdentityServiceBeginAuthenticationRequest",
+      "valid": false,
+      "value": {
+        "method": "AUTH_METHOD_EMAIL",
+        "installation": {
+          "installationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "product": "arcscope",
+          "platform": "windows",
+          "appVersion": "1.0.0"
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "begin-authentication-request-bad-login-hint",
+      "target": "IdentityServiceBeginAuthenticationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "method": "AUTH_METHOD_EMAIL",
+        "loginHint": "not an email",
+        "installation": {
+          "installationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "product": "arcscope",
+          "platform": "windows",
+          "appVersion": "1.0.0"
+        },
+        "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+      }
+    },
+    {
+      "id": "complete-authentication-request-valid",
+      "target": "IdentityServiceCompleteAuthenticationRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proof": {
+          "emailCode": "123456"
+        }
+      }
+    },
+    {
+      "id": "complete-authentication-request-empty-proof",
+      "target": "IdentityServiceCompleteAuthenticationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "flowId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "proof": {}
+      }
+    },
+    {
+      "id": "refresh-session-request-valid",
+      "target": "IdentityServiceRefreshSessionRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "refreshToken": "refresh",
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        }
+      }
+    },
+    {
+      "id": "refresh-session-request-empty-token",
+      "target": "IdentityServiceRefreshSessionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "refreshToken": "",
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        }
+      }
+    },
+    {
+      "id": "change-password-request-15-scalars",
+      "target": "IdentityServiceChangePasswordRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "password": "ppppppppppppppp"
+      }
+    },
+    {
+      "id": "change-password-request-14-scalars",
+      "target": "IdentityServiceChangePasswordRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "password": "pppppppppppppp"
+      }
+    },
+    {
+      "id": "create-api-token-request-valid",
+      "target": "IdentityServiceCreateApiTokenRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "tokenId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "CLI",
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "scopes": [
+          "workspace.list"
+        ],
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "create-api-token-request-duplicate-scope",
+      "target": "IdentityServiceCreateApiTokenRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "tokenId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "name": "CLI",
+        "workspaceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "scopes": [
+          "workspace.list",
+          "workspace.list"
+        ],
+        "expiresAt": {
+          "unixSeconds": "2",
+          "nanos": 0
+        }
+      }
+    },
+    {
+      "id": "register-device-request-valid",
+      "target": "DeviceServiceRegisterRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcscope",
+        "platform": "windows",
+        "name": "Workstation",
+        "publicKey": "cHVibGljLWtleQ=="
+      }
+    },
+    {
+      "id": "register-device-request-legacy-product",
+      "target": "DeviceServiceRegisterRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcnotes",
+        "platform": "windows",
+        "name": "Workstation",
+        "publicKey": "cHVibGljLWtleQ=="
+      }
+    },
+    {
+      "id": "register-device-request-empty-public-key",
+      "target": "DeviceServiceRegisterRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deviceId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "installationId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "product": "arcscope",
+        "platform": "windows",
+        "name": "Workstation",
+        "publicKey": ""
+      }
+    },
+    {
+      "id": "request-data-deletion-request-valid",
+      "target": "WorkspaceServiceRequestDataDeletionRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deletionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "previewHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "request-data-deletion-request-bad-hash",
+      "target": "WorkspaceServiceRequestDataDeletionRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "deletionId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "previewHash": "xyz"
+      }
+    },
+    {
+      "id": "list-sessions-request-requires-page",
+      "target": "IdentityServiceListSessionsRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        }
+      }
+    },
+    {
+      "id": "list-sessions-request-valid",
+      "target": "IdentityServiceListSessionsRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "page": {}
+      }
+    },
+    {
+      "id": "begin-authentication-response-value",
+      "target": "IdentityServiceBeginAuthenticationResponse",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "value": {
+          "challenge": {
+            "flowId": {
+              "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+            },
+            "method": "AUTH_METHOD_PASSKEY",
+            "challenge": "AQID",
+            "rpId": "arcforges.com",
+            "expiresAt": {
+              "unixSeconds": "2",
+              "nanos": 0
+            },
+            "options": {
+              "rpId": "arcforges.com",
+              "allowedCredentials": [
+                "Yw=="
+              ],
+              "userVerification": "required",
+              "algorithms": [
+                -7
+              ]
+            },
+            "purpose": "AUTH_PURPOSE_AUTHENTICATE"
+          }
+        }
+      }
+    },
+    {
+      "id": "begin-authentication-response-error",
+      "target": "IdentityServiceBeginAuthenticationResponse",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "error": {
+          "code": "capacity.rate_limited",
+          "category": "ERROR_CATEGORY_RESOURCE",
+          "messageKey": "capacity.rate_limited",
+          "retry": {
+            "mode": "RETRY_MODE_AFTER_TIME",
+            "retryAt": {
+              "unixSeconds": "2",
+              "nanos": 0
+            }
+          },
+          "effect": "EFFECT_CERTAINTY_DID_NOT_HAPPEN",
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        }
+      }
+    },
+    {
+      "id": "begin-authentication-response-no-outcome",
+      "target": "IdentityServiceBeginAuthenticationResponse",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        }
+      }
+    }
+  ],
+  "httpVectors": [
+    {
+      "id": "native-authorize-desktop",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-authorize-android-app-link",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "client_id=companion.android&redirect_uri=https%3A%2F%2Faccount.arcforges.com%2Fnative%2Fandroid%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "client_id=companion.android&redirect_uri=https%3A%2F%2Faccount.arcforges.com%2Fnative%2Fandroid%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-authorize-selfhost-android",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "client_id=companion.android.selfhost&redirect_uri=com.arcforges.mobile%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "client_id=companion.android.selfhost&redirect_uri=com.arcforges.mobile%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-authorize-reordered-is-canonicalized",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "installationId=11223344-5566-4788-99aa-bbccddeeff00&state=af0ifjsldkj&code_challenge_method=S256&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&response_type=code&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&client_id=arcscope.desktop",
+      "canonical": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-authorize-lowercase-percent-escapes",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3a%2fauth%2fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-authorize-redirect-for-another-client",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=https%3A%2F%2Faccount.arcforges.com%2Fnative%2Fandroid%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-redirect-prefix-match",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback%2Fextra&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-redirect-wildcard",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.%2A%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-unknown-client",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.mobile&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-implicit-response-type",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=token&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-plain-pkce",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=plain&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-short-challenge",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-missing-state",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-duplicate-state",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&state=other",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-unknown-parameter",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&prompt=none",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-state-128-ascii-bytes",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-authorize-state-129-ascii-bytes",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-state-with-space",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=a%20b&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-state-non-ascii",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=%C3%A9&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-zero-installation",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=00000000-0000-0000-0000-000000000000",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-uppercase-installation",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99AA-BBCCDDEEFF00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-authorize-bad-percent-escape",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&x=%zz",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-truncated-percent-escape",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff%4",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-raw-space",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S 256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-invalid-utf8-escape",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=%FF&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-control-escape",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&x=%00",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-empty",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-trailing-ampersand",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-empty-segment",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-missing-equals",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&flag",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-empty-name",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=af0ifjsldkj&installationId=11223344-5566-4788-99aa-bbccddeeff00&=x",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-authorize-plus-decodes-to-space",
+      "root": "NativeAuthorizeRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&response_type=code&code_challenge=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_challenge_method=S256&state=a+b&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-desktop",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-token-android-selfhost",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=companion.android.selfhost&redirect_uri=com.arcforges.mobile%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=companion.android.selfhost&redirect_uri=com.arcforges.mobile%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-token-reordered-is-canonicalized",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "installationId=11223344-5566-4788-99aa-bbccddeeff00&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&client_id=arcscope.desktop&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&grant_type=authorization_code",
+      "canonical": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-token-refresh-grant",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=refresh_token&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-client-secret",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00&client_secret=secret",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-verifier-42",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjX&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-verifier-128",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "canonical": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00"
+    },
+    {
+      "id": "native-token-verifier-129",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-verifier-reserved-character",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjX%2F&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-missing-verifier",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-duplicate-code",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq",
+      "failure": "malformed"
+    },
+    {
+      "id": "native-token-redirect-for-another-client",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.mobile%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-oversize-form",
+      "root": "NativeTokenRequest",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "grant_type=authorization_code&code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk&client_id=arcscope.desktop&redirect_uri=com.arcforges.arcscope%3A%2Fauth%2Fcallback&installationId=11223344-5566-4788-99aa-bbccddeeff00&x=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "failure": "tooLarge"
+    },
+    {
+      "id": "native-callback-success",
+      "root": "NativeAuthorizeCallbackSuccess",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&state=af0ifjsldkj",
+      "canonical": "code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&state=af0ifjsldkj"
+    },
+    {
+      "id": "native-callback-success-with-token",
+      "root": "NativeAuthorizeCallbackSuccess",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq&state=af0ifjsldkj&access_token=x",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-callback-success-missing-state",
+      "root": "NativeAuthorizeCallbackSuccess",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "code=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-callback-failure",
+      "root": "NativeAuthorizeCallbackFailure",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "error=access_denied&state=af0ifjsldkj",
+      "canonical": "error=access_denied&state=af0ifjsldkj"
+    },
+    {
+      "id": "native-callback-failure-with-description",
+      "root": "NativeAuthorizeCallbackFailure",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "error=access_denied&error_description=no&state=af0ifjsldkj",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-callback-failure-uppercase-error",
+      "root": "NativeAuthorizeCallbackFailure",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "error=ACCESS_DENIED&state=af0ifjsldkj",
+      "failure": "invalid"
+    },
+    {
+      "id": "oidc-callback-success",
+      "root": "BrowserOidcCallbackSuccess",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "code=4%2F0AbCdEf&state=af0ifjsldkj",
+      "canonical": "code=4%2F0AbCdEf&state=af0ifjsldkj"
+    },
+    {
+      "id": "oidc-callback-success-unknown-parameter",
+      "root": "BrowserOidcCallbackSuccess",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "code=c&state=af0ifjsldkj&id_token=t",
+      "failure": "invalid"
+    },
+    {
+      "id": "oidc-callback-failure",
+      "root": "BrowserOidcCallbackFailure",
+      "wire": "form-urlencoded",
+      "valid": true,
+      "text": "error=access_denied&error_description=User%20denied&state=af0ifjsldkj",
+      "canonical": "error=access_denied&error_description=User%20denied&state=af0ifjsldkj"
+    },
+    {
+      "id": "oidc-callback-failure-without-state",
+      "root": "BrowserOidcCallbackFailure",
+      "wire": "form-urlencoded",
+      "valid": false,
+      "text": "error=access_denied",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-response-valid",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}",
+      "canonical": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}"
+    },
+    {
+      "id": "native-token-response-missing-refresh",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-response-unknown-property",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\",\"cookie\":\"x\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-response-empty-access-token",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-response-bad-expiry",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01 00:00:00\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-response-unknown-trust",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"semi\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "native-token-response-numeric-generation",
+      "root": "NativeTokenResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":1,\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-begin-authentication-valid",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"method\":\"email\",\"loginHint\":\"user@example.com\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\"}",
+      "canonical": "{\"method\":\"email\",\"loginHint\":\"user@example.com\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\"}"
+    },
+    {
+      "id": "browser-begin-authentication-oidc-provider",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"method\":\"oidc\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"providerId\":\"enterprise.sso\",\"purpose\":\"enroll\"}",
+      "canonical": "{\"method\":\"oidc\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"providerId\":\"enterprise.sso\",\"purpose\":\"enroll\"}"
+    },
+    {
+      "id": "browser-begin-authentication-unknown-method",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"sms\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-begin-authentication-duplicate-key",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"email\",\"method\":\"passkey\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\"}",
+      "failure": "malformed"
+    },
+    {
+      "id": "browser-begin-authentication-bom",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "﻿{\"method\":\"email\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\"}",
+      "failure": "malformed"
+    },
+    {
+      "id": "browser-begin-authentication-trailing-comma",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"email\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\",}",
+      "failure": "malformed"
+    },
+    {
+      "id": "browser-begin-authentication-forged-native-flag",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"email\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\",\"native\":true}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-begin-authentication-trust-claim",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"email\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\",\"trust\":\"trusted\"},\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-begin-authentication-bad-uuid",
+      "root": "BrowserBeginAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"email\",\"installation\":{\"installationId\":\"11223344-5566-4788-99AA-BBCCDDEEFF00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"},\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-authentication-email-code",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"123456\"}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"123456\"}}"
+    },
+    {
+      "id": "browser-complete-authentication-passkey",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"c2ln\"}}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"c2ln\"}}}"
+    },
+    {
+      "id": "browser-complete-authentication-provider-receipt",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"providerReceipt\":\"receipt\"}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"providerReceipt\":\"receipt\"}}"
+    },
+    {
+      "id": "browser-complete-authentication-two-proofs",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"1\",\"password\":\"p\"}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-authentication-empty-proof",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-authentication-empty-code",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"\"}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-authentication-padded-base64",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"c2ln=\"}}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-authentication-standard-base64-alphabet",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"+/+/\"}}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-authentication-impossible-base64-length",
+      "root": "BrowserCompleteAuthenticationRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"abcde\"}}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-enrollment-minimal",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"123456\"},\"profile\":{}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"123456\"},\"profile\":{}}"
+    },
+    {
+      "id": "browser-complete-enrollment-password",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"localCode\":\"local\"},\"credential\":{\"password\":\"ppppppppppppppp\"},\"profile\":{\"displayName\":\"Ada\",\"locale\":\"en-US\",\"timezone\":\"Europe/London\"}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"localCode\":\"local\"},\"credential\":{\"password\":\"ppppppppppppppp\"},\"profile\":{\"displayName\":\"Ada\",\"locale\":\"en-US\",\"timezone\":\"Europe/London\"}}"
+    },
+    {
+      "id": "browser-complete-enrollment-passkey-credential",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"123456\"},\"credential\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"attestationObject\":\"bm9uZQ\"}},\"profile\":{\"clearAvatar\":true}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"123456\"},\"credential\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"attestationObject\":\"bm9uZQ\"}},\"profile\":{\"clearAvatar\":true}}"
+    },
+    {
+      "id": "browser-complete-enrollment-short-password",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"localCode\":\"local\"},\"credential\":{\"password\":\"pppppppppppppp\"},\"profile\":{}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-enrollment-clear-avatar-false",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"1\"},\"profile\":{\"clearAvatar\":false}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-enrollment-avatar-and-clear",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"1\"},\"profile\":{\"clearAvatar\":true,\"avatar\":{\"resource\":{},\"cloud\":\"1\"}}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-enrollment-missing-profile",
+      "root": "BrowserCompleteEnrollmentRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"emailCode\":\"1\"}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-begin-recovery-valid",
+      "root": "BrowserBeginRecoveryRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"email\":\"user@example.com\",\"method\":\"emailCode\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"}}",
+      "canonical": "{\"email\":\"user@example.com\",\"method\":\"emailCode\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"}}"
+    },
+    {
+      "id": "browser-begin-recovery-admin-grant-hint",
+      "root": "BrowserBeginRecoveryRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"method\":\"adminGrant\",\"accountHint\":\"self-host.account\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"}}",
+      "canonical": "{\"method\":\"adminGrant\",\"accountHint\":\"self-host.account\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"}}"
+    },
+    {
+      "id": "browser-begin-recovery-unknown-method",
+      "root": "BrowserBeginRecoveryRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"method\":\"securityQuestion\",\"installation\":{\"installationId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"product\":\"arcscope\",\"platform\":\"windows\",\"appVersion\":\"1.0.0\"}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-recovery-valid",
+      "root": "BrowserCompleteRecoveryRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"recoveryCode\":\"code\"},\"replacement\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"attestationObject\":\"bm9uZQ\"}}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"recoveryCode\":\"code\"},\"replacement\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"attestationObject\":\"bm9uZQ\"}}}"
+    },
+    {
+      "id": "browser-complete-recovery-missing-replacement",
+      "root": "BrowserCompleteRecoveryRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"recoveryCode\":\"code\"}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-begin-step-up-valid",
+      "root": "BrowserBeginStepUpRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"operationClass\":\"identity.removeAuthIdentity\",\"method\":\"passkey\",\"targetHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\"}",
+      "canonical": "{\"operationClass\":\"identity.removeAuthIdentity\",\"method\":\"passkey\",\"targetHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\"}"
+    },
+    {
+      "id": "browser-begin-step-up-bad-target-hash",
+      "root": "BrowserBeginStepUpRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"operationClass\":\"identity.removeAuthIdentity\",\"method\":\"passkey\",\"targetHash\":\"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-complete-step-up-valid",
+      "root": "BrowserCompleteStepUpRequest",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"c2ln\"}}}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{\"passkey\":{\"credentialId\":\"Y3JlZA\",\"clientDataJson\":\"e30\",\"authenticatorData\":\"ZGF0YQ\",\"signature\":\"c2ln\"}}}"
+    },
+    {
+      "id": "browser-complete-step-up-empty-proof",
+      "root": "BrowserCompleteStepUpRequest",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"proof\":{}}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-auth-challenge-valid",
+      "root": "BrowserAuthChallenge",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"passkey\",\"challenge\":\"AQID\",\"rpId\":\"arcforges.com\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"options\":{\"rpId\":\"arcforges.com\",\"allowedCredentials\":[\"Yw\"],\"userVerification\":\"required\",\"algorithms\":[-7]},\"purpose\":\"authenticate\"}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"passkey\",\"challenge\":\"AQID\",\"rpId\":\"arcforges.com\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"options\":{\"rpId\":\"arcforges.com\",\"allowedCredentials\":[\"Yw\"],\"userVerification\":\"required\",\"algorithms\":[-7]},\"purpose\":\"authenticate\"}"
+    },
+    {
+      "id": "browser-auth-challenge-recover-valid",
+      "root": "BrowserAuthChallenge",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"challenge\":\"\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"purpose\":\"recover\",\"recoveryMethod\":\"emailCode\"}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"challenge\":\"\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"purpose\":\"recover\",\"recoveryMethod\":\"emailCode\"}"
+    },
+    {
+      "id": "browser-auth-challenge-recover-without-recovery-method",
+      "root": "BrowserAuthChallenge",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"email\",\"challenge\":\"\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"purpose\":\"recover\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-auth-challenge-authenticate-with-recovery-method",
+      "root": "BrowserAuthChallenge",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"passkey\",\"challenge\":\"AQID\",\"rpId\":\"arcforges.com\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"options\":{\"rpId\":\"arcforges.com\",\"allowedCredentials\":[\"Yw\"],\"userVerification\":\"required\",\"algorithms\":[-7]},\"purpose\":\"authenticate\",\"recoveryMethod\":\"passkey\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-auth-challenge-33-byte-challenge",
+      "root": "BrowserAuthChallenge",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"passkey\",\"challenge\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"rpId\":\"arcforges.com\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"options\":{\"rpId\":\"arcforges.com\",\"allowedCredentials\":[\"Yw\"],\"userVerification\":\"required\",\"algorithms\":[-7]},\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-auth-challenge-oidc-redirect",
+      "root": "BrowserAuthChallenge",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"oidc\",\"challenge\":\"\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"providerId\":\"enterprise.sso\",\"redirectUrl\":\"https://idp.example.com/authorize?state=s\",\"purpose\":\"authenticate\"}",
+      "canonical": "{\"flowId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"method\":\"oidc\",\"challenge\":\"\",\"expiresAt\":\"2026-10-01T00:10:00Z\",\"providerId\":\"enterprise.sso\",\"redirectUrl\":\"https://idp.example.com/authorize?state=s\",\"purpose\":\"authenticate\"}"
+    },
+    {
+      "id": "browser-session-view-valid",
+      "root": "BrowserSessionView",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"expiresAt\":\"2026-10-01T12:00:00Z\",\"idleExpiresAt\":\"2026-10-01T00:30:00Z\",\"userId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"workspaceIds\":[\"11223344-5566-4788-99aa-bbccddeeff00\"],\"recoveryGeneration\":\"1\",\"purpose\":\"authenticate\"}",
+      "canonical": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"expiresAt\":\"2026-10-01T12:00:00Z\",\"idleExpiresAt\":\"2026-10-01T00:30:00Z\",\"userId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"workspaceIds\":[\"11223344-5566-4788-99aa-bbccddeeff00\"],\"recoveryGeneration\":\"1\",\"purpose\":\"authenticate\"}"
+    },
+    {
+      "id": "browser-session-view-session-secret",
+      "root": "BrowserSessionView",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"expiresAt\":\"2026-10-01T12:00:00Z\",\"idleExpiresAt\":\"2026-10-01T00:30:00Z\",\"userId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"workspaceIds\":[\"11223344-5566-4788-99aa-bbccddeeff00\"],\"recoveryGeneration\":\"1\",\"purpose\":\"authenticate\",\"sessionToken\":\"secret\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-session-view-native-session-shape",
+      "root": "BrowserSessionView",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"accessToken\":\"access\",\"accessExpiresAt\":\"2026-10-01T00:00:00Z\",\"refreshToken\":\"refresh\",\"refreshExpiresAt\":\"2026-10-31T00:00:00.123456789Z\",\"device\":{\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"name\":\"Workstation\",\"platform\":\"windows\",\"trust\":\"untrusted\",\"remoteEnabled\":false,\"revision\":\"1\"},\"recoveryGeneration\":\"0\",\"purpose\":\"authenticate\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-step-up-evidence-valid",
+      "root": "BrowserStepUpEvidence",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"operationClass\":\"device.revoke\",\"expiresAt\":\"2026-10-01T00:05:00Z\"}",
+      "canonical": "{\"operationClass\":\"device.revoke\",\"expiresAt\":\"2026-10-01T00:05:00Z\"}"
+    },
+    {
+      "id": "browser-receipt-valid",
+      "root": "BrowserReceipt",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"commandId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"resultRevision\":\"7\",\"effect\":\"happened\"}",
+      "canonical": "{\"commandId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"resultRevision\":\"7\",\"effect\":\"happened\"}"
+    },
+    {
+      "id": "browser-receipt-zero-revision",
+      "root": "BrowserReceipt",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"commandId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"resultRevision\":\"0\",\"effect\":\"happened\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-receipt-unknown-effect",
+      "root": "BrowserReceipt",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"commandId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"effect\":\"probably\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-bootstrap-anonymous",
+      "root": "BrowserBootstrapResponse",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"csrfToken\":\"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8\",\"authenticated\":false}",
+      "canonical": "{\"csrfToken\":\"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8\",\"authenticated\":false}"
+    },
+    {
+      "id": "browser-bootstrap-authenticated",
+      "root": "BrowserBootstrapResponse",
+      "wire": "json",
+      "valid": true,
+      "text": "{\"csrfToken\":\"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8\",\"authenticated\":true,\"session\":{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"expiresAt\":\"2026-10-01T12:00:00Z\",\"idleExpiresAt\":\"2026-10-01T00:30:00Z\",\"userId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"workspaceIds\":[\"11223344-5566-4788-99aa-bbccddeeff00\"],\"recoveryGeneration\":\"1\",\"purpose\":\"authenticate\"},\"profile\":{\"displayName\":\"Ada\",\"locale\":\"en-US\",\"timezone\":\"Europe/London\",\"revision\":\"2\"}}",
+      "canonical": "{\"csrfToken\":\"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8\",\"authenticated\":true,\"session\":{\"sessionId\":\"11223344-5566-4788-99aa-bbccddeeff00\",\"expiresAt\":\"2026-10-01T12:00:00Z\",\"idleExpiresAt\":\"2026-10-01T00:30:00Z\",\"userId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"deviceId\":\"aabbccdd-eeff-4011-8233-445566778899\",\"workspaceIds\":[\"11223344-5566-4788-99aa-bbccddeeff00\"],\"recoveryGeneration\":\"1\",\"purpose\":\"authenticate\"},\"profile\":{\"displayName\":\"Ada\",\"locale\":\"en-US\",\"timezone\":\"Europe/London\",\"revision\":\"2\"}}"
+    },
+    {
+      "id": "browser-bootstrap-bearer-token",
+      "root": "BrowserBootstrapResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"csrfToken\":\"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8\",\"authenticated\":true,\"accessToken\":\"token\"}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-bootstrap-short-csrf-token",
+      "root": "BrowserBootstrapResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"csrfToken\":\"short\",\"authenticated\":false}",
+      "failure": "invalid"
+    },
+    {
+      "id": "browser-bootstrap-oversize",
+      "root": "BrowserBootstrapResponse",
+      "wire": "json",
+      "valid": false,
+      "text": "{\"csrfToken\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"authenticated\":false}",
+      "failure": "tooLarge"
+    }
+  ],
+  "routes": {
+    "BrowserSession": [
+      {
+        "id": "browser.bootstrap",
+        "method": "GET",
+        "path": "/session/v1/bootstrap",
+        "credential": "anonymous-or-session-cookie",
+        "origin": "exact-configured",
+        "csrf": "issues-token",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "none",
+        "requestRoots": [],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserBootstrapResponse"
+        ]
+      },
+      {
+        "id": "browser.beginAuthentication",
+        "method": "POST",
+        "path": "/session/v1/authentication/begin",
+        "credential": "preauth-flow",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserBeginAuthenticationRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserAuthChallenge"
+        ]
+      },
+      {
+        "id": "browser.completeAuthentication",
+        "method": "POST",
+        "path": "/session/v1/authentication/complete",
+        "credential": "preauth-flow",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "session",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserCompleteAuthenticationRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserSessionView"
+        ]
+      },
+      {
+        "id": "browser.completeEnrollment",
+        "method": "POST",
+        "path": "/session/v1/enrollment/complete",
+        "credential": "preauth-flow",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "session",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserCompleteEnrollmentRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserSessionView"
+        ]
+      },
+      {
+        "id": "browser.beginRecovery",
+        "method": "POST",
+        "path": "/session/v1/recovery/begin",
+        "credential": "preauth-flow",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserBeginRecoveryRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserAuthChallenge"
+        ]
+      },
+      {
+        "id": "browser.completeRecovery",
+        "method": "POST",
+        "path": "/session/v1/recovery/complete",
+        "credential": "preauth-flow",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserCompleteRecoveryRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserReceipt"
+        ]
+      },
+      {
+        "id": "browser.beginStepUp",
+        "method": "POST",
+        "path": "/session/v1/step-up/begin",
+        "credential": "session-cookie",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserBeginStepUpRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserAuthChallenge"
+        ]
+      },
+      {
+        "id": "browser.completeStepUp",
+        "method": "POST",
+        "path": "/session/v1/step-up/complete",
+        "credential": "session-cookie",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "json",
+        "requestRoots": [
+          "BrowserCompleteStepUpRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserStepUpEvidence"
+        ]
+      },
+      {
+        "id": "browser.logout",
+        "method": "POST",
+        "path": "/session/v1/logout",
+        "credential": "session-cookie",
+        "origin": "exact-configured",
+        "csrf": "required",
+        "setCookie": "clear",
+        "cache": "no-store",
+        "requestWire": "none",
+        "requestRoots": [],
+        "responseWire": "json",
+        "responseRoots": [
+          "BrowserReceipt"
+        ]
+      },
+      {
+        "id": "browser.oidcCallback",
+        "method": "GET",
+        "path": "/session/v1/providers/{providerId}/callback",
+        "credential": "flow-cookie",
+        "origin": "exact-configured",
+        "csrf": "none",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "form-urlencoded",
+        "requestRoots": [
+          "BrowserOidcCallbackSuccess",
+          "BrowserOidcCallbackFailure"
+        ],
+        "responseWire": "none",
+        "responseRoots": []
+      }
+    ],
+    "NativeAuth": [
+      {
+        "id": "native.authorize",
+        "method": "GET",
+        "path": "/session/v1/native/authorize",
+        "credential": "browser-login",
+        "origin": "none",
+        "csrf": "none",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "form-urlencoded",
+        "requestRoots": [
+          "NativeAuthorizeRequest"
+        ],
+        "responseWire": "none",
+        "responseRoots": []
+      },
+      {
+        "id": "native.token",
+        "method": "POST",
+        "path": "/session/v1/native/token",
+        "credential": "authorization-code",
+        "origin": "none",
+        "csrf": "none",
+        "setCookie": "none",
+        "cache": "no-store",
+        "requestWire": "form-urlencoded",
+        "requestRoots": [
+          "NativeTokenRequest"
+        ],
+        "responseWire": "json",
+        "responseRoots": [
+          "NativeTokenResponse"
+        ]
+      }
+    ]
+  },
+  "journeys": [
+    {
+      "id": "account-creation",
+      "title": "Official account creation",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginAuthentication"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.requestEmailCode"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeEnrollment"
+        },
+        {
+          "kind": "route",
+          "id": "browser.completeEnrollment"
+        }
+      ],
+      "expect": {
+        "usedOrExpiredProofReplaysSession": false,
+        "freshAuthenticationRecoversCreatedAccount": true,
+        "duplicateWorkspaceOrInitialGrant": false,
+        "emailOnlyAccountCanAddPasskeyAfterLogin": true
+      }
+    },
+    {
+      "id": "email-login",
+      "title": "Email login",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginAuthentication"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.requestEmailCode"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.redeemEmailCode"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeAuthentication"
+        }
+      ],
+      "expect": {
+        "redeemAndCompleteAreExclusive": true,
+        "badOrUnknownAccountProofSameBoundedDenialShape": true,
+        "unknownProviderDeliveryAuthorizesDuplicateAccountCreation": false
+      }
+    },
+    {
+      "id": "passkey-login",
+      "title": "Passkey login",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginAuthentication"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeAuthentication"
+        }
+      ],
+      "expect": {
+        "validatesChallengeOriginRpUserVerificationSignatureCredentialBindingAndReplay": true,
+        "unsupportedPlatformOffersAnotherEnabledMethod": true,
+        "weakerFakePasskeyOffered": false
+      }
+    },
+    {
+      "id": "passkey-management",
+      "title": "Add, rename and remove a passkey",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.beginPasskeyRegistration"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completePasskeyRegistration"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.listAuthIdentities"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.renameAuthIdentity"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.removeAuthIdentity"
+        }
+      ],
+      "expect": {
+        "completeIsOneUseProofConsumption": true,
+        "removingLastUsableCredentialOrRecoveryRouteRefused": true,
+        "refusalCode": "identity.last_credential"
+      }
+    },
+    {
+      "id": "self-host-password-enrollment",
+      "title": "Self-host password enrollment",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginAuthentication"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeEnrollment"
+        }
+      ],
+      "expect": {
+        "officialRealmRejectsPasswordProvider": true,
+        "grantPossessionResetsExistingAccount": false
+      }
+    },
+    {
+      "id": "oidc-login-enrollment-link",
+      "title": "OIDC login, enrollment and link",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginAuthentication"
+        },
+        {
+          "kind": "route",
+          "id": "browser.oidcCallback"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeAuthentication"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeEnrollment"
+        }
+      ],
+      "expect": {
+        "receiptBoundToOriginalFlowAndInstallation": true,
+        "callerSuppliedRedirectAccepted": false,
+        "sameEmailMergesAccounts": false,
+        "callbackCarriesProviderAccessOrRefreshToken": false,
+        "linkingRequiresStepUpAndBothAuthenticatedIdentities": true
+      }
+    },
+    {
+      "id": "recovery",
+      "title": "Account recovery",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginRecovery"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeRecovery"
+        },
+        {
+          "kind": "route",
+          "id": "browser.beginRecovery"
+        },
+        {
+          "kind": "route",
+          "id": "browser.completeRecovery"
+        }
+      ],
+      "expect": {
+        "commitConsumesProofAndInvalidatesRecoveryCodeSet": true,
+        "revokesSessionsPatAndPendingNativeAuthorizationCodes": true,
+        "changesCredentialAtomically": true,
+        "returnsReceiptOnly": true,
+        "oldCredentialsSupplyReplacementPublicKeyWithoutProof": false
+      }
+    },
+    {
+      "id": "step-up",
+      "title": "Step-up",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "route",
+          "id": "browser.beginStepUp"
+        },
+        {
+          "kind": "route",
+          "id": "browser.completeStepUp"
+        }
+      ],
+      "expect": {
+        "evidenceBindsActorSessionGenerationClassAndTargetHash": true,
+        "maximumMinutes": 5,
+        "oneSensitiveActionOnly": true,
+        "differentProposalOrSessionReusesEvidence": false,
+        "biometricAppUnlockIsStepUp": false
+      }
+    },
+    {
+      "id": "refresh",
+      "title": "Native refresh",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.refreshSession"
+        }
+      ],
+      "expect": {
+        "singleFlightPerInstallation": true,
+        "oldTokenReuseRevokesFamily": true,
+        "lostRotationResponseRequiresLogin": true,
+        "automaticRetryWithOldToken": false,
+        "browserCookieUsesRefreshToken": false
+      }
+    },
+    {
+      "id": "logout",
+      "title": "Session and device logout",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.revokeSession"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.revokeAllSessions"
+        },
+        {
+          "kind": "operation",
+          "id": "device.signOut"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "device.revoke"
+        },
+        {
+          "kind": "route",
+          "id": "browser.logout"
+        }
+      ],
+      "expect": {
+        "localCredentialsInvalidatedBeforeCallbacks": true,
+        "deviceRevocationRemovesTrustRemoteAuthorityAndPush": true,
+        "signOutRetainsRegistration": true,
+        "pendingWorkQuarantined": true
+      }
+    },
+    {
+      "id": "native-browser-authorization",
+      "title": "Native browser authorization with PKCE",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "route",
+          "id": "native.authorize"
+        },
+        {
+          "kind": "route",
+          "id": "native.token"
+        }
+      ],
+      "expect": {
+        "wrongVerifierConsumesValidCode": false,
+        "attemptsCappedAt": 5,
+        "redeemedOrExpiredCodeIssuesSession": false,
+        "lostTokenResponseRequiresFreshAuthorization": true,
+        "callbackCarriesOnlyCodeAndState": true,
+        "browserCookiesCopiedToApp": false
+      }
+    },
+    {
+      "id": "api-token",
+      "title": "Personal access token",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.createApiToken"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.listApiTokens"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.revokeApiToken"
+        }
+      ],
+      "expect": {
+        "secretDisplayedOnceHashOnly": true,
+        "duplicateCreateReturnsSafeSummaryWithoutSecret": true,
+        "tokenManagesAuthentication": false,
+        "patEligibleOperations": [
+          "workspace.get",
+          "workspace.list"
+        ]
+      }
+    },
+    {
+      "id": "account-deletion",
+      "title": "Account deletion and cancellation",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "operation",
+          "id": "identity.beginStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.completeStepUp"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.requestAccountDeletion"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.beginAuthentication"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.getAccountDeletion"
+        },
+        {
+          "kind": "operation",
+          "id": "identity.cancelAccountDeletion"
+        }
+      ],
+      "expect": {
+        "graceSessionQueriesOrdinaryContent": false,
+        "oldOrdinarySessionsRemainRevokedAfterCancel": true,
+        "paidSubscriptionCancelledImplicitly": false
+      }
+    },
+    {
+      "id": "browser-session",
+      "title": "Browser session transport",
+      "evidenceClass": "declarative-owner-runtime-vector-not-executed-by-con07",
+      "steps": [
+        {
+          "kind": "route",
+          "id": "browser.bootstrap"
+        },
+        {
+          "kind": "route",
+          "id": "browser.beginAuthentication"
+        },
+        {
+          "kind": "route",
+          "id": "browser.completeAuthentication"
+        },
+        {
+          "kind": "route",
+          "id": "browser.logout"
+        }
+      ],
+      "expect": {
+        "everyResponseNoStore": true,
+        "sessionSecretOnlyInSetCookie": true,
+        "nativeSessionReturnedToBrowser": false,
+        "logoutByGet": false
+      }
+    }
+  ]
+}

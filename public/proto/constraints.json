@@ -2,6 +2,2378 @@
   "schemaVersion": "proto-constraints.v1",
   "license": "Apache-2.0",
   "messages": {
+    "arcforges.publicapi.v1.InstallationClaim": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.InstallationClaim",
+      "fields": {
+        "installationId": {
+          "required": true
+        },
+        "product": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["arcscope", "companion"]
+        },
+        "platform": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "appVersion": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AuthChallenge": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AuthChallenge",
+      "fields": {
+        "flowId": {
+          "required": true
+        },
+        "method": {
+          "enumValues": [1, 2, 3, 4]
+        },
+        "challenge": {
+          "required": true,
+          "maxLength": 32
+        },
+        "rpId": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "options": {},
+        "providerId": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "redirectUrl": {
+          "maxUtf8Bytes": 4096
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        },
+        "recoveryMethod": {
+          "enumValues": [1, 2, 3, 4]
+        }
+      },
+      "rules": ["authChallengePurpose"]
+    },
+    "arcforges.publicapi.v1.WebAuthnOptions": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WebAuthnOptions",
+      "fields": {
+        "rpId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "userHandle": {
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "allowedCredentials": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 1023
+          },
+          "maxItems": 64
+        },
+        "excludedCredentials": {
+          "items": {
+            "minLength": 1,
+            "maxLength": 1023
+          },
+          "maxItems": 64
+        },
+        "userVerification": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["required"]
+        },
+        "algorithms": {
+          "items": {
+            "enumValues": [-7]
+          },
+          "minItems": 1,
+          "maxItems": 1
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WebAuthnCreation": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WebAuthnCreation",
+      "fields": {
+        "credentialId": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1023
+        },
+        "clientDataJson": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 16384
+        },
+        "attestationObject": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 16384
+        },
+        "transports": {
+          "items": {
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 8,
+          "unique": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WebAuthnAssertion": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WebAuthnAssertion",
+      "fields": {
+        "credentialId": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1023
+        },
+        "clientDataJson": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 16384
+        },
+        "authenticatorData": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 16384
+        },
+        "signature": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "userHandle": {
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AuthProof": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AuthProof",
+      "fields": {
+        "passkey": {},
+        "emailCode": {
+          "maxUtf8Bytes": 4096,
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "recoveryCode": {
+          "maxUtf8Bytes": 4096,
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "password": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192,
+          "maxLength": 128
+        },
+        "providerReceipt": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        },
+        "adminGrant": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        }
+      },
+      "oneofRequired": ["proof"]
+    },
+    "arcforges.publicapi.v1.NativeSession": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.NativeSession",
+      "fields": {
+        "sessionId": {
+          "required": true
+        },
+        "accessToken": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        },
+        "accessExpiresAt": {
+          "required": true
+        },
+        "refreshToken": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        },
+        "refreshExpiresAt": {
+          "required": true
+        },
+        "device": {
+          "required": true
+        },
+        "recoveryGeneration": {
+          "required": true
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SessionView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SessionView",
+      "fields": {
+        "sessionId": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "idleExpiresAt": {},
+        "userId": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "workspaceIds": {
+          "items": {},
+          "maxItems": 100
+        },
+        "recoveryGeneration": {
+          "required": true
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        }
+      }
+    },
+    "arcforges.publicapi.v1.CredentialSummary": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.CredentialSummary",
+      "fields": {
+        "credentialId": {
+          "required": true
+        },
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "displayName": {
+          "required": true,
+          "maxLength": 256
+        },
+        "createdAt": {
+          "required": true
+        },
+        "lastUsedAt": {}
+      }
+    },
+    "arcforges.publicapi.v1.StepUpEvidence": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.StepUpEvidence",
+      "fields": {
+        "operationClass": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeletionStatus": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeletionStatus",
+      "fields": {
+        "deletionId": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "graceEndsAt": {
+          "required": true
+        },
+        "purgeAfter": {}
+      }
+    },
+    "arcforges.publicapi.v1.AccountProfile": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AccountProfile",
+      "fields": {
+        "displayName": {
+          "required": true,
+          "maxLength": 256
+        },
+        "avatar": {},
+        "primaryEmail": {
+          "maxLength": 320,
+          "pattern": "^[!-~]+@[!-~]+$"
+        },
+        "locale": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "timezone": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ProfileUpdate": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ProfileUpdate",
+      "fields": {
+        "displayName": {
+          "maxLength": 256
+        },
+        "avatar": {},
+        "clearAvatar": {
+          "enumValues": [true]
+        },
+        "locale": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "timezone": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.AuthProviderView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.AuthProviderView",
+      "fields": {
+        "providerId": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "enrollment": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SessionSummary": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SessionSummary",
+      "fields": {
+        "sessionId": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "product": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["arcscope", "companion"]
+        },
+        "createdAt": {
+          "required": true
+        },
+        "lastUsedAt": {},
+        "expiresAt": {
+          "required": true
+        },
+        "current": {
+          "required": true
+        },
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.ApiTokenView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.ApiTokenView",
+      "fields": {
+        "tokenId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "scopes": {
+          "items": {
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 200,
+          "unique": true
+        },
+        "workspaceId": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "lastUsedAt": {},
+        "revokedAt": {},
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.RecoveryCodeSet": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.RecoveryCodeSet",
+      "fields": {
+        "setId": {
+          "required": true
+        },
+        "codes": {
+          "items": {
+            "minLength": 1,
+            "maxUtf8Bytes": 8192
+          },
+          "minItems": 10,
+          "maxItems": 10
+        },
+        "createdAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.RemoteCapabilityPolicy": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.RemoteCapabilityPolicy",
+      "fields": {
+        "deviceId": {
+          "required": true
+        },
+        "allowedCapabilities": {
+          "items": {
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 200,
+          "unique": true
+        },
+        "requireLocalConfirmation": {
+          "items": {
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 200,
+          "unique": true
+        },
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.SecurityActivity": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.SecurityActivity",
+      "fields": {
+        "eventId": {
+          "required": true
+        },
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "occurredAt": {
+          "required": true
+        },
+        "deviceId": {},
+        "actor": {
+          "required": true
+        },
+        "reason": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DataDeletionPreview": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DataDeletionPreview",
+      "fields": {
+        "snapshotHash": {
+          "required": true,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "publicationWatermark": {
+          "required": true
+        },
+        "counts": {
+          "items": {},
+          "maxItems": 200
+        },
+        "activeJobCount": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeletionCount": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeletionCount",
+      "fields": {
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "count": {
+          "required": true
+        },
+        "bytes": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceHealth": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceHealth",
+      "fields": {
+        "workspaceId": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "recoveryGeneration": {
+          "required": true
+        },
+        "lastBackupAt": {},
+        "storage": {
+          "items": {},
+          "maxItems": 200
+        },
+        "pendingJobs": {
+          "items": {},
+          "maxItems": 200
+        },
+        "reason": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DataDeletionView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DataDeletionView",
+      "fields": {
+        "deletionId": {
+          "required": true
+        },
+        "state": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "counts": {
+          "items": {},
+          "maxItems": 200
+        },
+        "createdAt": {
+          "required": true
+        },
+        "completedAt": {},
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceView",
+      "fields": {
+        "workspaceId": {
+          "required": true
+        },
+        "ownerUserId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "protection": {
+          "required": true,
+          "enumValues": [1]
+        },
+        "revision": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceView",
+      "fields": {
+        "deviceId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "platform": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "trust": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        },
+        "remoteEnabled": {
+          "required": true
+        },
+        "revokedAt": {},
+        "revision": {
+          "required": true
+        },
+        "installed": {
+          "items": {},
+          "maxItems": 64
+        }
+      }
+    },
+    "arcforges.publicapi.v1.InstalledProduct": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.InstalledProduct",
+      "fields": {
+        "product": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["arcscope", "companion"]
+        },
+        "version": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "installedAt": {}
+      }
+    },
+    "arcforges.publicapi.v1.DeviceCapabilityView": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceCapabilityView",
+      "fields": {
+        "instance": {
+          "required": true
+        },
+        "descriptor": {
+          "required": true
+        },
+        "remoteAllowed": {
+          "required": true
+        },
+        "reasons": {
+          "items": {
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 64
+        },
+        "observedAt": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.CredentialReplacement": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.CredentialReplacement",
+      "fields": {
+        "passkey": {},
+        "password": {
+          "minLength": 15,
+          "maxUtf8Bytes": 8192,
+          "maxLength": 128
+        }
+      },
+      "oneofRequired": ["replacement"]
+    },
+    "arcforges.publicapi.v1.EnrollmentProof": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.EnrollmentProof",
+      "fields": {
+        "emailCode": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192,
+          "maxLength": 128
+        },
+        "localCode": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192,
+          "maxLength": 128
+        },
+        "providerReceipt": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        }
+      },
+      "oneofRequired": ["proof"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginPasskeyRegistrationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginPasskeyRegistrationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "displayName": {
+          "required": true,
+          "maxLength": 256
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginPasskeyRegistrationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginPasskeyRegistrationValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginPasskeyRegistrationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginPasskeyRegistrationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompletePasskeyRegistrationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompletePasskeyRegistrationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "credential": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompletePasskeyRegistrationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompletePasskeyRegistrationValue",
+      "fields": {
+        "credential": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompletePasskeyRegistrationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompletePasskeyRegistrationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginAuthenticationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginAuthenticationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "loginHint": {
+          "maxLength": 320,
+          "pattern": "^[!-~]+@[!-~]+$"
+        },
+        "installation": {
+          "required": true
+        },
+        "providerId": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginAuthenticationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginAuthenticationValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginAuthenticationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginAuthenticationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteAuthenticationRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteAuthenticationRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "proof": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteAuthenticationValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteAuthenticationValue",
+      "fields": {
+        "session": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteAuthenticationResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteAuthenticationResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRequestEmailCodeRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestEmailCodeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        },
+        "email": {
+          "required": true,
+          "maxLength": 320,
+          "pattern": "^[!-~]+@[!-~]+$"
+        },
+        "flowId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRequestEmailCodeValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestEmailCodeValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRequestEmailCodeResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestEmailCodeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRedeemEmailCodeRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRedeemEmailCodeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "code": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRedeemEmailCodeValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRedeemEmailCodeValue",
+      "fields": {
+        "session": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRedeemEmailCodeResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRedeemEmailCodeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRefreshSessionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRefreshSessionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "refreshToken": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        },
+        "installationId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRefreshSessionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRefreshSessionValue",
+      "fields": {
+        "session": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRefreshSessionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRefreshSessionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeSessionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeSessionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeSessionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeSessionValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeSessionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeSessionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeAllSessionsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeAllSessionsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeAllSessionsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeAllSessionsValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeAllSessionsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeAllSessionsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceListAuthIdentitiesRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthIdentitiesRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListAuthIdentitiesValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthIdentitiesValue",
+      "fields": {
+        "items": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListAuthIdentitiesResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthIdentitiesResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRemoveAuthIdentityRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRemoveAuthIdentityRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "credentialId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRemoveAuthIdentityValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRemoveAuthIdentityValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRemoveAuthIdentityResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRemoveAuthIdentityResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginStepUpRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginStepUpRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "operationClass": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "targetHash": {
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginStepUpValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginStepUpValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginStepUpResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginStepUpResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteStepUpRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteStepUpRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "proof": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteStepUpValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteStepUpValue",
+      "fields": {
+        "evidence": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteStepUpResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteStepUpResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginRecoveryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginRecoveryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "email": {
+          "maxLength": 320,
+          "pattern": "^[!-~]+@[!-~]+$"
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "accountHint": {
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "installation": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginRecoveryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginRecoveryValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginRecoveryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginRecoveryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteRecoveryRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteRecoveryRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "proof": {
+          "required": true
+        },
+        "replacement": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteRecoveryValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteRecoveryValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteRecoveryResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteRecoveryResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRequestAccountDeletionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestAccountDeletionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRequestAccountDeletionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestAccountDeletionValue",
+      "fields": {
+        "deletion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRequestAccountDeletionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRequestAccountDeletionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCancelAccountDeletionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCancelAccountDeletionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deletionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCancelAccountDeletionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCancelAccountDeletionValue",
+      "fields": {
+        "deletion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCancelAccountDeletionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCancelAccountDeletionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceGetProfileRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetProfileRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceGetProfileValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetProfileValue",
+      "fields": {
+        "profile": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceGetProfileResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetProfileResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceUpdateProfileRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceUpdateProfileRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "patch": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceUpdateProfileValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceUpdateProfileValue",
+      "fields": {
+        "profile": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceUpdateProfileResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceUpdateProfileResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceListAuthProvidersRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthProvidersRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListAuthProvidersValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthProvidersValue",
+      "fields": {
+        "providers": {
+          "items": {},
+          "maxItems": 200
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListAuthProvidersResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListAuthProvidersResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginEmailChangeRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginEmailChangeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "email": {
+          "required": true,
+          "maxLength": 320,
+          "pattern": "^[!-~]+@[!-~]+$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginEmailChangeValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginEmailChangeValue",
+      "fields": {
+        "challenge": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceBeginEmailChangeResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceBeginEmailChangeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteEmailChangeRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEmailChangeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "code": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteEmailChangeValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEmailChangeValue",
+      "fields": {
+        "profile": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteEmailChangeResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEmailChangeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRenameAuthIdentityRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRenameAuthIdentityRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "credentialId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRenameAuthIdentityValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRenameAuthIdentityValue",
+      "fields": {
+        "credential": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRenameAuthIdentityResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRenameAuthIdentityResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceGenerateRecoveryCodesRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGenerateRecoveryCodesRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceGenerateRecoveryCodesValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGenerateRecoveryCodesValue",
+      "fields": {
+        "set": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceGenerateRecoveryCodesResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGenerateRecoveryCodesResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceListSessionsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSessionsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListSessionsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSessionsValue",
+      "fields": {
+        "sessions": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListSessionsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSessionsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceListApiTokensRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListApiTokensRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListApiTokensValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListApiTokensValue",
+      "fields": {
+        "tokens": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListApiTokensResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListApiTokensResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCreateApiTokenRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCreateApiTokenRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "tokenId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "workspaceId": {
+          "required": true
+        },
+        "scopes": {
+          "items": {
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 200,
+          "unique": true
+        },
+        "expiresAt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCreateApiTokenValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCreateApiTokenValue",
+      "fields": {
+        "token": {
+          "required": true
+        },
+        "secret": {
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCreateApiTokenResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCreateApiTokenResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeApiTokenRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeApiTokenRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "tokenId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeApiTokenValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeApiTokenValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceRevokeApiTokenResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceRevokeApiTokenResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceListSecurityActivityRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSecurityActivityRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListSecurityActivityValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSecurityActivityValue",
+      "fields": {
+        "events": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceListSecurityActivityResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceListSecurityActivityResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceGetAccountDeletionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetAccountDeletionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceGetAccountDeletionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetAccountDeletionValue",
+      "fields": {
+        "deletion": {}
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceGetAccountDeletionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceGetAccountDeletionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceChangePasswordRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceChangePasswordRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "password": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 8192
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceChangePasswordValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceChangePasswordValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceChangePasswordResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceChangePasswordResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteEnrollmentRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEnrollmentRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "proof": {
+          "required": true
+        },
+        "credential": {},
+        "profile": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteEnrollmentValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEnrollmentValue",
+      "fields": {
+        "session": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.IdentityServiceCompleteEnrollmentResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.IdentityServiceCompleteEnrollmentResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetHealthRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetHealthRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetHealthValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetHealthValue",
+      "fields": {
+        "health": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetHealthResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetHealthResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceRequestDataDeletionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceRequestDataDeletionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deletionId": {
+          "required": true
+        },
+        "previewHash": {
+          "required": true,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceRequestDataDeletionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceRequestDataDeletionValue",
+      "fields": {
+        "deletion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceRequestDataDeletionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceRequestDataDeletionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServicePreviewDataDeletionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServicePreviewDataDeletionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServicePreviewDataDeletionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServicePreviewDataDeletionValue",
+      "fields": {
+        "preview": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServicePreviewDataDeletionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServicePreviewDataDeletionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetDataDeletionRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetDataDeletionRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deletionId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetDataDeletionValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetDataDeletionValue",
+      "fields": {
+        "deletion": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetDataDeletionResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetDataDeletionResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceListValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceListValue",
+      "fields": {
+        "items": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "workspaceId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetValue",
+      "fields": {
+        "workspace": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceGetResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceGetResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceUpdateSettingsRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceUpdateSettingsRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "name": {
+          "maxLength": 256
+        },
+        "protection": {
+          "enumValues": [1]
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceUpdateSettingsValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceUpdateSettingsValue",
+      "fields": {
+        "workspace": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.WorkspaceServiceUpdateSettingsResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.WorkspaceServiceUpdateSettingsResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceSignOutRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSignOutRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSignOutValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSignOutValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSignOutResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSignOutResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceGetRemotePolicyRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetRemotePolicyRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceGetRemotePolicyValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetRemotePolicyValue",
+      "fields": {
+        "policy": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceGetRemotePolicyResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetRemotePolicyResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetRemotePolicyRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemotePolicyRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "policy": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetRemotePolicyValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemotePolicyValue",
+      "fields": {
+        "policy": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetRemotePolicyResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemotePolicyResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceRegisterRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRegisterRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "installationId": {
+          "required": true
+        },
+        "product": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "platform": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        },
+        "publicKey": {
+          "required": true,
+          "minLength": 1,
+          "maxLength": 65536
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceRegisterValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRegisterValue",
+      "fields": {
+        "device": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceRegisterResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRegisterResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceListRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceListRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceListValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceListValue",
+      "fields": {
+        "items": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceListResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceListResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceRenameRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRenameRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "name": {
+          "required": true,
+          "maxLength": 256
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceRenameValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRenameValue",
+      "fields": {
+        "device": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceRenameResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRenameResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetTrustRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetTrustRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "trust": {
+          "required": true,
+          "enumValues": [1, 2, 3]
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetTrustValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetTrustValue",
+      "fields": {
+        "device": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetTrustResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetTrustResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetRemoteEnabledRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemoteEnabledRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "enabled": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetRemoteEnabledValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemoteEnabledValue",
+      "fields": {
+        "device": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceSetRemoteEnabledResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceSetRemoteEnabledResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceRevokeRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRevokeRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceRevokeValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRevokeValue",
+      "fields": {
+        "receipt": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceRevokeResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceRevokeResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
+    "arcforges.publicapi.v1.DeviceServiceGetCapabilitiesRequest": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetCapabilitiesRequest",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "deviceId": {
+          "required": true
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceGetCapabilitiesValue": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetCapabilitiesValue",
+      "fields": {
+        "capabilities": {
+          "items": {},
+          "maxItems": 200
+        },
+        "page": {
+          "required": true
+        }
+      }
+    },
+    "arcforges.publicapi.v1.DeviceServiceGetCapabilitiesResponse": {
+      "csharpType": "ArcForges.Contracts.PublicApi.V1.DeviceServiceGetCapabilitiesResponse",
+      "fields": {
+        "meta": {
+          "required": true
+        },
+        "value": {},
+        "error": {},
+        "encodedBody": {}
+      },
+      "oneofRequired": ["outcome"]
+    },
     "arcforges.publicapi.v1.AttemptCharge": {
       "csharpType": "ArcForges.Contracts.PublicApi.V1.AttemptCharge",
       "fields": {

@@ -346,6 +346,62 @@ class OperationScopeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             gate.authorization(human, set())
 
+    def con07_r4_row(self, operation):
+        # Independent frozen CON.07 oracle: do not derive these rows from the gate constants.
+        binding, idempotency = {
+            'identity.requestAccountDeletion': ('arcforges.publicapi.v1.IdentityService/RequestAccountDeletion', 'IW'),
+            'workspace.requestDataDeletion': ('arcforges.publicapi.v1.WorkspaceService/RequestDataDeletion', 'CC'),
+        }[operation]
+        return {
+            'operationId': operation,
+            'binding': binding,
+            'kind': 'proto',
+            'source': 'public/proto/arcforges/publicapi/v1/identity.proto',
+            'scope': 'account',
+            'surface': 'public',
+            'profile': 'human-owner',
+            'sourceRule': 'docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session',
+            'idempotency': idempotency,
+            'authorization': {
+                'capability': None,
+                'risk': 'R4',
+                'approval': 'none',
+                'stepUp': True,
+                'localPresence': False,
+                'egress': 'none',
+                'patEligible': False,
+                'actorKinds': ['human'],
+            },
+        }
+
+    def test_con07_r4_is_limited_to_the_two_registry_deletion_commands(self):
+        for operation in ('identity.requestAccountDeletion', 'workspace.requestDataDeletion'):
+            row = self.con07_r4_row(operation)
+            self.assertEqual(gate.authorization(row, set()), (['human'], []))
+            for field, wrong in [
+                ('binding', 'arcforges.publicapi.v1.IdentityService/RevokeSession'),
+                ('kind', 'http'),
+                ('source', 'public/proto/arcforges/publicapi/v1/commerce.proto'),
+                ('scope', 'resource-owner'),
+                ('profile', 'one-use-auth'),
+                ('idempotency', 'DE'),
+            ]:
+                hostile = copy.deepcopy(row)
+                hostile[field] = wrong
+                with self.subTest(operation=operation, field=field), self.assertRaises(ValueError):
+                    gate.authorization(hostile, set())
+            for field, wrong in [('stepUp', False), ('patEligible', True), ('actorKinds', ['human', 'agent']),
+                                 ('actorKinds', ['preauth']), ('risk', 'R5'), ('risk', 'r4')]:
+                hostile = copy.deepcopy(row)
+                hostile['authorization'][field] = wrong
+                with self.subTest(operation=operation, authorization=field), self.assertRaises(ValueError):
+                    gate.authorization(hostile, set())
+        for other in ('device.revoke', 'identity.revokeAllSessions', 'workspace.updateSettings', 'identity.removeAuthIdentity'):
+            hostile = self.con07_r4_row('identity.requestAccountDeletion')
+            hostile['operationId'] = other
+            with self.subTest(other=other), self.assertRaises(ValueError):
+                gate.authorization(hostile, set())
+
     def test_cf_service_ports_are_exact_closed_transport_bindings(self):
         self.assertEqual(gate.CF_SERVICE_OPERATIONS, CF_SERVICE_EXPECTATIONS)
         operations = list(CF_SERVICE_EXPECTATIONS)
@@ -589,7 +645,7 @@ class OperationScopeTests(unittest.TestCase):
         self.assertEqual(len(result["operations"]), len(oracle["operations"]))
         self.assertEqual(result["registered"] + result["pending"] + result["reserved"], len(oracle["operations"]))
         self.assertEqual((result["registered"], result["pending"], result["reserved"],
-                          len(result["operations"])), (280, 55, 7, 342))
+                          len(result["operations"])), (329, 6, 7, 342))
         self.assertEqual(result["privateServiceProjections"], [{
             "binding": CON11_PRIVATE_BINDING,
             "source": CON11_PRIVATE_SOURCE,

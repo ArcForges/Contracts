@@ -379,6 +379,9 @@ test("generated service catalogue lists exactly the authored services", () => {
     ...Object.keys(con08Methods),
     "arcforges.publicapi.v1.ApplicationService",
     "arcforges.publicapi.v1.HistoryService",
+    "arcforges.publicapi.v1.IdentityService",
+    "arcforges.publicapi.v1.WorkspaceService",
+    "arcforges.publicapi.v1.DeviceService",
   ];
   assert.deepEqual(
     contractServices.map((service) => service.typeName),

@@ -1,0 +1,1133 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "identity.beginPasskeyRegistration",
+      "binding": "arcforges.publicapi.v1.IdentityService/BeginPasskeyRegistration",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.completePasskeyRegistration",
+      "binding": "arcforges.publicapi.v1.IdentityService/CompletePasskeyRegistration",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.beginAuthentication",
+      "binding": "arcforges.publicapi.v1.IdentityService/BeginAuthentication",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.completeAuthentication",
+      "binding": "arcforges.publicapi.v1.IdentityService/CompleteAuthentication",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.requestEmailCode",
+      "binding": "arcforges.publicapi.v1.IdentityService/RequestEmailCode",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.redeemEmailCode",
+      "binding": "arcforges.publicapi.v1.IdentityService/RedeemEmailCode",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.refreshSession",
+      "binding": "arcforges.publicapi.v1.IdentityService/RefreshSession",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.revokeSession",
+      "binding": "arcforges.publicapi.v1.IdentityService/RevokeSession",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.revokeAllSessions",
+      "binding": "arcforges.publicapi.v1.IdentityService/RevokeAllSessions",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.listAuthIdentities",
+      "binding": "arcforges.publicapi.v1.IdentityService/ListAuthIdentities",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.removeAuthIdentity",
+      "binding": "arcforges.publicapi.v1.IdentityService/RemoveAuthIdentity",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.beginStepUp",
+      "binding": "arcforges.publicapi.v1.IdentityService/BeginStepUp",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.completeStepUp",
+      "binding": "arcforges.publicapi.v1.IdentityService/CompleteStepUp",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.beginRecovery",
+      "binding": "arcforges.publicapi.v1.IdentityService/BeginRecovery",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.completeRecovery",
+      "binding": "arcforges.publicapi.v1.IdentityService/CompleteRecovery",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.requestAccountDeletion",
+      "binding": "arcforges.publicapi.v1.IdentityService/RequestAccountDeletion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R4",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.cancelAccountDeletion",
+      "binding": "arcforges.publicapi.v1.IdentityService/CancelAccountDeletion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#1-identity-and-session",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.getProfile",
+      "binding": "arcforges.publicapi.v1.IdentityService/GetProfile",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.updateProfile",
+      "binding": "arcforges.publicapi.v1.IdentityService/UpdateProfile",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.listAuthProviders",
+      "binding": "arcforges.publicapi.v1.IdentityService/ListAuthProviders",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.beginEmailChange",
+      "binding": "arcforges.publicapi.v1.IdentityService/BeginEmailChange",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.completeEmailChange",
+      "binding": "arcforges.publicapi.v1.IdentityService/CompleteEmailChange",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.renameAuthIdentity",
+      "binding": "arcforges.publicapi.v1.IdentityService/RenameAuthIdentity",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.generateRecoveryCodes",
+      "binding": "arcforges.publicapi.v1.IdentityService/GenerateRecoveryCodes",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.listSessions",
+      "binding": "arcforges.publicapi.v1.IdentityService/ListSessions",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.listApiTokens",
+      "binding": "arcforges.publicapi.v1.IdentityService/ListApiTokens",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.createApiToken",
+      "binding": "arcforges.publicapi.v1.IdentityService/CreateApiToken",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.revokeApiToken",
+      "binding": "arcforges.publicapi.v1.IdentityService/RevokeApiToken",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.listSecurityActivity",
+      "binding": "arcforges.publicapi.v1.IdentityService/ListSecurityActivity",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.getAccountDeletion",
+      "binding": "arcforges.publicapi.v1.IdentityService/GetAccountDeletion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.changePassword",
+      "binding": "arcforges.publicapi.v1.IdentityService/ChangePassword",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "identity.completeEnrollment",
+      "binding": "arcforges.publicapi.v1.IdentityService/CompleteEnrollment",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "one-use-auth",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#p2-010-supporting-operation-classifications",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "preauth"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.getHealth",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/GetHealth",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.requestDataDeletion",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/RequestDataDeletion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R4",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.previewDataDeletion",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/PreviewDataDeletion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.getDataDeletion",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/GetDataDeletion",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.list",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.get",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/Get",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": true,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "workspace.updateSettings",
+      "binding": "arcforges.publicapi.v1.WorkspaceService/UpdateSettings",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "account",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.signOut",
+      "binding": "arcforges.publicapi.v1.DeviceService/SignOut",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.getRemotePolicy",
+      "binding": "arcforges.publicapi.v1.DeviceService/GetRemotePolicy",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.setRemotePolicy",
+      "binding": "arcforges.publicapi.v1.DeviceService/SetRemotePolicy",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#account-operation-semantics",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.register",
+      "binding": "arcforges.publicapi.v1.DeviceService/Register",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.list",
+      "binding": "arcforges.publicapi.v1.DeviceService/List",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.rename",
+      "binding": "arcforges.publicapi.v1.DeviceService/Rename",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.setTrust",
+      "binding": "arcforges.publicapi.v1.DeviceService/SetTrust",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.setRemoteEnabled",
+      "binding": "arcforges.publicapi.v1.DeviceService/SetRemoteEnabled",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "IW",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.revoke",
+      "binding": "arcforges.publicapi.v1.DeviceService/Revoke",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/01-public-api-operations.md#2-workspace-and-device",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "none",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    },
+    {
+      "operationId": "device.getCapabilities",
+      "binding": "arcforges.publicapi.v1.DeviceService/GetCapabilities",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "scope": "application-target",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#p2-010-supporting-operation-classifications",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": [
+          "human"
+        ]
+      }
+    }
+  ]
+}
