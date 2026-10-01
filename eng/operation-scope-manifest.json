@@ -3,9 +3,9 @@
   "license": "Apache-2.0",
   "oracle": {
     "repository": "ArcForges/ArcForges-Design",
-    "commit": "03beccf70dcd4c26434a480fbb729c81ea6d57f7",
+    "commit": "8f71424337ebb5d802e22f4813f4394235aa9a87",
     "path": "docs/architecture/contracts/11-operation-scope-manifest.md",
-    "sha256": "c3a1091a46afa0375c9543ed54a6e78e75e28ddd5abff4f0cf1fcf9d35a6e663"
+    "sha256": "53e6992b89e9a13cca3528ffedbe79519499a289b59884811149dd30b6f73462"
   },
   "idempotencyExamples": [
     "IScopeOperations.StartCapture",
@@ -460,8 +460,44 @@
       "scope": "assistant"
     },
     {
+      "operationId": "cf.ai.control",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.delete",
+      "scope": "account"
+    },
+    {
+      "operationId": "cf.ai.dispatch",
+      "scope": "assistant"
+    },
+    {
       "operationId": "cf.ai.finalize",
       "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.inference-input",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.ai.inference-job",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.ai.inference-late-outcome",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.ai.inference-lease",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.ai.inference-outcome",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.ai.inference-state",
+      "scope": "resource-owner"
     },
     {
       "operationId": "cf.ai.late-outcome",
@@ -498,6 +534,38 @@
     {
       "operationId": "cf.ai.wait",
       "scope": "assistant"
+    },
+    {
+      "operationId": "cf.ai.web-search",
+      "scope": "assistant"
+    },
+    {
+      "operationId": "cf.objects.authorize",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.objects.job-authorize",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.objects.job-grant",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.objects.job-read",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.objects.job-write",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.objects.part-receipt",
+      "scope": "resource-owner"
+    },
+    {
+      "operationId": "cf.objects.verification",
+      "scope": "resource-owner"
     },
     {
       "operationId": "chat.appendMessage",

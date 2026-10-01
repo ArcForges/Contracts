@@ -3666,3 +3666,26 @@ regexes = [
   '''(?s)^\s*"src/public/kotlin/contracts\-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SupportServiceDecideAccessResponseKt\.kt":\s*"2c6f9b0262aea6793e790eb5436ba80f331028553530a6b694ce72f4300f458e",?\s*$''',
   '''(?s)^\s*"src/public/kotlin/contracts\-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/SupportServiceDecideAccessValueKt\.kt":\s*"e6ea85f1203ebdac647dbb04ae0e12e3340a48ae048ffb9e6c97b9d1479fa158",?\s*$''',
 ]
+
+[[allowlists]]
+description = "CON.15 reviewed dependency policy public input digest"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency\-policy\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"a3487a2842c117ef2be76807dce4550cc10927d099fadcce201cae76b08cc69e",?\s*$''',
+]
+
+[[allowlists]]
+description = "CON.15 reviewed immutable dependency receipt public input digests"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency\-reviews/con\-15\-r1\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"a3487a2842c117ef2be76807dce4550cc10927d099fadcce201cae76b08cc69e",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]

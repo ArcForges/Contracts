@@ -90,19 +90,90 @@ def compile_bundle_roots(schema: dict, namespace: str) -> tuple[list[dict], list
 
 
 def bundle_external_models(index: int, compiler: "JsonShapes", owners: dict[str, int]) -> set[str]:
-    return {name for name in compiler.collect_models() if owners[name] != index}
+    # A model with no owner in this bundle is an already generated canonical model.
+    return {name for name in compiler.collect_models() if owners.get(name) != index}
 
 
-def bundle_type_imports(index: int, compilers: list["JsonShapes"], owners: dict[str, int]) -> str:
+def bundle_type_imports(index: int, compilers: list["JsonShapes"], owners: dict[str, int],
+                        canonical_owners: dict[str, str] | None = None) -> str:
+    canonical_owners = canonical_owners or {}
     imports: dict[int, list[str]] = {}
+    canonical_imports: dict[str, list[str]] = {}
     for name in compilers[index].collect_models():
-        owner = owners[name]
-        if owner != index:
-            imports.setdefault(owner, []).append(name)
-    return "".join(
-        f'import type {{ {", ".join(sorted(names))} }} from "./{compilers[owner].title}.js";\n'
-        for owner, names in sorted(imports.items())
-    )
+        if name not in owners:
+            canonical_imports.setdefault(canonical_owners[name], []).append(name)
+        elif owners[name] != index:
+            imports.setdefault(owners[name], []).append(name)
+    lines = [f'import type {{ {", ".join(sorted(names))} }} from "./{title}.js";\n'
+             for title, names in sorted(canonical_imports.items())]
+    lines += [f'import type {{ {", ".join(sorted(names))} }} from "./{compilers[owner].title}.js";\n'
+              for owner, names in sorted(imports.items())]
+    return "".join(lines)
+
+
+# CON.15 may bind exactly these direct CON.10 definitions from the pinned ai-http document; every other
+# external reference, direct external definition or document fails closed.
+CANONICAL_HTTP_SOURCE = "internal/ai-http/v1/schema.json"
+CANONICAL_HTTP_PREFIX = "../../ai-http/v1/schema.json#/$defs/"
+CON15_CANONICAL_REFERENCES = frozenset({"ArcError", "ByteRange", "ExecutionOwner", "ModelUsage", "ResourceRef",
+                                         "ResourceVersionRef", "SessionBinding"})
+
+
+def bind_canonical_references(authored: dict, canonical: dict, allowed: frozenset[str]) -> tuple[dict, set[str]]:
+    """Resolve only allowlisted direct canonical references and their local closure in the same document."""
+    bound = json.loads(json.dumps(authored))
+    local = bound.setdefault("$defs", {})
+    canonical_defs = canonical.get("$defs", {})
+    direct: set[str] = set()
+
+    def local_names(node: object) -> set[str]:
+        found: set[str] = set()
+        if isinstance(node, dict):
+            target = node.get("$ref")
+            if isinstance(target, str):
+                if not target.startswith("#/$defs/") or "/" in target.removeprefix("#/$defs/"):
+                    raise ValueError(f"Canonical definition has a non-local reference: {target}")
+                found.add(target.removeprefix("#/$defs/"))
+            for value in node.values():
+                found |= local_names(value)
+        elif isinstance(node, list):
+            for value in node:
+                found |= local_names(value)
+        return found
+
+    def rewrite(node: object) -> None:
+        if isinstance(node, dict):
+            target = node.get("$ref")
+            if isinstance(target, str) and not target.startswith("#/$defs/"):
+                if not target.startswith(CANONICAL_HTTP_PREFIX):
+                    raise ValueError(f"Unlisted external schema reference: {target}")
+                name = target.removeprefix(CANONICAL_HTTP_PREFIX)
+                if name not in allowed or name not in canonical_defs or "/" in name:
+                    raise ValueError(f"Unlisted canonical schema definition: {target}")
+                direct.add(name)
+                node["$ref"] = "#/$defs/" + name
+            for value in node.values():
+                rewrite(value)
+        elif isinstance(node, list):
+            for value in node:
+                rewrite(value)
+
+    rewrite(bound)
+    closure: set[str] = set()
+    pending = sorted(direct)
+    while pending:
+        name = pending.pop()
+        if name in closure:
+            continue
+        if name not in canonical_defs:
+            raise ValueError(f"Canonical closure names a missing definition: {name}")
+        closure.add(name)
+        pending.extend(local_names(canonical_defs[name]) - closure)
+    for name in sorted(closure):
+        if name in local:
+            raise ValueError(f"Authored definition collides with canonical definition: {name}")
+        local[name] = json.loads(json.dumps(canonical_defs[name]))
+    return bound, closure
 
 
 def string_map(node: dict) -> bool:
@@ -956,7 +1027,12 @@ def generate(check: bool = False) -> None:
         ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/ts/api-client"),
         ("public/http/v1/signed-formats.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.SignedFormats", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
+        ("internal/cf-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
+        ("internal/storage-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Storage.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
     ]
+    canonical_allowlists = {"internal/cf-http/v1/schema.json": CON15_CANONICAL_REFERENCES}
+    canonical_http = json.loads((ROOT / CANONICAL_HTTP_SOURCE).read_text(encoding="utf-8"))
+    canonical_compiled = compile_bundle_roots(canonical_http, "ArcForges.Contracts.CloudInternal.Http.V1")
     tsoutputs: dict[str, list[str]] = {}
     tsnames: dict[str, list[str]] = {}
     cs_symbols: dict[str, set[str]] = {}
@@ -964,10 +1040,28 @@ def generate(check: bool = False) -> None:
     planned: list[tuple[str, str, str, str, str]] = []
     for source, namespace, csroot, tsroot in mappings:
         authored = json.loads((ROOT / source).read_text(encoding="utf-8"))
+        canonical_owners: dict[str, str] = {}
+        allowed_references = canonical_allowlists.get(source, frozenset())
+        # Every non-local reference is refused unless this source is explicitly allowlisted.
+        authored, canonical_names = bind_canonical_references(authored, canonical_http, allowed_references)
         is_bundle = "oneOf" in authored
         if is_bundle:
             schemas, compilers, owners = compile_bundle_roots(authored, namespace)
+            if canonical_names:
+                canonical_roots, canonical_compilers, canonical_model_owners = canonical_compiled
+                for name in sorted(canonical_names):
+                    if name not in canonical_model_owners:
+                        raise ValueError(f"Canonical definition is not a generated model: {name}")
+                    owner = canonical_model_owners[name]
+                    expected = canonical_compilers[owner].canonical_schema(canonical_compilers[owner].models[name])
+                    actual = compilers[owners[name]].canonical_schema(compilers[owners[name]].models[name])
+                    if expected != actual:
+                        raise ValueError(f"Canonical model {name} differs from its CON.10 generated identity")
+                    canonical_owners[name] = canonical_roots[owner]["title"]
+                    del owners[name]
         else:
+            if canonical_names:
+                raise ValueError("Canonical references require a root bundle")
             schemas = schema_roots(authored)
             compilers = [JsonShapes(schema, namespace) for schema in schemas]
             owners = {}
@@ -975,7 +1069,7 @@ def generate(check: bool = False) -> None:
             external = bundle_external_models(index, compiler, owners) if is_bundle else set()
             generated_cs, generated_validator, generated_ts = compiler.generate(external)
             if is_bundle:
-                imports = bundle_type_imports(index, compilers, owners)
+                imports = bundle_type_imports(index, compilers, owners, canonical_owners)
                 if imports:
                     generated_ts = generated_ts.replace(HEADER, HEADER + imports, 1)
             generated_model_names = compiler.model_names - external

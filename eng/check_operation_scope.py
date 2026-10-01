@@ -53,6 +53,33 @@ CF_SERVICE_OPERATIONS = {
     "cf.ai.stream-state": ("assistant", "stream-state", "IW"),
     "cf.ai.late-outcome": ("assistant", "late-outcome", "IW"),
 }
+# CON.15's 17 private Cloudflare routes are exact literal tuples from the pinned manifest11 route table:
+# (scope, method and path, idempotency, authored source, source rule). There is no route template, and
+# the public session-ticket GET/PUT object routes are deliberately not cf-service operations.
+CON15_CF_SOURCE = "internal/cf-http/v1/schema.json"
+CON15_RULE_PORTS = "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports"
+CON15_RULE_OBJECTS = "docs/architecture/contracts/05-cloudflare-integration.md#9-job-authorized-objects-control-inventory-and-resource-budgets"
+CON15_RULE_WEB_SEARCH = "docs/architecture/contracts/05-cloudflare-integration.md#execution-owner-and-web-search-additions"
+CON15_RULE_INFERENCE = "docs/architecture/contracts/05-cloudflare-integration.md#8-session-bindings-inference-jobs-and-deployment-transitions"
+CON15_CF_SERVICE_OPERATIONS = {
+    "cf.objects.authorize": ("resource-owner", "POST /internal/objects/v1/authorize", "Q", CON15_CF_SOURCE, CON15_RULE_PORTS),
+    "cf.objects.part-receipt": ("resource-owner", "POST /internal/objects/v1/part-receipt", "IW", CON15_CF_SOURCE, CON15_RULE_PORTS),
+    "cf.objects.verification": ("resource-owner", "POST /internal/objects/v1/verification", "IW", CON15_CF_SOURCE, CON15_RULE_PORTS),
+    "cf.objects.job-grant": ("resource-owner", "POST /internal/objects/v1/job-grant", "IW", CON15_CF_SOURCE, CON15_RULE_OBJECTS),
+    "cf.objects.job-authorize": ("resource-owner", "POST /internal/objects/v1/job-authorize", "Q", CON15_CF_SOURCE, CON15_RULE_OBJECTS),
+    "cf.objects.job-read": ("resource-owner", "GET /internal/objects/v1/jobs/{grantId}", "Q", CON15_CF_SOURCE, CON15_RULE_OBJECTS),
+    "cf.objects.job-write": ("resource-owner", "PUT /internal/objects/v1/jobs/{grantId}", "IW", CON15_CF_SOURCE, CON15_RULE_OBJECTS),
+    "cf.ai.dispatch": ("assistant", "POST /internal/ai/v1/dispatch", "IW", CON15_CF_SOURCE, CON15_RULE_PORTS),
+    "cf.ai.control": ("assistant", "POST /internal/ai/v1/control", "IW", CON15_CF_SOURCE, CON15_RULE_PORTS),
+    "cf.ai.delete": ("account", "POST /internal/ai/v1/delete", "IW", CON15_CF_SOURCE, CON15_RULE_PORTS),
+    "cf.ai.web-search": ("assistant", "POST /internal/ai/v1/web-search", "IW", CON15_CF_SOURCE, CON15_RULE_WEB_SEARCH),
+    "cf.ai.inference-job": ("resource-owner", "POST /internal/ai/v1/inference-job", "IW", CON15_CF_SOURCE, CON15_RULE_INFERENCE),
+    "cf.ai.inference-lease": ("resource-owner", "POST /internal/ai/v1/inference-lease", "IW", CON15_CF_SOURCE, CON15_RULE_INFERENCE),
+    "cf.ai.inference-input": ("resource-owner", "POST /internal/ai/v1/inference-input", "Q", CON15_CF_SOURCE, CON15_RULE_INFERENCE),
+    "cf.ai.inference-outcome": ("resource-owner", "POST /internal/ai/v1/inference-outcome", "IW", CON15_CF_SOURCE, CON15_RULE_INFERENCE),
+    "cf.ai.inference-late-outcome": ("resource-owner", "POST /internal/ai/v1/inference-late-outcome", "IW", CON15_CF_SOURCE, CON15_RULE_INFERENCE),
+    "cf.ai.inference-state": ("resource-owner", "POST /internal/ai/v1/inference-state", "Q", CON15_CF_SOURCE, CON15_RULE_INFERENCE),
+}
 TASK_CREATE_BINDING = "arcforges.publicapi.v1.TaskService/Create"
 TASK_CREATE_SOURCE = "public/proto/arcforges/publicapi/v1/chat.proto"
 TASK_CREATE_SOURCE_RULE = "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work"
@@ -336,17 +363,22 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
                 f"{operation}: wrong operator identity")
     if row["surface"] == "cf-internal":
         require(actors == ["service"] and auth["capability"] is None, f"{operation}: wrong CF service identity")
-    if operation in CF_SERVICE_OPERATIONS or row["profile"] == "cf-service":
-        require(operation in CF_SERVICE_OPERATIONS, f"{operation}: unregistered CF service operation")
-        scope, route, idempotency = CF_SERVICE_OPERATIONS[operation]
+    if operation in CF_SERVICE_OPERATIONS or operation in CON15_CF_SERVICE_OPERATIONS or row["profile"] == "cf-service":
+        require(operation in CF_SERVICE_OPERATIONS or operation in CON15_CF_SERVICE_OPERATIONS,
+                f"{operation}: unregistered CF service operation")
         expected = {"capability": None, "risk": "R1", "approval": "none", "stepUp": False,
                     "localPresence": False, "egress": "none", "patEligible": False,
                     "actorKinds": ["service"]}
+        if operation in CF_SERVICE_OPERATIONS:
+            scope, route, idempotency = CF_SERVICE_OPERATIONS[operation]
+            binding, source, source_rule = (f"POST /internal/ai/v1/{route}", "internal/ai-http/v1/schema.json",
+                                            "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports")
+        else:
+            scope, binding, idempotency, source, source_rule = CON15_CF_SERVICE_OPERATIONS[operation]
         require(row["kind"] == "http" and row["scope"] == scope and
                 row["surface"] == "cf-internal" and row["profile"] == "cf-service" and
-                row["binding"] == f"POST /internal/ai/v1/{route}" and
-                row["source"] == "internal/ai-http/v1/schema.json" and
-                row["sourceRule"] == "docs/architecture/contracts/05-cloudflare-integration.md#3-exact-internal-ports" and
+                row["binding"] == binding and row["source"] == source and
+                row["sourceRule"] == source_rule and
                 row["idempotency"] == idempotency and auth == expected,
                 f"{operation}: exact CF HMAC transport binding mismatch")
     if operation == "task.create" or auth["risk"] == "R2+":

@@ -1,0 +1,2240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "con-15-cf-internal.v1",
+  "license": "Apache-2.0",
+  "authority": [
+    "contracts05 sections 3, 8, 9 and the Execution-owner and Web-search additions",
+    "registry04 section 1 aliases and WebSearch records",
+    "manifest11 route tuples for the 17 CON.15 private routes"
+  ],
+  "evidenceClass": "offline contract vectors only; no Worker, Cloudflare, R2, provider, authorization or live-service proof",
+  "bindingValidationBoundary": "offline contract oracles only; HMAC, nonce, realm, path-to-grant and method-to-direction enforcement are required of the future handlers but no handler is present or proven here",
+  "transport": {
+    "serviceAuthenticated": true,
+    "userBearerOrPatForwarding": false,
+    "publicRouteAdmission": false,
+    "networkAccess": "none"
+  },
+  "positiveVectors": [
+    {
+      "id": "objects-authorize-credential",
+      "schema": "ObjectAuthorizeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "credential": "fixture-credential-not-a-secret",
+        "origin": "https://app.example.test",
+        "ticketId": "000000d1-1234-4234-8234-123456789abc",
+        "verb": "read",
+        "range": {
+          "offset": "0",
+          "length": "8388608"
+        },
+        "length": "8388608"
+      }
+    },
+    {
+      "id": "objects-authorize-session-binding",
+      "schema": "ObjectAuthorizeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "sessionBinding": {
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "userId": "000000c3-1234-4234-8234-123456789abc",
+          "sessionId": "000000c4-1234-4234-8234-123456789abc",
+          "authEpoch": "4",
+          "recoveryGeneration": "9",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "bindingMac": "AQ=="
+        },
+        "ticketId": "000000d1-1234-4234-8234-123456789abc",
+        "verb": "write",
+        "partNumber": 3,
+        "length": "8388608"
+      }
+    },
+    {
+      "id": "objects-authorize-result",
+      "schema": "ObjectAuthorizeResponse",
+      "input": {
+        "objectKey": "realm/000000c2-1234-4234-8234-123456789abc/workspace/000000c1-1234-4234-8234-123456789abc/attachment/000000e1-1234-4234-8234-123456789abc/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "binding": "objects",
+        "allowedRange": {
+          "offset": "0",
+          "length": "8388608"
+        },
+        "expiresAt": "2026-09-29T20:00:00Z",
+        "expectedHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "id": "part-receipt-request",
+      "schema": "ObjectPartReceiptRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "uploadId": "000000d2-1234-4234-8234-123456789abc",
+        "part": {
+          "partNumber": 1,
+          "size": "8388608",
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "etag": "r2-etag-1"
+        }
+      }
+    },
+    {
+      "id": "part-receipt-result",
+      "schema": "ObjectPartReceiptResponse",
+      "input": {
+        "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    },
+    {
+      "id": "verification-request",
+      "schema": "ObjectVerificationRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "uploadId": "000000d2-1234-4234-8234-123456789abc",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "size": "8388608",
+        "mediaType": "application/octet-stream",
+        "verificationState": "verified"
+      }
+    },
+    {
+      "id": "verification-result-reuses-resource-ref",
+      "schema": "ObjectVerificationResponse",
+      "input": {
+        "resource": {
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerAppId": "ArcForges.Cloud.Search",
+          "resourceKind": "search.source",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "availability": "cloudOnly"
+        },
+        "provisionalPin": "000000e5-1234-4234-8234-123456789abc",
+        "expiresAt": "2026-09-29T20:00:00Z"
+      }
+    },
+    {
+      "id": "job-grant-read",
+      "schema": "ObjectJobGrantRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "ownerKind": "search",
+        "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "epoch": "7",
+        "recoveryGeneration": "11",
+        "direction": "read",
+        "resource": {
+          "resource": {
+            "realmId": "000000c2-1234-4234-8234-123456789abc",
+            "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+            "ownerAppId": "ArcForges.Cloud.Search",
+            "resourceKind": "search.source",
+            "resourceId": "000000e1-1234-4234-8234-123456789abc",
+            "availability": "cloudOnly"
+          },
+          "cloud": "3",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "declaredBytes": "8388608",
+        "expectedHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    {
+      "id": "job-grant-write",
+      "schema": "ObjectJobGrantRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "ownerKind": "task",
+        "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "epoch": "4",
+        "recoveryGeneration": "11",
+        "direction": "write",
+        "purpose": "aiOutput",
+        "declaredBytes": "8388608",
+        "expectedHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "job-grant-read-result",
+      "schema": "ObjectJobGrantResponse",
+      "input": {
+        "grant": {
+          "grantId": "000000d3-1234-4234-8234-123456789abc",
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerKind": "search",
+          "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+          "attemptId": "000000b2-1234-4234-8234-123456789abc",
+          "epoch": "7",
+          "recoveryGeneration": "11",
+          "direction": "read",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "byteLimit": "8388608",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "mac": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA"
+        }
+      }
+    },
+    {
+      "id": "job-grant-write-result-is-provisional",
+      "schema": "ObjectJobGrantResponse",
+      "input": {
+        "grant": {
+          "grantId": "000000d4-1234-4234-8234-123456789abc",
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerKind": "task",
+          "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+          "attemptId": "000000b2-1234-4234-8234-123456789abc",
+          "epoch": "7",
+          "recoveryGeneration": "11",
+          "direction": "write",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "byteLimit": "8388608",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "mac": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "uploadId": "000000d2-1234-4234-8234-123456789abc"
+        },
+        "uploadId": "000000d2-1234-4234-8234-123456789abc",
+        "provisionalResource": {
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerAppId": "ArcForges.Cloud.Search",
+          "resourceKind": "search.source",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "availability": "cloudOnly"
+        },
+        "storageHoldId": "000000e4-1234-4234-8234-123456789abc"
+      }
+    },
+    {
+      "id": "job-authorize-put-part",
+      "schema": "ObjectJobAuthorizeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "grant": {
+          "grantId": "000000d4-1234-4234-8234-123456789abc",
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerKind": "task",
+          "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+          "attemptId": "000000b2-1234-4234-8234-123456789abc",
+          "epoch": "7",
+          "recoveryGeneration": "11",
+          "direction": "write",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "byteLimit": "8388608",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "mac": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "uploadId": "000000d2-1234-4234-8234-123456789abc"
+        },
+        "verb": "PUT",
+        "partNumber": 1,
+        "length": "8388608"
+      }
+    },
+    {
+      "id": "job-authorize-get-range",
+      "schema": "ObjectJobAuthorizeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "grant": {
+          "grantId": "000000d3-1234-4234-8234-123456789abc",
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerKind": "search",
+          "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+          "attemptId": "000000b2-1234-4234-8234-123456789abc",
+          "epoch": "7",
+          "recoveryGeneration": "11",
+          "direction": "read",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "byteLimit": "8388608",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "mac": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA"
+        },
+        "verb": "GET",
+        "range": {
+          "offset": "0",
+          "length": "8388608"
+        },
+        "length": "8388608"
+      }
+    },
+    {
+      "id": "job-authorize-result",
+      "schema": "ObjectJobAuthorizeResponse",
+      "input": {
+        "objectKey": "realm/000000c2-1234-4234-8234-123456789abc/workspace/000000c1-1234-4234-8234-123456789abc/ai/000000e1-1234-4234-8234-123456789abc/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "binding": "staging",
+        "allowedRange": {
+          "offset": "0",
+          "length": "8388608"
+        },
+        "allowedPartNumber": 1,
+        "expiresAt": "2026-09-29T20:00:00Z",
+        "expectedHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "worker-object-get",
+      "schema": "WorkerObjectJobRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "grantId": "000000d3-1234-4234-8234-123456789abc",
+        "grant": {
+          "grantId": "000000d3-1234-4234-8234-123456789abc",
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerKind": "search",
+          "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+          "attemptId": "000000b2-1234-4234-8234-123456789abc",
+          "epoch": "7",
+          "recoveryGeneration": "11",
+          "direction": "read",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "byteLimit": "8388608",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "mac": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA"
+        },
+        "method": "GET",
+        "range": {
+          "offset": "0",
+          "length": "8388608"
+        }
+      }
+    },
+    {
+      "id": "worker-object-put",
+      "schema": "WorkerObjectJobRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "grantId": "000000d4-1234-4234-8234-123456789abc",
+        "grant": {
+          "grantId": "000000d4-1234-4234-8234-123456789abc",
+          "realmId": "000000c2-1234-4234-8234-123456789abc",
+          "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+          "ownerKind": "task",
+          "ownerJobId": "000000b3-1234-4234-8234-123456789abc",
+          "attemptId": "000000b2-1234-4234-8234-123456789abc",
+          "epoch": "7",
+          "recoveryGeneration": "11",
+          "direction": "write",
+          "resourceId": "000000e1-1234-4234-8234-123456789abc",
+          "byteLimit": "8388608",
+          "expiresAt": "2026-09-29T20:00:00Z",
+          "mac": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+          "uploadId": "000000d2-1234-4234-8234-123456789abc"
+        },
+        "method": "PUT",
+        "partNumber": 1,
+        "declaredLength": 8388608,
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "worker-object-read-metadata",
+      "schema": "WorkerObjectJobResponse",
+      "input": {
+        "grantId": "000000d3-1234-4234-8234-123456789abc",
+        "length": 8388608,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "range": {
+          "offset": "0",
+          "length": "8388608"
+        }
+      }
+    },
+    {
+      "id": "worker-object-write-receipt",
+      "schema": "WorkerObjectJobResponse",
+      "input": {
+        "grantId": "000000d4-1234-4234-8234-123456789abc",
+        "partReceipt": {
+          "partNumber": 1,
+          "size": "8388608",
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "etag": "r2-etag-1"
+        }
+      }
+    },
+    {
+      "id": "worker-dispatch",
+      "schema": "WorkerDispatchRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "runId": "000000b1-1234-4234-8234-123456789abc",
+        "requiredWorkerVersion": "worker-v3",
+        "recoveryGeneration": "8",
+        "outboxId": "000000e2-1234-4234-8234-123456789abc"
+      }
+    },
+    {
+      "id": "worker-dispatch-result",
+      "schema": "WorkerDispatchResponse",
+      "input": {
+        "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8",
+        "accepted": true
+      }
+    },
+    {
+      "id": "worker-control",
+      "schema": "WorkerControlRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "runId": "000000b1-1234-4234-8234-123456789abc",
+        "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8",
+        "workerVersion": "worker-v3",
+        "recoveryGeneration": "8",
+        "controlRevision": "12",
+        "kind": "cancel"
+      }
+    },
+    {
+      "id": "worker-control-result",
+      "schema": "WorkerControlResponse",
+      "input": {
+        "accepted": true,
+        "targetWorkflowId": "af-000000b1-1234-4234-8234-123456789abc-8"
+      }
+    },
+    {
+      "id": "worker-delete-page",
+      "schema": "WorkerDeleteRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+        "deletionId": "000000e3-1234-4234-8234-123456789abc",
+        "recoveryGeneration": "8",
+        "targets": [
+          {
+            "kind": "runWorkflow",
+            "instanceId": "af-000000b1-1234-4234-8234-123456789abc-8",
+            "workerVersion": "worker-v3",
+            "recoveryGeneration": "8"
+          },
+          {
+            "kind": "streamDO",
+            "instanceId": "stream-000000b1-1234-4234-8234-123456789abc",
+            "workerVersion": "worker-v3",
+            "recoveryGeneration": "8"
+          }
+        ],
+        "inventoryHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "page": 0
+      }
+    },
+    {
+      "id": "worker-delete-result",
+      "schema": "WorkerDeleteResponse",
+      "input": {
+        "receipts": [
+          {
+            "target": {
+              "kind": "runWorkflow",
+              "instanceId": "af-000000b1-1234-4234-8234-123456789abc-8",
+              "workerVersion": "worker-v3",
+              "recoveryGeneration": "8"
+            },
+            "state": "purged",
+            "receipt": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "web-search-request",
+      "schema": "WorkerWebSearchRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "runId": "000000b1-1234-4234-8234-123456789abc",
+        "owner": {
+          "taskId": "000000e6-1234-4234-8234-123456789abc"
+        },
+        "epoch": "5",
+        "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8",
+        "workerVersion": "worker-v3",
+        "recoveryGeneration": "8",
+        "toolRequestId": "000000e7-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "commandId": "000000e8-1234-4234-8234-123456789abc",
+        "search": {
+          "query": "arcforges contracts",
+          "count": 5,
+          "language": "en",
+          "country": "US"
+        }
+      }
+    },
+    {
+      "id": "web-search-success",
+      "schema": "WorkerWebSearchResponse",
+      "input": {
+        "result": {
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "hits": [
+            {
+              "rank": 1,
+              "title": "Example",
+              "url": "https://example.test/a",
+              "snippet": "A bounded snippet.",
+              "fetchedAt": "2026-09-29T20:00:00Z",
+              "provider": "braveWebV1"
+            }
+          ],
+          "providerRequestId": "brave-req-1",
+          "completedAt": "2026-09-29T20:00:00Z"
+        }
+      }
+    },
+    {
+      "id": "web-search-failure-reuses-arc-error",
+      "schema": "WorkerWebSearchResponse",
+      "input": {
+        "error": {
+          "code": "web.search.unavailable",
+          "category": "resource",
+          "messageKey": "web.search.unavailable",
+          "retry": {
+            "mode": "afterTime",
+            "retryAt": "2026-09-29T20:00:00Z"
+          },
+          "effect": "didNotHappen",
+          "correlationId": "000000a2-1234-4234-8234-123456789abc"
+        }
+      }
+    },
+    {
+      "id": "inference-job-embedding",
+      "schema": "InferenceJobRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "kind": "embedding",
+        "modelId": "@cf/baai/bge-m3",
+        "configVersion": "config-17",
+        "sourceManifest": {
+          "resource": {
+            "realmId": "000000c2-1234-4234-8234-123456789abc",
+            "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+            "ownerAppId": "ArcForges.Cloud.Search",
+            "resourceKind": "search.source",
+            "resourceId": "000000e1-1234-4234-8234-123456789abc",
+            "availability": "cloudOnly"
+          },
+          "cloud": "3",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "deadline": "2026-09-29T20:00:00Z",
+        "recoveryGeneration": "8"
+      }
+    },
+    {
+      "id": "inference-job-result",
+      "schema": "InferenceJobResponse",
+      "input": {
+        "accepted": true,
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "workflowId": "afi-000000b3-1234-4234-8234-123456789abc-8"
+      }
+    },
+    {
+      "id": "inference-lease-first-claim",
+      "schema": "InferenceLeaseRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "workflowId": "afi-000000b3-1234-4234-8234-123456789abc-8",
+        "recoveryGeneration": "8"
+      }
+    },
+    {
+      "id": "inference-lease-renewal",
+      "schema": "InferenceLeaseRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "workflowId": "afi-000000b3-1234-4234-8234-123456789abc-8",
+        "recoveryGeneration": "8",
+        "expectedEpoch": "3"
+      }
+    },
+    {
+      "id": "inference-lease-result",
+      "schema": "InferenceLeaseResponse",
+      "input": {
+        "epoch": "3",
+        "leaseExpiresAt": "2026-09-29T20:00:00Z",
+        "deadline": "2026-09-29T20:02:00Z"
+      }
+    },
+    {
+      "id": "inference-input-request",
+      "schema": "InferenceInputRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "epoch": "3",
+        "recoveryGeneration": "8"
+      }
+    },
+    {
+      "id": "inference-input-embedding",
+      "schema": "InferenceInputResponse",
+      "input": {
+        "input": {
+          "items": [
+            {
+              "itemId": "000000f1-1234-4234-8234-123456789abc",
+              "text": "hello"
+            }
+          ],
+          "profile": "retrieval-default"
+        },
+        "sourcePins": [
+          {
+            "resource": {
+              "realmId": "000000c2-1234-4234-8234-123456789abc",
+              "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+              "ownerAppId": "ArcForges.Cloud.Search",
+              "resourceKind": "search.source",
+              "resourceId": "000000e1-1234-4234-8234-123456789abc",
+              "availability": "cloudOnly"
+            },
+            "cloud": "3",
+            "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inference-input-rerank",
+      "schema": "InferenceInputResponse",
+      "input": {
+        "input": {
+          "query": "needle",
+          "candidates": [
+            {
+              "itemId": "000000f1-1234-4234-8234-123456789abc",
+              "text": "one"
+            },
+            {
+              "itemId": "000000f2-1234-4234-8234-123456789abc",
+              "text": "two"
+            }
+          ],
+          "profile": "rerank-default"
+        },
+        "sourcePins": []
+      }
+    },
+    {
+      "id": "inference-outcome-complete-embedding",
+      "schema": "InferenceOutcomeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "epoch": "3",
+        "recoveryGeneration": "8",
+        "state": "complete",
+        "result": {
+          "modelId": "@cf/baai/bge-m3",
+          "profile": "retrieval-default",
+          "dimension": 1024,
+          "items": [
+            {
+              "itemId": "000000f1-1234-4234-8234-123456789abc",
+              "vector": [
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+                0.25, 0.25
+              ]
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": "128",
+          "outputTokens": "0",
+          "measuredAt": "2026-09-29T20:00:00Z",
+          "source": "workers-ai"
+        },
+        "supplierRequestId": "supplier-17"
+      }
+    },
+    {
+      "id": "inference-outcome-complete-rerank-without-usage",
+      "schema": "InferenceOutcomeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "epoch": "3",
+        "recoveryGeneration": "8",
+        "state": "complete",
+        "result": {
+          "modelId": "@cf/baai/bge-reranker-base",
+          "profile": "rerank-default",
+          "items": [
+            {
+              "itemId": "000000f1-1234-4234-8234-123456789abc",
+              "score": 0.5
+            },
+            {
+              "itemId": "000000f2-1234-4234-8234-123456789abc",
+              "score": -1.25
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "inference-outcome-interrupted-no-result",
+      "schema": "InferenceOutcomeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "epoch": "3",
+        "recoveryGeneration": "8",
+        "state": "interrupted"
+      }
+    },
+    {
+      "id": "inference-outcome-result",
+      "schema": "InferenceOutcomeResponse",
+      "input": {
+        "outcomeReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    },
+    {
+      "id": "inference-late-outcome",
+      "schema": "InferenceLateOutcomeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "epoch": "4",
+        "recoveryGeneration": "8",
+        "state": "unknown",
+        "usage": {
+          "inputTokens": "128",
+          "outputTokens": "0",
+          "measuredAt": "2026-09-29T20:00:00Z",
+          "source": "workers-ai"
+        },
+        "originalEpoch": "3",
+        "originalRecoveryGeneration": "8"
+      }
+    },
+    {
+      "id": "inference-late-outcome-complete",
+      "schema": "InferenceLateOutcomeRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "attemptId": "000000b2-1234-4234-8234-123456789abc",
+        "intentReceipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "epoch": "4",
+        "recoveryGeneration": "8",
+        "state": "complete",
+        "result": {
+          "modelId": "@cf/baai/bge-reranker-base",
+          "profile": "rerank-default",
+          "items": [
+            {
+              "itemId": "000000f1-1234-4234-8234-123456789abc",
+              "score": 0.5
+            },
+            {
+              "itemId": "000000f2-1234-4234-8234-123456789abc",
+              "score": -1.25
+            }
+          ]
+        },
+        "originalEpoch": "3",
+        "originalRecoveryGeneration": "8"
+      }
+    },
+    {
+      "id": "inference-late-outcome-result",
+      "schema": "InferenceLateOutcomeResponse",
+      "input": {
+        "outcomeReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    },
+    {
+      "id": "inference-state-request",
+      "schema": "InferenceStateRequest",
+      "input": {
+        "requestId": "000000a1-1234-4234-8234-123456789abc",
+        "correlationId": "000000a2-1234-4234-8234-123456789abc",
+        "jobId": "000000b3-1234-4234-8234-123456789abc",
+        "knownReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    },
+    {
+      "id": "inference-state-succeeded",
+      "schema": "InferenceStateResponse",
+      "input": {
+        "state": "succeeded",
+        "outcomeReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "result": {
+          "resource": {
+            "realmId": "000000c2-1234-4234-8234-123456789abc",
+            "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+            "ownerAppId": "ArcForges.Cloud.Search",
+            "resourceKind": "search.source",
+            "resourceId": "000000e1-1234-4234-8234-123456789abc",
+            "availability": "cloudOnly"
+          },
+          "cloud": "3",
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+    },
+    {
+      "id": "inference-state-failed",
+      "schema": "InferenceStateResponse",
+      "input": {
+        "state": "failed",
+        "outcomeReceipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "reason": "model.refused"
+      }
+    },
+    {
+      "id": "deletion-target",
+      "schema": "CfDeletionTarget",
+      "input": {
+        "kind": "runWorkflow",
+        "instanceId": "af-000000b1-1234-4234-8234-123456789abc-8",
+        "workerVersion": "worker-v3",
+        "recoveryGeneration": "8"
+      }
+    },
+    {
+      "id": "deletion-receipt",
+      "schema": "CfDeletionReceipt",
+      "input": {
+        "target": {
+          "kind": "runWorkflow",
+          "instanceId": "af-000000b1-1234-4234-8234-123456789abc-8",
+          "workerVersion": "worker-v3",
+          "recoveryGeneration": "8"
+        },
+        "state": "alreadyAbsent",
+        "receipt": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "id": "backup-manifest",
+      "schema": "BackupManifest",
+      "input": {
+        "backupId": "00000101-1234-4234-8234-123456789abc",
+        "realmId": "000000c2-1234-4234-8234-123456789abc",
+        "recoveryGeneration": "8",
+        "dbBaseId": "d1-export-0001",
+        "walStart": "100",
+        "walEnd": "250",
+        "publicationWatermark": "249",
+        "objectRefs": [
+          {
+            "id": "000000e1-1234-4234-8234-123456789abc",
+            "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "size": "1024",
+            "versionId": "v1"
+          }
+        ],
+        "workerVersion": "worker-v3",
+        "contractVersions": {
+          "@arcforges/ai-internal": "1.0.0-ci.0.0"
+        },
+        "configVersion": "config-17",
+        "createdAt": "2026-09-29T20:00:00Z",
+        "retainedUntil": "2026-10-29T20:00:00Z",
+        "signature": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA"
+      }
+    }
+  ],
+  "negativeVectors": [
+    {
+      "id": "authorize-rejects-credential-and-binding-together",
+      "schema": "ObjectAuthorizeRequest",
+      "base": "objects-authorize-credential",
+      "operations": [
+        {
+          "op": "set",
+          "path": "sessionBinding",
+          "value": {
+            "realmId": "000000c2-1234-4234-8234-123456789abc",
+            "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+            "userId": "000000c3-1234-4234-8234-123456789abc",
+            "sessionId": "000000c4-1234-4234-8234-123456789abc",
+            "authEpoch": "4",
+            "recoveryGeneration": "9",
+            "expiresAt": "2026-09-29T20:00:00Z",
+            "bindingMac": "AQ=="
+          }
+        }
+      ],
+      "reason": "Exactly one authorization input is representable."
+    },
+    {
+      "id": "authorize-requires-credential-or-binding",
+      "schema": "ObjectAuthorizeRequest",
+      "base": "objects-authorize-credential",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "credential"
+        }
+      ],
+      "reason": "An unauthenticated authorization request is refused."
+    },
+    {
+      "id": "authorize-rejects-zero-request-id",
+      "schema": "ObjectAuthorizeRequest",
+      "base": "objects-authorize-credential",
+      "operations": [
+        {
+          "op": "set",
+          "path": "requestId",
+          "value": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "reason": "IDs are nonzero canonical UUIDs."
+    },
+    {
+      "id": "authorize-rejects-oversized-credential",
+      "schema": "ObjectAuthorizeRequest",
+      "base": "objects-authorize-credential",
+      "operations": [
+        {
+          "op": "set",
+          "path": "credential",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      ],
+      "reason": "SecretText is bounded to 8192 bytes."
+    },
+    {
+      "id": "authorize-rejects-part-zero",
+      "schema": "ObjectAuthorizeRequest",
+      "base": "objects-authorize-session-binding",
+      "operations": [
+        {
+          "op": "set",
+          "path": "partNumber",
+          "value": 0
+        }
+      ],
+      "reason": "Part numbers are 1 through 10000."
+    },
+    {
+      "id": "authorize-rejects-customer-bearer-field",
+      "schema": "ObjectAuthorizeRequest",
+      "base": "objects-authorize-credential",
+      "operations": [
+        {
+          "op": "set",
+          "path": "bearer",
+          "value": "customer-token"
+        }
+      ],
+      "reason": "No ambient bearer or unlisted field is accepted."
+    },
+    {
+      "id": "part-receipt-rejects-short-part-hash",
+      "schema": "ObjectPartReceiptRequest",
+      "base": "part-receipt-request",
+      "operations": [
+        {
+          "op": "set",
+          "path": "part.sha256",
+          "value": "abc"
+        }
+      ],
+      "reason": "Part receipts carry an exact 64-hex SHA-256."
+    },
+    {
+      "id": "part-receipt-rejects-part-zero",
+      "schema": "ObjectPartReceiptRequest",
+      "base": "part-receipt-request",
+      "operations": [
+        {
+          "op": "set",
+          "path": "part.partNumber",
+          "value": 0
+        }
+      ],
+      "reason": "Part numbers start at one."
+    },
+    {
+      "id": "verification-rejects-uppercase-hash",
+      "schema": "ObjectVerificationRequest",
+      "base": "verification-request",
+      "operations": [
+        {
+          "op": "set",
+          "path": "sha256",
+          "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "reason": "Hashes are lowercase hex."
+    },
+    {
+      "id": "verification-requires-upload-identity",
+      "schema": "ObjectVerificationRequest",
+      "base": "verification-request",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "uploadId"
+        }
+      ],
+      "reason": "Verification names its upload session."
+    },
+    {
+      "id": "job-authorize-requires-length",
+      "schema": "ObjectJobAuthorizeRequest",
+      "base": "job-authorize-put-part",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "length"
+        }
+      ],
+      "reason": "job-authorize length is a required uint64."
+    },
+    {
+      "id": "job-authorize-rejects-delete-verb",
+      "schema": "ObjectJobAuthorizeRequest",
+      "base": "job-authorize-put-part",
+      "operations": [
+        {
+          "op": "set",
+          "path": "verb",
+          "value": "DELETE"
+        }
+      ],
+      "reason": "Only GET and PUT are job transfer verbs."
+    },
+    {
+      "id": "job-authorize-rejects-part-10001",
+      "schema": "ObjectJobAuthorizeRequest",
+      "base": "job-authorize-put-part",
+      "operations": [
+        {
+          "op": "set",
+          "path": "partNumber",
+          "value": 10001
+        }
+      ],
+      "reason": "Multipart parts are bounded to 10,000."
+    },
+    {
+      "id": "job-grant-read-rejects-write-purpose",
+      "schema": "ObjectJobGrantRequest",
+      "base": "job-grant-read",
+      "operations": [
+        {
+          "op": "set",
+          "path": "purpose",
+          "value": "aiOutput"
+        }
+      ],
+      "reason": "A grant is exactly read or exactly write."
+    },
+    {
+      "id": "job-grant-write-rejects-resource",
+      "schema": "ObjectJobGrantRequest",
+      "base": "job-grant-write",
+      "operations": [
+        {
+          "op": "set",
+          "path": "resource",
+          "value": {
+            "resource": {
+              "realmId": "000000c2-1234-4234-8234-123456789abc",
+              "workspaceId": "000000c1-1234-4234-8234-123456789abc",
+              "ownerAppId": "ArcForges.Cloud.Search",
+              "resourceKind": "search.source",
+              "resourceId": "000000e1-1234-4234-8234-123456789abc",
+              "availability": "cloudOnly"
+            },
+            "cloud": "3",
+            "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      ],
+      "reason": "A write grant requests a provisional output, never an existing resource."
+    },
+    {
+      "id": "job-grant-rejects-arbitrary-owner-kind",
+      "schema": "ObjectJobGrantRequest",
+      "base": "job-grant-read",
+      "operations": [
+        {
+          "op": "set",
+          "path": "ownerKind",
+          "value": "operatorShell"
+        }
+      ],
+      "reason": "Arbitrary service operation strings confer no authority."
+    },
+    {
+      "id": "job-grant-rejects-unknown-purpose",
+      "schema": "ObjectJobGrantRequest",
+      "base": "job-grant-write",
+      "operations": [
+        {
+          "op": "set",
+          "path": "purpose",
+          "value": "rawR2Credential"
+        }
+      ],
+      "reason": "Only registry ResourcePurpose values are accepted."
+    },
+    {
+      "id": "job-grant-rejects-negative-bytes",
+      "schema": "ObjectJobGrantRequest",
+      "base": "job-grant-read",
+      "operations": [
+        {
+          "op": "set",
+          "path": "declaredBytes",
+          "value": "-1"
+        }
+      ],
+      "reason": "Declared bytes are exact uint64."
+    },
+    {
+      "id": "grant-rejects-raw-r2-key",
+      "schema": "ObjectJobGrantResponse",
+      "base": "job-grant-read-result",
+      "operations": [
+        {
+          "op": "set",
+          "path": "grant.r2Key",
+          "value": "realm/raw/key"
+        }
+      ],
+      "reason": "No raw R2 key or credential appears in a grant."
+    },
+    {
+      "id": "grant-rejects-padded-mac",
+      "schema": "ObjectJobGrantResponse",
+      "base": "job-grant-read-result",
+      "operations": [
+        {
+          "op": "set",
+          "path": "grant.mac",
+          "value": "AQ=="
+        }
+      ],
+      "reason": "Bytes use unpadded base64url."
+    },
+    {
+      "id": "grant-rejects-missing-owner-fence",
+      "schema": "ObjectJobGrantResponse",
+      "base": "job-grant-read-result",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "grant.epoch"
+        }
+      ],
+      "reason": "Every grant carries the stable owner fence."
+    },
+    {
+      "id": "write-grant-result-requires-provisional-resource",
+      "schema": "ObjectJobGrantResponse",
+      "base": "job-grant-write-result-is-provisional",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "provisionalResource"
+        }
+      ],
+      "reason": "A write grant reply identifies its provisional output."
+    },
+    {
+      "id": "worker-object-put-rejects-9-mib-part",
+      "schema": "WorkerObjectJobRequest",
+      "base": "worker-object-put",
+      "operations": [
+        {
+          "op": "set",
+          "path": "declaredLength",
+          "value": 8388609
+        }
+      ],
+      "reason": "A streamed part is at most 8 MiB."
+    },
+    {
+      "id": "worker-object-put-requires-declared-hash",
+      "schema": "WorkerObjectJobRequest",
+      "base": "worker-object-put",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "sha256"
+        }
+      ],
+      "reason": "Part bytes are hash and length verified before a receipt."
+    },
+    {
+      "id": "worker-object-get-rejects-part-number",
+      "schema": "WorkerObjectJobRequest",
+      "base": "worker-object-get",
+      "operations": [
+        {
+          "op": "set",
+          "path": "partNumber",
+          "value": 1
+        }
+      ],
+      "reason": "GET metadata is range-only."
+    },
+    {
+      "id": "worker-object-rejects-object-key",
+      "schema": "WorkerObjectJobRequest",
+      "base": "worker-object-get",
+      "operations": [
+        {
+          "op": "set",
+          "path": "objectKey",
+          "value": "realm/x"
+        }
+      ],
+      "reason": "No arbitrary object key is accepted."
+    },
+    {
+      "id": "worker-object-rejects-method-other-than-get-put",
+      "schema": "WorkerObjectJobRequest",
+      "base": "worker-object-get",
+      "operations": [
+        {
+          "op": "set",
+          "path": "method",
+          "value": "DELETE"
+        }
+      ],
+      "reason": "Only GET and PUT facade methods exist."
+    },
+    {
+      "id": "dispatch-requires-outbox-identity",
+      "schema": "WorkerDispatchRequest",
+      "base": "worker-dispatch",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "outboxId"
+        }
+      ],
+      "reason": "Dispatch is idempotent on the durable outbox identity."
+    },
+    {
+      "id": "dispatch-rejects-non-uuid-run",
+      "schema": "WorkerDispatchRequest",
+      "base": "worker-dispatch",
+      "operations": [
+        {
+          "op": "set",
+          "path": "runId",
+          "value": "run-17"
+        }
+      ],
+      "reason": "Run IDs are canonical UUIDs."
+    },
+    {
+      "id": "control-rejects-terminate-kind",
+      "schema": "WorkerControlRequest",
+      "base": "worker-control",
+      "operations": [
+        {
+          "op": "set",
+          "path": "kind",
+          "value": "terminate"
+        }
+      ],
+      "reason": "Only wake, pause, cancel and revoke exist."
+    },
+    {
+      "id": "control-rejects-zero-revision",
+      "schema": "WorkerControlRequest",
+      "base": "worker-control",
+      "operations": [
+        {
+          "op": "set",
+          "path": "controlRevision",
+          "value": "0"
+        }
+      ],
+      "reason": "Control revision is positive."
+    },
+    {
+      "id": "delete-rejects-201-targets",
+      "schema": "WorkerDeleteRequest",
+      "base": "worker-delete-page",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "targets",
+          "value": {
+            "kind": "runWorkflow",
+            "instanceId": "af-000000b1-1234-4234-8234-123456789abc-8",
+            "workerVersion": "worker-v3",
+            "recoveryGeneration": "8"
+          },
+          "count": 201
+        }
+      ],
+      "reason": "At most 200 exact targets per page."
+    },
+    {
+      "id": "delete-rejects-empty-target-page",
+      "schema": "WorkerDeleteRequest",
+      "base": "worker-delete-page",
+      "operations": [
+        {
+          "op": "set",
+          "path": "targets",
+          "value": []
+        }
+      ],
+      "reason": "An empty body cannot mean delete all."
+    },
+    {
+      "id": "delete-rejects-namespace-kind",
+      "schema": "WorkerDeleteRequest",
+      "base": "worker-delete-page",
+      "operations": [
+        {
+          "op": "set",
+          "path": "targets.0.kind",
+          "value": "namespace"
+        }
+      ],
+      "reason": "No wildcard namespace delete kind exists."
+    },
+    {
+      "id": "delete-receipt-rejects-unknown-state",
+      "schema": "CfDeletionReceipt",
+      "base": "deletion-receipt",
+      "operations": [
+        {
+          "op": "set",
+          "path": "state",
+          "value": "deleted"
+        }
+      ],
+      "reason": "Receipts are stopped, purged or alreadyAbsent."
+    },
+    {
+      "id": "web-search-requires-fence-epoch",
+      "schema": "WorkerWebSearchRequest",
+      "base": "web-search-request",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "epoch"
+        }
+      ],
+      "reason": "The run owner/fence including epoch is required."
+    },
+    {
+      "id": "web-search-rejects-count-11",
+      "schema": "WorkerWebSearchRequest",
+      "base": "web-search-request",
+      "operations": [
+        {
+          "op": "set",
+          "path": "search.count",
+          "value": 11
+        }
+      ],
+      "reason": "Search count is 1 through 10."
+    },
+    {
+      "id": "web-search-rejects-lowercase-country",
+      "schema": "WorkerWebSearchRequest",
+      "base": "web-search-request",
+      "operations": [
+        {
+          "op": "set",
+          "path": "search.country",
+          "value": "us"
+        }
+      ],
+      "reason": "Country is two uppercase letters."
+    },
+    {
+      "id": "web-search-rejects-offset-field",
+      "schema": "WorkerWebSearchRequest",
+      "base": "web-search-request",
+      "operations": [
+        {
+          "op": "set",
+          "path": "search.offset",
+          "value": 1
+        }
+      ],
+      "reason": "Offset is a fixed adapter constant."
+    },
+    {
+      "id": "web-search-rejects-file-url",
+      "schema": "WorkerWebSearchResponse",
+      "base": "web-search-success",
+      "operations": [
+        {
+          "op": "set",
+          "path": "result.hits.0.url",
+          "value": "file:///etc/passwd"
+        }
+      ],
+      "reason": "Hits are absolute http or https URLs."
+    },
+    {
+      "id": "web-search-rejects-11-hits",
+      "schema": "WorkerWebSearchResponse",
+      "base": "web-search-success",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "result.hits",
+          "value": {
+            "rank": 1,
+            "title": "t",
+            "url": "https://example.test/",
+            "snippet": "",
+            "fetchedAt": "2026-09-29T20:00:00Z",
+            "provider": "braveWebV1"
+          },
+          "count": 11
+        }
+      ],
+      "reason": "At most 10 ordered hits."
+    },
+    {
+      "id": "web-search-result-and-error-never-both",
+      "schema": "WorkerWebSearchResponse",
+      "base": "web-search-success",
+      "operations": [
+        {
+          "op": "set",
+          "path": "error",
+          "value": {
+            "code": "web.search.unavailable",
+            "category": "resource",
+            "messageKey": "web.search.unavailable",
+            "retry": {
+              "mode": "afterTime",
+              "retryAt": "2026-09-29T20:00:00Z"
+            },
+            "effect": "didNotHappen",
+            "correlationId": "000000a2-1234-4234-8234-123456789abc"
+          }
+        }
+      ],
+      "reason": "A response is exactly one success or one failure."
+    },
+    {
+      "id": "inference-job-rejects-generation-kind",
+      "schema": "InferenceJobRequest",
+      "base": "inference-job-embedding",
+      "operations": [
+        {
+          "op": "set",
+          "path": "kind",
+          "value": "generate"
+        }
+      ],
+      "reason": "Only embedding and rerank jobs exist."
+    },
+    {
+      "id": "inference-job-rejects-model-with-space",
+      "schema": "InferenceJobRequest",
+      "base": "inference-job-embedding",
+      "operations": [
+        {
+          "op": "set",
+          "path": "modelId",
+          "value": "@cf/bad model"
+        }
+      ],
+      "reason": "ModelId is a catalogue-shaped alias."
+    },
+    {
+      "id": "inference-lease-requires-intent-receipt",
+      "schema": "InferenceLeaseRequest",
+      "base": "inference-lease-first-claim",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "intentReceipt"
+        }
+      ],
+      "reason": "A lease binds the queued intent."
+    },
+    {
+      "id": "inference-input-rejects-17-embedding-items",
+      "schema": "InferenceInputResponse",
+      "base": "inference-input-embedding",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "input.items",
+          "value": {
+            "itemId": "000000f1-1234-4234-8234-123456789abc",
+            "text": "x"
+          },
+          "count": 17
+        }
+      ],
+      "reason": "Embedding batch is at most 16."
+    },
+    {
+      "id": "inference-input-rejects-201-rerank-candidates",
+      "schema": "InferenceInputResponse",
+      "base": "inference-input-rerank",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "input.candidates",
+          "value": {
+            "itemId": "000000f1-1234-4234-8234-123456789abc",
+            "text": "x"
+          },
+          "count": 201
+        }
+      ],
+      "reason": "Rerank is at most 200 candidates."
+    },
+    {
+      "id": "inference-outcome-complete-requires-result",
+      "schema": "InferenceOutcomeRequest",
+      "base": "inference-outcome-complete-embedding",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "result"
+        }
+      ],
+      "reason": "A complete outcome carries its result."
+    },
+    {
+      "id": "inference-outcome-rejects-state-confusion",
+      "schema": "InferenceOutcomeRequest",
+      "base": "inference-outcome-interrupted-no-result",
+      "operations": [
+        {
+          "op": "set",
+          "path": "state",
+          "value": "succeeded"
+        }
+      ],
+      "reason": "Outcome states are complete, interrupted, refused or unknown."
+    },
+    {
+      "id": "embedding-rejects-1023-dimensions",
+      "schema": "InferenceOutcomeRequest",
+      "base": "inference-outcome-complete-embedding",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "result.items.0.vector",
+          "value": 0.25,
+          "count": 1023
+        }
+      ],
+      "reason": "Embedding vectors have exactly 1024 finite floats."
+    },
+    {
+      "id": "embedding-rejects-wrong-dimension",
+      "schema": "InferenceOutcomeRequest",
+      "base": "inference-outcome-complete-embedding",
+      "operations": [
+        {
+          "op": "set",
+          "path": "result.dimension",
+          "value": 768
+        }
+      ],
+      "reason": "The selected embedding dimension is 1024."
+    },
+    {
+      "id": "embedding-rejects-out-of-float32-range",
+      "schema": "InferenceOutcomeRequest",
+      "base": "inference-outcome-complete-embedding",
+      "operations": [
+        {
+          "op": "set",
+          "path": "result.items.0.vector.0",
+          "value": 1e39
+        }
+      ],
+      "reason": "Vector values are finite float32."
+    },
+    {
+      "id": "late-outcome-requires-original-fence",
+      "schema": "InferenceLateOutcomeRequest",
+      "base": "inference-late-outcome",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "originalEpoch"
+        }
+      ],
+      "reason": "Late evidence names the original epoch."
+    },
+    {
+      "id": "late-outcome-rejects-extra-publish-flag",
+      "schema": "InferenceLateOutcomeRequest",
+      "base": "inference-late-outcome",
+      "operations": [
+        {
+          "op": "set",
+          "path": "publish",
+          "value": true
+        }
+      ],
+      "reason": "Late evidence can never publish."
+    },
+    {
+      "id": "inference-state-rejects-unknown-state",
+      "schema": "InferenceStateResponse",
+      "base": "inference-state-succeeded",
+      "operations": [
+        {
+          "op": "set",
+          "path": "state",
+          "value": "complete"
+        }
+      ],
+      "reason": "State vocabulary is closed."
+    },
+    {
+      "id": "backup-manifest-requires-signature",
+      "schema": "BackupManifest",
+      "base": "backup-manifest",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "signature"
+        }
+      ],
+      "reason": "A backup manifest is signed."
+    },
+    {
+      "id": "backup-manifest-rejects-10001-objects",
+      "schema": "BackupManifest",
+      "base": "backup-manifest",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "objectRefs",
+          "value": {
+            "id": "000000e1-1234-4234-8234-123456789abc",
+            "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "size": "1",
+            "versionId": "v"
+          },
+          "count": 10001
+        }
+      ],
+      "reason": "Manifest object inventory is bounded."
+    }
+  ],
+  "workerObjectJobBindingVectors": [
+    {
+      "id": "read-binding-accepted",
+      "positiveVector": "worker-object-get",
+      "pathGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "requestGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "signedGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "method": "GET",
+      "direction": "read",
+      "expectedBinding": true
+    },
+    {
+      "id": "write-binding-accepted",
+      "positiveVector": "worker-object-put",
+      "pathGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "requestGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "signedGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "method": "PUT",
+      "direction": "write",
+      "expectedBinding": true
+    },
+    {
+      "id": "path-grant-id-mismatch-refused",
+      "positiveVector": "worker-object-get",
+      "pathGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "requestGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "signedGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "method": "GET",
+      "direction": "read",
+      "expectedBinding": false
+    },
+    {
+      "id": "signed-grant-id-mismatch-refused",
+      "positiveVector": "worker-object-get",
+      "pathGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "requestGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "signedGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "method": "GET",
+      "direction": "read",
+      "expectedBinding": false
+    },
+    {
+      "id": "get-with-write-grant-refused",
+      "positiveVector": "worker-object-get",
+      "pathGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "requestGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "signedGrantId": "000000d3-1234-4234-8234-123456789abc",
+      "method": "GET",
+      "direction": "write",
+      "expectedBinding": false
+    },
+    {
+      "id": "put-with-read-grant-refused",
+      "positiveVector": "worker-object-put",
+      "pathGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "requestGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "signedGrantId": "000000d4-1234-4234-8234-123456789abc",
+      "method": "PUT",
+      "direction": "read",
+      "expectedBinding": false
+    }
+  ],
+  "replayVectors": [
+    {
+      "id": "duplicate-dispatch-returns-same-workflow",
+      "port": "dispatch",
+      "steps": [
+        {
+          "requestId": "000000a1-1234-4234-8234-123456789abc",
+          "body": {
+            "runId": "000000b1-1234-4234-8234-123456789abc",
+            "requiredWorkerVersion": "worker-v3",
+            "recoveryGeneration": "8",
+            "outboxId": "000000e2-1234-4234-8234-123456789abc"
+          }
+        },
+        {
+          "requestId": "000000a9-1234-4234-8234-123456789abc",
+          "body": {
+            "runId": "000000b1-1234-4234-8234-123456789abc",
+            "requiredWorkerVersion": "worker-v3",
+            "recoveryGeneration": "8",
+            "outboxId": "000000e2-1234-4234-8234-123456789abc"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "result": "created",
+          "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8"
+        },
+        {
+          "result": "existing",
+          "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8"
+        }
+      ]
+    },
+    {
+      "id": "changed-body-with-reused-request-id-conflicts",
+      "port": "dispatch",
+      "steps": [
+        {
+          "requestId": "000000a1-1234-4234-8234-123456789abc",
+          "body": {
+            "runId": "000000b1-1234-4234-8234-123456789abc",
+            "requiredWorkerVersion": "worker-v3",
+            "recoveryGeneration": "8",
+            "outboxId": "000000e2-1234-4234-8234-123456789abc"
+          }
+        },
+        {
+          "requestId": "000000a1-1234-4234-8234-123456789abc",
+          "body": {
+            "runId": "000000b1-1234-4234-8234-123456789abc",
+            "requiredWorkerVersion": "worker-v4",
+            "recoveryGeneration": "8",
+            "outboxId": "000000e2-1234-4234-8234-123456789abc"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "result": "created",
+          "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8"
+        },
+        {
+          "result": "conflict"
+        }
+      ]
+    },
+    {
+      "id": "new-recovery-generation-is-a-distinct-workflow",
+      "port": "dispatch",
+      "steps": [
+        {
+          "requestId": "000000a1-1234-4234-8234-123456789abc",
+          "body": {
+            "runId": "000000b1-1234-4234-8234-123456789abc",
+            "requiredWorkerVersion": "worker-v3",
+            "recoveryGeneration": "8",
+            "outboxId": "000000e2-1234-4234-8234-123456789abc"
+          }
+        },
+        {
+          "requestId": "000000aa-1234-4234-8234-123456789abc",
+          "body": {
+            "runId": "000000b1-1234-4234-8234-123456789abc",
+            "requiredWorkerVersion": "worker-v3",
+            "recoveryGeneration": "9",
+            "outboxId": "000000e9-1234-4234-8234-123456789abc"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "result": "created",
+          "workflowId": "af-000000b1-1234-4234-8234-123456789abc-8"
+        },
+        {
+          "result": "created",
+          "workflowId": "af-000000b1-1234-4234-8234-123456789abc-9"
+        }
+      ]
+    },
+    {
+      "id": "duplicate-inference-job-returns-same-workflow",
+      "port": "inference-job",
+      "steps": [
+        {
+          "requestId": "000000a1-1234-4234-8234-123456789abc",
+          "body": {
+            "jobId": "000000b3-1234-4234-8234-123456789abc",
+            "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "recoveryGeneration": "8"
+          }
+        },
+        {
+          "requestId": "000000ab-1234-4234-8234-123456789abc",
+          "body": {
+            "jobId": "000000b3-1234-4234-8234-123456789abc",
+            "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "recoveryGeneration": "8"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "result": "created",
+          "workflowId": "afi-000000b3-1234-4234-8234-123456789abc-8"
+        },
+        {
+          "result": "existing",
+          "workflowId": "afi-000000b3-1234-4234-8234-123456789abc-8"
+        }
+      ]
+    },
+    {
+      "id": "same-job-different-input-conflicts",
+      "port": "inference-job",
+      "steps": [
+        {
+          "requestId": "000000a1-1234-4234-8234-123456789abc",
+          "body": {
+            "jobId": "000000b3-1234-4234-8234-123456789abc",
+            "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "recoveryGeneration": "8"
+          }
+        },
+        {
+          "requestId": "000000ac-1234-4234-8234-123456789abc",
+          "body": {
+            "jobId": "000000b3-1234-4234-8234-123456789abc",
+            "inputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "recoveryGeneration": "8"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "result": "created",
+          "workflowId": "afi-000000b3-1234-4234-8234-123456789abc-8"
+        },
+        {
+          "result": "conflict"
+        }
+      ]
+    }
+  ],
+  "leaseVectors": [
+    {
+      "id": "first-claim-binds-workflow-and-renewal-keeps-epoch",
+      "steps": [
+        {
+          "at": 0,
+          "action": "claim",
+          "workflowId": "wf-a",
+          "expectedEpoch": null
+        },
+        {
+          "at": 20,
+          "action": "claim",
+          "workflowId": "wf-a",
+          "expectedEpoch": 1
+        }
+      ],
+      "expected": [
+        {
+          "result": "granted",
+          "epoch": 1
+        },
+        {
+          "result": "granted",
+          "epoch": 1
+        }
+      ]
+    },
+    {
+      "id": "takeover-after-expiry-starts-new-epoch-and-fences-old-holder",
+      "steps": [
+        {
+          "at": 0,
+          "action": "claim",
+          "workflowId": "wf-a",
+          "expectedEpoch": null
+        },
+        {
+          "at": 61,
+          "action": "claim",
+          "workflowId": "wf-b",
+          "expectedEpoch": null
+        },
+        {
+          "at": 62,
+          "action": "outcome",
+          "workflowId": "wf-a",
+          "epoch": 1
+        },
+        {
+          "at": 63,
+          "action": "outcome",
+          "workflowId": "wf-b",
+          "epoch": 2
+        },
+        {
+          "at": 64,
+          "action": "lateOutcome",
+          "originalEpoch": 1
+        }
+      ],
+      "expected": [
+        {
+          "result": "granted",
+          "epoch": 1
+        },
+        {
+          "result": "granted",
+          "epoch": 2
+        },
+        {
+          "result": "staleEpoch"
+        },
+        {
+          "result": "accepted",
+          "publishes": true
+        },
+        {
+          "result": "accepted",
+          "publishes": false
+        }
+      ]
+    },
+    {
+      "id": "live-lease-refuses-a-second-workflow",
+      "steps": [
+        {
+          "at": 0,
+          "action": "claim",
+          "workflowId": "wf-a",
+          "expectedEpoch": null
+        },
+        {
+          "at": 30,
+          "action": "claim",
+          "workflowId": "wf-b",
+          "expectedEpoch": null
+        }
+      ],
+      "expected": [
+        {
+          "result": "granted",
+          "epoch": 1
+        },
+        {
+          "result": "refused"
+        }
+      ]
+    },
+    {
+      "id": "renewal-with-stale-expected-epoch-is-refused",
+      "steps": [
+        {
+          "at": 0,
+          "action": "claim",
+          "workflowId": "wf-a",
+          "expectedEpoch": null
+        },
+        {
+          "at": 61,
+          "action": "claim",
+          "workflowId": "wf-b",
+          "expectedEpoch": null
+        },
+        {
+          "at": 70,
+          "action": "claim",
+          "workflowId": "wf-a",
+          "expectedEpoch": 1
+        }
+      ],
+      "expected": [
+        {
+          "result": "granted",
+          "epoch": 1
+        },
+        {
+          "result": "granted",
+          "epoch": 2
+        },
+        {
+          "result": "refused"
+        }
+      ]
+    }
+  ],
+  "partVectors": [
+    {
+      "id": "first-part-accepted-and-identical-retry-returns-same-receipt",
+      "steps": [
+        {
+          "partNumber": 1,
+          "bytes": "hello part bytes",
+          "declaredSha256": "98272344b523a9cca5abb1488cc48a4611b915013c1747762a726ce5a2dad32c"
+        },
+        {
+          "partNumber": 1,
+          "bytes": "hello part bytes",
+          "declaredSha256": "98272344b523a9cca5abb1488cc48a4611b915013c1747762a726ce5a2dad32c"
+        }
+      ],
+      "expected": ["recorded", "same-receipt"]
+    },
+    {
+      "id": "r2-part-mismatch-different-bytes-for-same-part-is-refused",
+      "steps": [
+        {
+          "partNumber": 1,
+          "bytes": "hello part bytes",
+          "declaredSha256": "98272344b523a9cca5abb1488cc48a4611b915013c1747762a726ce5a2dad32c"
+        },
+        {
+          "partNumber": 1,
+          "bytes": "hello part bytez",
+          "declaredSha256": "562e4397669bf4357fd02bca9ad77f0cf4fc50252cd20136b8f0b1c08386dfed"
+        }
+      ],
+      "expected": ["recorded", "refused-duplicate-differs"]
+    },
+    {
+      "id": "declared-hash-mismatch-is-refused-before-receipt",
+      "steps": [
+        {
+          "partNumber": 2,
+          "bytes": "hello part bytes",
+          "declaredSha256": "562e4397669bf4357fd02bca9ad77f0cf4fc50252cd20136b8f0b1c08386dfed"
+        }
+      ],
+      "expected": ["refused-hash-mismatch"]
+    },
+    {
+      "id": "declared-length-over-8-mib-is-refused",
+      "steps": [
+        {
+          "partNumber": 3,
+          "declaredLength": 8388609,
+          "declaredSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": ["refused-too-large"]
+    }
+  ],
+  "grantVectors": [
+    {
+      "id": "grant-at-60-seconds-and-within-lease-is-valid",
+      "issuedAtSeconds": 0,
+      "expiresAtSeconds": 60,
+      "ownerLeaseExpiresAtSeconds": 80,
+      "grantEpoch": "7",
+      "currentEpoch": "7",
+      "expected": "valid"
+    },
+    {
+      "id": "grant-over-60-seconds-is-refused",
+      "issuedAtSeconds": 0,
+      "expiresAtSeconds": 61,
+      "ownerLeaseExpiresAtSeconds": 120,
+      "grantEpoch": "7",
+      "currentEpoch": "7",
+      "expected": "refused-lifetime"
+    },
+    {
+      "id": "grant-outliving-owner-lease-is-refused",
+      "issuedAtSeconds": 0,
+      "expiresAtSeconds": 50,
+      "ownerLeaseExpiresAtSeconds": 40,
+      "grantEpoch": "7",
+      "currentEpoch": "7",
+      "expected": "refused-lease"
+    },
+    {
+      "id": "grant-from-stale-owner-epoch-is-refused",
+      "issuedAtSeconds": 0,
+      "expiresAtSeconds": 30,
+      "ownerLeaseExpiresAtSeconds": 80,
+      "grantEpoch": "6",
+      "currentEpoch": "7",
+      "expected": "refused-stale-epoch"
+    },
+    {
+      "id": "used-after-expiry-is-refused",
+      "issuedAtSeconds": 0,
+      "expiresAtSeconds": 30,
+      "ownerLeaseExpiresAtSeconds": 80,
+      "grantEpoch": "7",
+      "currentEpoch": "7",
+      "usedAtSeconds": 31,
+      "expected": "refused-expired"
+    }
+  ]
+}

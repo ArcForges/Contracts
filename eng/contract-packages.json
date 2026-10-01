@@ -172,7 +172,9 @@
       "descriptor": "operator.binpb",
       "jsonSchemas": [
         "internal/ai-http/v1/schema.json",
-        "internal/ai-http/v1/configuration.schema.json"
+        "internal/ai-http/v1/configuration.schema.json",
+        "internal/cf-http/v1/schema.json",
+        "internal/storage-http/v1/schema.json"
       ]
     },
     {
@@ -240,7 +242,9 @@
       "descriptor": "contracts.binpb",
       "jsonSchemas": [
         "internal/ai-http/v1/schema.json",
-        "internal/ai-http/v1/configuration.schema.json"
+        "internal/ai-http/v1/configuration.schema.json",
+        "internal/cf-http/v1/schema.json",
+        "internal/storage-http/v1/schema.json"
       ]
     },
     {

@@ -1,0 +1,608 @@
+{
+  "schemaVersion": "con-15-d1-execute-plan.v1",
+  "license": "Apache-2.0",
+  "authority": [
+    "ArcForges-Design architecture/data-model/04-d1-execution-profile.md, section 3 (private named plan protocol) and section 4 (guarded atomic batch)",
+    "ArcForges-Design architecture/contracts/05-cloudflare-integration.md, section 2 (precise-value framing)"
+  ],
+  "evidenceClass": "offline schema, guard and error vectors only; no deployed Container, Worker, D1, SQL plan, authorization or live-service proof",
+  "encoding": {
+    "arguments": "Ordered outer entries map to the fixed statement order in the registered named plan; each inner array contains that statement's ordered typed parameters. No statement text, table name or client-selected operation is accepted.",
+    "scalars": "Every D1 scalar is tagged; int64, uint64 and decimal use canonical strings; bytes use unpadded base64url; SQLite JSON text remains a text scalar for the typed plan consumer.",
+    "ownerScope": "Opaque bounded nonempty route binding only; trusted Container identity, active deployment generation and owner authorization remain mandatory server-side checks. The field alone never grants or proves authority.",
+    "unknownOutcome": "After an ambiguous timeout, reconcile by the same requestId and receipt; do not retry with a new requestId or assume no effect."
+  },
+  "planRegistry": [
+    {
+      "planId": "task.claim",
+      "planVersion": 1,
+      "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "statementParameterCounts": [2, 2],
+      "workerSupported": true
+    },
+    {
+      "planId": "task.claim",
+      "planVersion": 2,
+      "manifestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "statementParameterCounts": [2, 2],
+      "workerSupported": false
+    }
+  ],
+  "guardContext": {
+    "activeRecoveryGeneration": "7",
+    "nowUtc": "2026-09-29T19:00:00Z",
+    "currentOwnerScope": "fixture-owner-scope",
+    "trustedContainer": true,
+    "publicRoute": false
+  },
+  "positiveVectors": [
+    {
+      "id": "execute-plan-typed-parameters",
+      "schema": "ExecutePlanRequest",
+      "input": {
+        "planId": "task.claim",
+        "planVersion": 1,
+        "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requestId": "40000000-0000-4000-8000-000000000151",
+        "recoveryGeneration": "7",
+        "ownerScope": "fixture-owner-scope",
+        "arguments": [
+          [
+            {
+              "kind": "text",
+              "value": "fixture-row"
+            },
+            {
+              "kind": "uint64",
+              "value": "18446744073709551615"
+            }
+          ],
+          [
+            {
+              "kind": "bytes",
+              "value": "AQID_w"
+            },
+            {
+              "kind": "text",
+              "value": "{\"active\":true,\"count\":2}"
+            }
+          ]
+        ],
+        "deadlineUtc": "2026-09-29T19:30:00Z"
+      }
+    },
+    {
+      "id": "execute-plan-every-scalar-kind",
+      "schema": "ExecutePlanRequest",
+      "input": {
+        "planId": "task.claim",
+        "planVersion": 1,
+        "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requestId": "40000000-0000-4000-8000-000000000150",
+        "recoveryGeneration": "7",
+        "ownerScope": "fixture-owner-scope",
+        "arguments": [
+          [
+            {
+              "kind": "null"
+            },
+            {
+              "kind": "boolean",
+              "value": false
+            },
+            {
+              "kind": "int64",
+              "value": "-9223372036854775808"
+            },
+            {
+              "kind": "uint64",
+              "value": "0"
+            },
+            {
+              "kind": "decimal",
+              "value": "-12345678901234567890.125"
+            },
+            {
+              "kind": "text",
+              "value": ""
+            },
+            {
+              "kind": "bytes",
+              "value": ""
+            }
+          ]
+        ],
+        "deadlineUtc": "2026-09-29T19:30:00Z"
+      }
+    },
+    {
+      "id": "execute-plan-tagged-result-scalars",
+      "schema": "ExecutePlanResponse",
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000151",
+        "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rows": [
+          [
+            {
+              "kind": "int64",
+              "value": "-9223372036854775808"
+            },
+            {
+              "kind": "decimal",
+              "value": "12345678901234567890.125"
+            },
+            {
+              "kind": "boolean",
+              "value": true
+            },
+            {
+              "kind": "null"
+            }
+          ]
+        ],
+        "changes": "1",
+        "bookmark": "fixture-bookmark"
+      }
+    },
+    {
+      "id": "execute-plan-empty-result",
+      "schema": "ExecutePlanResponse",
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000152",
+        "manifestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rows": [],
+        "changes": "0"
+      }
+    },
+    {
+      "id": "execute-plan-typed-failure",
+      "schema": "ExecutePlanResponse",
+      "input": {
+        "requestId": "40000000-0000-4000-8000-000000000152",
+        "manifestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "failure": "unknownOutcome"
+      }
+    }
+  ],
+  "negativeVectors": [
+    {
+      "id": "request-rejects-public-sql-and-table-name",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "sql",
+          "value": "select * from owner_table"
+        },
+        {
+          "op": "set",
+          "path": "tableName",
+          "value": "owner_table"
+        }
+      ],
+      "reason": "The closed request accepts only the registered plan identity, typed arguments and bounded authority fields."
+    },
+    {
+      "id": "request-rejects-untagged-scalar",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "arguments",
+          "value": [
+            [
+              {
+                "kind": "integer",
+                "value": 1
+              }
+            ]
+          ]
+        }
+      ],
+      "reason": "Scalar parameters use the exact tagged-value registry and canonical exact-value encoding."
+    },
+    {
+      "id": "request-rejects-json-number-for-int64",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "arguments",
+          "value": [
+            [
+              {
+                "kind": "int64",
+                "value": 1
+              }
+            ]
+          ]
+        }
+      ],
+      "reason": "int64 is a canonical decimal string, never a JavaScript number."
+    },
+    {
+      "id": "request-rejects-int64-overflow-text",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "arguments",
+          "value": [
+            [
+              {
+                "kind": "int64",
+                "value": "9223372036854775808"
+              }
+            ]
+          ]
+        }
+      ],
+      "reason": "int64 is range-checked before submission."
+    },
+    {
+      "id": "request-rejects-padded-base64-bytes",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "arguments",
+          "value": [
+            [
+              {
+                "kind": "bytes",
+                "value": "AQID/w=="
+              }
+            ]
+          ]
+        }
+      ],
+      "reason": "Bytes are unpadded base64url."
+    },
+    {
+      "id": "request-rejects-noncanonical-decimal",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "arguments",
+          "value": [
+            [
+              {
+                "kind": "decimal",
+                "value": "1e3"
+              }
+            ]
+          ]
+        }
+      ],
+      "reason": "Decimal is a canonical exact string and never a floating-point value."
+    },
+    {
+      "id": "request-rejects-101-statements",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "arguments",
+          "value": [],
+          "count": 101
+        }
+      ],
+      "reason": "The private batch limit is at most 100 statements."
+    },
+    {
+      "id": "request-rejects-101-parameters-per-statement",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "arguments.0",
+          "value": {
+            "kind": "null"
+          },
+          "count": 101
+        }
+      ],
+      "reason": "Each fixed statement accepts at most 100 bound arguments."
+    },
+    {
+      "id": "request-rejects-stale-recovery-generation-overflow",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "recoveryGeneration",
+          "value": "18446744073709551616"
+        }
+      ],
+      "reason": "Generation is an exact uint64 string."
+    },
+    {
+      "id": "request-rejects-noncanonical-deadline",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "deadlineUtc",
+          "value": "2026-09-29 19:30:00"
+        }
+      ],
+      "reason": "Deadline is an explicit UTC timestamp ending in Z."
+    },
+    {
+      "id": "request-requires-owner-scope",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "ownerScope"
+        }
+      ],
+      "reason": "An opaque scope value is required to bind the request; it is not itself an authorization credential."
+    },
+    {
+      "id": "request-rejects-oversized-owner-scope",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "ownerScope",
+          "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      ],
+      "reason": "The owner scope binding is bounded."
+    },
+    {
+      "id": "request-rejects-zero-request-id",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "requestId",
+          "value": "00000000-0000-0000-0000-000000000000"
+        }
+      ],
+      "reason": "Request IDs are nonzero canonical UUIDs."
+    },
+    {
+      "id": "request-rejects-plan-version-zero",
+      "schema": "ExecutePlanRequest",
+      "base": "execute-plan-typed-parameters",
+      "operations": [
+        {
+          "op": "set",
+          "path": "planVersion",
+          "value": 0
+        }
+      ],
+      "reason": "Plan versions start at one."
+    },
+    {
+      "id": "response-rejects-unknown-failure",
+      "schema": "ExecutePlanResponse",
+      "base": "execute-plan-typed-failure",
+      "operations": [
+        {
+          "op": "set",
+          "path": "failure",
+          "value": "sqlException"
+        }
+      ],
+      "reason": "Only the seven registered failure classes are representable."
+    },
+    {
+      "id": "response-rejects-success-and-failure-together",
+      "schema": "ExecutePlanResponse",
+      "base": "execute-plan-tagged-result-scalars",
+      "operations": [
+        {
+          "op": "set",
+          "path": "failure",
+          "value": "precondition"
+        }
+      ],
+      "reason": "The response is one typed success or one typed failure, never both."
+    },
+    {
+      "id": "response-rejects-failure-without-manifest",
+      "schema": "ExecutePlanResponse",
+      "base": "execute-plan-typed-failure",
+      "operations": [
+        {
+          "op": "remove",
+          "path": "manifestHash"
+        }
+      ],
+      "reason": "A failure still names the plan manifest it answers."
+    },
+    {
+      "id": "response-rejects-row-wider-than-100-columns",
+      "schema": "ExecutePlanResponse",
+      "base": "execute-plan-tagged-result-scalars",
+      "operations": [
+        {
+          "op": "fill",
+          "path": "rows.0",
+          "value": {
+            "kind": "null"
+          },
+          "count": 101
+        }
+      ],
+      "reason": "A result row has at most 100 tagged scalars."
+    },
+    {
+      "id": "response-rejects-negative-change-count",
+      "schema": "ExecutePlanResponse",
+      "base": "execute-plan-tagged-result-scalars",
+      "operations": [
+        {
+          "op": "set",
+          "path": "changes",
+          "value": "-1"
+        }
+      ],
+      "reason": "Change counts are exact unsigned strings."
+    }
+  ],
+  "guardAndErrorVectors": [
+    {
+      "id": "admitted-request-reaches-the-fixed-plan",
+      "patch": {},
+      "expected": {
+        "outcome": "admitted",
+        "effects": false
+      }
+    },
+    {
+      "id": "unknown-plan",
+      "patch": {
+        "planId": "unregistered.fixture"
+      },
+      "expected": {
+        "outcome": "invalidPlan",
+        "effects": false
+      }
+    },
+    {
+      "id": "unsupported-plan-version",
+      "patch": {
+        "planVersion": 2
+      },
+      "expected": {
+        "outcome": "invalidPlan",
+        "effects": false
+      }
+    },
+    {
+      "id": "manifest-hash-mismatch",
+      "patch": {
+        "manifestHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expected": {
+        "outcome": "invalidPlan",
+        "effects": false
+      }
+    },
+    {
+      "id": "statement-arity-differs-from-registered-plan",
+      "patch": {
+        "arguments": [
+          [
+            {
+              "kind": "text",
+              "value": "only-one"
+            }
+          ]
+        ]
+      },
+      "expected": {
+        "outcome": "invalidPlan",
+        "effects": false
+      }
+    },
+    {
+      "id": "stale-generation-before-execution",
+      "patch": {
+        "recoveryGeneration": "6"
+      },
+      "expected": {
+        "outcome": "staleGeneration",
+        "effects": false
+      }
+    },
+    {
+      "id": "future-generation-is-also-refused",
+      "patch": {
+        "recoveryGeneration": "8"
+      },
+      "expected": {
+        "outcome": "staleGeneration",
+        "effects": false
+      }
+    },
+    {
+      "id": "expired-deadline-before-admission",
+      "patch": {
+        "deadlineUtc": "2026-09-29T18:59:59Z"
+      },
+      "expected": {
+        "outcome": "unavailable",
+        "effects": false
+      }
+    },
+    {
+      "id": "owner-precondition-failed",
+      "patch": {
+        "ownerScope": "different-fixture-owner"
+      },
+      "expected": {
+        "outcome": "precondition",
+        "effects": false
+      }
+    },
+    {
+      "id": "guard-batch-constraint-refusal-rolls-back",
+      "patch": {},
+      "d1Outcome": "constraintViolation",
+      "expected": {
+        "outcome": "constraint",
+        "effects": false
+      }
+    },
+    {
+      "id": "overload-is-typed-and-effect-free",
+      "patch": {},
+      "d1Outcome": "overloaded",
+      "expected": {
+        "outcome": "overloaded",
+        "effects": false
+      }
+    },
+    {
+      "id": "ambiguous-timeout-remains-unknown",
+      "patch": {},
+      "d1Outcome": "timeout",
+      "expected": {
+        "outcome": "unknownOutcome",
+        "effects": "unknown",
+        "retryWithSameRequestId": true
+      }
+    },
+    {
+      "id": "untrusted-container-is-refused-before-plan-execution",
+      "patch": {},
+      "context": {
+        "trustedContainer": false
+      },
+      "expected": {
+        "outcome": "refuse-before-plan-execution",
+        "effects": false
+      }
+    },
+    {
+      "id": "public-route-is-refused-before-plan-execution",
+      "patch": {},
+      "context": {
+        "publicRoute": true
+      },
+      "expected": {
+        "outcome": "refuse-before-plan-execution",
+        "effects": false
+      }
+    }
+  ]
+}

@@ -15,8 +15,8 @@
     "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
     "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
     "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-    "eng/contract-packages.json": "da81d0768a78a12a0ea1abe0e4bb59f47dc5558e1fda7a8608d668a12df742d9",
-    "eng/policy/contract-access.json": "99e2e46d33a86a1486ecdc71d314f553a224433259cbf9c93e93417d635a9188",
+    "eng/contract-packages.json": "115fc0963c0007aad0ddff212e9502a5cdb61dc477ae95cb25e183b1595b874a",
+    "eng/policy/contract-access.json": "a3487a2842c117ef2be76807dce4550cc10927d099fadcce201cae76b08cc69e",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -49,6 +49,7 @@
     "eng/provenance/records/contract-bindings-con-10-r3.json": "47b16738233e197c53a5d1fb709e967ca8373439f09f76fe5eacb30c7581e75f",
     "eng/provenance/records/contract-bindings-con-11-r1.json": "09081ebdbb6c04a359e22dc2922fffdc41136a592a9296ed8e1f85a8d0943020",
     "eng/provenance/records/contract-bindings-con-13-r1.json": "f310c64cc003c246cb0f286b808c5369b0870721d9ea51bcbfe540dd01eba331",
+    "eng/provenance/records/contract-bindings-con-15-r1.json": "0941aa5a9a84a5f6c2d5c78876ed5f93fe19b9434e0cb81816f5359585e3bf94",
     "eng/provenance/records/contract-bindings-con-21-r1.json": "7df2e6ad745b2e06f18cdb27f281d732242d335d2e0d85c98c2551d561506fb8",
     "eng/provenance/records/contract-bindings-con-22-r1.json": "6d3ac24ffb2292973cddbf1f49bb1b693e7eaa11375c7f6ee2cfe21718c4eee1",
     "eng/provenance/records/contract-bindings-con-24-r1.json": "cc7ee308dcc44a0131ffa814bc26a724c851da768649d94d1bf53d6480863af7",
@@ -2470,10 +2471,10 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
   },
   "review": {
-    "owner": "af-20260929-c11",
-    "reviewer": "Independent exact-head review required before merge for CON.11 application/history/execution/events contract closure",
-    "reviewedOn": "2026-09-30",
-    "baselineCommit": "f82af853bdce1eb5cbbedc510905a27fc5ed8dea",
+    "owner": "w-c20261001-con15",
+    "reviewer": "Independent exact-head review required before merge for the CON.15 Cloudflare-internal HTTP and D1 ExecutePlan contract closure",
+    "reviewedOn": "2026-10-01",
+    "baselineCommit": "3773d57bfba2745ece4edf5638b542a63d624ad1",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -2488,8 +2489,8 @@
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-      "eng/contract-packages.json": "da81d0768a78a12a0ea1abe0e4bb59f47dc5558e1fda7a8608d668a12df742d9",
-      "eng/policy/contract-access.json": "99e2e46d33a86a1486ecdc71d314f553a224433259cbf9c93e93417d635a9188",
+      "eng/contract-packages.json": "115fc0963c0007aad0ddff212e9502a5cdb61dc477ae95cb25e183b1595b874a",
+      "eng/policy/contract-access.json": "a3487a2842c117ef2be76807dce4550cc10927d099fadcce201cae76b08cc69e",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -2522,6 +2523,7 @@
       "eng/provenance/records/contract-bindings-con-10-r3.json": "47b16738233e197c53a5d1fb709e967ca8373439f09f76fe5eacb30c7581e75f",
       "eng/provenance/records/contract-bindings-con-11-r1.json": "09081ebdbb6c04a359e22dc2922fffdc41136a592a9296ed8e1f85a8d0943020",
       "eng/provenance/records/contract-bindings-con-13-r1.json": "f310c64cc003c246cb0f286b808c5369b0870721d9ea51bcbfe540dd01eba331",
+      "eng/provenance/records/contract-bindings-con-15-r1.json": "0941aa5a9a84a5f6c2d5c78876ed5f93fe19b9434e0cb81816f5359585e3bf94",
       "eng/provenance/records/contract-bindings-con-21-r1.json": "7df2e6ad745b2e06f18cdb27f281d732242d335d2e0d85c98c2551d561506fb8",
       "eng/provenance/records/contract-bindings-con-22-r1.json": "6d3ac24ffb2292973cddbf1f49bb1b693e7eaa11375c7f6ee2cfe21718c4eee1",
       "eng/provenance/records/contract-bindings-con-24-r1.json": "cc7ee308dcc44a0131ffa814bc26a724c851da768649d94d1bf53d6480863af7",
@@ -2700,14 +2702,14 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
     },
-    "maintenanceAssessment": "CON.11 closes the authorized application/history/execution/events contract surface against immutable Design #170 operation-scope authority (325 rows including events.poll), plus the merged private RunStream projection authority and approved consumer-lock relations. Exactly five existing consumer lockfiles add only the task-authorized project dependency edges under Events.dependencies, and under CloudInternal.dependencies only in StructureTests and SerializationProbe. The locked external dependency closure, package coordinates, versions, integrity values, licences, framework/toolchain selections and non-project package graph remain unchanged. Contract outputs and generated language bindings are pinned to the CON.11 successor. This is declarative contract/fixture work: offline vectors do not claim a live service, runtime authorization, or deployed transport. Independent exact-head review and all required hosted CI remain mandatory before merge.",
+    "maintenanceAssessment": "CON.15 closes the authorized private Cloudflare-internal HTTP schema bundle (17 private routes and shared deletion, backup and web-search records) and the separate private D1 ExecutePlan storage schema against the accepted 342-row Design manifest11 snapshot, consuming only the seven path-pinned canonical CON.10 definitions. It adds two schema inputs, task-owned generated C# and TypeScript outputs in the existing CloudInternal and @arcforges/ai-internal identities, offline fixtures and the immutable CON.15 binding successor. The locked external dependency closure, package coordinates, versions, integrity values, licences, project references, framework/toolchain selections and non-project package graph remain unchanged. This is declarative contract work: offline vectors claim no live Worker, D1, R2, provider, authorization or deployed transport. Independent exact-head review and all required hosted CI remain mandatory before merge.",
     "checks": {
-      "compilation": "Pinned official generation, full locked restore, and the CON.11 C#/TypeScript/Kotlin fixture consumers and applicable structural/serialization suites must pass on the exact candidate; retained hosted checks must pass.",
-      "aot-trim": "The task-owned exhaustive NativeAOT descriptor and serialization binder checks must pass with no unapproved descriptor surface or trimming claim.",
-      "compatibility": "The 14 owned RPCs, Poll authorization profile, 17 event hints, public/private fixture boundaries, exact field/tag/presence semantics and byte/count limits must pass generated C#/TypeScript/Kotlin consumers and task-specific negatives.",
-      "licence-provenance": "The CON.11 immutable binding successor, contract access and dependency review hashes, provenance inventory, NOTICE and applicable documentation-resource chain must validate against current generated outputs.",
-      "security-sbom": "The five authorized project-reference lock updates must preserve the exact existing third-party closure and integrity; exact-head hosted security, dependency and SBOM checks remain required.",
-      "runtime-performance-migration": "This task adds declarative contract schemas and offline fixtures only; it claims no runtime service, live gRPC-Web stream, deployment, performance result or migration.",
+      "compilation": "Pinned official generation, full locked restore and the existing C# and TypeScript structural suites must pass on the exact candidate; retained hosted checks must pass.",
+      "aot-trim": "The existing NativeAOT serialization probe and reflection-free generated validators must pass with no unapproved descriptor surface or trimming claim.",
+      "compatibility": "The 17 private routes, 37 generated roots, seven canonical references, closed bounds and exact manifest11 tuples must pass the offline CON.15 schema, fixture and operation-scope checks.",
+      "licence-provenance": "The CON.15 immutable binding successor, contract access and dependency review hashes, provenance inventory and NOTICE must validate against current generated outputs.",
+      "security-sbom": "No dependency, project reference or lock row changes; exact-head hosted security, dependency and SBOM checks remain required.",
+      "runtime-performance-migration": "This task adds declarative contract schemas and offline fixtures only; it claims no runtime service, deployed Worker, D1 or R2 behavior, performance result or migration.",
       "framework-runtime-posture": "Existing .NET, Node, Kotlin, protobuf, gRPC and Dokka selections remain pinned; no framework major-upgrade posture changes."
     },
     "frameworkVersions": {
@@ -2722,7 +2724,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-24-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-11-r1.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/con-11-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/con-15-r1.json"
 }
