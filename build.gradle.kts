@@ -57,6 +57,8 @@ subprojects {
                 // Document declared APIs without those misleading cross-type links.
                 suppressInheritedMembers.set(true)
             }
+            // The generated protobuf API now exceeds the default 2 GiB generator worker heap.
+            dokkaGeneratorIsolation.set(ProcessIsolation { maxHeapSize.set("6g") })
         }
         dokkaSourceSets.configureEach {
             jdkVersion.set(17)
