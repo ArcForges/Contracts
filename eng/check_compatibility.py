@@ -9,9 +9,12 @@ from __future__ import annotations
 import argparse
 from copy import deepcopy
 from datetime import date
+from decimal import Decimal
 import hashlib
 import json
 from pathlib import Path
+import re
+import struct
 
 
 def fields(data: bytes) -> dict[int, list[int | bytes]]:
@@ -238,6 +241,511 @@ def retained(model: dict, retirement: dict) -> dict:
     return result
 
 
+LATER_WINDOW = "eng/compatibility/later-services-window.json"
+# The CON.17 completion prerequisites with published protobuf services and those whose published
+# contracts are closed JSON schemas only (CON.07 has both).
+LATER_SERVICE_TASKS = ["CON.07", "CON.08", "CON.09", "CON.10", "CON.11", "CON.13", "CON.14"]
+LATER_SCHEMA_TASKS = ["CON.07", "CON.10", "CON.12", "CON.15", "CON.16"]
+LATER_REQUIRED_TASKS = sorted(set(LATER_SERVICE_TASKS) | set(LATER_SCHEMA_TASKS))
+PREVIOUS_TO_CURRENT = "previous-client/current-server"
+CURRENT_TO_MINIMUM = "current-client/minimum-server"
+UNKNOWN = "?"
+MAX_DEPTH = 2
+ERROR_REPORT_LIMIT = 100
+# FieldDescriptorProto.Type numbers and the wire type of each. Groups are not part of the contract.
+WIRE = {1: 1, 2: 5, 3: 0, 4: 0, 5: 0, 6: 1, 7: 5, 8: 0, 9: 2, 11: 2, 12: 2, 13: 0, 14: 0, 15: 5, 16: 1, 17: 0, 18: 0}
+PACKABLE = frozenset({1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18})
+FIXED = {1: "<d", 2: "<f", 6: "<Q", 7: "<I", 15: "<i", 16: "<q"}
+SAMPLES = {
+    1: (0.1, -0.5), 2: (1.5, -0.25),
+    3: (9007199254740993, -9007199254740993), 4: (18446744073709551615, 9007199254740993),
+    5: (-2147483648, 2147483647), 6: (18446744073709551615, 4294967297), 7: (4294967295, 65537),
+    8: (True, False), 13: (4294967295, 1), 15: (-2147483648, 2147483647),
+    16: (-9223372036854775808, 9223372036854775807), 17: (-2147483648, 2147483647),
+    18: (-9223372036854775808, 9223372036854775807),
+}
+
+
+def encode_varint(value: int) -> bytes:
+    value &= (1 << 64) - 1
+    result = bytearray()
+    while value >= 128:
+        result.append((value & 127) | 128)
+        value >>= 7
+    return bytes(result + bytes([value]))
+
+
+# Field 99999, length-delimited "fut": an additive member that no published descriptor declares.
+INJECTED_UNKNOWN = encode_varint((99999 << 3) | 2) + b"\x03fut"
+
+
+def read_varint(data: bytes, at: int) -> tuple[int, int]:
+    value = 0
+    for shift in range(0, 70, 7):
+        if at >= len(data):
+            raise ValueError("truncated varint")
+        byte = data[at]
+        at += 1
+        if shift == 63 and byte > 1:
+            raise ValueError("varint overflow")
+        value |= (byte & 127) << shift
+        if byte < 128:
+            return value, at
+    raise ValueError("varint overflow")
+
+
+def encode_scalar(kind: int, value) -> bytes:
+    if kind == 8:
+        return encode_varint(1 if value else 0)
+    if kind in (3, 4, 5, 13, 14):
+        return encode_varint(value)
+    if kind == 17:
+        return encode_varint((value << 1) ^ (value >> 31))
+    if kind == 18:
+        return encode_varint((value << 1) ^ (value >> 63))
+    return struct.pack(FIXED[kind], value)
+
+
+def decode_scalar(kind: int, wire: int, payload):
+    """Interpret one raw wire value exactly as the declared type defines its meaning."""
+    if wire != WIRE[kind]:
+        raise ValueError("wire type does not match the declared type")
+    if kind == 8:
+        return payload != 0
+    if kind == 3:
+        return payload - (1 << 64) if payload >= 1 << 63 else payload
+    if kind == 4:
+        return payload
+    if kind in (5, 14):
+        value = payload & 0xFFFFFFFF
+        return value - (1 << 32) if value >= 1 << 31 else value
+    if kind == 13:
+        return payload & 0xFFFFFFFF
+    if kind == 17:
+        value = payload & 0xFFFFFFFF
+        return (value >> 1) ^ -(value & 1)
+    if kind == 18:
+        return (payload >> 1) ^ -(payload & 1)
+    return struct.unpack(FIXED[kind], payload)[0]
+
+
+def declared(model: dict, name: str) -> dict:
+    if name not in model["messages"]:
+        raise ValueError("unresolved message type " + name)
+    return model["messages"][name]
+
+
+def synthesize(model: dict, name: str, depth: int = 0, stack: tuple = ()) -> dict:
+    """Deterministically populate one message from its own descriptor: boundary integers, exact
+    strings and bytes, the first arm of every oneof, two repeated elements, nested messages to a
+    bounded depth and an additive unknown member at every level."""
+    message = declared(model, name)
+    if 99999 in message:
+        raise ValueError("the injected unknown field number is declared by " + name)
+    tree: dict = {}
+    taken = set()
+    for tag in sorted(message):
+        field = message[tag]
+        kind, group, repeated = field["type"], field["oneof"], field["label"] == 3
+        if kind not in WIRE:
+            raise ValueError(f"unsupported field type {kind} in {name}")
+        if group is not None and group in taken:
+            continue
+        if kind == 11 and (depth >= MAX_DEPTH or field["typeName"] in stack + (name,)):
+            continue
+        values = []
+        for index in range(2 if repeated else 1):
+            if kind == 11:
+                values.append(synthesize(model, field["typeName"], depth + 1, stack + (name,)))
+            elif kind == 9:
+                values.append(("A中\U0001F600" if index == 0 else "B") + str(tag))
+            elif kind == 12:
+                values.append(bytes([0, 255, tag & 255]) if index == 0 else bytes([tag & 255, 1]))
+            elif kind == 14:
+                enum = model["enums"].get(field["typeName"])
+                if not enum:
+                    raise ValueError("unresolved enum type " + field["typeName"])
+                numbers = sorted(set(enum.values()))
+                values.append(numbers[-1] if index == 0 else numbers[0])
+            else:
+                values.append(SAMPLES[kind][index])
+        if group is not None:
+            taken.add(group)
+        tree[tag] = values if repeated else values[0]
+    tree[UNKNOWN] = [INJECTED_UNKNOWN]
+    return tree
+
+
+def encode_field(model: dict, field: dict, tag: int, value) -> bytes:
+    kind = field["type"]
+    if field["label"] == 3 and kind in PACKABLE:
+        body = b"".join(encode_scalar(kind, item) for item in value)
+        return encode_varint((tag << 3) | 2) + encode_varint(len(body)) + body
+    result = b""
+    for item in value if field["label"] == 3 else [value]:
+        if kind in (9, 11, 12):
+            body = (encode_message(model, field["typeName"], item) if kind == 11
+                    else item.encode("utf-8") if kind == 9 else item)
+            result += encode_varint((tag << 3) | 2) + encode_varint(len(body)) + body
+        else:
+            result += encode_varint((tag << 3) | WIRE[kind]) + encode_scalar(kind, item)
+    return result
+
+
+def encode_message(model: dict, name: str, tree: dict) -> bytes:
+    message = declared(model, name)
+    return (b"".join(encode_field(model, message[tag], tag, tree[tag])
+                     for tag in sorted(key for key in tree if key != UNKNOWN))
+            + b"".join(tree.get(UNKNOWN, [])))
+
+
+def decode_message(model: dict, name: str, data: bytes, depth: int = 0) -> dict:
+    """Reference reader driven only by a descriptor. It refuses a wire type that differs from the
+    declared type instead of reproducing a runtime's lenient unknown-field treatment, and it keeps
+    every undeclared member as raw bytes."""
+    if depth > 32:
+        raise ValueError("nesting exceeds 32")
+    message = declared(model, name)
+    tree: dict = {}
+    at = 0
+    while at < len(data):
+        start = at
+        key, at = read_varint(data, at)
+        tag, wire = key >> 3, key & 7
+        if not 1 <= tag <= 536870911:
+            raise ValueError("invalid field number")
+        if wire == 0:
+            payload, at = read_varint(data, at)
+        elif wire in (1, 5):
+            size = 8 if wire == 1 else 4
+            if size > len(data) - at:
+                raise ValueError("truncated fixed-width field")
+            payload, at = data[at:at + size], at + size
+        elif wire == 2:
+            size, at = read_varint(data, at)
+            if size > len(data) - at:
+                raise ValueError("truncated length-delimited field")
+            payload, at = data[at:at + size], at + size
+        else:
+            raise ValueError("unsupported wire type")
+        field = message.get(tag)
+        if field is None:
+            tree.setdefault(UNKNOWN, []).append(data[start:at])
+            continue
+        kind, repeated = field["type"], field["label"] == 3
+        if kind not in WIRE:
+            raise ValueError(f"unsupported field type {kind}")
+        values = []
+        if repeated and kind in PACKABLE and wire == 2:
+            inner = 0
+            while inner < len(payload):
+                if WIRE[kind] == 0:
+                    raw, inner = read_varint(payload, inner)
+                else:
+                    size = 8 if WIRE[kind] == 1 else 4
+                    if size > len(payload) - inner:
+                        raise ValueError("truncated packed field")
+                    raw, inner = payload[inner:inner + size], inner + size
+                values.append(decode_scalar(kind, WIRE[kind], raw))
+        elif kind in (9, 11, 12):
+            if wire != 2:
+                raise ValueError("wire type does not match the declared type")
+            values.append(decode_message(model, field["typeName"], payload, depth + 1) if kind == 11
+                          else payload.decode("utf-8", errors="strict") if kind == 9 else bytes(payload))
+        else:
+            values.append(decode_scalar(kind, wire, payload))
+        if repeated:
+            tree.setdefault(tag, []).extend(values)
+        else:
+            tree[tag] = values[-1]
+    return tree
+
+
+def project(writer: dict, reader: dict, name: str, tree: dict, strict: bool) -> dict:
+    """What a reader holding `reader` must see of a message written under `writer`: declared members
+    unchanged and every member it does not declare retained as raw unknown bytes. A strict reader
+    (the current server reading a previous client) may not leave any written member undeclared."""
+    source, known = writer["messages"][name], reader["messages"][name]
+    result: dict = {}
+    dropped = []
+    for tag in sorted(key for key in tree if key != UNKNOWN):
+        field = source[tag]
+        if tag not in known:
+            if strict:
+                raise ValueError(f"member {tag} ({field['name']}) is not declared by the reader")
+            dropped.append(encode_field(writer, field, tag, tree[tag]))
+        elif field["type"] == 11:
+            if known[tag]["typeName"] != field["typeName"] or known[tag]["type"] != 11:
+                raise ValueError(f"member {tag} ({field['name']}) changed its message type")
+            items = tree[tag] if field["label"] == 3 else [tree[tag]]
+            projected = [project(writer, reader, field["typeName"], item, strict) for item in items]
+            result[tag] = projected if field["label"] == 3 else projected[0]
+        else:
+            result[tag] = tree[tag]
+    unknown = dropped + tree.get(UNKNOWN, [])
+    if unknown:
+        result[UNKNOWN] = unknown
+    return result
+
+
+def exchange(writer: dict, reader: dict, direction: str, required=None, strict: bool = False) -> tuple[dict, list[str]]:
+    """One direction of the offline reference-codec matrix. Every message the writer declares is
+    populated, written, read by the other side and compared with what it was meant to say. A message
+    the reader lacks is an error only for the previously published `required` names; a current-only
+    addition is skipped."""
+    errors, count, size = [], 0, 0
+    for name in sorted(required if required is not None else writer["messages"]):
+        if name not in reader["messages"] or name not in writer["messages"]:
+            if required is not None:
+                errors.append(f"{direction}: {name}: message is not declared on both sides")
+            continue
+        count += 1
+        try:
+            tree = synthesize(writer, name)
+            data = encode_message(writer, name, tree)
+            size += len(data)
+            if decode_message(reader, name, data) != project(writer, reader, name, tree, strict):
+                errors.append(f"{direction}: {name}: decoded meaning differs from the written value")
+        except (ValueError, UnicodeDecodeError, KeyError) as problem:
+            errors.append(f"{direction}: {name}: {problem}")
+    return {"direction": direction, "messages": count, "bytes": size, "errors": len(errors)}, errors
+
+
+def canonical_json(value) -> str:
+    if isinstance(value, dict):
+        return "{" + ",".join(json.dumps(key, ensure_ascii=False) + ":" + canonical_json(value[key])
+                              for key in sorted(value)) + "}"
+    if isinstance(value, list):
+        return "[" + ",".join(canonical_json(item) for item in value) + "]"
+    if isinstance(value, Decimal):
+        return str(value)
+    return json.dumps(value, ensure_ascii=False)
+
+
+def schema_identity(raw: bytes) -> tuple[str, object]:
+    """Canonical SHA-256 and declared schema version of one closed JSON schema document."""
+    def unique(pairs):
+        result = {}
+        for key, item in pairs:
+            if key in result:
+                raise ValueError("Duplicate JSON property: " + key)
+            result[key] = item
+        return result
+    value = json.loads(raw.decode("utf-8"), object_pairs_hook=unique, parse_float=Decimal)
+    version = value.get("x-arcforges-schema-version") if isinstance(value, dict) else None
+    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest(), version
+
+
+def exact(value, keys: str, label: str) -> None:
+    if not isinstance(value, dict) or set(value) != set(keys.split()):
+        raise ValueError(f"Invalid {label}: expected exactly {keys}")
+
+
+def digest_of(value, label: str) -> str:
+    if not isinstance(value, str) or not re.fullmatch("[0-9a-f]{64}", value):
+        raise ValueError("Invalid SHA-256 for " + label)
+    return value
+
+
+def task_ids(value) -> None:
+    if (not isinstance(value, list) or not value or len(set(value)) != len(value)
+            or any(not isinstance(item, str) or not re.fullmatch(r"CON\.[0-9]+", item) for item in value)):
+        raise ValueError("Invalid task identifier list")
+
+
+def later_window(root: Path) -> dict:
+    from check_foundation import safe_path
+    window = json.loads((root / LATER_WINDOW).read_text(encoding="utf-8"))
+    exact(window, "schemaVersion license contractMajor openedOn earliestRetirement minimumReadSupportDays "
+                  "previousVersion minimumVersion candidate descriptor domains schemas profile coverage",
+          "later-service window")
+    if (window["schemaVersion"] != "contract-compatibility-later-services.v1" or window["license"] != "Apache-2.0"
+            or window["contractMajor"] != 1):
+        raise ValueError("Unsupported later-service compatibility window")
+    if window["minimumReadSupportDays"] < 90 or (date.fromisoformat(window["earliestRetirement"])
+                                                  - date.fromisoformat(window["openedOn"])).days < window["minimumReadSupportDays"]:
+        raise ValueError("Later-service read window is shorter than its minimum")
+    candidate = window["candidate"]
+    exact(candidate, "version sourceCommit publication retainedArchive", "candidate identity")
+    if not (re.fullmatch(r"1\.0\.0-ci\.[1-9][0-9]*\.[1-9][0-9]*", candidate["version"])
+            and window["previousVersion"] == window["minimumVersion"] == candidate["version"]
+            and re.fullmatch("[0-9a-f]{40}", candidate["sourceCommit"])
+            and re.fullmatch(r"https://github\.com/ArcForges/Contracts/actions/runs/[1-9][0-9]*", candidate["publication"])):
+        raise ValueError("Distinct or malformed later-service candidate identity")
+    exact(candidate["retainedArchive"], "artifactId name sha256", "retained candidate archive")
+    digest_of(candidate["retainedArchive"]["sha256"], "retained candidate archive")
+    row = window["descriptor"]
+    exact(row, "package previousAndMinimum sha256 current derivation", "later-service descriptor")
+    digest_of(row["sha256"], "later-service descriptor")
+    safe_path(root, row["previousAndMinimum"])
+    safe_path(root, row["current"])
+    seen_files, service_tasks, schema_tasks = set(), set(), set()
+    for domain in window["domains"]:
+        exact(domain, "tasks name files", "domain row")
+        task_ids(domain["tasks"])
+        if not isinstance(domain["name"], str) or not domain["name"].strip():
+            raise ValueError("Blank domain name")
+        for entry in domain["files"]:
+            exact(entry, "file services messages enums", "domain file")
+            if entry["file"] in seen_files:
+                raise ValueError("Descriptor file accounted twice: " + entry["file"])
+            seen_files.add(entry["file"])
+            if entry["services"]:
+                service_tasks.update(domain["tasks"])
+    schema_paths = set()
+    for schema in window["schemas"]:
+        exact(schema, "task path schemaVersion sha256", "closed schema row")
+        digest_of(schema["sha256"], schema["path"])
+        safe_path(root, schema["path"])
+        if schema["path"] in schema_paths:
+            raise ValueError("Closed schema pinned twice: " + schema["path"])
+        schema_paths.add(schema["path"])
+        task_ids([schema["task"]])
+        schema_tasks.add(schema["task"])
+    missing = sorted((set(LATER_SERVICE_TASKS) - service_tasks) | (set(LATER_SCHEMA_TASKS) - schema_tasks))
+    if missing:
+        raise ValueError("Later-service window omits pinned contracts of completion prerequisites: " + ", ".join(missing))
+    return window
+
+
+def domain_index(window: dict, model: dict) -> dict[str, str]:
+    """Map every pinned definition to the tasks that own its file."""
+    owners = {entry["file"]: "/".join(domain["tasks"]) for domain in window["domains"] for entry in domain["files"]}
+    index = {}
+    for filename, content in model["files"].items():
+        for kind in ("messages", "enums", "services"):
+            for name in content[kind]:
+                index[kind + ":" + name] = owners.get(filename, "unaccounted")
+    return index
+
+
+def later_accounting_errors(window: dict, model: dict) -> list[str]:
+    errors = []
+    declared_files = {entry["file"]: entry for domain in window["domains"] for entry in domain["files"]}
+    if set(declared_files) != set(model["files"]):
+        errors.append("later-services: pinned descriptor files differ from the accounted domain files: "
+                      + ", ".join(sorted(set(declared_files) ^ set(model["files"]))))
+    for filename, entry in sorted(declared_files.items()):
+        content = model["files"].get(filename)
+        if content is None:
+            continue
+        actual = {"services": {name.lstrip("."): len(methods) for name, methods in content["services"].items()},
+                  "messages": len(content["messages"]), "enums": len(content["enums"])}
+        if {key: entry[key] for key in actual} != actual:
+            errors.append(f"later-services: {filename}: pinned service, message and enum accounting differs from the pinned descriptor")
+    return errors
+
+
+def later_schema_errors(root: Path, window: dict) -> list[str]:
+    from check_foundation import safe_path
+    errors = []
+    for schema in window["schemas"]:
+        try:
+            current, version = schema_identity(safe_path(root, schema["path"]).read_bytes())
+        except (OSError, ValueError, UnicodeDecodeError) as problem:
+            errors.append(f"later-services: {schema['task']}: {schema['path']}: {problem}")
+            continue
+        if version != schema["schemaVersion"]:
+            errors.append(f"later-services: {schema['task']}: {schema['path']}: published schema version "
+                          f"{schema['schemaVersion']} became {version}")
+        elif current != schema["sha256"]:
+            errors.append(f"later-services: {schema['task']}: {schema['path']}: published closed schema "
+                          f"{version} changed in place")
+    return errors
+
+
+def later_compare_errors(window: dict, previous: dict, minimum: dict, current: dict) -> list[str]:
+    """Published definitions must survive in the current descriptor in both directions; each error
+    names the CON task that owns the file."""
+    owners = domain_index(window, previous)
+    errors = []
+    for direction, pinned in ((PREVIOUS_TO_CURRENT, previous), (CURRENT_TO_MINIMUM, minimum)):
+        for problem in compare(pinned, current):
+            parts = problem.split(":")
+            errors.append(f"later-services: {direction}: {owners.get(parts[0] + ':' + parts[1], 'unaccounted')}: {problem}")
+    return errors
+
+
+def later_exchange_errors(previous: dict, minimum: dict, current: dict, only=None) -> tuple[list[dict], list[str]]:
+    """Both directions of the reference-codec exchange: every member the previous client writes must be
+    understood by the current server with the meaning it was written with, and every additive member
+    the current client writes must be retained by the minimum server, never reinterpreted."""
+    runs, errors = [], []
+    for direction, writer, reader, required, strict in (
+            (PREVIOUS_TO_CURRENT, previous, current, set(previous["messages"]) if only is None else set(only), True),
+            (CURRENT_TO_MINIMUM, current, minimum, None if only is None else set(only), False)):
+        summary, problems = exchange(writer, reader, direction, required, strict)
+        runs.append(summary)
+        errors.extend("later-services: " + problem for problem in problems)
+    return runs, errors
+
+
+def later_descriptor_errors(window: dict, previous: dict, minimum: dict, current: dict) -> tuple[list[dict], list[str]]:
+    runs, errors = later_exchange_errors(previous, minimum, current)
+    return runs, later_compare_errors(window, previous, minimum, current) + errors
+
+
+def check_later_services(root: Path, current_descriptor: Path | None = None) -> dict:
+    """Run the later-service window: accounted pinned descriptors for the published CON.07-CON.16
+    contracts, both compatibility directions, the reference-codec exchange and the closed-schema pins."""
+    from check_foundation import safe_path
+    window = later_window(root)
+    row = window["descriptor"]
+    raw = safe_path(root, row["previousAndMinimum"]).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != row["sha256"]:
+        raise ValueError("Historical later-service descriptor fixture changed")
+    pinned = descriptor(raw)
+    current = descriptor((current_descriptor or safe_path(root, row["current"])).read_bytes())
+    errors = later_accounting_errors(window, pinned)
+    runs, problems = later_descriptor_errors(window, pinned, pinned, current)
+    errors.extend(problems)
+    errors.extend(later_schema_errors(root, window))
+    return {"candidate": window["candidate"]["version"], "sourceCommit": window["candidate"]["sourceCommit"],
+            "package": row["package"], "pinnedDefinitions": {key: len(value) for key, value in pinned.items()},
+            "currentDefinitions": {key: len(value) for key, value in current.items()},
+            "tasks": sorted({task for domain in window["domains"] for task in domain["tasks"]}
+                            | {schema["task"] for schema in window["schemas"]}),
+            "closedSchemas": len(window["schemas"]), "exchange": runs, "coverage": window["coverage"],
+            "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
+
+
+def emit_later_exchange(root: Path, directory: Path) -> int:
+    """Write what the previous client (the pinned descriptor) would send for every published message,
+    for the generated current codecs to read. Nothing here calls a service."""
+    window = later_window(root)
+    pinned = descriptor((root / window["descriptor"]["previousAndMinimum"]).read_bytes())
+    names = sorted(name.lstrip(".") for name in pinned["messages"])
+    (directory / "previous").mkdir(parents=True, exist_ok=True)
+    for name in names:
+        tree = synthesize(pinned, "." + name)
+        (directory / "previous" / (name + ".bin")).write_bytes(encode_message(pinned, "." + name, tree))
+    (directory / "messages.txt").write_text("\n".join(names) + "\n", encoding="utf-8", newline="\n")
+    return len(names)
+
+
+def verify_later_exchange(root: Path, directory: Path) -> dict:
+    """Check what the generated current codecs wrote back: every published message must be present,
+    and the pinned minimum descriptor must read it with exactly the meaning the previous client sent."""
+    window = later_window(root)
+    pinned = descriptor((root / window["descriptor"]["previousAndMinimum"]).read_bytes())
+    listed = (directory / "messages.txt").read_text(encoding="utf-8").split()
+    errors, identical = [], 0
+    if set(listed) != {name.lstrip(".") for name in pinned["messages"]} or len(listed) != len(set(listed)):
+        errors.append("generated-codec exchange: the message list differs from the pinned descriptor")
+    for name in listed:
+        written = directory / "current" / (name + ".bin")
+        sent = directory / "previous" / (name + ".bin")
+        try:
+            data = written.read_bytes()
+            identical += data == sent.read_bytes()
+            if decode_message(pinned, "." + name, data) != synthesize(pinned, "." + name):
+                errors.append(f"generated-codec exchange: {name}: the pinned minimum reader sees a different meaning")
+        except (OSError, ValueError, UnicodeDecodeError) as problem:
+            errors.append(f"generated-codec exchange: {name}: {problem}")
+    return {"schemaVersion": "contract-later-service-codec-exchange.v1", "candidate": window["candidate"]["version"],
+            "messages": len(listed), "byteIdentical": identical, "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
+
+
 def check_window(root: Path) -> dict:
     from check_foundation import check, safe_path
     # This verifies the exact CON.23 retirement exceptions before using them.
@@ -264,8 +772,11 @@ def check_window(root: Path) -> dict:
         results.append({"package": row["package"], "retainedDefinitions": {key: len(value) for key, value in previous.items()},
                         "check": "preserve published supported members used by both offline codec directions",
                         "errors": problems})
+    later = check_later_services(root)
+    errors.extend(later["errors"])
     return {"schemaVersion": "contract-compatibility-report.v1", "previousVersion": window["previousVersion"],
-            "minimumVersion": window["minimumVersion"], "coverage": window["coverage"], "descriptors": results, "errors": errors}
+            "minimumVersion": window["minimumVersion"], "coverage": window["coverage"], "descriptors": results,
+            "laterServices": later, "errors": errors}
 
 
 def main() -> int:
@@ -273,14 +784,21 @@ def main() -> int:
     parser.add_argument("--previous", type=Path)
     parser.add_argument("--current", type=Path)
     parser.add_argument("--window", action="store_true")
+    parser.add_argument("--emit-later-exchange", type=Path, metavar="DIRECTORY")
+    parser.add_argument("--verify-later-exchange", type=Path, metavar="DIRECTORY")
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--report", type=Path)
     args = parser.parse_args()
+    if args.emit_later_exchange:
+        print(f"Wrote {emit_later_exchange(args.root, args.emit_later_exchange)} previous-client messages")
+        return 0
     if args.window:
         report = check_window(args.root)
+    elif args.verify_later_exchange:
+        report = verify_later_exchange(args.root, args.verify_later_exchange)
     else:
         if args.previous is None or args.current is None:
-            parser.error("Use --window or both --previous and --current")
+            parser.error("Use --window, --emit-later-exchange, --verify-later-exchange or both --previous and --current")
         previous = descriptor(args.previous.read_bytes())
         current = descriptor(args.current.read_bytes())
         errors = compare(previous, current)

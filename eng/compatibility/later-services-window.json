@@ -1,0 +1,350 @@
+{
+  "schemaVersion": "contract-compatibility-later-services.v1",
+  "license": "Apache-2.0",
+  "contractMajor": 1,
+  "openedOn": "2026-10-02",
+  "earliestRetirement": "2027-01-01",
+  "minimumReadSupportDays": 90,
+  "previousVersion": "1.0.0-ci.287.1",
+  "minimumVersion": "1.0.0-ci.287.1",
+  "candidate": {
+    "version": "1.0.0-ci.287.1",
+    "sourceCommit": "ca45f36cccbdd31380f76b8f6cdecc958fdcb430",
+    "publication": "https://github.com/ArcForges/Contracts/actions/runs/36966686225",
+    "retainedArchive": {
+      "artifactId": 11210775779,
+      "name": "contracts-candidate-36966686225-1",
+      "sha256": "96fdd28556d0e753f54c4b7245398382a029bcbd58684a49954f339eaa71d425"
+    }
+  },
+  "descriptor": {
+    "package": "ArcForges.Contracts.CloudInternal",
+    "previousAndMinimum": "eng/compatibility/cloud-internal-1.0.0-ci.287.1.binpb",
+    "sha256": "e6a295a5b14c45a158a58e5542ef9d3a34ba65281569018bcbf1dc962ddb4adc",
+    "current": "artifacts/operator.binpb",
+    "derivation": "FileDescriptorSet of the ArcForges.Contracts.CloudInternal closure (every public schema plus the private operator and run-stream schemas, with imports), produced by the repository's pinned protoc 2.84.0 descriptor-set step from merge source ca45f36 of the published 1.0.0-ci.287.1 candidate. It was derived from that source, not extracted from or compared with the published package bytes."
+  },
+  "domains": [
+    {
+      "tasks": ["CON.09", "CON.91"],
+      "name": "Foundation values including the CON.09 TransferTicket",
+      "files": [
+        {
+          "file": "arcforges/foundation/v1/foundation.proto",
+          "services": {},
+          "messages": 44,
+          "enums": 9
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.92"],
+      "name": "Hello packaging demonstration",
+      "files": [
+        {
+          "file": "arcforges/hello/v1/hello.proto",
+          "services": {
+            "arcforges.hello.v1.HelloService": 1
+          },
+          "messages": 2,
+          "enums": 0
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.02"],
+      "name": "Descriptor, health and encoded-body records",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/descriptors.proto",
+          "services": {},
+          "messages": 2,
+          "enums": 0
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.03", "CON.91"],
+      "name": "Public content and sync-allowlist records",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/content.proto",
+          "services": {},
+          "messages": 63,
+          "enums": 6
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.06"],
+      "name": "In-process product values",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/inprocess-values.proto",
+          "services": {},
+          "messages": 12,
+          "enums": 2
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.07"],
+      "name": "Identity, workspace and device operations",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/identity.proto",
+          "services": {
+            "arcforges.publicapi.v1.DeviceService": 10,
+            "arcforges.publicapi.v1.IdentityService": 32,
+            "arcforges.publicapi.v1.WorkspaceService": 7
+          },
+          "messages": 176,
+          "enums": 5
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.08"],
+      "name": "Entitlement and commerce operations",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/commerce.proto",
+          "services": {
+            "arcforges.publicapi.v1.CommerceService": 14,
+            "arcforges.publicapi.v1.EntitlementService": 6
+          },
+          "messages": 78,
+          "enums": 1
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.09"],
+      "name": "Sync, resource and transfer operations",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/sync.proto",
+          "services": {
+            "arcforges.publicapi.v1.ResourceService": 7,
+            "arcforges.publicapi.v1.SyncService": 10
+          },
+          "messages": 62,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/publicapi/v1/transfer.proto",
+          "services": {
+            "arcforges.publicapi.v1.TransferService": 6
+          },
+          "messages": 23,
+          "enums": 1
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.10"],
+      "name": "Task, approval, bridge, chat, agent, automation and search operations",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/chat.proto",
+          "services": {
+            "arcforges.publicapi.v1.AgentService": 7,
+            "arcforges.publicapi.v1.ApprovalService": 2,
+            "arcforges.publicapi.v1.AutomationService": 9,
+            "arcforges.publicapi.v1.BridgeService": 3,
+            "arcforges.publicapi.v1.ChatService": 21,
+            "arcforges.publicapi.v1.SearchService": 1,
+            "arcforges.publicapi.v1.SourceService": 5,
+            "arcforges.publicapi.v1.TaskService": 9
+          },
+          "messages": 191,
+          "enums": 2
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.11"],
+      "name": "Application, history, execution and event operations and the private run stream",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/application.proto",
+          "services": {
+            "arcforges.publicapi.v1.ApplicationService": 3,
+            "arcforges.publicapi.v1.HistoryService": 4
+          },
+          "messages": 33,
+          "enums": 1
+        },
+        {
+          "file": "arcforges/events/v1/events.proto",
+          "services": {
+            "arcforges.events.v1.EventService": 2,
+            "arcforges.events.v1.ExecutionService": 5
+          },
+          "messages": 41,
+          "enums": 0
+        },
+        {
+          "file": "arcforges/cf/v1/stream.proto",
+          "services": {
+            "arcforges.cf.v1.RunStreamService": 1
+          },
+          "messages": 1,
+          "enums": 0
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.13"],
+      "name": "Public package catalog operations",
+      "files": [
+        {
+          "file": "arcforges/catalog/v1/catalog.proto",
+          "services": {
+            "arcforges.catalog.v1.CatalogService": 7
+          },
+          "messages": 25,
+          "enums": 1
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.14"],
+      "name": "Internal operator control service",
+      "files": [
+        {
+          "file": "arcforges/operator/v1/operator.proto",
+          "services": {
+            "arcforges.operator.v1.OperatorService": 31
+          },
+          "messages": 111,
+          "enums": 5
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.21"],
+      "name": "Simulation operations (outside the CON.17 completion prerequisites)",
+      "files": [
+        {
+          "file": "arcforges/simulation/v1/simulation.proto",
+          "services": {
+            "arcforges.simulation.v1.SimulationService": 13
+          },
+          "messages": 56,
+          "enums": 0
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.22"],
+      "name": "Account support, notification, data, preference, policy and export operations (outside the CON.17 completion prerequisites)",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/export.proto",
+          "services": {
+            "arcforges.publicapi.v1.DataService": 2,
+            "arcforges.publicapi.v1.ExportService": 3
+          },
+          "messages": 15,
+          "enums": 0
+        },
+        {
+          "file": "arcforges/publicapi/v1/support.proto",
+          "services": {
+            "arcforges.publicapi.v1.NotificationService": 4,
+            "arcforges.publicapi.v1.PolicyService": 1,
+            "arcforges.publicapi.v1.PreferenceService": 1,
+            "arcforges.publicapi.v1.SupportService": 4
+          },
+          "messages": 32,
+          "enums": 0
+        }
+      ]
+    },
+    {
+      "tasks": ["CON.24"],
+      "name": "ArcScope library read operations (outside the CON.17 completion prerequisites)",
+      "files": [
+        {
+          "file": "arcforges/publicapi/v1/scope.proto",
+          "services": {
+            "arcforges.publicapi.v1.ScopeService": 3
+          },
+          "messages": 9,
+          "enums": 0
+        }
+      ]
+    }
+  ],
+  "schemas": [
+    {
+      "task": "CON.07",
+      "path": "public/http/v1/browser.schema.json",
+      "schemaVersion": "1",
+      "sha256": "6a0fe71117a4072b2512ca435d46bb2b8c69ec75a027cf74a7a6d959c9161f07"
+    },
+    {
+      "task": "CON.07",
+      "path": "public/http/v1/native-auth.schema.json",
+      "schemaVersion": "1",
+      "sha256": "1a1709eec98caa50e3a73d3b1a6af6479b21dffd58ad8d66cb14cfe1ed5853d1"
+    },
+    {
+      "task": "CON.10",
+      "path": "internal/ai-http/v1/schema.json",
+      "schemaVersion": "1",
+      "sha256": "3b51e271d2596df8027143ee496e280a9c6eb767221ab542c0ed3c4591025990"
+    },
+    {
+      "task": "CON.12",
+      "path": "public/http/v1/manifest.schema.json",
+      "schemaVersion": "1",
+      "sha256": "212248f326b4705ebe877f67368a379c4c475f3d8bca5daf79852e5c60b2e622"
+    },
+    {
+      "task": "CON.12",
+      "path": "public/http/v1/workflow.schema.json",
+      "schemaVersion": "1",
+      "sha256": "a0903636af70137fc793ac46f66566e3eacbd8fecc13fc2438077eece92755ad"
+    },
+    {
+      "task": "CON.12",
+      "path": "public/http/v1/panel.schema.json",
+      "schemaVersion": "1",
+      "sha256": "412dc7284890c520f481541e9da8c6b84500075db1ed9edef1b8a875de98e20d"
+    },
+    {
+      "task": "CON.12",
+      "path": "public/http/v1/policy-body.schema.json",
+      "schemaVersion": "1",
+      "sha256": "a95985cf099f7826e712b0a139a5d7eef4fd8b242fd24d149f94a302b49748df"
+    },
+    {
+      "task": "CON.12",
+      "path": "internal/ai-http/v1/configuration.schema.json",
+      "schemaVersion": "1",
+      "sha256": "755a98bcb1117f9a2744cc66bc292e623434a429ae2869c46cef015910159582"
+    },
+    {
+      "task": "CON.15",
+      "path": "internal/cf-http/v1/schema.json",
+      "schemaVersion": "1",
+      "sha256": "20aa498f007ad7b346783d0d092525dd92ec6713b97f9022ca79332e82ed2489"
+    },
+    {
+      "task": "CON.15",
+      "path": "internal/storage-http/v1/schema.json",
+      "schemaVersion": "1",
+      "sha256": "8ca3ff19b1e13e6e1d740b95f217de9cd32da4b4661d4a53759eb00f778582b5"
+    },
+    {
+      "task": "CON.16",
+      "path": "public/http/v1/signed-formats.schema.json",
+      "schemaVersion": "1",
+      "sha256": "eb1f1550e7380b326684dd3420a6dc5126481171af6c116ba7af3df9229c53dd"
+    }
+  ],
+  "profile": "Pins the first published candidate that contains every CON.07-CON.16 contract as both the previous and the minimum supported descriptor set. Protobuf definitions follow the additive-only rule of the existing window: published members, types, presence, oneofs, enum numbers and RPC shapes are preserved and only additions are accepted. Closed JSON exception schemas reject unknown fields, so a published schema may not change in place while its x-arcforges-schema-version is unchanged; a change needs a retained published version and a reviewed window update. This is an actual published development candidate, not a stable release or a deployed production client.",
+  "coverage": "Previous/current and current/minimum offline matrix over the protobuf services of CON.07-CON.11, CON.13 and CON.14 (and the other services in the same closure), plus content pins for the closed JSON schemas of CON.07, CON.10, CON.12, CON.15 and CON.16. Previous and minimum are the same published candidate, so at the pin the matrix compares the candidate with itself; it detects later change and does not show cross-version evolution of these services. The wire exchange is an independent descriptor-driven reference codec, not the generated C#, TypeScript or Kotlin codecs, and no earlier published client assembly or live service contains these contracts."
+}
