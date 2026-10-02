@@ -52,6 +52,7 @@
     "docs/validation.md",
     "docs/wp03-01-foundation.md",
     "docs/wp03-02-serialization.md",
+    "docs/wp03-90-verification.md",
     "eng/Codegen/Codegen.csproj",
     "eng/Codegen/packages.lock.json",
     "eng/build_identity.py",
