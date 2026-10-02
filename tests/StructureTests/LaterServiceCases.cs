@@ -4,9 +4,9 @@ using Google.Protobuf.Reflection;
 
 /// <summary>
 /// Generated-codec leg of the CON.17 later-service matrix. eng/check_compatibility.py writes what a
-/// previous client (the pinned published descriptor) sends for every published message. The current
+/// previous client of each pinned published candidate sends for every message that candidate published. The current
 /// generated parsers read those bytes and write them back; the same script then checks that the pinned
-/// minimum reader sees the meaning that was sent. No transport, service or published package is used.
+/// reader sees the meaning that was sent. No transport, service or published package is used.
 /// </summary>
 internal static class LaterServiceCases
 {
@@ -38,17 +38,24 @@ internal static class LaterServiceCases
     {
         var current = new Dictionary<string, MessageDescriptor>(StringComparer.Ordinal);
         foreach (var file in Files) Collect(file.MessageTypes, current);
-        var listed = File.ReadAllLines(Path.Combine(directory, "messages.txt")).Where(line => line.Length != 0).ToArray();
-        var output = Directory.CreateDirectory(Path.Combine(directory, "current")).FullName;
-        foreach (var name in listed)
+        var pins = Directory.GetDirectories(directory).Where(pin => File.Exists(Path.Combine(pin, "messages.txt"))).Order(StringComparer.Ordinal).ToArray();
+        if (pins.Length == 0) throw new InvalidOperationException("No previous-client exchange was emitted");
+        var total = 0;
+        foreach (var pin in pins)
         {
-            if (!current.TryGetValue(name, out var descriptor))
-                throw new InvalidOperationException("The current generated codecs lack published message " + name);
-            var sent = File.ReadAllBytes(Path.Combine(directory, "previous", name + ".bin"));
-            var message = descriptor.Parser.ParseFrom(sent);
-            File.WriteAllBytes(Path.Combine(output, name + ".bin"), message.ToByteArray());
+            var listed = File.ReadAllLines(Path.Combine(pin, "messages.txt")).Where(line => line.Length != 0).ToArray();
+            var output = Directory.CreateDirectory(Path.Combine(pin, "current")).FullName;
+            foreach (var name in listed)
+            {
+                if (!current.TryGetValue(name, out var descriptor))
+                    throw new InvalidOperationException("The current generated codecs lack message " + name + " published in " + Path.GetFileName(pin));
+                var sent = File.ReadAllBytes(Path.Combine(pin, "previous", name + ".bin"));
+                var message = descriptor.Parser.ParseFrom(sent);
+                File.WriteAllBytes(Path.Combine(output, name + ".bin"), message.ToByteArray());
+            }
+            total += listed.Length;
         }
-        Console.WriteLine($"Current generated codecs read and rewrote {listed.Length} previous-client messages; the pinned minimum reader verifies them next.");
+        Console.WriteLine($"Current generated codecs read and rewrote {total} previous-client messages of {pins.Length} published candidates; the pinned readers verify them next.");
     }
 
     private static void Collect(IEnumerable<MessageDescriptor> messages, Dictionary<string, MessageDescriptor> into)

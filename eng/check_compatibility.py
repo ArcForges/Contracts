@@ -553,11 +553,18 @@ def task_ids(value) -> None:
         raise ValueError("Invalid task identifier list")
 
 
+def build_number(version: str) -> tuple[int, int]:
+    found = re.fullmatch(r"1\.0\.0-ci\.([1-9][0-9]*)\.([1-9][0-9]*)", version)
+    if found is None:
+        raise ValueError("Malformed candidate version: " + str(version))
+    return int(found.group(1)), int(found.group(2))
+
+
 def later_window(root: Path) -> dict:
     from check_foundation import safe_path
     window = json.loads((root / LATER_WINDOW).read_text(encoding="utf-8"))
     exact(window, "schemaVersion license contractMajor openedOn earliestRetirement minimumReadSupportDays "
-                  "previousVersion minimumVersion candidate descriptor domains schemas profile coverage",
+                  "previousVersion minimumVersion candidates pins owners schemas profile coverage",
           "later-service window")
     if (window["schemaVersion"] != "contract-compatibility-later-services.v1" or window["license"] != "Apache-2.0"
             or window["contractMajor"] != 1):
@@ -565,52 +572,83 @@ def later_window(root: Path) -> dict:
     if window["minimumReadSupportDays"] < 90 or (date.fromisoformat(window["earliestRetirement"])
                                                   - date.fromisoformat(window["openedOn"])).days < window["minimumReadSupportDays"]:
         raise ValueError("Later-service read window is shorter than its minimum")
-    candidate = window["candidate"]
-    exact(candidate, "version sourceCommit publication retainedArchive", "candidate identity")
-    if not (re.fullmatch(r"1\.0\.0-ci\.[1-9][0-9]*\.[1-9][0-9]*", candidate["version"])
-            and window["previousVersion"] == window["minimumVersion"] == candidate["version"]
-            and re.fullmatch("[0-9a-f]{40}", candidate["sourceCommit"])
-            and re.fullmatch(r"https://github\.com/ArcForges/Contracts/actions/runs/[1-9][0-9]*", candidate["publication"])):
-        raise ValueError("Distinct or malformed later-service candidate identity")
-    exact(candidate["retainedArchive"], "artifactId name sha256", "retained candidate archive")
-    digest_of(candidate["retainedArchive"]["sha256"], "retained candidate archive")
-    row = window["descriptor"]
-    exact(row, "package previousAndMinimum sha256 current derivation", "later-service descriptor")
-    digest_of(row["sha256"], "later-service descriptor")
-    safe_path(root, row["previousAndMinimum"])
-    safe_path(root, row["current"])
-    seen_files, service_tasks, schema_tasks = set(), set(), set()
-    for domain in window["domains"]:
-        exact(domain, "tasks name files", "domain row")
-        task_ids(domain["tasks"])
-        if not isinstance(domain["name"], str) or not domain["name"].strip():
-            raise ValueError("Blank domain name")
-        for entry in domain["files"]:
-            exact(entry, "file services messages enums", "domain file")
-            if entry["file"] in seen_files:
-                raise ValueError("Descriptor file accounted twice: " + entry["file"])
-            seen_files.add(entry["file"])
-            if entry["services"]:
-                service_tasks.update(domain["tasks"])
+    candidates = window["candidates"]
+    if not isinstance(candidates, dict) or not candidates:
+        raise ValueError("Missing published candidate identities")
+    for version, candidate in candidates.items():
+        build_number(version)
+        exact(candidate, "sourceCommit publication retainedArchive", "candidate " + version)
+        if not (re.fullmatch("[0-9a-f]{40}", candidate["sourceCommit"]) and re.fullmatch(
+                r"https://github\.com/ArcForges/Contracts/actions/runs/[1-9][0-9]*", candidate["publication"])):
+            raise ValueError("Malformed candidate identity: " + version)
+        exact(candidate["retainedArchive"], "artifactId name sha256", "retained archive of " + version)
+        digest_of(candidate["retainedArchive"]["sha256"], "retained archive of " + version)
+    ordered = sorted(candidates, key=build_number)
+    if window["previousVersion"] != ordered[-1] or window["minimumVersion"] != ordered[0]:
+        raise ValueError("The window must span from its oldest to its newest published candidate")
+    if not window["pins"]:
+        raise ValueError("The window has no pinned descriptor")
+    introduced, previous_build, serviced_before = [], None, set()
+    owner_files, schema_tasks = set(), set()
+    for owner in window["owners"]:
+        exact(owner, "tasks name files", "file owner row")
+        task_ids(owner["tasks"])
+        if not isinstance(owner["name"], str) or not owner["name"].strip() or not owner["files"]:
+            raise ValueError("Blank file owner row")
+        for filename in owner["files"]:
+            if filename in owner_files:
+                raise ValueError("Descriptor file owned twice: " + filename)
+            owner_files.add(filename)
+    for pin in window["pins"]:
+        exact(pin, "candidate package previousAndMinimum sha256 current introduces files", "descriptor pin")
+        if pin["candidate"] not in candidates:
+            raise ValueError("Pin names an unrecorded candidate: " + str(pin["candidate"]))
+        if previous_build is not None and build_number(pin["candidate"]) <= previous_build:
+            raise ValueError("Pins must be ordered by strictly increasing candidate")
+        previous_build = build_number(pin["candidate"])
+        digest_of(pin["sha256"], pin["candidate"])
+        safe_path(root, pin["previousAndMinimum"])
+        safe_path(root, pin["current"])
+        task_ids(pin["introduces"])
+        introduced.extend(pin["introduces"])
+        for entry in pin["files"]:
+            exact(entry, "file services messages enums", "pinned file")
+            if entry["file"] not in owner_files:
+                raise ValueError("Pinned file has no owner row: " + entry["file"])
+        if len({entry["file"] for entry in pin["files"]}) != len(pin["files"]):
+            raise ValueError("Descriptor file accounted twice in " + pin["candidate"])
+        serviced_now = {task for owner in window["owners"] for task in owner["tasks"]
+                        if any(entry["file"] in owner["files"] and entry["services"] for entry in pin["files"])}
+        for task in pin["introduces"]:
+            if task not in serviced_now or task in serviced_before:
+                raise ValueError(f"{task} is not first published with services in {pin['candidate']}")
+        serviced_before |= serviced_now
+    if len(set(introduced)) != len(introduced) or set(introduced) != set(LATER_SERVICE_TASKS):
+        raise ValueError("Each protobuf completion prerequisite must be introduced by exactly one pin: "
+                         + ", ".join(sorted(set(LATER_SERVICE_TASKS) ^ set(introduced))))
+    if window["pins"][-1]["candidate"] != window["previousVersion"]:
+        raise ValueError("The newest pin must be the previous candidate")
     schema_paths = set()
     for schema in window["schemas"]:
-        exact(schema, "task path schemaVersion sha256", "closed schema row")
+        exact(schema, "task path schemaVersion firstPublished sha256", "closed schema row")
         digest_of(schema["sha256"], schema["path"])
         safe_path(root, schema["path"])
         if schema["path"] in schema_paths:
             raise ValueError("Closed schema pinned twice: " + schema["path"])
+        if schema["firstPublished"] not in candidates:
+            raise ValueError("Schema names an unrecorded candidate: " + schema["path"])
         schema_paths.add(schema["path"])
         task_ids([schema["task"]])
         schema_tasks.add(schema["task"])
-    missing = sorted((set(LATER_SERVICE_TASKS) - service_tasks) | (set(LATER_SCHEMA_TASKS) - schema_tasks))
+    missing = sorted(set(LATER_SCHEMA_TASKS) - schema_tasks)
     if missing:
-        raise ValueError("Later-service window omits pinned contracts of completion prerequisites: " + ", ".join(missing))
+        raise ValueError("Later-service window omits closed schemas of completion prerequisites: " + ", ".join(missing))
     return window
 
 
 def domain_index(window: dict, model: dict) -> dict[str, str]:
-    """Map every pinned definition to the tasks that own its file."""
-    owners = {entry["file"]: "/".join(domain["tasks"]) for domain in window["domains"] for entry in domain["files"]}
+    """Map every definition of one pinned descriptor to the tasks that own its file."""
+    owners = {filename: "/".join(owner["tasks"]) for owner in window["owners"] for filename in owner["files"]}
     index = {}
     for filename, content in model["files"].items():
         for kind in ("messages", "enums", "services"):
@@ -619,11 +657,11 @@ def domain_index(window: dict, model: dict) -> dict[str, str]:
     return index
 
 
-def later_accounting_errors(window: dict, model: dict) -> list[str]:
+def later_accounting_errors(pin: dict, model: dict) -> list[str]:
     errors = []
-    declared_files = {entry["file"]: entry for domain in window["domains"] for entry in domain["files"]}
+    declared_files = {entry["file"]: entry for entry in pin["files"]}
     if set(declared_files) != set(model["files"]):
-        errors.append("later-services: pinned descriptor files differ from the accounted domain files: "
+        errors.append(f"later-services: {pin['candidate']}: pinned descriptor files differ from the accounted files: "
                       + ", ".join(sorted(set(declared_files) ^ set(model["files"]))))
     for filename, entry in sorted(declared_files.items()):
         content = model["files"].get(filename)
@@ -632,7 +670,8 @@ def later_accounting_errors(window: dict, model: dict) -> list[str]:
         actual = {"services": {name.lstrip("."): len(methods) for name, methods in content["services"].items()},
                   "messages": len(content["messages"]), "enums": len(content["enums"])}
         if {key: entry[key] for key in actual} != actual:
-            errors.append(f"later-services: {filename}: pinned service, message and enum accounting differs from the pinned descriptor")
+            errors.append(f"later-services: {pin['candidate']}: {filename}: pinned service, message and enum "
+                          "accounting differs from the pinned descriptor")
     return errors
 
 
@@ -649,101 +688,124 @@ def later_schema_errors(root: Path, window: dict) -> list[str]:
             errors.append(f"later-services: {schema['task']}: {schema['path']}: published schema version "
                           f"{schema['schemaVersion']} became {version}")
         elif current != schema["sha256"]:
-            errors.append(f"later-services: {schema['task']}: {schema['path']}: published closed schema "
-                          f"{version} changed in place")
+            errors.append(f"later-services: {schema['task']}: {schema['path']}: closed schema published in "
+                          f"{schema['firstPublished']} changed in place")
     return errors
 
 
-def later_compare_errors(window: dict, previous: dict, minimum: dict, current: dict) -> list[str]:
-    """Published definitions must survive in the current descriptor in both directions; each error
-    names the CON task that owns the file."""
-    owners = domain_index(window, previous)
+def later_compare_errors(window: dict, pin: dict, pinned: dict, current: dict) -> list[str]:
+    """Definitions published in this pin must survive in the current descriptor (additive growth only),
+    for the previous client reading the current server and the current client writing to the pinned
+    server alike; each error names the pin and the CON task that owns the file."""
+    owners = domain_index(window, pinned)
     errors = []
-    for direction, pinned in ((PREVIOUS_TO_CURRENT, previous), (CURRENT_TO_MINIMUM, minimum)):
+    for direction in (PREVIOUS_TO_CURRENT, CURRENT_TO_MINIMUM):
         for problem in compare(pinned, current):
             parts = problem.split(":")
-            errors.append(f"later-services: {direction}: {owners.get(parts[0] + ':' + parts[1], 'unaccounted')}: {problem}")
+            errors.append(f"later-services: {direction}: {pin['candidate']}: "
+                          f"{owners.get(parts[0] + ':' + parts[1], 'unaccounted')}: {problem}")
     return errors
 
 
-def later_exchange_errors(previous: dict, minimum: dict, current: dict, only=None) -> tuple[list[dict], list[str]]:
-    """Both directions of the reference-codec exchange: every member the previous client writes must be
-    understood by the current server with the meaning it was written with, and every additive member
-    the current client writes must be retained by the minimum server, never reinterpreted."""
+def later_exchange_errors(pin: dict, pinned: dict, current: dict, only=None) -> tuple[list[dict], list[str]]:
+    """Both directions of the reference-codec exchange for one pin: every member the previous client
+    writes must be understood by the current server with the meaning it was written with, and every
+    additive member the current client writes must be retained by the pinned server, never reinterpreted."""
     runs, errors = [], []
     for direction, writer, reader, required, strict in (
-            (PREVIOUS_TO_CURRENT, previous, current, set(previous["messages"]) if only is None else set(only), True),
-            (CURRENT_TO_MINIMUM, current, minimum, None if only is None else set(only), False)):
-        summary, problems = exchange(writer, reader, direction, required, strict)
-        runs.append(summary)
+            (PREVIOUS_TO_CURRENT, pinned, current, set(pinned["messages"]) if only is None else set(only), True),
+            (CURRENT_TO_MINIMUM, current, pinned, None if only is None else set(only), False)):
+        summary, problems = exchange(writer, reader, f"{direction} {pin['candidate']}", required, strict)
+        runs.append({**summary, "direction": direction, "candidate": pin["candidate"]})
         errors.extend("later-services: " + problem for problem in problems)
     return runs, errors
 
 
-def later_descriptor_errors(window: dict, previous: dict, minimum: dict, current: dict) -> tuple[list[dict], list[str]]:
-    runs, errors = later_exchange_errors(previous, minimum, current)
-    return runs, later_compare_errors(window, previous, minimum, current) + errors
+def pinned_model(root: Path, pin: dict) -> dict:
+    from check_foundation import safe_path
+    raw = safe_path(root, pin["previousAndMinimum"]).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != pin["sha256"]:
+        raise ValueError("Historical later-service descriptor fixture changed: " + pin["candidate"])
+    return descriptor(raw)
 
 
-def check_later_services(root: Path, current_descriptor: Path | None = None) -> dict:
-    """Run the later-service window: accounted pinned descriptors for the published CON.07-CON.16
-    contracts, both compatibility directions, the reference-codec exchange and the closed-schema pins."""
+def check_later_services(root: Path, current_descriptors: dict | None = None) -> dict:
+    """Run the later-service window: every pinned published candidate against the current descriptor of
+    its package in both directions, the reference-codec exchange, file/service/message accounting and
+    the closed-schema pins. `current_descriptors` maps a pin's `current` path to another file (tests)."""
     from check_foundation import safe_path
     window = later_window(root)
-    row = window["descriptor"]
-    raw = safe_path(root, row["previousAndMinimum"]).read_bytes()
-    if hashlib.sha256(raw).hexdigest() != row["sha256"]:
-        raise ValueError("Historical later-service descriptor fixture changed")
-    pinned = descriptor(raw)
-    current = descriptor((current_descriptor or safe_path(root, row["current"])).read_bytes())
-    errors = later_accounting_errors(window, pinned)
-    runs, problems = later_descriptor_errors(window, pinned, pinned, current)
-    errors.extend(problems)
+    errors, runs, results = [], [], []
+    currents = {}
+    for pin in window["pins"]:
+        pinned = pinned_model(root, pin)
+        path = (current_descriptors or {}).get(pin["current"]) or safe_path(root, pin["current"])
+        if pin["current"] not in currents:
+            currents[pin["current"]] = descriptor(Path(path).read_bytes())
+        current = currents[pin["current"]]
+        pin_errors = later_accounting_errors(pin, pinned)
+        pin_errors.extend(later_compare_errors(window, pin, pinned, current))
+        pin_runs, problems = later_exchange_errors(pin, pinned, current)
+        pin_errors.extend(problems)
+        runs.extend(pin_runs)
+        errors.extend(pin_errors)
+        results.append({"candidate": pin["candidate"], "package": pin["package"], "introduces": pin["introduces"],
+                        "pinnedDefinitions": {key: len(value) for key, value in pinned.items()},
+                        "currentDefinitions": {key: len(value) for key, value in current.items()},
+                        "errors": len(pin_errors)})
     errors.extend(later_schema_errors(root, window))
-    return {"candidate": window["candidate"]["version"], "sourceCommit": window["candidate"]["sourceCommit"],
-            "package": row["package"], "pinnedDefinitions": {key: len(value) for key, value in pinned.items()},
-            "currentDefinitions": {key: len(value) for key, value in current.items()},
-            "tasks": sorted({task for domain in window["domains"] for task in domain["tasks"]}
-                            | {schema["task"] for schema in window["schemas"]}),
-            "closedSchemas": len(window["schemas"]), "exchange": runs, "coverage": window["coverage"],
-            "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
+    return {"previousVersion": window["previousVersion"], "minimumVersion": window["minimumVersion"],
+            "pins": results, "exchange": runs, "closedSchemas": len(window["schemas"]),
+            "coverage": window["coverage"], "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
 
 
 def emit_later_exchange(root: Path, directory: Path) -> int:
-    """Write what the previous client (the pinned descriptor) would send for every published message,
-    for the generated current codecs to read. Nothing here calls a service."""
+    """Write what the previous client of every pin would send for each message that pin published, for
+    the generated current codecs to read. Nothing here calls a service."""
     window = later_window(root)
-    pinned = descriptor((root / window["descriptor"]["previousAndMinimum"]).read_bytes())
-    names = sorted(name.lstrip(".") for name in pinned["messages"])
-    (directory / "previous").mkdir(parents=True, exist_ok=True)
-    for name in names:
-        tree = synthesize(pinned, "." + name)
-        (directory / "previous" / (name + ".bin")).write_bytes(encode_message(pinned, "." + name, tree))
-    (directory / "messages.txt").write_text("\n".join(names) + "\n", encoding="utf-8", newline="\n")
-    return len(names)
+    total = 0
+    for pin in window["pins"]:
+        pinned = pinned_model(root, pin)
+        names = sorted(name.lstrip(".") for name in pinned["messages"])
+        target = directory / pin["candidate"]
+        (target / "previous").mkdir(parents=True, exist_ok=True)
+        for name in names:
+            tree = synthesize(pinned, "." + name)
+            (target / "previous" / (name + ".bin")).write_bytes(encode_message(pinned, "." + name, tree))
+        (target / "messages.txt").write_text("\n".join(names) + "\n", encoding="utf-8", newline="\n")
+        total += len(names)
+    return total
 
 
 def verify_later_exchange(root: Path, directory: Path) -> dict:
-    """Check what the generated current codecs wrote back: every published message must be present,
-    and the pinned minimum descriptor must read it with exactly the meaning the previous client sent."""
+    """Check what the generated current codecs wrote back for every pin: each published message must be
+    present, and the pinned reader must see exactly the meaning the previous client sent."""
     window = later_window(root)
-    pinned = descriptor((root / window["descriptor"]["previousAndMinimum"]).read_bytes())
-    listed = (directory / "messages.txt").read_text(encoding="utf-8").split()
-    errors, identical = [], 0
-    if set(listed) != {name.lstrip(".") for name in pinned["messages"]} or len(listed) != len(set(listed)):
-        errors.append("generated-codec exchange: the message list differs from the pinned descriptor")
-    for name in listed:
-        written = directory / "current" / (name + ".bin")
-        sent = directory / "previous" / (name + ".bin")
+    errors, identical, total, per_pin = [], 0, 0, []
+    for pin in window["pins"]:
+        pinned = pinned_model(root, pin)
+        target = directory / pin["candidate"]
         try:
-            data = written.read_bytes()
-            identical += data == sent.read_bytes()
-            if decode_message(pinned, "." + name, data) != synthesize(pinned, "." + name):
-                errors.append(f"generated-codec exchange: {name}: the pinned minimum reader sees a different meaning")
-        except (OSError, ValueError, UnicodeDecodeError) as problem:
-            errors.append(f"generated-codec exchange: {name}: {problem}")
-    return {"schemaVersion": "contract-later-service-codec-exchange.v1", "candidate": window["candidate"]["version"],
-            "messages": len(listed), "byteIdentical": identical, "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
+            listed = (target / "messages.txt").read_text(encoding="utf-8").split()
+        except OSError as problem:
+            errors.append(f"generated-codec exchange: {pin['candidate']}: {problem}")
+            continue
+        if set(listed) != {name.lstrip(".") for name in pinned["messages"]} or len(listed) != len(set(listed)):
+            errors.append(f"generated-codec exchange: {pin['candidate']}: the message list differs from the pinned descriptor")
+        pin_identical = 0
+        for name in listed:
+            try:
+                data = (target / "current" / (name + ".bin")).read_bytes()
+                pin_identical += data == (target / "previous" / (name + ".bin")).read_bytes()
+                if decode_message(pinned, "." + name, data) != synthesize(pinned, "." + name):
+                    errors.append(f"generated-codec exchange: {pin['candidate']}: {name}: the pinned reader sees a different meaning")
+            except (OSError, ValueError, UnicodeDecodeError, KeyError) as problem:
+                errors.append(f"generated-codec exchange: {pin['candidate']}: {name}: {problem}")
+        identical += pin_identical
+        total += len(listed)
+        per_pin.append({"candidate": pin["candidate"], "messages": len(listed), "byteIdentical": pin_identical})
+    return {"schemaVersion": "contract-later-service-codec-exchange.v1", "pins": per_pin, "messages": total,
+            "byteIdentical": identical, "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
 
 
 def check_window(root: Path) -> dict:
