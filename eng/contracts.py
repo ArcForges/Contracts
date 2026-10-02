@@ -354,6 +354,7 @@ def build() -> None:
     run("node", ROOT / "tests/public/foundation.test.mjs", "--exchange")
     run("dotnet", structure_tests, ROOT, "--verify-foundation-exchange")
     compatibility_exchange(structure_tests)
+    later_services_exchange(structure_tests)
     serialization_probe()
     from kotlin_tools import build as build_kotlin
     build_kotlin()
@@ -367,6 +368,16 @@ def compatibility_exchange(structure_tests: Path) -> None:
         run("dotnet", structure_tests, ROOT, "--compatibility-current", temporary)
         run("dotnet", previous, "verify-and-serve", temporary)
         run("dotnet", structure_tests, ROOT, "--compatibility-verify", temporary)
+
+
+def later_services_exchange(structure_tests: Path) -> None:
+    """Pinned previous-client bytes for every published CON.07-CON.16 message, read and rewritten by the
+    generated current codecs and read back through the pinned minimum descriptor; offline files only."""
+    with tempfile.TemporaryDirectory(prefix="arcforges-later-services-") as temporary:
+        run(sys.executable, ROOT / "eng/check_compatibility.py", "--emit-later-exchange", temporary)
+        run("dotnet", structure_tests, ROOT, "--compatibility-later-services", temporary)
+        run(sys.executable, ROOT / "eng/check_compatibility.py", "--verify-later-exchange", temporary,
+            "--report", ARTIFACTS / "evidence/later-service-codec-exchange.json")
 
 
 def serialization_probe() -> None:

@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "id": "con17-later-service-descriptors-r1",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "ca45f36cccbdd31380f76b8f6cdecc958fdcb430",
+  "sourcePaths": [
+    "public/proto/arcforges/publicapi/v1/identity.proto",
+    "internal/proto/arcforges/local/platform/v1/platform.proto",
+    "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+    "internal/proto/arcforges/local/chat/v1/chat.proto",
+    "internal/proto/arcforges/local/scope/v1/scope.proto",
+    "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+    "public/proto/arcforges/extensions/v1/extensions.proto"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "finding": "All selected authored schemas, shape rules, fixtures and orchestration carry the repository Apache-2.0 terms; exact source identities and hashes are bound below."
+      }
+    ],
+    "scope": "Descriptor fixtures for the CON.17 later-service compatibility window. They are compiled FileDescriptorSets of this repository's own Apache-2.0 schemas, produced by the pinned protoc; no external product implementation is imported and no new production contract or package is created.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors.",
+    "Copyright 2008 Google Inc. All rights reserved.",
+    "Copyright 2015, 2019, 2020 gRPC authors.",
+    "Copyright 2021-2026 Buf Technologies, Inc.",
+    "Copyright 2022-2026 The Connect Authors."
+  ],
+  "targets": [
+    {
+      "path": "eng/compatibility/public-api-1.0.0-ci.224.1.binpb",
+      "sha256": "a15d8dab4730aa217b150dc03e69062e81a31fe694c3144d687975a16fbca2a5",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/public-api-1.0.0-ci.244.1.binpb",
+      "sha256": "67f0e9bd680795a7faff751be7380f0743262e1969c5f0f7fb0b7fc58271d2b8",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/public-api-1.0.0-ci.250.1.binpb",
+      "sha256": "0ae30c514432cee5fc9421bb31b261ae32a58e898ea9072431545c51760a28f2",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/public-api-1.0.0-ci.258.1.binpb",
+      "sha256": "258705bef031e4b116a84268b1b6c10eaa661f5e739fbed118266e2fce6ba88f",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/cloud-internal-1.0.0-ci.270.1.binpb",
+      "sha256": "11a40e7cadeb6f9c389d0f9dbc1416902610664f3941ce9c2b729b7603c71a6a",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/cloud-internal-1.0.0-ci.284.1.binpb",
+      "sha256": "08535b3cbc6c4cb7368acf6bf0eb8ad8c277625fe9e7e29412e1ffe2d08edf57",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/cloud-internal-1.0.0-ci.287.1.binpb",
+      "sha256": "e6a295a5b14c45a158a58e5542ef9d3a34ba65281569018bcbf1dc962ddb4adc",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/local-chat-1.0.0-ci.287.1.binpb",
+      "sha256": "4bb06d76dbde2018466e38ff59a8f3a25680253718a6b3f2edfb0998ea50e052",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/local-scope-1.0.0-ci.287.1.binpb",
+      "sha256": "00e04b64b75ed682e0db35a534087a2cf5f017d5707c835e550e725a02959ad1",
+      "normalization": "raw"
+    },
+    {
+      "path": "eng/compatibility/local-sandbox-1.0.0-ci.287.1.binpb",
+      "sha256": "e2942e1d0a3dfc7f188597fc0f6224ea682a774f9e8492f1faf937781a3f20fb",
+      "normalization": "raw"
+    }
+  ],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "regeneration",
+    "command": "python eng/check_compatibility.py --window",
+    "expected": "Each target is regenerated from the recorded source commit of its candidate (git archive of that commit, the package closure of that tree's eng/contract-packages.json, the Grpc.Tools protoc locked in that tree, --include_imports, --descriptor_set_out) and its SHA-256 equals the target. The window gate then compares every pin with the current descriptor. The pins are derived from source and were not extracted from or compared with the published package bytes.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.",
+    "files": [
+      "LICENSE",
+      "third-party/protobuf-generator-LICENSE.txt",
+      "eng/provenance/NOTICE.txt"
+    ],
+    "distribution": "source",
+    "reason": "Historical descriptors are test-only compatibility fixtures; they are not exported as a new production contract or package."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/protocolbuffers/protobuf",
+        "commit": "35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03",
+        "paths": [
+          "src/google/protobuf/compiler/csharp/csharp_generator.cc",
+          "src/google/protobuf/compiler/java/generator.cc",
+          "src/google/protobuf/compiler/kotlin/generator.cc"
+        ],
+        "spdx": "BSD-3-Clause",
+        "evidence": [
+          {
+            "path": "src/google/protobuf/compiler/csharp/csharp_generator.cc",
+            "sha256": "8b1977fc091ca196408fd0b88332fe4457e8bde2b1fc9b92327ca0accbb618b6",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "src/google/protobuf/compiler/java/generator.cc",
+            "sha256": "62d1d34fa2003b460eeb793e5c87f7c9ba3a9ab43a06ba6032c0daacbcc15d7d",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "src/google/protobuf/compiler/kotlin/generator.cc",
+            "sha256": "a73a77ee148d87601686875fa7545e27dfedf2162845bc6b04a5b73a63e1fd57",
+            "finding": "The generator file header explicitly declares BSD-3-Clause; generated output retains applicable upstream obligations."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+            "finding": "Full governing BSD-3-Clause terms for these explicitly licensed generator files."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "dfbb0217198cf1d6ae71484dd30193a699b525eb",
+        "paths": [
+          "public/proto/arcforges/catalog/v1/catalog.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/catalog/v1/catalog.proto",
+            "sha256": "ff77d24be445e107d4fb4a0b3f7fd6b205664317e856a3696e471be1a18f0828",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.224.1."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "063762f32c551449fb01936d9ec30fedb77260de",
+        "paths": [
+          "public/proto/arcforges/publicapi/v1/commerce.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/publicapi/v1/commerce.proto",
+            "sha256": "e0ed5700197fdb20006c7ea699d9071dd8c4ac9d4248651f8a148363ad8af9dc",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.244.1."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "bf42fef5e4fd28792004c8a16623465784e2bfb7",
+        "paths": [
+          "public/proto/arcforges/publicapi/v1/sync.proto",
+          "public/proto/arcforges/publicapi/v1/transfer.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/publicapi/v1/sync.proto",
+            "sha256": "2e7861c2cbb6d55aa36c9703b4409f3149365f2f1f53741f2dce3f0589cb84d6",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.250.1."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/transfer.proto",
+            "sha256": "f7d53346a43cd977224154b33d8f1f3f3f4b973c67e513caf384b195654abc0e",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.250.1."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "67f1f08e35b7f46bc4292aba3f0f7be4a5044875",
+        "paths": [
+          "public/proto/arcforges/publicapi/v1/chat.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/publicapi/v1/chat.proto",
+            "sha256": "b878ad06144a626e426e78addb76ca7fceb3c36d6a99f087f918fad1968e109a",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.258.1."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "4047930ef2207e8a4c6de9e7ef679f0d9359a8e4",
+        "paths": [
+          "public/proto/arcforges/publicapi/v1/application.proto",
+          "public/proto/arcforges/events/v1/events.proto",
+          "internal/proto/arcforges/cf/v1/stream.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/publicapi/v1/application.proto",
+            "sha256": "a75077033ccc4876460606b35bfd06929b83ee57111637367bef92cbc1a28710",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.270.1."
+          },
+          {
+            "path": "public/proto/arcforges/events/v1/events.proto",
+            "sha256": "33953eb0fa0ade48154efee887abae991d8eb697542516091164b7601e95d25e",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.270.1."
+          },
+          {
+            "path": "internal/proto/arcforges/cf/v1/stream.proto",
+            "sha256": "c6a851984bcbe51e2b47dd4ed870d2b651f48e61299d95d4adaa6c201c5ed3d6",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.270.1."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "bcd592a75c0b540923a77a499a8f82e18bbff743",
+        "paths": [
+          "internal/proto/arcforges/operator/v1/operator.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "internal/proto/arcforges/operator/v1/operator.proto",
+            "sha256": "fd5b7e820e7962bec3f5286f72c086974ac900caa518e3b0c2c3301946e0dd67",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.284.1."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "ca45f36cccbdd31380f76b8f6cdecc958fdcb430",
+        "paths": [
+          "public/proto/arcforges/publicapi/v1/identity.proto",
+          "internal/proto/arcforges/local/platform/v1/platform.proto",
+          "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+          "internal/proto/arcforges/local/chat/v1/chat.proto",
+          "internal/proto/arcforges/local/scope/v1/scope.proto",
+          "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+          "public/proto/arcforges/extensions/v1/extensions.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/publicapi/v1/identity.proto",
+            "sha256": "bdc4b2cd3e44b72bbcbdfb6968cf5affb9afd7266645d4f83ae3564750bae3bc",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          },
+          {
+            "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
+            "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          },
+          {
+            "path": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+            "sha256": "485be994a178fee8fb323dc58f5903a83b4f098ee5c8b658872e29b1cf439e2a",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          },
+          {
+            "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
+            "sha256": "4d77656ed1a31141706328e69bd7050a9e426b0460cd97890838eecfb021f6f6",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          },
+          {
+            "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
+            "sha256": "387e6924688cc7f343a3273618549451784e5a9384a44150ca7d7fa23ab22219",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          },
+          {
+            "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+            "sha256": "2276569cf048bc33f84f6e8d4114fdb4ffdf520fd25e0fb67b37c3ab8d25f5ba",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          },
+          {
+            "path": "public/proto/arcforges/extensions/v1/extensions.proto",
+            "sha256": "73e66d8130a01db43f963386fead900ca910f4ba143f3102968d0c82e90d14a7",
+            "finding": "Exact Apache-2.0 schema source of published candidate 1.0.0-ci.287.1."
+          }
+        ]
+      }
+    ],
+    "command": "For each pinned candidate: git archive its merge source, run the descriptor step of eng/contracts.py generate for the pinned package with the Grpc.Tools protoc locked in that tree, and keep the FileDescriptorSet as an immutable fixture.",
+    "outputSpdx": "Apache-2.0"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-c20261002-con17f (file-level licence assessment; independent task review remains required)",
+    "reviewedOn": "2026-10-02",
+    "decision": "approved",
+    "rationale": "Pin exact first-party Apache-2.0 descriptor bytes generated from the merge sources of the published candidates named by the CON.17 later-service window. Preserve original generator attribution. No retired contract is reintroduced.",
+    "baselineCommit": "0491315d5918198fd23955c6b33cdd54e12cd42b",
+    "reconciliation": false
+  },
+  "supersedes": null,
+  "artifactTargets": []
+}
