@@ -10,7 +10,7 @@ using Google.Protobuf.Reflection;
 /// </summary>
 internal static class LaterServiceCases
 {
-    // Explicit list of every file in the pinned descriptor; nothing is discovered at runtime.
+    // Explicit list of every file of every pinned descriptor; nothing is discovered at runtime.
     private static readonly FileDescriptor[] Files =
     [
         ArcForges.Contracts.Foundation.V1.FoundationReflection.Descriptor,
@@ -32,6 +32,12 @@ internal static class LaterServiceCases
         ArcForges.Contracts.PublicApi.V1.ExportReflection.Descriptor,
         ArcForges.Contracts.PublicApi.V1.SupportReflection.Descriptor,
         ArcForges.Contracts.PublicApi.V1.ScopeReflection.Descriptor,
+        ArcForges.Sdk.Contracts.V1.ExtensionsReflection.Descriptor,
+        ArcForges.Contracts.LocalRpc.Platform.V1.PlatformReflection.Descriptor,
+        ArcForges.Contracts.LocalRpc.Platform.V1.InprocessReflection.Descriptor,
+        ArcForges.Contracts.LocalRpc.Chat.V1.ChatReflection.Descriptor,
+        ArcForges.Contracts.LocalRpc.Scope.V1.ScopeReflection.Descriptor,
+        ArcForges.Contracts.LocalRpc.Sandbox.V1.SandboxReflection.Descriptor,
     ];
 
     internal static void Run(string directory)
@@ -45,13 +51,15 @@ internal static class LaterServiceCases
         {
             var listed = File.ReadAllLines(Path.Combine(pin, "messages.txt")).Where(line => line.Length != 0).ToArray();
             var output = Directory.CreateDirectory(Path.Combine(pin, "current")).FullName;
-            foreach (var name in listed)
+            foreach (var sample in listed)
             {
+                // A sample is a message name, or the name and "@" and the index of an extra oneof-arm sample.
+                var name = sample.Split('@')[0];
                 if (!current.TryGetValue(name, out var descriptor))
                     throw new InvalidOperationException("The current generated codecs lack message " + name + " published in " + Path.GetFileName(pin));
-                var sent = File.ReadAllBytes(Path.Combine(pin, "previous", name + ".bin"));
+                var sent = File.ReadAllBytes(Path.Combine(pin, "previous", sample + ".bin"));
                 var message = descriptor.Parser.ParseFrom(sent);
-                File.WriteAllBytes(Path.Combine(output, name + ".bin"), message.ToByteArray());
+                File.WriteAllBytes(Path.Combine(output, sample + ".bin"), message.ToByteArray());
             }
             total += listed.Length;
         }

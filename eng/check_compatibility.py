@@ -335,10 +335,38 @@ def declared(model: dict, name: str) -> dict:
     return model["messages"][name]
 
 
-def synthesize(model: dict, name: str, depth: int = 0, stack: tuple = ()) -> dict:
+def oneof_arms(message: dict) -> dict[str, list[int]]:
+    """Member tags of every oneof group (including proto3 optional's synthetic groups), in tag order."""
+    arms: dict[str, list[int]] = {}
+    for tag in sorted(message):
+        if message[tag]["oneof"] is not None:
+            arms.setdefault(message[tag]["oneof"], []).append(tag)
+    return arms
+
+
+def sample_ids(model: dict, name: str) -> list[str]:
+    """One default sample per message plus one extra sample per non-first arm of every oneof, so that
+    every declared member is written at least once: `name`, then `name@1`, `name@2`, ..."""
+    extra = sum(len(tags) - 1 for tags in oneof_arms(declared(model, name)).values())
+    return [name] + [f"{name}@{index}" for index in range(1, extra + 1)]
+
+
+def arm_choice(message: dict, index: int) -> dict[str, int]:
+    """Which arm each oneof writes in extra sample `index` (the index-th non-first arm, in group and tag order)."""
+    chosen = {}
+    for group, tags in oneof_arms(message).items():
+        for position in range(1, len(tags)):
+            index -= 1
+            if index == 0:
+                chosen[group] = tags[position]
+                return chosen
+    return chosen
+
+
+def synthesize(model: dict, name: str, depth: int = 0, stack: tuple = (), chosen: dict | None = None) -> dict:
     """Deterministically populate one message from its own descriptor: boundary integers, exact
-    strings and bytes, the first arm of every oneof, two repeated elements, nested messages to a
-    bounded depth and an additive unknown member at every level."""
+    strings and bytes, one arm of every oneof (the first unless `chosen` names another), two repeated
+    elements, nested messages to a bounded depth and an additive unknown member at every level."""
     message = declared(model, name)
     if 99999 in message:
         raise ValueError("the injected unknown field number is declared by " + name)
@@ -349,7 +377,7 @@ def synthesize(model: dict, name: str, depth: int = 0, stack: tuple = ()) -> dic
         kind, group, repeated = field["type"], field["oneof"], field["label"] == 3
         if kind not in WIRE:
             raise ValueError(f"unsupported field type {kind} in {name}")
-        if group is not None and group in taken:
+        if group is not None and (group in taken or (chosen and group in chosen and chosen[group] != tag)):
             continue
         if kind == 11 and (depth >= MAX_DEPTH or field["typeName"] in stack + (name,)):
             continue
@@ -374,6 +402,11 @@ def synthesize(model: dict, name: str, depth: int = 0, stack: tuple = ()) -> dic
         tree[tag] = values if repeated else values[0]
     tree[UNKNOWN] = [INJECTED_UNKNOWN]
     return tree
+
+
+def synthesize_sample(model: dict, sample: str) -> dict:
+    name, _, index = sample.partition("@")
+    return synthesize(model, name, chosen=arm_choice(declared(model, name), int(index)) if index else None)
 
 
 def encode_field(model: dict, field: dict, tag: int, value) -> bytes:
@@ -493,7 +526,7 @@ def exchange(writer: dict, reader: dict, direction: str, required=None, strict: 
     populated, written, read by the other side and compared with what it was meant to say. A message
     the reader lacks is an error only for the previously published `required` names; a current-only
     addition is skipped."""
-    errors, count, size = [], 0, 0
+    errors, count, size, samples = [], 0, 0, 0
     for name in sorted(required if required is not None else writer["messages"]):
         if name not in reader["messages"] or name not in writer["messages"]:
             if required is not None:
@@ -501,14 +534,16 @@ def exchange(writer: dict, reader: dict, direction: str, required=None, strict: 
             continue
         count += 1
         try:
-            tree = synthesize(writer, name)
-            data = encode_message(writer, name, tree)
-            size += len(data)
-            if decode_message(reader, name, data) != project(writer, reader, name, tree, strict):
-                errors.append(f"{direction}: {name}: decoded meaning differs from the written value")
+            for sample in sample_ids(writer, name):
+                tree = synthesize_sample(writer, sample)
+                data = encode_message(writer, name, tree)
+                size += len(data)
+                samples += 1
+                if decode_message(reader, name, data) != project(writer, reader, name, tree, strict):
+                    errors.append(f"{direction}: {sample}: decoded meaning differs from the written value")
         except (ValueError, UnicodeDecodeError, KeyError) as problem:
             errors.append(f"{direction}: {name}: {problem}")
-    return {"direction": direction, "messages": count, "bytes": size, "errors": len(errors)}, errors
+    return {"direction": direction, "messages": count, "samples": samples, "bytes": size, "errors": len(errors)}, errors
 
 
 def canonical_json(value) -> str:
@@ -577,7 +612,8 @@ def later_window(root: Path) -> dict:
         raise ValueError("Missing published candidate identities")
     for version, candidate in candidates.items():
         build_number(version)
-        exact(candidate, "sourceCommit publication retainedArchive", "candidate " + version)
+        exact(candidate, "publishedOn sourceCommit publication retainedArchive", "candidate " + version)
+        date.fromisoformat(candidate["publishedOn"])
         if not (re.fullmatch("[0-9a-f]{40}", candidate["sourceCommit"]) and re.fullmatch(
                 r"https://github\.com/ArcForges/Contracts/actions/runs/[1-9][0-9]*", candidate["publication"])):
             raise ValueError("Malformed candidate identity: " + version)
@@ -586,6 +622,8 @@ def later_window(root: Path) -> dict:
     ordered = sorted(candidates, key=build_number)
     if window["previousVersion"] != ordered[-1] or window["minimumVersion"] != ordered[0]:
         raise ValueError("The window must span from its oldest to its newest published candidate")
+    if window["openedOn"] != candidates[ordered[-1]]["publishedOn"]:
+        raise ValueError("The read window must open when its newest candidate was published")
     if not window["pins"]:
         raise ValueError("The window has no pinned descriptor")
     introduced, previous_build, serviced_before = [], None, set()
@@ -603,13 +641,14 @@ def later_window(root: Path) -> dict:
         exact(pin, "candidate package previousAndMinimum sha256 current introduces files", "descriptor pin")
         if pin["candidate"] not in candidates:
             raise ValueError("Pin names an unrecorded candidate: " + str(pin["candidate"]))
-        if previous_build is not None and build_number(pin["candidate"]) <= previous_build:
-            raise ValueError("Pins must be ordered by strictly increasing candidate")
+        if previous_build is not None and build_number(pin["candidate"]) < previous_build:
+            raise ValueError("Pins must be ordered by increasing candidate")
         previous_build = build_number(pin["candidate"])
         digest_of(pin["sha256"], pin["candidate"])
         safe_path(root, pin["previousAndMinimum"])
         safe_path(root, pin["current"])
-        task_ids(pin["introduces"])
+        if pin["introduces"]:
+            task_ids(pin["introduces"])
         introduced.extend(pin["introduces"])
         for entry in pin["files"]:
             exact(entry, "file services messages enums", "pinned file")
@@ -630,12 +669,12 @@ def later_window(root: Path) -> dict:
         raise ValueError("The newest pin must be the previous candidate")
     schema_paths = set()
     for schema in window["schemas"]:
-        exact(schema, "task path schemaVersion firstPublished sha256", "closed schema row")
+        exact(schema, "task path schemaVersion identicalSince sha256", "closed schema row")
         digest_of(schema["sha256"], schema["path"])
         safe_path(root, schema["path"])
         if schema["path"] in schema_paths:
             raise ValueError("Closed schema pinned twice: " + schema["path"])
-        if schema["firstPublished"] not in candidates:
+        if schema["identicalSince"] not in candidates:
             raise ValueError("Schema names an unrecorded candidate: " + schema["path"])
         schema_paths.add(schema["path"])
         task_ids([schema["task"]])
@@ -688,22 +727,21 @@ def later_schema_errors(root: Path, window: dict) -> list[str]:
             errors.append(f"later-services: {schema['task']}: {schema['path']}: published schema version "
                           f"{schema['schemaVersion']} became {version}")
         elif current != schema["sha256"]:
-            errors.append(f"later-services: {schema['task']}: {schema['path']}: closed schema published in "
-                          f"{schema['firstPublished']} changed in place")
+            errors.append(f"later-services: {schema['task']}: {schema['path']}: closed schema identical since "
+                          f"{schema['identicalSince']} changed in place")
     return errors
 
 
 def later_compare_errors(window: dict, pin: dict, pinned: dict, current: dict) -> list[str]:
-    """Definitions published in this pin must survive in the current descriptor (additive growth only),
-    for the previous client reading the current server and the current client writing to the pinned
-    server alike; each error names the pin and the CON task that owns the file."""
+    """Definitions published in this pin must survive in the current descriptor (additive growth only).
+    One additive-only comparison covers the previous client reading the current server and the current
+    client writing to the pinned server; the two directions differ only in the reference-codec exchange.
+    Each error names the pin and the CON task that owns the file."""
     owners = domain_index(window, pinned)
     errors = []
-    for direction in (PREVIOUS_TO_CURRENT, CURRENT_TO_MINIMUM):
-        for problem in compare(pinned, current):
-            parts = problem.split(":")
-            errors.append(f"later-services: {direction}: {pin['candidate']}: "
-                          f"{owners.get(parts[0] + ':' + parts[1], 'unaccounted')}: {problem}")
+    for problem in compare(pinned, current):
+        parts = problem.split(":")
+        errors.append(f"later-services: {pin['candidate']}: {owners.get(parts[0] + ':' + parts[1], 'unaccounted')}: {problem}")
     return errors
 
 
@@ -716,7 +754,7 @@ def later_exchange_errors(pin: dict, pinned: dict, current: dict, only=None) -> 
             (PREVIOUS_TO_CURRENT, pinned, current, set(pinned["messages"]) if only is None else set(only), True),
             (CURRENT_TO_MINIMUM, current, pinned, None if only is None else set(only), False)):
         summary, problems = exchange(writer, reader, f"{direction} {pin['candidate']}", required, strict)
-        runs.append({**summary, "direction": direction, "candidate": pin["candidate"]})
+        runs.append({**summary, "direction": direction, "candidate": pin["candidate"], "pin": pin_key(pin)})
         errors.extend("later-services: " + problem for problem in problems)
     return runs, errors
 
@@ -749,7 +787,7 @@ def check_later_services(root: Path, current_descriptors: dict | None = None) ->
         pin_errors.extend(problems)
         runs.extend(pin_runs)
         errors.extend(pin_errors)
-        results.append({"candidate": pin["candidate"], "package": pin["package"], "introduces": pin["introduces"],
+        results.append({"pin": pin_key(pin), "candidate": pin["candidate"], "package": pin["package"], "introduces": pin["introduces"],
                         "pinnedDefinitions": {key: len(value) for key, value in pinned.items()},
                         "currentDefinitions": {key: len(value) for key, value in current.items()},
                         "errors": len(pin_errors)})
@@ -759,52 +797,63 @@ def check_later_services(root: Path, current_descriptors: dict | None = None) ->
             "coverage": window["coverage"], "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
 
 
+def pin_key(pin: dict) -> str:
+    """Directory name of one pin in the generated-codec exchange (a candidate can carry several packages)."""
+    return Path(pin["previousAndMinimum"]).stem
+
+
+def pin_samples(pinned: dict) -> list[str]:
+    """Every sample of every published message of one pin, without the leading dot of the type name."""
+    return [sample.lstrip(".") for name in sorted(pinned["messages"]) for sample in sample_ids(pinned, name)]
+
+
 def emit_later_exchange(root: Path, directory: Path) -> int:
-    """Write what the previous client of every pin would send for each message that pin published, for
-    the generated current codecs to read. Nothing here calls a service."""
+    """Write what the previous client of every pin would send for each sample of each message that pin
+    published, for the generated current codecs to read. Nothing here calls a service."""
     window = later_window(root)
     total = 0
     for pin in window["pins"]:
         pinned = pinned_model(root, pin)
-        names = sorted(name.lstrip(".") for name in pinned["messages"])
-        target = directory / pin["candidate"]
+        samples = pin_samples(pinned)
+        target = directory / pin_key(pin)
         (target / "previous").mkdir(parents=True, exist_ok=True)
-        for name in names:
-            tree = synthesize(pinned, "." + name)
-            (target / "previous" / (name + ".bin")).write_bytes(encode_message(pinned, "." + name, tree))
-        (target / "messages.txt").write_text("\n".join(names) + "\n", encoding="utf-8", newline="\n")
-        total += len(names)
+        for sample in samples:
+            message = "." + sample.partition("@")[0]
+            data = encode_message(pinned, message, synthesize_sample(pinned, "." + sample))
+            (target / "previous" / (sample + ".bin")).write_bytes(data)
+        (target / "messages.txt").write_text("\n".join(samples) + "\n", encoding="utf-8", newline="\n")
+        total += len(samples)
     return total
 
 
 def verify_later_exchange(root: Path, directory: Path) -> dict:
-    """Check what the generated current codecs wrote back for every pin: each published message must be
+    """Check what the generated current codecs wrote back for every pin: each published sample must be
     present, and the pinned reader must see exactly the meaning the previous client sent."""
     window = later_window(root)
     errors, identical, total, per_pin = [], 0, 0, []
     for pin in window["pins"]:
         pinned = pinned_model(root, pin)
-        target = directory / pin["candidate"]
+        key, target = pin_key(pin), directory / pin_key(pin)
         try:
             listed = (target / "messages.txt").read_text(encoding="utf-8").split()
         except OSError as problem:
-            errors.append(f"generated-codec exchange: {pin['candidate']}: {problem}")
+            errors.append(f"generated-codec exchange: {key}: {problem}")
             continue
-        if set(listed) != {name.lstrip(".") for name in pinned["messages"]} or len(listed) != len(set(listed)):
-            errors.append(f"generated-codec exchange: {pin['candidate']}: the message list differs from the pinned descriptor")
+        if listed != pin_samples(pinned):
+            errors.append(f"generated-codec exchange: {key}: the sample list differs from the pinned descriptor")
         pin_identical = 0
-        for name in listed:
+        for sample in listed:
             try:
-                data = (target / "current" / (name + ".bin")).read_bytes()
-                pin_identical += data == (target / "previous" / (name + ".bin")).read_bytes()
-                if decode_message(pinned, "." + name, data) != synthesize(pinned, "." + name):
-                    errors.append(f"generated-codec exchange: {pin['candidate']}: {name}: the pinned reader sees a different meaning")
+                data = (target / "current" / (sample + ".bin")).read_bytes()
+                pin_identical += data == (target / "previous" / (sample + ".bin")).read_bytes()
+                if decode_message(pinned, "." + sample.partition("@")[0], data) != synthesize_sample(pinned, "." + sample):
+                    errors.append(f"generated-codec exchange: {key}: {sample}: the pinned reader sees a different meaning")
             except (OSError, ValueError, UnicodeDecodeError, KeyError) as problem:
-                errors.append(f"generated-codec exchange: {pin['candidate']}: {name}: {problem}")
+                errors.append(f"generated-codec exchange: {key}: {sample}: {problem}")
         identical += pin_identical
         total += len(listed)
-        per_pin.append({"candidate": pin["candidate"], "messages": len(listed), "byteIdentical": pin_identical})
-    return {"schemaVersion": "contract-later-service-codec-exchange.v1", "pins": per_pin, "messages": total,
+        per_pin.append({"pin": key, "samples": len(listed), "byteIdentical": pin_identical})
+    return {"schemaVersion": "contract-later-service-codec-exchange.v1", "pins": per_pin, "samples": total,
             "byteIdentical": identical, "errorCount": len(errors), "errors": errors[:ERROR_REPORT_LIMIT]}
 
 

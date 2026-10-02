@@ -18,7 +18,8 @@ from check_compatibility import (CURRENT_TO_MINIMUM, INJECTED_UNKNOWN, LATER_REQ
                                  decode_message, descriptor, emit_later_exchange, encode_field, encode_message,
                                  exchange, fields, frozen_file_projection, later_accounting_errors,
                                  later_compare_errors, later_exchange_errors, later_schema_errors, later_window,
-                                 retained, synthesize, verify_later_exchange)
+                                 oneof_arms, pin_key, pin_samples, retained, sample_ids, synthesize,
+                                 synthesize_sample, verify_later_exchange)
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -290,13 +291,28 @@ class CompatibilityTests(unittest.TestCase):
 
 
 LATER = json.loads((ROOT / LATER_WINDOW).read_text(encoding="utf-8"))
-PINS = {pin["candidate"]: pin for pin in LATER["pins"]}
-MODELS = {version: descriptor((ROOT / pin["previousAndMinimum"]).read_bytes()) for version, pin in PINS.items()}
+PINS = {pin_key(pin): pin for pin in LATER["pins"]}
+MODELS = {key: descriptor((ROOT / pin["previousAndMinimum"]).read_bytes()) for key, pin in PINS.items()}
 LATEST_VERSION = "1.0.0-ci.287.1"
-LATEST = MODELS[LATEST_VERSION]
-LATEST_PATH = ROOT / PINS[LATEST_VERSION]["previousAndMinimum"]
-# The newest pin is the whole closure, so it stands in for the current descriptor of either package.
-STAND_IN = {"artifacts/public-api.binpb": LATEST_PATH, "artifacts/operator.binpb": LATEST_PATH}
+LATEST_KEY = "cloud-internal-" + LATEST_VERSION
+LATEST = MODELS[LATEST_KEY]
+LATEST_PATH = ROOT / PINS[LATEST_KEY]["previousAndMinimum"]
+# The newest CloudInternal pin is the whole public closure, so it stands in for the current descriptor of
+# PublicApi and CloudInternal; each local pin stands in for itself (it equals the current descriptor today).
+STAND_IN = {"artifacts/public-api.binpb": LATEST_PATH, "artifacts/operator.binpb": LATEST_PATH,
+            **{pin["current"]: ROOT / pin["previousAndMinimum"] for pin in LATER["pins"]
+               if pin["package"].startswith("ArcForges.Contracts.LocalRpc.")}}
+DESCRIPTOR_PACKAGES = ("ArcForges.Contracts.PublicApi", "ArcForges.Contracts.CloudInternal")
+PUBLISHED_ON = {"168": "2026-09-27", "201": "2026-09-27", "224": "2026-09-28", "244": "2026-09-28", "250": "2026-09-29",
+                "258": "2026-09-29", "270": "2026-10-01", "279": "2026-10-01", "284": "2026-10-01", "287": "2026-10-02"}
+
+
+def stand_in(pin):
+    return descriptor(Path(STAND_IN[pin["current"]]).read_bytes())
+
+
+def introducing(task):
+    return next(pin for pin in LATER["pins"] if task in pin["introduces"])
 PUBLIC = "arcforges.publicapi.v1."
 # Independent expectations taken from the reviewed ledger records and the GitHub run and artifact metadata of each
 # published candidate, not from the window.
@@ -344,6 +360,7 @@ LATER_SCHEMAS = {
                 "internal/ai-http/v1/configuration.schema.json"}, "1.0.0-ci.201.1"),
     "CON.15": ({"internal/cf-http/v1/schema.json", "internal/storage-http/v1/schema.json"}, "1.0.0-ci.279.1"),
     "CON.16": ({"public/http/v1/signed-formats.schema.json"}, "1.0.0-ci.168.1"),
+    "CON.92": ({"public/http/v1/schema.json", "public/http/v1/inventory.schema.json"}, "1.0.0-ci.168.1"),
 }
 # Changing the declared type changes the meaning of the written sample value on the wire.
 MEANING_CHANGES = {3: 18, 4: 3, 5: 17, 9: 12, 12: 9, 13: 17}
@@ -358,8 +375,8 @@ class Target:
     """One published message, field, service, method and enum of a domain, found in the pin that introduced it."""
 
     def __init__(self, task):
-        self.task, self.pin = task, PINS[INTRODUCED[task]]
-        self.model = MODELS[INTRODUCED[task]]
+        self.task, self.pin = task, introducing(task)
+        self.model = MODELS[pin_key(self.pin)]
         files = [self.model["files"][name] for name in sorted(owned_files(task)) if name in self.model["files"]]
         for name in sorted(name for content in files for name in content["messages"]):
             tags = [tag for tag, field in sorted(self.model["messages"][name].items()) if field["type"] in MEANING_CHANGES]
@@ -414,43 +431,46 @@ class LaterServiceMatrixTests(unittest.TestCase):
         self.assertEqual(set(window["candidates"]), set(CANDIDATES))
         for version, (commit, run, artifact, digest) in CANDIDATES.items():
             self.assertEqual(window["candidates"][version], {
-                "sourceCommit": commit, "publication": f"https://github.com/ArcForges/Contracts/actions/runs/{run}",
+                "publishedOn": PUBLISHED_ON[version.split(".")[3]], "sourceCommit": commit, "publication": f"https://github.com/ArcForges/Contracts/actions/runs/{run}",
                 "retainedArchive": {"artifactId": artifact, "name": f"contracts-candidate-{run}-1", "sha256": digest}})
         self.assertEqual((window["minimumVersion"], window["previousVersion"]), ("1.0.0-ci.168.1", LATEST_VERSION))
-        self.assertEqual([pin["candidate"] for pin in window["pins"]], sorted(INTRODUCED.values(), key=lambda v: int(v.split(".")[3])))
+        self.assertEqual([pin["candidate"] for pin in window["pins"]],
+                         sorted(INTRODUCED.values(), key=lambda v: int(v.split(".")[3])) + [LATEST_VERSION] * 3)
+        stems = {"ArcForges.Contracts.PublicApi": "public-api-", "ArcForges.Contracts.CloudInternal": "cloud-internal-",
+                 "ArcForges.Contracts.LocalRpc.Chat": "local-chat-", "ArcForges.Contracts.LocalRpc.Scope": "local-scope-",
+                 "ArcForges.Contracts.LocalRpc.Sandbox": "local-sandbox-"}
         for pin in window["pins"]:
             data = (ROOT / pin["previousAndMinimum"]).read_bytes()
             self.assertEqual(hashlib.sha256(data).hexdigest(), pin["sha256"])
-            self.assertEqual(Path(pin["previousAndMinimum"]).name,
-                             ("public-api-" if pin["package"] == "ArcForges.Contracts.PublicApi" else "cloud-internal-")
-                             + pin["candidate"] + ".binpb")
-        self.assertEqual(PINS[LATEST_VERSION]["sha256"], "e6a295a5b14c45a158a58e5542ef9d3a34ba65281569018bcbf1dc962ddb4adc")
-        self.assertEqual((window["openedOn"], window["earliestRetirement"]), ("2026-09-27", "2026-12-26"))
+            self.assertEqual(Path(pin["previousAndMinimum"]).name, stems[pin["package"]] + pin["candidate"] + ".binpb")
+        self.assertEqual(PINS[LATEST_KEY]["sha256"], "e6a295a5b14c45a158a58e5542ef9d3a34ba65281569018bcbf1dc962ddb4adc")
+        # The read window opens when the newest pinned candidate was published and runs the 90-day minimum.
+        self.assertEqual((window["openedOn"], window["earliestRetirement"]), ("2026-10-02", "2026-12-31"))
 
     def test_every_protobuf_prerequisite_is_introduced_by_one_pin_with_independent_counts(self):
         self.assertEqual({task: pin["candidate"] for pin in LATER["pins"] for task in pin["introduces"]}, INTRODUCED)
         for task, services in LATER_SERVICES.items():
             with self.subTest(task=task):
-                for version in (INTRODUCED[task], LATEST_VERSION):
-                    counted = {name: count for pin in [PINS[version]] for entry in pin["files"]
+                for key in (pin_key(introducing(task)), LATEST_KEY):
+                    counted = {name: count for entry in PINS[key]["files"]
                                if entry["file"] in owned_files(task) for name, count in entry["services"].items()}
                     self.assertEqual(counted, services)
                     for name, count in services.items():
-                        self.assertEqual(len(MODELS[version]["services"]["." + name]), count)
-                earlier = [version for version in PINS if int(version.split(".")[3]) < int(INTRODUCED[task].split(".")[3])]
-                for version in earlier:
-                    self.assertFalse(set("." + name for name in services) & set(MODELS[version]["services"]))
+                        self.assertEqual(len(MODELS[key]["services"]["." + name]), count)
+                for key, pin in PINS.items():
+                    if pin["package"] in DESCRIPTOR_PACKAGES and int(pin["candidate"].split(".")[3]) < int(INTRODUCED[task].split(".")[3]):
+                        self.assertFalse(set("." + name for name in services) & set(MODELS[key]["services"]))
 
     def test_closed_schemas_are_pinned_with_their_first_publication(self):
         for task, (paths, first) in LATER_SCHEMAS.items():
             with self.subTest(task=task):
                 rows = [row for row in LATER["schemas"] if row["task"] == task]
                 self.assertEqual({row["path"] for row in rows}, paths)
-                self.assertEqual({row["firstPublished"] for row in rows}, {first})
+                self.assertEqual({row["identicalSince"] for row in rows}, {first})
         self.assertEqual(sum(len(paths) for paths, _ in LATER_SCHEMAS.values()), len(LATER["schemas"]))
 
     def test_accounting_rejects_unaccounted_files_and_wrong_counts(self):
-        pin = PINS[LATEST_VERSION]
+        pin = PINS[LATEST_KEY]
         self.assertEqual(later_accounting_errors(pin, LATEST), [])
         extra = deepcopy(LATEST)
         extra["files"]["arcforges/future/v1/future.proto"] = {"package": "arcforges.future.v1", "messages": {}, "enums": {}, "services": {}}
@@ -462,28 +482,67 @@ class LaterServiceMatrixTests(unittest.TestCase):
         service = next(entry for entry in wrong["files"] if entry["services"])
         service["services"][next(iter(service["services"]))] -= 1
         self.assertEqual(len(later_accounting_errors(wrong, LATEST)), 1)
+        wrong = deepcopy(pin)
+        next(entry for entry in wrong["files"] if entry["enums"])["enums"] += 1
+        self.assertEqual(len(later_accounting_errors(wrong, LATEST)), 1)
 
-    def test_every_pin_passes_both_directions_and_the_exchange_covers_every_pinned_message(self):
+    def test_every_pin_passes_and_the_exchange_covers_every_pinned_message_and_oneof_arm(self):
         report = check_later_services(ROOT, STAND_IN)
         self.assertEqual((report["errorCount"], report["errors"]), (0, []))
-        self.assertEqual(len(report["pins"]), 7)
-        self.assertEqual(len(report["exchange"]), 14)
+        self.assertEqual(len(report["pins"]), 10)
+        self.assertEqual(len(report["exchange"]), 20)
         for run in report["exchange"]:
-            self.assertEqual(run["messages"], len(MODELS[run["candidate"]]["messages"]), run)
+            model = MODELS[run["pin"]]
+            self.assertEqual(run["messages"], len(model["messages"]), run)
+            self.assertGreaterEqual(run["samples"], run["messages"])
         self.assertEqual(len(LATEST["messages"]), 976)
-        self.assertEqual(report["closedSchemas"], 11)
+        self.assertEqual(report["closedSchemas"], 13)
+
+    def test_the_only_real_additive_member_is_written_by_the_current_client_and_retained_by_old_readers(self):
+        arm = LATEST["messages"][".arcforges.publicapi.v1.AggregateBody"][17]
+        self.assertEqual(arm["name"], "scope_project_metadata")
+        report = check_later_services(ROOT, STAND_IN)
+        name = ".arcforges.publicapi.v1.AggregateBody"
+        lacking = [key for key, model in MODELS.items() if name in model["messages"] and 17 not in model["messages"][name]]
+        self.assertIn("public-api-1.0.0-ci.224.1", lacking)
+        self.assertNotIn(LATEST_KEY, lacking)
+        for key in lacking:
+            previous, current = [run for run in report["exchange"] if run["pin"] == key]
+            self.assertEqual(current["samples"], previous["samples"] + 1, key)
+            tree = next(sample for sample in (synthesize_sample(LATEST, sid) for sid in sample_ids(LATEST, name)) if 17 in sample)
+            seen = decode_message(MODELS[key], name, encode_message(LATEST, name, tree))
+            self.assertNotIn(17, seen)
+            self.assertIn(encode_field(LATEST, arm, 17, tree[17]), seen[UNKNOWN])
+
+    def test_every_declared_field_is_written_by_some_sample(self):
+        for key, model in MODELS.items():
+            with self.subTest(pin=key):
+                uncovered = []
+                for name, declared_fields in model["messages"].items():
+                    written = set()
+                    for sample in sample_ids(model, name):
+                        written |= {tag for tag in synthesize_sample(model, sample) if tag != UNKNOWN}
+                    uncovered.extend((name, tag) for tag in declared_fields if tag not in written)
+                # Only a member of a message that contains itself (recursion bound) may stay unwritten.
+                self.assertEqual([item for item in uncovered if model["messages"][item[0]][item[1]]["typeName"] != item[0]
+                                  or model["messages"][item[0]][item[1]]["type"] != 11], [], uncovered[:5])
+        self.assertEqual(sample_ids(LATEST, ".arcforges.publicapi.v1.AggregateBody")[0], ".arcforges.publicapi.v1.AggregateBody")
+        for name in list(LATEST["messages"])[:200]:
+            extra = sum(len(tags) - 1 for tags in oneof_arms(LATEST["messages"][name]).values())
+            self.assertEqual(len(sample_ids(LATEST, name)), 1 + extra)
 
     def test_published_history_is_additive_growth_not_identity(self):
-        for version, model in MODELS.items():
-            with self.subTest(candidate=version):
-                pin = PINS[version]
-                self.assertEqual(later_compare_errors(LATER, pin, model, LATEST), [])
-                _, errors = later_exchange_errors(pin, model, LATEST)
+        for key, model in MODELS.items():
+            with self.subTest(pin=key):
+                pin = PINS[key]
+                current = stand_in(pin)
+                self.assertEqual(later_compare_errors(LATER, pin, model, current), [])
+                _, errors = later_exchange_errors(pin, model, current)
                 self.assertEqual(errors, [])
-                if version != LATEST_VERSION:
-                    self.assertTrue(set(LATEST["messages"]) - set(model["messages"]))
-                    self.assertTrue(set(LATEST["services"]) - set(model["services"]))
-        sizes = [len(MODELS[pin["candidate"]]["messages"]) for pin in LATER["pins"] if pin["package"] == "ArcForges.Contracts.PublicApi"]
+                if pin["package"] in DESCRIPTOR_PACKAGES and pin["candidate"] != LATEST_VERSION:
+                    self.assertTrue(set(current["messages"]) - set(model["messages"]))
+                    self.assertTrue(set(current["services"]) - set(model["services"]))
+        sizes = [len(MODELS[pin_key(pin)]["messages"]) for pin in LATER["pins"] if pin["package"] == "ArcForges.Contracts.PublicApi"]
         self.assertEqual(sizes, sorted(sizes))
         self.assertEqual(len(set(sizes)), len(sizes))
 
@@ -501,9 +560,11 @@ class LaterServiceMatrixTests(unittest.TestCase):
         current["services"][target.service]["FutureMethod"] = {"input": target.message, "output": target.message,
                                                                "clientStreaming": 0, "serverStreaming": 0}
         current["enums"][target.enum]["FUTURE_VALUE"] = 777
-        for version, model in MODELS.items():
-            with self.subTest(candidate=version):
-                pin = PINS[version]
+        for key, pin in PINS.items():
+            if pin["package"] not in DESCRIPTOR_PACKAGES:
+                continue
+            model = MODELS[key]
+            with self.subTest(pin=key):
                 self.assertEqual(later_compare_errors(LATER, pin, model, current), [])
                 runs, errors = later_exchange_errors(pin, model, current)
                 self.assertEqual(errors, [])
@@ -522,13 +583,12 @@ class LaterServiceMatrixTests(unittest.TestCase):
                     current = deepcopy(LATEST)
                     mutate(current, target)
                     errors = later_compare_errors(LATER, target.pin, target.model, current)
-                    for direction in (PREVIOUS_TO_CURRENT, CURRENT_TO_MINIMUM):
-                        self.assertTrue(any(direction in error and target.pin["candidate"] in error and task in error and phrase in error
-                                            for error in errors), errors[:3])
+                    self.assertTrue(any(target.pin["candidate"] in error and task in error and phrase in error
+                                        for error in errors), errors[:3])
                     # A pin published before the contract existed has nothing to protect and raises nothing.
                     for pin in LATER["pins"]:
-                        model = MODELS[pin["candidate"]]
-                        if not (target.service in model["services"] or target.message in model["messages"] or target.enum in model["enums"]):
+                        model = MODELS[pin_key(pin)]
+                        if pin["package"] in DESCRIPTOR_PACKAGES and not (target.service in model["services"] or target.message in model["messages"] or target.enum in model["enums"]):
                             self.assertEqual(later_compare_errors(LATER, pin, model, current), [], pin["candidate"])
 
     def test_reference_codecs_reject_breaks_that_change_what_a_value_means(self):
@@ -644,7 +704,11 @@ class LaterServiceMatrixTests(unittest.TestCase):
             "newest candidate not previous": lambda d: d.update(previousVersion="1.0.0-ci.284.1"),
             "oldest candidate not minimum": lambda d: d.update(minimumVersion="1.0.0-ci.224.1"),
             "short window": lambda d: d.update(minimumReadSupportDays=89),
-            "retirement too early": lambda d: d.update(earliestRetirement="2026-12-25"),
+            "retirement too early": lambda d: d.update(earliestRetirement="2026-12-30"),
+            "window opened before the newest candidate": lambda d: d.update(openedOn="2026-09-27"),
+            "unparseable publication date": lambda d: d["candidates"][LATEST_VERSION].update(publishedOn="2026-13-01"),
+            "a protobuf pin removed": lambda d: d["pins"].pop(5),
+            "all pins of a candidate removed": lambda d: d.update(pins=[p for p in d["pins"] if p["candidate"] != "1.0.0-ci.250.1"]),
             "pin of an unrecorded candidate": lambda d: d["pins"][0].update(candidate="1.0.0-ci.1.1"),
             "pins out of order": lambda d: d["pins"].reverse(),
             "missing CON.14": lambda d: d["pins"][5].update(introduces=["CON.99"]),
@@ -661,7 +725,7 @@ class LaterServiceMatrixTests(unittest.TestCase):
             "traversal": lambda d: d["pins"][0].update(previousAndMinimum="../escape.binpb"),
             "bad archive digest": lambda d: d["candidates"][LATEST_VERSION]["retainedArchive"].update(sha256="abc"),
             "duplicate schema": lambda d: d["schemas"].append(deepcopy(d["schemas"][0])),
-            "schema of an unrecorded candidate": lambda d: d["schemas"][0].update(firstPublished="1.0.0-ci.1.1"),
+            "schema of an unrecorded candidate": lambda d: d["schemas"][0].update(identicalSince="1.0.0-ci.1.1"),
             "file without owner": lambda d: d["pins"][0]["files"].append({"file": "arcforges/none/v1/none.proto", "services": {}, "messages": 0, "enums": 0}),
             "file owned twice": lambda d: d["owners"][1]["files"].append(d["owners"][0]["files"][0]),
             "file accounted twice": lambda d: d["pins"][0]["files"].append(deepcopy(d["pins"][0]["files"][0])),
@@ -689,21 +753,22 @@ class LaterServiceMatrixTests(unittest.TestCase):
     def test_generated_codec_exchange_round_trips_and_detects_loss(self):
         with tempfile.TemporaryDirectory() as directory:
             exchange_directory = Path(directory)
-            self.assertEqual(emit_later_exchange(ROOT, exchange_directory), sum(len(model["messages"]) for model in MODELS.values()))
-            for version, model in MODELS.items():
-                names = (exchange_directory / version / "messages.txt").read_text(encoding="utf-8").split()
-                self.assertEqual(len(names), len(model["messages"]))
-                (exchange_directory / version / "current").mkdir()
+            total = sum(len(pin_samples(model)) for model in MODELS.values())
+            self.assertEqual(emit_later_exchange(ROOT, exchange_directory), total)
+            for key, model in MODELS.items():
+                names = (exchange_directory / key / "messages.txt").read_text(encoding="utf-8").split()
+                self.assertEqual(names, pin_samples(model))
+                (exchange_directory / key / "current").mkdir()
                 for name in names:
-                    (exchange_directory / version / "current" / (name + ".bin")).write_bytes(
-                        (exchange_directory / version / "previous" / (name + ".bin")).read_bytes())
+                    (exchange_directory / key / "current" / (name + ".bin")).write_bytes(
+                        (exchange_directory / key / "previous" / (name + ".bin")).read_bytes())
             report = verify_later_exchange(ROOT, exchange_directory)
-            total = sum(len(model["messages"]) for model in MODELS.values())
-            self.assertEqual((report["errorCount"], report["messages"], report["byteIdentical"]), (0, total, total))
-            self.assertEqual([entry["messages"] for entry in report["pins"]], [len(MODELS[pin["candidate"]]["messages"]) for pin in LATER["pins"]])
-            version = LATEST_VERSION
-            names = (exchange_directory / version / "messages.txt").read_text(encoding="utf-8").split()
-            victim = exchange_directory / version / "current" / (names[10] + ".bin")
+            self.assertEqual((report["errorCount"], report["samples"], report["byteIdentical"]), (0, total, total))
+            self.assertEqual([entry["samples"] for entry in report["pins"]], [len(pin_samples(MODELS[pin_key(pin)])) for pin in LATER["pins"]])
+            key = LATEST_KEY
+            names = (exchange_directory / key / "messages.txt").read_text(encoding="utf-8").split()
+            self.assertTrue(any("@" in name for name in names))
+            victim = exchange_directory / key / "current" / (names[10] + ".bin")
             original = victim.read_bytes()
             for label, data in {"emptied": b"", "unknown member dropped": original[:-len(INJECTED_UNKNOWN)],
                                 "truncated": original + b"\xff", "wire type": b"\x0b"}.items():
@@ -712,26 +777,31 @@ class LaterServiceMatrixTests(unittest.TestCase):
                     result = verify_later_exchange(ROOT, exchange_directory)
                     self.assertEqual(result["errorCount"], 1, result["errors"])
                     self.assertIn(names[10], result["errors"][0])
-                    self.assertIn(version, result["errors"][0])
+                    self.assertIn(key, result["errors"][0])
             victim.write_bytes(original)
+            # An extra oneof-arm sample is checked like any other.
+            arm = next(name for name in names if "@" in name)
+            (exchange_directory / key / "current" / (arm + ".bin")).write_bytes(b"")
+            self.assertEqual(verify_later_exchange(ROOT, exchange_directory)["errorCount"], 1)
+            (exchange_directory / key / "current" / (arm + ".bin")).write_bytes((exchange_directory / key / "previous" / (arm + ".bin")).read_bytes())
             victim.unlink()
             self.assertEqual(verify_later_exchange(ROOT, exchange_directory)["errorCount"], 1)
             victim.write_bytes(original)
-            (exchange_directory / version / "messages.txt").write_text("\n".join(names[1:]) + "\n", encoding="utf-8")
-            self.assertIn("message list differs", verify_later_exchange(ROOT, exchange_directory)["errors"][0])
-            shutil.rmtree(exchange_directory / "1.0.0-ci.224.1")
-            self.assertTrue(any("1.0.0-ci.224.1" in error for error in verify_later_exchange(ROOT, exchange_directory)["errors"]))
+            (exchange_directory / key / "messages.txt").write_text("\n".join(names[1:]) + "\n", encoding="utf-8")
+            self.assertIn("sample list differs", verify_later_exchange(ROOT, exchange_directory)["errors"][0])
+            shutil.rmtree(exchange_directory / "public-api-1.0.0-ci.224.1")
+            self.assertTrue(any("public-api-1.0.0-ci.224.1" in error for error in verify_later_exchange(ROOT, exchange_directory)["errors"]))
 
     def test_command_line_emits_and_verifies_the_exchange(self):
         script = str(ROOT / "eng/check_compatibility.py")
         with tempfile.TemporaryDirectory() as directory:
             emitted = subprocess.run([sys.executable, script, "--emit-later-exchange", directory], capture_output=True, text=True)
             self.assertEqual(emitted.returncode, 0, emitted.stderr)
-            self.assertEqual(len(list((Path(directory) / LATEST_VERSION / "previous").glob("*.bin"))), 976)
+            self.assertEqual(len(list((Path(directory) / LATEST_KEY / "previous").glob("*.bin"))), len(pin_samples(LATEST)))
             missing = subprocess.run([sys.executable, script, "--verify-later-exchange", directory], capture_output=True, text=True)
             self.assertEqual(missing.returncode, 1)
-            for version in MODELS:
-                shutil.copytree(Path(directory) / version / "previous", Path(directory) / version / "current")
+            for key in MODELS:
+                shutil.copytree(Path(directory) / key / "previous", Path(directory) / key / "current")
             verified = subprocess.run([sys.executable, script, "--verify-later-exchange", directory], capture_output=True, text=True)
             self.assertEqual(verified.returncode, 0, verified.stdout[-400:])
 
@@ -772,17 +842,14 @@ class LaterServiceMatrixTests(unittest.TestCase):
                 self.assertEqual({entry["file"] for entry in pin["files"]} - current, set(),
                                  "every pinned file must remain in the package closure")
 
-    def test_generated_codec_leg_lists_exactly_the_files_of_the_newest_pin(self):
+    def test_generated_codec_leg_lists_exactly_the_files_of_all_pins(self):
         source = (ROOT / "tests/StructureTests/LaterServiceCases.cs").read_text(encoding="utf-8")
-        listed = re.findall(r"\.(\w+Reflection)\.Descriptor", source)
+        qualified = re.findall(r"([\w.]+)\.(\w+Reflection)\.Descriptor", source)
+        listed = [name for _, name in qualified]
 
         def reflection(name):
             return "".join(part.capitalize() for part in re.split("[-_]", Path(name).stem)) + "Reflection"
-        self.assertEqual(sorted(listed), sorted(reflection(name) for name in LATEST["files"]))
-        self.assertEqual(len(set(listed)), len(listed))
-        for model in MODELS.values():
-            self.assertTrue({reflection(name) for name in model["files"]} <= set(listed))
-
-
-if __name__ == "__main__":
-    unittest.main()
+        pinned = {name for model in MODELS.values() for name in model["files"]}
+        self.assertEqual(sorted(listed), sorted(reflection(name) for name in pinned))
+        self.assertEqual(len(set(qualified)), len(qualified))
+        self.assertEqual(len(listed), 25)
