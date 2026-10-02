@@ -34,7 +34,7 @@ def schema_roots(schema: dict) -> list[dict]:
     """Expand an authored root bundle without introducing a wire wrapper."""
     if "oneOf" not in schema:
         return [schema]
-    allowed = {"$schema", "$id", "$comment", "title", "description", "$defs", "oneOf", "x-arcforges-schema-version"}
+    allowed = {"$schema", "$id", "$comment", "title", "description", "$defs", "oneOf", "x-arcforges-schema-version", "x-arcforges-routes"}
     if schema.keys() - allowed:
         raise ValueError("Root schema bundle cannot contain additional constraints")
     definitions = schema.get("$defs", {})
@@ -198,6 +198,11 @@ class JsonShapes:
         self.cs_symbols: set[str] = set()
         self.model_names: set[str] | None = None
         self.model_order: list[str] = []
+        self.wire = schema.get("x-arcforges-wire", "json")
+
+    @property
+    def form(self) -> bool:
+        return self.wire == "form-urlencoded"
 
     @staticmethod
     def canonical_schema(node: dict) -> str:
@@ -233,7 +238,7 @@ class JsonShapes:
         allowed = {"$schema", "$id", "$defs", "title", "description", "type", "properties", "required",
                    "additionalProperties", "items", "minItems", "maxItems", "minLength", "maxLength",
                    "minimum", "maximum", "pattern", "enum", "const", "not", "x-arcforges-rules", "x-arcforges-schema-version",
-                   "x-arcforges-max-bytes", "x-arcforges-max-utf8-bytes", "$comment", "oneOf", "propertyNames", "minProperties", "maxProperties"}
+                   "x-arcforges-max-bytes", "x-arcforges-max-utf8-bytes", "x-arcforges-wire", "$comment", "oneOf", "propertyNames", "minProperties", "maxProperties"}
         unknown = node.keys() - allowed
         if unknown:
             raise ValueError(f"Unimplemented JSON shape constraints: {sorted(unknown)}")
@@ -241,6 +246,11 @@ class JsonShapes:
             byte_bound = node["x-arcforges-max-utf8-bytes"]
             if node.get("type") != "string" or type(byte_bound) is not int or byte_bound <= 0:
                 raise ValueError("x-arcforges-max-utf8-bytes requires a string and a positive integer")
+        if "x-arcforges-wire" in node:
+            if node is not self.schema or node["x-arcforges-wire"] != "form-urlencoded" or node.get("type") != "object" or string_map(node):
+                raise ValueError("x-arcforges-wire is supported only as form-urlencoded on a root object")
+            if any(self.resolve(child).get("type") != "string" for child in node.get("properties", {}).values()):
+                raise ValueError("A form-urlencoded root may declare only string properties")
         if "enum" in node or "const" in node:
             if "enum" in node and "const" in node:
                 raise ValueError("Selected primitive constraints require either enum or const, not both")
@@ -422,7 +432,8 @@ class JsonShapes:
                 cs += self.union_converter(name, node)
         validator_namespace = self.namespace if "CloudInternal" in self.namespace else "ArcForges.Contracts.Validation"
         validator = HEADER + "#nullable enable\nusing System.Text;\n" + profile_imports + f"namespace {validator_namespace};\n\n"
-        validator += f"/// <summary>Closed authored-schema validation for {html.escape(self.title)} JSON values.</summary>\npublic static class {self.title}Json\n{{\n"
+        kind_label, suffix = ("form-urlencoded", "Form") if self.form else ("JSON", "Json")
+        validator += f"/// <summary>Closed authored-schema validation for {html.escape(self.title)} {kind_label} values.</summary>\npublic static class {self.title}{suffix}\n{{\n"
         validator += "    /// <summary>Checks required fields, declared types, unknown properties and selected profile bounds.</summary>\n    public static bool IsValid(global::System.Text.Json.JsonElement value) => Check0(value);\n"
         validator += self.cs_codec()
         validator += "\n".join(self.cs) + "\n" + self.cs_helpers() + "\n}\n"
@@ -434,15 +445,17 @@ class JsonShapes:
     def cs_helpers(self) -> str:
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": CS_PANEL_RULES, "policyBody": CS_POLICY_RULES, "canonicalDecimal": CS_DECIMAL_RULES,
-                    "configurationDocument": CS_CONFIGURATION_RULES, "manifestProfile": CS_MANIFEST_RULES, "workflowGraph": CS_WORKFLOW_RULES}
+                    "configurationDocument": CS_CONFIGURATION_RULES, "manifestProfile": CS_MANIFEST_RULES, "workflowGraph": CS_WORKFLOW_RULES,
+                    "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE}
         return CS_JSON_HELPERS + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
 
     def ts_helpers(self) -> str:
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": TS_PANEL_RULES, "policyBody": TS_POLICY_RULES, "canonicalDecimal": TS_DECIMAL_RULES,
-                    "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES}
-        helpers = TS_JSON_HELPERS
-        if self.finite_numbers:
+                    "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES,
+                    "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE}
+        helpers = TS_FORM_HELPERS if self.form else TS_JSON_HELPERS
+        if self.finite_numbers and not self.form:
             helpers = helpers.replace("/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */",
                                       "/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; preserves number lexemes. */")
             helpers = helpers.replace("class StrictJsonReader {", STRICT_JSON_NUMBER_HELPERS + "\nclass StrictJsonReader {")
@@ -483,11 +496,22 @@ class JsonShapes:
     def cs_codec(self) -> str:
         record = f"global::{self.namespace}.{self.title}"
         info = f"global::{self.namespace}.{self.title}JsonContext.Default.{self.title}"
-        return (CS_CODEC.replace("__RECORD__", record).replace("__INFO__", info)
+        template = CS_FORM_CODEC if self.form else CS_CODEC
+        appends = "".join(f"        Append(text, {literal(prop)}, value.{self.member(prop)});\n"
+                          for prop in self.schema["properties"]) if self.form else ""
+        return (template.replace("__RECORD__", record).replace("__INFO__", info).replace("__APPENDS__", appends)
                 .replace("__MAX__", str(self.max_bytes())).replace("__TITLE__", html.escape(self.title)))
+
+    def member(self, prop: str) -> str:
+        member = pascal(prop)
+        return member + "Value" if member == self.title else member
 
     def ts_codec(self, models: list[str]) -> str:
         stem = self.title[:1].lower() + self.title[1:]
+        if self.form:
+            fields = ", ".join(literal(prop) for prop in self.schema["properties"])
+            return (TS_FORM_CODEC.replace("__TITLE__", self.title).replace("__STEM__", stem)
+                    .replace("__MAX__", str(self.max_bytes())).replace("__FIELDS__", fields))
         lines = [TS_CODEC.replace("__TITLE__", self.title).replace("__STEM__", stem).replace("__MAX__", str(self.max_bytes()))]
         if self.finite_numbers:
             lines[0] = lines[0].replace("value: parsed.value }", f"value: normalizeStrictJsonNumbers(parsed.value) as {self.title} }}")
@@ -669,7 +693,7 @@ class JsonShapes:
             elif rule == "canonicalDecimal":
                 c.append("        if (!CanonicalDecimal(text)) return false;")
                 t.append("  if (!canonicalDecimal(value)) return false;")
-            elif rule in {"configurationDocument", "manifestProfile", "workflowGraph"}:
+            elif rule in {"configurationDocument", "manifestProfile", "workflowGraph", "authChallengePurpose", "nativeClientRedirect"}:
                 c.append(f"        if (!{rule[0].upper() + rule[1:]}(value)) return false;")
                 t.append(f"  if (!{rule}(value)) return false;")
             else:
@@ -1026,6 +1050,8 @@ def generate(check: bool = False) -> None:
         ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
         ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/ts/api-client"),
         ("public/http/v1/signed-formats.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.SignedFormats", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
+        ("public/http/v1/browser.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.Browser", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
+        ("public/http/v1/native-auth.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.NativeAuth", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
         ("internal/ai-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/cf-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Http.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
         ("internal/storage-http/v1/schema.json", "ArcForges.Contracts.CloudInternal.Storage.V1", "src/internal/dotnet/ArcForges.Contracts.CloudInternal", "src/internal/ts/ai-internal"),
@@ -1038,6 +1064,7 @@ def generate(check: bool = False) -> None:
     cs_symbols: dict[str, set[str]] = {}
     ts_symbols: dict[str, set[str]] = {}
     planned: list[tuple[str, str, str, str, str]] = []
+    route_catalogues: list[tuple[str, str, str, str, str]] = []
     for source, namespace, csroot, tsroot in mappings:
         authored = json.loads((ROOT / source).read_text(encoding="utf-8"))
         canonical_owners: dict[str, str] = {}
@@ -1086,17 +1113,110 @@ def generate(check: bool = False) -> None:
             validator_root = csroot if "CloudInternal" in namespace else "src/public/dotnet/ArcForges.Contracts.Validation"
             planned.append((csroot, validator_root, name, generated_cs, generated_validator))
             tsoutputs.setdefault(tsroot, []).append(generated_ts)
+        if "x-arcforges-routes" in authored:
+            wires = {compiler.title: compiler.wire for compiler in compilers}
+            route_cs, route_ts = route_catalogue(authored["title"], namespace, authored["x-arcforges-routes"], wires)
+            route_catalogues.append((csroot, tsroot, authored["title"], route_cs, route_ts))
     # Refuse cross-root type collisions before writing any output.
     for csroot, validator_root, name, generated_cs, generated_validator in planned:
         emit(ROOT / csroot / "Generated/Shapes" / (name + ".g.cs"), generated_cs, check)
         emit(ROOT / validator_root / "Generated/Shapes" / (name + "Validator.g.cs"), generated_validator, check)
+    for csroot, tsroot, title, route_cs, route_ts in route_catalogues:
+        emit(ROOT / csroot / "Generated/Shapes" / (title + "Routes.g.cs"), route_cs, check)
+        emit(ROOT / tsroot / "src/shapes/gen" / (title + "Routes.ts"), route_ts, check)
     for tsroot, contents in tsoutputs.items():
         # Separate module scopes avoid helper/name collisions while preserving one public entry.
         names = tsnames[tsroot]
         for name, content in zip(names, contents, strict=True):
             emit(ROOT / tsroot / "src/shapes/gen" / (name + ".ts"), content, check)
-        emit(ROOT / tsroot / "src/gen/http.ts", HEADER + "".join(f'export * from "../shapes/gen/{name}.js";\n' for name in names), check)
+        route_modules = [title + "Routes" for _, route_root, title, _, _ in route_catalogues if route_root == tsroot]
+        emit(ROOT / tsroot / "src/gen/http.ts", HEADER + "".join(f'export * from "../shapes/gen/{name}.js";\n' for name in [*names, *route_modules]), check)
     generate_proto_checks(check)
+
+
+ROUTE_FIELDS = {"id", "method", "path", "credential", "origin", "csrf", "setCookie", "cache", "request", "response"}
+ROUTE_VOCABULARY = {
+    "method": {"GET", "POST"},
+    "credential": {"anonymous-or-session-cookie", "preauth-flow", "session-cookie", "flow-cookie", "browser-login", "authorization-code"},
+    "origin": {"exact-configured", "none"},
+    "csrf": {"none", "issues-token", "required"},
+    "setCookie": {"none", "session", "clear"},
+    "cache": {"no-store"},
+}
+
+
+def route_catalogue(title: str, namespace: str, routes: list, wires: dict[str, str]) -> tuple[str, str]:
+    """Emit the closed route table of an authentication exception bundle; nothing is discovered at runtime."""
+    if not isinstance(routes, list) or not routes:
+        raise ValueError(f"{title} routes must be a nonempty list")
+    ids: set[str] = set()
+    paths: set[tuple[str, str]] = set()
+    rows = []
+    for route in routes:
+        if not isinstance(route, dict) or set(route) != ROUTE_FIELDS:
+            raise ValueError(f"{title} route fields must be exactly {sorted(ROUTE_FIELDS)}")
+        for field, allowed in ROUTE_VOCABULARY.items():
+            if route[field] not in allowed:
+                raise ValueError(f"{title} route {route['id']}: unsupported {field} {route[field]!r}")
+        if not isinstance(route["id"], str) or not re.fullmatch(r"[a-z][A-Za-z0-9]*(?:\.[a-z][A-Za-z0-9]*)+", route["id"]) or route["id"] in ids:
+            raise ValueError(f"{title} route identity must be unique dotted lower-camel text")
+        ids.add(route["id"])
+        if not re.fullmatch(r"/session/v1/[A-Za-z0-9{}/-]+", route["path"]) or (route["method"], route["path"]) in paths:
+            raise ValueError(f"{title} route {route['id']}: invalid or duplicate method/path")
+        paths.add((route["method"], route["path"]))
+        sides = {}
+        for side in ("request", "response"):
+            roots = route[side]
+            if not isinstance(roots, list) or any(root not in wires for root in roots) or len(set(roots)) != len(roots):
+                raise ValueError(f"{title} route {route['id']}: {side} roots must be distinct roots of this bundle")
+            kinds = {wires[root] for root in roots}
+            if len(kinds) > 1:
+                raise ValueError(f"{title} route {route['id']}: {side} roots must share one wire encoding")
+            sides[side] = (kinds.pop() if kinds else "none", roots)
+        if route["method"] == "GET" and sides["request"][0] == "json":
+            raise ValueError(f"{title} route {route['id']}: a GET request cannot carry a JSON body")
+        if route["method"] == "POST" and sides["request"][0] != "none" and len(sides["request"][1]) != 1:
+            raise ValueError(f"{title} route {route['id']}: a POST body has exactly one root")
+        rows.append((route, sides))
+    record = title + "Route"
+    cs = HEADER + f"#nullable enable\nnamespace {namespace};\n\n"
+    cs += (f"/// <summary>One closed {html.escape(title)} HTTP exception route: exact method and path, credential, Origin/CSRF, cookie and cache requirements, "
+           "and the generated schema roots that carry its request and response.</summary>\n"
+           f"public sealed record {record}(string Id, string Method, string Path, string Credential, string Origin, string Csrf, string SetCookie, string Cache,\n"
+           "    string RequestWire, global::System.Collections.Generic.IReadOnlyList<string> RequestRoots,\n"
+           "    string ResponseWire, global::System.Collections.Generic.IReadOnlyList<string> ResponseRoots);\n\n")
+    cs += (f"/// <summary>Closed routes of the {html.escape(title)} bundle in schema order; transport adapters never invent another path.</summary>\n"
+           f"public static class {title}Routes\n{{\n"
+           f"    /// <summary>The authored routes.</summary>\n"
+           f"    public static global::System.Collections.Generic.IReadOnlyList<{record}> All {{ get; }} =\n    [\n")
+    ts = HEADER + (f"/** One closed {title} HTTP exception route. */\n"
+                   f"export interface {record} {{\n  readonly id: string;\n  readonly method: \"GET\" | \"POST\";\n  readonly path: string;\n"
+                   "  readonly credential: string;\n  readonly origin: string;\n  readonly csrf: string;\n  readonly setCookie: string;\n  readonly cache: string;\n"
+                   "  readonly requestWire: \"none\" | \"json\" | \"form-urlencoded\";\n  readonly requestRoots: readonly string[];\n"
+                   "  readonly responseWire: \"none\" | \"json\" | \"form-urlencoded\";\n  readonly responseRoots: readonly string[];\n}\n\n")
+    stem = title[:1].lower() + title[1:]
+    ts += f"/** Closed routes of the {title} bundle in schema order. */\nexport const {stem}Routes: readonly {record}[] = Object.freeze([\n"
+    for route, sides in rows:
+        (request_wire, request_roots), (response_wire, response_roots) = sides["request"], sides["response"]
+        cs += (f"        new({literal(route['id'])}, {literal(route['method'])}, {literal(route['path'])}, {literal(route['credential'])}, {literal(route['origin'])}, "
+               f"{literal(route['csrf'])}, {literal(route['setCookie'])}, {literal(route['cache'])},\n"
+               f"            {literal(request_wire)}, [{', '.join(literal(r) for r in request_roots)}], {literal(response_wire)}, [{', '.join(literal(r) for r in response_roots)}]),\n")
+        ts += (f"  Object.freeze({{ id: {literal(route['id'])}, method: {literal(route['method'])}, path: {literal(route['path'])}, credential: {literal(route['credential'])}, "
+               f"origin: {literal(route['origin'])}, csrf: {literal(route['csrf'])}, setCookie: {literal(route['setCookie'])}, cache: {literal(route['cache'])}, "
+               f"requestWire: {literal(request_wire)}, requestRoots: Object.freeze([{', '.join(literal(r) for r in request_roots)}]), "
+               f"responseWire: {literal(response_wire)}, responseRoots: Object.freeze([{', '.join(literal(r) for r in response_roots)}]) }} as const),\n")
+    cs += "    ];\n}\n"
+    ts += "]);\n"
+    return cs, ts
+
+
+# protoc's C# generator appends an underscore to a field property that would shadow a reserved message member.
+CS_RESERVED_MEMBERS = {"Types", "Descriptor", "Equals", "ToString", "GetHashCode", "GetType", "MemberwiseClone", "Parser",
+                       "Clone", "CalculateSize", "MergeFrom", "WriteTo"}
+
+
+def cs_member(member: str) -> str:
+    return member + "_" if member in CS_RESERVED_MEMBERS else member
 
 
 def generate_proto_checks(check: bool) -> None:
@@ -1134,7 +1254,7 @@ def generate_proto_checks(check: bool) -> None:
                 jsonname = re.search(r'json_name\s*=\s*"([^"]+)"', options or "")
                 key = jsonname[1] if jsonname else name.split("_")[0] + "".join(pascal(v) for v in name.split("_")[1:])
                 resolved = kind.lstrip(".") if "." in kind else package + "." + kind
-                fields[key] = {"name": pascal(name), "type": kind, "message": resolved if resolved in messages else None,
+                fields[key] = {"name": cs_member(pascal(name)), "type": kind, "message": resolved if resolved in messages else None,
                                "label": label, "oneof": oneofs.get(name), "tag": int(tag)}
             if set(fields) != set(messages[fqname]["constraints"]["fields"]):
                 raise ValueError(f"Constraint field inventory does not match {fqname}")
@@ -1229,6 +1349,7 @@ def proto_cs(name: str, messages: dict) -> str:
         "nonzeroId": "if (!Nonzero(value.Value)) return false;",
         "canonicalDecimal": "if (!CanonicalDecimal(value.Value)) return false;",
         "committedRevision": "if (value.Revision is not { Value: > 0 }) return false;",
+        "authChallengePurpose": "if ((int)value.Purpose == 4 ? !value.HasRecoveryMethod || value.HasMethod : !value.HasMethod || value.HasRecoveryMethod) return false;",
         "exclusiveRevision": "if ((value.ExpectedRev is null ? 0 : 1) + (value.ExpectedNative is null ? 0 : 1) > 1) return false;",
         "chunkOffsets": "if (value.Offset > ulong.MaxValue - (ulong)value.Bytes.Length || value.NextOffset != value.Offset + (ulong)value.Bytes.Length) return false;",
         **cs_rules,
@@ -1322,6 +1443,7 @@ def proto_ts(name: str, messages: dict) -> str:
         "nonzeroId": "if (!(value.value as Uint8Array).some(v => v !== 0)) return false;",
         "canonicalDecimal": "if (!canonicalDecimal(value.value as string)) return false;",
         "committedRevision": "if ((value.revision as {value: bigint}).value <= 0n) return false;",
+        "authChallengePurpose": "if (value.purpose === 4 ? value.recoveryMethod === undefined || value.method !== undefined : value.method === undefined || value.recoveryMethod !== undefined) return false;",
         "exclusiveRevision": "if ([value.expectedRev, value.expectedNative].filter(v => v !== undefined).length > 1) return false;",
         "chunkOffsets": "if ((value.offset as bigint) + BigInt((value.bytes as Uint8Array).length) > 18446744073709551615n || value.nextOffset !== (value.offset as bigint) + BigInt((value.bytes as Uint8Array).length)) return false;",
         **ts_rules,
@@ -2473,3 +2595,304 @@ function manifestLocale(value: string): boolean {
 }
 '''
 
+
+# CON.07 authentication exceptions: strict application/x-www-form-urlencoded codec for string-only roots.
+CS_FORM_CODEC = r'''    /// <summary>The schema's declared form-urlencoded document bound in bytes.</summary>
+    public const int MaxBytes = __MAX__;
+
+    /// <summary>Parses one strict __TITLE__ form or throws a typed refusal.</summary>
+    public static __RECORD__ Parse(global::System.ReadOnlyMemory<byte> utf8)
+        => TryParse(utf8, out var value, out var failure) ? value! : throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
+
+    /// <summary>Checks the byte bound, printable-ASCII form syntax, percent escapes, UTF-8, duplicate names and the closed schema before generated deserialization.</summary>
+    public static bool TryParse(global::System.ReadOnlyMemory<byte> utf8, out __RECORD__? value,
+        out global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure failure)
+    {
+        value = null;
+        failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Malformed;
+        if (utf8.Length > MaxBytes)
+        {
+            failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.TooLarge;
+            return false;
+        }
+        if (!TryDecodeForm(utf8.Span, out var pairs)) return false;
+        var buffer = new global::System.Buffers.ArrayBufferWriter<byte>();
+        using (var writer = new global::System.Text.Json.Utf8JsonWriter(buffer))
+        {
+            writer.WriteStartObject();
+            foreach (var pair in pairs) writer.WriteString(pair.Key, pair.Value);
+            writer.WriteEndObject();
+        }
+        global::System.Text.Json.JsonDocument document;
+        try { document = global::System.Text.Json.JsonDocument.Parse(buffer.WrittenMemory, DocumentOptions); }
+        catch (global::System.Text.Json.JsonException) { return false; }
+        using (document)
+        {
+            bool valid;
+            try { valid = IsValid(document.RootElement); }
+            catch (global::System.InvalidOperationException) { return false; }
+            failure = global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Invalid;
+            if (!valid) return false;
+            try { value = global::System.Text.Json.JsonSerializer.Deserialize(document.RootElement, __INFO__); }
+            catch (global::System.Text.Json.JsonException) { return false; }
+        }
+        if (value is null) return false;
+        failure = default;
+        return true;
+    }
+
+    /// <summary>Writes schema-order name=value pairs with only RFC 3986 unreserved characters unescaped and refuses output the schema rejects.</summary>
+    public static byte[] Serialize(__RECORD__ value)
+    {
+        global::System.ArgumentNullException.ThrowIfNull(value);
+        var text = new global::System.Text.StringBuilder();
+__APPENDS__        var bytes = global::System.Text.Encoding.ASCII.GetBytes(text.ToString());
+        if (!TryParse(bytes, out _, out var failure))
+            throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(failure);
+        return bytes;
+    }
+
+    private static readonly global::System.Text.Json.JsonDocumentOptions DocumentOptions = new()
+    {
+        AllowDuplicateProperties = false,
+        AllowTrailingCommas = false,
+        CommentHandling = global::System.Text.Json.JsonCommentHandling.Disallow,
+        MaxDepth = 4,
+    };
+
+    private static void Append(global::System.Text.StringBuilder text, string name, string? value)
+    {
+        if (value is null) return;
+        if (!ValidText(value)) throw new global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationException(global::ArcForges.Contracts.Foundation.Serialization.ContractSerializationFailure.Invalid);
+        if (text.Length != 0) text.Append('&');
+        Encode(text, name);
+        text.Append('=');
+        Encode(text, value);
+    }
+
+    private static void Encode(global::System.Text.StringBuilder text, string value)
+    {
+        foreach (var b in global::System.Text.Encoding.UTF8.GetBytes(value))
+        {
+            if (b is >= (byte)'A' and <= (byte)'Z' or >= (byte)'a' and <= (byte)'z' or >= (byte)'0' and <= (byte)'9' or (byte)'-' or (byte)'.' or (byte)'_' or (byte)'~')
+                text.Append((char)b);
+            else
+                text.Append('%').Append("0123456789ABCDEF"[b >> 4]).Append("0123456789ABCDEF"[b & 15]);
+        }
+    }
+
+    private static bool TryDecodeForm(global::System.ReadOnlySpan<byte> input, out global::System.Collections.Generic.Dictionary<string, string> pairs)
+    {
+        pairs = new global::System.Collections.Generic.Dictionary<string, string>(global::System.StringComparer.Ordinal);
+        if (input.Length == 0) return false;
+        var start = 0;
+        while (true)
+        {
+            var rest = input[start..];
+            var end = rest.IndexOf((byte)'&');
+            var segment = end < 0 ? rest : rest[..end];
+            var equals = segment.IndexOf((byte)'=');
+            if (equals <= 0) return false;
+            if (!TryDecodeComponent(segment[..equals], out var name) || !TryDecodeComponent(segment[(equals + 1)..], out var text) || !pairs.TryAdd(name, text)) return false;
+            if (end < 0) return true;
+            start += end + 1;
+            if (start == input.Length) return false;
+        }
+    }
+
+    private static bool TryDecodeComponent(global::System.ReadOnlySpan<byte> input, out string value)
+    {
+        value = "";
+        var bytes = new byte[input.Length];
+        var length = 0;
+        for (var i = 0; i < input.Length; i++)
+        {
+            var b = input[i];
+            if (b == (byte)'+') { bytes[length++] = 0x20; continue; }
+            if (b == (byte)'%')
+            {
+                if (i + 2 >= input.Length) return false;
+                var high = HexValue(input[i + 1]);
+                var low = HexValue(input[i + 2]);
+                if (high < 0 || low < 0) return false;
+                bytes[length++] = (byte)(high * 16 + low);
+                i += 2;
+                continue;
+            }
+            if (b < 0x21 || b > 0x7E) return false;
+            bytes[length++] = b;
+        }
+        if (!global::System.Text.Unicode.Utf8.IsValid(bytes.AsSpan(0, length))) return false;
+        var text = global::System.Text.Encoding.UTF8.GetString(bytes, 0, length);
+        foreach (var c in text) if (c < ' ' || c == '\u007f') return false;
+        value = text;
+        return true;
+    }
+
+    private static int HexValue(byte b) => b switch
+    {
+        >= (byte)'0' and <= (byte)'9' => b - (byte)'0',
+        >= (byte)'a' and <= (byte)'f' => b - (byte)'a' + 10,
+        >= (byte)'A' and <= (byte)'F' => b - (byte)'A' + 10,
+        _ => -1,
+    };
+
+'''
+
+TS_FORM_HELPERS = r'''
+// WHATWG encoding APIs exist in every supported runtime; declared locally so no DOM/Node typings are required.
+declare const TextEncoder: { new (): { encode(input: string): Uint8Array } };
+declare const TextDecoder: { new (label: string, options: { fatal: boolean; ignoreBOM: boolean }): { decode(input: Uint8Array): string } };
+
+function validText(value: string): boolean {
+  for (const scalar of value) { const point = scalar.codePointAt(0)!; if (point >= 0xd800 && point <= 0xdfff) return false; }
+  return true;
+}
+
+function hexValue(byte: number): number {
+  if (byte >= 0x30 && byte <= 0x39) return byte - 0x30;
+  if (byte >= 0x61 && byte <= 0x66) return byte - 0x61 + 10;
+  if (byte >= 0x41 && byte <= 0x46) return byte - 0x41 + 10;
+  return -1;
+}
+
+function decodeFormComponent(input: Uint8Array): string | undefined {
+  const bytes: number[] = [];
+  for (let i = 0; i < input.length; i++) {
+    const byte = input[i]!;
+    if (byte === 0x2b) { bytes.push(0x20); continue; }
+    if (byte === 0x25) {
+      if (i + 2 >= input.length) return undefined;
+      const high = hexValue(input[i + 1]!);
+      const low = hexValue(input[i + 2]!);
+      if (high < 0 || low < 0) return undefined;
+      bytes.push(high * 16 + low);
+      i += 2;
+      continue;
+    }
+    if (byte < 0x21 || byte > 0x7e) return undefined;
+    bytes.push(byte);
+  }
+  let text: string;
+  try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(Uint8Array.from(bytes)); }
+  catch { return undefined; }
+  for (const char of text) { const point = char.codePointAt(0)!; if (point < 0x20 || point === 0x7f) return undefined; }
+  return text;
+}
+
+/** Strict form syntax: printable ASCII, name=value pairs, percent escapes, UTF-8 text and no duplicate or empty names. */
+function decodeForm(input: Uint8Array): Record<string, string> | undefined {
+  if (input.length === 0) return undefined;
+  const out: Record<string, string> = {};
+  const names = new Set<string>();
+  let start = 0;
+  for (;;) {
+    let end = input.indexOf(0x26, start);
+    const last = end < 0;
+    if (last) end = input.length;
+    const segment = input.subarray(start, end);
+    const equals = segment.indexOf(0x3d);
+    if (equals <= 0) return undefined;
+    const name = decodeFormComponent(segment.subarray(0, equals));
+    const value = decodeFormComponent(segment.subarray(equals + 1));
+    if (name === undefined || value === undefined || names.has(name)) return undefined;
+    names.add(name);
+    // defineProperty keeps names such as __proto__ as ordinary own properties.
+    Object.defineProperty(out, name, { value, enumerable: true, writable: true, configurable: true });
+    if (last) return out;
+    start = end + 1;
+    if (start === input.length) return undefined;
+  }
+}
+
+function encodeFormComponent(value: string, out: string[]): void {
+  for (const byte of new TextEncoder().encode(value)) {
+    if ((byte >= 0x41 && byte <= 0x5a) || (byte >= 0x61 && byte <= 0x7a) || (byte >= 0x30 && byte <= 0x39) || byte === 0x2d || byte === 0x2e || byte === 0x5f || byte === 0x7e) out.push(String.fromCharCode(byte));
+    else out.push("%" + byte.toString(16).toUpperCase().padStart(2, "0"));
+  }
+}
+'''
+
+TS_FORM_CODEC = r'''
+/** The schema's declared form-urlencoded document bound in bytes. */
+export const __STEM__FormMaxBytes = __MAX__;
+
+/** Parses one strict __TITLE__ form; refusal kinds match the C# codec. */
+export function tryParse__TITLE__Form(input: Uint8Array | string):
+  { ok: true; value: __TITLE__ } | { ok: false; failure: "tooLarge" | "malformed" | "invalid" } {
+  let bytes: Uint8Array;
+  if (typeof input === "string") {
+    if (!validText(input)) return { ok: false, failure: "malformed" };
+    bytes = new TextEncoder().encode(input);
+  } else bytes = input;
+  if (bytes.byteLength > __MAX__) return { ok: false, failure: "tooLarge" };
+  const decoded = decodeForm(bytes);
+  if (decoded === undefined) return { ok: false, failure: "malformed" };
+  return is__TITLE__(decoded) ? { ok: true, value: decoded } : { ok: false, failure: "invalid" };
+}
+
+/** Parses one strict __TITLE__ form or throws an error carrying the refusal kind. */
+export function parse__TITLE__Form(input: Uint8Array | string): __TITLE__ {
+  const result = tryParse__TITLE__Form(input);
+  if (!result.ok) throw Object.assign(new Error(`__TITLE__ form refused: ${result.failure}.`), { failure: result.failure });
+  return result.value;
+}
+
+/** Writes schema-order name=value pairs with only RFC 3986 unreserved characters unescaped and refuses output the schema rejects. */
+export function serialize__TITLE__Form(value: __TITLE__): Uint8Array {
+  const out: string[] = [];
+  for (const name of [__FIELDS__] as const) {
+    const item = (value as unknown as Record<string, string | undefined>)[name];
+    if (item === undefined) continue;
+    if (!validText(item)) throw Object.assign(new Error("__TITLE__ form refused: invalid."), { failure: "invalid" });
+    if (out.length !== 0) out.push("&");
+    encodeFormComponent(name, out);
+    out.push("=");
+    encodeFormComponent(item, out);
+  }
+  const bytes = new TextEncoder().encode(out.join(""));
+  const result = tryParse__TITLE__Form(bytes);
+  if (!result.ok) throw Object.assign(new Error(`__TITLE__ form refused: ${result.failure}.`), { failure: result.failure });
+  return bytes;
+}
+'''
+
+CS_AUTH_CHALLENGE_RULE = r'''
+    private static bool AuthChallengePurpose(global::System.Text.Json.JsonElement value)
+    {
+        var recover = value.GetProperty("purpose").GetString() == "recover";
+        var method = value.TryGetProperty("method", out _);
+        var recovery = value.TryGetProperty("recoveryMethod", out _);
+        return recover ? recovery && !method : method && !recovery;
+    }
+'''
+TS_AUTH_CHALLENGE_RULE = r'''
+function authChallengePurpose(value: unknown): boolean {
+  const object = value as Record<string, unknown>;
+  const recover = object["purpose"] === "recover";
+  const method = Object.prototype.hasOwnProperty.call(object, "method");
+  const recovery = Object.prototype.hasOwnProperty.call(object, "recoveryMethod");
+  return recover ? recovery && !method : method && !recovery;
+}
+'''
+CS_NATIVE_CLIENT_RULE = r'''
+    private static bool NativeClientRedirect(global::System.Text.Json.JsonElement value)
+    {
+        var client = value.GetProperty("client_id").GetString();
+        var redirect = value.GetProperty("redirect_uri").GetString();
+        return (client, redirect) is ("arcscope.desktop", "com.arcforges.arcscope:/auth/callback")
+            or ("companion.android", "https://account.arcforges.com/native/android/callback")
+            or ("companion.android.selfhost", "com.arcforges.mobile:/auth/callback");
+    }
+'''
+TS_NATIVE_CLIENT_RULE = r'''
+function nativeClientRedirect(value: unknown): boolean {
+  const object = value as { client_id: string; redirect_uri: string };
+  switch (object.client_id) {
+    case "arcscope.desktop": return object.redirect_uri === "com.arcforges.arcscope:/auth/callback";
+    case "companion.android": return object.redirect_uri === "https://account.arcforges.com/native/android/callback";
+    case "companion.android.selfhost": return object.redirect_uri === "com.arcforges.mobile:/auth/callback";
+    default: return false;
+  }
+}
+'''

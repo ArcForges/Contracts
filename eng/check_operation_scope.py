@@ -83,6 +83,13 @@ CON15_CF_SERVICE_OPERATIONS = {
 TASK_CREATE_BINDING = "arcforges.publicapi.v1.TaskService/Create"
 TASK_CREATE_SOURCE = "public/proto/arcforges/publicapi/v1/chat.proto"
 TASK_CREATE_SOURCE_RULE = "docs/architecture/contracts/01-public-api-operations.md#7-task-approval-and-remote-work"
+# CON.07: the only two registry operations whose catalogue risk is R4. Both are step-up,
+# human-only account commands in the public identity proto; no other R4 row is admitted here.
+CON07_IDENTITY_SOURCE = "public/proto/arcforges/publicapi/v1/identity.proto"
+CON07_R4_OPERATIONS = {
+    "identity.requestAccountDeletion": ("arcforges.publicapi.v1.IdentityService/RequestAccountDeletion", "IW"),
+    "workspace.requestDataDeletion": ("arcforges.publicapi.v1.WorkspaceService/RequestDataDeletion", "CC"),
+}
 PROFILES = {"human-owner", "tool-delegation", "product-handler", "extension-peer", "helper-parent",
             "operator", "cf-service", "provider", "one-use-auth", "delegated-invocation", "launch-bootstrap-only",
             "in-process-invocation", "human-approval-decision", "public-human-approval-decision"}
@@ -312,8 +319,15 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
         row["surface"] == "operator" and row["profile"] == "operator" and row["idempotency"] == "CC" and
         auth["actorKinds"] == ["operator"] and auth["localPresence"] is False and auth["stepUp"] is True
     )
+    con07_r4 = (
+        operation in CON07_R4_OPERATIONS and auth["risk"] == "R4" and row["kind"] == "proto" and
+        row["source"] == CON07_IDENTITY_SOURCE and row["scope"] == "account" and row["surface"] == "public" and
+        row["profile"] == "human-owner" and
+        (row["binding"], row["idempotency"]) == CON07_R4_OPERATIONS[operation] and
+        auth["stepUp"] is True and auth["actorKinds"] == ["human"] and auth["patEligible"] is False
+    )
     require("risk" in derived or auth["risk"] in {"R0", "R1", "R2", "R3"} or task_create_r2plus or
-            operator_break_glass_r4, f"{operation}: unclassified risk")
+            operator_break_glass_r4 or con07_r4, f"{operation}: unclassified risk")
     for field in ("approval", "egress"):
         require(field in derived or (isinstance(auth[field], str) and re.fullmatch(r"[A-Za-z][A-Za-z0-9.-]*", auth[field])
                 and auth[field].lower() not in {"pending", "unknown", "default", "tbd"}), f"{operation}: unclassified {field}")

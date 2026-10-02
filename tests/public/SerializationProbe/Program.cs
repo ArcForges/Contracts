@@ -125,6 +125,9 @@ ArcForges.Contracts.Simulation.V1.SimulationService.BindService(binder, new Simu
 ArcForges.Contracts.PublicApi.V1.ScopeService.BindService(binder, new ScopeEndpoint());
 ArcForges.Contracts.PublicApi.V1.ApplicationService.BindService(binder, new ApplicationEndpoint());
 ArcForges.Contracts.PublicApi.V1.HistoryService.BindService(binder, new HistoryEndpoint());
+ArcForges.Contracts.PublicApi.V1.IdentityService.BindService(binder, new IdentityEndpoint());
+ArcForges.Contracts.PublicApi.V1.WorkspaceService.BindService(binder, new WorkspaceEndpoint());
+ArcForges.Contracts.PublicApi.V1.DeviceService.BindService(binder, new DeviceEndpoint());
 ArcForges.Contracts.Events.V1.ExecutionService.BindService(binder, new ExecutionEndpoint());
 ArcForges.Contracts.Events.V1.EventService.BindService(binder, new EventEndpoint());
 ArcForges.Contracts.CloudInternal.Cf.V1.RunStreamService.BindService(binder, new RunStreamEndpoint());
@@ -156,6 +159,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.CloudInternal.Operator.V1.OperatorReflection.Descriptor,
     ArcForges.Contracts.Simulation.V1.SimulationReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ApplicationReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.IdentityReflection.Descriptor,
     ArcForges.Contracts.CloudInternal.Cf.V1.StreamReflection.Descriptor,
 ];
 var serviceCount = 0;
@@ -395,6 +399,12 @@ internal sealed class ScopeEndpoint : ArcForges.Contracts.PublicApi.V1.ScopeServ
 internal sealed class ApplicationEndpoint : ArcForges.Contracts.PublicApi.V1.ApplicationService.ApplicationServiceBase;
 
 internal sealed class HistoryEndpoint : ArcForges.Contracts.PublicApi.V1.HistoryService.HistoryServiceBase;
+
+internal sealed class IdentityEndpoint : ArcForges.Contracts.PublicApi.V1.IdentityService.IdentityServiceBase;
+
+internal sealed class WorkspaceEndpoint : ArcForges.Contracts.PublicApi.V1.WorkspaceService.WorkspaceServiceBase;
+
+internal sealed class DeviceEndpoint : ArcForges.Contracts.PublicApi.V1.DeviceService.DeviceServiceBase;
 
 internal sealed class ExecutionEndpoint : ArcForges.Contracts.Events.V1.ExecutionService.ExecutionServiceBase;
 

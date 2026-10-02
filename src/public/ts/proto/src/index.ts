@@ -10,6 +10,7 @@ export * from "./gen/arcforges/publicapi/v1/commerce_pb.js";
 export * from "./gen/arcforges/publicapi/v1/content_pb.js";
 export * from "./gen/arcforges/publicapi/v1/descriptors_pb.js";
 export * from "./gen/arcforges/publicapi/v1/export_pb.js";
+export * from "./gen/arcforges/publicapi/v1/identity_pb.js";
 export * from "./gen/arcforges/publicapi/v1/inprocess-values_pb.js";
 export * from "./gen/arcforges/publicapi/v1/scope_pb.js";
 export * from "./gen/arcforges/publicapi/v1/support_pb.js";

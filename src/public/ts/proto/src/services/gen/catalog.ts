@@ -28,6 +28,9 @@ import { SimulationService } from "../../gen/arcforges/simulation/v1/simulation_
 import { ScopeService } from "../../gen/arcforges/publicapi/v1/scope_pb.js";
 import { ApplicationService } from "../../gen/arcforges/publicapi/v1/application_pb.js";
 import { HistoryService } from "../../gen/arcforges/publicapi/v1/application_pb.js";
+import { IdentityService } from "../../gen/arcforges/publicapi/v1/identity_pb.js";
+import { WorkspaceService } from "../../gen/arcforges/publicapi/v1/identity_pb.js";
+import { DeviceService } from "../../gen/arcforges/publicapi/v1/identity_pb.js";
 
 /** Generated services owned by this package, in schema order; nothing is discovered at runtime. */
-export const contractServices = Object.freeze([HelloService, ExecutionService, EventService, CatalogService, EntitlementService, CommerceService, TaskService, ApprovalService, BridgeService, ChatService, AgentService, SearchService, AutomationService, SourceService, SyncService, ResourceService, TransferService, SupportService, NotificationService, PreferenceService, PolicyService, DataService, ExportService, SimulationService, ScopeService, ApplicationService, HistoryService] as const);
+export const contractServices = Object.freeze([HelloService, ExecutionService, EventService, CatalogService, EntitlementService, CommerceService, TaskService, ApprovalService, BridgeService, ChatService, AgentService, SearchService, AutomationService, SourceService, SyncService, ResourceService, TransferService, SupportService, NotificationService, PreferenceService, PolicyService, DataService, ExportService, SimulationService, ScopeService, ApplicationService, HistoryService, IdentityService, WorkspaceService, DeviceService] as const);

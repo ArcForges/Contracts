@@ -1,0 +1,1350 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/application.proto";
+import "arcforges/publicapi/v1/commerce.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "IdentityProto";
+
+// CON.07: identity, session, workspace and device operation closure.
+// Registry04 section 5 is the numbered authority. Owner authentication, ceremonies,
+// persistence and policy stay outside this generated contract.
+service IdentityService {
+  rpc BeginPasskeyRegistration(IdentityServiceBeginPasskeyRegistrationRequest) returns (IdentityServiceBeginPasskeyRegistrationResponse);
+  rpc CompletePasskeyRegistration(IdentityServiceCompletePasskeyRegistrationRequest) returns (IdentityServiceCompletePasskeyRegistrationResponse);
+  rpc BeginAuthentication(IdentityServiceBeginAuthenticationRequest) returns (IdentityServiceBeginAuthenticationResponse);
+  rpc CompleteAuthentication(IdentityServiceCompleteAuthenticationRequest) returns (IdentityServiceCompleteAuthenticationResponse);
+  rpc RequestEmailCode(IdentityServiceRequestEmailCodeRequest) returns (IdentityServiceRequestEmailCodeResponse);
+  rpc RedeemEmailCode(IdentityServiceRedeemEmailCodeRequest) returns (IdentityServiceRedeemEmailCodeResponse);
+  rpc RefreshSession(IdentityServiceRefreshSessionRequest) returns (IdentityServiceRefreshSessionResponse);
+  rpc RevokeSession(IdentityServiceRevokeSessionRequest) returns (IdentityServiceRevokeSessionResponse);
+  rpc RevokeAllSessions(IdentityServiceRevokeAllSessionsRequest) returns (IdentityServiceRevokeAllSessionsResponse);
+  rpc ListAuthIdentities(IdentityServiceListAuthIdentitiesRequest) returns (IdentityServiceListAuthIdentitiesResponse);
+  rpc RemoveAuthIdentity(IdentityServiceRemoveAuthIdentityRequest) returns (IdentityServiceRemoveAuthIdentityResponse);
+  rpc BeginStepUp(IdentityServiceBeginStepUpRequest) returns (IdentityServiceBeginStepUpResponse);
+  rpc CompleteStepUp(IdentityServiceCompleteStepUpRequest) returns (IdentityServiceCompleteStepUpResponse);
+  rpc BeginRecovery(IdentityServiceBeginRecoveryRequest) returns (IdentityServiceBeginRecoveryResponse);
+  rpc CompleteRecovery(IdentityServiceCompleteRecoveryRequest) returns (IdentityServiceCompleteRecoveryResponse);
+  rpc RequestAccountDeletion(IdentityServiceRequestAccountDeletionRequest) returns (IdentityServiceRequestAccountDeletionResponse);
+  rpc CancelAccountDeletion(IdentityServiceCancelAccountDeletionRequest) returns (IdentityServiceCancelAccountDeletionResponse);
+  rpc GetProfile(IdentityServiceGetProfileRequest) returns (IdentityServiceGetProfileResponse);
+  rpc UpdateProfile(IdentityServiceUpdateProfileRequest) returns (IdentityServiceUpdateProfileResponse);
+  rpc ListAuthProviders(IdentityServiceListAuthProvidersRequest) returns (IdentityServiceListAuthProvidersResponse);
+  rpc BeginEmailChange(IdentityServiceBeginEmailChangeRequest) returns (IdentityServiceBeginEmailChangeResponse);
+  rpc CompleteEmailChange(IdentityServiceCompleteEmailChangeRequest) returns (IdentityServiceCompleteEmailChangeResponse);
+  rpc RenameAuthIdentity(IdentityServiceRenameAuthIdentityRequest) returns (IdentityServiceRenameAuthIdentityResponse);
+  rpc GenerateRecoveryCodes(IdentityServiceGenerateRecoveryCodesRequest) returns (IdentityServiceGenerateRecoveryCodesResponse);
+  rpc ListSessions(IdentityServiceListSessionsRequest) returns (IdentityServiceListSessionsResponse);
+  rpc ListApiTokens(IdentityServiceListApiTokensRequest) returns (IdentityServiceListApiTokensResponse);
+  rpc CreateApiToken(IdentityServiceCreateApiTokenRequest) returns (IdentityServiceCreateApiTokenResponse);
+  rpc RevokeApiToken(IdentityServiceRevokeApiTokenRequest) returns (IdentityServiceRevokeApiTokenResponse);
+  rpc ListSecurityActivity(IdentityServiceListSecurityActivityRequest) returns (IdentityServiceListSecurityActivityResponse);
+  rpc GetAccountDeletion(IdentityServiceGetAccountDeletionRequest) returns (IdentityServiceGetAccountDeletionResponse);
+  rpc ChangePassword(IdentityServiceChangePasswordRequest) returns (IdentityServiceChangePasswordResponse);
+  rpc CompleteEnrollment(IdentityServiceCompleteEnrollmentRequest) returns (IdentityServiceCompleteEnrollmentResponse);
+}
+
+service WorkspaceService {
+  rpc GetHealth(WorkspaceServiceGetHealthRequest) returns (WorkspaceServiceGetHealthResponse);
+  rpc RequestDataDeletion(WorkspaceServiceRequestDataDeletionRequest) returns (WorkspaceServiceRequestDataDeletionResponse);
+  rpc PreviewDataDeletion(WorkspaceServicePreviewDataDeletionRequest) returns (WorkspaceServicePreviewDataDeletionResponse);
+  rpc GetDataDeletion(WorkspaceServiceGetDataDeletionRequest) returns (WorkspaceServiceGetDataDeletionResponse);
+  rpc List(WorkspaceServiceListRequest) returns (WorkspaceServiceListResponse);
+  rpc Get(WorkspaceServiceGetRequest) returns (WorkspaceServiceGetResponse);
+  rpc UpdateSettings(WorkspaceServiceUpdateSettingsRequest) returns (WorkspaceServiceUpdateSettingsResponse);
+}
+
+service DeviceService {
+  rpc SignOut(DeviceServiceSignOutRequest) returns (DeviceServiceSignOutResponse);
+  rpc GetRemotePolicy(DeviceServiceGetRemotePolicyRequest) returns (DeviceServiceGetRemotePolicyResponse);
+  rpc SetRemotePolicy(DeviceServiceSetRemotePolicyRequest) returns (DeviceServiceSetRemotePolicyResponse);
+  rpc Register(DeviceServiceRegisterRequest) returns (DeviceServiceRegisterResponse);
+  rpc List(DeviceServiceListRequest) returns (DeviceServiceListResponse);
+  rpc Rename(DeviceServiceRenameRequest) returns (DeviceServiceRenameResponse);
+  rpc SetTrust(DeviceServiceSetTrustRequest) returns (DeviceServiceSetTrustResponse);
+  rpc SetRemoteEnabled(DeviceServiceSetRemoteEnabledRequest) returns (DeviceServiceSetRemoteEnabledResponse);
+  rpc Revoke(DeviceServiceRevokeRequest) returns (DeviceServiceRevokeResponse);
+  rpc GetCapabilities(DeviceServiceGetCapabilitiesRequest) returns (DeviceServiceGetCapabilitiesResponse);
+}
+
+enum AuthMethod {
+  AUTH_METHOD_UNSPECIFIED = 0;
+  AUTH_METHOD_PASSKEY = 1;
+  AUTH_METHOD_EMAIL = 2;
+  AUTH_METHOD_PASSWORD = 3;
+  AUTH_METHOD_OIDC = 4;
+}
+
+enum AuthPurpose {
+  AUTH_PURPOSE_UNSPECIFIED = 0;
+  AUTH_PURPOSE_AUTHENTICATE = 1;
+  AUTH_PURPOSE_ENROLL = 2;
+  AUTH_PURPOSE_STEP_UP = 3;
+  AUTH_PURPOSE_RECOVER = 4;
+  AUTH_PURPOSE_CANCEL_DELETION = 5;
+}
+
+enum RecoveryMethod {
+  RECOVERY_METHOD_UNSPECIFIED = 0;
+  RECOVERY_METHOD_EMAIL_CODE = 1;
+  RECOVERY_METHOD_RECOVERY_CODE = 2;
+  RECOVERY_METHOD_PASSKEY = 3;
+  RECOVERY_METHOD_ADMIN_GRANT = 4;
+}
+
+enum ProtectionProfile {
+  PROTECTION_PROFILE_UNSPECIFIED = 0;
+  PROTECTION_PROFILE_STANDARD = 1;
+
+  reserved 2;
+  reserved "PROTECTION_PROFILE_E2EE";
+}
+
+enum TrustLevel {
+  TRUST_LEVEL_UNSPECIFIED = 0;
+  TRUST_LEVEL_UNTRUSTED = 1;
+  TRUST_LEVEL_TRUSTED = 2;
+  TRUST_LEVEL_REVOKED = 3;
+}
+
+message InstallationClaim {
+  arcforges.foundation.v1.Id installation_id = 1 [json_name = "installationId"];
+  optional string product = 2 [json_name = "product"];
+  optional string platform = 3 [json_name = "platform"];
+  optional string app_version = 4 [json_name = "appVersion"];
+}
+
+message AuthChallenge {
+  arcforges.foundation.v1.Id flow_id = 1 [json_name = "flowId"];
+  optional AuthMethod method = 2 [json_name = "method"];
+  optional bytes challenge = 3 [json_name = "challenge"];
+  optional string rp_id = 4 [json_name = "rpId"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  WebAuthnOptions options = 6 [json_name = "options"];
+  optional string provider_id = 7 [json_name = "providerId"];
+  optional string redirect_url = 8 [json_name = "redirectUrl"];
+  optional AuthPurpose purpose = 9 [json_name = "purpose"];
+  optional RecoveryMethod recovery_method = 10 [json_name = "recoveryMethod"];
+}
+
+message WebAuthnOptions {
+  optional string rp_id = 1 [json_name = "rpId"];
+  optional bytes user_handle = 2 [json_name = "userHandle"];
+  repeated bytes allowed_credentials = 3 [json_name = "allowedCredentials"];
+  repeated bytes excluded_credentials = 4 [json_name = "excludedCredentials"];
+  optional string user_verification = 5 [json_name = "userVerification"];
+  repeated sint32 algorithms = 6 [json_name = "algorithms"];
+}
+
+message WebAuthnCreation {
+  optional bytes credential_id = 1 [json_name = "credentialId"];
+  optional bytes client_data_json = 2 [json_name = "clientDataJson"];
+  optional bytes attestation_object = 3 [json_name = "attestationObject"];
+  repeated string transports = 4 [json_name = "transports"];
+}
+
+message WebAuthnAssertion {
+  optional bytes credential_id = 1 [json_name = "credentialId"];
+  optional bytes client_data_json = 2 [json_name = "clientDataJson"];
+  optional bytes authenticator_data = 3 [json_name = "authenticatorData"];
+  optional bytes signature = 4 [json_name = "signature"];
+  optional bytes user_handle = 5 [json_name = "userHandle"];
+}
+
+message AuthProof {
+  oneof proof {
+    WebAuthnAssertion passkey = 1 [json_name = "passkey"];
+    string email_code = 2 [json_name = "emailCode"];
+    string recovery_code = 3 [json_name = "recoveryCode"];
+    string password = 4 [json_name = "password"];
+    string provider_receipt = 5 [json_name = "providerReceipt"];
+    string admin_grant = 6 [json_name = "adminGrant"];
+  }
+}
+
+message NativeSession {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  optional string access_token = 2 [json_name = "accessToken"];
+  arcforges.foundation.v1.Instant access_expires_at = 3 [json_name = "accessExpiresAt"];
+  optional string refresh_token = 4 [json_name = "refreshToken"];
+  arcforges.foundation.v1.Instant refresh_expires_at = 5 [json_name = "refreshExpiresAt"];
+  DeviceView device = 6 [json_name = "device"];
+  optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
+  optional AuthPurpose purpose = 8 [json_name = "purpose"];
+}
+
+message SessionView {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  arcforges.foundation.v1.Instant expires_at = 2 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Instant idle_expires_at = 3 [json_name = "idleExpiresAt"];
+  arcforges.foundation.v1.Id user_id = 4 [json_name = "userId"];
+  arcforges.foundation.v1.Id device_id = 5 [json_name = "deviceId"];
+  repeated arcforges.foundation.v1.Id workspace_ids = 6 [json_name = "workspaceIds"];
+  optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
+  optional AuthPurpose purpose = 8 [json_name = "purpose"];
+}
+
+message CredentialSummary {
+  arcforges.foundation.v1.Id credential_id = 1 [json_name = "credentialId"];
+  optional string kind = 2 [json_name = "kind"];
+  optional string display_name = 3 [json_name = "displayName"];
+  arcforges.foundation.v1.Instant created_at = 4 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant last_used_at = 5 [json_name = "lastUsedAt"];
+}
+
+message StepUpEvidence {
+  optional string operation_class = 1 [json_name = "operationClass"];
+  arcforges.foundation.v1.Instant expires_at = 2 [json_name = "expiresAt"];
+}
+
+message DeletionStatus {
+  arcforges.foundation.v1.Id deletion_id = 1 [json_name = "deletionId"];
+  optional string state = 2 [json_name = "state"];
+  arcforges.foundation.v1.Instant grace_ends_at = 3 [json_name = "graceEndsAt"];
+  arcforges.foundation.v1.Instant purge_after = 4 [json_name = "purgeAfter"];
+}
+
+message AccountProfile {
+  optional string display_name = 1 [json_name = "displayName"];
+  arcforges.foundation.v1.ResourceVersionRef avatar = 2 [json_name = "avatar"];
+  optional string primary_email = 3 [json_name = "primaryEmail"];
+  optional string locale = 4 [json_name = "locale"];
+  optional string timezone = 5 [json_name = "timezone"];
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"];
+}
+
+message ProfileUpdate {
+  optional string display_name = 1 [json_name = "displayName"];
+  oneof change {
+    arcforges.foundation.v1.ResourceVersionRef avatar = 2 [json_name = "avatar"];
+    bool clear_avatar = 3 [json_name = "clearAvatar"];
+  }
+  optional string locale = 4 [json_name = "locale"];
+  optional string timezone = 5 [json_name = "timezone"];
+}
+
+message AuthProviderView {
+  optional string provider_id = 1 [json_name = "providerId"];
+  optional AuthMethod method = 2 [json_name = "method"];
+  optional string name = 3 [json_name = "name"];
+  optional bool enrollment = 4 [json_name = "enrollment"];
+}
+
+message SessionSummary {
+  arcforges.foundation.v1.Id session_id = 1 [json_name = "sessionId"];
+  arcforges.foundation.v1.Id device_id = 2 [json_name = "deviceId"];
+  optional string product = 3 [json_name = "product"];
+  arcforges.foundation.v1.Instant created_at = 4 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant last_used_at = 5 [json_name = "lastUsedAt"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+  optional bool current = 7 [json_name = "current"];
+  arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];
+}
+
+message ApiTokenView {
+  arcforges.foundation.v1.Id token_id = 1 [json_name = "tokenId"];
+  optional string name = 2 [json_name = "name"];
+  repeated string scopes = 3 [json_name = "scopes"];
+  arcforges.foundation.v1.Id workspace_id = 4 [json_name = "workspaceId"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+  arcforges.foundation.v1.Instant last_used_at = 6 [json_name = "lastUsedAt"];
+  arcforges.foundation.v1.Instant revoked_at = 7 [json_name = "revokedAt"];
+  arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];
+}
+
+message RecoveryCodeSet {
+  arcforges.foundation.v1.Id set_id = 1 [json_name = "setId"];
+  repeated string codes = 2 [json_name = "codes"];
+  arcforges.foundation.v1.Instant created_at = 3 [json_name = "createdAt"];
+}
+
+message RemoteCapabilityPolicy {
+  arcforges.foundation.v1.Id device_id = 1 [json_name = "deviceId"];
+  repeated string allowed_capabilities = 2 [json_name = "allowedCapabilities"];
+  repeated string require_local_confirmation = 3 [json_name = "requireLocalConfirmation"];
+  arcforges.foundation.v1.Revision revision = 4 [json_name = "revision"];
+}
+
+message SecurityActivity {
+  arcforges.foundation.v1.Id event_id = 1 [json_name = "eventId"];
+  optional string kind = 2 [json_name = "kind"];
+  arcforges.foundation.v1.Instant occurred_at = 3 [json_name = "occurredAt"];
+  arcforges.foundation.v1.Id device_id = 4 [json_name = "deviceId"];
+  arcforges.foundation.v1.ActorChain actor = 5 [json_name = "actor"];
+  optional string reason = 6 [json_name = "reason"];
+}
+
+message DataDeletionPreview {
+  optional string snapshot_hash = 1 [json_name = "snapshotHash"];
+  optional uint64 publication_watermark = 2 [json_name = "publicationWatermark"];
+  repeated DeletionCount counts = 3 [json_name = "counts"];
+  optional uint64 active_job_count = 4 [json_name = "activeJobCount"];
+  arcforges.foundation.v1.Instant expires_at = 5 [json_name = "expiresAt"];
+}
+
+message DeletionCount {
+  optional string kind = 1 [json_name = "kind"];
+  optional uint64 count = 2 [json_name = "count"];
+  optional uint64 bytes = 3 [json_name = "bytes"];
+}
+
+message WorkspaceHealth {
+  arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"];
+  optional string state = 2 [json_name = "state"];
+  optional uint64 recovery_generation = 3 [json_name = "recoveryGeneration"];
+  arcforges.foundation.v1.Instant last_backup_at = 4 [json_name = "lastBackupAt"];
+  repeated QuotaUsage storage = 5 [json_name = "storage"];
+  repeated arcforges.foundation.v1.Id pending_jobs = 6 [json_name = "pendingJobs"];
+  optional string reason = 7 [json_name = "reason"];
+}
+
+message DataDeletionView {
+  arcforges.foundation.v1.Id deletion_id = 1 [json_name = "deletionId"];
+  optional string state = 2 [json_name = "state"];
+  repeated DeletionCount counts = 3 [json_name = "counts"];
+  arcforges.foundation.v1.Instant created_at = 4 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant completed_at = 5 [json_name = "completedAt"];
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"];
+}
+
+message WorkspaceView {
+  arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"];
+  arcforges.foundation.v1.Id owner_user_id = 2 [json_name = "ownerUserId"];
+  optional string name = 3 [json_name = "name"];
+  optional ProtectionProfile protection = 4 [json_name = "protection"];
+  arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
+}
+
+message DeviceView {
+  arcforges.foundation.v1.Id device_id = 1 [json_name = "deviceId"];
+  optional string name = 2 [json_name = "name"];
+  optional string platform = 3 [json_name = "platform"];
+  optional TrustLevel trust = 4 [json_name = "trust"];
+  optional bool remote_enabled = 5 [json_name = "remoteEnabled"];
+  arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];
+  arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];
+  repeated InstalledProduct installed = 10 [json_name = "installed"];
+
+  reserved 7, 9, 11;
+  reserved "presence", "last_seen_at", "presence_expires_at";
+}
+
+message InstalledProduct {
+  optional string product = 1 [json_name = "product"];
+  optional string version = 2 [json_name = "version"];
+  arcforges.foundation.v1.Instant installed_at = 3 [json_name = "installedAt"];
+}
+
+message DeviceCapabilityView {
+  ApplicationPresence instance = 1 [json_name = "instance"];
+  arcforges.foundation.v1.CapabilityDescriptor descriptor = 2 [json_name = "descriptor"];
+  optional bool remote_allowed = 3 [json_name = "remoteAllowed"];
+  repeated string reasons = 4 [json_name = "reasons"];
+  arcforges.foundation.v1.Instant observed_at = 5 [json_name = "observedAt"];
+  arcforges.foundation.v1.Instant expires_at = 6 [json_name = "expiresAt"];
+}
+
+message CredentialReplacement {
+  oneof replacement {
+    WebAuthnCreation passkey = 1 [json_name = "passkey"];
+    string password = 2 [json_name = "password"];
+  }
+}
+
+message EnrollmentProof {
+  oneof proof {
+    string email_code = 1 [json_name = "emailCode"];
+    string local_code = 2 [json_name = "localCode"];
+    string provider_receipt = 3 [json_name = "providerReceipt"];
+  }
+}
+
+message IdentityServiceBeginPasskeyRegistrationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string display_name = 10 [json_name = "displayName"];
+}
+
+message IdentityServiceBeginPasskeyRegistrationValue {
+  AuthChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message IdentityServiceBeginPasskeyRegistrationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceBeginPasskeyRegistrationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCompletePasskeyRegistrationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  WebAuthnCreation credential = 11 [json_name = "credential"];
+}
+
+message IdentityServiceCompletePasskeyRegistrationValue {
+  CredentialSummary credential = 10 [json_name = "credential"];
+}
+
+message IdentityServiceCompletePasskeyRegistrationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCompletePasskeyRegistrationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceBeginAuthenticationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AuthMethod method = 10 [json_name = "method"];
+  optional string login_hint = 11 [json_name = "loginHint"];
+  InstallationClaim installation = 12 [json_name = "installation"];
+  optional string provider_id = 13 [json_name = "providerId"];
+  optional AuthPurpose purpose = 14 [json_name = "purpose"];
+}
+
+message IdentityServiceBeginAuthenticationValue {
+  AuthChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message IdentityServiceBeginAuthenticationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceBeginAuthenticationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCompleteAuthenticationRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  AuthProof proof = 11 [json_name = "proof"];
+}
+
+message IdentityServiceCompleteAuthenticationValue {
+  NativeSession session = 10 [json_name = "session"];
+}
+
+message IdentityServiceCompleteAuthenticationResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCompleteAuthenticationValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRequestEmailCodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional AuthPurpose purpose = 10 [json_name = "purpose"];
+  optional string email = 11 [json_name = "email"];
+  arcforges.foundation.v1.Id flow_id = 12 [json_name = "flowId"];
+}
+
+message IdentityServiceRequestEmailCodeValue {
+  AuthChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message IdentityServiceRequestEmailCodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRequestEmailCodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRedeemEmailCodeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  optional string code = 11 [json_name = "code"];
+}
+
+message IdentityServiceRedeemEmailCodeValue {
+  NativeSession session = 10 [json_name = "session"];
+}
+
+message IdentityServiceRedeemEmailCodeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRedeemEmailCodeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRefreshSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string refresh_token = 10 [json_name = "refreshToken"];
+  arcforges.foundation.v1.Id installation_id = 11 [json_name = "installationId"];
+}
+
+message IdentityServiceRefreshSessionValue {
+  NativeSession session = 10 [json_name = "session"];
+}
+
+message IdentityServiceRefreshSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRefreshSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRevokeSessionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id session_id = 10 [json_name = "sessionId"];
+}
+
+message IdentityServiceRevokeSessionValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message IdentityServiceRevokeSessionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRevokeSessionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRevokeAllSessionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message IdentityServiceRevokeAllSessionsValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message IdentityServiceRevokeAllSessionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRevokeAllSessionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceListAuthIdentitiesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message IdentityServiceListAuthIdentitiesValue {
+  repeated CredentialSummary items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message IdentityServiceListAuthIdentitiesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceListAuthIdentitiesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceRemoveAuthIdentityRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id credential_id = 10 [json_name = "credentialId"];
+}
+
+message IdentityServiceRemoveAuthIdentityValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message IdentityServiceRemoveAuthIdentityResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRemoveAuthIdentityValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceBeginStepUpRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string operation_class = 10 [json_name = "operationClass"];
+  optional AuthMethod method = 11 [json_name = "method"];
+  optional string target_hash = 12 [json_name = "targetHash"];
+}
+
+message IdentityServiceBeginStepUpValue {
+  AuthChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message IdentityServiceBeginStepUpResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceBeginStepUpValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCompleteStepUpRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  AuthProof proof = 11 [json_name = "proof"];
+}
+
+message IdentityServiceCompleteStepUpValue {
+  StepUpEvidence evidence = 10 [json_name = "evidence"];
+}
+
+message IdentityServiceCompleteStepUpResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCompleteStepUpValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceBeginRecoveryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string email = 10 [json_name = "email"];
+  optional RecoveryMethod method = 11 [json_name = "method"];
+  optional string account_hint = 12 [json_name = "accountHint"];
+  InstallationClaim installation = 13 [json_name = "installation"];
+}
+
+message IdentityServiceBeginRecoveryValue {
+  AuthChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message IdentityServiceBeginRecoveryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceBeginRecoveryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCompleteRecoveryRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  AuthProof proof = 11 [json_name = "proof"];
+  CredentialReplacement replacement = 12 [json_name = "replacement"];
+}
+
+message IdentityServiceCompleteRecoveryValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message IdentityServiceCompleteRecoveryResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCompleteRecoveryValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRequestAccountDeletionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message IdentityServiceRequestAccountDeletionValue {
+  DeletionStatus deletion = 10 [json_name = "deletion"];
+}
+
+message IdentityServiceRequestAccountDeletionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRequestAccountDeletionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCancelAccountDeletionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id deletion_id = 10 [json_name = "deletionId"];
+}
+
+message IdentityServiceCancelAccountDeletionValue {
+  DeletionStatus deletion = 10 [json_name = "deletion"];
+}
+
+message IdentityServiceCancelAccountDeletionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCancelAccountDeletionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceGetProfileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message IdentityServiceGetProfileValue {
+  AccountProfile profile = 10 [json_name = "profile"];
+}
+
+message IdentityServiceGetProfileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceGetProfileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceUpdateProfileRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  ProfileUpdate patch = 10 [json_name = "patch"];
+}
+
+message IdentityServiceUpdateProfileValue {
+  AccountProfile profile = 10 [json_name = "profile"];
+}
+
+message IdentityServiceUpdateProfileResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceUpdateProfileValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceListAuthProvidersRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message IdentityServiceListAuthProvidersValue {
+  repeated AuthProviderView providers = 10 [json_name = "providers"];
+}
+
+message IdentityServiceListAuthProvidersResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceListAuthProvidersValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceBeginEmailChangeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string email = 10 [json_name = "email"];
+}
+
+message IdentityServiceBeginEmailChangeValue {
+  AuthChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message IdentityServiceBeginEmailChangeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceBeginEmailChangeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCompleteEmailChangeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  optional string code = 11 [json_name = "code"];
+}
+
+message IdentityServiceCompleteEmailChangeValue {
+  AccountProfile profile = 10 [json_name = "profile"];
+}
+
+message IdentityServiceCompleteEmailChangeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCompleteEmailChangeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRenameAuthIdentityRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id credential_id = 10 [json_name = "credentialId"];
+  optional string name = 11 [json_name = "name"];
+}
+
+message IdentityServiceRenameAuthIdentityValue {
+  CredentialSummary credential = 10 [json_name = "credential"];
+}
+
+message IdentityServiceRenameAuthIdentityResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRenameAuthIdentityValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceGenerateRecoveryCodesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message IdentityServiceGenerateRecoveryCodesValue {
+  RecoveryCodeSet set = 10 [json_name = "set"];
+}
+
+message IdentityServiceGenerateRecoveryCodesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceGenerateRecoveryCodesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceListSessionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message IdentityServiceListSessionsValue {
+  repeated SessionSummary sessions = 10 [json_name = "sessions"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message IdentityServiceListSessionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceListSessionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceListApiTokensRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message IdentityServiceListApiTokensValue {
+  repeated ApiTokenView tokens = 10 [json_name = "tokens"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message IdentityServiceListApiTokensResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceListApiTokensValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceCreateApiTokenRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id token_id = 10 [json_name = "tokenId"];
+  optional string name = 11 [json_name = "name"];
+  arcforges.foundation.v1.Id workspace_id = 12 [json_name = "workspaceId"];
+  repeated string scopes = 13 [json_name = "scopes"];
+  arcforges.foundation.v1.Instant expires_at = 14 [json_name = "expiresAt"];
+}
+
+message IdentityServiceCreateApiTokenValue {
+  ApiTokenView token = 10 [json_name = "token"];
+  optional string secret = 11 [json_name = "secret"];
+}
+
+message IdentityServiceCreateApiTokenResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCreateApiTokenValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceRevokeApiTokenRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id token_id = 10 [json_name = "tokenId"];
+}
+
+message IdentityServiceRevokeApiTokenValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message IdentityServiceRevokeApiTokenResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceRevokeApiTokenValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceListSecurityActivityRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message IdentityServiceListSecurityActivityValue {
+  repeated SecurityActivity events = 10 [json_name = "events"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message IdentityServiceListSecurityActivityResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceListSecurityActivityValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceGetAccountDeletionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message IdentityServiceGetAccountDeletionValue {
+  DeletionStatus deletion = 10 [json_name = "deletion"];
+}
+
+message IdentityServiceGetAccountDeletionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceGetAccountDeletionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message IdentityServiceChangePasswordRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string password = 10 [json_name = "password"];
+}
+
+message IdentityServiceChangePasswordValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message IdentityServiceChangePasswordResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceChangePasswordValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message IdentityServiceCompleteEnrollmentRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  EnrollmentProof proof = 11 [json_name = "proof"];
+  CredentialReplacement credential = 12 [json_name = "credential"];
+  ProfileUpdate profile = 13 [json_name = "profile"];
+}
+
+message IdentityServiceCompleteEnrollmentValue {
+  NativeSession session = 10 [json_name = "session"];
+}
+
+message IdentityServiceCompleteEnrollmentResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    IdentityServiceCompleteEnrollmentValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message WorkspaceServiceGetHealthRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message WorkspaceServiceGetHealthValue {
+  WorkspaceHealth health = 10 [json_name = "health"];
+}
+
+message WorkspaceServiceGetHealthResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceGetHealthValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message WorkspaceServiceRequestDataDeletionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id deletion_id = 10 [json_name = "deletionId"];
+  optional string preview_hash = 11 [json_name = "previewHash"];
+}
+
+message WorkspaceServiceRequestDataDeletionValue {
+  DataDeletionView deletion = 10 [json_name = "deletion"];
+}
+
+message WorkspaceServiceRequestDataDeletionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceRequestDataDeletionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message WorkspaceServicePreviewDataDeletionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+}
+
+message WorkspaceServicePreviewDataDeletionValue {
+  DataDeletionPreview preview = 10 [json_name = "preview"];
+}
+
+message WorkspaceServicePreviewDataDeletionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServicePreviewDataDeletionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message WorkspaceServiceGetDataDeletionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id deletion_id = 10 [json_name = "deletionId"];
+}
+
+message WorkspaceServiceGetDataDeletionValue {
+  DataDeletionView deletion = 10 [json_name = "deletion"];
+}
+
+message WorkspaceServiceGetDataDeletionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceGetDataDeletionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message WorkspaceServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message WorkspaceServiceListValue {
+  repeated WorkspaceView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message WorkspaceServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message WorkspaceServiceGetRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id workspace_id = 10 [json_name = "workspaceId"];
+}
+
+message WorkspaceServiceGetValue {
+  WorkspaceView workspace = 10 [json_name = "workspace"];
+}
+
+message WorkspaceServiceGetResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceGetValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message WorkspaceServiceUpdateSettingsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  optional string name = 10 [json_name = "name"];
+  optional ProtectionProfile protection = 11 [json_name = "protection"];
+}
+
+message WorkspaceServiceUpdateSettingsValue {
+  WorkspaceView workspace = 10 [json_name = "workspace"];
+}
+
+message WorkspaceServiceUpdateSettingsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    WorkspaceServiceUpdateSettingsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceSignOutRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+}
+
+message DeviceServiceSignOutValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message DeviceServiceSignOutResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceSignOutValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceGetRemotePolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+}
+
+message DeviceServiceGetRemotePolicyValue {
+  RemoteCapabilityPolicy policy = 10 [json_name = "policy"];
+}
+
+message DeviceServiceGetRemotePolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceGetRemotePolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message DeviceServiceSetRemotePolicyRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  RemoteCapabilityPolicy policy = 10 [json_name = "policy"];
+}
+
+message DeviceServiceSetRemotePolicyValue {
+  RemoteCapabilityPolicy policy = 10 [json_name = "policy"];
+}
+
+message DeviceServiceSetRemotePolicyResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceSetRemotePolicyValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceRegisterRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+  arcforges.foundation.v1.Id installation_id = 11 [json_name = "installationId"];
+  optional string product = 12 [json_name = "product"];
+  optional string platform = 13 [json_name = "platform"];
+  optional string name = 14 [json_name = "name"];
+  optional bytes public_key = 15 [json_name = "publicKey"];
+}
+
+message DeviceServiceRegisterValue {
+  DeviceView device = 10 [json_name = "device"];
+}
+
+message DeviceServiceRegisterResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceRegisterValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceListRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+
+message DeviceServiceListValue {
+  repeated DeviceView items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message DeviceServiceListResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceListValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+
+message DeviceServiceRenameRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+  optional string name = 11 [json_name = "name"];
+}
+
+message DeviceServiceRenameValue {
+  DeviceView device = 10 [json_name = "device"];
+}
+
+message DeviceServiceRenameResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceRenameValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceSetTrustRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+  optional TrustLevel trust = 11 [json_name = "trust"];
+}
+
+message DeviceServiceSetTrustValue {
+  DeviceView device = 10 [json_name = "device"];
+}
+
+message DeviceServiceSetTrustResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceSetTrustValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceSetRemoteEnabledRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+  optional bool enabled = 11 [json_name = "enabled"];
+}
+
+message DeviceServiceSetRemoteEnabledValue {
+  DeviceView device = 10 [json_name = "device"];
+}
+
+message DeviceServiceSetRemoteEnabledResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceSetRemoteEnabledValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceRevokeRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+}
+
+message DeviceServiceRevokeValue {
+  arcforges.foundation.v1.Receipt receipt = 10 [json_name = "receipt"];
+}
+
+message DeviceServiceRevokeResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceRevokeValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+
+message DeviceServiceGetCapabilitiesRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
+  arcforges.foundation.v1.PageRequest page = 11 [json_name = "page"];
+}
+
+message DeviceServiceGetCapabilitiesValue {
+  repeated DeviceCapabilityView capabilities = 10 [json_name = "capabilities"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message DeviceServiceGetCapabilitiesResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    DeviceServiceGetCapabilitiesValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}

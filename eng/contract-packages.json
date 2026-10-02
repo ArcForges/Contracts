@@ -30,14 +30,17 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
-        "public/proto/arcforges/publicapi/v1/application.proto"
+        "public/proto/arcforges/publicapi/v1/application.proto",
+        "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
       "dependencies": ["ArcForges.Contracts.Foundation"],
       "descriptor": "public-api.binpb",
       "jsonSchemas": [
         "public/http/v1/schema.json",
         "public/http/v1/signed-formats.schema.json",
-        "public/http/v1/policy-body.schema.json"
+        "public/http/v1/policy-body.schema.json",
+        "public/http/v1/browser.schema.json",
+        "public/http/v1/native-auth.schema.json"
       ]
     },
     {
@@ -198,7 +201,8 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
-        "public/proto/arcforges/publicapi/v1/application.proto"
+        "public/proto/arcforges/publicapi/v1/application.proto",
+        "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -219,7 +223,9 @@
         "public/http/v1/manifest.schema.json",
         "public/http/v1/workflow.schema.json",
         "public/http/v1/panel.schema.json",
-        "public/http/v1/policy-body.schema.json"
+        "public/http/v1/policy-body.schema.json",
+        "public/http/v1/browser.schema.json",
+        "public/http/v1/native-auth.schema.json"
       ]
     },
     {
@@ -278,7 +284,8 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
-        "public/proto/arcforges/publicapi/v1/application.proto"
+        "public/proto/arcforges/publicapi/v1/application.proto",
+        "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
       "dependencies": [],
       "descriptor": "contracts.binpb",
@@ -299,7 +306,8 @@
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
         "public/proto/arcforges/publicapi/v1/application.proto",
-        "public/proto/arcforges/events/v1/events.proto"
+        "public/proto/arcforges/events/v1/events.proto",
+        "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
       "dependencies": ["io.github.arcforges:contracts-proto"],
       "descriptor": "contracts.binpb",

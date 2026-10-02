@@ -1,0 +1,341 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "title": "NativeAuth",
+  "description": "Closed native-application authorization exceptions: PKCE authorize query, redirect callback queries, application/x-www-form-urlencoded token request (16 KiB) and the NativeSession token response. Shape validity is not code, verifier, redirect or installation authorization.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/NativeAuthorizeRequest"
+    },
+    {
+      "$ref": "#/$defs/NativeAuthorizeCallbackSuccess"
+    },
+    {
+      "$ref": "#/$defs/NativeAuthorizeCallbackFailure"
+    },
+    {
+      "$ref": "#/$defs/NativeTokenRequest"
+    },
+    {
+      "$ref": "#/$defs/NativeTokenResponse"
+    }
+  ],
+  "$defs": {
+    "NativeTokenInstalledProduct": {
+      "title": "NativeTokenInstalledProduct",
+      "type": "object",
+      "properties": {
+        "product": {
+          "type": "string",
+          "enum": ["arcscope", "companion"]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "installedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["product", "version"],
+      "additionalProperties": false
+    },
+    "NativeTokenDevice": {
+      "title": "NativeTokenDevice",
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "trust": {
+          "type": "string",
+          "enum": ["untrusted", "trusted", "revoked"]
+        },
+        "remoteEnabled": {
+          "type": "boolean"
+        },
+        "revokedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "installed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NativeTokenInstalledProduct"
+          },
+          "maxItems": 64
+        }
+      },
+      "required": ["deviceId", "name", "platform", "trust", "remoteEnabled", "revision"],
+      "additionalProperties": false
+    },
+    "NativeAuthorizeRequest": {
+      "title": "NativeAuthorizeRequest",
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "enum": ["arcscope.desktop", "companion.android", "companion.android.selfhost"]
+        },
+        "redirect_uri": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:[\\x21\\x22\\x24-\\x7E]+$"
+        },
+        "response_type": {
+          "type": "string",
+          "const": "code"
+        },
+        "code_challenge": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "code_challenge_method": {
+          "type": "string",
+          "const": "S256"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x7E]+$"
+        },
+        "installationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": [
+        "client_id",
+        "redirect_uri",
+        "response_type",
+        "code_challenge",
+        "code_challenge_method",
+        "state",
+        "installationId"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384,
+      "x-arcforges-wire": "form-urlencoded",
+      "x-arcforges-rules": ["nativeClientRedirect"]
+    },
+    "NativeAuthorizeCallbackSuccess": {
+      "title": "NativeAuthorizeCallbackSuccess",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x7E]+$"
+        }
+      },
+      "required": ["code", "state"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384,
+      "x-arcforges-wire": "form-urlencoded"
+    },
+    "NativeAuthorizeCallbackFailure": {
+      "title": "NativeAuthorizeCallbackFailure",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z_]*$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x7E]+$"
+        }
+      },
+      "required": ["error", "state"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384,
+      "x-arcforges-wire": "form-urlencoded"
+    },
+    "NativeTokenRequest": {
+      "title": "NativeTokenRequest",
+      "type": "object",
+      "properties": {
+        "grant_type": {
+          "type": "string",
+          "const": "authorization_code"
+        },
+        "code": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "code_verifier": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._~-]{43,128}$"
+        },
+        "client_id": {
+          "type": "string",
+          "enum": ["arcscope.desktop", "companion.android", "companion.android.selfhost"]
+        },
+        "redirect_uri": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:[\\x21\\x22\\x24-\\x7E]+$"
+        },
+        "installationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": [
+        "grant_type",
+        "code",
+        "code_verifier",
+        "client_id",
+        "redirect_uri",
+        "installationId"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384,
+      "x-arcforges-wire": "form-urlencoded",
+      "x-arcforges-rules": ["nativeClientRedirect"]
+    },
+    "NativeTokenResponse": {
+      "title": "NativeTokenResponse",
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "accessToken": {
+          "type": "string",
+          "minLength": 1,
+          "x-arcforges-max-utf8-bytes": 8192
+        },
+        "accessExpiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "refreshToken": {
+          "type": "string",
+          "minLength": 1,
+          "x-arcforges-max-utf8-bytes": 8192
+        },
+        "refreshExpiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "device": {
+          "$ref": "#/$defs/NativeTokenDevice"
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
+        }
+      },
+      "required": [
+        "sessionId",
+        "accessToken",
+        "accessExpiresAt",
+        "refreshToken",
+        "refreshExpiresAt",
+        "device",
+        "recoveryGeneration",
+        "purpose"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 65536
+    }
+  },
+  "x-arcforges-routes": [
+    {
+      "id": "native.authorize",
+      "method": "GET",
+      "path": "/session/v1/native/authorize",
+      "credential": "browser-login",
+      "origin": "none",
+      "csrf": "none",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["NativeAuthorizeRequest"],
+      "response": []
+    },
+    {
+      "id": "native.token",
+      "method": "POST",
+      "path": "/session/v1/native/token",
+      "credential": "authorization-code",
+      "origin": "none",
+      "csrf": "none",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["NativeTokenRequest"],
+      "response": ["NativeTokenResponse"]
+    }
+  ],
+  "x-arcforges-schema-version": "1"
+}

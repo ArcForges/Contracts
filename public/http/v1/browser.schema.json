@@ -1,0 +1,1300 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "SPDX-License-Identifier: Apache-2.0",
+  "title": "BrowserSession",
+  "description": "Closed same-origin browser session exceptions under /session/v1: strict JSON bodies mirroring the numbered Identity records as precise-value projections, plus the OIDC provider callback query. Shape validity is not authentication, CSRF, origin or flow-state authorization.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/BrowserBootstrapResponse"
+    },
+    {
+      "$ref": "#/$defs/BrowserBeginAuthenticationRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserCompleteAuthenticationRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserCompleteEnrollmentRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserBeginRecoveryRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserCompleteRecoveryRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserBeginStepUpRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserCompleteStepUpRequest"
+    },
+    {
+      "$ref": "#/$defs/BrowserAuthChallenge"
+    },
+    {
+      "$ref": "#/$defs/BrowserSessionView"
+    },
+    {
+      "$ref": "#/$defs/BrowserStepUpEvidence"
+    },
+    {
+      "$ref": "#/$defs/BrowserReceipt"
+    },
+    {
+      "$ref": "#/$defs/BrowserOidcCallbackSuccess"
+    },
+    {
+      "$ref": "#/$defs/BrowserOidcCallbackFailure"
+    }
+  ],
+  "$defs": {
+    "BrowserInstallationClaim": {
+      "title": "BrowserInstallationClaim",
+      "type": "object",
+      "properties": {
+        "installationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "product": {
+          "type": "string",
+          "enum": ["arcscope", "companion"]
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "appVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": ["installationId", "product", "platform", "appVersion"],
+      "additionalProperties": false
+    },
+    "BrowserWebAuthnOptions": {
+      "title": "BrowserWebAuthnOptions",
+      "type": "object",
+      "properties": {
+        "rpId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "userHandle": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 86,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "allowedCredentials": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 1364,
+            "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+          },
+          "maxItems": 64
+        },
+        "excludedCredentials": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 1364,
+            "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+          },
+          "maxItems": 64
+        },
+        "userVerification": {
+          "type": "string",
+          "const": "required"
+        },
+        "algorithms": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "enum": [-7]
+          },
+          "minItems": 1,
+          "maxItems": 1
+        }
+      },
+      "required": ["rpId", "userVerification", "algorithms"],
+      "additionalProperties": false
+    },
+    "BrowserWebAuthnAssertion": {
+      "title": "BrowserWebAuthnAssertion",
+      "type": "object",
+      "properties": {
+        "credentialId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 1364,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "clientDataJson": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 21846,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "authenticatorData": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 21846,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "signature": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 342,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "userHandle": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 86,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        }
+      },
+      "required": ["credentialId", "clientDataJson", "authenticatorData", "signature"],
+      "additionalProperties": false
+    },
+    "BrowserWebAuthnCreation": {
+      "title": "BrowserWebAuthnCreation",
+      "type": "object",
+      "properties": {
+        "credentialId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 1364,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "clientDataJson": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 21846,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "attestationObject": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 21846,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "transports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+          },
+          "maxItems": 8
+        }
+      },
+      "required": ["credentialId", "clientDataJson", "attestationObject"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProofPasskey": {
+      "title": "BrowserAuthProofPasskey",
+      "type": "object",
+      "properties": {
+        "passkey": {
+          "$ref": "#/$defs/BrowserWebAuthnAssertion"
+        }
+      },
+      "required": ["passkey"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProofEmailCode": {
+      "title": "BrowserAuthProofEmailCode",
+      "type": "object",
+      "properties": {
+        "emailCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["emailCode"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProofRecoveryCode": {
+      "title": "BrowserAuthProofRecoveryCode",
+      "type": "object",
+      "properties": {
+        "recoveryCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["recoveryCode"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProofPassword": {
+      "title": "BrowserAuthProofPassword",
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["password"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProofProviderReceipt": {
+      "title": "BrowserAuthProofProviderReceipt",
+      "type": "object",
+      "properties": {
+        "providerReceipt": {
+          "type": "string",
+          "minLength": 1,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["providerReceipt"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProofAdminGrant": {
+      "title": "BrowserAuthProofAdminGrant",
+      "type": "object",
+      "properties": {
+        "adminGrant": {
+          "type": "string",
+          "minLength": 1,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["adminGrant"],
+      "additionalProperties": false
+    },
+    "BrowserAuthProof": {
+      "title": "BrowserAuthProof",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BrowserAuthProofPasskey"
+        },
+        {
+          "$ref": "#/$defs/BrowserAuthProofEmailCode"
+        },
+        {
+          "$ref": "#/$defs/BrowserAuthProofRecoveryCode"
+        },
+        {
+          "$ref": "#/$defs/BrowserAuthProofPassword"
+        },
+        {
+          "$ref": "#/$defs/BrowserAuthProofProviderReceipt"
+        },
+        {
+          "$ref": "#/$defs/BrowserAuthProofAdminGrant"
+        }
+      ]
+    },
+    "BrowserEnrollmentProofEmailCode": {
+      "title": "BrowserEnrollmentProofEmailCode",
+      "type": "object",
+      "properties": {
+        "emailCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["emailCode"],
+      "additionalProperties": false
+    },
+    "BrowserEnrollmentProofLocalCode": {
+      "title": "BrowserEnrollmentProofLocalCode",
+      "type": "object",
+      "properties": {
+        "localCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["localCode"],
+      "additionalProperties": false
+    },
+    "BrowserEnrollmentProofProviderReceipt": {
+      "title": "BrowserEnrollmentProofProviderReceipt",
+      "type": "object",
+      "properties": {
+        "providerReceipt": {
+          "type": "string",
+          "minLength": 1,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["providerReceipt"],
+      "additionalProperties": false
+    },
+    "BrowserEnrollmentProof": {
+      "title": "BrowserEnrollmentProof",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BrowserEnrollmentProofEmailCode"
+        },
+        {
+          "$ref": "#/$defs/BrowserEnrollmentProofLocalCode"
+        },
+        {
+          "$ref": "#/$defs/BrowserEnrollmentProofProviderReceipt"
+        }
+      ]
+    },
+    "BrowserCredentialReplacementPasskey": {
+      "title": "BrowserCredentialReplacementPasskey",
+      "type": "object",
+      "properties": {
+        "passkey": {
+          "$ref": "#/$defs/BrowserWebAuthnCreation"
+        }
+      },
+      "required": ["passkey"],
+      "additionalProperties": false
+    },
+    "BrowserCredentialReplacementPassword": {
+      "title": "BrowserCredentialReplacementPassword",
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "minLength": 15,
+          "maxLength": 128,
+          "x-arcforges-max-utf8-bytes": 8192
+        }
+      },
+      "required": ["password"],
+      "additionalProperties": false
+    },
+    "BrowserCredentialReplacement": {
+      "title": "BrowserCredentialReplacement",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BrowserCredentialReplacementPasskey"
+        },
+        {
+          "$ref": "#/$defs/BrowserCredentialReplacementPassword"
+        }
+      ]
+    },
+    "BrowserResourceRef": {
+      "title": "BrowserResourceRef",
+      "type": "object",
+      "properties": {
+        "realmId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "workspaceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "ownerAppId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceKind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "resourceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "displayHint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["alwaysKeep", "availableOffline", "onDemand", "cloudOnly", "missingExternal"]
+        },
+        "holdingDeviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        }
+      },
+      "required": ["realmId", "ownerAppId", "resourceKind", "resourceId", "availability"],
+      "additionalProperties": false
+    },
+    "BrowserBlobRef": {
+      "title": "BrowserBlobRef",
+      "type": "object",
+      "properties": {
+        "blobId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sizeBytes": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["blobId", "contentHash", "sizeBytes"],
+      "additionalProperties": false
+    },
+    "BrowserAvatarCloud": {
+      "title": "BrowserAvatarCloud",
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/BrowserResourceRef"
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "blob": {
+          "$ref": "#/$defs/BrowserBlobRef"
+        },
+        "cloud": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        }
+      },
+      "required": ["resource", "cloud"],
+      "additionalProperties": false
+    },
+    "BrowserAvatarNative": {
+      "title": "BrowserAvatarNative",
+      "type": "object",
+      "properties": {
+        "resource": {
+          "$ref": "#/$defs/BrowserResourceRef"
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "blob": {
+          "$ref": "#/$defs/BrowserBlobRef"
+        },
+        "native": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        }
+      },
+      "required": ["resource", "native"],
+      "additionalProperties": false
+    },
+    "BrowserAvatarRef": {
+      "title": "BrowserAvatarRef",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BrowserAvatarCloud"
+        },
+        {
+          "$ref": "#/$defs/BrowserAvatarNative"
+        }
+      ]
+    },
+    "BrowserProfileUpdateKeepAvatar": {
+      "title": "BrowserProfileUpdateKeepAvatar",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "locale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "BrowserProfileUpdateSetAvatar": {
+      "title": "BrowserProfileUpdateSetAvatar",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "locale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "avatar": {
+          "$ref": "#/$defs/BrowserAvatarRef"
+        }
+      },
+      "required": ["avatar"],
+      "additionalProperties": false
+    },
+    "BrowserProfileUpdateClearAvatar": {
+      "title": "BrowserProfileUpdateClearAvatar",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "locale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "clearAvatar": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "required": ["clearAvatar"],
+      "additionalProperties": false
+    },
+    "BrowserProfileUpdate": {
+      "title": "BrowserProfileUpdate",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BrowserProfileUpdateKeepAvatar"
+        },
+        {
+          "$ref": "#/$defs/BrowserProfileUpdateSetAvatar"
+        },
+        {
+          "$ref": "#/$defs/BrowserProfileUpdateClearAvatar"
+        }
+      ]
+    },
+    "BrowserSessionProjection": {
+      "title": "BrowserSessionProjection",
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "idleExpiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "deviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "workspaceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "x-arcforges-rules": ["nonzeroUuid"]
+          },
+          "maxItems": 100
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
+        }
+      },
+      "required": [
+        "sessionId",
+        "expiresAt",
+        "userId",
+        "deviceId",
+        "workspaceIds",
+        "recoveryGeneration",
+        "purpose"
+      ],
+      "additionalProperties": false
+    },
+    "BrowserProfileProjection": {
+      "title": "BrowserProfileProjection",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "locale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        }
+      },
+      "required": ["displayName", "locale", "timezone", "revision"],
+      "additionalProperties": false
+    },
+    "BrowserBootstrapResponse": {
+      "title": "BrowserBootstrapResponse",
+      "type": "object",
+      "properties": {
+        "csrfToken": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "authenticated": {
+          "type": "boolean"
+        },
+        "session": {
+          "$ref": "#/$defs/BrowserSessionProjection"
+        },
+        "profile": {
+          "$ref": "#/$defs/BrowserProfileProjection"
+        }
+      },
+      "required": ["csrfToken", "authenticated"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384
+    },
+    "BrowserBeginAuthenticationRequest": {
+      "title": "BrowserBeginAuthenticationRequest",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["passkey", "email", "password", "oidc"]
+        },
+        "loginHint": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 320,
+          "pattern": "^[\\x21-\\x3F\\x41-\\x7E]+@[\\x21-\\x3F\\x41-\\x7E]+$"
+        },
+        "installation": {
+          "$ref": "#/$defs/BrowserInstallationClaim"
+        },
+        "providerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
+        }
+      },
+      "required": ["method", "installation", "purpose"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 8192
+    },
+    "BrowserCompleteAuthenticationRequest": {
+      "title": "BrowserCompleteAuthenticationRequest",
+      "type": "object",
+      "properties": {
+        "flowId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "proof": {
+          "$ref": "#/$defs/BrowserAuthProof"
+        }
+      },
+      "required": ["flowId", "proof"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 131072
+    },
+    "BrowserCompleteEnrollmentRequest": {
+      "title": "BrowserCompleteEnrollmentRequest",
+      "type": "object",
+      "properties": {
+        "flowId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "proof": {
+          "$ref": "#/$defs/BrowserEnrollmentProof"
+        },
+        "credential": {
+          "$ref": "#/$defs/BrowserCredentialReplacement"
+        },
+        "profile": {
+          "$ref": "#/$defs/BrowserProfileUpdate"
+        }
+      },
+      "required": ["flowId", "proof", "profile"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "BrowserBeginRecoveryRequest": {
+      "title": "BrowserBeginRecoveryRequest",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 320,
+          "pattern": "^[\\x21-\\x3F\\x41-\\x7E]+@[\\x21-\\x3F\\x41-\\x7E]+$"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["emailCode", "recoveryCode", "passkey", "adminGrant"]
+        },
+        "accountHint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "installation": {
+          "$ref": "#/$defs/BrowserInstallationClaim"
+        }
+      },
+      "required": ["method", "installation"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 8192
+    },
+    "BrowserCompleteRecoveryRequest": {
+      "title": "BrowserCompleteRecoveryRequest",
+      "type": "object",
+      "properties": {
+        "flowId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "proof": {
+          "$ref": "#/$defs/BrowserAuthProof"
+        },
+        "replacement": {
+          "$ref": "#/$defs/BrowserCredentialReplacement"
+        }
+      },
+      "required": ["flowId", "proof", "replacement"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 262144
+    },
+    "BrowserBeginStepUpRequest": {
+      "title": "BrowserBeginStepUpRequest",
+      "type": "object",
+      "properties": {
+        "operationClass": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["passkey", "email", "password", "oidc"]
+        },
+        "targetHash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["operationClass", "method"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 4096
+    },
+    "BrowserCompleteStepUpRequest": {
+      "title": "BrowserCompleteStepUpRequest",
+      "type": "object",
+      "properties": {
+        "flowId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "proof": {
+          "$ref": "#/$defs/BrowserAuthProof"
+        }
+      },
+      "required": ["flowId", "proof"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 131072
+    },
+    "BrowserAuthChallenge": {
+      "title": "BrowserAuthChallenge",
+      "type": "object",
+      "properties": {
+        "flowId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "method": {
+          "type": "string",
+          "enum": ["passkey", "email", "password", "oidc"]
+        },
+        "challenge": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 43,
+          "pattern": "^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2,3})?$"
+        },
+        "rpId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "options": {
+          "$ref": "#/$defs/BrowserWebAuthnOptions"
+        },
+        "providerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "redirectUrl": {
+          "type": "string",
+          "minLength": 1,
+          "x-arcforges-max-utf8-bytes": 4096
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
+        },
+        "recoveryMethod": {
+          "type": "string",
+          "enum": ["emailCode", "recoveryCode", "passkey", "adminGrant"]
+        }
+      },
+      "required": ["flowId", "challenge", "expiresAt", "purpose"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 65536,
+      "x-arcforges-rules": ["authChallengePurpose"]
+    },
+    "BrowserSessionView": {
+      "title": "BrowserSessionView",
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "idleExpiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "deviceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "workspaceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "x-arcforges-rules": ["nonzeroUuid"]
+          },
+          "maxItems": 100
+        },
+        "recoveryGeneration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "x-arcforges-rules": ["uint64String"]
+        },
+        "purpose": {
+          "type": "string",
+          "enum": ["authenticate", "enroll", "stepUp", "recover", "cancelDeletion"]
+        }
+      },
+      "required": [
+        "sessionId",
+        "expiresAt",
+        "userId",
+        "deviceId",
+        "workspaceIds",
+        "recoveryGeneration",
+        "purpose"
+      ],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384
+    },
+    "BrowserStepUpEvidence": {
+      "title": "BrowserStepUpEvidence",
+      "type": "object",
+      "properties": {
+        "operationClass": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 30,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+        }
+      },
+      "required": ["operationClass", "expiresAt"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 4096
+    },
+    "BrowserReceipt": {
+      "title": "BrowserReceipt",
+      "type": "object",
+      "properties": {
+        "commandId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "x-arcforges-rules": ["nonzeroUuid"]
+        },
+        "resultRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^[1-9][0-9]*$",
+          "x-arcforges-rules": ["positiveInt64String"]
+        },
+        "effect": {
+          "type": "string",
+          "enum": ["didNotHappen", "happened", "unknown"]
+        }
+      },
+      "required": ["commandId", "effect"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 4096
+    },
+    "BrowserOidcCallbackSuccess": {
+      "title": "BrowserOidcCallbackSuccess",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^[\\x21-\\x7E]+$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x7E]+$"
+        }
+      },
+      "required": ["code", "state"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384,
+      "x-arcforges-wire": "form-urlencoded"
+    },
+    "BrowserOidcCallbackFailure": {
+      "title": "BrowserOidcCallbackFailure",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z_]*$"
+        },
+        "error_description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^[\\x20-\\x7E]+$"
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x7E]+$"
+        }
+      },
+      "required": ["error", "state"],
+      "additionalProperties": false,
+      "x-arcforges-max-bytes": 16384,
+      "x-arcforges-wire": "form-urlencoded"
+    }
+  },
+  "x-arcforges-routes": [
+    {
+      "id": "browser.bootstrap",
+      "method": "GET",
+      "path": "/session/v1/bootstrap",
+      "credential": "anonymous-or-session-cookie",
+      "origin": "exact-configured",
+      "csrf": "issues-token",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": [],
+      "response": ["BrowserBootstrapResponse"]
+    },
+    {
+      "id": "browser.beginAuthentication",
+      "method": "POST",
+      "path": "/session/v1/authentication/begin",
+      "credential": "preauth-flow",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["BrowserBeginAuthenticationRequest"],
+      "response": ["BrowserAuthChallenge"]
+    },
+    {
+      "id": "browser.completeAuthentication",
+      "method": "POST",
+      "path": "/session/v1/authentication/complete",
+      "credential": "preauth-flow",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "session",
+      "cache": "no-store",
+      "request": ["BrowserCompleteAuthenticationRequest"],
+      "response": ["BrowserSessionView"]
+    },
+    {
+      "id": "browser.completeEnrollment",
+      "method": "POST",
+      "path": "/session/v1/enrollment/complete",
+      "credential": "preauth-flow",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "session",
+      "cache": "no-store",
+      "request": ["BrowserCompleteEnrollmentRequest"],
+      "response": ["BrowserSessionView"]
+    },
+    {
+      "id": "browser.beginRecovery",
+      "method": "POST",
+      "path": "/session/v1/recovery/begin",
+      "credential": "preauth-flow",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["BrowserBeginRecoveryRequest"],
+      "response": ["BrowserAuthChallenge"]
+    },
+    {
+      "id": "browser.completeRecovery",
+      "method": "POST",
+      "path": "/session/v1/recovery/complete",
+      "credential": "preauth-flow",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["BrowserCompleteRecoveryRequest"],
+      "response": ["BrowserReceipt"]
+    },
+    {
+      "id": "browser.beginStepUp",
+      "method": "POST",
+      "path": "/session/v1/step-up/begin",
+      "credential": "session-cookie",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["BrowserBeginStepUpRequest"],
+      "response": ["BrowserAuthChallenge"]
+    },
+    {
+      "id": "browser.completeStepUp",
+      "method": "POST",
+      "path": "/session/v1/step-up/complete",
+      "credential": "session-cookie",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["BrowserCompleteStepUpRequest"],
+      "response": ["BrowserStepUpEvidence"]
+    },
+    {
+      "id": "browser.logout",
+      "method": "POST",
+      "path": "/session/v1/logout",
+      "credential": "session-cookie",
+      "origin": "exact-configured",
+      "csrf": "required",
+      "setCookie": "clear",
+      "cache": "no-store",
+      "request": [],
+      "response": ["BrowserReceipt"]
+    },
+    {
+      "id": "browser.oidcCallback",
+      "method": "GET",
+      "path": "/session/v1/providers/{providerId}/callback",
+      "credential": "flow-cookie",
+      "origin": "none",
+      "csrf": "none",
+      "setCookie": "none",
+      "cache": "no-store",
+      "request": ["BrowserOidcCallbackSuccess", "BrowserOidcCallbackFailure"],
+      "response": []
+    }
+  ],
+  "x-arcforges-schema-version": "1"
+}
