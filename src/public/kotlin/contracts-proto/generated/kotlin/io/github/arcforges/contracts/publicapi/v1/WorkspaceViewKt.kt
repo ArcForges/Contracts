@@ -110,7 +110,7 @@ public object WorkspaceViewKt {
     }
 
     /**
-     * `.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];`
+     * `optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];`
      */
     public var protection: io.github.arcforges.contracts.publicapi.v1.ProtectionProfile
       @kotlin.jvm.JvmName("getProtection")
@@ -127,10 +127,17 @@ public object WorkspaceViewKt {
         _builder.protectionValue = value
       }
     /**
-     * `.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];`
+     * `optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];`
      */
     public fun clearProtection() {
       _builder.clearProtection()
+    }
+    /**
+     * `optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];`
+     * @return Whether the protection field is set.
+     */
+    public fun hasProtection(): kotlin.Boolean {
+      return _builder.hasProtection()
     }
 
     /**

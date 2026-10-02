@@ -59,7 +59,7 @@ public object IdentityServiceBeginAuthenticationRequestKt {
       get() = _builder.metaOrNull
 
     /**
-     * `.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];`
+     * `optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];`
      */
     public var method: io.github.arcforges.contracts.publicapi.v1.AuthMethod
       @kotlin.jvm.JvmName("getMethod")
@@ -76,10 +76,17 @@ public object IdentityServiceBeginAuthenticationRequestKt {
         _builder.methodValue = value
       }
     /**
-     * `.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];`
+     * `optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];`
      */
     public fun clearMethod() {
       _builder.clearMethod()
+    }
+    /**
+     * `optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];`
+     * @return Whether the method field is set.
+     */
+    public fun hasMethod(): kotlin.Boolean {
+      return _builder.hasMethod()
     }
 
     /**
@@ -158,7 +165,7 @@ public object IdentityServiceBeginAuthenticationRequestKt {
     }
 
     /**
-     * `.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];`
+     * `optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];`
      */
     public var purpose: io.github.arcforges.contracts.publicapi.v1.AuthPurpose
       @kotlin.jvm.JvmName("getPurpose")
@@ -175,10 +182,17 @@ public object IdentityServiceBeginAuthenticationRequestKt {
         _builder.purposeValue = value
       }
     /**
-     * `.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];`
+     * `optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];`
      */
     public fun clearPurpose() {
       _builder.clearPurpose()
+    }
+    /**
+     * `optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];`
+     * @return Whether the purpose field is set.
+     */
+    public fun hasPurpose(): kotlin.Boolean {
+      return _builder.hasPurpose()
     }
   }
 }

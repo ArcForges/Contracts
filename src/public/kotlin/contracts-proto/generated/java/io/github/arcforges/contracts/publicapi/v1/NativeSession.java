@@ -362,7 +362,15 @@ public  final class NativeSession extends
   public static final int PURPOSE_FIELD_NUMBER = 8;
   private int purpose_;
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+   * @return Whether the purpose field is set.
+   */
+  @java.lang.Override
+  public boolean hasPurpose() {
+    return ((bitField0_ & 0x00000080) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
    * @return The enum numeric value on the wire for purpose.
    */
   @java.lang.Override
@@ -370,7 +378,7 @@ public  final class NativeSession extends
     return purpose_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
    * @return The purpose.
    */
   @java.lang.Override
@@ -379,26 +387,26 @@ public  final class NativeSession extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.AuthPurpose.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
    * @param value The enum numeric value on the wire for purpose to set.
    */
   private void setPurposeValue(int value) {
-      purpose_ = value;
+    bitField0_ |= 0x00000080;  purpose_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
    * @param value The purpose to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setPurpose(io.github.arcforges.contracts.publicapi.v1.AuthPurpose value) {
     purpose_ = value.getNumber();
-
+    bitField0_ |= 0x00000080;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
    */
   private void clearPurpose() {
-
+    bitField0_ = (bitField0_ & ~0x00000080);
     purpose_ = 0;
   }
 
@@ -838,7 +846,15 @@ public  final class NativeSession extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+     * @return Whether the purpose field is set.
+     */
+    @java.lang.Override
+    public boolean hasPurpose() {
+      return instance.hasPurpose();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
      * @return The enum numeric value on the wire for purpose.
      */
     @java.lang.Override
@@ -846,7 +862,7 @@ public  final class NativeSession extends
       return instance.getPurposeValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
      * @param value The purpose to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -857,7 +873,7 @@ public  final class NativeSession extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
      * @return The purpose.
      */
     @java.lang.Override
@@ -865,7 +881,7 @@ public  final class NativeSession extends
       return instance.getPurpose();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
      * @param value The enum numeric value on the wire for purpose to set.
      * @return This builder for chaining.
      */
@@ -875,7 +891,7 @@ public  final class NativeSession extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 8 [json_name = "purpose"];</code>
      * @return This builder for chaining.
      */
     public Builder clearPurpose() {
@@ -913,7 +929,7 @@ public  final class NativeSession extends
           java.lang.String info =
               "\u0000\b\u0000\u0001\u0001\b\b\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u1208\u0001" +
               "\u0003\u1009\u0002\u0004\u1208\u0003\u0005\u1009\u0004\u0006\u1009\u0005\u0007\u1003" +
-              "\u0006\b\f";
+              "\u0006\b\u100c\u0007";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

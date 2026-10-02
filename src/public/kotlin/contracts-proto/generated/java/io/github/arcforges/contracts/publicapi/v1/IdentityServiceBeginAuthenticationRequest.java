@@ -72,7 +72,15 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
   public static final int METHOD_FIELD_NUMBER = 10;
   private int method_;
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * @return Whether the method field is set.
+   */
+  @java.lang.Override
+  public boolean hasMethod() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    * @return The enum numeric value on the wire for method.
    */
   @java.lang.Override
@@ -80,7 +88,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     return method_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    * @return The method.
    */
   @java.lang.Override
@@ -89,26 +97,26 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.AuthMethod.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    * @param value The enum numeric value on the wire for method to set.
    */
   private void setMethodValue(int value) {
-      method_ = value;
+    bitField0_ |= 0x00000002;  method_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    * @param value The method to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setMethod(io.github.arcforges.contracts.publicapi.v1.AuthMethod value) {
     method_ = value.getNumber();
-
+    bitField0_ |= 0x00000002;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    */
   private void clearMethod() {
-
+    bitField0_ = (bitField0_ & ~0x00000002);
     method_ = 0;
   }
 
@@ -120,7 +128,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
    */
   @java.lang.Override
   public boolean hasLoginHint() {
-    return ((bitField0_ & 0x00000002) != 0);
+    return ((bitField0_ & 0x00000004) != 0);
   }
   /**
    * <code>optional string login_hint = 11 [json_name = "loginHint"];</code>
@@ -147,14 +155,14 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
   private void setLoginHint(
       java.lang.String value) {
     value.getClass();  // minimal bytecode null check
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
     loginHint_ = value;
   }
   /**
    * <code>optional string login_hint = 11 [json_name = "loginHint"];</code>
    */
   private void clearLoginHint() {
-    bitField0_ = (bitField0_ & ~0x00000002);
+    bitField0_ = (bitField0_ & ~0x00000004);
     loginHint_ = getDefaultInstance().getLoginHint();
   }
   /**
@@ -165,7 +173,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       com.google.protobuf.ByteString value) {
     checkByteStringIsUtf8(value);
     loginHint_ = value.toStringUtf8();
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
   }
 
   public static final int INSTALLATION_FIELD_NUMBER = 12;
@@ -175,7 +183,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
    */
   @java.lang.Override
   public boolean hasInstallation() {
-    return ((bitField0_ & 0x00000004) != 0);
+    return ((bitField0_ & 0x00000008) != 0);
   }
   /**
    * <code>.arcforges.publicapi.v1.InstallationClaim installation = 12 [json_name = "installation"];</code>
@@ -191,7 +199,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
   private void setInstallation(io.github.arcforges.contracts.publicapi.v1.InstallationClaim value) {
     value.getClass();  // minimal bytecode null check
     installation_ = value;
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.publicapi.v1.InstallationClaim installation = 12 [json_name = "installation"];</code>
@@ -206,14 +214,14 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     } else {
       installation_ = value;
     }
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.publicapi.v1.InstallationClaim installation = 12 [json_name = "installation"];</code>
    */
   private void clearInstallation() {
     installation_ = null;
-    bitField0_ = (bitField0_ & ~0x00000004);
+    bitField0_ = (bitField0_ & ~0x00000008);
   }
 
   public static final int PROVIDER_ID_FIELD_NUMBER = 13;
@@ -224,7 +232,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
    */
   @java.lang.Override
   public boolean hasProviderId() {
-    return ((bitField0_ & 0x00000008) != 0);
+    return ((bitField0_ & 0x00000010) != 0);
   }
   /**
    * <code>optional string provider_id = 13 [json_name = "providerId"];</code>
@@ -251,14 +259,14 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
   private void setProviderId(
       java.lang.String value) {
     value.getClass();  // minimal bytecode null check
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
     providerId_ = value;
   }
   /**
    * <code>optional string provider_id = 13 [json_name = "providerId"];</code>
    */
   private void clearProviderId() {
-    bitField0_ = (bitField0_ & ~0x00000008);
+    bitField0_ = (bitField0_ & ~0x00000010);
     providerId_ = getDefaultInstance().getProviderId();
   }
   /**
@@ -269,13 +277,21 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       com.google.protobuf.ByteString value) {
     checkByteStringIsUtf8(value);
     providerId_ = value.toStringUtf8();
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
   }
 
   public static final int PURPOSE_FIELD_NUMBER = 14;
   private int purpose_;
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * @return Whether the purpose field is set.
+   */
+  @java.lang.Override
+  public boolean hasPurpose() {
+    return ((bitField0_ & 0x00000020) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    * @return The enum numeric value on the wire for purpose.
    */
   @java.lang.Override
@@ -283,7 +299,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     return purpose_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    * @return The purpose.
    */
   @java.lang.Override
@@ -292,26 +308,26 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.AuthPurpose.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    * @param value The enum numeric value on the wire for purpose to set.
    */
   private void setPurposeValue(int value) {
-      purpose_ = value;
+    bitField0_ |= 0x00000020;  purpose_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    * @param value The purpose to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setPurpose(io.github.arcforges.contracts.publicapi.v1.AuthPurpose value) {
     purpose_ = value.getNumber();
-
+    bitField0_ |= 0x00000020;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    */
   private void clearPurpose() {
-
+    bitField0_ = (bitField0_ & ~0x00000020);
     purpose_ = 0;
   }
 
@@ -460,7 +476,15 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+     * @return Whether the method field is set.
+     */
+    @java.lang.Override
+    public boolean hasMethod() {
+      return instance.hasMethod();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
      * @return The enum numeric value on the wire for method.
      */
     @java.lang.Override
@@ -468,7 +492,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return instance.getMethodValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
      * @param value The method to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -479,7 +503,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
      * @return The method.
      */
     @java.lang.Override
@@ -487,7 +511,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return instance.getMethod();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
      * @param value The enum numeric value on the wire for method to set.
      * @return This builder for chaining.
      */
@@ -497,7 +521,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
      * @return This builder for chaining.
      */
     public Builder clearMethod() {
@@ -668,7 +692,15 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+     * @return Whether the purpose field is set.
+     */
+    @java.lang.Override
+    public boolean hasPurpose() {
+      return instance.hasPurpose();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
      * @return The enum numeric value on the wire for purpose.
      */
     @java.lang.Override
@@ -676,7 +708,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return instance.getPurposeValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
      * @param value The purpose to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -687,7 +719,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
      * @return The purpose.
      */
     @java.lang.Override
@@ -695,7 +727,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return instance.getPurpose();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
      * @param value The enum numeric value on the wire for purpose to set.
      * @return This builder for chaining.
      */
@@ -705,7 +737,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
      * @return This builder for chaining.
      */
     public Builder clearPurpose() {
@@ -740,7 +772,7 @@ public  final class IdentityServiceBeginAuthenticationRequest extends
           };
           java.lang.String info =
               "\u0000\u0006\u0000\u0001\u0001\u000e\u0006\u0000\u0000\u0000\u0001\u1009\u0000\n" +
-              "\f\u000b\u1208\u0001\f\u1009\u0002\r\u1208\u0003\u000e\f";
+              "\u100c\u0001\u000b\u1208\u0002\f\u1009\u0003\r\u1208\u0004\u000e\u100c\u0005";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

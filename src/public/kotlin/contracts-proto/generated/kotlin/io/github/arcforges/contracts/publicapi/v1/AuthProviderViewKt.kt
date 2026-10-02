@@ -56,7 +56,7 @@ public object AuthProviderViewKt {
     }
 
     /**
-     * `.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];`
+     * `optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];`
      */
     public var method: io.github.arcforges.contracts.publicapi.v1.AuthMethod
       @kotlin.jvm.JvmName("getMethod")
@@ -73,10 +73,17 @@ public object AuthProviderViewKt {
         _builder.methodValue = value
       }
     /**
-     * `.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];`
+     * `optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];`
      */
     public fun clearMethod() {
       _builder.clearMethod()
+    }
+    /**
+     * `optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];`
+     * @return Whether the method field is set.
+     */
+    public fun hasMethod(): kotlin.Boolean {
+      return _builder.hasMethod()
     }
 
     /**

@@ -24,12 +24,17 @@ public interface IdentityServiceBeginAuthenticationRequestOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.RequestMeta getMeta();
 
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * @return Whether the method field is set.
+   */
+  boolean hasMethod();
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    * @return The enum numeric value on the wire for method.
    */
   int getMethodValue();
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 10 [json_name = "method"];</code>
    * @return The method.
    */
   io.github.arcforges.contracts.publicapi.v1.AuthMethod getMethod();
@@ -80,12 +85,17 @@ public interface IdentityServiceBeginAuthenticationRequestOrBuilder extends
       getProviderIdBytes();
 
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * @return Whether the purpose field is set.
+   */
+  boolean hasPurpose();
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    * @return The enum numeric value on the wire for purpose.
    */
   int getPurposeValue();
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 14 [json_name = "purpose"];</code>
    * @return The purpose.
    */
   io.github.arcforges.contracts.publicapi.v1.AuthPurpose getPurpose();

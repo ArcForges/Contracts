@@ -107,7 +107,7 @@ public object DeviceViewKt {
     }
 
     /**
-     * `.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];`
+     * `optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];`
      */
     public var trust: io.github.arcforges.contracts.publicapi.v1.TrustLevel
       @kotlin.jvm.JvmName("getTrust")
@@ -124,10 +124,17 @@ public object DeviceViewKt {
         _builder.trustValue = value
       }
     /**
-     * `.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];`
+     * `optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];`
      */
     public fun clearTrust() {
       _builder.clearTrust()
+    }
+    /**
+     * `optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];`
+     * @return Whether the trust field is set.
+     */
+    public fun hasTrust(): kotlin.Boolean {
+      return _builder.hasTrust()
     }
 
     /**

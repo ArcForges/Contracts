@@ -10,16 +10,24 @@ import io.github.arcforges.contracts.publicapi.v1.AuthMethod
 import io.github.arcforges.contracts.publicapi.v1.AuthProof
 import io.github.arcforges.contracts.publicapi.v1.AuthPurpose
 import io.github.arcforges.contracts.publicapi.v1.CredentialReplacement
+import io.github.arcforges.contracts.publicapi.v1.AuthProviderView
 import io.github.arcforges.contracts.publicapi.v1.DeviceServiceClientInterface
+import io.github.arcforges.contracts.publicapi.v1.DeviceServiceSetTrustRequest
 import io.github.arcforges.contracts.publicapi.v1.DeviceView
+import io.github.arcforges.contracts.publicapi.v1.IdentityServiceBeginAuthenticationRequest
+import io.github.arcforges.contracts.publicapi.v1.IdentityServiceBeginRecoveryRequest
+import io.github.arcforges.contracts.publicapi.v1.IdentityServiceBeginStepUpRequest
 import io.github.arcforges.contracts.publicapi.v1.IdentityServiceClientInterface
+import io.github.arcforges.contracts.publicapi.v1.IdentityServiceRequestEmailCodeRequest
 import io.github.arcforges.contracts.publicapi.v1.NativeSession
 import io.github.arcforges.contracts.publicapi.v1.ProfileUpdate
 import io.github.arcforges.contracts.publicapi.v1.ProtectionProfile
 import io.github.arcforges.contracts.publicapi.v1.RecoveryMethod
 import io.github.arcforges.contracts.publicapi.v1.TrustLevel
 import io.github.arcforges.contracts.publicapi.v1.WebAuthnAssertion
+import io.github.arcforges.contracts.publicapi.v1.SessionView
 import io.github.arcforges.contracts.publicapi.v1.WorkspaceServiceClientInterface
+import io.github.arcforges.contracts.publicapi.v1.WorkspaceView
 
 /** Independent JVM vectors for the CON.07 identity, workspace and device surface. */
 internal object IdentityCases {
@@ -51,6 +59,22 @@ internal object IdentityCases {
         check(RecoveryMethod.values().filter { it != RecoveryMethod.UNRECOGNIZED }.map { it.number } == listOf(0, 1, 2, 3, 4)) { "RecoveryMethod numbers changed" }
         check(TrustLevel.values().filter { it != TrustLevel.UNRECOGNIZED }.map { it.number } == listOf(0, 1, 2, 3)) { "TrustLevel numbers changed" }
         check(ProtectionProfile.values().filter { it != ProtectionProfile.UNRECOGNIZED }.map { it.number } == listOf(0, 1)) { "ProtectionProfile keeps only Standard and reserves 2" }
+
+        // Registry04 required enums outside a oneof carry explicit presence: an absent value is distinguishable from the zero value.
+        check(!AuthChallenge.getDefaultInstance().hasPurpose() && AuthChallenge.newBuilder().setPurpose(AuthPurpose.AUTH_PURPOSE_ENROLL).build().hasPurpose()) { "AuthChallenge.purpose lost explicit presence" }
+        check(!NativeSession.getDefaultInstance().hasPurpose() && NativeSession.newBuilder().setPurpose(AuthPurpose.AUTH_PURPOSE_ENROLL).build().hasPurpose()) { "NativeSession.purpose lost explicit presence" }
+        check(!SessionView.getDefaultInstance().hasPurpose() && SessionView.newBuilder().setPurpose(AuthPurpose.AUTH_PURPOSE_ENROLL).build().hasPurpose()) { "SessionView.purpose lost explicit presence" }
+        check(!AuthProviderView.getDefaultInstance().hasMethod() && AuthProviderView.newBuilder().setMethod(AuthMethod.AUTH_METHOD_OIDC).build().hasMethod()) { "AuthProviderView.method lost explicit presence" }
+        check(!WorkspaceView.getDefaultInstance().hasProtection() && WorkspaceView.newBuilder().setProtection(ProtectionProfile.PROTECTION_PROFILE_STANDARD).build().hasProtection()) { "WorkspaceView.protection lost explicit presence" }
+        check(!DeviceView.getDefaultInstance().hasTrust() && DeviceView.newBuilder().setTrust(TrustLevel.TRUST_LEVEL_TRUSTED).build().hasTrust()) { "DeviceView.trust lost explicit presence" }
+        check(!IdentityServiceBeginAuthenticationRequest.getDefaultInstance().hasMethod() && !IdentityServiceBeginAuthenticationRequest.getDefaultInstance().hasPurpose() &&
+            IdentityServiceBeginAuthenticationRequest.newBuilder().setMethod(AuthMethod.AUTH_METHOD_EMAIL).setPurpose(AuthPurpose.AUTH_PURPOSE_ENROLL).build().let { it.hasMethod() && it.hasPurpose() }) {
+            "BeginAuthentication request method and purpose lost explicit presence"
+        }
+        check(!IdentityServiceRequestEmailCodeRequest.getDefaultInstance().hasPurpose() && IdentityServiceRequestEmailCodeRequest.newBuilder().setPurpose(AuthPurpose.AUTH_PURPOSE_ENROLL).build().hasPurpose()) { "RequestEmailCode request purpose lost explicit presence" }
+        check(!IdentityServiceBeginStepUpRequest.getDefaultInstance().hasMethod() && IdentityServiceBeginStepUpRequest.newBuilder().setMethod(AuthMethod.AUTH_METHOD_PASSKEY).build().hasMethod()) { "BeginStepUp request method lost explicit presence" }
+        check(!IdentityServiceBeginRecoveryRequest.getDefaultInstance().hasMethod() && IdentityServiceBeginRecoveryRequest.newBuilder().setMethod(RecoveryMethod.RECOVERY_METHOD_EMAIL_CODE).build().hasMethod()) { "BeginRecovery request method lost explicit presence" }
+        check(!DeviceServiceSetTrustRequest.getDefaultInstance().hasTrust() && DeviceServiceSetTrustRequest.newBuilder().setTrust(TrustLevel.TRUST_LEVEL_TRUSTED).build().hasTrust()) { "SetTrust request trust lost explicit presence" }
 
         val passkey = WebAuthnAssertion.newBuilder()
             .setCredentialId(ByteString.copyFromUtf8("credential"))

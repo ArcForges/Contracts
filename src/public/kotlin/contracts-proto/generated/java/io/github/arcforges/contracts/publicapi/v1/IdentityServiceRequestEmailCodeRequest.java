@@ -71,7 +71,15 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
   public static final int PURPOSE_FIELD_NUMBER = 10;
   private int purpose_;
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+   * @return Whether the purpose field is set.
+   */
+  @java.lang.Override
+  public boolean hasPurpose() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
    * @return The enum numeric value on the wire for purpose.
    */
   @java.lang.Override
@@ -79,7 +87,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
     return purpose_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
    * @return The purpose.
    */
   @java.lang.Override
@@ -88,26 +96,26 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.AuthPurpose.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
    * @param value The enum numeric value on the wire for purpose to set.
    */
   private void setPurposeValue(int value) {
-      purpose_ = value;
+    bitField0_ |= 0x00000002;  purpose_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
    * @param value The purpose to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setPurpose(io.github.arcforges.contracts.publicapi.v1.AuthPurpose value) {
     purpose_ = value.getNumber();
-
+    bitField0_ |= 0x00000002;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
    */
   private void clearPurpose() {
-
+    bitField0_ = (bitField0_ & ~0x00000002);
     purpose_ = 0;
   }
 
@@ -119,7 +127,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
    */
   @java.lang.Override
   public boolean hasEmail() {
-    return ((bitField0_ & 0x00000002) != 0);
+    return ((bitField0_ & 0x00000004) != 0);
   }
   /**
    * <code>optional string email = 11 [json_name = "email"];</code>
@@ -146,14 +154,14 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
   private void setEmail(
       java.lang.String value) {
     value.getClass();  // minimal bytecode null check
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
     email_ = value;
   }
   /**
    * <code>optional string email = 11 [json_name = "email"];</code>
    */
   private void clearEmail() {
-    bitField0_ = (bitField0_ & ~0x00000002);
+    bitField0_ = (bitField0_ & ~0x00000004);
     email_ = getDefaultInstance().getEmail();
   }
   /**
@@ -164,7 +172,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
       com.google.protobuf.ByteString value) {
     checkByteStringIsUtf8(value);
     email_ = value.toStringUtf8();
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
   }
 
   public static final int FLOW_ID_FIELD_NUMBER = 12;
@@ -174,7 +182,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
    */
   @java.lang.Override
   public boolean hasFlowId() {
-    return ((bitField0_ & 0x00000004) != 0);
+    return ((bitField0_ & 0x00000008) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.Id flow_id = 12 [json_name = "flowId"];</code>
@@ -190,7 +198,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
   private void setFlowId(io.github.arcforges.contracts.foundation.v1.Id value) {
     value.getClass();  // minimal bytecode null check
     flowId_ = value;
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.foundation.v1.Id flow_id = 12 [json_name = "flowId"];</code>
@@ -205,14 +213,14 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
     } else {
       flowId_ = value;
     }
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
   }
   /**
    * <code>.arcforges.foundation.v1.Id flow_id = 12 [json_name = "flowId"];</code>
    */
   private void clearFlowId() {
     flowId_ = null;
-    bitField0_ = (bitField0_ & ~0x00000004);
+    bitField0_ = (bitField0_ & ~0x00000008);
   }
 
   public static io.github.arcforges.contracts.publicapi.v1.IdentityServiceRequestEmailCodeRequest parseFrom(
@@ -360,7 +368,15 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+     * @return Whether the purpose field is set.
+     */
+    @java.lang.Override
+    public boolean hasPurpose() {
+      return instance.hasPurpose();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
      * @return The enum numeric value on the wire for purpose.
      */
     @java.lang.Override
@@ -368,7 +384,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
       return instance.getPurposeValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
      * @param value The purpose to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -379,7 +395,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
      * @return The purpose.
      */
     @java.lang.Override
@@ -387,7 +403,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
       return instance.getPurpose();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
      * @param value The enum numeric value on the wire for purpose to set.
      * @return This builder for chaining.
      */
@@ -397,7 +413,7 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];</code>
      * @return This builder for chaining.
      */
     public Builder clearPurpose() {
@@ -533,8 +549,8 @@ public  final class IdentityServiceRequestEmailCodeRequest extends
             "flowId_",
           };
           java.lang.String info =
-              "\u0000\u0004\u0000\u0001\u0001\f\u0004\u0000\u0000\u0000\u0001\u1009\u0000\n\f\u000b" +
-              "\u1208\u0001\f\u1009\u0002";
+              "\u0000\u0004\u0000\u0001\u0001\f\u0004\u0000\u0000\u0000\u0001\u1009\u0000\n\u100c" +
+              "\u0001\u000b\u1208\u0002\f\u1009\u0003";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

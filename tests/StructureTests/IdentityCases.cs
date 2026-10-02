@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using ArcForges.Contracts.Foundation.Serialization;
 using ArcForges.Contracts.PublicApi.Http.V1.Browser;
@@ -28,17 +29,137 @@ internal static class IdentityCases
         ["CredentialSummary"] = Shape(CredentialSummary.Parser, ContractShapeValidation.IsValid),
         ["DataDeletionPreview"] = Shape(DataDeletionPreview.Parser, ContractShapeValidation.IsValid),
         ["DataDeletionView"] = Shape(DataDeletionView.Parser, ContractShapeValidation.IsValid),
+        ["DeletionCount"] = Shape(DeletionCount.Parser, ContractShapeValidation.IsValid),
         ["DeletionStatus"] = Shape(DeletionStatus.Parser, ContractShapeValidation.IsValid),
+        ["DeviceCapabilityView"] = Shape(DeviceCapabilityView.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceGetCapabilitiesRequest"] = Shape(DeviceServiceGetCapabilitiesRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceGetCapabilitiesResponse"] = Shape(DeviceServiceGetCapabilitiesResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceGetCapabilitiesValue"] = Shape(DeviceServiceGetCapabilitiesValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceGetRemotePolicyRequest"] = Shape(DeviceServiceGetRemotePolicyRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceGetRemotePolicyResponse"] = Shape(DeviceServiceGetRemotePolicyResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceGetRemotePolicyValue"] = Shape(DeviceServiceGetRemotePolicyValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceListRequest"] = Shape(DeviceServiceListRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceListResponse"] = Shape(DeviceServiceListResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceListValue"] = Shape(DeviceServiceListValue.Parser, ContractShapeValidation.IsValid),
         ["DeviceServiceRegisterRequest"] = Shape(DeviceServiceRegisterRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRegisterResponse"] = Shape(DeviceServiceRegisterResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRegisterValue"] = Shape(DeviceServiceRegisterValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRenameRequest"] = Shape(DeviceServiceRenameRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRenameResponse"] = Shape(DeviceServiceRenameResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRenameValue"] = Shape(DeviceServiceRenameValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRevokeRequest"] = Shape(DeviceServiceRevokeRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRevokeResponse"] = Shape(DeviceServiceRevokeResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceRevokeValue"] = Shape(DeviceServiceRevokeValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetRemoteEnabledRequest"] = Shape(DeviceServiceSetRemoteEnabledRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetRemoteEnabledResponse"] = Shape(DeviceServiceSetRemoteEnabledResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetRemoteEnabledValue"] = Shape(DeviceServiceSetRemoteEnabledValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetRemotePolicyRequest"] = Shape(DeviceServiceSetRemotePolicyRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetRemotePolicyResponse"] = Shape(DeviceServiceSetRemotePolicyResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetRemotePolicyValue"] = Shape(DeviceServiceSetRemotePolicyValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetTrustRequest"] = Shape(DeviceServiceSetTrustRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetTrustResponse"] = Shape(DeviceServiceSetTrustResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSetTrustValue"] = Shape(DeviceServiceSetTrustValue.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSignOutRequest"] = Shape(DeviceServiceSignOutRequest.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSignOutResponse"] = Shape(DeviceServiceSignOutResponse.Parser, ContractShapeValidation.IsValid),
+        ["DeviceServiceSignOutValue"] = Shape(DeviceServiceSignOutValue.Parser, ContractShapeValidation.IsValid),
         ["DeviceView"] = Shape(DeviceView.Parser, ContractShapeValidation.IsValid),
         ["EnrollmentProof"] = Shape(EnrollmentProof.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceBeginAuthenticationRequest"] = Shape(IdentityServiceBeginAuthenticationRequest.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceBeginAuthenticationResponse"] = Shape(IdentityServiceBeginAuthenticationResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginAuthenticationValue"] = Shape(IdentityServiceBeginAuthenticationValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginEmailChangeRequest"] = Shape(IdentityServiceBeginEmailChangeRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginEmailChangeResponse"] = Shape(IdentityServiceBeginEmailChangeResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginEmailChangeValue"] = Shape(IdentityServiceBeginEmailChangeValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginPasskeyRegistrationRequest"] = Shape(IdentityServiceBeginPasskeyRegistrationRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginPasskeyRegistrationResponse"] = Shape(IdentityServiceBeginPasskeyRegistrationResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginPasskeyRegistrationValue"] = Shape(IdentityServiceBeginPasskeyRegistrationValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginRecoveryRequest"] = Shape(IdentityServiceBeginRecoveryRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginRecoveryResponse"] = Shape(IdentityServiceBeginRecoveryResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginRecoveryValue"] = Shape(IdentityServiceBeginRecoveryValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginStepUpRequest"] = Shape(IdentityServiceBeginStepUpRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginStepUpResponse"] = Shape(IdentityServiceBeginStepUpResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceBeginStepUpValue"] = Shape(IdentityServiceBeginStepUpValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCancelAccountDeletionRequest"] = Shape(IdentityServiceCancelAccountDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCancelAccountDeletionResponse"] = Shape(IdentityServiceCancelAccountDeletionResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCancelAccountDeletionValue"] = Shape(IdentityServiceCancelAccountDeletionValue.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceChangePasswordRequest"] = Shape(IdentityServiceChangePasswordRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceChangePasswordResponse"] = Shape(IdentityServiceChangePasswordResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceChangePasswordValue"] = Shape(IdentityServiceChangePasswordValue.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceCompleteAuthenticationRequest"] = Shape(IdentityServiceCompleteAuthenticationRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteAuthenticationResponse"] = Shape(IdentityServiceCompleteAuthenticationResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteAuthenticationValue"] = Shape(IdentityServiceCompleteAuthenticationValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteEmailChangeRequest"] = Shape(IdentityServiceCompleteEmailChangeRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteEmailChangeResponse"] = Shape(IdentityServiceCompleteEmailChangeResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteEmailChangeValue"] = Shape(IdentityServiceCompleteEmailChangeValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteEnrollmentRequest"] = Shape(IdentityServiceCompleteEnrollmentRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteEnrollmentResponse"] = Shape(IdentityServiceCompleteEnrollmentResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteEnrollmentValue"] = Shape(IdentityServiceCompleteEnrollmentValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompletePasskeyRegistrationRequest"] = Shape(IdentityServiceCompletePasskeyRegistrationRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompletePasskeyRegistrationResponse"] = Shape(IdentityServiceCompletePasskeyRegistrationResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompletePasskeyRegistrationValue"] = Shape(IdentityServiceCompletePasskeyRegistrationValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteRecoveryRequest"] = Shape(IdentityServiceCompleteRecoveryRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteRecoveryResponse"] = Shape(IdentityServiceCompleteRecoveryResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteRecoveryValue"] = Shape(IdentityServiceCompleteRecoveryValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteStepUpRequest"] = Shape(IdentityServiceCompleteStepUpRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteStepUpResponse"] = Shape(IdentityServiceCompleteStepUpResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCompleteStepUpValue"] = Shape(IdentityServiceCompleteStepUpValue.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceCreateApiTokenRequest"] = Shape(IdentityServiceCreateApiTokenRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCreateApiTokenResponse"] = Shape(IdentityServiceCreateApiTokenResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceCreateApiTokenValue"] = Shape(IdentityServiceCreateApiTokenValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGenerateRecoveryCodesRequest"] = Shape(IdentityServiceGenerateRecoveryCodesRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGenerateRecoveryCodesResponse"] = Shape(IdentityServiceGenerateRecoveryCodesResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGenerateRecoveryCodesValue"] = Shape(IdentityServiceGenerateRecoveryCodesValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGetAccountDeletionRequest"] = Shape(IdentityServiceGetAccountDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGetAccountDeletionResponse"] = Shape(IdentityServiceGetAccountDeletionResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGetAccountDeletionValue"] = Shape(IdentityServiceGetAccountDeletionValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGetProfileRequest"] = Shape(IdentityServiceGetProfileRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGetProfileResponse"] = Shape(IdentityServiceGetProfileResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceGetProfileValue"] = Shape(IdentityServiceGetProfileValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListApiTokensRequest"] = Shape(IdentityServiceListApiTokensRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListApiTokensResponse"] = Shape(IdentityServiceListApiTokensResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListApiTokensValue"] = Shape(IdentityServiceListApiTokensValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListAuthIdentitiesRequest"] = Shape(IdentityServiceListAuthIdentitiesRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListAuthIdentitiesResponse"] = Shape(IdentityServiceListAuthIdentitiesResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListAuthIdentitiesValue"] = Shape(IdentityServiceListAuthIdentitiesValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListAuthProvidersRequest"] = Shape(IdentityServiceListAuthProvidersRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListAuthProvidersResponse"] = Shape(IdentityServiceListAuthProvidersResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListAuthProvidersValue"] = Shape(IdentityServiceListAuthProvidersValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListSecurityActivityRequest"] = Shape(IdentityServiceListSecurityActivityRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListSecurityActivityResponse"] = Shape(IdentityServiceListSecurityActivityResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListSecurityActivityValue"] = Shape(IdentityServiceListSecurityActivityValue.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceListSessionsRequest"] = Shape(IdentityServiceListSessionsRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListSessionsResponse"] = Shape(IdentityServiceListSessionsResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceListSessionsValue"] = Shape(IdentityServiceListSessionsValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRedeemEmailCodeRequest"] = Shape(IdentityServiceRedeemEmailCodeRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRedeemEmailCodeResponse"] = Shape(IdentityServiceRedeemEmailCodeResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRedeemEmailCodeValue"] = Shape(IdentityServiceRedeemEmailCodeValue.Parser, ContractShapeValidation.IsValid),
         ["IdentityServiceRefreshSessionRequest"] = Shape(IdentityServiceRefreshSessionRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRefreshSessionResponse"] = Shape(IdentityServiceRefreshSessionResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRefreshSessionValue"] = Shape(IdentityServiceRefreshSessionValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRemoveAuthIdentityRequest"] = Shape(IdentityServiceRemoveAuthIdentityRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRemoveAuthIdentityResponse"] = Shape(IdentityServiceRemoveAuthIdentityResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRemoveAuthIdentityValue"] = Shape(IdentityServiceRemoveAuthIdentityValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRenameAuthIdentityRequest"] = Shape(IdentityServiceRenameAuthIdentityRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRenameAuthIdentityResponse"] = Shape(IdentityServiceRenameAuthIdentityResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRenameAuthIdentityValue"] = Shape(IdentityServiceRenameAuthIdentityValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRequestAccountDeletionRequest"] = Shape(IdentityServiceRequestAccountDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRequestAccountDeletionResponse"] = Shape(IdentityServiceRequestAccountDeletionResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRequestAccountDeletionValue"] = Shape(IdentityServiceRequestAccountDeletionValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRequestEmailCodeRequest"] = Shape(IdentityServiceRequestEmailCodeRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRequestEmailCodeResponse"] = Shape(IdentityServiceRequestEmailCodeResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRequestEmailCodeValue"] = Shape(IdentityServiceRequestEmailCodeValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeAllSessionsRequest"] = Shape(IdentityServiceRevokeAllSessionsRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeAllSessionsResponse"] = Shape(IdentityServiceRevokeAllSessionsResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeAllSessionsValue"] = Shape(IdentityServiceRevokeAllSessionsValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeApiTokenRequest"] = Shape(IdentityServiceRevokeApiTokenRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeApiTokenResponse"] = Shape(IdentityServiceRevokeApiTokenResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeApiTokenValue"] = Shape(IdentityServiceRevokeApiTokenValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeSessionRequest"] = Shape(IdentityServiceRevokeSessionRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeSessionResponse"] = Shape(IdentityServiceRevokeSessionResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceRevokeSessionValue"] = Shape(IdentityServiceRevokeSessionValue.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceUpdateProfileRequest"] = Shape(IdentityServiceUpdateProfileRequest.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceUpdateProfileResponse"] = Shape(IdentityServiceUpdateProfileResponse.Parser, ContractShapeValidation.IsValid),
+        ["IdentityServiceUpdateProfileValue"] = Shape(IdentityServiceUpdateProfileValue.Parser, ContractShapeValidation.IsValid),
         ["InstallationClaim"] = Shape(InstallationClaim.Parser, ContractShapeValidation.IsValid),
         ["InstalledProduct"] = Shape(InstalledProduct.Parser, ContractShapeValidation.IsValid),
         ["NativeSession"] = Shape(NativeSession.Parser, ContractShapeValidation.IsValid),
@@ -53,7 +174,27 @@ internal static class IdentityCases
         ["WebAuthnCreation"] = Shape(WebAuthnCreation.Parser, ContractShapeValidation.IsValid),
         ["WebAuthnOptions"] = Shape(WebAuthnOptions.Parser, ContractShapeValidation.IsValid),
         ["WorkspaceHealth"] = Shape(WorkspaceHealth.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetDataDeletionRequest"] = Shape(WorkspaceServiceGetDataDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetDataDeletionResponse"] = Shape(WorkspaceServiceGetDataDeletionResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetDataDeletionValue"] = Shape(WorkspaceServiceGetDataDeletionValue.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetHealthRequest"] = Shape(WorkspaceServiceGetHealthRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetHealthResponse"] = Shape(WorkspaceServiceGetHealthResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetHealthValue"] = Shape(WorkspaceServiceGetHealthValue.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetRequest"] = Shape(WorkspaceServiceGetRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetResponse"] = Shape(WorkspaceServiceGetResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceGetValue"] = Shape(WorkspaceServiceGetValue.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceListRequest"] = Shape(WorkspaceServiceListRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceListResponse"] = Shape(WorkspaceServiceListResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceListValue"] = Shape(WorkspaceServiceListValue.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServicePreviewDataDeletionRequest"] = Shape(WorkspaceServicePreviewDataDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServicePreviewDataDeletionResponse"] = Shape(WorkspaceServicePreviewDataDeletionResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServicePreviewDataDeletionValue"] = Shape(WorkspaceServicePreviewDataDeletionValue.Parser, ContractShapeValidation.IsValid),
         ["WorkspaceServiceRequestDataDeletionRequest"] = Shape(WorkspaceServiceRequestDataDeletionRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceRequestDataDeletionResponse"] = Shape(WorkspaceServiceRequestDataDeletionResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceRequestDataDeletionValue"] = Shape(WorkspaceServiceRequestDataDeletionValue.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceUpdateSettingsRequest"] = Shape(WorkspaceServiceUpdateSettingsRequest.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceUpdateSettingsResponse"] = Shape(WorkspaceServiceUpdateSettingsResponse.Parser, ContractShapeValidation.IsValid),
+        ["WorkspaceServiceUpdateSettingsValue"] = Shape(WorkspaceServiceUpdateSettingsValue.Parser, ContractShapeValidation.IsValid),
         ["WorkspaceView"] = Shape(WorkspaceView.Parser, ContractShapeValidation.IsValid)
     };
 
@@ -168,6 +309,19 @@ internal static class IdentityCases
         foreach (var record in fixture.GetProperty("records").EnumerateObject())
             Require(Shape(Records[record.Name]) == record.Value.GetString(), record.Name + " exact tags");
         Require(Records.Count == fixture.GetProperty("records").EnumerateObject().Count(), "record inventory");
+
+        // Independent Registry04-derived oracle: number, name, JSON name, type, repetition and presence of all 176 messages.
+        var fieldOracle = fixture.GetProperty("fields");
+        var messageTypes = IdentityReflection.Descriptor.MessageTypes.ToDictionary(item => item.Name, StringComparer.Ordinal);
+        Require(fieldOracle.EnumerateObject().Count() == 176 && messageTypes.Count == 176, "exact 176 message inventory");
+        foreach (var message in fieldOracle.EnumerateObject())
+        {
+            Require(messageTypes.TryGetValue(message.Name, out var messageDescriptor), "message " + message.Name);
+            var actualFields = messageDescriptor!.Fields.InFieldNumberOrder().Select(DescribeField).ToArray();
+            var expectedFields = message.Value.EnumerateArray().Select(item => item.GetString()!)
+                .OrderBy(item => int.Parse(item[..item.IndexOf(':')])).ToArray();
+            Require(actualFields.SequenceEqual(expectedFields), message.Name + " exact field oracle: " + string.Join(" | ", actualFields) + " != " + string.Join(" | ", expectedFields));
+        }
         foreach (var enumeration in fixture.GetProperty("enums").EnumerateObject())
         {
             var descriptor = IdentityReflection.Descriptor.EnumTypes.Single(item => item.Name == enumeration.Name);
@@ -187,12 +341,16 @@ internal static class IdentityCases
         Require(DeviceView.Descriptor.Fields.InDeclarationOrder().Select(field => field.FieldNumber).SequenceEqual(new[] { 1, 2, 3, 4, 5, 6, 8, 10 }), "DeviceView reserves tags 7, 9 and 11");
 
         var shapeCases = fixture.GetProperty("cases").EnumerateArray().ToArray();
-        Require(shapeCases.Length >= 90, "shape vector coverage");
+        Require(shapeCases.Length >= 1000, "shape vector coverage");
+        var minimal = shapeCases.Select(item => (Id: item.GetProperty("id").GetString()!, Target: item.GetProperty("target").GetString()!))
+            .Where(item => item.Id.StartsWith("auto.", StringComparison.Ordinal) && item.Id.EndsWith(".minimal", StringComparison.Ordinal))
+            .Select(item => item.Target).ToHashSet(StringComparer.Ordinal);
+        Require(minimal.SetEquals(fieldOracle.EnumerateObject().Select(message => message.Name)), "every constraint message has a minimal valid vector");
         foreach (var item in shapeCases)
         {
             var target = item.GetProperty("target").GetString()!;
             Require(Shapes.TryGetValue(target, out var validate), "shape target " + target);
-            var actual = validate!(item.GetProperty("value").GetRawText());
+            var actual = validate!(ExpandNode(JsonNode.Parse(item.GetProperty("value").GetRawText()))!.ToJsonString());
             Require(actual == item.GetProperty("valid").GetBoolean(), item.GetProperty("id").GetString()!);
         }
 
@@ -292,11 +450,13 @@ internal static class IdentityCases
         var steps = operations.ToDictionary(row => row.GetProperty("id").GetString()!, row => row.GetProperty("stepUp").GetBoolean());
         var routeIds = BrowserSessionRoutes.All.Select(route => route.Id).Concat(NativeAuthRoutes.All.Select(route => route.Id)).ToHashSet();
         var journeys = fixture.GetProperty("journeys").EnumerateArray().ToArray();
+        var frozenExpectations = JsonNode.Parse(FrozenJourneyExpectations)!.AsObject();
         Require(journeys.Length == 14, "exact journey inventory");
         foreach (var journey in journeys)
         {
             var id = journey.GetProperty("id").GetString()!;
             Require(journey.GetProperty("evidenceClass").GetString() == "declarative-owner-runtime-vector-not-executed-by-con07", id + " evidence class");
+            Require(JsonNode.DeepEquals(JsonNode.Parse(journey.GetProperty("expect").GetRawText()), frozenExpectations[id]), id + " exact frozen expectations");
             var credits = 0;
             foreach (var step in journey.GetProperty("steps").EnumerateArray())
             {
@@ -309,8 +469,163 @@ internal static class IdentityCases
         }
     }
 
+    private static string DescribeField(FieldDescriptor field)
+    {
+        var type = field.FieldType switch
+        {
+            FieldType.String => "string",
+            FieldType.Bytes => "bytes",
+            FieldType.Bool => "bool",
+            FieldType.Int32 => "int32",
+            FieldType.Int64 => "int64",
+            FieldType.UInt32 => "uint32",
+            FieldType.UInt64 => "uint64",
+            FieldType.SInt32 => "sint32",
+            FieldType.Enum => field.EnumType.Name,
+            FieldType.Message => field.MessageType.FullName.StartsWith("arcforges.publicapi.v1.", StringComparison.Ordinal) ? field.MessageType.Name : field.MessageType.FullName,
+            _ => "unsupported:" + field.FieldType,
+        };
+        var modifier = field.ContainingOneof is { IsSynthetic: false } ? "oneof"
+            : field.IsRepeated ? "repeated"
+            : field.FieldType == FieldType.Message ? ""
+            : field.ContainingOneof is { IsSynthetic: true } ? "optional"
+            : "implicit";
+        return $"{field.FieldNumber}:{field.Name}:{field.JsonName}:{type}:{modifier}";
+    }
+
+    // Compact vector markers: $bytes (n bytes of 0x01 as standard base64), $str ([prefix, char, count]), $unique (n distinct keys), $repeat ([n, item]).
+    private static JsonNode? ExpandNode(JsonNode? node)
+    {
+        if (node is JsonArray array)
+        {
+            var expanded = new JsonArray();
+            foreach (var item in array) expanded.Add(ExpandNode(item));
+            return expanded;
+        }
+        if (node is JsonObject obj)
+        {
+            if (obj.Count == 1)
+            {
+                var (key, inner) = obj.First();
+                switch (key)
+                {
+                    case "$bytes":
+                        return JsonValue.Create(Convert.ToBase64String(Enumerable.Repeat((byte)1, inner!.GetValue<int>()).ToArray()));
+                    case "$str":
+                        var text = inner!.AsArray();
+                        return JsonValue.Create(text[0]!.GetValue<string>() + new string(text[1]!.GetValue<string>()[0], text[2]!.GetValue<int>()));
+                    case "$unique":
+                        var keys = new JsonArray();
+                        for (var index = 0; index < inner!.GetValue<int>(); index++) keys.Add((JsonNode?)JsonValue.Create("k" + index));
+                        return keys;
+                    case "$repeat":
+                        var repeat = inner!.AsArray();
+                        var items = new JsonArray();
+                        for (var index = 0; index < repeat[0]!.GetValue<int>(); index++) items.Add(ExpandNode(repeat[1]!.DeepClone()));
+                        return items;
+                }
+            }
+            var copy = new JsonObject();
+            foreach (var (name, child) in obj) copy[name] = ExpandNode(child);
+            return copy;
+        }
+        return node?.DeepClone();
+    }
+
     private static string Shape(MessageDescriptor descriptor) =>
         string.Join(",", descriptor.Fields.InDeclarationOrder().Select(field => $"{field.FieldNumber}:{field.Name}"));
+
+    private const string FrozenJourneyExpectations = """
+{
+  "account-creation": {
+    "usedOrExpiredProofReplaysSession": false,
+    "freshAuthenticationRecoversCreatedAccount": true,
+    "duplicateWorkspaceOrInitialGrant": false,
+    "emailOnlyAccountCanAddPasskeyAfterLogin": true
+  },
+  "email-login": {
+    "redeemAndCompleteAreExclusive": true,
+    "badOrUnknownAccountProofSameBoundedDenialShape": true,
+    "unknownProviderDeliveryAuthorizesDuplicateAccountCreation": false
+  },
+  "passkey-login": {
+    "validatesChallengeOriginRpUserVerificationSignatureCredentialBindingAndReplay": true,
+    "unsupportedPlatformOffersAnotherEnabledMethod": true,
+    "weakerFakePasskeyOffered": false
+  },
+  "passkey-management": {
+    "completeIsOneUseProofConsumption": true,
+    "removingLastUsableCredentialOrRecoveryRouteRefused": true,
+    "refusalCode": "identity.last_credential"
+  },
+  "self-host-password-enrollment": {
+    "officialRealmRejectsPasswordProvider": true,
+    "grantPossessionResetsExistingAccount": false
+  },
+  "oidc-login-enrollment-link": {
+    "receiptBoundToOriginalFlowAndInstallation": true,
+    "callerSuppliedRedirectAccepted": false,
+    "sameEmailMergesAccounts": false,
+    "callbackCarriesProviderAccessOrRefreshToken": false,
+    "linkingRequiresStepUpAndBothAuthenticatedIdentities": true
+  },
+  "recovery": {
+    "commitConsumesProofAndInvalidatesRecoveryCodeSet": true,
+    "revokesSessionsPatAndPendingNativeAuthorizationCodes": true,
+    "changesCredentialAtomically": true,
+    "returnsReceiptOnly": true,
+    "oldCredentialsSupplyReplacementPublicKeyWithoutProof": false
+  },
+  "step-up": {
+    "evidenceBindsActorSessionGenerationClassAndTargetHash": true,
+    "maximumMinutes": 5,
+    "oneSensitiveActionOnly": true,
+    "differentProposalOrSessionReusesEvidence": false,
+    "biometricAppUnlockIsStepUp": false
+  },
+  "refresh": {
+    "singleFlightPerInstallation": true,
+    "oldTokenReuseRevokesFamily": true,
+    "lostRotationResponseRequiresLogin": true,
+    "automaticRetryWithOldToken": false,
+    "browserCookieUsesRefreshToken": false
+  },
+  "logout": {
+    "localCredentialsInvalidatedBeforeCallbacks": true,
+    "deviceRevocationRemovesTrustRemoteAuthorityAndPush": true,
+    "signOutRetainsRegistration": true,
+    "pendingWorkQuarantined": true
+  },
+  "native-browser-authorization": {
+    "wrongVerifierConsumesValidCode": false,
+    "attemptsCappedAt": 5,
+    "redeemedOrExpiredCodeIssuesSession": false,
+    "lostTokenResponseRequiresFreshAuthorization": true,
+    "callbackCarriesOnlyCodeAndState": true,
+    "browserCookiesCopiedToApp": false
+  },
+  "api-token": {
+    "secretDisplayedOnceHashOnly": true,
+    "duplicateCreateReturnsSafeSummaryWithoutSecret": true,
+    "tokenManagesAuthentication": false,
+    "patEligibleOperations": [
+      "workspace.get",
+      "workspace.list"
+    ]
+  },
+  "account-deletion": {
+    "graceSessionQueriesOrdinaryContent": false,
+    "oldOrdinarySessionsRemainRevokedAfterCancel": true,
+    "paidSubscriptionCancelledImplicitly": false
+  },
+  "browser-session": {
+    "everyResponseNoStore": true,
+    "sessionSecretOnlyInSetCookie": true,
+    "nativeSessionReturnedToBrowser": false,
+    "logoutByGet": false
+  }
+}
+""";
 
     private static string UpperSnake(string value) => Regex.Replace(value, "([a-z0-9])([A-Z])", "$1_$2").ToUpperInvariant();
 

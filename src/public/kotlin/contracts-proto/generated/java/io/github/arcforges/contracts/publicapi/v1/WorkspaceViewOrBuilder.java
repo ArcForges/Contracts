@@ -52,12 +52,17 @@ public interface WorkspaceViewOrBuilder extends
       getNameBytes();
 
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * @return Whether the protection field is set.
+   */
+  boolean hasProtection();
+  /**
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    * @return The enum numeric value on the wire for protection.
    */
   int getProtectionValue();
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    * @return The protection.
    */
   io.github.arcforges.contracts.publicapi.v1.ProtectionProfile getProtection();

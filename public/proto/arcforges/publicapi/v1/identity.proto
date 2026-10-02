@@ -129,7 +129,7 @@ message AuthChallenge {
   WebAuthnOptions options = 6 [json_name = "options"];
   optional string provider_id = 7 [json_name = "providerId"];
   optional string redirect_url = 8 [json_name = "redirectUrl"];
-  AuthPurpose purpose = 9 [json_name = "purpose"];
+  optional AuthPurpose purpose = 9 [json_name = "purpose"];
   optional RecoveryMethod recovery_method = 10 [json_name = "recoveryMethod"];
 }
 
@@ -176,7 +176,7 @@ message NativeSession {
   arcforges.foundation.v1.Instant refresh_expires_at = 5 [json_name = "refreshExpiresAt"];
   DeviceView device = 6 [json_name = "device"];
   optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
-  AuthPurpose purpose = 8 [json_name = "purpose"];
+  optional AuthPurpose purpose = 8 [json_name = "purpose"];
 }
 
 message SessionView {
@@ -187,7 +187,7 @@ message SessionView {
   arcforges.foundation.v1.Id device_id = 5 [json_name = "deviceId"];
   repeated arcforges.foundation.v1.Id workspace_ids = 6 [json_name = "workspaceIds"];
   optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
-  AuthPurpose purpose = 8 [json_name = "purpose"];
+  optional AuthPurpose purpose = 8 [json_name = "purpose"];
 }
 
 message CredentialSummary {
@@ -231,7 +231,7 @@ message ProfileUpdate {
 
 message AuthProviderView {
   optional string provider_id = 1 [json_name = "providerId"];
-  AuthMethod method = 2 [json_name = "method"];
+  optional AuthMethod method = 2 [json_name = "method"];
   optional string name = 3 [json_name = "name"];
   optional bool enrollment = 4 [json_name = "enrollment"];
 }
@@ -317,7 +317,7 @@ message WorkspaceView {
   arcforges.foundation.v1.Id workspace_id = 1 [json_name = "workspaceId"];
   arcforges.foundation.v1.Id owner_user_id = 2 [json_name = "ownerUserId"];
   optional string name = 3 [json_name = "name"];
-  ProtectionProfile protection = 4 [json_name = "protection"];
+  optional ProtectionProfile protection = 4 [json_name = "protection"];
   arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];
 }
 
@@ -325,7 +325,7 @@ message DeviceView {
   arcforges.foundation.v1.Id device_id = 1 [json_name = "deviceId"];
   optional string name = 2 [json_name = "name"];
   optional string platform = 3 [json_name = "platform"];
-  TrustLevel trust = 4 [json_name = "trust"];
+  optional TrustLevel trust = 4 [json_name = "trust"];
   optional bool remote_enabled = 5 [json_name = "remoteEnabled"];
   arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];
   arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];
@@ -407,11 +407,11 @@ message IdentityServiceCompletePasskeyRegistrationResponse {
 message IdentityServiceBeginAuthenticationRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
-  AuthMethod method = 10 [json_name = "method"];
+  optional AuthMethod method = 10 [json_name = "method"];
   optional string login_hint = 11 [json_name = "loginHint"];
   InstallationClaim installation = 12 [json_name = "installation"];
   optional string provider_id = 13 [json_name = "providerId"];
-  AuthPurpose purpose = 14 [json_name = "purpose"];
+  optional AuthPurpose purpose = 14 [json_name = "purpose"];
 }
 
 message IdentityServiceBeginAuthenticationValue {
@@ -450,7 +450,7 @@ message IdentityServiceCompleteAuthenticationResponse {
 message IdentityServiceRequestEmailCodeRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
-  AuthPurpose purpose = 10 [json_name = "purpose"];
+  optional AuthPurpose purpose = 10 [json_name = "purpose"];
   optional string email = 11 [json_name = "email"];
   arcforges.foundation.v1.Id flow_id = 12 [json_name = "flowId"];
 }
@@ -589,7 +589,7 @@ message IdentityServiceBeginStepUpRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   optional string operation_class = 10 [json_name = "operationClass"];
-  AuthMethod method = 11 [json_name = "method"];
+  optional AuthMethod method = 11 [json_name = "method"];
   optional string target_hash = 12 [json_name = "targetHash"];
 }
 
@@ -630,7 +630,7 @@ message IdentityServiceBeginRecoveryRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   optional string email = 10 [json_name = "email"];
-  RecoveryMethod method = 11 [json_name = "method"];
+  optional RecoveryMethod method = 11 [json_name = "method"];
   optional string account_hint = 12 [json_name = "accountHint"];
   InstallationClaim installation = 13 [json_name = "installation"];
 }
@@ -1272,7 +1272,7 @@ message DeviceServiceSetTrustRequest {
   arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
   reserved 2 to 9;
   arcforges.foundation.v1.Id device_id = 10 [json_name = "deviceId"];
-  TrustLevel trust = 11 [json_name = "trust"];
+  optional TrustLevel trust = 11 [json_name = "trust"];
 }
 
 message DeviceServiceSetTrustValue {

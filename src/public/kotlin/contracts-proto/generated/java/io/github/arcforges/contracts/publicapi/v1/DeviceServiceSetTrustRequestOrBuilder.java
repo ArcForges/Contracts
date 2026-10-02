@@ -35,12 +35,17 @@ public interface DeviceServiceSetTrustRequestOrBuilder extends
   io.github.arcforges.contracts.foundation.v1.Id getDeviceId();
 
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * @return Whether the trust field is set.
+   */
+  boolean hasTrust();
+  /**
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    * @return The enum numeric value on the wire for trust.
    */
   int getTrustValue();
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    * @return The trust.
    */
   io.github.arcforges.contracts.publicapi.v1.TrustLevel getTrust();

@@ -4663,7 +4663,11 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.RedirectUrl)) return false;
             if (global::System.Text.Encoding.UTF8.GetByteCount(value.RedirectUrl) > 4096) return false;
         }
-        if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
         if (value.HasRecoveryMethod)
         {
             if ((int)value.RecoveryMethod != 1 && (int)value.RecoveryMethod != 2 && (int)value.RecoveryMethod != 3 && (int)value.RecoveryMethod != 4) return false;
@@ -4736,7 +4740,11 @@ public static class ContractShapeValidation
             if (ScalarLength(value.ProviderId) > 128) return false;
             if (!Matches(value.ProviderId, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
-        if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
         if (!value.HasName) return false;
         if (value.HasName)
         {
@@ -9346,7 +9354,11 @@ public static class ContractShapeValidation
         if (!Check(value.Meta, context)) return false;
         if (value.DeviceId is null) return false;
         if (!Check(value.DeviceId, context)) return false;
-        if ((int)value.Trust != 1 && (int)value.Trust != 2 && (int)value.Trust != 3) return false;
+        if (!value.HasTrust) return false;
+        if (value.HasTrust)
+        {
+            if ((int)value.Trust != 1 && (int)value.Trust != 2 && (int)value.Trust != 3) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -9458,7 +9470,11 @@ public static class ContractShapeValidation
             if (ScalarLength(value.Platform) > 128) return false;
             if (!Matches(value.Platform, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
-        if ((int)value.Trust != 1 && (int)value.Trust != 2 && (int)value.Trust != 3) return false;
+        if (!value.HasTrust) return false;
+        if (value.HasTrust)
+        {
+            if ((int)value.Trust != 1 && (int)value.Trust != 2 && (int)value.Trust != 3) return false;
+        }
         if (!value.HasRemoteEnabled) return false;
         if (value.HasRemoteEnabled)
         {
@@ -10815,7 +10831,11 @@ public static class ContractShapeValidation
         {
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
-        if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
         if (value.HasLoginHint)
         {
             if (!ValidUnicode(value.LoginHint)) return false;
@@ -10830,7 +10850,11 @@ public static class ContractShapeValidation
             if (ScalarLength(value.ProviderId) > 128) return false;
             if (!Matches(value.ProviderId, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
-        if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -10994,7 +11018,11 @@ public static class ContractShapeValidation
             if (ScalarLength(value.Email) > 320) return false;
             if (!Matches(value.Email, "^[!-?A-~]+@[!-?A-~]+$")) return false;
         }
-        if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
         if (value.HasAccountHint)
         {
             if (!ValidUnicode(value.AccountHint)) return false;
@@ -11058,7 +11086,11 @@ public static class ContractShapeValidation
             if (ScalarLength(value.OperationClass) > 128) return false;
             if (!Matches(value.OperationClass, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
-        if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
         if (value.HasTargetHash)
         {
             if (!ValidUnicode(value.TargetHash)) return false;
@@ -12331,7 +12363,11 @@ public static class ContractShapeValidation
         {
         if (value.Meta is null) return false;
         if (!Check(value.Meta, context)) return false;
-        if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
         if (!value.HasEmail) return false;
         if (value.HasEmail)
         {
@@ -13219,7 +13255,11 @@ public static class ContractShapeValidation
         if (value.HasRecoveryGeneration)
         {
         }
-        if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -15255,7 +15295,11 @@ public static class ContractShapeValidation
         if (value.HasRecoveryGeneration)
         {
         }
-        if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
         return true;
         }
         finally { context.Exit(value); }
@@ -19000,7 +19044,11 @@ public static class ContractShapeValidation
             if (!ValidUnicode(value.Name)) return false;
             if (ScalarLength(value.Name) > 256) return false;
         }
-        if ((int)value.Protection != 1) return false;
+        if (!value.HasProtection) return false;
+        if (value.HasProtection)
+        {
+            if ((int)value.Protection != 1) return false;
+        }
         if (value.Revision is null) return false;
         if (!Check(value.Revision, context)) return false;
         return true;

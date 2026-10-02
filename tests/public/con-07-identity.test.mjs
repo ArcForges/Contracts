@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { fromBinary, fromJson, toBinary } from "@bufbuild/protobuf";
+import { ScalarType, fromBinary, fromJson, toBinary } from "@bufbuild/protobuf";
 import * as proto from "@arcforges/proto";
 import * as api from "@arcforges/api-client";
 import * as shapes from "../../src/public/ts/proto/dist/shapes/gen/proto.js";
@@ -15,6 +15,131 @@ const shape = (fields) => fields.map((field) => `${field.number}:${field.name}`)
 const upperSnake = (name) => name.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toUpperCase();
 const lowerCamel = (name) => name.toLowerCase().replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase());
 const inPackage = (name) => `arcforges.publicapi.v1.${name}`;
+
+// Compact vector markers: $bytes (n bytes of 0x01 as standard base64), $str ([prefix, char, count]),
+// $unique (n distinct keys) and $repeat ([n, item]).
+const expand = (value) => {
+  if (Array.isArray(value)) return value.map(expand);
+  if (value === null || typeof value !== "object") return value;
+  const entries = Object.entries(value);
+  if (entries.length === 1) {
+    const [key, inner] = entries[0];
+    if (key === "$bytes") return Buffer.alloc(inner, 1).toString("base64");
+    if (key === "$str") return inner[0] + inner[1].repeat(inner[2]);
+    if (key === "$unique") return Array.from({ length: inner }, (_, index) => `k${index}`);
+    if (key === "$repeat") return Array.from({ length: inner[0] }, () => expand(inner[1]));
+  }
+  return Object.fromEntries(entries.map(([key, child]) => [key, expand(child)]));
+};
+
+const scalarName = (field) => ScalarType[field.scalar].toLowerCase();
+const fieldType = (field) => {
+  const kind = field.fieldKind === "list" ? field.listKind : field.fieldKind;
+  if (kind === "scalar") return scalarName(field);
+  if (kind === "enum") return field.enum.name;
+  const typeName = field.message.typeName;
+  return typeName.startsWith("arcforges.publicapi.v1.") ? field.message.name : typeName;
+};
+const describeField = (field) => {
+  const modifier = field.oneof
+    ? "oneof"
+    : field.fieldKind === "list"
+      ? "repeated"
+      : field.fieldKind === "message"
+        ? ""
+        : field.proto.proto3Optional
+          ? "optional"
+          : "implicit";
+  return `${field.number}:${field.name}:${field.jsonName}:${fieldType(field)}:${modifier}`;
+};
+const byNumber = (a, b) => Number(a.split(":")[0]) - Number(b.split(":")[0]);
+
+const frozenJourneyExpectations = {
+  "account-creation": {
+    usedOrExpiredProofReplaysSession: false,
+    freshAuthenticationRecoversCreatedAccount: true,
+    duplicateWorkspaceOrInitialGrant: false,
+    emailOnlyAccountCanAddPasskeyAfterLogin: true,
+  },
+  "email-login": {
+    redeemAndCompleteAreExclusive: true,
+    badOrUnknownAccountProofSameBoundedDenialShape: true,
+    unknownProviderDeliveryAuthorizesDuplicateAccountCreation: false,
+  },
+  "passkey-login": {
+    validatesChallengeOriginRpUserVerificationSignatureCredentialBindingAndReplay: true,
+    unsupportedPlatformOffersAnotherEnabledMethod: true,
+    weakerFakePasskeyOffered: false,
+  },
+  "passkey-management": {
+    completeIsOneUseProofConsumption: true,
+    removingLastUsableCredentialOrRecoveryRouteRefused: true,
+    refusalCode: "identity.last_credential",
+  },
+  "self-host-password-enrollment": {
+    officialRealmRejectsPasswordProvider: true,
+    grantPossessionResetsExistingAccount: false,
+  },
+  "oidc-login-enrollment-link": {
+    receiptBoundToOriginalFlowAndInstallation: true,
+    callerSuppliedRedirectAccepted: false,
+    sameEmailMergesAccounts: false,
+    callbackCarriesProviderAccessOrRefreshToken: false,
+    linkingRequiresStepUpAndBothAuthenticatedIdentities: true,
+  },
+  recovery: {
+    commitConsumesProofAndInvalidatesRecoveryCodeSet: true,
+    revokesSessionsPatAndPendingNativeAuthorizationCodes: true,
+    changesCredentialAtomically: true,
+    returnsReceiptOnly: true,
+    oldCredentialsSupplyReplacementPublicKeyWithoutProof: false,
+  },
+  "step-up": {
+    evidenceBindsActorSessionGenerationClassAndTargetHash: true,
+    maximumMinutes: 5,
+    oneSensitiveActionOnly: true,
+    differentProposalOrSessionReusesEvidence: false,
+    biometricAppUnlockIsStepUp: false,
+  },
+  refresh: {
+    singleFlightPerInstallation: true,
+    oldTokenReuseRevokesFamily: true,
+    lostRotationResponseRequiresLogin: true,
+    automaticRetryWithOldToken: false,
+    browserCookieUsesRefreshToken: false,
+  },
+  logout: {
+    localCredentialsInvalidatedBeforeCallbacks: true,
+    deviceRevocationRemovesTrustRemoteAuthorityAndPush: true,
+    signOutRetainsRegistration: true,
+    pendingWorkQuarantined: true,
+  },
+  "native-browser-authorization": {
+    wrongVerifierConsumesValidCode: false,
+    attemptsCappedAt: 5,
+    redeemedOrExpiredCodeIssuesSession: false,
+    lostTokenResponseRequiresFreshAuthorization: true,
+    callbackCarriesOnlyCodeAndState: true,
+    browserCookiesCopiedToApp: false,
+  },
+  "api-token": {
+    secretDisplayedOnceHashOnly: true,
+    duplicateCreateReturnsSafeSummaryWithoutSecret: true,
+    tokenManagesAuthentication: false,
+    patEligibleOperations: ["workspace.get", "workspace.list"],
+  },
+  "account-deletion": {
+    graceSessionQueriesOrdinaryContent: false,
+    oldOrdinarySessionsRemainRevokedAfterCancel: true,
+    paidSubscriptionCancelledImplicitly: false,
+  },
+  "browser-session": {
+    everyResponseNoStore: true,
+    sessionSecretOnlyInSetCookie: true,
+    nativeSessionReturnedToBrowser: false,
+    logoutByGet: false,
+  },
+};
 
 test("CON.07 generates exactly the three Registry04 identity services and 49 operations", () => {
   assert.equal(fixture.operations.length, 49);
@@ -141,13 +266,36 @@ test("CON.07 records, enums and oneofs keep their numbered tags and presence", (
   );
 });
 
+test("CON.07 Registry04 field oracle pins every number, name, JSON name, type, repetition and presence of all 176 messages", () => {
+  const names = Object.keys(fixture.fields);
+  assert.equal(names.length, 176);
+  for (const name of names) {
+    const schema = proto[`${name}Schema`];
+    assert.ok(schema, name);
+    assert.deepEqual(
+      schema.fields.map(describeField).sort(byNumber),
+      [...fixture.fields[name]].sort(byNumber),
+      `${name} field oracle`,
+    );
+  }
+});
+
 test("CON.07 shape vectors are independently checked against generated validators", () => {
-  assert.ok(fixture.cases.length >= 90);
+  assert.ok(fixture.cases.length >= 1000);
+  const minimal = fixture.cases
+    .filter((entry) => entry.id.startsWith("auto.") && entry.id.endsWith(".minimal"))
+    .map((entry) => entry.target)
+    .sort();
+  assert.deepEqual(
+    minimal,
+    Object.keys(fixture.fields).sort(),
+    "every message has a minimal valid vector",
+  );
   for (const entry of fixture.cases) {
     const schema = proto[`${entry.target}Schema`];
     const validate = shapes[`is${entry.target}`];
     assert.ok(schema && validate, entry.target);
-    const value = fromJson(schema, entry.value);
+    const value = fromJson(schema, expand(entry.value));
     assert.equal(validate(value), entry.valid, entry.id);
     if (entry.valid) {
       const roundTrip = fromBinary(schema, toBinary(schema, value));
@@ -197,7 +345,8 @@ test("CON.07 form-urlencoded roots keep the specified 16 KiB bound and refuse no
     "malformed",
   );
   assert.equal(
-    api.tryParseNativeTokenRequestForm(new TextEncoder().encode(form.replaceAll("&", "\n"))).failure,
+    api.tryParseNativeTokenRequestForm(new TextEncoder().encode(form.replaceAll("&", "\n")))
+      .failure,
     "malformed",
   );
   assert.throws(() => api.parseNativeTokenRequestForm("grant_type=authorization_code"), {
@@ -321,7 +470,11 @@ test("CON.07 journeys reference real operations and routes and spend one step-up
       "declarative-owner-runtime-vector-not-executed-by-con07",
       journey.id,
     );
-    assert.ok(Object.keys(journey.expect).length > 0, journey.id);
+    assert.deepEqual(
+      journey.expect,
+      frozenJourneyExpectations[journey.id],
+      `${journey.id} frozen expectations`,
+    );
     let credits = 0;
     for (const step of journey.steps) {
       if (step.kind === "route") {

@@ -124,12 +124,17 @@ public interface AuthChallengeOrBuilder extends
       getRedirectUrlBytes();
 
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 9 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 9 [json_name = "purpose"];</code>
+   * @return Whether the purpose field is set.
+   */
+  boolean hasPurpose();
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 9 [json_name = "purpose"];</code>
    * @return The enum numeric value on the wire for purpose.
    */
   int getPurposeValue();
   /**
-   * <code>.arcforges.publicapi.v1.AuthPurpose purpose = 9 [json_name = "purpose"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthPurpose purpose = 9 [json_name = "purpose"];</code>
    * @return The purpose.
    */
   io.github.arcforges.contracts.publicapi.v1.AuthPurpose getPurpose();

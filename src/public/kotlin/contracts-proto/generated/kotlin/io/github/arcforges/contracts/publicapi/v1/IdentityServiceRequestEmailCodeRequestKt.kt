@@ -59,7 +59,7 @@ public object IdentityServiceRequestEmailCodeRequestKt {
       get() = _builder.metaOrNull
 
     /**
-     * `.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];`
+     * `optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];`
      */
     public var purpose: io.github.arcforges.contracts.publicapi.v1.AuthPurpose
       @kotlin.jvm.JvmName("getPurpose")
@@ -76,10 +76,17 @@ public object IdentityServiceRequestEmailCodeRequestKt {
         _builder.purposeValue = value
       }
     /**
-     * `.arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];`
+     * `optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];`
      */
     public fun clearPurpose() {
       _builder.clearPurpose()
+    }
+    /**
+     * `optional .arcforges.publicapi.v1.AuthPurpose purpose = 10 [json_name = "purpose"];`
+     * @return Whether the purpose field is set.
+     */
+    public fun hasPurpose(): kotlin.Boolean {
+      return _builder.hasPurpose()
     }
 
     /**

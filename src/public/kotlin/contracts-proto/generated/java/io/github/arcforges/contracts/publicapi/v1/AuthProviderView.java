@@ -80,7 +80,15 @@ public  final class AuthProviderView extends
   public static final int METHOD_FIELD_NUMBER = 2;
   private int method_;
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+   * @return Whether the method field is set.
+   */
+  @java.lang.Override
+  public boolean hasMethod() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
    * @return The enum numeric value on the wire for method.
    */
   @java.lang.Override
@@ -88,7 +96,7 @@ public  final class AuthProviderView extends
     return method_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
    * @return The method.
    */
   @java.lang.Override
@@ -97,26 +105,26 @@ public  final class AuthProviderView extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.AuthMethod.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
    * @param value The enum numeric value on the wire for method to set.
    */
   private void setMethodValue(int value) {
-      method_ = value;
+    bitField0_ |= 0x00000002;  method_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
    * @param value The method to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setMethod(io.github.arcforges.contracts.publicapi.v1.AuthMethod value) {
     method_ = value.getNumber();
-
+    bitField0_ |= 0x00000002;
   }
   /**
-   * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+   * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
    */
   private void clearMethod() {
-
+    bitField0_ = (bitField0_ & ~0x00000002);
     method_ = 0;
   }
 
@@ -128,7 +136,7 @@ public  final class AuthProviderView extends
    */
   @java.lang.Override
   public boolean hasName() {
-    return ((bitField0_ & 0x00000002) != 0);
+    return ((bitField0_ & 0x00000004) != 0);
   }
   /**
    * <code>optional string name = 3 [json_name = "name"];</code>
@@ -155,14 +163,14 @@ public  final class AuthProviderView extends
   private void setName(
       java.lang.String value) {
     value.getClass();  // minimal bytecode null check
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
     name_ = value;
   }
   /**
    * <code>optional string name = 3 [json_name = "name"];</code>
    */
   private void clearName() {
-    bitField0_ = (bitField0_ & ~0x00000002);
+    bitField0_ = (bitField0_ & ~0x00000004);
     name_ = getDefaultInstance().getName();
   }
   /**
@@ -173,7 +181,7 @@ public  final class AuthProviderView extends
       com.google.protobuf.ByteString value) {
     checkByteStringIsUtf8(value);
     name_ = value.toStringUtf8();
-    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000004;
   }
 
   public static final int ENROLLMENT_FIELD_NUMBER = 4;
@@ -184,7 +192,7 @@ public  final class AuthProviderView extends
    */
   @java.lang.Override
   public boolean hasEnrollment() {
-    return ((bitField0_ & 0x00000004) != 0);
+    return ((bitField0_ & 0x00000008) != 0);
   }
   /**
    * <code>optional bool enrollment = 4 [json_name = "enrollment"];</code>
@@ -199,14 +207,14 @@ public  final class AuthProviderView extends
    * @param value The enrollment to set.
    */
   private void setEnrollment(boolean value) {
-    bitField0_ |= 0x00000004;
+    bitField0_ |= 0x00000008;
     enrollment_ = value;
   }
   /**
    * <code>optional bool enrollment = 4 [json_name = "enrollment"];</code>
    */
   private void clearEnrollment() {
-    bitField0_ = (bitField0_ & ~0x00000004);
+    bitField0_ = (bitField0_ & ~0x00000008);
     enrollment_ = false;
   }
 
@@ -365,7 +373,15 @@ public  final class AuthProviderView extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+     * @return Whether the method field is set.
+     */
+    @java.lang.Override
+    public boolean hasMethod() {
+      return instance.hasMethod();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
      * @return The enum numeric value on the wire for method.
      */
     @java.lang.Override
@@ -373,7 +389,7 @@ public  final class AuthProviderView extends
       return instance.getMethodValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
      * @param value The method to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -384,7 +400,7 @@ public  final class AuthProviderView extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
      * @return The method.
      */
     @java.lang.Override
@@ -392,7 +408,7 @@ public  final class AuthProviderView extends
       return instance.getMethod();
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
      * @param value The enum numeric value on the wire for method to set.
      * @return This builder for chaining.
      */
@@ -402,7 +418,7 @@ public  final class AuthProviderView extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
+     * <code>optional .arcforges.publicapi.v1.AuthMethod method = 2 [json_name = "method"];</code>
      * @return This builder for chaining.
      */
     public Builder clearMethod() {
@@ -528,7 +544,7 @@ public  final class AuthProviderView extends
           };
           java.lang.String info =
               "\u0000\u0004\u0000\u0001\u0001\u0004\u0004\u0000\u0000\u0000\u0001\u1208\u0000\u0002" +
-              "\f\u0003\u1208\u0001\u0004\u1007\u0002";
+              "\u100c\u0001\u0003\u1208\u0002\u0004\u1007\u0003";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

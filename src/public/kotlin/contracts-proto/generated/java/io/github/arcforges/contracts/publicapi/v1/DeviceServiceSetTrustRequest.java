@@ -118,7 +118,15 @@ public  final class DeviceServiceSetTrustRequest extends
   public static final int TRUST_FIELD_NUMBER = 11;
   private int trust_;
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * @return Whether the trust field is set.
+   */
+  @java.lang.Override
+  public boolean hasTrust() {
+    return ((bitField0_ & 0x00000004) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    * @return The enum numeric value on the wire for trust.
    */
   @java.lang.Override
@@ -126,7 +134,7 @@ public  final class DeviceServiceSetTrustRequest extends
     return trust_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    * @return The trust.
    */
   @java.lang.Override
@@ -135,26 +143,26 @@ public  final class DeviceServiceSetTrustRequest extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.TrustLevel.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    * @param value The enum numeric value on the wire for trust to set.
    */
   private void setTrustValue(int value) {
-      trust_ = value;
+    bitField0_ |= 0x00000004;  trust_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    * @param value The trust to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setTrust(io.github.arcforges.contracts.publicapi.v1.TrustLevel value) {
     trust_ = value.getNumber();
-
+    bitField0_ |= 0x00000004;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
    */
   private void clearTrust() {
-
+    bitField0_ = (bitField0_ & ~0x00000004);
     trust_ = 0;
   }
 
@@ -350,7 +358,15 @@ public  final class DeviceServiceSetTrustRequest extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+     * @return Whether the trust field is set.
+     */
+    @java.lang.Override
+    public boolean hasTrust() {
+      return instance.hasTrust();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
      * @return The enum numeric value on the wire for trust.
      */
     @java.lang.Override
@@ -358,7 +374,7 @@ public  final class DeviceServiceSetTrustRequest extends
       return instance.getTrustValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
      * @param value The trust to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -369,7 +385,7 @@ public  final class DeviceServiceSetTrustRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
      * @return The trust.
      */
     @java.lang.Override
@@ -377,7 +393,7 @@ public  final class DeviceServiceSetTrustRequest extends
       return instance.getTrust();
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
      * @param value The enum numeric value on the wire for trust to set.
      * @return This builder for chaining.
      */
@@ -387,7 +403,7 @@ public  final class DeviceServiceSetTrustRequest extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 11 [json_name = "trust"];</code>
      * @return This builder for chaining.
      */
     public Builder clearTrust() {
@@ -419,7 +435,7 @@ public  final class DeviceServiceSetTrustRequest extends
           };
           java.lang.String info =
               "\u0000\u0003\u0000\u0001\u0001\u000b\u0003\u0000\u0000\u0000\u0001\u1009\u0000\n" +
-              "\u1009\u0001\u000b\f";
+              "\u1009\u0001\u000b\u100c\u0002";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

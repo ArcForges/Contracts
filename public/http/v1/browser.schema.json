@@ -1288,7 +1288,7 @@
       "method": "GET",
       "path": "/session/v1/providers/{providerId}/callback",
       "credential": "flow-cookie",
-      "origin": "exact-configured",
+      "origin": "none",
       "csrf": "none",
       "setCookie": "none",
       "cache": "no-store",

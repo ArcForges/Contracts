@@ -175,7 +175,15 @@ public  final class WorkspaceView extends
   public static final int PROTECTION_FIELD_NUMBER = 4;
   private int protection_;
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * @return Whether the protection field is set.
+   */
+  @java.lang.Override
+  public boolean hasProtection() {
+    return ((bitField0_ & 0x00000008) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    * @return The enum numeric value on the wire for protection.
    */
   @java.lang.Override
@@ -183,7 +191,7 @@ public  final class WorkspaceView extends
     return protection_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    * @return The protection.
    */
   @java.lang.Override
@@ -192,26 +200,26 @@ public  final class WorkspaceView extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.ProtectionProfile.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    * @param value The enum numeric value on the wire for protection to set.
    */
   private void setProtectionValue(int value) {
-      protection_ = value;
+    bitField0_ |= 0x00000008;  protection_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    * @param value The protection to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setProtection(io.github.arcforges.contracts.publicapi.v1.ProtectionProfile value) {
     protection_ = value.getNumber();
-
+    bitField0_ |= 0x00000008;
   }
   /**
-   * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+   * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
    */
   private void clearProtection() {
-
+    bitField0_ = (bitField0_ & ~0x00000008);
     protection_ = 0;
   }
 
@@ -222,7 +230,7 @@ public  final class WorkspaceView extends
    */
   @java.lang.Override
   public boolean hasRevision() {
-    return ((bitField0_ & 0x00000008) != 0);
+    return ((bitField0_ & 0x00000010) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];</code>
@@ -238,7 +246,7 @@ public  final class WorkspaceView extends
   private void setRevision(io.github.arcforges.contracts.foundation.v1.Revision value) {
     value.getClass();  // minimal bytecode null check
     revision_ = value;
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
   }
   /**
    * <code>.arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];</code>
@@ -253,14 +261,14 @@ public  final class WorkspaceView extends
     } else {
       revision_ = value;
     }
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
   }
   /**
    * <code>.arcforges.foundation.v1.Revision revision = 5 [json_name = "revision"];</code>
    */
   private void clearRevision() {
     revision_ = null;
-    bitField0_ = (bitField0_ & ~0x00000008);
+    bitField0_ = (bitField0_ & ~0x00000010);
   }
 
   public static io.github.arcforges.contracts.publicapi.v1.WorkspaceView parseFrom(
@@ -512,7 +520,15 @@ public  final class WorkspaceView extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+     * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+     * @return Whether the protection field is set.
+     */
+    @java.lang.Override
+    public boolean hasProtection() {
+      return instance.hasProtection();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
      * @return The enum numeric value on the wire for protection.
      */
     @java.lang.Override
@@ -520,7 +536,7 @@ public  final class WorkspaceView extends
       return instance.getProtectionValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+     * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
      * @param value The protection to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -531,7 +547,7 @@ public  final class WorkspaceView extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+     * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
      * @return The protection.
      */
     @java.lang.Override
@@ -539,7 +555,7 @@ public  final class WorkspaceView extends
       return instance.getProtection();
     }
     /**
-     * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+     * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
      * @param value The enum numeric value on the wire for protection to set.
      * @return This builder for chaining.
      */
@@ -549,7 +565,7 @@ public  final class WorkspaceView extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
+     * <code>optional .arcforges.publicapi.v1.ProtectionProfile protection = 4 [json_name = "protection"];</code>
      * @return This builder for chaining.
      */
     public Builder clearProtection() {
@@ -630,7 +646,7 @@ public  final class WorkspaceView extends
           };
           java.lang.String info =
               "\u0000\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
-              "\u1009\u0001\u0003\u1208\u0002\u0004\f\u0005\u1009\u0003";
+              "\u1009\u0001\u0003\u1208\u0002\u0004\u100c\u0003\u0005\u1009\u0004";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {

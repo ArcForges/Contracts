@@ -33,7 +33,7 @@ public static class BrowserSessionRoutes
             "json", ["BrowserCompleteStepUpRequest"], "json", ["BrowserStepUpEvidence"]),
         new("browser.logout", "POST", "/session/v1/logout", "session-cookie", "exact-configured", "required", "clear", "no-store",
             "none", [], "json", ["BrowserReceipt"]),
-        new("browser.oidcCallback", "GET", "/session/v1/providers/{providerId}/callback", "flow-cookie", "exact-configured", "none", "none", "no-store",
+        new("browser.oidcCallback", "GET", "/session/v1/providers/{providerId}/callback", "flow-cookie", "none", "none", "none", "no-store",
             "form-urlencoded", ["BrowserOidcCallbackSuccess", "BrowserOidcCallbackFailure"], "none", []),
     ];
 }

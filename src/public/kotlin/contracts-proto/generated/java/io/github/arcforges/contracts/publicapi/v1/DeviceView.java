@@ -185,7 +185,15 @@ public  final class DeviceView extends
   public static final int TRUST_FIELD_NUMBER = 4;
   private int trust_;
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+   * @return Whether the trust field is set.
+   */
+  @java.lang.Override
+  public boolean hasTrust() {
+    return ((bitField0_ & 0x00000008) != 0);
+  }
+  /**
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
    * @return The enum numeric value on the wire for trust.
    */
   @java.lang.Override
@@ -193,7 +201,7 @@ public  final class DeviceView extends
     return trust_;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
    * @return The trust.
    */
   @java.lang.Override
@@ -202,26 +210,26 @@ public  final class DeviceView extends
     return result == null ? io.github.arcforges.contracts.publicapi.v1.TrustLevel.UNRECOGNIZED : result;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
    * @param value The enum numeric value on the wire for trust to set.
    */
   private void setTrustValue(int value) {
-      trust_ = value;
+    bitField0_ |= 0x00000008;  trust_ = value;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
    * @param value The trust to set.
    * @throws IllegalArgumentException if UNRECOGNIZED is provided.
    */
   private void setTrust(io.github.arcforges.contracts.publicapi.v1.TrustLevel value) {
     trust_ = value.getNumber();
-
+    bitField0_ |= 0x00000008;
   }
   /**
-   * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+   * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
    */
   private void clearTrust() {
-
+    bitField0_ = (bitField0_ & ~0x00000008);
     trust_ = 0;
   }
 
@@ -233,7 +241,7 @@ public  final class DeviceView extends
    */
   @java.lang.Override
   public boolean hasRemoteEnabled() {
-    return ((bitField0_ & 0x00000008) != 0);
+    return ((bitField0_ & 0x00000010) != 0);
   }
   /**
    * <code>optional bool remote_enabled = 5 [json_name = "remoteEnabled"];</code>
@@ -248,14 +256,14 @@ public  final class DeviceView extends
    * @param value The remoteEnabled to set.
    */
   private void setRemoteEnabled(boolean value) {
-    bitField0_ |= 0x00000008;
+    bitField0_ |= 0x00000010;
     remoteEnabled_ = value;
   }
   /**
    * <code>optional bool remote_enabled = 5 [json_name = "remoteEnabled"];</code>
    */
   private void clearRemoteEnabled() {
-    bitField0_ = (bitField0_ & ~0x00000008);
+    bitField0_ = (bitField0_ & ~0x00000010);
     remoteEnabled_ = false;
   }
 
@@ -266,7 +274,7 @@ public  final class DeviceView extends
    */
   @java.lang.Override
   public boolean hasRevokedAt() {
-    return ((bitField0_ & 0x00000010) != 0);
+    return ((bitField0_ & 0x00000020) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];</code>
@@ -282,7 +290,7 @@ public  final class DeviceView extends
   private void setRevokedAt(io.github.arcforges.contracts.foundation.v1.Instant value) {
     value.getClass();  // minimal bytecode null check
     revokedAt_ = value;
-    bitField0_ |= 0x00000010;
+    bitField0_ |= 0x00000020;
   }
   /**
    * <code>.arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];</code>
@@ -297,14 +305,14 @@ public  final class DeviceView extends
     } else {
       revokedAt_ = value;
     }
-    bitField0_ |= 0x00000010;
+    bitField0_ |= 0x00000020;
   }
   /**
    * <code>.arcforges.foundation.v1.Instant revoked_at = 6 [json_name = "revokedAt"];</code>
    */
   private void clearRevokedAt() {
     revokedAt_ = null;
-    bitField0_ = (bitField0_ & ~0x00000010);
+    bitField0_ = (bitField0_ & ~0x00000020);
   }
 
   public static final int REVISION_FIELD_NUMBER = 8;
@@ -314,7 +322,7 @@ public  final class DeviceView extends
    */
   @java.lang.Override
   public boolean hasRevision() {
-    return ((bitField0_ & 0x00000020) != 0);
+    return ((bitField0_ & 0x00000040) != 0);
   }
   /**
    * <code>.arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];</code>
@@ -330,7 +338,7 @@ public  final class DeviceView extends
   private void setRevision(io.github.arcforges.contracts.foundation.v1.Revision value) {
     value.getClass();  // minimal bytecode null check
     revision_ = value;
-    bitField0_ |= 0x00000020;
+    bitField0_ |= 0x00000040;
   }
   /**
    * <code>.arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];</code>
@@ -345,14 +353,14 @@ public  final class DeviceView extends
     } else {
       revision_ = value;
     }
-    bitField0_ |= 0x00000020;
+    bitField0_ |= 0x00000040;
   }
   /**
    * <code>.arcforges.foundation.v1.Revision revision = 8 [json_name = "revision"];</code>
    */
   private void clearRevision() {
     revision_ = null;
-    bitField0_ = (bitField0_ & ~0x00000020);
+    bitField0_ = (bitField0_ & ~0x00000040);
   }
 
   public static final int INSTALLED_FIELD_NUMBER = 10;
@@ -711,7 +719,15 @@ public  final class DeviceView extends
     }
 
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+     * @return Whether the trust field is set.
+     */
+    @java.lang.Override
+    public boolean hasTrust() {
+      return instance.hasTrust();
+    }
+    /**
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
      * @return The enum numeric value on the wire for trust.
      */
     @java.lang.Override
@@ -719,7 +735,7 @@ public  final class DeviceView extends
       return instance.getTrustValue();
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
      * @param value The trust to set.
      * @throws IllegalArgumentException if UNRECOGNIZED is provided.
      * @return This builder for chaining.
@@ -730,7 +746,7 @@ public  final class DeviceView extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
      * @return The trust.
      */
     @java.lang.Override
@@ -738,7 +754,7 @@ public  final class DeviceView extends
       return instance.getTrust();
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
      * @param value The enum numeric value on the wire for trust to set.
      * @return This builder for chaining.
      */
@@ -748,7 +764,7 @@ public  final class DeviceView extends
       return this;
     }
     /**
-     * <code>.arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
+     * <code>optional .arcforges.publicapi.v1.TrustLevel trust = 4 [json_name = "trust"];</code>
      * @return This builder for chaining.
      */
     public Builder clearTrust() {
@@ -1018,8 +1034,8 @@ public  final class DeviceView extends
           };
           java.lang.String info =
               "\u0000\b\u0000\u0001\u0001\n\b\u0000\u0001\u0000\u0001\u1009\u0000\u0002\u1208\u0001" +
-              "\u0003\u1208\u0002\u0004\f\u0005\u1007\u0003\u0006\u1009\u0004\b\u1009\u0005\n\u001b" +
-              "";
+              "\u0003\u1208\u0002\u0004\u100c\u0003\u0005\u1007\u0004\u0006\u1009\u0005\b\u1009" +
+              "\u0006\n\u001b";
           return newMessageInfo(DEFAULT_INSTANCE, info, objects);
       }
       case GET_DEFAULT_INSTANCE: {
