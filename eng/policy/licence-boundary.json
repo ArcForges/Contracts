@@ -101,6 +101,10 @@
       "kind": "npm"
     },
     {
+      "path": "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj",
+      "kind": "msbuild"
+    },
+    {
       "path": "tests/StructureTests/PreviousClient/PreviousClient.csproj",
       "kind": "msbuild"
     },
