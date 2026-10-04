@@ -126,6 +126,13 @@ class PublicationCompletion(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "more than once"):
             pin_candidate(path, "1.0.0-ci.311.1")
 
+    def test_kotlin_consumer_receives_the_repository_root_it_cannot_walk_to(self):
+        root = Path(__file__).resolve().parents[2]
+        tool = (root / "eng/consumer_tools.py").read_text(encoding="utf-8")
+        kotlin = (root / "tests/public/KotlinConnectClient/src/main/kotlin/io/github/arcforges/tests/Con11ApplicationStreamsCases.kt").read_text(encoding="utf-8")
+        self.assertRegex(tool, r"run\(connect_client, web_port, grpc_port, cwd=consumer, env=dict\(connect_env, ARCFORGES_REPOSITORY_ROOT=str\(ROOT\)\)\)")
+        self.assertIn('System.getenv("ARCFORGES_REPOSITORY_ROOT")', kotlin)
+
     def test_publication_handoff_checks_bytes_without_rescanning_archives(self):
         entries = []
         from package_catalog import packages

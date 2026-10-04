@@ -107,7 +107,7 @@ object Con11ApplicationStreamsCases {
     }
 
     private fun repositoryRoot(): Path {
-        var candidate = Path.of("").toAbsolutePath().normalize()
+        var candidate = (System.getenv("ARCFORGES_REPOSITORY_ROOT")?.let { Path.of(it) } ?: Path.of("")).toAbsolutePath().normalize()
         while (true) {
             if (Files.isRegularFile(candidate.resolve("eng/operations/con-11.json"))) return candidate
             candidate = candidate.parent ?: break
@@ -405,7 +405,7 @@ object Con11ApplicationStreamsCases {
     private fun verifyUnaryOutcomeAlternatives(fixture: JsonObject) {
         val profile = fixture.getAsJsonObject("unaryOutcomeProfile")
         val base = fieldPairs(profile.getAsJsonArray("fields"))
-        val encoded = fieldPairs(profile.getAsJsonArray("encodedBodyAlternative"))
+        val encoded = profile.getAsJsonArray("encodedBodyAlternative").let { listOf(it[0].asString to it[1].asInt) }
         val readIds = profile.getAsJsonArray("readProjectionOperationIds").map { it.asString }.toSet()
         for (entry in fixture.getAsJsonArray("rpcVectors")) {
             val vector = entry.asJsonObject
@@ -668,9 +668,14 @@ object Con11ApplicationStreamsCases {
 
     private fun snake(value: String): String = value.replace(Regex("([a-z0-9])([A-Z])"), "$1_$2")
 
-    private fun camel(value: String): String = value.lowercase(Locale.ROOT).split('_')
-        .mapIndexed { index, part -> if (index == 0) part else part.replaceFirstChar { it.uppercase(Locale.ROOT) } }
-        .joinToString("")
+    // SNAKE_CASE / UPPER names (generated constants, enum cases) are lower-cased and joined; camelCase fixture
+    // names (productId) already carry their capitals and must keep them.
+    private fun camel(value: String): String {
+        val source = if (value.contains('_') || value == value.uppercase(Locale.ROOT)) value.lowercase(Locale.ROOT) else value
+        return source.split('_')
+            .mapIndexed { index, part -> if (index == 0) part else part.replaceFirstChar { it.uppercase(Locale.ROOT) } }
+            .joinToString("")
+    }
 
     private fun pascal(value: String): String = camel(value).replaceFirstChar { it.uppercase(Locale.ROOT) }
 
