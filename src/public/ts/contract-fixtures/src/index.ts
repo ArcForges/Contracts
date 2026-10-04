@@ -109836,6 +109836,7 @@ export const publicFixtures = {
           "arcforges.publicapi.v1.ExportService",
           "arcforges.simulation.v1.SimulationService",
           "arcforges.publicapi.v1.ScopeService",
+          "arcforges.publicapi.v1.ConnectorService",
           "arcforges.publicapi.v1.ApplicationService",
           "arcforges.publicapi.v1.HistoryService",
           "arcforges.publicapi.v1.IdentityService",
@@ -110055,6 +110056,14 @@ export const publicFixtures = {
           "/arcforges.publicapi.v1.ScopeService/ListProjects",
           "/arcforges.publicapi.v1.ScopeService/ListSessions",
           "/arcforges.publicapi.v1.ScopeService/GetSession"
+        ],
+        "arcforges.publicapi.v1.ConnectorService": [
+          "/arcforges.publicapi.v1.ConnectorService/ListDefinitions",
+          "/arcforges.publicapi.v1.ConnectorService/ListConnections",
+          "/arcforges.publicapi.v1.ConnectorService/BeginConnection",
+          "/arcforges.publicapi.v1.ConnectorService/CompleteConnection",
+          "/arcforges.publicapi.v1.ConnectorService/GetConnection",
+          "/arcforges.publicapi.v1.ConnectorService/RevokeConnection"
         ],
         "arcforges.publicapi.v1.ApplicationService": [
           "/arcforges.publicapi.v1.ApplicationService/List",
