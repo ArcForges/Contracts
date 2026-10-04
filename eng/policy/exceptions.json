@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "rule": "RP-03",
+    "path": "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj",
+    "owner": "Contracts",
+    "reason": "The Apache-boundary ArchitectureTests host is the one project that references the AGPL-3.0-only ArcForges.Build.Policy package, admitted by the GOV.05 dependency review for build and test use only: direct reference from this project alone, PrivateAssets=all, IsPackable=false, never in a product, runtime or public package closure. The gate asserts the host's AGPL closure is exactly that package.",
+    "expires": "2027-04-04"
+  }
+]

@@ -18,7 +18,7 @@ POLICY = 'eng/policy/licence-boundary.json'
 PROJECT_SUFFIXES = {'.csproj', '.fsproj', '.vbproj', '.vcxproj', '.esproj'}
 ARCHITECTURE_TEST_PROJECT = 'tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj'
 ARCHITECTURE_POLICY_PACKAGE = 'ArcForges.Build.Policy'
-ARCHITECTURE_POLICY_VERSION = '1.0.0-ci.31.1'
+ARCHITECTURE_POLICY_VERSION = '1.0.0-ci.94.1'
 
 
 def require(condition, message):
