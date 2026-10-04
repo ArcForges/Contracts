@@ -194,7 +194,7 @@ console.log("TypeScript archive consumer: real gRPC-Web success/error checks pas
                 run("dotnet", consumer / "HelloClient/bin/Release/net10.0/HelloClient.dll",
                     f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)
                 run("node", ts / "run.mjs", f"http://127.0.0.1:{web_port}", cwd=ts, env=env)
-                run(connect_client, web_port, grpc_port, cwd=consumer, env=connect_env)
+                run(connect_client, web_port, grpc_port, cwd=consumer, env=dict(connect_env, ARCFORGES_REPOSITORY_ROOT=str(ROOT)))
                 if aot:
                     run(native / ("HelloClient.exe" if os.name == "nt" else "HelloClient"),
                         f"http://127.0.0.1:{grpc_port}", consumer / "hello.json", cwd=consumer, env=env)

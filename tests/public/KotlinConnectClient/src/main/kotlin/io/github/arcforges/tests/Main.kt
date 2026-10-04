@@ -29,7 +29,15 @@ fun main(args: Array<String>) = runBlocking {
         val resource = checkNotNull(ContractFixtures::class.java.classLoader.getResourceAsStream("META-INF/arcforges/$module/build-identity.json"))
         val identity = resource.bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }
         check(identity["build"] == expectedIdentity) { "Published JVM build identity mismatch: $module" }
-        check(identity.getAsJsonObject("axes").getAsJsonObject("ContractSet").getAsJsonArray("values")[0].asJsonObject["version"].asString == "1")
+        val contractSet = identity.getAsJsonObject("axes").getAsJsonObject("ContractSet")
+        if (module == "contract-fixtures") {
+            check(contractSet["status"].asString == "not-applicable" && contractSet["reason"].asString.isNotEmpty() && !contractSet.has("values")) {
+                "contract-fixtures ContractSet must be not-applicable with a reason and no values"
+            }
+        } else {
+            check(contractSet["status"].asString == "present")
+            check(contractSet.getAsJsonArray("values")[0].asJsonObject["version"].asString == "1")
+        }
     }
     println("Published JVM module build identities verified.")
     Con11ApplicationStreamsCases.run()
