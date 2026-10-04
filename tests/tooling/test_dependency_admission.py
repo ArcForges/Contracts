@@ -75,6 +75,13 @@ def frozen_git_blob(commit, path):
     return data
 
 
+def committed_with(receipt_path, key):
+    """Bytes of an input as committed with an immutable receipt: the access digest moves with later central pins."""
+    scan_head = subprocess.check_output(['git', 'log', '--diff-filter=A', '--format=%H', '--', receipt_path],
+                                        cwd=ROOT, text=True).split()[-1]
+    return subprocess.check_output(['git', 'show', f'{scan_head}:{key}'], cwd=ROOT)
+
+
 class DependencyAdmission(unittest.TestCase):
     def architecture_boundary_fixture(self):
         temporary = tempfile.TemporaryDirectory(prefix='contracts-policy-admission-')
@@ -759,7 +766,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_secret_scan_exceptions_are_exact_public_source_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         self.assertEqual(config['extend'], {'useDefault': True})
-        self.assertEqual(len(config['allowlists']), 78)
+        self.assertEqual(len(config['allowlists']), 80)
         allow = config['allowlists'][0]
         self.assertEqual(allow['targetRules'], ['generic-api-key'])
         self.assertEqual(allow['condition'], 'AND')
@@ -775,6 +782,58 @@ class DependencyAdmission(unittest.TestCase):
             digest = receipt['review']['inputHashes'][source]
             self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
             self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
+
+
+        gov05_allowlists = [row for row in config['allowlists']
+                            if row.get('description') == 'GOV.05 exact dependency receipt source digests']
+        self.assertEqual(len(gov05_allowlists), 1)
+        gov05_allow = gov05_allowlists[0]
+        self.assertEqual(gov05_allow['targetRules'], ['generic-api-key'])
+        self.assertEqual(gov05_allow['condition'], 'AND')
+        self.assertEqual(gov05_allow['regexTarget'], 'line')
+        self.assertEqual(gov05_allow['paths'], [r'^eng/policy/dependency-reviews/gov-05-r1\.json$'])
+        self.assertEqual(len(gov05_allow['regexes']), 4)
+        self.assertIsNone(re.fullmatch(gov05_allow['paths'][0], 'eng/policy/dependency-reviews/con-06-r1.json'))
+        gov05_receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/gov-05-r1.json').read_text(encoding='utf-8'))
+        gov05_sources = ['eng/policy/contract-access.json',
+                         'eng/provenance/records/dokka-combokeys-licence-r1.json',
+                         'eng/provenance/records/dokka-object-keys-licence-r1.json',
+                         'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj']
+        for source, pattern in zip(gov05_sources, gov05_allow['regexes']):
+            digest = gov05_receipt['review']['inputHashes'][source]
+            self.assertIsNotNone(re.fullmatch(pattern, f'  "{source}": "{digest}",'))
+            self.assertIsNone(re.fullmatch(pattern, f'  "{source}": "' + '0' * 64 + '",'))
+
+        gov05_policy_allowlists = [row for row in config['allowlists']
+                                   if row.get('description') == 'GOV.05 exact dependency-policy contract-access input digest']
+        self.assertEqual(len(gov05_policy_allowlists), 1)
+        gov05_policy_allow = gov05_policy_allowlists[0]
+        self.assertEqual(gov05_policy_allow['targetRules'], ['generic-api-key'])
+        self.assertEqual(gov05_policy_allow['condition'], 'AND')
+        self.assertEqual(gov05_policy_allow['regexTarget'], 'line')
+        self.assertEqual(gov05_policy_allow['paths'], [r'^eng/policy/dependency\-policy\.json$'])
+        self.assertEqual(len(gov05_policy_allow['regexes']), 1)
+        expected_contract_access_digest = (
+            '75cd9803c8c2b3a6d88dee89f11641b1'
+            '838fa954adeddc8ccc31b9f39ec05621'
+        )
+        previous_contract_access_digest = (
+            '99e2e46d33a86a1486ecdc71d314f553'
+            'a224433259cbf9c93e93417d635a9188'
+        )
+        self.assertEqual(self.policy['inputHashes']['eng/policy/contract-access.json'],
+                         expected_contract_access_digest)
+        self.assertEqual(self.policy['review']['inputHashes']['eng/policy/contract-access.json'],
+                         expected_contract_access_digest)
+        self.assertIsNotNone(re.fullmatch(
+            gov05_policy_allow['regexes'][0],
+            f'  "eng/policy/contract-access.json": "{expected_contract_access_digest}",'))
+        self.assertIsNone(re.fullmatch(
+            gov05_policy_allow['regexes'][0],
+            f'  "eng/policy/contract-access.json": "{previous_contract_access_digest}",'))
+        self.assertIsNone(re.fullmatch(
+            gov05_policy_allow['regexes'][0],
+            f'  "eng/policy/other.json": "{expected_contract_access_digest}",'))
 
 
         receipt = json.loads((ROOT / 'eng/policy/dependency-reviews/wp03-00-r1.json').read_text())
@@ -909,7 +968,7 @@ class DependencyAdmission(unittest.TestCase):
         self.assertIsNone(re.fullmatch(config['allowlists'][12]['paths'][0], 'eng/provenance/artifact-profiles/dokka-2-2-0-r8.json'))
         for source in sources:
             self.assertEqual(hashlib.sha256((ROOT / source).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), self.policy['inputHashes'][source])
-        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360, 1, 4, 1, 4, 1, 4, 776, 4])
+        self.assertEqual([len(item['regexes']) for item in config['allowlists']], [4, 2, 15, 4, 15, 45, 60, 4, 4, 4, 4, 4, 60, 2, 4, 15, 4, 3, 2, 1, 4, 1, 4, 1, 4, 3, 7, 164, 4, 7, 164, 2, 6, 4, 8, 6, 10, 1, 4, 164, 1, 4, 164, 2, 5, 197, 1, 4, 208, 5, 1, 1, 273, 4, 1, 4, 1, 4, 2, 5, 315, 2, 5, 315, 1, 4, 315, 1, 4, 360, 1, 4, 1, 4, 1, 4, 776, 4, 1, 4])
 
         ext02_groups = [row for row in config['allowlists']
                         if row['description'] == 'Reviewed EXT.02 exact public dependency-input hashes']
@@ -2303,7 +2362,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con11_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 78)
+        self.assertEqual(len(config['allowlists']), 80)
         groups = config['allowlists'][67:70]
         expected_descriptions = {
             'CON.11 reviewed dependency policy public input digest',
@@ -2536,7 +2595,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con15_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 78)
+        self.assertEqual(len(config['allowlists']), 80)
         groups = config['allowlists'][70:72]
         self.assertEqual([row['description'] for row in groups], [
             'CON.15 reviewed dependency policy public input digest',
@@ -2603,7 +2662,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con07_secret_scan_allowlists_bind_only_exact_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 78)
+        self.assertEqual(len(config['allowlists']), 80)
         groups = config['allowlists'][74:77]
         self.assertEqual([row['description'] for row in groups], [
             'CON.07 reviewed dependency policy public input digest',
@@ -2635,7 +2694,8 @@ class DependencyAdmission(unittest.TestCase):
             'src/public/dotnet/ArcForges.Contracts.PublicApi/ArcForges.Contracts.PublicApi.csproj',
         ]
         for key in receipt_keys:
-            self.assertEqual(hashlib.sha256((ROOT / key).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), hashes[key])
+            actual_bytes = (ROOT / key).read_bytes() if key != access_key else committed_with(receipt_path, key)
+            self.assertEqual(hashlib.sha256(actual_bytes.replace(b'\r\n', b'\n')).hexdigest(), hashes[key])
         profile_rows = set(profile['inputs'].items())
         for module in profile['modules'].values():
             profile_rows.update(module['pages'].items())
@@ -2685,8 +2745,11 @@ class DependencyAdmission(unittest.TestCase):
                 if found and (found.group(1), found.group(2)) in compiled:
                     self.assertIsNotNone(compiled[(found.group(1), found.group(2))].fullmatch(line))
                     actual_lines.append(line)
-            # The policy carries the access digest in inputHashes and in review.inputHashes.
-            self.assertEqual(len(actual_lines), line_count)
+            # The policy carries the access digest in inputHashes and in review.inputHashes only while this task's
+            # digest is the active one; a later task moves the policy on and its own exact rows take over.
+            current_access = json.loads((ROOT / policy_path).read_text(encoding='utf-8'))['inputHashes'][access_key]
+            superseded = path == policy_path and current_access != hashes[access_key]
+            self.assertEqual(len(actual_lines), 0 if superseded else line_count)
         # The immutable predecessor rows remain exactly the earlier CON.15 allowance, never rebound to this digest.
         self.assertNotEqual(hashes[access_key], 'a3487a2842c117ef2be76807dce4550cc10927d099fadcce201cae76b08cc69e')
 
@@ -2694,7 +2757,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con17_later_service_receipt_chain_and_secret_scan_allowlist(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 78)
+        self.assertEqual(len(config['allowlists']), 80)
         group = config['allowlists'][77]
         self.assertEqual(group['description'], 'CON.17 reviewed immutable dependency receipt public input digests')
         policy_path = 'eng/policy/dependency-policy.json'
@@ -2705,7 +2768,8 @@ class DependencyAdmission(unittest.TestCase):
         receipt = json.loads((ROOT / receipt_path).read_text(encoding='utf-8'))
         # This receipt is the active one only until a later task supersedes it; its content stays bound either way.
         self.assertEqual(receipt['review']['previousReceipt'], 'eng/policy/dependency-reviews/con-07-r1.json')
-        self.assertEqual(receipt['closure'], policy['closure'])
+        if policy['reviewReceipt'] == receipt_path:
+            self.assertEqual(receipt['closure'], policy['closure'])
         previous = json.loads((ROOT / receipt['review']['previousReceipt']).read_text(encoding='utf-8'))
         self.assertEqual(receipt['closure'], previous['closure'])
         self.assertEqual(receipt['review']['frameworkVersions'], previous['review']['frameworkVersions'])
@@ -2732,7 +2796,8 @@ class DependencyAdmission(unittest.TestCase):
         self.assertEqual(len(group['regexes']), len(keys))
         for key, pattern in zip(keys, group['regexes'], strict=True):
             digest = hashes[key]
-            self.assertEqual(hashlib.sha256((ROOT / key).read_bytes().replace(b'\r\n', b'\n')).hexdigest(), digest)
+            actual_bytes = (ROOT / key).read_bytes() if key != access_key else committed_with(receipt_path, key)
+            self.assertEqual(hashlib.sha256(actual_bytes.replace(b'\r\n', b'\n')).hexdigest(), digest)
             self.assertEqual(pattern, rf'(?s)^\s*"{re.escape(key)}":\s*"{digest}",?\s*$')
             self.assertIsNotNone(re.fullmatch(pattern, f'  "{key}": "{digest}",'))
             self.assertIsNone(re.fullmatch(pattern, f'  "{key}": "' + '0' * 64 + '",'))
@@ -2762,7 +2827,7 @@ class DependencyAdmission(unittest.TestCase):
 
     def test_con14_secret_scan_allowlists_bind_only_observed_public_digest_tuples(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text(encoding='utf-8'))
-        self.assertEqual(len(config['allowlists']), 78)
+        self.assertEqual(len(config['allowlists']), 80)
         groups = config['allowlists'][72:74]
         by_description = {row['description']: row for row in groups}
         self.assertEqual(len(groups), 2)
