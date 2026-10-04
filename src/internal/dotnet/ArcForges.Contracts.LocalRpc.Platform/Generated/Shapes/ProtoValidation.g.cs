@@ -2480,6 +2480,42 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.local.platform.v1.LocalCallContext.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalCallContext? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalCallContext? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Actor is not null)
+        {
+            if (!Check(value.Actor, context)) return false;
+        }
+        if (value.Scope.Count > 32) return false;
+        foreach (var item in value.Scope)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.InvocationId is not null)
+        {
+            if (!Check(value.InvocationId, context)) return false;
+        }
+        if (value.ApprovalId is not null)
+        {
+            if (!Check(value.ApprovalId, context)) return false;
+        }
+        if (value.LeaseId is not null)
+        {
+            if (!Check(value.LeaseId, context)) return false;
+        }
+        if (value.ExecutionOwner is not null)
+        {
+            if (!Check(value.ExecutionOwner, context)) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.local.platform.v1.LocalChunk.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.LocalRpc.Platform.V1.LocalChunk? value, ValidationContext context)
@@ -3513,6 +3549,26 @@ public static class ContractShapeValidation
         if (!Check(value.SelectionId, context)) return false;
         if (value.ExpiresAt is null) return false;
         if (!Check(value.ExpiresAt, context)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.publicapi.v1.ExecutionOwner.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ExecutionOwner? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.PublicApi.V1.ExecutionOwner? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.OwnerCase == 1)
+        {
+            if (!Check(value.TaskId, context)) return false;
+        }
+        if ((int)value.OwnerCase == 2)
+        {
+            if (!Check(value.TurnId, context)) return false;
+        }
+        if ((int)value.OwnerCase == 0) return false;
         return true;
         }
         finally { context.Exit(value); }

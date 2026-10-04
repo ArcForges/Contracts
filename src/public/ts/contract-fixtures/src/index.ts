@@ -98417,6 +98417,3314 @@ export const publicFixtures = {
       }
     ]
   },
+  "con-25-af-segment.json": {
+    "schemaVersion": "con-25-af-segment.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline-contract-only-no-simulator-or-native-reader",
+    "profile": {
+      "id": "af-segment.v1",
+      "executionProfile": "af-sim.v1",
+      "source": "docs/architecture/contracts/04-protobuf-wire-registry.md#10-owner-bodies-mutation-admission-and-schema-composition",
+      "bodyNote": "The segment body is canonical UTF-8 JSON of SimulationDataSegment, never protobuf encoder output. Segment length and SHA-256 cover exactly these bytes.",
+      "rules": [
+        "UTF-8 without a byte order mark and without insignificant whitespace",
+        "member names are the proto json_name values (ASCII), sorted ordinal (byte order) within every object; a duplicate member is refused",
+        "Id is the lower-case hyphenated UUID of the 16 canonical bytes",
+        "uint64, sint64 and uint32 are exact base10 strings (no plus sign, no leading zero except 0, no negative zero, range-checked); never JSON numbers",
+        "double is the 16 lower-case hexadecimal digits of the IEEE 754 binary64 bit word in big-endian order, preserving signed zero; a nonfinite value is refused",
+        "bool is the literal true or false; an explicit false digital value is present",
+        "string uses JSON escapes only for quotation mark, reverse solidus, backspace, tab, line feed, form feed, carriage return and other U+0000..U+001F as lower-case six-character u escapes; every other scalar (including DEL and non-ASCII) is literal UTF-8; an unpaired surrogate is refused",
+        "a oneof emits exactly the one selected arm member and no sibling; none or two arms is refused",
+        "an absent optional singular member is omitted; null is never emitted",
+        "every repeated member is present even when empty and keeps its order",
+        "records are ordered by strictly ascending deliveredOrdinal",
+        "event metadata scalars are limited to the text, boolean, integer, number, decimal and instant arms; the resource arm is not representable in af-segment.v1",
+        "any other member, a wrong encodingProfile or executionProfile, or any deviation from the byte form above is refused"
+      ]
+    },
+    "vectors": [
+      {
+        "id": "empty-segment-keeps-every-ordered-repeated-field",
+        "description": "A segment with no records, events or gaps still carries three empty arrays.",
+        "covers": [
+          "empty-repeated"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "0",
+          "tickCount": "0",
+          "records": [],
+          "events": [],
+          "gaps": []
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"0\",\"tickCount\":\"0\"}",
+        "utf8Bytes": 133,
+        "sha256": "d586b187a64832e2ffc057990386d9c160468240bc7468cb28efe22836f27fd2"
+      },
+      {
+        "id": "numeric-digital-and-event-samples-in-delivered-order",
+        "description": "One numeric, one digital and one event-reference sample in delivered order, with an event carrying every metadata scalar arm the profile admits.",
+        "covers": [
+          "oneof-numeric",
+          "oneof-digital",
+          "oneof-eventId",
+          "optional-duration-present",
+          "optional-duration-absent",
+          "optional-faultId-absent",
+          "metadata-scalar-arms"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "100",
+          "tickCount": "3",
+          "records": [
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "100",
+              "deliveredOrdinal": "0",
+              "time": {
+                "ticks": "100",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "1.5"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "11112222-3333-4444-5555-666677778888",
+              "tick": "101",
+              "deliveredOrdinal": "1",
+              "time": {
+                "ticks": "101",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "digital": true
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5",
+              "tick": "102",
+              "deliveredOrdinal": "2",
+              "time": {
+                "ticks": "102",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "eventId": "0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f"
+              },
+              "faultIds": []
+            }
+          ],
+          "events": [
+            {
+              "eventId": "0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f",
+              "channelId": "a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5",
+              "kind": "pulse",
+              "start": {
+                "ticks": "102",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "duration": {
+                "ticks": "5",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "fields": [
+                {
+                  "name": "label",
+                  "value": {
+                    "text": "edge"
+                  }
+                },
+                {
+                  "name": "armed",
+                  "value": {
+                    "boolean": true
+                  }
+                },
+                {
+                  "name": "count",
+                  "value": {
+                    "integer": "-7"
+                  }
+                },
+                {
+                  "name": "level",
+                  "value": {
+                    "number": "0.25"
+                  }
+                },
+                {
+                  "name": "price",
+                  "value": {
+                    "decimal": "12.500000001"
+                  }
+                },
+                {
+                  "name": "at",
+                  "value": {
+                    "instant": {
+                      "unixSeconds": "1790593200",
+                      "nanos": "120000000"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "eventId": "5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5",
+              "channelId": "a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5",
+              "kind": "edge",
+              "start": {
+                "ticks": "103",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "fields": []
+            }
+          ],
+          "gaps": []
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"duration\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"5\"},\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"fields\":[{\"name\":\"label\",\"value\":{\"text\":\"edge\"}},{\"name\":\"armed\",\"value\":{\"boolean\":true}},{\"name\":\"count\",\"value\":{\"integer\":\"-7\"}},{\"name\":\"level\",\"value\":{\"number\":\"3fd0000000000000\"}},{\"name\":\"price\",\"value\":{\"decimal\":{\"value\":\"12.500000001\"}}},{\"name\":\"at\",\"value\":{\"instant\":{\"nanos\":\"120000000\",\"unixSeconds\":\"1790593200\"}}}],\"kind\":\"pulse\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[],\"kind\":\"edge\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"103\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"0\",\"faultIds\":[],\"numeric\":\"3ff8000000000000\",\"tick\":\"100\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"100\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"101\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"101\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"deliveredOrdinal\":\"2\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultIds\":[],\"tick\":\"102\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}}],\"startTick\":\"100\",\"tickCount\":\"3\"}",
+        "utf8Bytes": 1534,
+        "sha256": "35b9d06f29eed2d2d15ca466891ec9502b301871497ae9247c5ff7ab0d82814c"
+      },
+      {
+        "id": "duplicate-delivery-differs-only-by-ordinal-and-fault-marker",
+        "description": "Two deliveries of the same channel, tick and value; the duplicate has a later ordinal and a fault marker.",
+        "covers": [
+          "duplicate-delivery",
+          "faultIds"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "10",
+          "tickCount": "1",
+          "records": [
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "10",
+              "deliveredOrdinal": "10",
+              "time": {
+                "ticks": "10",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "3.25"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "10",
+              "deliveredOrdinal": "11",
+              "time": {
+                "ticks": "10",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "3.25"
+              },
+              "faultIds": [
+                "f0000000-0000-4000-8000-000000000001"
+              ]
+            }
+          ],
+          "events": [],
+          "gaps": []
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}",
+        "utf8Bytes": 571,
+        "sha256": "4be75f0da203598dd8af22d7bf77ed6321e9d01535e031b38fe8804522c236be"
+      },
+      {
+        "id": "gap-and-fault-markers-with-and-without-channel",
+        "description": "Drop, disconnect and malformed gaps, one without a channel, plus samples and an event with fault provenance.",
+        "covers": [
+          "gap-with-channel",
+          "gap-without-channel",
+          "gap-kinds",
+          "fault-marker",
+          "explicit-digital-false"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "200",
+          "tickCount": "10",
+          "records": [
+            {
+              "channelId": "11112222-3333-4444-5555-666677778888",
+              "tick": "200",
+              "deliveredOrdinal": "0",
+              "time": {
+                "ticks": "200",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "digital": false
+              },
+              "faultIds": [
+                "f0000000-0000-4000-8000-000000000001",
+                "f0000000-0000-4000-8000-000000000002"
+              ]
+            },
+            {
+              "channelId": "11112222-3333-4444-5555-666677778888",
+              "tick": "203",
+              "deliveredOrdinal": "1",
+              "time": {
+                "ticks": "203",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "digital": true
+              },
+              "faultIds": []
+            }
+          ],
+          "events": [
+            {
+              "eventId": "0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f",
+              "channelId": "11112222-3333-4444-5555-666677778888",
+              "kind": "fault",
+              "start": {
+                "ticks": "201",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "fields": [],
+              "faultId": "f0000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "gaps": [
+            {
+              "channelId": "11112222-3333-4444-5555-666677778888",
+              "startTick": "201",
+              "tickCount": "2",
+              "faultId": "f0000000-0000-4000-8000-000000000001",
+              "kind": "drop"
+            },
+            {
+              "startTick": "205",
+              "tickCount": "1",
+              "faultId": "f0000000-0000-4000-8000-000000000002",
+              "kind": "disconnect"
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "startTick": "207",
+              "tickCount": "3",
+              "faultId": "f0000000-0000-4000-8000-000000000003",
+              "kind": "malformed"
+            }
+          ]
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"fields\":[],\"kind\":\"fault\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"201\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"faultId\":\"f0000000-0000-4000-8000-000000000001\",\"kind\":\"drop\",\"startTick\":\"201\",\"tickCount\":\"2\"},{\"faultId\":\"f0000000-0000-4000-8000-000000000002\",\"kind\":\"disconnect\",\"startTick\":\"205\",\"tickCount\":\"1\"},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"kind\":\"malformed\",\"startTick\":\"207\",\"tickCount\":\"3\"}],\"records\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"0\",\"digital\":false,\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\",\"f0000000-0000-4000-8000-000000000002\"],\"tick\":\"200\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"200\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"203\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"203\"}}],\"startTick\":\"200\",\"tickCount\":\"10\"}",
+        "utf8Bytes": 1243,
+        "sha256": "8d8e25f0ec41cbca73fabe01ec529ccae22f11047761263921aa06f756f8cbce"
+      },
+      {
+        "id": "binary64-bit-words-preserve-sign-and-extremes",
+        "description": "Signed zero, zero, the smallest subnormal, the largest finite value, 0.1 and a negative value.",
+        "covers": [
+          "binary64",
+          "signed-zero",
+          "explicit-zero-numeric"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "0",
+          "tickCount": "6",
+          "records": [
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "0",
+              "deliveredOrdinal": "0",
+              "time": {
+                "ticks": "0",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "-0"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "1",
+              "deliveredOrdinal": "1",
+              "time": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "0"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "2",
+              "deliveredOrdinal": "2",
+              "time": {
+                "ticks": "2",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "5e-324"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "3",
+              "deliveredOrdinal": "3",
+              "time": {
+                "ticks": "3",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "1.7976931348623157e308"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "4",
+              "deliveredOrdinal": "4",
+              "time": {
+                "ticks": "4",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "0.1"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "5",
+              "deliveredOrdinal": "5",
+              "time": {
+                "ticks": "5",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "-1.5"
+              },
+              "faultIds": []
+            }
+          ],
+          "events": [],
+          "gaps": []
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"0\",\"faultIds\":[],\"numeric\":\"8000000000000000\",\"tick\":\"0\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"0\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"1\",\"faultIds\":[],\"numeric\":\"0000000000000000\",\"tick\":\"1\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"2\",\"faultIds\":[],\"numeric\":\"0000000000000001\",\"tick\":\"2\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"2\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"3\",\"faultIds\":[],\"numeric\":\"7fefffffffffffff\",\"tick\":\"3\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"3\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"4\",\"faultIds\":[],\"numeric\":\"3fb999999999999a\",\"tick\":\"4\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"4\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"5\",\"faultIds\":[],\"numeric\":\"bff8000000000000\",\"tick\":\"5\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"5\"}}],\"startTick\":\"0\",\"tickCount\":\"6\"}",
+        "utf8Bytes": 1314,
+        "sha256": "112f5fb9867c843f3ea721263aab2ce45c47e2bb2a8674c706a4ddf406008a18"
+      },
+      {
+        "id": "integral-extremes-use-exact-strings",
+        "description": "uint64 maximum ticks and ordinals, and the sint64 extremes in ScopeTime.",
+        "covers": [
+          "uint64-max",
+          "sint64-extremes"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "18446744073709551614",
+          "tickCount": "2",
+          "records": [
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "18446744073709551614",
+              "deliveredOrdinal": "18446744073709551614",
+              "time": {
+                "ticks": "-9223372036854775808",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "2"
+              },
+              "faultIds": []
+            },
+            {
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "tick": "18446744073709551615",
+              "deliveredOrdinal": "18446744073709551615",
+              "time": {
+                "ticks": "9223372036854775807",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "value": {
+                "numeric": "3"
+              },
+              "faultIds": []
+            }
+          ],
+          "events": [],
+          "gaps": []
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"18446744073709551614\",\"faultIds\":[],\"numeric\":\"4000000000000000\",\"tick\":\"18446744073709551614\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"-9223372036854775808\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"18446744073709551615\",\"faultIds\":[],\"numeric\":\"4008000000000000\",\"tick\":\"18446744073709551615\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"9223372036854775807\"}}],\"startTick\":\"18446744073709551614\",\"tickCount\":\"2\"}",
+        "utf8Bytes": 658,
+        "sha256": "646303db2669ca160e266f4ebecbcf23b9201182d3593d0470aa5e8782bc1303"
+      },
+      {
+        "id": "text-metadata-escapes-and-unicode",
+        "description": "Metadata text with a quotation mark, backslash, control characters, DEL and BMP and supplementary scalars.",
+        "covers": [
+          "string-escaping",
+          "utf8-nonascii"
+        ],
+        "segment": {
+          "encodingProfile": "af-segment.v1",
+          "executionProfile": "af-sim.v1",
+          "startTick": "1",
+          "tickCount": "1",
+          "records": [],
+          "events": [
+            {
+              "eventId": "5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5",
+              "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+              "kind": "note",
+              "start": {
+                "ticks": "1",
+                "rate": {
+                  "numerator": "1000",
+                  "denominator": "1"
+                }
+              },
+              "fields": [
+                {
+                  "name": "note.text",
+                  "value": {
+                    "text": "a\"b\\c\n\t\u0001\u001b\u007f\u00e9\u4e2d\ud83d\ude00"
+                  }
+                }
+              ]
+            }
+          ],
+          "gaps": []
+        },
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[{\"name\":\"note.text\",\"value\":{\"text\":\"a\\\"b\\\\c\\n\\t\\u0001\\u001b\u007f\u00e9\u4e2d\ud83d\ude00\"}}],\"kind\":\"note\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"1\",\"tickCount\":\"1\"}",
+        "utf8Bytes": 401,
+        "sha256": "2417f053a50cb8883598e935778780114646121f1c1ffa35f7af0539c6174c1d"
+      }
+    ],
+    "refusals": [
+      {
+        "id": "refuse-uppercase-uuid",
+        "reason": "Id must be lower-case",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-AABBCCDDEEFF\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-json-number-for-uint64",
+        "reason": "uint64 must be an exact string",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":10,\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-leading-zero-uint64",
+        "reason": "no leading zero",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"010\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-uint64-overflow",
+        "reason": "uint64 range",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"18446744073709551616\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-negative-zero-sint64",
+        "reason": "sint64 -0 is not canonical",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"-0\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-double-as-json-number",
+        "reason": "double must be a bit word, not a number",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":3.25,\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-uppercase-hex-double",
+        "reason": "hex digits are lower-case",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400A000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-short-hex-double",
+        "reason": "exactly 16 digits",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a0000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-nan-bit-word",
+        "reason": "nonfinite values are refused",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"7ff8000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-infinity-bit-word",
+        "reason": "nonfinite values are refused",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"7ff0000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-unsorted-members",
+        "reason": "members must be sorted ordinal",
+        "canonicalJson": "{\"events\":[],\"encodingProfile\":\"af-segment.v1\",\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-missing-empty-repeated",
+        "reason": "every repeated member is present",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-two-oneof-arms",
+        "reason": "a oneof emits one arm",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"digital\":true,\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-no-oneof-arm",
+        "reason": "a oneof emits one arm",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-insignificant-whitespace",
+        "reason": "no insignificant whitespace",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\": [],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-null-for-absent-optional",
+        "reason": "absent optionals are omitted",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"duration\":null,\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"fields\":[],\"kind\":\"fault\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"201\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"faultId\":\"f0000000-0000-4000-8000-000000000001\",\"kind\":\"drop\",\"startTick\":\"201\",\"tickCount\":\"2\"},{\"faultId\":\"f0000000-0000-4000-8000-000000000002\",\"kind\":\"disconnect\",\"startTick\":\"205\",\"tickCount\":\"1\"},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"kind\":\"malformed\",\"startTick\":\"207\",\"tickCount\":\"3\"}],\"records\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"0\",\"digital\":false,\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\",\"f0000000-0000-4000-8000-000000000002\"],\"tick\":\"200\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"200\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"203\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"203\"}}],\"startTick\":\"200\",\"tickCount\":\"10\"}"
+      },
+      {
+        "id": "refuse-unknown-member",
+        "reason": "closed profile",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"zzz\":\"1\",\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-duplicate-member",
+        "reason": "duplicate members are refused",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-wrong-encoding-profile",
+        "reason": "only af-segment.v1",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v2\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-wrong-execution-profile",
+        "reason": "only af-sim.v1",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v2\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-resource-metadata-arm",
+        "reason": "resource arm is not representable",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"duration\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"5\"},\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"fields\":[{\"name\":\"label\",\"value\":{\"resource\":{}}},{\"name\":\"armed\",\"value\":{\"boolean\":true}},{\"name\":\"count\",\"value\":{\"integer\":\"-7\"}},{\"name\":\"level\",\"value\":{\"number\":\"3fd0000000000000\"}},{\"name\":\"price\",\"value\":{\"decimal\":{\"value\":\"12.500000001\"}}},{\"name\":\"at\",\"value\":{\"instant\":{\"nanos\":\"120000000\",\"unixSeconds\":\"1790593200\"}}}],\"kind\":\"pulse\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[],\"kind\":\"edge\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"103\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"0\",\"faultIds\":[],\"numeric\":\"3ff8000000000000\",\"tick\":\"100\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"100\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"101\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"101\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"deliveredOrdinal\":\"2\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultIds\":[],\"tick\":\"102\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}}],\"startTick\":\"100\",\"tickCount\":\"3\"}"
+      },
+      {
+        "id": "refuse-out-of-order-ordinals",
+        "reason": "records ascend by deliveredOrdinal",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"12\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-duplicate-ordinal",
+        "reason": "delivered ordinals are unique",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-unknown-gap-kind",
+        "reason": "gap kind is drop, disconnect or malformed",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"fields\":[],\"kind\":\"fault\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"201\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"faultId\":\"f0000000-0000-4000-8000-000000000001\",\"kind\":\"lost\",\"startTick\":\"201\",\"tickCount\":\"2\"},{\"faultId\":\"f0000000-0000-4000-8000-000000000002\",\"kind\":\"disconnect\",\"startTick\":\"205\",\"tickCount\":\"1\"},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"kind\":\"malformed\",\"startTick\":\"207\",\"tickCount\":\"3\"}],\"records\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"0\",\"digital\":false,\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\",\"f0000000-0000-4000-8000-000000000002\"],\"tick\":\"200\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"200\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"203\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"203\"}}],\"startTick\":\"200\",\"tickCount\":\"10\"}"
+      },
+      {
+        "id": "refuse-zero-rate-denominator",
+        "reason": "ScopeTime rate denominator must be positive",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"0\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-non-minimal-escape",
+        "reason": "string escapes are minimal: a printable ASCII scalar is never escaped",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[{\"name\":\"note.text\",\"value\":{\"text\":\"a\\\"b\\\\c\\n\\t\\u0001\\u001b\u007f\u00e9\u4e2d\ud83d\ude00\"}}],\"kind\":\"n\\u006fte\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"1\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-uppercase-escape-digits",
+        "reason": "control escapes use lower-case hex",
+        "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[{\"name\":\"note.text\",\"value\":{\"text\":\"a\\\"b\\\\c\\n\\t\\u0001\\u001B\u007f\u00e9\u4e2d\ud83d\ude00\"}}],\"kind\":\"note\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"1\",\"tickCount\":\"1\"}"
+      },
+      {
+        "id": "refuse-byte-order-mark",
+        "reason": "no byte order mark",
+        "canonicalJson": "\ufeff{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+      }
+    ]
+  },
+  "con-25-connector.json": {
+    "schemaVersion": "con-25-connector.v1",
+    "license": "Apache-2.0",
+    "evidenceClass": "offline-contract-only-no-owner-service-or-provider",
+    "service": "arcforges.publicapi.v1.ConnectorService",
+    "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+    "keyPattern": "^[A-Za-z0-9._:/-]{1,128}$",
+    "decisions": [
+      {
+        "id": "revoke-expected-revision",
+        "decision": "RevokeConnection keeps the registry04 section 5 request {meta, connectionId} exactly. The 'at expectedRev' of the registry04 foreground-class paragraph is the common RequestMeta.expectedRev (tag 2, the connection's own revision kind), the same mechanism every other destructive owner operation uses; no extra request field is added and the local ConnectorBrokerService twin already documents 'Revoke uses meta.expectedRev'. A request without it is refused by the owner, not by a wire shape.",
+        "enforcement": "descriptor test: the request has exactly meta and connectionId; RequestMeta tag 2 is expectedRev; no shape rule can require a RequestMeta field per operation"
+      },
+      {
+        "id": "public-records-in-public-package",
+        "decision": "The four records are authored as public arcforges.publicapi.v1 messages in connector.proto because a public proto never imports local schema (registry04 section 10). The published local ConnectorBrokerService records stay unchanged; the two sets are kept in exact shape parity by test (same field numbers, names, types, presence and constraint profile; only the list page bound differs: 100 public versus 200 local items).",
+        "enforcement": "TypeScript and C# tests compare the public descriptors with the fixture; the C# test compares them with the local twin descriptors"
+      },
+      {
+        "id": "foreground-and-tool-reachability",
+        "decision": "Begin, Complete and Revoke are human-only foreground operations and are exported with actor kind human only; the toolAllowlist stays empty so none of the six is reachable by agent, automation or extension tool generation. ConnectorProof carries secret text and appears in no telemetry, fixture log or error: this fixture's proof values are synthetic placeholders.",
+        "enforcement": "eng/operations/con-25.json passes eng/check_operation_scope.py (335 registered, 0 pending, 7 reserved)"
+      },
+      {
+        "id": "idempotency-compatibility-classes",
+        "decision": "The registry04 foreground-class paragraph classifies list and get as Q/R1/AO, begin as CC/R3/FR, complete as NI/R3/FR and revoke as DE/R2/FR, where the third value is the compatibility class (AO additive-open, FR frozen).",
+        "enforcement": "fixture authorization rows; the export carries idempotency and risk, and compatibilityClass is reserved to the CON.08 export"
+      },
+      {
+        "id": "no-owner-runtime",
+        "decision": "No Cloud runtime owner, provider callback HTTP schema or provider claim is authored: only the contract, vectors and generated bindings.",
+        "enforcement": "evidenceClass"
+      }
+    ],
+    "operations": [
+      {
+        "operationId": "connector.listDefinitions",
+        "rpc": "ConnectorService/ListDefinitions",
+        "requestType": "ConnectorServiceListDefinitionsRequest",
+        "requestFields": [
+          [
+            "meta",
+            1
+          ],
+          [
+            "page",
+            10
+          ]
+        ],
+        "valueType": "ConnectorServiceListDefinitionsValue",
+        "valueFields": [
+          [
+            "items",
+            10
+          ],
+          [
+            "page",
+            11
+          ]
+        ],
+        "responseType": "ConnectorServiceListDefinitionsResponse",
+        "outcomeFields": [
+          [
+            "value",
+            2
+          ],
+          [
+            "error",
+            3
+          ],
+          [
+            "encodedBody",
+            4
+          ]
+        ],
+        "authorization": {
+          "scope": "assistant",
+          "capability": null,
+          "localPresence": false,
+          "patEligible": false,
+          "actorKinds": [
+            "human"
+          ],
+          "toolReachable": false,
+          "idempotency": "Q",
+          "risk": "R1",
+          "approval": "none",
+          "stepUp": false,
+          "egress": "none",
+          "compatibility": "AO",
+          "foreground": false
+        }
+      },
+      {
+        "operationId": "connector.listConnections",
+        "rpc": "ConnectorService/ListConnections",
+        "requestType": "ConnectorServiceListConnectionsRequest",
+        "requestFields": [
+          [
+            "meta",
+            1
+          ],
+          [
+            "page",
+            10
+          ]
+        ],
+        "valueType": "ConnectorServiceListConnectionsValue",
+        "valueFields": [
+          [
+            "items",
+            10
+          ],
+          [
+            "page",
+            11
+          ]
+        ],
+        "responseType": "ConnectorServiceListConnectionsResponse",
+        "outcomeFields": [
+          [
+            "value",
+            2
+          ],
+          [
+            "error",
+            3
+          ],
+          [
+            "encodedBody",
+            4
+          ]
+        ],
+        "authorization": {
+          "scope": "assistant",
+          "capability": null,
+          "localPresence": false,
+          "patEligible": false,
+          "actorKinds": [
+            "human"
+          ],
+          "toolReachable": false,
+          "idempotency": "Q",
+          "risk": "R1",
+          "approval": "none",
+          "stepUp": false,
+          "egress": "none",
+          "compatibility": "AO",
+          "foreground": false
+        }
+      },
+      {
+        "operationId": "connector.beginConnection",
+        "rpc": "ConnectorService/BeginConnection",
+        "requestType": "ConnectorServiceBeginConnectionRequest",
+        "requestFields": [
+          [
+            "meta",
+            1
+          ],
+          [
+            "connectionId",
+            10
+          ],
+          [
+            "definitionId",
+            11
+          ],
+          [
+            "name",
+            12
+          ]
+        ],
+        "valueType": "ConnectorServiceBeginConnectionValue",
+        "valueFields": [
+          [
+            "challenge",
+            10
+          ]
+        ],
+        "responseType": "ConnectorServiceBeginConnectionResponse",
+        "outcomeFields": [
+          [
+            "value",
+            2
+          ],
+          [
+            "error",
+            3
+          ]
+        ],
+        "authorization": {
+          "scope": "assistant",
+          "capability": null,
+          "localPresence": false,
+          "patEligible": false,
+          "actorKinds": [
+            "human"
+          ],
+          "toolReachable": false,
+          "idempotency": "CC",
+          "risk": "R3",
+          "approval": "foreground-human-consent",
+          "stepUp": true,
+          "egress": "definition-hash-bound-provider-origins-scopes",
+          "compatibility": "FR",
+          "foreground": true
+        }
+      },
+      {
+        "operationId": "connector.completeConnection",
+        "rpc": "ConnectorService/CompleteConnection",
+        "requestType": "ConnectorServiceCompleteConnectionRequest",
+        "requestFields": [
+          [
+            "meta",
+            1
+          ],
+          [
+            "flowId",
+            10
+          ],
+          [
+            "proof",
+            11
+          ]
+        ],
+        "valueType": "ConnectorServiceCompleteConnectionValue",
+        "valueFields": [
+          [
+            "connection",
+            10
+          ]
+        ],
+        "responseType": "ConnectorServiceCompleteConnectionResponse",
+        "outcomeFields": [
+          [
+            "value",
+            2
+          ],
+          [
+            "error",
+            3
+          ]
+        ],
+        "authorization": {
+          "scope": "assistant",
+          "capability": null,
+          "localPresence": false,
+          "patEligible": false,
+          "actorKinds": [
+            "human"
+          ],
+          "toolReachable": false,
+          "idempotency": "NI",
+          "risk": "R3",
+          "approval": "original-foreground-human-consent-flow",
+          "stepUp": true,
+          "egress": "definition-hash-bound-provider-origins-scopes",
+          "compatibility": "FR",
+          "foreground": true
+        }
+      },
+      {
+        "operationId": "connector.getConnection",
+        "rpc": "ConnectorService/GetConnection",
+        "requestType": "ConnectorServiceGetConnectionRequest",
+        "requestFields": [
+          [
+            "meta",
+            1
+          ],
+          [
+            "connectionId",
+            10
+          ]
+        ],
+        "valueType": "ConnectorServiceGetConnectionValue",
+        "valueFields": [
+          [
+            "connection",
+            10
+          ]
+        ],
+        "responseType": "ConnectorServiceGetConnectionResponse",
+        "outcomeFields": [
+          [
+            "value",
+            2
+          ],
+          [
+            "error",
+            3
+          ],
+          [
+            "encodedBody",
+            4
+          ]
+        ],
+        "authorization": {
+          "scope": "assistant",
+          "capability": null,
+          "localPresence": false,
+          "patEligible": false,
+          "actorKinds": [
+            "human"
+          ],
+          "toolReachable": false,
+          "idempotency": "Q",
+          "risk": "R1",
+          "approval": "none",
+          "stepUp": false,
+          "egress": "none",
+          "compatibility": "AO",
+          "foreground": false
+        }
+      },
+      {
+        "operationId": "connector.revokeConnection",
+        "rpc": "ConnectorService/RevokeConnection",
+        "requestType": "ConnectorServiceRevokeConnectionRequest",
+        "requestFields": [
+          [
+            "meta",
+            1
+          ],
+          [
+            "connectionId",
+            10
+          ]
+        ],
+        "valueType": "ConnectorServiceRevokeConnectionValue",
+        "valueFields": [
+          [
+            "connection",
+            10
+          ]
+        ],
+        "responseType": "ConnectorServiceRevokeConnectionResponse",
+        "outcomeFields": [
+          [
+            "value",
+            2
+          ],
+          [
+            "error",
+            3
+          ]
+        ],
+        "authorization": {
+          "scope": "assistant",
+          "capability": null,
+          "localPresence": false,
+          "patEligible": false,
+          "actorKinds": [
+            "human"
+          ],
+          "toolReachable": false,
+          "idempotency": "DE",
+          "risk": "R2",
+          "approval": "foreground-human-confirmation",
+          "stepUp": false,
+          "egress": "definition-hash-bound-existing-provider-revocation",
+          "compatibility": "FR",
+          "foreground": true
+        }
+      }
+    ],
+    "records": {
+      "ConnectorDefinition": [
+        [
+          "definitionId",
+          1,
+          "string"
+        ],
+        [
+          "packageId",
+          2,
+          "string"
+        ],
+        [
+          "packageVersion",
+          3,
+          "string"
+        ],
+        [
+          "manifestHash",
+          4,
+          "string"
+        ],
+        [
+          "authKind",
+          5,
+          "string"
+        ],
+        [
+          "origins",
+          6,
+          "repeated string"
+        ],
+        [
+          "scopes",
+          7,
+          "repeated string"
+        ],
+        [
+          "capabilities",
+          8,
+          "repeated string"
+        ]
+      ],
+      "ConnectorConnection": [
+        [
+          "connectionId",
+          1,
+          "arcforges.foundation.v1.Id"
+        ],
+        [
+          "definitionId",
+          2,
+          "string"
+        ],
+        [
+          "name",
+          3,
+          "string"
+        ],
+        [
+          "state",
+          4,
+          "string"
+        ],
+        [
+          "scopes",
+          5,
+          "repeated string"
+        ],
+        [
+          "revision",
+          6,
+          "arcforges.foundation.v1.Revision"
+        ],
+        [
+          "expiresAt",
+          7,
+          "arcforges.foundation.v1.Instant"
+        ],
+        [
+          "reason",
+          8,
+          "string"
+        ]
+      ],
+      "ConnectorChallenge": [
+        [
+          "flowId",
+          1,
+          "arcforges.foundation.v1.Id"
+        ],
+        [
+          "connectionId",
+          2,
+          "arcforges.foundation.v1.Id"
+        ],
+        [
+          "authorizationUrl",
+          3,
+          "string"
+        ],
+        [
+          "expiresAt",
+          4,
+          "arcforges.foundation.v1.Instant"
+        ]
+      ],
+      "ConnectorProof": [
+        [
+          "callbackReceipt",
+          1,
+          "string"
+        ],
+        [
+          "personalToken",
+          2,
+          "string"
+        ]
+      ]
+    },
+    "localTwin": {
+      "package": "arcforges.local.platform.v1",
+      "service": "ConnectorBrokerService",
+      "records": [
+        "ConnectorDefinition",
+        "ConnectorConnection",
+        "ConnectorChallenge",
+        "ConnectorProof"
+      ],
+      "pageBound": 200,
+      "publicPageBound": 100
+    },
+    "vectors": [
+      {
+        "id": "definition-valid-oauth",
+        "type": "ConnectorDefinition",
+        "valid": true,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "full oauth2 definition with https origins"
+      },
+      {
+        "id": "definition-valid-minimal-no-origins",
+        "type": "ConnectorDefinition",
+        "valid": true,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "none",
+          "origins": [],
+          "scopes": [],
+          "capabilities": []
+        },
+        "why": "no-auth definition with empty repeated fields"
+      },
+      {
+        "id": "definition-bad-id-characters",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "bad id",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "Key charset"
+      },
+      {
+        "id": "definition-uppercase-manifest-hash",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "lower-case sha256 only"
+      },
+      {
+        "id": "definition-short-manifest-hash",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "64 hex digits"
+      },
+      {
+        "id": "definition-unknown-auth-kind",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth1",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "closed authKind"
+      },
+      {
+        "id": "definition-http-origin",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "http://github.com"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "https origins only"
+      },
+      {
+        "id": "definition-origin-with-path",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com/login"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "origin has no path"
+      },
+      {
+        "id": "definition-origin-with-credentials",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://user:pass@github.com"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "no credentials in an origin"
+      },
+      {
+        "id": "definition-too-many-origins",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://h0.example.com",
+            "https://h1.example.com",
+            "https://h2.example.com",
+            "https://h3.example.com",
+            "https://h4.example.com",
+            "https://h5.example.com",
+            "https://h6.example.com",
+            "https://h7.example.com",
+            "https://h8.example.com",
+            "https://h9.example.com",
+            "https://h10.example.com",
+            "https://h11.example.com",
+            "https://h12.example.com",
+            "https://h13.example.com",
+            "https://h14.example.com",
+            "https://h15.example.com",
+            "https://h16.example.com",
+            "https://h17.example.com",
+            "https://h18.example.com",
+            "https://h19.example.com",
+            "https://h20.example.com",
+            "https://h21.example.com",
+            "https://h22.example.com",
+            "https://h23.example.com",
+            "https://h24.example.com",
+            "https://h25.example.com",
+            "https://h26.example.com",
+            "https://h27.example.com",
+            "https://h28.example.com",
+            "https://h29.example.com",
+            "https://h30.example.com",
+            "https://h31.example.com",
+            "https://h32.example.com"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "at most 32 origins"
+      },
+      {
+        "id": "definition-duplicate-scope",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "packageVersion": "1.2.3",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read",
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "unique scopes"
+      },
+      {
+        "id": "definition-missing-package-version",
+        "type": "ConnectorDefinition",
+        "valid": false,
+        "value": {
+          "definitionId": "github.oauth",
+          "packageId": "arcforges.connector.github",
+          "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "authKind": "oauth2",
+          "origins": [
+            "https://github.com",
+            "https://api.github.com:443"
+          ],
+          "scopes": [
+            "repo.read"
+          ],
+          "capabilities": [
+            "connector.invoke"
+          ]
+        },
+        "why": "required field"
+      },
+      {
+        "id": "connection-valid-connected",
+        "type": "ConnectorConnection",
+        "valid": true,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "Work account",
+          "state": "connected",
+          "scopes": [
+            "repo.read"
+          ],
+          "revision": "4",
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "connected connection"
+      },
+      {
+        "id": "connection-valid-failed-with-reason",
+        "type": "ConnectorConnection",
+        "valid": true,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "Work account",
+          "state": "failed",
+          "scopes": [
+            "repo.read"
+          ],
+          "revision": "4",
+          "reason": "provider.denied"
+        },
+        "why": "failed connection with reason and no expiry"
+      },
+      {
+        "id": "connection-unknown-state",
+        "type": "ConnectorConnection",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "Work account",
+          "state": "pending",
+          "scopes": [
+            "repo.read"
+          ],
+          "revision": "4",
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "closed state vocabulary"
+      },
+      {
+        "id": "connection-empty-name",
+        "type": "ConnectorConnection",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "",
+          "state": "connected",
+          "scopes": [
+            "repo.read"
+          ],
+          "revision": "4",
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "name at least one scalar"
+      },
+      {
+        "id": "connection-name-too-long",
+        "type": "ConnectorConnection",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+          "state": "connected",
+          "scopes": [
+            "repo.read"
+          ],
+          "revision": "4",
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "name at most 256 scalars"
+      },
+      {
+        "id": "connection-zero-connection-id",
+        "type": "ConnectorConnection",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00000000000000000000000000000000",
+          "definitionId": "github.oauth",
+          "name": "Work account",
+          "state": "connected",
+          "scopes": [
+            "repo.read"
+          ],
+          "revision": "4",
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "nonzero Id"
+      },
+      {
+        "id": "connection-missing-revision",
+        "type": "ConnectorConnection",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "Work account",
+          "state": "connected",
+          "scopes": [
+            "repo.read"
+          ],
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "required revision"
+      },
+      {
+        "id": "connection-duplicate-scope",
+        "type": "ConnectorConnection",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "Work account",
+          "state": "connected",
+          "scopes": [
+            "a",
+            "a"
+          ],
+          "revision": "4",
+          "expiresAt": {
+            "unixSeconds": "1790593200",
+            "nanos": 0
+          }
+        },
+        "why": "unique scopes"
+      },
+      {
+        "id": "challenge-valid-oauth-url",
+        "type": "ConnectorChallenge",
+        "valid": true,
+        "value": {
+          "flowIdHex": "ffeeddccbbaa99887766554433221100",
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "authorizationUrl": "https://github.com/login/oauth/authorize?state=abc",
+          "expiresAt": {
+            "unixSeconds": "1790593800",
+            "nanos": 0
+          }
+        },
+        "why": "authorization URL present"
+      },
+      {
+        "id": "challenge-valid-personal-token-no-url",
+        "type": "ConnectorChallenge",
+        "valid": true,
+        "value": {
+          "flowIdHex": "ffeeddccbbaa99887766554433221100",
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "expiresAt": {
+            "unixSeconds": "1790593800",
+            "nanos": 0
+          }
+        },
+        "why": "personalToken flow has no URL"
+      },
+      {
+        "id": "challenge-http-url",
+        "type": "ConnectorChallenge",
+        "valid": false,
+        "value": {
+          "flowIdHex": "ffeeddccbbaa99887766554433221100",
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "authorizationUrl": "http://github.com/login",
+          "expiresAt": {
+            "unixSeconds": "1790593800",
+            "nanos": 0
+          }
+        },
+        "why": "https URL only"
+      },
+      {
+        "id": "challenge-missing-expiry",
+        "type": "ConnectorChallenge",
+        "valid": false,
+        "value": {
+          "flowIdHex": "ffeeddccbbaa99887766554433221100",
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "authorizationUrl": "https://github.com/login/oauth/authorize?state=abc"
+        },
+        "why": "required expiry"
+      },
+      {
+        "id": "challenge-zero-flow-id",
+        "type": "ConnectorChallenge",
+        "valid": false,
+        "value": {
+          "flowIdHex": "00000000000000000000000000000000",
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "authorizationUrl": "https://github.com/login/oauth/authorize?state=abc",
+          "expiresAt": {
+            "unixSeconds": "1790593800",
+            "nanos": 0
+          }
+        },
+        "why": "nonzero Id"
+      },
+      {
+        "id": "proof-valid-callback-receipt",
+        "type": "ConnectorProof",
+        "valid": true,
+        "value": {
+          "callbackReceipt": "receipt-123"
+        },
+        "why": "callback receipt arm"
+      },
+      {
+        "id": "proof-valid-personal-token",
+        "type": "ConnectorProof",
+        "valid": true,
+        "value": {
+          "personalToken": "tok-123"
+        },
+        "why": "personal token arm"
+      },
+      {
+        "id": "proof-no-arm",
+        "type": "ConnectorProof",
+        "valid": false,
+        "value": {},
+        "why": "exactly one arm is required"
+      },
+      {
+        "id": "proof-empty-secret",
+        "type": "ConnectorProof",
+        "valid": false,
+        "value": {
+          "personalToken": ""
+        },
+        "why": "non-empty secret"
+      },
+      {
+        "id": "proof-oversize-secret",
+        "type": "ConnectorProof",
+        "valid": false,
+        "value": {
+          "callbackReceipt": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "why": "at most 8192 UTF-8 bytes"
+      },
+      {
+        "id": "begin-request-valid",
+        "type": "ConnectorServiceBeginConnectionRequest",
+        "valid": true,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth",
+          "name": "Work account"
+        },
+        "why": "begin request fields"
+      },
+      {
+        "id": "begin-request-missing-name",
+        "type": "ConnectorServiceBeginConnectionRequest",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "github.oauth"
+        },
+        "why": "required name"
+      },
+      {
+        "id": "begin-request-bad-definition-id",
+        "type": "ConnectorServiceBeginConnectionRequest",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff",
+          "definitionId": "has space",
+          "name": "Work account"
+        },
+        "why": "Key charset"
+      },
+      {
+        "id": "complete-request-valid",
+        "type": "ConnectorServiceCompleteConnectionRequest",
+        "valid": true,
+        "value": {
+          "flowIdHex": "ffeeddccbbaa99887766554433221100",
+          "proof": {
+            "callbackReceipt": "receipt-123"
+          }
+        },
+        "why": "complete request carries the proof"
+      },
+      {
+        "id": "complete-request-missing-proof",
+        "type": "ConnectorServiceCompleteConnectionRequest",
+        "valid": false,
+        "value": {
+          "flowIdHex": "ffeeddccbbaa99887766554433221100"
+        },
+        "why": "required proof"
+      },
+      {
+        "id": "revoke-request-valid",
+        "type": "ConnectorServiceRevokeConnectionRequest",
+        "valid": true,
+        "value": {
+          "connectionIdHex": "00112233445566778899aabbccddeeff"
+        },
+        "why": "revoke request has only connectionId; the revision precondition is RequestMeta.expectedRev"
+      },
+      {
+        "id": "revoke-request-zero-connection-id",
+        "type": "ConnectorServiceRevokeConnectionRequest",
+        "valid": false,
+        "value": {
+          "connectionIdHex": "00000000000000000000000000000000"
+        },
+        "why": "nonzero Id"
+      },
+      {
+        "id": "list-connections-value-valid",
+        "type": "ConnectorServiceListConnectionsValue",
+        "valid": true,
+        "value": {
+          "items": [
+            {
+              "connectionIdHex": "00112233445566778899aabbccddeeff",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0102030405060708090a0b0c0d0e0f10",
+              "definitionId": "github.oauth",
+              "name": "Second",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            }
+          ],
+          "page": {
+            "hasMore": false
+          }
+        },
+        "why": "bounded page"
+      },
+      {
+        "id": "list-connections-value-over-page-bound",
+        "type": "ConnectorServiceListConnectionsValue",
+        "valid": false,
+        "value": {
+          "items": [
+            {
+              "connectionIdHex": "00000000000000000000000000000001",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000002",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000003",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000004",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000005",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000006",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000007",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000008",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000009",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000000a",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000000b",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000000c",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000000d",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000000e",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000000f",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000010",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000011",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000012",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000013",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000014",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000015",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000016",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000017",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000018",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000019",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000001a",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000001b",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000001c",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000001d",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000001e",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000001f",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000020",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000021",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000022",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000023",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000024",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000025",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000026",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000027",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000028",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000029",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000002a",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000002b",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000002c",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000002d",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000002e",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000002f",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000030",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000031",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000032",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000033",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000034",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000035",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000036",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000037",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000038",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000039",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000003a",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000003b",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000003c",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000003d",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000003e",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000003f",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000040",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000041",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000042",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000043",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000044",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000045",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000046",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000047",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000048",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000049",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000004a",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000004b",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000004c",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000004d",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000004e",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000004f",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000050",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000051",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000052",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000053",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000054",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000055",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000056",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000057",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000058",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000059",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000005a",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000005b",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000005c",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000005d",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000005e",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "0000000000000000000000000000005f",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000060",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000061",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000062",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000063",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000064",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            },
+            {
+              "connectionIdHex": "00000000000000000000000000000065",
+              "definitionId": "github.oauth",
+              "name": "Work account",
+              "state": "connected",
+              "scopes": [
+                "repo.read"
+              ],
+              "revision": "4",
+              "expiresAt": {
+                "unixSeconds": "1790593200",
+                "nanos": 0
+              }
+            }
+          ],
+          "page": {
+            "hasMore": false
+          }
+        },
+        "why": "at most 100 items per page"
+      }
+    ]
+  },
   "hello.json": {
     "cases": [
       {

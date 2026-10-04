@@ -1,0 +1,620 @@
+{
+  "schemaVersion": "con-25-local-call-context.v1",
+  "license": "Apache-2.0",
+  "evidenceClass": "offline-contract-only-no-binding-or-forwarding-behavior",
+  "record": {
+    "message": "arcforges.local.platform.v1.LocalCallContext",
+    "source": "internal/proto/arcforges/local/platform/v1/platform.proto",
+    "fields": [
+      ["actor", 1, "arcforges.foundation.v1.ActorChain"],
+      ["scope", 2, "repeated arcforges.foundation.v1.AggregateRef"],
+      ["invocationId", 3, "arcforges.foundation.v1.Id"],
+      ["approvalId", 4, "arcforges.foundation.v1.Id"],
+      ["leaseId", 5, "arcforges.foundation.v1.Id"],
+      ["executionOwner", 6, "arcforges.publicapi.v1.ExecutionOwner"]
+    ],
+    "metadata": "x-af-call-bin (annex 09)",
+    "maxSerializedBytes": 4096,
+    "maxScopeRoots": 32,
+    "note": "Identifiers reference validated owner evidence and are never bearer grants. Infrastructure calls may omit the actor; product business calls may not (checked at the owning call boundary, not by this record). Binding and forwarding rules are annex 09 owner behavior and are not exercised here."
+  },
+  "vectors": [
+    {
+      "id": "product-call-full-context",
+      "valid": true,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003",
+          "delegationIdHex": "00000000000000000000000000000004"
+        },
+        "scope": [
+          {
+            "kind": "arcscope.project",
+            "idHex": "0000000000000000000000000000000a"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000000b"
+          }
+        ],
+        "invocationIdHex": "00000000000000000000000000000014",
+        "approvalIdHex": "00000000000000000000000000000015",
+        "leaseIdHex": "00000000000000000000000000000016",
+        "executionOwner": {
+          "taskIdHex": "0000000000000000000000000000001e"
+        }
+      },
+      "why": "product business call: actor, scope roots, evidence references and execution owner",
+      "wireHex": "0a570a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e22120a10000000000000000000000000000000042a120a100000000000000000000000000000000312260a1061726373636f70652e70726f6a65637412120a100000000000000000000000000000000a12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000000b1a120a100000000000000000000000000000001422120a10000000000000000000000000000000152a120a100000000000000000000000000000001632140a120a100000000000000000000000000000001e",
+      "wireBytes": 251
+    },
+    {
+      "id": "infrastructure-call-omits-actor",
+      "valid": true,
+      "context": {
+        "scope": [],
+        "invocationIdHex": "00000000000000000000000000000014"
+      },
+      "why": "infrastructure calls may omit the actor; the record itself stays valid",
+      "wireHex": "1a120a1000000000000000000000000000000014",
+      "wireBytes": 20
+    },
+    {
+      "id": "empty-context",
+      "valid": true,
+      "context": {},
+      "why": "every field is optional at the record level; product business calls require an actor at the owning call boundary",
+      "wireHex": "",
+      "wireBytes": 0
+    },
+    {
+      "id": "turn-owner",
+      "valid": true,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "scope": [
+          {
+            "kind": "chat.conversation",
+            "idHex": "00000000000000000000000000000028"
+          }
+        ],
+        "executionOwner": {
+          "turnIdHex": "00000000000000000000000000000029"
+        }
+      },
+      "why": "turn execution owner",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a100000000000000000000000000000000312270a11636861742e636f6e766572736174696f6e12120a1000000000000000000000000000000028321412120a1000000000000000000000000000000029",
+      "wireBytes": 132
+    },
+    {
+      "id": "thirty-two-scope-roots-within-four-kib",
+      "valid": true,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "scope": [
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000064"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000065"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000066"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000067"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000068"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000069"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006a"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006b"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006c"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006d"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006e"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006f"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000070"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000071"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000072"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000073"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000074"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000075"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000076"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000077"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000078"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000079"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007a"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007b"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007c"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007d"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007e"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007f"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000080"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000081"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000082"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000083"
+          }
+        ]
+      },
+      "why": "the 32-root bound is inclusive and the serialized form fits 4 KiB",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a100000000000000000000000000000000312260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006412260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006512260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006612260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006712260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006812260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006912260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006a12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006b12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006c12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006d12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006e12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006f12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007012260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007112260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007212260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007312260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007412260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007512260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007612260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007712260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007812260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007912260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007a12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007b12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007c12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007d12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007e12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007f12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008012260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008112260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008212260a1061726373636f70652e73657373696f6e12120a1000000000000000000000000000000083",
+      "wireBytes": 1349
+    },
+    {
+      "id": "refuse-thirty-three-scope-roots",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "scope": [
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000064"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000065"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000066"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000067"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000068"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000069"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006a"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006b"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006c"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006d"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006e"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000006f"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000070"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000071"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000072"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000073"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000074"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000075"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000076"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000077"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000078"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000079"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007a"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007b"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007c"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007d"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007e"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "0000000000000000000000000000007f"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000080"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000081"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000082"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000083"
+          },
+          {
+            "kind": "arcscope.session",
+            "idHex": "00000000000000000000000000000084"
+          }
+        ]
+      },
+      "why": "more than 32 scope roots",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a100000000000000000000000000000000312260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006412260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006512260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006612260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006712260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006812260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006912260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006a12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006b12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006c12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006d12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006e12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000006f12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007012260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007112260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007212260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007312260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007412260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007512260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007612260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007712260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007812260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007912260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007a12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007b12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007c12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007d12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007e12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000007f12260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008012260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008112260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008212260a1061726373636f70652e73657373696f6e12120a100000000000000000000000000000008312260a1061726373636f70652e73657373696f6e12120a1000000000000000000000000000000084",
+      "wireBytes": 1389
+    },
+    {
+      "id": "refuse-over-four-kib",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "scope": [
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000064"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000065"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000066"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000067"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000068"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000069"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000006a"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000006b"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000006c"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000006d"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000006e"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000006f"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000070"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000071"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000072"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000073"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000074"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000075"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000076"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000077"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000078"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000079"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000007a"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000007b"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000007c"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000007d"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000007e"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "0000000000000000000000000000007f"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000080"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000081"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000082"
+          },
+          {
+            "kind": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "idHex": "00000000000000000000000000000083"
+          }
+        ]
+      },
+      "why": "32 roots with 128-byte kinds serialize beyond 4096 bytes",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a10000000000000000000000000000000031297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000641297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000651297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000661297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000671297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000681297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000691297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000006a1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000006b1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000006c1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000006d1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000006e1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000006f1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000701297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000711297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000721297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000731297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000741297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000751297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000761297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000771297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000781297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000791297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000007a1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000007b1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000007c1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000007d1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000007e1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a100000000000000000000000000000007f1297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000801297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000811297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a10000000000000000000000000000000821297010a80016b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b12120a1000000000000000000000000000000083",
+      "wireBytes": 4997
+    },
+    {
+      "id": "refuse-zero-invocation-id",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "invocationIdHex": "00000000000000000000000000000000"
+      },
+      "why": "Id must be nonzero",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a10000000000000000000000000000000031a120a1000000000000000000000000000000000",
+      "wireBytes": 89
+    },
+    {
+      "id": "refuse-zero-lease-id",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "leaseIdHex": "00000000000000000000000000000000"
+      },
+      "why": "Id must be nonzero",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a10000000000000000000000000000000032a120a1000000000000000000000000000000000",
+      "wireBytes": 89
+    },
+    {
+      "id": "refuse-execution-owner-without-arm",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "executionOwner": {}
+      },
+      "why": "ExecutionOwner requires exactly one arm",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a10000000000000000000000000000000033200",
+      "wireBytes": 71
+    },
+    {
+      "id": "refuse-actor-kind-not-a-key",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "bad kind"
+        }
+      },
+      "why": "ActorChain actorKind must be a Key",
+      "wireHex": "0a320a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a08626164206b696e64",
+      "wireBytes": 52
+    },
+    {
+      "id": "refuse-scope-root-bad-kind",
+      "valid": false,
+      "context": {
+        "actor": {
+          "initiatorHex": "00000000000000000000000000000001",
+          "ownerHex": "00000000000000000000000000000002",
+          "actorKind": "human",
+          "deviceIdHex": "00000000000000000000000000000003"
+        },
+        "scope": [
+          {
+            "kind": "bad kind",
+            "idHex": "0000000000000000000000000000000a"
+          }
+        ]
+      },
+      "why": "AggregateRef kind must be a Key",
+      "wireHex": "0a430a120a100000000000000000000000000000000112120a10000000000000000000000000000000021a0568756d616e2a120a1000000000000000000000000000000003121e0a08626164206b696e6412120a100000000000000000000000000000000a",
+      "wireBytes": 101
+    }
+  ]
+}

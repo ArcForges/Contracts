@@ -4262,6 +4262,20 @@
         }
       }
     },
+    "arcforges.local.platform.v1.LocalCallContext": {
+      "csharpType": "ArcForges.Contracts.LocalRpc.Platform.V1.LocalCallContext",
+      "fields": {
+        "actor": {},
+        "scope": {
+          "items": {},
+          "maxItems": 32
+        },
+        "invocationId": {},
+        "approvalId": {},
+        "leaseId": {},
+        "executionOwner": {}
+      }
+    },
     "arcforges.operator.v1.OperatorCallContext": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorCallContext",
       "fields": {

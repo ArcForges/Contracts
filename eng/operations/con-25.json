@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "operation-metadata.v1",
+  "license": "Apache-2.0",
+  "operations": [
+    {
+      "operationId": "connector.beginConnection",
+      "binding": "arcforges.publicapi.v1.ConnectorService/BeginConnection",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#initial-capability-binding-and-added-owner-rules",
+      "idempotency": "CC",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "foreground-human-consent",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "definition-hash-bound-provider-origins-scopes",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "connector.completeConnection",
+      "binding": "arcforges.publicapi.v1.ConnectorService/CompleteConnection",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#initial-capability-binding-and-added-owner-rules",
+      "idempotency": "NI",
+      "authorization": {
+        "capability": null,
+        "risk": "R3",
+        "approval": "original-foreground-human-consent-flow",
+        "stepUp": true,
+        "localPresence": false,
+        "egress": "definition-hash-bound-provider-origins-scopes",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "connector.getConnection",
+      "binding": "arcforges.publicapi.v1.ConnectorService/GetConnection",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#initial-capability-binding-and-added-owner-rules",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "connector.listConnections",
+      "binding": "arcforges.publicapi.v1.ConnectorService/ListConnections",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#initial-capability-binding-and-added-owner-rules",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "connector.listDefinitions",
+      "binding": "arcforges.publicapi.v1.ConnectorService/ListDefinitions",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#initial-capability-binding-and-added-owner-rules",
+      "idempotency": "Q",
+      "authorization": {
+        "capability": null,
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "none",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    },
+    {
+      "operationId": "connector.revokeConnection",
+      "binding": "arcforges.publicapi.v1.ConnectorService/RevokeConnection",
+      "kind": "proto",
+      "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "scope": "assistant",
+      "surface": "public",
+      "profile": "human-owner",
+      "sourceRule": "docs/architecture/contracts/04-protobuf-wire-registry.md#initial-capability-binding-and-added-owner-rules",
+      "idempotency": "DE",
+      "authorization": {
+        "capability": null,
+        "risk": "R2",
+        "approval": "foreground-human-confirmation",
+        "stepUp": false,
+        "localPresence": false,
+        "egress": "definition-hash-bound-existing-provider-revocation",
+        "patEligible": false,
+        "actorKinds": ["human"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+// SPDX-License-Identifier: Apache-2.0
+syntax = "proto3";
+package arcforges.publicapi.v1;
+
+import "arcforges/foundation/v1/foundation.proto";
+
+option csharp_namespace = "ArcForges.Contracts.PublicApi.V1";
+option java_package = "io.github.arcforges.contracts.publicapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ConnectorProto";
+
+// Owner-managed connector definitions and connections (registry04 sections 4-5). The records are public
+// projections authored here because a public proto never imports local schema (registry04 section 10); they
+// are kept in exact shape parity with the local ConnectorBrokerService twins by a test. Begin, Complete and
+// Revoke are foreground-human operations (step-up for new secret authority); Complete is non-idempotent and a
+// lost response is reconciled with Get; Revoke uses RequestMeta.expectedRev. ConnectorProof is secret input
+// and appears in no telemetry, log or error. No runtime implementation is authored here.
+service ConnectorService {
+  rpc ListDefinitions(ConnectorServiceListDefinitionsRequest) returns (ConnectorServiceListDefinitionsResponse);
+  rpc ListConnections(ConnectorServiceListConnectionsRequest) returns (ConnectorServiceListConnectionsResponse);
+  rpc BeginConnection(ConnectorServiceBeginConnectionRequest) returns (ConnectorServiceBeginConnectionResponse);
+  rpc CompleteConnection(ConnectorServiceCompleteConnectionRequest) returns (ConnectorServiceCompleteConnectionResponse);
+  rpc GetConnection(ConnectorServiceGetConnectionRequest) returns (ConnectorServiceGetConnectionResponse);
+  rpc RevokeConnection(ConnectorServiceRevokeConnectionRequest) returns (ConnectorServiceRevokeConnectionResponse);
+}
+
+// Public projections contain no tokens or secret references. The owner verifies definition-hash-bound
+// origins/scopes and current foreground consent.
+message ConnectorDefinition {
+  optional string definition_id = 1 [json_name = "definitionId"];
+  optional string package_id = 2 [json_name = "packageId"];
+  optional string package_version = 3 [json_name = "packageVersion"];
+  optional string manifest_hash = 4 [json_name = "manifestHash"];
+  optional string auth_kind = 5 [json_name = "authKind"];
+  repeated string origins = 6 [json_name = "origins"];
+  repeated string scopes = 7 [json_name = "scopes"];
+  repeated string capabilities = 8 [json_name = "capabilities"];
+}
+message ConnectorConnection {
+  arcforges.foundation.v1.Id connection_id = 1 [json_name = "connectionId"];
+  optional string definition_id = 2 [json_name = "definitionId"];
+  optional string name = 3 [json_name = "name"];
+  optional string state = 4 [json_name = "state"];
+  repeated string scopes = 5 [json_name = "scopes"];
+  arcforges.foundation.v1.Revision revision = 6 [json_name = "revision"];
+  arcforges.foundation.v1.Instant expires_at = 7 [json_name = "expiresAt"];
+  optional string reason = 8 [json_name = "reason"];
+}
+message ConnectorChallenge {
+  arcforges.foundation.v1.Id flow_id = 1 [json_name = "flowId"];
+  arcforges.foundation.v1.Id connection_id = 2 [json_name = "connectionId"];
+  optional string authorization_url = 3 [json_name = "authorizationUrl"];
+  arcforges.foundation.v1.Instant expires_at = 4 [json_name = "expiresAt"];
+}
+// Secret input is delivered only to the owning secret boundary. Never log it, include it in public
+// projections, or persist it outside the encrypted store.
+message ConnectorProof {
+  oneof proof {
+    string callback_receipt = 1 [json_name = "callbackReceipt"];
+    string personal_token = 2 [json_name = "personalToken"];
+  }
+}
+
+message ConnectorServiceListDefinitionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message ConnectorServiceListDefinitionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ConnectorServiceListDefinitionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+message ConnectorServiceListDefinitionsValue {
+  repeated ConnectorDefinition items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ConnectorServiceListConnectionsRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.PageRequest page = 10 [json_name = "page"];
+}
+message ConnectorServiceListConnectionsResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ConnectorServiceListConnectionsValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+message ConnectorServiceListConnectionsValue {
+  repeated ConnectorConnection items = 10 [json_name = "items"];
+  arcforges.foundation.v1.PageState page = 11 [json_name = "page"];
+}
+
+message ConnectorServiceBeginConnectionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id connection_id = 10 [json_name = "connectionId"];
+  optional string definition_id = 11 [json_name = "definitionId"];
+  optional string name = 12 [json_name = "name"];
+}
+message ConnectorServiceBeginConnectionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ConnectorServiceBeginConnectionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ConnectorServiceBeginConnectionValue {
+  ConnectorChallenge challenge = 10 [json_name = "challenge"];
+}
+
+message ConnectorServiceCompleteConnectionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
+  ConnectorProof proof = 11 [json_name = "proof"];
+}
+message ConnectorServiceCompleteConnectionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ConnectorServiceCompleteConnectionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ConnectorServiceCompleteConnectionValue {
+  ConnectorConnection connection = 10 [json_name = "connection"];
+}
+
+message ConnectorServiceGetConnectionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id connection_id = 10 [json_name = "connectionId"];
+}
+message ConnectorServiceGetConnectionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ConnectorServiceGetConnectionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+    arcforges.foundation.v1.EncodedBodyRef encoded_body = 4 [json_name = "encodedBody"];
+  }
+  reserved 5 to 9;
+}
+message ConnectorServiceGetConnectionValue {
+  ConnectorConnection connection = 10 [json_name = "connection"];
+}
+
+message ConnectorServiceRevokeConnectionRequest {
+  arcforges.foundation.v1.RequestMeta meta = 1 [json_name = "meta"];
+  reserved 2 to 9;
+  arcforges.foundation.v1.Id connection_id = 10 [json_name = "connectionId"];
+}
+message ConnectorServiceRevokeConnectionResponse {
+  arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];
+  oneof outcome {
+    ConnectorServiceRevokeConnectionValue value = 2 [json_name = "value"];
+    arcforges.foundation.v1.ArcError error = 3 [json_name = "error"];
+  }
+  reserved 4 to 9;
+}
+message ConnectorServiceRevokeConnectionValue {
+  ConnectorConnection connection = 10 [json_name = "connection"];
+}

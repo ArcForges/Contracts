@@ -1,0 +1,2092 @@
+{
+  "schemaVersion": "con-25-connector.v1",
+  "license": "Apache-2.0",
+  "evidenceClass": "offline-contract-only-no-owner-service-or-provider",
+  "service": "arcforges.publicapi.v1.ConnectorService",
+  "source": "public/proto/arcforges/publicapi/v1/connector.proto",
+  "keyPattern": "^[A-Za-z0-9._:/-]{1,128}$",
+  "decisions": [
+    {
+      "id": "revoke-expected-revision",
+      "decision": "RevokeConnection keeps the registry04 section 5 request {meta, connectionId} exactly. The 'at expectedRev' of the registry04 foreground-class paragraph is the common RequestMeta.expectedRev (tag 2, the connection's own revision kind), the same mechanism every other destructive owner operation uses; no extra request field is added and the local ConnectorBrokerService twin already documents 'Revoke uses meta.expectedRev'. A request without it is refused by the owner, not by a wire shape.",
+      "enforcement": "descriptor test: the request has exactly meta and connectionId; RequestMeta tag 2 is expectedRev; no shape rule can require a RequestMeta field per operation"
+    },
+    {
+      "id": "public-records-in-public-package",
+      "decision": "The four records are authored as public arcforges.publicapi.v1 messages in connector.proto because a public proto never imports local schema (registry04 section 10). The published local ConnectorBrokerService records stay unchanged; the two sets are kept in exact shape parity by test (same field numbers, names, types, presence and constraint profile; only the list page bound differs: 100 public versus 200 local items).",
+      "enforcement": "TypeScript and C# tests compare the public descriptors with the fixture; the C# test compares them with the local twin descriptors"
+    },
+    {
+      "id": "foreground-and-tool-reachability",
+      "decision": "Begin, Complete and Revoke are human-only foreground operations and are exported with actor kind human only; the toolAllowlist stays empty so none of the six is reachable by agent, automation or extension tool generation. ConnectorProof carries secret text and appears in no telemetry, fixture log or error: this fixture's proof values are synthetic placeholders.",
+      "enforcement": "eng/operations/con-25.json passes eng/check_operation_scope.py (335 registered, 0 pending, 7 reserved)"
+    },
+    {
+      "id": "idempotency-compatibility-classes",
+      "decision": "The registry04 foreground-class paragraph classifies list and get as Q/R1/AO, begin as CC/R3/FR, complete as NI/R3/FR and revoke as DE/R2/FR, where the third value is the compatibility class (AO additive-open, FR frozen).",
+      "enforcement": "fixture authorization rows; the export carries idempotency and risk, and compatibilityClass is reserved to the CON.08 export"
+    },
+    {
+      "id": "no-owner-runtime",
+      "decision": "No Cloud runtime owner, provider callback HTTP schema or provider claim is authored: only the contract, vectors and generated bindings.",
+      "enforcement": "evidenceClass"
+    }
+  ],
+  "operations": [
+    {
+      "operationId": "connector.listDefinitions",
+      "rpc": "ConnectorService/ListDefinitions",
+      "requestType": "ConnectorServiceListDefinitionsRequest",
+      "requestFields": [
+        ["meta", 1],
+        ["page", 10]
+      ],
+      "valueType": "ConnectorServiceListDefinitionsValue",
+      "valueFields": [
+        ["items", 10],
+        ["page", 11]
+      ],
+      "responseType": "ConnectorServiceListDefinitionsResponse",
+      "outcomeFields": [
+        ["value", 2],
+        ["error", 3],
+        ["encodedBody", 4]
+      ],
+      "authorization": {
+        "scope": "assistant",
+        "capability": null,
+        "localPresence": false,
+        "patEligible": false,
+        "actorKinds": ["human"],
+        "toolReachable": false,
+        "idempotency": "Q",
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "egress": "none",
+        "compatibility": "AO",
+        "foreground": false
+      }
+    },
+    {
+      "operationId": "connector.listConnections",
+      "rpc": "ConnectorService/ListConnections",
+      "requestType": "ConnectorServiceListConnectionsRequest",
+      "requestFields": [
+        ["meta", 1],
+        ["page", 10]
+      ],
+      "valueType": "ConnectorServiceListConnectionsValue",
+      "valueFields": [
+        ["items", 10],
+        ["page", 11]
+      ],
+      "responseType": "ConnectorServiceListConnectionsResponse",
+      "outcomeFields": [
+        ["value", 2],
+        ["error", 3],
+        ["encodedBody", 4]
+      ],
+      "authorization": {
+        "scope": "assistant",
+        "capability": null,
+        "localPresence": false,
+        "patEligible": false,
+        "actorKinds": ["human"],
+        "toolReachable": false,
+        "idempotency": "Q",
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "egress": "none",
+        "compatibility": "AO",
+        "foreground": false
+      }
+    },
+    {
+      "operationId": "connector.beginConnection",
+      "rpc": "ConnectorService/BeginConnection",
+      "requestType": "ConnectorServiceBeginConnectionRequest",
+      "requestFields": [
+        ["meta", 1],
+        ["connectionId", 10],
+        ["definitionId", 11],
+        ["name", 12]
+      ],
+      "valueType": "ConnectorServiceBeginConnectionValue",
+      "valueFields": [["challenge", 10]],
+      "responseType": "ConnectorServiceBeginConnectionResponse",
+      "outcomeFields": [
+        ["value", 2],
+        ["error", 3]
+      ],
+      "authorization": {
+        "scope": "assistant",
+        "capability": null,
+        "localPresence": false,
+        "patEligible": false,
+        "actorKinds": ["human"],
+        "toolReachable": false,
+        "idempotency": "CC",
+        "risk": "R3",
+        "approval": "foreground-human-consent",
+        "stepUp": true,
+        "egress": "definition-hash-bound-provider-origins-scopes",
+        "compatibility": "FR",
+        "foreground": true
+      }
+    },
+    {
+      "operationId": "connector.completeConnection",
+      "rpc": "ConnectorService/CompleteConnection",
+      "requestType": "ConnectorServiceCompleteConnectionRequest",
+      "requestFields": [
+        ["meta", 1],
+        ["flowId", 10],
+        ["proof", 11]
+      ],
+      "valueType": "ConnectorServiceCompleteConnectionValue",
+      "valueFields": [["connection", 10]],
+      "responseType": "ConnectorServiceCompleteConnectionResponse",
+      "outcomeFields": [
+        ["value", 2],
+        ["error", 3]
+      ],
+      "authorization": {
+        "scope": "assistant",
+        "capability": null,
+        "localPresence": false,
+        "patEligible": false,
+        "actorKinds": ["human"],
+        "toolReachable": false,
+        "idempotency": "NI",
+        "risk": "R3",
+        "approval": "original-foreground-human-consent-flow",
+        "stepUp": true,
+        "egress": "definition-hash-bound-provider-origins-scopes",
+        "compatibility": "FR",
+        "foreground": true
+      }
+    },
+    {
+      "operationId": "connector.getConnection",
+      "rpc": "ConnectorService/GetConnection",
+      "requestType": "ConnectorServiceGetConnectionRequest",
+      "requestFields": [
+        ["meta", 1],
+        ["connectionId", 10]
+      ],
+      "valueType": "ConnectorServiceGetConnectionValue",
+      "valueFields": [["connection", 10]],
+      "responseType": "ConnectorServiceGetConnectionResponse",
+      "outcomeFields": [
+        ["value", 2],
+        ["error", 3],
+        ["encodedBody", 4]
+      ],
+      "authorization": {
+        "scope": "assistant",
+        "capability": null,
+        "localPresence": false,
+        "patEligible": false,
+        "actorKinds": ["human"],
+        "toolReachable": false,
+        "idempotency": "Q",
+        "risk": "R1",
+        "approval": "none",
+        "stepUp": false,
+        "egress": "none",
+        "compatibility": "AO",
+        "foreground": false
+      }
+    },
+    {
+      "operationId": "connector.revokeConnection",
+      "rpc": "ConnectorService/RevokeConnection",
+      "requestType": "ConnectorServiceRevokeConnectionRequest",
+      "requestFields": [
+        ["meta", 1],
+        ["connectionId", 10]
+      ],
+      "valueType": "ConnectorServiceRevokeConnectionValue",
+      "valueFields": [["connection", 10]],
+      "responseType": "ConnectorServiceRevokeConnectionResponse",
+      "outcomeFields": [
+        ["value", 2],
+        ["error", 3]
+      ],
+      "authorization": {
+        "scope": "assistant",
+        "capability": null,
+        "localPresence": false,
+        "patEligible": false,
+        "actorKinds": ["human"],
+        "toolReachable": false,
+        "idempotency": "DE",
+        "risk": "R2",
+        "approval": "foreground-human-confirmation",
+        "stepUp": false,
+        "egress": "definition-hash-bound-existing-provider-revocation",
+        "compatibility": "FR",
+        "foreground": true
+      }
+    }
+  ],
+  "records": {
+    "ConnectorDefinition": [
+      ["definitionId", 1, "string"],
+      ["packageId", 2, "string"],
+      ["packageVersion", 3, "string"],
+      ["manifestHash", 4, "string"],
+      ["authKind", 5, "string"],
+      ["origins", 6, "repeated string"],
+      ["scopes", 7, "repeated string"],
+      ["capabilities", 8, "repeated string"]
+    ],
+    "ConnectorConnection": [
+      ["connectionId", 1, "arcforges.foundation.v1.Id"],
+      ["definitionId", 2, "string"],
+      ["name", 3, "string"],
+      ["state", 4, "string"],
+      ["scopes", 5, "repeated string"],
+      ["revision", 6, "arcforges.foundation.v1.Revision"],
+      ["expiresAt", 7, "arcforges.foundation.v1.Instant"],
+      ["reason", 8, "string"]
+    ],
+    "ConnectorChallenge": [
+      ["flowId", 1, "arcforges.foundation.v1.Id"],
+      ["connectionId", 2, "arcforges.foundation.v1.Id"],
+      ["authorizationUrl", 3, "string"],
+      ["expiresAt", 4, "arcforges.foundation.v1.Instant"]
+    ],
+    "ConnectorProof": [
+      ["callbackReceipt", 1, "string"],
+      ["personalToken", 2, "string"]
+    ]
+  },
+  "localTwin": {
+    "package": "arcforges.local.platform.v1",
+    "service": "ConnectorBrokerService",
+    "records": [
+      "ConnectorDefinition",
+      "ConnectorConnection",
+      "ConnectorChallenge",
+      "ConnectorProof"
+    ],
+    "pageBound": 200,
+    "publicPageBound": 100
+  },
+  "vectors": [
+    {
+      "id": "definition-valid-oauth",
+      "type": "ConnectorDefinition",
+      "valid": true,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "full oauth2 definition with https origins"
+    },
+    {
+      "id": "definition-valid-minimal-no-origins",
+      "type": "ConnectorDefinition",
+      "valid": true,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "none",
+        "origins": [],
+        "scopes": [],
+        "capabilities": []
+      },
+      "why": "no-auth definition with empty repeated fields"
+    },
+    {
+      "id": "definition-bad-id-characters",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "bad id",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "Key charset"
+    },
+    {
+      "id": "definition-uppercase-manifest-hash",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF",
+        "authKind": "oauth2",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "lower-case sha256 only"
+    },
+    {
+      "id": "definition-short-manifest-hash",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde",
+        "authKind": "oauth2",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "64 hex digits"
+    },
+    {
+      "id": "definition-unknown-auth-kind",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth1",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "closed authKind"
+    },
+    {
+      "id": "definition-http-origin",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["http://github.com"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "https origins only"
+    },
+    {
+      "id": "definition-origin-with-path",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["https://github.com/login"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "origin has no path"
+    },
+    {
+      "id": "definition-origin-with-credentials",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["https://user:pass@github.com"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "no credentials in an origin"
+    },
+    {
+      "id": "definition-too-many-origins",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": [
+          "https://h0.example.com",
+          "https://h1.example.com",
+          "https://h2.example.com",
+          "https://h3.example.com",
+          "https://h4.example.com",
+          "https://h5.example.com",
+          "https://h6.example.com",
+          "https://h7.example.com",
+          "https://h8.example.com",
+          "https://h9.example.com",
+          "https://h10.example.com",
+          "https://h11.example.com",
+          "https://h12.example.com",
+          "https://h13.example.com",
+          "https://h14.example.com",
+          "https://h15.example.com",
+          "https://h16.example.com",
+          "https://h17.example.com",
+          "https://h18.example.com",
+          "https://h19.example.com",
+          "https://h20.example.com",
+          "https://h21.example.com",
+          "https://h22.example.com",
+          "https://h23.example.com",
+          "https://h24.example.com",
+          "https://h25.example.com",
+          "https://h26.example.com",
+          "https://h27.example.com",
+          "https://h28.example.com",
+          "https://h29.example.com",
+          "https://h30.example.com",
+          "https://h31.example.com",
+          "https://h32.example.com"
+        ],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "at most 32 origins"
+    },
+    {
+      "id": "definition-duplicate-scope",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "packageVersion": "1.2.3",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read", "repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "unique scopes"
+    },
+    {
+      "id": "definition-missing-package-version",
+      "type": "ConnectorDefinition",
+      "valid": false,
+      "value": {
+        "definitionId": "github.oauth",
+        "packageId": "arcforges.connector.github",
+        "manifestHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "authKind": "oauth2",
+        "origins": ["https://github.com", "https://api.github.com:443"],
+        "scopes": ["repo.read"],
+        "capabilities": ["connector.invoke"]
+      },
+      "why": "required field"
+    },
+    {
+      "id": "connection-valid-connected",
+      "type": "ConnectorConnection",
+      "valid": true,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "Work account",
+        "state": "connected",
+        "scopes": ["repo.read"],
+        "revision": "4",
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "connected connection"
+    },
+    {
+      "id": "connection-valid-failed-with-reason",
+      "type": "ConnectorConnection",
+      "valid": true,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "Work account",
+        "state": "failed",
+        "scopes": ["repo.read"],
+        "revision": "4",
+        "reason": "provider.denied"
+      },
+      "why": "failed connection with reason and no expiry"
+    },
+    {
+      "id": "connection-unknown-state",
+      "type": "ConnectorConnection",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "Work account",
+        "state": "pending",
+        "scopes": ["repo.read"],
+        "revision": "4",
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "closed state vocabulary"
+    },
+    {
+      "id": "connection-empty-name",
+      "type": "ConnectorConnection",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "",
+        "state": "connected",
+        "scopes": ["repo.read"],
+        "revision": "4",
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "name at least one scalar"
+    },
+    {
+      "id": "connection-name-too-long",
+      "type": "ConnectorConnection",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+        "state": "connected",
+        "scopes": ["repo.read"],
+        "revision": "4",
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "name at most 256 scalars"
+    },
+    {
+      "id": "connection-zero-connection-id",
+      "type": "ConnectorConnection",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00000000000000000000000000000000",
+        "definitionId": "github.oauth",
+        "name": "Work account",
+        "state": "connected",
+        "scopes": ["repo.read"],
+        "revision": "4",
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "nonzero Id"
+    },
+    {
+      "id": "connection-missing-revision",
+      "type": "ConnectorConnection",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "Work account",
+        "state": "connected",
+        "scopes": ["repo.read"],
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "required revision"
+    },
+    {
+      "id": "connection-duplicate-scope",
+      "type": "ConnectorConnection",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "Work account",
+        "state": "connected",
+        "scopes": ["a", "a"],
+        "revision": "4",
+        "expiresAt": {
+          "unixSeconds": "1790593200",
+          "nanos": 0
+        }
+      },
+      "why": "unique scopes"
+    },
+    {
+      "id": "challenge-valid-oauth-url",
+      "type": "ConnectorChallenge",
+      "valid": true,
+      "value": {
+        "flowIdHex": "ffeeddccbbaa99887766554433221100",
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "authorizationUrl": "https://github.com/login/oauth/authorize?state=abc",
+        "expiresAt": {
+          "unixSeconds": "1790593800",
+          "nanos": 0
+        }
+      },
+      "why": "authorization URL present"
+    },
+    {
+      "id": "challenge-valid-personal-token-no-url",
+      "type": "ConnectorChallenge",
+      "valid": true,
+      "value": {
+        "flowIdHex": "ffeeddccbbaa99887766554433221100",
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "expiresAt": {
+          "unixSeconds": "1790593800",
+          "nanos": 0
+        }
+      },
+      "why": "personalToken flow has no URL"
+    },
+    {
+      "id": "challenge-http-url",
+      "type": "ConnectorChallenge",
+      "valid": false,
+      "value": {
+        "flowIdHex": "ffeeddccbbaa99887766554433221100",
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "authorizationUrl": "http://github.com/login",
+        "expiresAt": {
+          "unixSeconds": "1790593800",
+          "nanos": 0
+        }
+      },
+      "why": "https URL only"
+    },
+    {
+      "id": "challenge-missing-expiry",
+      "type": "ConnectorChallenge",
+      "valid": false,
+      "value": {
+        "flowIdHex": "ffeeddccbbaa99887766554433221100",
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "authorizationUrl": "https://github.com/login/oauth/authorize?state=abc"
+      },
+      "why": "required expiry"
+    },
+    {
+      "id": "challenge-zero-flow-id",
+      "type": "ConnectorChallenge",
+      "valid": false,
+      "value": {
+        "flowIdHex": "00000000000000000000000000000000",
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "authorizationUrl": "https://github.com/login/oauth/authorize?state=abc",
+        "expiresAt": {
+          "unixSeconds": "1790593800",
+          "nanos": 0
+        }
+      },
+      "why": "nonzero Id"
+    },
+    {
+      "id": "proof-valid-callback-receipt",
+      "type": "ConnectorProof",
+      "valid": true,
+      "value": {
+        "callbackReceipt": "receipt-123"
+      },
+      "why": "callback receipt arm"
+    },
+    {
+      "id": "proof-valid-personal-token",
+      "type": "ConnectorProof",
+      "valid": true,
+      "value": {
+        "personalToken": "tok-123"
+      },
+      "why": "personal token arm"
+    },
+    {
+      "id": "proof-no-arm",
+      "type": "ConnectorProof",
+      "valid": false,
+      "value": {},
+      "why": "exactly one arm is required"
+    },
+    {
+      "id": "proof-empty-secret",
+      "type": "ConnectorProof",
+      "valid": false,
+      "value": {
+        "personalToken": ""
+      },
+      "why": "non-empty secret"
+    },
+    {
+      "id": "proof-oversize-secret",
+      "type": "ConnectorProof",
+      "valid": false,
+      "value": {
+        "callbackReceipt": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "why": "at most 8192 UTF-8 bytes"
+    },
+    {
+      "id": "begin-request-valid",
+      "type": "ConnectorServiceBeginConnectionRequest",
+      "valid": true,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth",
+        "name": "Work account"
+      },
+      "why": "begin request fields"
+    },
+    {
+      "id": "begin-request-missing-name",
+      "type": "ConnectorServiceBeginConnectionRequest",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "github.oauth"
+      },
+      "why": "required name"
+    },
+    {
+      "id": "begin-request-bad-definition-id",
+      "type": "ConnectorServiceBeginConnectionRequest",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff",
+        "definitionId": "has space",
+        "name": "Work account"
+      },
+      "why": "Key charset"
+    },
+    {
+      "id": "complete-request-valid",
+      "type": "ConnectorServiceCompleteConnectionRequest",
+      "valid": true,
+      "value": {
+        "flowIdHex": "ffeeddccbbaa99887766554433221100",
+        "proof": {
+          "callbackReceipt": "receipt-123"
+        }
+      },
+      "why": "complete request carries the proof"
+    },
+    {
+      "id": "complete-request-missing-proof",
+      "type": "ConnectorServiceCompleteConnectionRequest",
+      "valid": false,
+      "value": {
+        "flowIdHex": "ffeeddccbbaa99887766554433221100"
+      },
+      "why": "required proof"
+    },
+    {
+      "id": "revoke-request-valid",
+      "type": "ConnectorServiceRevokeConnectionRequest",
+      "valid": true,
+      "value": {
+        "connectionIdHex": "00112233445566778899aabbccddeeff"
+      },
+      "why": "revoke request has only connectionId; the revision precondition is RequestMeta.expectedRev"
+    },
+    {
+      "id": "revoke-request-zero-connection-id",
+      "type": "ConnectorServiceRevokeConnectionRequest",
+      "valid": false,
+      "value": {
+        "connectionIdHex": "00000000000000000000000000000000"
+      },
+      "why": "nonzero Id"
+    },
+    {
+      "id": "list-connections-value-valid",
+      "type": "ConnectorServiceListConnectionsValue",
+      "valid": true,
+      "value": {
+        "items": [
+          {
+            "connectionIdHex": "00112233445566778899aabbccddeeff",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0102030405060708090a0b0c0d0e0f10",
+            "definitionId": "github.oauth",
+            "name": "Second",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          }
+        ],
+        "page": {
+          "hasMore": false
+        }
+      },
+      "why": "bounded page"
+    },
+    {
+      "id": "list-connections-value-over-page-bound",
+      "type": "ConnectorServiceListConnectionsValue",
+      "valid": false,
+      "value": {
+        "items": [
+          {
+            "connectionIdHex": "00000000000000000000000000000001",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000002",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000003",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000004",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000005",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000006",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000007",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000008",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000009",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000000a",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000000b",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000000c",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000000d",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000000e",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000000f",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000010",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000011",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000012",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000013",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000014",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000015",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000016",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000017",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000018",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000019",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000001a",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000001b",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000001c",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000001d",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000001e",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000001f",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000020",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000021",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000022",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000023",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000024",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000025",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000026",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000027",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000028",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000029",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000002a",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000002b",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000002c",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000002d",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000002e",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000002f",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000030",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000031",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000032",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000033",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000034",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000035",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000036",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000037",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000038",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000039",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000003a",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000003b",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000003c",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000003d",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000003e",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000003f",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000040",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000041",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000042",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000043",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000044",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000045",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000046",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000047",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000048",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000049",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000004a",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000004b",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000004c",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000004d",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000004e",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000004f",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000050",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000051",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000052",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000053",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000054",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000055",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000056",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000057",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000058",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000059",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000005a",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000005b",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000005c",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000005d",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000005e",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "0000000000000000000000000000005f",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000060",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000061",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000062",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000063",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000064",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          },
+          {
+            "connectionIdHex": "00000000000000000000000000000065",
+            "definitionId": "github.oauth",
+            "name": "Work account",
+            "state": "connected",
+            "scopes": ["repo.read"],
+            "revision": "4",
+            "expiresAt": {
+              "unixSeconds": "1790593200",
+              "nanos": 0
+            }
+          }
+        ],
+        "page": {
+          "hasMore": false
+        }
+      },
+      "why": "at most 100 items per page"
+    }
+  ]
+}

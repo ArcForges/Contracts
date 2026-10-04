@@ -8974,6 +8974,613 @@ function checkConflictView(input: unknown, context: ValidationContext): boolean 
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isConnectorChallenge(input: unknown): boolean { return checkConnectorChallenge(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorChallenge(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.flowId === undefined) return false;
+  if (value.flowId !== undefined) {
+    const fieldValue = value.flowId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.connectionId === undefined) return false;
+  if (value.connectionId !== undefined) {
+    const fieldValue = value.connectionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.authorizationUrl !== undefined) {
+    const fieldValue = value.authorizationUrl;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ((new RegExp("^https://[^\\s]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (utf8Length(fieldValue) > 2048) return false;
+  }
+  if (value.expiresAt === undefined) return false;
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorConnection(input: unknown): boolean { return checkConnectorConnection(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorConnection(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.connectionId === undefined) return false;
+  if (value.connectionId !== undefined) {
+    const fieldValue = value.connectionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  if (value.state === undefined) return false;
+  if (value.state !== undefined) {
+    const fieldValue = value.state;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "configured" && fieldValue !== "awaitingAuthorization" && fieldValue !== "connected" && fieldValue !== "expired" && fieldValue !== "revoked" && fieldValue !== "failed") return false;
+  }
+  if (value.scopes === undefined) return false;
+  if (value.scopes !== undefined) {
+    const fieldValue = value.scopes;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 32) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.revision === undefined) return false;
+  if (value.revision !== undefined) {
+    const fieldValue = value.revision;
+    if (!checkRevision(fieldValue, context)) return false;
+  }
+  if (value.expiresAt !== undefined) {
+    const fieldValue = value.expiresAt;
+    if (!checkInstant(fieldValue, context)) return false;
+  }
+  if (value.reason !== undefined) {
+    const fieldValue = value.reason;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorDefinition(input: unknown): boolean { return checkConnectorDefinition(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorDefinition(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.packageId === undefined) return false;
+  if (value.packageId !== undefined) {
+    const fieldValue = value.packageId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.packageVersion === undefined) return false;
+  if (value.packageVersion !== undefined) {
+    const fieldValue = value.packageVersion;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.manifestHash === undefined) return false;
+  if (value.manifestHash !== undefined) {
+    const fieldValue = value.manifestHash;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 64) return false;
+    if ([...fieldValue].length > 64) return false;
+    if ((new RegExp("^[0-9a-f]{64}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.authKind === undefined) return false;
+  if (value.authKind !== undefined) {
+    const fieldValue = value.authKind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "none" && fieldValue !== "oauth2" && fieldValue !== "personalToken") return false;
+  }
+  if (value.origins === undefined) return false;
+  if (value.origins !== undefined) {
+    const fieldValue = value.origins;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 32) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ((new RegExp("^https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\\[(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|::(?:[0-9A-Fa-f]{1,4}:){0,5}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){0}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,4}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){1}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){2}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,2}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){3}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,1}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|(?:[0-9A-Fa-f]{1,4}:){4}[0-9A-Fa-f]{1,4}::(?:[0-9A-Fa-f]{1,4}:){0,0}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3})|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,7}:|([0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,5}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){1,4}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){1,3}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){1,2}(:[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:((:[0-9A-Fa-f]{1,4}){1,6})|:((:[0-9A-Fa-f]{1,4}){1,7}|:))\\])(?::(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{0,3}))?$", 'u')).exec(item)?.[0] !== item) return false;
+    if (utf8Length(item) > 2048) return false;
+    }
+  }
+  if (value.scopes === undefined) return false;
+  if (value.scopes !== undefined) {
+    const fieldValue = value.scopes;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 32) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  if (value.capabilities === undefined) return false;
+  if (value.capabilities !== undefined) {
+    const fieldValue = value.capabilities;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 32) return false;
+    if (new Set(fieldValue).size !== fieldValue.length) return false;
+    for (const item of fieldValue) {
+    if (typeof item !== "string") return false;
+    if (!validUnicode(item)) return false;
+    if ([...item].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(item)?.[0] !== item) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorProof(input: unknown): boolean { return checkConnectorProof(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorProof(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if ((value.proof as {case?: string} | undefined)?.case === "callbackReceipt") {
+    const fieldValue = (value.proof as {value: unknown}).value;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if (utf8Length(fieldValue) > 8192) return false;
+  }
+  if ((value.proof as {case?: string} | undefined)?.case === "personalToken") {
+    const fieldValue = (value.proof as {value: unknown}).value;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if (utf8Length(fieldValue) > 8192) return false;
+  }
+  if (value.proof === undefined || typeof value.proof !== 'object' || value.proof === null) return false;
+  if ((value.proof as {case?: string}).case !== "callbackReceipt" && (value.proof as {case?: string}).case !== "personalToken") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceBeginConnectionRequest(input: unknown): boolean { return checkConnectorServiceBeginConnectionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceBeginConnectionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.connectionId === undefined) return false;
+  if (value.connectionId !== undefined) {
+    const fieldValue = value.connectionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.definitionId === undefined) return false;
+  if (value.definitionId !== undefined) {
+    const fieldValue = value.definitionId;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.name === undefined) return false;
+  if (value.name !== undefined) {
+    const fieldValue = value.name;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length < 1) return false;
+    if ([...fieldValue].length > 256) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceBeginConnectionResponse(input: unknown): boolean { return checkConnectorServiceBeginConnectionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceBeginConnectionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkConnectorServiceBeginConnectionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceBeginConnectionValue(input: unknown): boolean { return checkConnectorServiceBeginConnectionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceBeginConnectionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.challenge === undefined) return false;
+  if (value.challenge !== undefined) {
+    const fieldValue = value.challenge;
+    if (!checkConnectorChallenge(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceCompleteConnectionRequest(input: unknown): boolean { return checkConnectorServiceCompleteConnectionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceCompleteConnectionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.flowId === undefined) return false;
+  if (value.flowId !== undefined) {
+    const fieldValue = value.flowId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.proof === undefined) return false;
+  if (value.proof !== undefined) {
+    const fieldValue = value.proof;
+    if (!checkConnectorProof(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceCompleteConnectionResponse(input: unknown): boolean { return checkConnectorServiceCompleteConnectionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceCompleteConnectionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkConnectorServiceCompleteConnectionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceCompleteConnectionValue(input: unknown): boolean { return checkConnectorServiceCompleteConnectionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceCompleteConnectionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.connection === undefined) return false;
+  if (value.connection !== undefined) {
+    const fieldValue = value.connection;
+    if (!checkConnectorConnection(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceGetConnectionRequest(input: unknown): boolean { return checkConnectorServiceGetConnectionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceGetConnectionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.connectionId === undefined) return false;
+  if (value.connectionId !== undefined) {
+    const fieldValue = value.connectionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceGetConnectionResponse(input: unknown): boolean { return checkConnectorServiceGetConnectionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceGetConnectionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkConnectorServiceGetConnectionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceGetConnectionValue(input: unknown): boolean { return checkConnectorServiceGetConnectionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceGetConnectionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.connection === undefined) return false;
+  if (value.connection !== undefined) {
+    const fieldValue = value.connection;
+    if (!checkConnectorConnection(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceListConnectionsRequest(input: unknown): boolean { return checkConnectorServiceListConnectionsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceListConnectionsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceListConnectionsResponse(input: unknown): boolean { return checkConnectorServiceListConnectionsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceListConnectionsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkConnectorServiceListConnectionsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceListConnectionsValue(input: unknown): boolean { return checkConnectorServiceListConnectionsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceListConnectionsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 100) return false;
+    for (const item of fieldValue) {
+    if (!checkConnectorConnection(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceListDefinitionsRequest(input: unknown): boolean { return checkConnectorServiceListDefinitionsRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceListDefinitionsRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageRequest(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceListDefinitionsResponse(input: unknown): boolean { return checkConnectorServiceListDefinitionsResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceListDefinitionsResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkConnectorServiceListDefinitionsValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "encodedBody") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkEncodedBodyRef(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error" && (value.outcome as {case?: string}).case !== "encodedBody") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceListDefinitionsValue(input: unknown): boolean { return checkConnectorServiceListDefinitionsValue(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceListDefinitionsValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.items === undefined) return false;
+  if (value.items !== undefined) {
+    const fieldValue = value.items;
+    if (!Array.isArray(fieldValue)) return false;
+    if (fieldValue.length > 100) return false;
+    for (const item of fieldValue) {
+    if (!checkConnectorDefinition(item, context)) return false;
+    }
+  }
+  if (value.page === undefined) return false;
+  if (value.page !== undefined) {
+    const fieldValue = value.page;
+    if (!checkPageState(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceRevokeConnectionRequest(input: unknown): boolean { return checkConnectorServiceRevokeConnectionRequest(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceRevokeConnectionRequest(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkRequestMeta(fieldValue, context)) return false;
+  }
+  if (value.connectionId === undefined) return false;
+  if (value.connectionId !== undefined) {
+    const fieldValue = value.connectionId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceRevokeConnectionResponse(input: unknown): boolean { return checkConnectorServiceRevokeConnectionResponse(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceRevokeConnectionResponse(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.meta === undefined) return false;
+  if (value.meta !== undefined) {
+    const fieldValue = value.meta;
+    if (!checkResponseMeta(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "value") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkConnectorServiceRevokeConnectionValue(fieldValue, context)) return false;
+  }
+  if ((value.outcome as {case?: string} | undefined)?.case === "error") {
+    const fieldValue = (value.outcome as {value: unknown}).value;
+    if (!checkArcError(fieldValue, context)) return false;
+  }
+  if (value.outcome === undefined || typeof value.outcome !== 'object' || value.outcome === null) return false;
+  if ((value.outcome as {case?: string}).case !== "value" && (value.outcome as {case?: string}).case !== "error") return false;
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isConnectorServiceRevokeConnectionValue(input: unknown): boolean { return checkConnectorServiceRevokeConnectionValue(input, {active: new Set<object>(), depth: 0}); }
+function checkConnectorServiceRevokeConnectionValue(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.connection === undefined) return false;
+  if (value.connection !== undefined) {
+    const fieldValue = value.connection;
+    if (!checkConnectorConnection(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isContextContribution(input: unknown): boolean { return checkContextContribution(input, {active: new Set<object>(), depth: 0}); }
 function checkContextContribution(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -22780,6 +23387,69 @@ function checkScenarioVersion(input: unknown, context: ValidationContext): boole
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
+export function isSimulationDataSegment(input: unknown): boolean { return checkSimulationDataSegment(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationDataSegment(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.encodingProfile === undefined) return false;
+  if (value.encodingProfile !== undefined) {
+    const fieldValue = value.encodingProfile;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-segment.v1") return false;
+  }
+  if (value.executionProfile === undefined) return false;
+  if (value.executionProfile !== undefined) {
+    const fieldValue = value.executionProfile;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "af-sim.v1") return false;
+  }
+  if (value.startTick === undefined) return false;
+  if (value.startTick !== undefined) {
+    const fieldValue = value.startTick;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.tickCount === undefined) return false;
+  if (value.tickCount !== undefined) {
+    const fieldValue = value.tickCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.records === undefined) return false;
+  if (value.records !== undefined) {
+    const fieldValue = value.records;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkSimulationSample(item, context)) return false;
+    }
+  }
+  if (value.events === undefined) return false;
+  if (value.events !== undefined) {
+    const fieldValue = value.events;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkSimulationEvent(item, context)) return false;
+    }
+  }
+  if (value.gaps === undefined) return false;
+  if (value.gaps !== undefined) {
+    const fieldValue = value.gaps;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkSimulationGap(item, context)) return false;
+    }
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
 export function isSimulationDefinition(input: unknown): boolean { return checkSimulationDefinition(input, {active: new Set<object>(), depth: 0}); }
 function checkSimulationDefinition(input: unknown, context: ValidationContext): boolean {
   if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
@@ -22802,6 +23472,93 @@ function checkSimulationDefinition(input: unknown, context: ValidationContext): 
   if (value.revision !== undefined) {
     const fieldValue = value.revision;
     if (!checkRevision(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationEvent(input: unknown): boolean { return checkSimulationEvent(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationEvent(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.eventId === undefined) return false;
+  if (value.eventId !== undefined) {
+    const fieldValue = value.eventId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.channelId === undefined) return false;
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.start === undefined) return false;
+  if (value.start !== undefined) {
+    const fieldValue = value.start;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if (value.duration !== undefined) {
+    const fieldValue = value.duration;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+  }
+  if (value.fields === undefined) return false;
+  if (value.fields !== undefined) {
+    const fieldValue = value.fields;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkMetadataEntry(item, context)) return false;
+    }
+  }
+  if (value.faultId !== undefined) {
+    const fieldValue = value.faultId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationGap(input: unknown): boolean { return checkSimulationGap(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationGap(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.startTick === undefined) return false;
+  if (value.startTick !== undefined) {
+    const fieldValue = value.startTick;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.tickCount === undefined) return false;
+  if (value.tickCount !== undefined) {
+    const fieldValue = value.tickCount;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.faultId === undefined) return false;
+  if (value.faultId !== undefined) {
+    const fieldValue = value.faultId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.kind === undefined) return false;
+  if (value.kind !== undefined) {
+    const fieldValue = value.kind;
+    if (typeof fieldValue !== "string") return false;
+    if (!validUnicode(fieldValue)) return false;
+    if ([...fieldValue].length > 128) return false;
+    if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
+    if (fieldValue !== "drop" && fieldValue !== "disconnect" && fieldValue !== "malformed") return false;
   }
   return true;
   } finally { context.depth--; context.active.delete(input); }
@@ -22933,6 +23690,60 @@ function checkSimulationRun(input: unknown, context: ValidationContext): boolean
     const fieldValue = value.createdAt;
     if (!checkInstant(fieldValue, context)) return false;
   }
+  return true;
+  } finally { context.depth--; context.active.delete(input); }
+}
+export function isSimulationSample(input: unknown): boolean { return checkSimulationSample(input, {active: new Set<object>(), depth: 0}); }
+function checkSimulationSample(input: unknown, context: ValidationContext): boolean {
+  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;
+  context.active.add(input); context.depth++;
+  try {
+  const value = input as Record<string, unknown>;
+  if (value.channelId === undefined) return false;
+  if (value.channelId !== undefined) {
+    const fieldValue = value.channelId;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.tick === undefined) return false;
+  if (value.tick !== undefined) {
+    const fieldValue = value.tick;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.deliveredOrdinal === undefined) return false;
+  if (value.deliveredOrdinal !== undefined) {
+    const fieldValue = value.deliveredOrdinal;
+    if (typeof fieldValue !== "bigint") return false;
+    if (fieldValue < 0n || fieldValue > 18446744073709551615n) return false;
+  }
+  if (value.time === undefined) return false;
+  if (value.time !== undefined) {
+    const fieldValue = value.time;
+    if (!checkScopeTime(fieldValue, context)) return false;
+  }
+  if ((value.value as {case?: string} | undefined)?.case === "numeric") {
+    const fieldValue = (value.value as {value: unknown}).value;
+    if (typeof fieldValue !== "number") return false;
+    if (!Number.isFinite(fieldValue)) return false;
+  }
+  if ((value.value as {case?: string} | undefined)?.case === "digital") {
+    const fieldValue = (value.value as {value: unknown}).value;
+    if (typeof fieldValue !== "boolean") return false;
+  }
+  if ((value.value as {case?: string} | undefined)?.case === "eventId") {
+    const fieldValue = (value.value as {value: unknown}).value;
+    if (!checkId(fieldValue, context)) return false;
+  }
+  if (value.faultIds === undefined) return false;
+  if (value.faultIds !== undefined) {
+    const fieldValue = value.faultIds;
+    if (!Array.isArray(fieldValue)) return false;
+    for (const item of fieldValue) {
+    if (!checkId(item, context)) return false;
+    }
+  }
+  if (value.value === undefined || typeof value.value !== 'object' || value.value === null) return false;
+  if ((value.value as {case?: string}).case !== "numeric" && (value.value as {case?: string}).case !== "digital" && (value.value as {case?: string}).case !== "eventId") return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
