@@ -97,6 +97,67 @@ class LicenceBoundaryTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'unknown'):
                 check_package(invalid)
 
+    @staticmethod
+    def architecture_project(private_assets='all', generate_path='true'):
+        return ('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework>'
+                '<OutputType>Exe</OutputType><IsPackable>false</IsPackable><IsTestProject>true</IsTestProject>'
+                '<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression><LicenceBoundary>Apache</LicenceBoundary>'
+                '</PropertyGroup><ItemGroup><PackageReference Include="ArcForges.Build.Policy" '
+                f'PrivateAssets="{private_assets}" GeneratePathProperty="{generate_path}" /></ItemGroup>'
+                '<Import Project="$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props" />'
+                '</Project>')
+
+    def add_architecture_policy_admission(self, *, path='tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj',
+                                          version='1.0.0-ci.31.1', private_assets='all', generate_path='true',
+                                          lock_type='Direct', lock_path='tests/ArchitectureTests/packages.lock.json'):
+        if not any(entry['path'] == path for entry in self.policy['projects']):
+            self.policy['projects'].append({'path': path, 'kind': 'msbuild'})
+        self.save_policy()
+        self.write(path, self.architecture_project(private_assets, generate_path))
+        self.write('Directory.Packages.props',
+                   '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="' + version + '" />'
+                   '</ItemGroup></Project>')
+        self.write(lock_path, json.dumps({'version': 1, 'dependencies': {'net10.0': {
+            'ArcForges.Build.Policy': {'type': lock_type, 'resolved': version,
+                                       'contentHash': 'c2lnbmF0dXJlZA=='}}}}))
+
+    def test_exact_architecture_only_agpl_build_policy_admission(self):
+        self.add_architecture_policy_admission()
+        self.assertEqual({'app.csproj', 'tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj'},
+                         {entry['path'] for entry in audit(self.root)['projects']})
+
+    def test_build_policy_cannot_be_admitted_by_generic_first_party_allowlist(self):
+        with self.assertRaisesRegex(ValueError, 'unknown'):
+            check_package('ArcForges.Build.Policy')
+
+    def test_build_policy_requires_exact_version_and_private_test_reference(self):
+        for version, private_assets, generate_path in [
+                ('1.0.0-ci.31.2', 'all', 'true'), ('1.0.0-ci.31.1', 'none', 'true'),
+                ('1.0.0-ci.31.1', 'all', 'false')]:
+            with self.subTest(version=version, private_assets=private_assets, generate_path=generate_path):
+                self.add_architecture_policy_admission(version=version, private_assets=private_assets,
+                                                       generate_path=generate_path)
+                with self.assertRaisesRegex(ValueError, 'Build.Policy'):
+                    audit(self.root)
+
+    def test_build_policy_cannot_enter_another_project_or_lock_closure(self):
+        self.add_architecture_policy_admission()
+        other = 'src/public/dotnet/ArcForges.Contracts.Foundation/ArcForges.Contracts.Foundation.csproj'
+        self.write(other, self.project().replace('</Project>', '<ItemGroup><PackageReference Include="ArcForges.Build.Policy" PrivateAssets="all" GeneratePathProperty="true" /></ItemGroup></Project>'))
+        self.policy['projects'].append({'path': other, 'kind': 'msbuild'})
+        self.save_policy()
+        with self.assertRaisesRegex(ValueError, 'only as the exact private'):
+            audit(self.root)
+
+    def test_build_policy_transitive_or_duplicate_lock_is_rejected(self):
+        for lock_type, lock_path in [
+                ('Transitive', 'tests/ArchitectureTests/packages.lock.json'),
+                ('Direct', 'src/public/dotnet/packages.lock.json')]:
+            with self.subTest(lock_type=lock_type, lock_path=lock_path):
+                self.add_architecture_policy_admission(lock_type=lock_type, lock_path=lock_path)
+                with self.assertRaisesRegex(ValueError, 'Build.Policy'):
+                    audit(self.root)
+
     def msbuild(self, *args):
         shutil.copyfile(ROOT / 'Directory.Build.targets', self.root / 'Directory.Build.targets')
         return subprocess.run(['dotnet', 'msbuild', 'app.csproj', '-nologo', '-verbosity:quiet',

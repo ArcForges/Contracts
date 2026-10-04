@@ -5,6 +5,7 @@ import gzip
 import json
 import hashlib
 import subprocess
+import tempfile
 from pathlib import Path
 import sys
 import re
@@ -12,7 +13,9 @@ import tomllib
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'eng'))
-from dependency_admission import ROOT, POLICY, audit, inventory, immutable_coordinates, major_upgrade, pinned, stable_dependency, validate
+from dependency_admission import (ROOT, POLICY, ARCHITECTURE_TEST_LOCK, ARCHITECTURE_TEST_PROJECT,
+    BUILD_POLICY_KEY, BUILD_POLICY_SCOPE, audit, inventory, immutable_coordinates, major_upgrade, pinned,
+    stable_dependency, validate, validate_architecture_policy_boundary)
 
 
 # The CON.21 and CON.22 allowlist tests re-verify what the Security runs observed at three task-branch
@@ -73,6 +76,80 @@ def frozen_git_blob(commit, path):
 
 
 class DependencyAdmission(unittest.TestCase):
+    def architecture_boundary_fixture(self):
+        temporary = tempfile.TemporaryDirectory(prefix='contracts-policy-admission-')
+        root = Path(temporary.name)
+        subprocess.run(['git', 'init', '-q', str(root)], check=True)
+        project = root / ARCHITECTURE_TEST_PROJECT
+        project.parent.mkdir(parents=True)
+        project.write_text('''<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><PackageLicenseExpression>Apache-2.0</PackageLicenseExpression><LicenceBoundary>Apache</LicenceBoundary></PropertyGroup>
+  <ItemGroup><PackageReference Include="ArcForges.Build.Policy" PrivateAssets="all" GeneratePathProperty="true" /></ItemGroup>
+  <Import Project="$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props" />
+</Project>''', encoding='utf-8')
+        (root / 'Directory.Packages.props').write_text(
+            '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.31.1" /></ItemGroup></Project>',
+            encoding='utf-8')
+        digest = 'c2lnbmF0dXJlZA=='
+        lock = root / ARCHITECTURE_TEST_LOCK
+        lock.parent.mkdir(parents=True, exist_ok=True)
+        lock.write_text(json.dumps({'version': 1, 'dependencies': {'net10.0': {
+            'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.31.1', 'contentHash': digest}}}}),
+            encoding='utf-8')
+        catalog = root / 'eng/contract-packages.json'
+        catalog.parent.mkdir(parents=True)
+        catalog.write_text(json.dumps({'packages': []}), encoding='utf-8')
+        return temporary, root, digest
+
+    def test_build_policy_agpl_exception_is_exact_and_test_only(self):
+        policy = copy.deepcopy(json.loads((ROOT / POLICY).read_text()))
+        row = {'integrity': 'c2lnbmF0dXJlZA==', 'licence': 'AGPL-3.0-only',
+               'evidence': [{'source': 'https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.31.1/arcforges.build.policy.nuspec',
+                            'sha256': 'a' * 64}], 'scope': BUILD_POLICY_SCOPE}
+        policy['closure'] = {BUILD_POLICY_KEY: row}
+        validate(policy, {BUILD_POLICY_KEY: row['integrity']})
+        for bad_key, bad_row in [
+                (BUILD_POLICY_KEY, {**row, 'licence': 'AGPL-3.0-only', 'scope': 'build dependency'}),
+                (BUILD_POLICY_KEY, {**row, 'licence': 'Apache-2.0'}),
+                ('nuget:arcforges.build.policy@1.0.0-ci.31.2', row),
+                ('nuget:arcforges.unknown@1.0.0-ci.31.1', row),
+        ]:
+            with self.subTest(key=bad_key, scope=bad_row.get('scope'), licence=bad_row.get('licence')):
+                policy['closure'] = {bad_key: bad_row}
+                with self.assertRaisesRegex(ValueError, 'Forbidden|Build.Policy|exact'):
+                    validate(policy, {bad_key: row['integrity']})
+        self.assertTrue(stable_dependency(BUILD_POLICY_KEY))
+        self.assertFalse(stable_dependency('nuget:arcforges.build.policy@1.0.0-ci.31.2'))
+
+    def test_build_policy_exception_requires_exact_reference_and_locked_closure(self):
+        temporary, root, digest = self.architecture_boundary_fixture()
+        self.addCleanup(temporary.cleanup)
+        validate_architecture_policy_boundary(root, {BUILD_POLICY_KEY: digest})
+
+        host = root / ARCHITECTURE_TEST_PROJECT
+        original_project = host.read_text(encoding='utf-8')
+        lock = root / ARCHITECTURE_TEST_LOCK
+        original_lock = json.loads(lock.read_text(encoding='utf-8'))
+        for bad_project, bad_lock in [
+                (original_project.replace('PrivateAssets="all"', 'PrivateAssets="none"'), original_lock),
+                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                    'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.31.1', 'contentHash': digest}}}}),
+                (original_project, {'version': 1, 'dependencies': {'net10.0': {
+                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.31.2', 'contentHash': digest}}}}),
+        ]:
+            with self.subTest(project=bad_project != original_project, lock=bad_lock):
+                host.write_text(bad_project, encoding='utf-8')
+                lock.write_text(json.dumps(bad_lock), encoding='utf-8')
+                with self.assertRaises(ValueError):
+                    validate_architecture_policy_boundary(root, {BUILD_POLICY_KEY: digest})
+        host.write_text(original_project, encoding='utf-8')
+        lock.write_text(json.dumps(original_lock), encoding='utf-8')
+        other_lock = root / 'src/other/packages.lock.json'
+        other_lock.parent.mkdir(parents=True)
+        other_lock.write_text(json.dumps(original_lock), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'only the exact direct'):
+            validate_architecture_policy_boundary(root, {BUILD_POLICY_KEY: digest})
+
     def test_con02_exceptions_bind_only_observed_public_digest_rows(self):
         config = tomllib.loads((ROOT / '.gitleaks.toml').read_text())
         rows = [row for row in config['allowlists'] if row['description'].startswith('CON.02 exact')]
