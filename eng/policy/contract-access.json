@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-10-02",
+  "reviewedOn": "2026-10-04",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "079696509223946a9c06b7a3382ec14136c144bb",
+  "sourceCommit": "05bfe3bf1757d8ef507e8bf205418a763b871f64",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -27,7 +27,7 @@
     {
       "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
       "access": "internal",
-      "sha256": "235fff9dc321d400dc02db554a17268a74cf1895b35c4fbb35de9469b58eeef6"
+      "sha256": "31654d8bdf57842710bc844333f70cce927309d37dbb09ca130f6b4dcda39d5e"
     },
     {
       "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
@@ -85,6 +85,11 @@
       "sha256": "e0ed5700197fdb20006c7ea699d9071dd8c4ac9d4248651f8a148363ad8af9dc"
     },
     {
+      "path": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public",
+      "sha256": "82a6b9846fd8772ce7a3bc7478ba0dea95c45351ef2ed8a10a2bc109987ce1a0"
+    },
+    {
       "path": "public/proto/arcforges/publicapi/v1/content.proto",
       "access": "public",
       "sha256": "7d77c5c222dcfa2a5473675873f4d3e1bc8664fa5983f2b40e8c49db652b17fa"
@@ -132,7 +137,7 @@
     {
       "path": "public/proto/arcforges/simulation/v1/simulation.proto",
       "access": "public",
-      "sha256": "6be3a09a0ae9f2f28f2cfec9c5a762d0b1d11519336109fd842b14537e53faf7"
+      "sha256": "132e52b8f66b9bbdde779ee295a1b2406bb26d12e97e7e8ecf78e0c34fa98c7f"
     }
   ],
   "types": [
@@ -1536,6 +1541,12 @@
     },
     {
       "name": "arcforges.local.platform.v1.LocalBootstrapServiceRenewValue",
+      "kind": "message",
+      "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.local.platform.v1.LocalCallContext",
       "kind": "message",
       "file": "internal/proto/arcforges/local/platform/v1/platform.proto",
       "access": "internal"
@@ -4454,6 +4465,144 @@
       "name": "arcforges.publicapi.v1.ConflictView",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/sync.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorChallenge",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorConnection",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorDefinition",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorProof",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorService",
+      "kind": "service",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceBeginConnectionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceBeginConnectionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceBeginConnectionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceCompleteConnectionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceCompleteConnectionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceCompleteConnectionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceGetConnectionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceGetConnectionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceGetConnectionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceListConnectionsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceListConnectionsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceListConnectionsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceListDefinitionsRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceListDefinitionsResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceListDefinitionsValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceRevokeConnectionRequest",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceRevokeConnectionResponse",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.publicapi.v1.ConnectorServiceRevokeConnectionValue",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/connector.proto",
       "access": "public"
     },
     {
@@ -7613,7 +7762,25 @@
       "access": "public"
     },
     {
+      "name": "arcforges.simulation.v1.SimulationDataSegment",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.simulation.v1.SimulationDefinition",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationEvent",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationGap",
       "kind": "message",
       "file": "public/proto/arcforges/simulation/v1/simulation.proto",
       "access": "public"
@@ -7626,6 +7793,12 @@
     },
     {
       "name": "arcforges.simulation.v1.SimulationRun",
+      "kind": "message",
+      "file": "public/proto/arcforges/simulation/v1/simulation.proto",
+      "access": "public"
+    },
+    {
+      "name": "arcforges.simulation.v1.SimulationSample",
       "kind": "message",
       "file": "public/proto/arcforges/simulation/v1/simulation.proto",
       "access": "public"
@@ -9905,9 +10078,10 @@
         "ConnectorBrokerServiceRevokeConnectionResponse",
         "outcome_",
         "OutcomeOneofCase",
-        "ConnectorBrokerServiceRevokeConnectionValue"
+        "ConnectorBrokerServiceRevokeConnectionValue",
+        "LocalCallContext"
       ],
-      "sha256": "2b4f72271af73cd4bc15a5e4092f93e07b2e9492dc58afe1cbf6f88e7263a533",
+      "sha256": "45bdc209918911aa86073c5c788dcb94ecfad9cf3e4d65def9f9c48e758739f6",
       "kind": "generated"
     },
     {
@@ -9940,7 +10114,7 @@
       "package": "ArcForges.Contracts.LocalRpc.Platform",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "a2295a447efd6ba662012d3d0fdcd6d80b1941dd9aed611b1cd78917115abc37",
+      "sha256": "61cccff97cfb29205b8fac9434d96bf5833e33323098ab67b3d2eca42c750427",
       "kind": "generated"
     },
     {
@@ -12055,6 +12229,65 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Connector.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "ConnectorReflection",
+        "ConnectorDefinition",
+        "ConnectorConnection",
+        "ConnectorChallenge",
+        "ConnectorProof",
+        "proof_",
+        "ProofOneofCase",
+        "ConnectorServiceListDefinitionsRequest",
+        "ConnectorServiceListDefinitionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorServiceListDefinitionsValue",
+        "ConnectorServiceListConnectionsRequest",
+        "ConnectorServiceListConnectionsResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorServiceListConnectionsValue",
+        "ConnectorServiceBeginConnectionRequest",
+        "ConnectorServiceBeginConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorServiceBeginConnectionValue",
+        "ConnectorServiceCompleteConnectionRequest",
+        "ConnectorServiceCompleteConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorServiceCompleteConnectionValue",
+        "ConnectorServiceGetConnectionRequest",
+        "ConnectorServiceGetConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorServiceGetConnectionValue",
+        "ConnectorServiceRevokeConnectionRequest",
+        "ConnectorServiceRevokeConnectionResponse",
+        "outcome_",
+        "OutcomeOneofCase",
+        "ConnectorServiceRevokeConnectionValue"
+      ],
+      "sha256": "ccbaef6c7b778dce8e9c8ec5055555ab4fd66bcb04f57e676f30ce89eb54e0bd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/ConnectorGrpc.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": [
+        "ConnectorService",
+        "__Helper_MessageCache",
+        "ConnectorServiceBase",
+        "ConnectorServiceClient"
+      ],
+      "sha256": "52d98bf8df99c551d60d1e7254469c3bc76dca940860abba668ab8f0420c8841",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Content.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -12691,9 +12924,15 @@
         "SimulationServicePollStateValue",
         "SimulationServicePollStateResponse",
         "outcome_",
-        "OutcomeOneofCase"
+        "OutcomeOneofCase",
+        "SimulationEvent",
+        "SimulationSample",
+        "value_",
+        "ValueOneofCase",
+        "SimulationGap",
+        "SimulationDataSegment"
       ],
-      "sha256": "5e9d56bb0108301c0ef3046d0dfac9b5cc8ca1ffaa5e65511addf1167d552000",
+      "sha256": "8fc7eb3398c46d48741f4ac8c6e9c484ac834bff1ff415e3efc46a0330b306f1",
       "kind": "generated"
     },
     {
@@ -12986,7 +13225,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["ContractServices"],
-      "sha256": "059f3f7771fc6ec8b706d8a85026083823841888bfc92bd5cab964054041604e",
+      "sha256": "7ead8de9848cf7c94aa4b363d76d4b9082cd0493fdb879d7e13975ad1abe7f9f",
       "kind": "generated"
     },
     {
@@ -13662,7 +13901,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "f8c02ec681e743719d25ad3249caf85f3ff493651a9f774f273cc68f4e4d343a",
+      "sha256": "5ef7ca1bed3a45570b1ddfbfa21b5221bb1f63cdf6ee1658a2f121da039690fc",
       "kind": "generated"
     },
     {
@@ -14124,6 +14363,22 @@
       "access": "public",
       "types": ["CommerceServiceClientInterface"],
       "sha256": "f16a5270e81ab7488c00358d43b58a5a6a52f595b499ad7a8b23b011006d520e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceClient.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["ConnectorServiceClient"],
+      "sha256": "b4f145d9d2b213e56a80c3499b5bf627b2105fe5198faa851e8d65d8cef02f4d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceClientInterface.kt",
+      "package": "io.github.arcforges:contracts-connect-client",
+      "access": "public",
+      "types": ["ConnectorServiceClientInterface"],
+      "sha256": "50615954a285ed8b4e81efa6cce922ec925f88a677da26e42efb8f9bff5192b1",
       "kind": "generated"
     },
     {
@@ -19804,6 +20059,366 @@
       "access": "public",
       "types": ["ConflictViewOrBuilder"],
       "sha256": "979364aaea1fb5aa8e7c817ec4e9552769dc9aa50a190060d052fc735b27e419",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorChallenge.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorChallenge", "Builder"],
+      "sha256": "9c1ebf8d074fe8eb04cf84816dfb91ef74420638d2128cb7b08801bd65b0d9e3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorChallengeOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorChallengeOrBuilder"],
+      "sha256": "9b8fc609af23d196c8fd021eec216e51ec35ea36f95851a976f52217b14fd1cd",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorConnection.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorConnection", "Builder"],
+      "sha256": "b081557b440c01a7dad3739148095edac89433825f71372f378fd79ebb11cf3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorConnectionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorConnectionOrBuilder"],
+      "sha256": "f9f86a8d79794a742d520d9b0628731e3dc0fabdf60ec2791cdfb4d92fea62ee",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorDefinition.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorDefinition", "Builder"],
+      "sha256": "28e7cf99b92fb1cd9ee653d03a0bb39f61b797610bb4399c6a3f3cc21ea75c20",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorDefinitionOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorDefinitionOrBuilder"],
+      "sha256": "4a5ef28457c4efa2b2d3c1f8714ff5f11844640448001414be2e7c2bf1ece37c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorProof.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorProof", "ProofCase", "Builder"],
+      "sha256": "0ec9a4618d7c48d6dcd13372ce9eb1f69d4c7958788ab0b944b0a7cd77e886c5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorProofOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorProofOrBuilder"],
+      "sha256": "1ee761c52ee883084336edfbbff1073a3154a81418998993e92d75a47931ee9a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorProto.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorProto"],
+      "sha256": "7c4d6936acdc491d0c31313a4d5bb2766f14de67cca9f4016bbde16ffd5f13b8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionRequest", "Builder"],
+      "sha256": "606d818b24246940b8958df00bb00f6014d206a46f6744e7d96780e365dae5fb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionRequestOrBuilder"],
+      "sha256": "4d89896b61d41986c91c9a23306fe524574976b54608e0c4c62ae4e90626ee32",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionResponse", "OutcomeCase", "Builder"],
+      "sha256": "53dc305fbd95a8c21002842e77f65ce04f43c1a9ffd213c9779a20d85fa6f9c3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionResponseOrBuilder"],
+      "sha256": "e84ffdf8978183c163a8469b44d9ef23f7511d57619a38fa8e2d54d80b6b32ae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionValue", "Builder"],
+      "sha256": "ce70b33dd3baf8425abe265b84a56ffc23b6d03fe480c7667d07546b8204e055",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionValueOrBuilder"],
+      "sha256": "22e151aaaf4f462f04b836456fce959e720888c8152346bd22c1b511fb944d8d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionRequest", "Builder"],
+      "sha256": "9574f099b9aac26a16173c670edd1ecf98940af5834a567a720def3a6621e4cb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionRequestOrBuilder"],
+      "sha256": "91800ef00684481ee386037943501d3c84e9922e9d5794a3b78c34da70b5e24c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionResponse", "OutcomeCase", "Builder"],
+      "sha256": "96f63f829b7f6f61eac4822e14d072372a93d2a1bfb4c22a7a7fd256b5fe7ef3",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionResponseOrBuilder"],
+      "sha256": "f1bffb4b41c088e4c6502c79976987a87043c783c99fd6be97af1f53adc68fe8",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionValue", "Builder"],
+      "sha256": "5c43a609ba24681d3f63d2558a14b166f34f66bd6cee935e38c8315c03b87620",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionValueOrBuilder"],
+      "sha256": "bf8d4c01fd77ee6fa5ad88f9d6e5fced6aab87819f45d77fcab91918313dd34d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionRequest", "Builder"],
+      "sha256": "b9a3173307d244c2332739d4c33026073ae7c530604878044e0361b2b8270b2a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionRequestOrBuilder"],
+      "sha256": "3fbe43c28e408b3dd4b0993abfad2b73f4ba1bd5c591b58180f51055ee750842",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionResponse", "OutcomeCase", "Builder"],
+      "sha256": "93fcf7938b780961e622f8ad67747eb6ce318e8007c222495cfeae65c9dff0fc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionResponseOrBuilder"],
+      "sha256": "4f536e95edaa00b127406e77bf7432c60ff599b4857bb84aef34be5a04e687c4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionValue", "Builder"],
+      "sha256": "eeadc47bef16aa4ce205da4d61ddbd4ebfc1ec4695edbb760641bb57c1db7635",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionValueOrBuilder"],
+      "sha256": "7e826f26b64d67df25ebf7b389abf47c661539f9ca8c3e8e1197dadf6b33a64b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsRequest", "Builder"],
+      "sha256": "d003a45348edf86b67d1237ca64a66f082c5b122abe67247378f0b1a19130a96",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsRequestOrBuilder"],
+      "sha256": "e343a4b0436e9d5d54d313971672b2e9a834193a16adbb3c09a33e49121e8b88",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsResponse", "OutcomeCase", "Builder"],
+      "sha256": "e57b5b61e35a108bfa9b54c2ee78f8b278169df8d84bc6c37c50d1454c0b6d2d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsResponseOrBuilder"],
+      "sha256": "32439800145eb8004ad17cd3d972e1bb06dd88d48cd56dac245e379c8e2ba820",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsValue", "Builder"],
+      "sha256": "06b00ea01b5696acd6325886d5c2bb24a169882baf90e2f6da69b3bed3131605",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsValueOrBuilder"],
+      "sha256": "e4558554d3e61448ef932a0bdcb94d7399dfb417b0bad9b5e40361f0bfc5e3da",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsRequest", "Builder"],
+      "sha256": "6a5bf8cde9a82b9045cd409ac97edd6330fc227a24f96f9e6d42ca694f04fe99",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsRequestOrBuilder"],
+      "sha256": "991bb70297fea5f99127be23daef591501a0f3bf9ee5a7d479a2478c9c04fbae",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsResponse", "OutcomeCase", "Builder"],
+      "sha256": "8963ee5c4e64daa9ed3ad2a76c56ca5a4d89d32a6be23e5f966439ff15694179",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsResponseOrBuilder"],
+      "sha256": "966075eb90287e535c3086ff2f80d75bce1b3d0b201f89a798396669065186fa",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsValue", "Builder"],
+      "sha256": "bf7466193fdb14eb2c9e503fbc4865fed7aeec9943e3522e0acb11f879394d9c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsValueOrBuilder"],
+      "sha256": "566ee9ebac9b417326f80e8fe53fc9f3e0e679087114b7859bbcedd7f2c33fad",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionRequest.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionRequest", "Builder"],
+      "sha256": "ad405f1c80a037225c81f23733fd6fe5bd666234201430620e041c1fb5aec840",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionRequestOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionRequestOrBuilder"],
+      "sha256": "28b5d8c4a42a59854b15d2abc21d4ef99184c393bc520a9e8efe15c5c2b2e412",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionResponse.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionResponse", "OutcomeCase", "Builder"],
+      "sha256": "46da620c547c5bc7b01b1b4f86f11511b2c3616186628f199f9dd246922f8140",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionResponseOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionResponseOrBuilder"],
+      "sha256": "a19e20fa5850fd35dcc132ec444d9918e94cc998f44684182cdd5d9bd627661c",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionValue.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionValue", "Builder"],
+      "sha256": "1a5b0d37ce6f2286548c05f8ad0e38bf72c2b90a6deb62ae1323bee0141541e6",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionValueOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionValueOrBuilder"],
+      "sha256": "83e8d30eed544f8366654fd37794bd94cf57e2ea25569aa779fb2b07733d6dca",
       "kind": "generated"
     },
     {
@@ -27895,6 +28510,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationDataSegment.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationDataSegment", "Builder"],
+      "sha256": "b9f0dc842d173a8104bd87bf81f2f05d0a18d24496f0e9b1b961ee710a70d3fc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationDataSegmentOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationDataSegmentOrBuilder"],
+      "sha256": "a32da93979be9ff09e4e24bb30e28285eff0e0403871577afcc9b77b454fd15a",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationDefinition.java",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
@@ -27908,6 +28539,38 @@
       "access": "public",
       "types": ["SimulationDefinitionOrBuilder"],
       "sha256": "ac51641e705b31ccca2ab8f8bac91ead8549e119ea81aa268eb7121bfdb3e18a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationEvent.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationEvent", "Builder"],
+      "sha256": "278457ede9e373ad2984f1461190b1446b140f739852e8a13bd3780271170c14",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationEventOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationEventOrBuilder"],
+      "sha256": "ba22d1f60e9b6fae56366ff98a176756e977b867ada8041e84e021f4dd271e20",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationGap.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationGap", "Builder"],
+      "sha256": "b803a90c737a692e77ae0ecab5934951a4f0b3e17a50b56965facb782dc40a05",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationGapOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationGapOrBuilder"],
+      "sha256": "f1023a325bfc2c05a02db20b7a46a9f2e2ba0dd2c36dab07413eaeef15e4d48b",
       "kind": "generated"
     },
     {
@@ -27948,6 +28611,22 @@
       "access": "public",
       "types": ["SimulationRunOrBuilder"],
       "sha256": "dce25f51a2ee217f091ca4cfacfb2de2e24047c0f6d08c4ead8d65439b879d69",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationSample.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationSample", "ValueCase", "Builder"],
+      "sha256": "c6f965c7e5e55ac0a454b9a149802f343ae84467ffd0a3be8819b4b6152db4ad",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/simulation/v1/SimulationSampleOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationSampleOrBuilder"],
+      "sha256": "998451281edf524d32dcce67cbeb760cbc24e338d57dd4520d568046992c5f11",
       "kind": "generated"
     },
     {
@@ -31282,6 +31961,190 @@
       "access": "public",
       "types": ["ConflictViewKt", "Dsl"],
       "sha256": "361af10a6623ee8d4de4a1bdc7025e1e97d7836bffc46cfaf6c028b2f20745d0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorChallengeKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorChallengeKt", "Dsl"],
+      "sha256": "d43c54279044a8b602dc73b6baa3b3db609a009a67f79f2a3f5245c14851c964",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorConnectionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorConnectionKt", "Dsl", "ScopesProxy"],
+      "sha256": "a3ce2c2625909cd52f02649dee70fd80c77ae849355d59a27ab047e3e5cc76e4",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorDefinitionKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorDefinitionKt", "Dsl", "OriginsProxy", "ScopesProxy", "CapabilitiesProxy"],
+      "sha256": "5e822032cb2528a16a9fcfb182790fdfae939c5f6f294849c0b19ba85e6dfb7e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorProofKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorProofKt", "Dsl"],
+      "sha256": "92528108001ac65fd20548b0df4af8e86aa4684886812c54b688e33e89c2064a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorProtoKt.proto.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": [],
+      "sha256": "77b94fb6df9ccc6c53ba3473a3f6584b45d8e0a456dee42a9167bc1b4ffbaf3d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionRequestKt", "Dsl"],
+      "sha256": "d4b06fe16fc9c09121affa8c57d66c0b7bbdc6f1ef10d301b41c750cefe9dde9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionResponseKt", "Dsl"],
+      "sha256": "2917e83db9b1e80040cc45ce16481ad74cb1446806cb18b12050dd44a61f2e44",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceBeginConnectionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceBeginConnectionValueKt", "Dsl"],
+      "sha256": "14319afb79fa8e363d4e384042b5a091c856348bef259e09700261c23697ca0b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionRequestKt", "Dsl"],
+      "sha256": "5e45a2d77924225ff8caa83c587f266289c74ea0fe4ce2f8248f7c57bcd27c08",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionResponseKt", "Dsl"],
+      "sha256": "0487a38df2c57d8a9b2e0290bd896df08f59ca26392724537b758e780035591a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceCompleteConnectionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceCompleteConnectionValueKt", "Dsl"],
+      "sha256": "4f62b863ed63073d70b6645202664e8c543f766536e5c3e4fd36c7686aedb9eb",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionRequestKt", "Dsl"],
+      "sha256": "8777e215261b25509da15e02b4ecb8949cd986c8dca1c7bdd6c44307d0bbf12b",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionResponseKt", "Dsl"],
+      "sha256": "913f80b093bdb2dd732d72d5ba5cea7e6a6a801123b851f1345c1acb1d09b6c5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceGetConnectionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceGetConnectionValueKt", "Dsl"],
+      "sha256": "b55a5ab8cc5e139fd8c171d0e19098966926580b6662a9376a29a90568cf69e5",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsRequestKt", "Dsl"],
+      "sha256": "1e98bfb59abc4e4c6ca6b6003e67a5cc994fe0faf330bf4be8bb4f851bb46b5d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsResponseKt", "Dsl"],
+      "sha256": "90b59f04aaa1a92369579ec1ee349c15456dcfa08aa9551a2abec5b172636df9",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListConnectionsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListConnectionsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "2440ec4a6ff4c2351969807f59c8cfb431210e4c31f829e4b9875e2868f29455",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsRequestKt", "Dsl"],
+      "sha256": "0020872a155a6c2259cdd043f46e85928028a57d6654fd20d50a802e288c7aa0",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsResponseKt", "Dsl"],
+      "sha256": "c3485afa649b58da766396e247b52057a96324780dfe13f743205c13b8cf1c82",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceListDefinitionsValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceListDefinitionsValueKt", "Dsl", "ItemsProxy"],
+      "sha256": "9a14110d0ad4213487d3838861b3dbce62285d955dc6031609a03c9b4fa0af04",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionRequestKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionRequestKt", "Dsl"],
+      "sha256": "f7ad781960bcc5e114410f40481fdfcae72bca8ea730d0285034f14d3e66e3e7",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionResponseKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionResponseKt", "Dsl"],
+      "sha256": "be830e30942461e5443b33d78b3e35e0c60b649275c8dabcc5a668772763c8fc",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/ConnectorServiceRevokeConnectionValueKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["ConnectorServiceRevokeConnectionValueKt", "Dsl"],
+      "sha256": "729f3d00c003064e52f0cac759f7a6b18b839ab7b4240333240aefefc500f38a",
       "kind": "generated"
     },
     {
@@ -35351,11 +36214,35 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationDataSegmentKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationDataSegmentKt", "Dsl", "RecordsProxy", "EventsProxy", "GapsProxy"],
+      "sha256": "d6f51be79ef7370e256c20c5f50b2149b1820edb0802e11115571817c8cc0e9e",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationDefinitionKt.kt",
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["SimulationDefinitionKt", "Dsl"],
       "sha256": "d356f4e44033d027b8a12a2479950d8e8b407b2c839f0b2bd5978599c6f20df2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationEventKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationEventKt", "Dsl", "FieldsProxy"],
+      "sha256": "54d1ca6e387e775eedf417cd4e9b3217a04e9669adf73bea24a031072f07c73d",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationGapKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationGapKt", "Dsl"],
+      "sha256": "b0ec50c52a64bca18c56e5a0e668c012cffa2a4b0a651aaf6500a48c741c3a18",
       "kind": "generated"
     },
     {
@@ -35380,6 +36267,14 @@
       "access": "public",
       "types": ["SimulationRunKt", "Dsl"],
       "sha256": "4cd66e40b60f0b99a5d8e40e6ff65357f579c5cd32603b5964f9fd99f63591d1",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/simulation/v1/SimulationSampleKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["SimulationSampleKt", "Dsl", "FaultIdsProxy"],
+      "sha256": "0d4cb9301c1c09840afe427596e724e7b39efbdd3596164805e9a55f35f2d4b6",
       "kind": "generated"
     },
     {
@@ -36203,7 +37098,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "a57b7acc17996c6d777f9072203970d5804e7bb2d0b64cafae4520f07796939f",
+      "sha256": "5995d8cebb5c86008acd9f29576dc702ef11556f69a401e8851b5a88fe9206e1",
       "kind": "generated"
     },
     {
@@ -36708,6 +37603,37 @@
         "SubscriptionState"
       ],
       "sha256": "47903d3427078f8509ce9f74f65ba3fd457267becda6ba127acec293d001312a",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/gen/arcforges/publicapi/v1/connector_pb.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": [
+        "ConnectorDefinition",
+        "ConnectorConnection",
+        "ConnectorChallenge",
+        "ConnectorProof",
+        "ConnectorServiceListDefinitionsRequest",
+        "ConnectorServiceListDefinitionsResponse",
+        "ConnectorServiceListDefinitionsValue",
+        "ConnectorServiceListConnectionsRequest",
+        "ConnectorServiceListConnectionsResponse",
+        "ConnectorServiceListConnectionsValue",
+        "ConnectorServiceBeginConnectionRequest",
+        "ConnectorServiceBeginConnectionResponse",
+        "ConnectorServiceBeginConnectionValue",
+        "ConnectorServiceCompleteConnectionRequest",
+        "ConnectorServiceCompleteConnectionResponse",
+        "ConnectorServiceCompleteConnectionValue",
+        "ConnectorServiceGetConnectionRequest",
+        "ConnectorServiceGetConnectionResponse",
+        "ConnectorServiceGetConnectionValue",
+        "ConnectorServiceRevokeConnectionRequest",
+        "ConnectorServiceRevokeConnectionResponse",
+        "ConnectorServiceRevokeConnectionValue"
+      ],
+      "sha256": "7c695abe22d9cea8670d70c2216bb82216081d71c789a8010cf8085ce91f61b8",
       "kind": "generated"
     },
     {
@@ -37257,9 +38183,13 @@
         "SimulationServiceGetSegmentTicketResponse",
         "SimulationServicePollStateRequest",
         "SimulationServicePollStateValue",
-        "SimulationServicePollStateResponse"
+        "SimulationServicePollStateResponse",
+        "SimulationEvent",
+        "SimulationSample",
+        "SimulationGap",
+        "SimulationDataSegment"
       ],
-      "sha256": "25155159e6f69f4dc5a83a6e6a09458fa11deee711e3591630dce668e43aa1c9",
+      "sha256": "131e76911b4b8d7a6cdc0ebe283e4134004497381ebde64c7e607ae882d26e97",
       "kind": "generated"
     },
     {
@@ -37267,7 +38197,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "7610828251b56369d2ae3640dd40ef59d5950f26c9b1ea100bc915f4fe9c4a03",
+      "sha256": "ffda60bb4858ff015a6de8e5fdea631933599ca10ea07a73ab7a73d7500a2a8b",
       "kind": "generated"
     },
     {
@@ -37283,7 +38213,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "035ed7b7bae0681ce55d5c3bd6553d2883b2223db977286238761d6eebc5656b",
+      "sha256": "3a2841156f0d965b38a8ee5043c2c96390438079360e186b992be38931b16ae2",
       "kind": "generated"
     },
     {
@@ -37291,7 +38221,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "d55e596bed3bf044899aca07c8b6f03e1d84ba21c165a431c722230e59ba0405",
+      "sha256": "5e915d40f372948d7e77fa73938a942c0ef6e2843b62e89c92a479f4257076c3",
       "kind": "generated"
     },
     {
@@ -37400,7 +38330,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "b59016d3f372b5a747feee60de3c4b6168525090081f756ef5c325e58122698a"
+      "sha256": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796"
     },
     {
       "path": "gradle.properties",
@@ -37424,7 +38354,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "d227efd497c17d7845fedd384a146b9b2df1f0c0793d18bee467baea2a7c21a7"
+      "sha256": "911c59c19402a5766e42fee9bd1ae2300af189c00831dd2f5db8f65d7142c3d7"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -37453,6 +38383,10 @@
     {
       "path": "internal/proto/constraints/con-14-operator.json",
       "sha256": "9fc27f1d197a981113a66db50d8f71f4e77cefa00e1c1b58a12eb681e6bc181f"
+    },
+    {
+      "path": "internal/proto/constraints/con-25-local-call-context.json",
+      "sha256": "3b14d120592de694eeb0fc12a8d0348470ec626f089e9e03f6b9f42ed49c8619"
     },
     {
       "path": "internal/proto/constraints/operator-baseline.json",
@@ -37484,7 +38418,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "a11279905b8918d0bd2e224226938271aff7c0efb2a063dbcc2bfa2627d9eaa8"
+      "sha256": "b0f73a6c907e161a6203bc954f1f96a88515a7ebfcf08c3ae76023a8d40a15be"
     },
     {
       "path": "public/http/v1/browser.schema.json",
@@ -37524,7 +38458,7 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "0b4f3d7c1a8fba11672ed2741180b8bcda33ce91e44b1f94e4d4acebeec0e5ba"
+      "sha256": "58c8ad7d5ebd113ab66e138a21b1107cacc430f1334c1a19a2fa187d622ea234"
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",
@@ -37565,6 +38499,14 @@
     {
       "path": "public/proto/constraints/con-24-scope-library.json",
       "sha256": "f1a82c3f2ffd2e6a08d1868aed36545becaaaf55c21cfdd2f8aefc78377b1592"
+    },
+    {
+      "path": "public/proto/constraints/con-25-af-segment.json",
+      "sha256": "3aea7d214d1ec2ec29ad4ef8251a0c1a93750e80b157870eaad427f4e3ee91e9"
+    },
+    {
+      "path": "public/proto/constraints/con-25-connector.json",
+      "sha256": "db6b875911afc76b4032a47f75dc941684e7865ade908ec95d422ce7d5b8bb73"
     },
     {
       "path": "public/proto/constraints/events-baseline.json",
