@@ -4,6 +4,7 @@ syntax = "proto3";
 package arcforges.local.platform.v1;
 
 import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/chat.proto";
 
 option csharp_namespace = "ArcForges.Contracts.LocalRpc.Platform.V1";
 option java_package = "io.github.arcforges.contracts.local.platform.v1";
@@ -246,4 +247,16 @@ message ConnectorBrokerServiceRevokeConnectionResponse {
 }
 message ConnectorBrokerServiceRevokeConnectionValue {
   ConnectorConnection connection = 10 [json_name = "connection"];
+}
+
+// x-af-call-bin local call metadata (annex 09, registry04 section 4): bounded to 4 KiB serialized and 32 scope
+// roots. Identifiers reference validated owner evidence and are never bearer grants. Infrastructure calls may omit
+// the actor; product business calls may not (enforced by the owning call boundary, not by this record).
+message LocalCallContext {
+  arcforges.foundation.v1.ActorChain actor = 1 [json_name = "actor"];
+  repeated arcforges.foundation.v1.AggregateRef scope = 2 [json_name = "scope"];
+  arcforges.foundation.v1.Id invocation_id = 3 [json_name = "invocationId"];
+  arcforges.foundation.v1.Id approval_id = 4 [json_name = "approvalId"];
+  arcforges.foundation.v1.Id lease_id = 5 [json_name = "leaseId"];
+  arcforges.publicapi.v1.ExecutionOwner execution_owner = 6 [json_name = "executionOwner"];
 }

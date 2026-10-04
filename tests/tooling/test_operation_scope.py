@@ -645,7 +645,7 @@ class OperationScopeTests(unittest.TestCase):
         self.assertEqual(len(result["operations"]), len(oracle["operations"]))
         self.assertEqual(result["registered"] + result["pending"] + result["reserved"], len(oracle["operations"]))
         self.assertEqual((result["registered"], result["pending"], result["reserved"],
-                          len(result["operations"])), (329, 6, 7, 342))
+                          len(result["operations"])), (335, 0, 7, 342))
         self.assertEqual(result["privateServiceProjections"], [{
             "binding": CON11_PRIVATE_BINDING,
             "source": CON11_PRIVATE_SOURCE,

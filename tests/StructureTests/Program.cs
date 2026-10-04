@@ -49,6 +49,11 @@ if (args.Contains("--con-24", StringComparer.Ordinal))
     Con24ScopeLibraryCases.Run(root);
     return 0;
 }
+if (args.Contains("--con-25", StringComparer.Ordinal))
+{
+    Con25Cases.Run(root);
+    return 0;
+}
 if (args.Contains("--con-07", StringComparer.Ordinal))
 {
     IdentityCases.Run(root);
@@ -107,6 +112,7 @@ Con05Cases.Run();
 Con06InprocessCases.Run(root);
 SimulationCases.Run(root);
 Con24ScopeLibraryCases.Run(root);
+Con25Cases.Run(root);
 IdentityCases.Run(root);
 FoundationLinkCases.Run();
 ContentSandboxCases.Run(root);

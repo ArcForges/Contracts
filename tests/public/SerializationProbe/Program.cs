@@ -123,6 +123,7 @@ ArcForges.Contracts.PublicApi.V1.DataService.BindService(binder, new DataEndpoin
 ArcForges.Contracts.PublicApi.V1.ExportService.BindService(binder, new ExportEndpoint());
 ArcForges.Contracts.Simulation.V1.SimulationService.BindService(binder, new SimulationEndpoint());
 ArcForges.Contracts.PublicApi.V1.ScopeService.BindService(binder, new ScopeEndpoint());
+ArcForges.Contracts.PublicApi.V1.ConnectorService.BindService(binder, new ConnectorEndpoint());
 ArcForges.Contracts.PublicApi.V1.ApplicationService.BindService(binder, new ApplicationEndpoint());
 ArcForges.Contracts.PublicApi.V1.HistoryService.BindService(binder, new HistoryEndpoint());
 ArcForges.Contracts.PublicApi.V1.IdentityService.BindService(binder, new IdentityEndpoint());
@@ -144,6 +145,7 @@ FileDescriptor[] files =
     ArcForges.Contracts.Catalog.V1.CatalogReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ContentReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ScopeReflection.Descriptor,
+    ArcForges.Contracts.PublicApi.V1.ConnectorReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.CommerceReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.ChatReflection.Descriptor,
     ArcForges.Contracts.PublicApi.V1.SyncReflection.Descriptor,
@@ -395,6 +397,8 @@ internal sealed class ExportEndpoint : ArcForges.Contracts.PublicApi.V1.ExportSe
 internal sealed class SimulationEndpoint : ArcForges.Contracts.Simulation.V1.SimulationService.SimulationServiceBase;
 
 internal sealed class ScopeEndpoint : ArcForges.Contracts.PublicApi.V1.ScopeService.ScopeServiceBase;
+
+internal sealed class ConnectorEndpoint : ArcForges.Contracts.PublicApi.V1.ConnectorService.ConnectorServiceBase;
 
 internal sealed class ApplicationEndpoint : ArcForges.Contracts.PublicApi.V1.ApplicationService.ApplicationServiceBase;
 

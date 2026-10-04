@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.simulation.v1.SimulationEvent": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationEvent",
+      "fields": {
+        "eventId": {
+          "required": true
+        },
+        "channelId": {
+          "required": true
+        },
+        "start": {
+          "required": true
+        },
+        "duration": {},
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+        },
+        "fields": {
+          "items": {}
+        },
+        "faultId": {}
+      }
+    },
+    "arcforges.simulation.v1.SimulationSample": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationSample",
+      "fields": {
+        "channelId": {
+          "required": true
+        },
+        "tick": {
+          "required": true
+        },
+        "deliveredOrdinal": {
+          "required": true
+        },
+        "time": {
+          "required": true
+        },
+        "numeric": {
+          "finite": true
+        },
+        "digital": {},
+        "eventId": {},
+        "faultIds": {
+          "items": {}
+        }
+      },
+      "oneofRequired": ["value"]
+    },
+    "arcforges.simulation.v1.SimulationGap": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationGap",
+      "fields": {
+        "channelId": {},
+        "startTick": {
+          "required": true
+        },
+        "tickCount": {
+          "required": true
+        },
+        "faultId": {
+          "required": true
+        },
+        "kind": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["drop", "disconnect", "malformed"]
+        }
+      }
+    },
+    "arcforges.simulation.v1.SimulationDataSegment": {
+      "csharpType": "ArcForges.Contracts.Simulation.V1.SimulationDataSegment",
+      "fields": {
+        "encodingProfile": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-segment.v1"]
+        },
+        "executionProfile": {
+          "required": true,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "enumValues": ["af-sim.v1"]
+        },
+        "startTick": {
+          "required": true
+        },
+        "tickCount": {
+          "required": true
+        },
+        "records": {
+          "items": {}
+        },
+        "events": {
+          "items": {}
+        },
+        "gaps": {
+          "items": {}
+        }
+      }
+    }
+  }
+}

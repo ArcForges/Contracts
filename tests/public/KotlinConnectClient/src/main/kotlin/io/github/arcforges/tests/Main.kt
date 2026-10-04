@@ -36,6 +36,7 @@ fun main(args: Array<String>) = runBlocking {
     SupportCases.run()
     SimulationCases.run()
     Con24ScopeLibraryCases.run()
+    Con25Cases.run()
     IdentityCases.run()
     check(args.size == 2) { "Expected gRPC-Web and native gRPC fixture ports" }
     val fixture = ContractFixtures.openHello().bufferedReader(Charsets.UTF_8).use { JsonParser.parseReader(it).asJsonObject }

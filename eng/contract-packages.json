@@ -30,6 +30,7 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
+        "public/proto/arcforges/publicapi/v1/connector.proto",
         "public/proto/arcforges/publicapi/v1/application.proto",
         "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
@@ -201,6 +202,7 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
+        "public/proto/arcforges/publicapi/v1/connector.proto",
         "public/proto/arcforges/publicapi/v1/application.proto",
         "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
@@ -284,6 +286,7 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
+        "public/proto/arcforges/publicapi/v1/connector.proto",
         "public/proto/arcforges/publicapi/v1/application.proto",
         "public/proto/arcforges/publicapi/v1/identity.proto"
       ],
@@ -305,6 +308,7 @@
         "public/proto/arcforges/publicapi/v1/export.proto",
         "public/proto/arcforges/simulation/v1/simulation.proto",
         "public/proto/arcforges/publicapi/v1/scope.proto",
+        "public/proto/arcforges/publicapi/v1/connector.proto",
         "public/proto/arcforges/publicapi/v1/application.proto",
         "public/proto/arcforges/events/v1/events.proto",
         "public/proto/arcforges/publicapi/v1/identity.proto"

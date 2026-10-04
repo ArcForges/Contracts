@@ -411,3 +411,47 @@ message SimulationServicePollStateResponse {
   }
   reserved 5 to 9;
 }
+
+// af-segment.v1 payload records (registry04 section 4). The segment body is the canonical UTF-8 JSON
+// profile of SimulationDataSegment (registry04 section 10), never protobuf encoder output; no RPC carries
+// these messages. Golden vectors in fixtures/public/con-25-af-segment.json fix the exact bytes.
+message SimulationEvent {
+  arcforges.foundation.v1.Id event_id = 1 [json_name = "eventId"];
+  arcforges.foundation.v1.Id channel_id = 2 [json_name = "channelId"];
+  arcforges.publicapi.v1.ScopeTime start = 3 [json_name = "start"];
+  arcforges.publicapi.v1.ScopeTime duration = 4 [json_name = "duration"];
+  optional string kind = 5 [json_name = "kind"];
+  repeated arcforges.publicapi.v1.MetadataEntry fields = 6 [json_name = "fields"];
+  arcforges.foundation.v1.Id fault_id = 7 [json_name = "faultId"];
+}
+
+message SimulationSample {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  optional uint64 tick = 2 [json_name = "tick"];
+  optional uint64 delivered_ordinal = 3 [json_name = "deliveredOrdinal"];
+  arcforges.publicapi.v1.ScopeTime time = 4 [json_name = "time"];
+  oneof value {
+    double numeric = 5 [json_name = "numeric"];
+    bool digital = 6 [json_name = "digital"];
+    arcforges.foundation.v1.Id event_id = 7 [json_name = "eventId"];
+  }
+  repeated arcforges.foundation.v1.Id fault_ids = 8 [json_name = "faultIds"];
+}
+
+message SimulationGap {
+  arcforges.foundation.v1.Id channel_id = 1 [json_name = "channelId"];
+  optional uint64 start_tick = 2 [json_name = "startTick"];
+  optional uint64 tick_count = 3 [json_name = "tickCount"];
+  arcforges.foundation.v1.Id fault_id = 4 [json_name = "faultId"];
+  optional string kind = 5 [json_name = "kind"];
+}
+
+message SimulationDataSegment {
+  optional string encoding_profile = 1 [json_name = "encodingProfile"];
+  optional string execution_profile = 2 [json_name = "executionProfile"];
+  optional uint64 start_tick = 3 [json_name = "startTick"];
+  optional uint64 tick_count = 4 [json_name = "tickCount"];
+  repeated SimulationSample records = 5 [json_name = "records"];
+  repeated SimulationEvent events = 6 [json_name = "events"];
+  repeated SimulationGap gaps = 7 [json_name = "gaps"];
+}

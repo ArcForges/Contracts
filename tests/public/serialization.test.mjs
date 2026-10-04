@@ -357,6 +357,14 @@ test("generated service catalogue lists exactly the authored services", () => {
       "/arcforges.publicapi.v1.ScopeService/ListSessions",
       "/arcforges.publicapi.v1.ScopeService/GetSession",
     ],
+    "arcforges.publicapi.v1.ConnectorService": [
+      "/arcforges.publicapi.v1.ConnectorService/ListDefinitions",
+      "/arcforges.publicapi.v1.ConnectorService/ListConnections",
+      "/arcforges.publicapi.v1.ConnectorService/BeginConnection",
+      "/arcforges.publicapi.v1.ConnectorService/CompleteConnection",
+      "/arcforges.publicapi.v1.ConnectorService/GetConnection",
+      "/arcforges.publicapi.v1.ConnectorService/RevokeConnection",
+    ],
   };
   const con11ServiceMethodCounts = [
     ["arcforges.events.v1.ExecutionService", 5],

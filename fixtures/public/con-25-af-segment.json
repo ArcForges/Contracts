@@ -1,0 +1,682 @@
+{
+  "schemaVersion": "con-25-af-segment.v1",
+  "license": "Apache-2.0",
+  "evidenceClass": "offline-contract-only-no-simulator-or-native-reader",
+  "profile": {
+    "id": "af-segment.v1",
+    "executionProfile": "af-sim.v1",
+    "source": "docs/architecture/contracts/04-protobuf-wire-registry.md#10-owner-bodies-mutation-admission-and-schema-composition",
+    "bodyNote": "The segment body is canonical UTF-8 JSON of SimulationDataSegment, never protobuf encoder output. Segment length and SHA-256 cover exactly these bytes.",
+    "rules": [
+      "UTF-8 without a byte order mark and without insignificant whitespace",
+      "member names are the proto json_name values (ASCII), sorted ordinal (byte order) within every object; a duplicate member is refused",
+      "Id is the lower-case hyphenated UUID of the 16 canonical bytes",
+      "uint64, sint64 and uint32 are exact base10 strings (no plus sign, no leading zero except 0, no negative zero, range-checked); never JSON numbers",
+      "double is the 16 lower-case hexadecimal digits of the IEEE 754 binary64 bit word in big-endian order, preserving signed zero; a nonfinite value is refused",
+      "bool is the literal true or false; an explicit false digital value is present",
+      "string uses JSON escapes only for quotation mark, reverse solidus, backspace, tab, line feed, form feed, carriage return and other U+0000..U+001F as lower-case six-character u escapes; every other scalar (including DEL and non-ASCII) is literal UTF-8; an unpaired surrogate is refused",
+      "a oneof emits exactly the one selected arm member and no sibling; none or two arms is refused",
+      "an absent optional singular member is omitted; null is never emitted",
+      "every repeated member is present even when empty and keeps its order",
+      "records are ordered by strictly ascending deliveredOrdinal",
+      "event metadata scalars are limited to the text, boolean, integer, number, decimal and instant arms; the resource arm is not representable in af-segment.v1",
+      "any other member, a wrong encodingProfile or executionProfile, or any deviation from the byte form above is refused"
+    ]
+  },
+  "vectors": [
+    {
+      "id": "empty-segment-keeps-every-ordered-repeated-field",
+      "description": "A segment with no records, events or gaps still carries three empty arrays.",
+      "covers": ["empty-repeated"],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "0",
+        "tickCount": "0",
+        "records": [],
+        "events": [],
+        "gaps": []
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"0\",\"tickCount\":\"0\"}",
+      "utf8Bytes": 133,
+      "sha256": "d586b187a64832e2ffc057990386d9c160468240bc7468cb28efe22836f27fd2"
+    },
+    {
+      "id": "numeric-digital-and-event-samples-in-delivered-order",
+      "description": "One numeric, one digital and one event-reference sample in delivered order, with an event carrying every metadata scalar arm the profile admits.",
+      "covers": [
+        "oneof-numeric",
+        "oneof-digital",
+        "oneof-eventId",
+        "optional-duration-present",
+        "optional-duration-absent",
+        "optional-faultId-absent",
+        "metadata-scalar-arms"
+      ],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "100",
+        "tickCount": "3",
+        "records": [
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "100",
+            "deliveredOrdinal": "0",
+            "time": {
+              "ticks": "100",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "1.5"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "11112222-3333-4444-5555-666677778888",
+            "tick": "101",
+            "deliveredOrdinal": "1",
+            "time": {
+              "ticks": "101",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "digital": true
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5",
+            "tick": "102",
+            "deliveredOrdinal": "2",
+            "time": {
+              "ticks": "102",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "eventId": "0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f"
+            },
+            "faultIds": []
+          }
+        ],
+        "events": [
+          {
+            "eventId": "0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f",
+            "channelId": "a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5",
+            "kind": "pulse",
+            "start": {
+              "ticks": "102",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "duration": {
+              "ticks": "5",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "fields": [
+              {
+                "name": "label",
+                "value": {
+                  "text": "edge"
+                }
+              },
+              {
+                "name": "armed",
+                "value": {
+                  "boolean": true
+                }
+              },
+              {
+                "name": "count",
+                "value": {
+                  "integer": "-7"
+                }
+              },
+              {
+                "name": "level",
+                "value": {
+                  "number": "0.25"
+                }
+              },
+              {
+                "name": "price",
+                "value": {
+                  "decimal": "12.500000001"
+                }
+              },
+              {
+                "name": "at",
+                "value": {
+                  "instant": {
+                    "unixSeconds": "1790593200",
+                    "nanos": "120000000"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "eventId": "5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5",
+            "channelId": "a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5",
+            "kind": "edge",
+            "start": {
+              "ticks": "103",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "fields": []
+          }
+        ],
+        "gaps": []
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"duration\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"5\"},\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"fields\":[{\"name\":\"label\",\"value\":{\"text\":\"edge\"}},{\"name\":\"armed\",\"value\":{\"boolean\":true}},{\"name\":\"count\",\"value\":{\"integer\":\"-7\"}},{\"name\":\"level\",\"value\":{\"number\":\"3fd0000000000000\"}},{\"name\":\"price\",\"value\":{\"decimal\":{\"value\":\"12.500000001\"}}},{\"name\":\"at\",\"value\":{\"instant\":{\"nanos\":\"120000000\",\"unixSeconds\":\"1790593200\"}}}],\"kind\":\"pulse\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[],\"kind\":\"edge\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"103\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"0\",\"faultIds\":[],\"numeric\":\"3ff8000000000000\",\"tick\":\"100\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"100\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"101\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"101\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"deliveredOrdinal\":\"2\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultIds\":[],\"tick\":\"102\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}}],\"startTick\":\"100\",\"tickCount\":\"3\"}",
+      "utf8Bytes": 1534,
+      "sha256": "35b9d06f29eed2d2d15ca466891ec9502b301871497ae9247c5ff7ab0d82814c"
+    },
+    {
+      "id": "duplicate-delivery-differs-only-by-ordinal-and-fault-marker",
+      "description": "Two deliveries of the same channel, tick and value; the duplicate has a later ordinal and a fault marker.",
+      "covers": ["duplicate-delivery", "faultIds"],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "10",
+        "tickCount": "1",
+        "records": [
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "10",
+            "deliveredOrdinal": "10",
+            "time": {
+              "ticks": "10",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "3.25"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "10",
+            "deliveredOrdinal": "11",
+            "time": {
+              "ticks": "10",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "3.25"
+            },
+            "faultIds": ["f0000000-0000-4000-8000-000000000001"]
+          }
+        ],
+        "events": [],
+        "gaps": []
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}",
+      "utf8Bytes": 571,
+      "sha256": "4be75f0da203598dd8af22d7bf77ed6321e9d01535e031b38fe8804522c236be"
+    },
+    {
+      "id": "gap-and-fault-markers-with-and-without-channel",
+      "description": "Drop, disconnect and malformed gaps, one without a channel, plus samples and an event with fault provenance.",
+      "covers": [
+        "gap-with-channel",
+        "gap-without-channel",
+        "gap-kinds",
+        "fault-marker",
+        "explicit-digital-false"
+      ],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "200",
+        "tickCount": "10",
+        "records": [
+          {
+            "channelId": "11112222-3333-4444-5555-666677778888",
+            "tick": "200",
+            "deliveredOrdinal": "0",
+            "time": {
+              "ticks": "200",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "digital": false
+            },
+            "faultIds": [
+              "f0000000-0000-4000-8000-000000000001",
+              "f0000000-0000-4000-8000-000000000002"
+            ]
+          },
+          {
+            "channelId": "11112222-3333-4444-5555-666677778888",
+            "tick": "203",
+            "deliveredOrdinal": "1",
+            "time": {
+              "ticks": "203",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "digital": true
+            },
+            "faultIds": []
+          }
+        ],
+        "events": [
+          {
+            "eventId": "0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f",
+            "channelId": "11112222-3333-4444-5555-666677778888",
+            "kind": "fault",
+            "start": {
+              "ticks": "201",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "fields": [],
+            "faultId": "f0000000-0000-4000-8000-000000000003"
+          }
+        ],
+        "gaps": [
+          {
+            "channelId": "11112222-3333-4444-5555-666677778888",
+            "startTick": "201",
+            "tickCount": "2",
+            "faultId": "f0000000-0000-4000-8000-000000000001",
+            "kind": "drop"
+          },
+          {
+            "startTick": "205",
+            "tickCount": "1",
+            "faultId": "f0000000-0000-4000-8000-000000000002",
+            "kind": "disconnect"
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "startTick": "207",
+            "tickCount": "3",
+            "faultId": "f0000000-0000-4000-8000-000000000003",
+            "kind": "malformed"
+          }
+        ]
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"fields\":[],\"kind\":\"fault\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"201\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"faultId\":\"f0000000-0000-4000-8000-000000000001\",\"kind\":\"drop\",\"startTick\":\"201\",\"tickCount\":\"2\"},{\"faultId\":\"f0000000-0000-4000-8000-000000000002\",\"kind\":\"disconnect\",\"startTick\":\"205\",\"tickCount\":\"1\"},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"kind\":\"malformed\",\"startTick\":\"207\",\"tickCount\":\"3\"}],\"records\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"0\",\"digital\":false,\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\",\"f0000000-0000-4000-8000-000000000002\"],\"tick\":\"200\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"200\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"203\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"203\"}}],\"startTick\":\"200\",\"tickCount\":\"10\"}",
+      "utf8Bytes": 1243,
+      "sha256": "8d8e25f0ec41cbca73fabe01ec529ccae22f11047761263921aa06f756f8cbce"
+    },
+    {
+      "id": "binary64-bit-words-preserve-sign-and-extremes",
+      "description": "Signed zero, zero, the smallest subnormal, the largest finite value, 0.1 and a negative value.",
+      "covers": ["binary64", "signed-zero", "explicit-zero-numeric"],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "0",
+        "tickCount": "6",
+        "records": [
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "0",
+            "deliveredOrdinal": "0",
+            "time": {
+              "ticks": "0",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "-0"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "1",
+            "deliveredOrdinal": "1",
+            "time": {
+              "ticks": "1",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "0"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "2",
+            "deliveredOrdinal": "2",
+            "time": {
+              "ticks": "2",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "5e-324"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "3",
+            "deliveredOrdinal": "3",
+            "time": {
+              "ticks": "3",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "1.7976931348623157e308"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "4",
+            "deliveredOrdinal": "4",
+            "time": {
+              "ticks": "4",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "0.1"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "5",
+            "deliveredOrdinal": "5",
+            "time": {
+              "ticks": "5",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "-1.5"
+            },
+            "faultIds": []
+          }
+        ],
+        "events": [],
+        "gaps": []
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"0\",\"faultIds\":[],\"numeric\":\"8000000000000000\",\"tick\":\"0\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"0\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"1\",\"faultIds\":[],\"numeric\":\"0000000000000000\",\"tick\":\"1\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"2\",\"faultIds\":[],\"numeric\":\"0000000000000001\",\"tick\":\"2\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"2\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"3\",\"faultIds\":[],\"numeric\":\"7fefffffffffffff\",\"tick\":\"3\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"3\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"4\",\"faultIds\":[],\"numeric\":\"3fb999999999999a\",\"tick\":\"4\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"4\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"5\",\"faultIds\":[],\"numeric\":\"bff8000000000000\",\"tick\":\"5\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"5\"}}],\"startTick\":\"0\",\"tickCount\":\"6\"}",
+      "utf8Bytes": 1314,
+      "sha256": "112f5fb9867c843f3ea721263aab2ce45c47e2bb2a8674c706a4ddf406008a18"
+    },
+    {
+      "id": "integral-extremes-use-exact-strings",
+      "description": "uint64 maximum ticks and ordinals, and the sint64 extremes in ScopeTime.",
+      "covers": ["uint64-max", "sint64-extremes"],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "18446744073709551614",
+        "tickCount": "2",
+        "records": [
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "18446744073709551614",
+            "deliveredOrdinal": "18446744073709551614",
+            "time": {
+              "ticks": "-9223372036854775808",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "2"
+            },
+            "faultIds": []
+          },
+          {
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "tick": "18446744073709551615",
+            "deliveredOrdinal": "18446744073709551615",
+            "time": {
+              "ticks": "9223372036854775807",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "value": {
+              "numeric": "3"
+            },
+            "faultIds": []
+          }
+        ],
+        "events": [],
+        "gaps": []
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"18446744073709551614\",\"faultIds\":[],\"numeric\":\"4000000000000000\",\"tick\":\"18446744073709551614\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"-9223372036854775808\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"18446744073709551615\",\"faultIds\":[],\"numeric\":\"4008000000000000\",\"tick\":\"18446744073709551615\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"9223372036854775807\"}}],\"startTick\":\"18446744073709551614\",\"tickCount\":\"2\"}",
+      "utf8Bytes": 658,
+      "sha256": "646303db2669ca160e266f4ebecbcf23b9201182d3593d0470aa5e8782bc1303"
+    },
+    {
+      "id": "text-metadata-escapes-and-unicode",
+      "description": "Metadata text with a quotation mark, backslash, control characters, DEL and BMP and supplementary scalars.",
+      "covers": ["string-escaping", "utf8-nonascii"],
+      "segment": {
+        "encodingProfile": "af-segment.v1",
+        "executionProfile": "af-sim.v1",
+        "startTick": "1",
+        "tickCount": "1",
+        "records": [],
+        "events": [
+          {
+            "eventId": "5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5",
+            "channelId": "00112233-4455-6677-8899-aabbccddeeff",
+            "kind": "note",
+            "start": {
+              "ticks": "1",
+              "rate": {
+                "numerator": "1000",
+                "denominator": "1"
+              }
+            },
+            "fields": [
+              {
+                "name": "note.text",
+                "value": {
+                  "text": "a\"b\\c\n\t\u0001\u001bé中😀"
+                }
+              }
+            ]
+          }
+        ],
+        "gaps": []
+      },
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[{\"name\":\"note.text\",\"value\":{\"text\":\"a\\\"b\\\\c\\n\\t\\u0001\\u001bé中😀\"}}],\"kind\":\"note\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"1\",\"tickCount\":\"1\"}",
+      "utf8Bytes": 401,
+      "sha256": "2417f053a50cb8883598e935778780114646121f1c1ffa35f7af0539c6174c1d"
+    }
+  ],
+  "refusals": [
+    {
+      "id": "refuse-uppercase-uuid",
+      "reason": "Id must be lower-case",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-AABBCCDDEEFF\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-json-number-for-uint64",
+      "reason": "uint64 must be an exact string",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":10,\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-leading-zero-uint64",
+      "reason": "no leading zero",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"010\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-uint64-overflow",
+      "reason": "uint64 range",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"18446744073709551616\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-negative-zero-sint64",
+      "reason": "sint64 -0 is not canonical",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"-0\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-double-as-json-number",
+      "reason": "double must be a bit word, not a number",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":3.25,\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-uppercase-hex-double",
+      "reason": "hex digits are lower-case",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400A000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-short-hex-double",
+      "reason": "exactly 16 digits",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a0000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-nan-bit-word",
+      "reason": "nonfinite values are refused",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"7ff8000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-infinity-bit-word",
+      "reason": "nonfinite values are refused",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"7ff0000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-unsorted-members",
+      "reason": "members must be sorted ordinal",
+      "canonicalJson": "{\"events\":[],\"encodingProfile\":\"af-segment.v1\",\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-missing-empty-repeated",
+      "reason": "every repeated member is present",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-two-oneof-arms",
+      "reason": "a oneof emits one arm",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"digital\":true,\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-no-oneof-arm",
+      "reason": "a oneof emits one arm",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-insignificant-whitespace",
+      "reason": "no insignificant whitespace",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\": [],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-null-for-absent-optional",
+      "reason": "absent optionals are omitted",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"duration\":null,\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"fields\":[],\"kind\":\"fault\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"201\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"faultId\":\"f0000000-0000-4000-8000-000000000001\",\"kind\":\"drop\",\"startTick\":\"201\",\"tickCount\":\"2\"},{\"faultId\":\"f0000000-0000-4000-8000-000000000002\",\"kind\":\"disconnect\",\"startTick\":\"205\",\"tickCount\":\"1\"},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"kind\":\"malformed\",\"startTick\":\"207\",\"tickCount\":\"3\"}],\"records\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"0\",\"digital\":false,\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\",\"f0000000-0000-4000-8000-000000000002\"],\"tick\":\"200\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"200\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"203\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"203\"}}],\"startTick\":\"200\",\"tickCount\":\"10\"}"
+    },
+    {
+      "id": "refuse-unknown-member",
+      "reason": "closed profile",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"zzz\":\"1\",\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-duplicate-member",
+      "reason": "duplicate members are refused",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-wrong-encoding-profile",
+      "reason": "only af-segment.v1",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v2\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-wrong-execution-profile",
+      "reason": "only af-sim.v1",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v2\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-resource-metadata-arm",
+      "reason": "resource arm is not representable",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"duration\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"5\"},\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"fields\":[{\"name\":\"label\",\"value\":{\"resource\":{}}},{\"name\":\"armed\",\"value\":{\"boolean\":true}},{\"name\":\"count\",\"value\":{\"integer\":\"-7\"}},{\"name\":\"level\",\"value\":{\"number\":\"3fd0000000000000\"}},{\"name\":\"price\",\"value\":{\"decimal\":{\"value\":\"12.500000001\"}}},{\"name\":\"at\",\"value\":{\"instant\":{\"nanos\":\"120000000\",\"unixSeconds\":\"1790593200\"}}}],\"kind\":\"pulse\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[],\"kind\":\"edge\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"103\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"0\",\"faultIds\":[],\"numeric\":\"3ff8000000000000\",\"tick\":\"100\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"100\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"101\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"101\"}},{\"channelId\":\"a0a1a2a3-b0b1-c0c1-d0d1-e0e1e2e3e4e5\",\"deliveredOrdinal\":\"2\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultIds\":[],\"tick\":\"102\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"102\"}}],\"startTick\":\"100\",\"tickCount\":\"3\"}"
+    },
+    {
+      "id": "refuse-out-of-order-ordinals",
+      "reason": "records ascend by deliveredOrdinal",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"12\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-duplicate-ordinal",
+      "reason": "delivered ordinals are unique",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-unknown-gap-kind",
+      "reason": "gap kind is drop, disconnect or malformed",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"eventId\":\"0a0b0c0d-1a1b-2a2b-3a3b-4a4b4c4d4e4f\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"fields\":[],\"kind\":\"fault\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"201\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"faultId\":\"f0000000-0000-4000-8000-000000000001\",\"kind\":\"lost\",\"startTick\":\"201\",\"tickCount\":\"2\"},{\"faultId\":\"f0000000-0000-4000-8000-000000000002\",\"kind\":\"disconnect\",\"startTick\":\"205\",\"tickCount\":\"1\"},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"faultId\":\"f0000000-0000-4000-8000-000000000003\",\"kind\":\"malformed\",\"startTick\":\"207\",\"tickCount\":\"3\"}],\"records\":[{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"0\",\"digital\":false,\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\",\"f0000000-0000-4000-8000-000000000002\"],\"tick\":\"200\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"200\"}},{\"channelId\":\"11112222-3333-4444-5555-666677778888\",\"deliveredOrdinal\":\"1\",\"digital\":true,\"faultIds\":[],\"tick\":\"203\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"203\"}}],\"startTick\":\"200\",\"tickCount\":\"10\"}"
+    },
+    {
+      "id": "refuse-zero-rate-denominator",
+      "reason": "ScopeTime rate denominator must be positive",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"0\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-non-minimal-escape",
+      "reason": "string escapes are minimal: a printable ASCII scalar is never escaped",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[{\"name\":\"note.text\",\"value\":{\"text\":\"a\\\"b\\\\c\\n\\t\\u0001\\u001bé中😀\"}}],\"kind\":\"n\\u006fte\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"1\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-uppercase-escape-digits",
+      "reason": "control escapes use lower-case hex",
+      "canonicalJson": "{\"encodingProfile\":\"af-segment.v1\",\"events\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"eventId\":\"5e5f6061-7a7b-8c8d-9e9f-a0a1a2a3a4a5\",\"fields\":[{\"name\":\"note.text\",\"value\":{\"text\":\"a\\\"b\\\\c\\n\\t\\u0001\\u001Bé中😀\"}}],\"kind\":\"note\",\"start\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"1\"}}],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[],\"startTick\":\"1\",\"tickCount\":\"1\"}"
+    },
+    {
+      "id": "refuse-byte-order-mark",
+      "reason": "no byte order mark",
+      "canonicalJson": "﻿{\"encodingProfile\":\"af-segment.v1\",\"events\":[],\"executionProfile\":\"af-sim.v1\",\"gaps\":[],\"records\":[{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"10\",\"faultIds\":[],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}},{\"channelId\":\"00112233-4455-6677-8899-aabbccddeeff\",\"deliveredOrdinal\":\"11\",\"faultIds\":[\"f0000000-0000-4000-8000-000000000001\"],\"numeric\":\"400a000000000000\",\"tick\":\"10\",\"time\":{\"rate\":{\"denominator\":\"1\",\"numerator\":\"1000\"},\"ticks\":\"10\"}}],\"startTick\":\"10\",\"tickCount\":\"1\"}"
+    }
+  ]
+}

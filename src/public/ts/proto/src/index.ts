@@ -7,6 +7,7 @@ export * from "./gen/arcforges/hello/v1/hello_pb.js";
 export * from "./gen/arcforges/publicapi/v1/application_pb.js";
 export * from "./gen/arcforges/publicapi/v1/chat_pb.js";
 export * from "./gen/arcforges/publicapi/v1/commerce_pb.js";
+export * from "./gen/arcforges/publicapi/v1/connector_pb.js";
 export * from "./gen/arcforges/publicapi/v1/content_pb.js";
 export * from "./gen/arcforges/publicapi/v1/descriptors_pb.js";
 export * from "./gen/arcforges/publicapi/v1/export_pb.js";

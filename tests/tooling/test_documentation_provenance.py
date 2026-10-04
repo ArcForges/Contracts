@@ -864,10 +864,8 @@ class DocumentationAdmissionTests(unittest.TestCase):
         def slug(name):
             return "-" + re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
 
-        self.assertEqual(documentation.PROFILE, current_path)
         self.assertEqual(resource_record["id"], "dokka-documentation-resources-r20")
         self.assertEqual(resource_record["supersedes"], previous_record["id"])
-        self.assertEqual(inventory["artifacts"], [resource_record["id"]])
         for path in (previous_path, current_path,
                      "eng/provenance/records/dokka-documentation-resources-r19.json",
                      "eng/provenance/records/dokka-documentation-resources-r20.json"):
@@ -971,6 +969,129 @@ class DocumentationAdmissionTests(unittest.TestCase):
                 self.assertIn(page, added_connect_api)
                 self.assertEqual(set(current_connect_api[page]), methods)
         self.assertEqual(total_methods, 49)
+        self.assertEqual(current["modules"]["contract-fixtures"]["pages"],
+                         previous["modules"]["contract-fixtures"]["pages"])
+        self.assertEqual(current["modules"]["contract-fixtures"]["publicApi"],
+                         previous["modules"]["contract-fixtures"]["publicApi"])
+
+    def test_con25_dokka_r21_is_only_the_frozen_r20_successor_delta(self):
+        root = Path(__file__).resolve().parents[2]
+        previous_path = "eng/provenance/artifact-profiles/dokka-2-2-0-r20.json"
+        current_path = "eng/provenance/artifact-profiles/dokka-2-2-0-r21.json"
+        previous = json.loads((root / previous_path).read_bytes())
+        current = json.loads((root / current_path).read_bytes())
+        previous_record = json.loads(
+            (root / "eng/provenance/records/dokka-documentation-resources-r20.json").read_bytes())
+        resource_record = json.loads(
+            (root / "eng/provenance/records/dokka-documentation-resources-r21.json").read_bytes())
+        inventory = json.loads((root / "eng/provenance/files.json").read_bytes())
+
+        def slug(name):
+            return "-" + re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
+
+        self.assertEqual(documentation.PROFILE, current_path)
+        self.assertEqual(resource_record["id"], "dokka-documentation-resources-r21")
+        self.assertEqual(resource_record["supersedes"], previous_record["id"])
+        self.assertEqual(inventory["artifacts"], [resource_record["id"]])
+        for path in (previous_path, current_path,
+                     "eng/provenance/records/dokka-documentation-resources-r20.json",
+                     "eng/provenance/records/dokka-documentation-resources-r21.json"):
+            self.assertIn(path, inventory["firstParty"])
+        profile_hash = documentation.sha((root / current_path).read_bytes().replace(b"\r\n", b"\n"))
+        self.assertEqual(len(resource_record["artifactTargets"]), 3)
+        self.assertTrue(all(target["profile"] == current_path and target["sha256"] == profile_hash
+                            for target in resource_record["artifactTargets"]))
+
+        for section in ("source", "fixed", "excluded", "components", "fontTransform"):
+            self.assertEqual(current[section], previous[section], section)
+        self.assertEqual(len(previous["inputs"]), 2587)
+        self.assertEqual(len(current["inputs"]), 2669)
+
+        connector_shard = json.loads((root / "public/proto/constraints/con-25-connector.json").read_bytes())
+        segment_shard = json.loads((root / "public/proto/constraints/con-25-af-segment.json").read_bytes())
+        self.assertEqual(len(connector_shard["messages"]), 22)
+        self.assertEqual(len(segment_shard["messages"]), 4)
+        java_root = "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/"
+        kotlin_root = "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/"
+        client_root = ("src/public/kotlin/contracts-connect-client/generated/kotlin/io/github/arcforges/"
+                       "contracts/publicapi/v1/")
+        expected_added_inputs = set()
+        expected_proto_api = {}
+        for full_name in (*connector_shard["messages"], *segment_shard["messages"]):
+            parts = full_name.split(".")
+            self.assertIn(parts[1], ("publicapi", "simulation"))
+            package = parts[1] + "/v1/"
+            message = parts[-1]
+            expected_added_inputs.update({java_root + package + message + ".java",
+                                          java_root + package + message + "OrBuilder.java",
+                                          kotlin_root + package + message + "Kt.kt"})
+            expected_proto_api["contracts-proto/io.github.arcforges.contracts." + parts[1] + ".v1/" +
+                               slug(message) + "/index.html"] = message
+        expected_added_inputs.update({java_root + "publicapi/v1/ConnectorProto.java",
+                                      kotlin_root + "publicapi/v1/ConnectorProtoKt.proto.kt",
+                                      client_root + "ConnectorServiceClient.kt",
+                                      client_root + "ConnectorServiceClientInterface.kt"})
+        self.assertEqual(len(expected_added_inputs), 82)
+        added_inputs = set(current["inputs"]) - set(previous["inputs"])
+        changed_inputs = {path for path in set(current["inputs"]) & set(previous["inputs"])
+                          if current["inputs"][path] != previous["inputs"][path]}
+        self.assertEqual(added_inputs, expected_added_inputs)
+        self.assertEqual(changed_inputs, set())
+        self.assertEqual(set(previous["inputs"]) - set(current["inputs"]), set())
+        input_delta = {"added": [[path, current["inputs"][path]] for path in sorted(added_inputs)],
+                       "changed": [], "removed": []}
+        self.assertEqual(documentation.sha(json.dumps(input_delta, separators=(",", ":")).encode("utf-8")),
+                         "9274832e3b306d0ca5902d2b9012fc55566f1c03c6de6d519cf3261cf87afe08")
+        old_generation_paths = set(previous_record["generation"]["inputs"][1]["paths"])
+        new_generation_paths = set(resource_record["generation"]["inputs"][1]["paths"])
+        new_kotlin_sources = {path for path in expected_added_inputs if path.endswith(".kt")}
+        self.assertEqual(new_generation_paths - old_generation_paths, new_kotlin_sources)
+        self.assertEqual(old_generation_paths - new_generation_paths, set())
+
+        expected_page_deltas = {
+            "contracts-proto": (1834, 21, 0, "f30fc01cdfc0f45853e2bda773068d007eecb00a66c4284c2a3976037b80b4c6"),
+            "contracts-connect-client": (15, 4, 0, "f7c15d7119d0f566b60ddb0a8baa51c82dd6459ef7c098b043b376fddabb2fb0"),
+            "contract-fixtures": (0, 0, 0, "4ddf799a685fa12b294e2c099c52d3b1d9f31b615b2be3e8d93de5b44a45ae8f"),
+        }
+        for module, (added_count, changed_count, removed_count, fingerprint) in expected_page_deltas.items():
+            old_pages = previous["modules"][module]["pages"]
+            new_pages = current["modules"][module]["pages"]
+            added = [[page, new_pages[page]] for page in sorted(set(new_pages) - set(old_pages))]
+            changed = [[page, old_pages[page], new_pages[page]]
+                       for page in sorted(set(old_pages) & set(new_pages))
+                       if old_pages[page] != new_pages[page]]
+            removed = [[page, old_pages[page]] for page in sorted(set(old_pages) - set(new_pages))]
+            self.assertEqual((len(added), len(changed), len(removed)),
+                             (added_count, changed_count, removed_count), module)
+            delta = {"added": added, "changed": changed, "removed": removed}
+            self.assertEqual(documentation.sha(json.dumps(delta, separators=(",", ":")).encode("utf-8")),
+                             fingerprint, module)
+
+        old_proto_api = previous["modules"]["contracts-proto"]["publicApi"]
+        current_proto_api = current["modules"]["contracts-proto"]["publicApi"]
+        added_proto_api = set(current_proto_api) - set(old_proto_api)
+        self.assertEqual(added_proto_api, set(expected_proto_api))
+        self.assertEqual(len(added_proto_api), 26)
+        for page, message in expected_proto_api.items():
+            self.assertIn(message, current_proto_api[page])
+            self.assertIn('anchor-label="parser"', current_proto_api[page])
+            self.assertIn('anchor-label="getDefaultInstance"', current_proto_api[page])
+        proof_page = "contracts-proto/io.github.arcforges.contracts.publicapi.v1/-connector-proof/index.html"
+        self.assertIn('anchor-label="getPersonalToken"', current_proto_api[proof_page])
+        sample_page = "contracts-proto/io.github.arcforges.contracts.simulation.v1/-simulation-sample/index.html"
+        self.assertIn('anchor-label="getValueCase"', current_proto_api[sample_page])
+
+        methods = {"listDefinitions", "listConnections", "beginConnection", "completeConnection",
+                   "getConnection", "revokeConnection"}
+        old_connect_api = previous["modules"]["contracts-connect-client"]["publicApi"]
+        current_connect_api = current["modules"]["contracts-connect-client"]["publicApi"]
+        added_connect_api = set(current_connect_api) - set(old_connect_api)
+        self.assertEqual(len(added_connect_api), 2)
+        for suffix in ("Client", "ClientInterface"):
+            page = ("contracts-connect-client/io.github.arcforges.contracts.publicapi.v1/" +
+                    slug("ConnectorService" + suffix) + "/index.html")
+            self.assertIn(page, added_connect_api)
+            self.assertEqual(set(current_connect_api[page]), methods)
         self.assertEqual(current["modules"]["contract-fixtures"]["pages"],
                          previous["modules"]["contract-fixtures"]["pages"])
         self.assertEqual(current["modules"]["contract-fixtures"]["publicApi"],

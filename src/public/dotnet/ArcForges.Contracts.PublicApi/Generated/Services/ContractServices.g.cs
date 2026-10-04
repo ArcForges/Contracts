@@ -33,6 +33,7 @@ public static class ContractServices
         global::ArcForges.Contracts.PublicApi.V1.ExportService.Descriptor,
         global::ArcForges.Contracts.Simulation.V1.SimulationService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.ScopeService.Descriptor,
+        global::ArcForges.Contracts.PublicApi.V1.ConnectorService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.ApplicationService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.HistoryService.Descriptor,
         global::ArcForges.Contracts.PublicApi.V1.IdentityService.Descriptor,
