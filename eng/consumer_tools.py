@@ -38,6 +38,24 @@ def wait_for_host(process: subprocess.Popen, ports: list[int]) -> None:
     raise ValueError("The example server did not start within 45 seconds")
 
 
+def pin_candidate(path: Path, release: str) -> None:
+    """Pin the candidate's PublicApi version in the consumer's copy of the central package versions.
+
+    The producer file may already pin NUGET_ID for the PreviousClient test; the candidate version replaces that
+    pin, because a second PackageVersion item is a duplicate (NU1506, warning as error).
+    """
+    pins = ET.parse(path)
+    groups = pins.getroot().findall("ItemGroup")
+    existing = [item for group in groups for item in group.findall("PackageVersion") if item.get("Include") == NUGET_ID]
+    if len(existing) > 1:
+        raise ValueError("The central package versions pin " + NUGET_ID + " more than once")
+    if existing:
+        existing[0].set("Version", release)
+    else:
+        ET.SubElement(groups[0], "PackageVersion", Include=NUGET_ID, Version=release)
+    pins.write(path, encoding="utf-8", xml_declaration=True)
+
+
 def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False, snapshot_registry: bool = False) -> None:
     if os.environ.get("GITHUB_ACTIONS") or os.environ.get("CI", "").lower() == "true":
         raise ValueError("Package consumers are explicit local diagnostics only; CI execution is prohibited")
@@ -71,9 +89,7 @@ def consume(directory: Path, aot: bool, update_kotlin_locks: bool = False, snaps
                 shutil.copyfile(directory / entry["name"], feed / entry["name"])
         for name in ["global.json", "Directory.Build.props", "Directory.Build.targets", "Directory.Packages.props"]:
             shutil.copyfile(ROOT / name, consumer / name)
-        pins = ET.parse(consumer / "Directory.Packages.props")
-        ET.SubElement(pins.getroot().find("ItemGroup"), "PackageVersion", Include=NUGET_ID, Version=release)
-        pins.write(consumer / "Directory.Packages.props", encoding="utf-8", xml_declaration=True)
+        pin_candidate(consumer / "Directory.Packages.props", release)
         consumer.joinpath("NuGet.config").write_text('''<configuration>
   <packageSources>
     <clear />

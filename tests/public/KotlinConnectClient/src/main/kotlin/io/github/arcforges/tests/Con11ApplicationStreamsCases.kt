@@ -12,13 +12,11 @@ import io.github.arcforges.contracts.events.v1.EventServiceClient
 import io.github.arcforges.contracts.events.v1.Event
 import io.github.arcforges.contracts.events.v1.EventServicePollValue
 import io.github.arcforges.contracts.events.v1.EventServicePollRequest
-import io.github.arcforges.contracts.events.v1.EventServiceWatchRequest
 import io.github.arcforges.contracts.events.v1.ExecutionServiceAcknowledgeOutputRequest
 import io.github.arcforges.contracts.events.v1.ExecutionServiceClient
 import io.github.arcforges.contracts.events.v1.ExecutionServicePurgeTransientRequest
 import io.github.arcforges.contracts.events.v1.ExecutionServiceReadOutputRequest
 import io.github.arcforges.contracts.events.v1.ExecutionServiceStartTransientTurnRequest
-import io.github.arcforges.contracts.events.v1.ExecutionServiceWatchOutputRequest
 import io.github.arcforges.contracts.events.v1.OutputChunk
 import io.github.arcforges.contracts.events.v1.StreamFrame
 import io.github.arcforges.contracts.events.v1.StreamPosition
@@ -141,11 +139,11 @@ object Con11ApplicationStreamsCases {
                 "history.cancelImport" -> capture(probe, id) { history.cancelImport(HistoryServiceCancelImportRequest.getDefaultInstance(), emptyMap()) }
                 "execution.startTransientTurn" -> capture(probe, id) { execution.startTransientTurn(ExecutionServiceStartTransientTurnRequest.getDefaultInstance(), emptyMap()) }
                 "execution.readOutput" -> capture(probe, id) { execution.readOutput(ExecutionServiceReadOutputRequest.getDefaultInstance(), emptyMap()) }
-                "execution.watchOutput" -> capture(probe, id) { execution.watchOutput(ExecutionServiceWatchOutputRequest.getDefaultInstance(), emptyMap()) }
+                "execution.watchOutput" -> capture(probe, id) { execution.watchOutput(emptyMap()) }
                 "execution.acknowledgeOutput" -> capture(probe, id) { execution.acknowledgeOutput(ExecutionServiceAcknowledgeOutputRequest.getDefaultInstance(), emptyMap()) }
                 "execution.purgeTransient" -> capture(probe, id) { execution.purgeTransient(ExecutionServicePurgeTransientRequest.getDefaultInstance(), emptyMap()) }
                 "events.poll" -> capture(probe, id) { events.poll(EventServicePollRequest.getDefaultInstance(), emptyMap()) }
-                "events.watch" -> capture(probe, id) { events.watch(EventServiceWatchRequest.getDefaultInstance(), emptyMap()) }
+                "events.watch" -> capture(probe, id) { events.watch(emptyMap()) }
                 else -> throw IllegalStateException("Unknown CON.11 RPC vector: $id")
             }
 

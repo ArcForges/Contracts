@@ -13,7 +13,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "eng"))
 import central_publish
 import snapshot_publish
-from consumer_tools import consume
+from consumer_tools import NUGET_ID, consume, pin_candidate
 from packaging_tools import verify_artifacts
 from publish_tools import existing_matches
 
@@ -106,6 +106,25 @@ class PublicationCompletion(unittest.TestCase):
     def test_consumer_rejects_ci_before_reading_candidate(self):
         with patch.dict(os.environ, {"CI": "true"}), self.assertRaisesRegex(ValueError, "CI execution is prohibited"):
             consume(self.directory / "missing", True)
+
+    def test_candidate_pin_replaces_the_previous_client_pin_without_a_duplicate(self):
+        import xml.etree.ElementTree as ET
+        path = self.directory / "Directory.Packages.props"
+        for before, expected in ((f'<PackageVersion Include="{NUGET_ID}" Version="1.0.0-ci.113.1" />', 1), ("", 1)):
+            path.write_text("<Project><ItemGroup>" + before
+                            + '<PackageVersion Include="Other.Package" Version="2.0.0" /></ItemGroup></Project>',
+                            encoding="utf-8")
+            pin_candidate(path, "1.0.0-ci.311.1")
+            items = ET.parse(path).getroot().findall("ItemGroup/PackageVersion")
+            ours = [item for item in items if item.get("Include") == NUGET_ID]
+            self.assertEqual(len(ours), expected)
+            self.assertEqual(ours[0].get("Version"), "1.0.0-ci.311.1")
+            self.assertEqual([item.get("Version") for item in items if item.get("Include") == "Other.Package"], ["2.0.0"])
+        path.write_text("<Project><ItemGroup>"
+                        + f'<PackageVersion Include="{NUGET_ID}" Version="1" /><PackageVersion Include="{NUGET_ID}" Version="2" />'
+                        + "</ItemGroup></Project>", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "more than once"):
+            pin_candidate(path, "1.0.0-ci.311.1")
 
     def test_publication_handoff_checks_bytes_without_rescanning_archives(self):
         entries = []
