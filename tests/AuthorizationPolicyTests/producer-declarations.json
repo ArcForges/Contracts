@@ -1,0 +1,591 @@
+{
+  "schemaVersion": "producer-declarations.v1",
+  "producers": {
+    "cloud": {
+      "repository": "ArcForges/Cloud",
+      "task": "CLOUD.11",
+      "commit": "d9947f682e9a160d67b1db18f75d4e490bf9b1ea",
+      "sources": [
+        {
+          "sha256": "7f90ab7928292a44050cad89126ff7abeae99d9974d25c7e3f0ba91607a5839f",
+          "path": "storage/plans/identity/credential-add.sql"
+        },
+        {
+          "sha256": "fb1cd0a9c275536fe9595afa18c2f2b5a192acec203ba67bfbb030aeb92de2bf",
+          "path": "storage/plans/identity/credential-find.sql"
+        },
+        {
+          "sha256": "aa3bcde512c604648db406ef717dda6bfb4ac5f9238628e61efca921f819cdc2",
+          "path": "storage/plans/identity/credential-list.sql"
+        },
+        {
+          "sha256": "f5ce80899dd1731c6f0b268b5a19b54917d6e720677353db4dcf40d71a035660",
+          "path": "storage/plans/identity/credential-relabel.sql"
+        },
+        {
+          "sha256": "23b68ba5a533e7902def984884910d7675682d539d1dc8b3b0b2ed37ba0a1ab1",
+          "path": "storage/plans/identity/credential-revoke.sql"
+        },
+        {
+          "sha256": "b0aeb0866089fff9acd48cee8fab8b986bffcc464e879c25c54cd86b6003b9a7",
+          "path": "storage/plans/identity/credential-touch.sql"
+        },
+        {
+          "sha256": "be91ee96154c9795d3eb6ece5c704748f8e93ee660646a948565fec3107dbd1c",
+          "path": "storage/plans/identity/user-load.sql"
+        },
+        {
+          "sha256": "c036b0c6c3b5410a3e34cdc2a9a1c73ca4036eb884b833be8d6b45cf9d25f53b",
+          "path": "storage/plans/identity/user-rename.sql"
+        },
+        {
+          "sha256": "351f904a2baf48abe901f5f72733e7b8373b8e273797c0006873f1d12805ff2e",
+          "path": "storage/plans/families/account-enrollment.create-user.sql"
+        },
+        {
+          "sha256": "467aea05f52e6a21a8d589c3ae36b90486cb2804097d2963ebd4746a4953d2fe",
+          "path": "storage/plans/families.json"
+        },
+        {
+          "sha256": "c4a07e9de22514ce4a6857f25ec78767bb86ef97ff80f19ec9717ac16259c1c2",
+          "path": "src/ArcForges.Cloud.Modules.Identity/Core/Domain/Identifiers.cs"
+        },
+        {
+          "sha256": "41389502112800e27f7bb68b80c164d4f95d863ff640a58669ab835e6ad5e18d",
+          "path": "src/ArcForges.Cloud.Storage.D1/Physical/manifest/identity.json"
+        },
+        {
+          "sha256": "401cbd4a6d3ef0d475c01d2cdeac6503697d93bfba02bcc1f6ac76f827d193a5",
+          "path": "src/ArcForges.Cloud.Storage.D1/Physical/manifest/device.json"
+        },
+        {
+          "sha256": "66fc273531d5e9a8fb7f85578779477b39aa0867e46158f69c80b7ff572f7bf4",
+          "path": "src/ArcForges.Cloud.Storage.D1/Physical/manifest/workspace.json"
+        }
+      ],
+      "declared": {
+        "identifierTypes": ["AuthIdentityId", "RealmId", "UserId", "WorkspaceId"],
+        "plans": [
+          {
+            "name": "families.account-enrollment.create-user",
+            "version": 1,
+            "access": "write"
+          },
+          {
+            "name": "identity.credential-add",
+            "version": 1,
+            "access": "write",
+            "tail": "v1 events=1"
+          },
+          {
+            "name": "identity.credential-find",
+            "version": 1,
+            "access": "read"
+          },
+          {
+            "name": "identity.credential-list",
+            "version": 1,
+            "access": "read"
+          },
+          {
+            "name": "identity.credential-relabel",
+            "version": 1,
+            "access": "write",
+            "tail": "v1 events=1"
+          },
+          {
+            "name": "identity.credential-revoke",
+            "version": 1,
+            "access": "write",
+            "tail": "v1 events=1"
+          },
+          {
+            "name": "identity.credential-touch",
+            "version": 1,
+            "access": "write",
+            "tail": "none"
+          },
+          {
+            "name": "identity.user-load",
+            "version": 1,
+            "access": "read"
+          },
+          {
+            "name": "identity.user-rename",
+            "version": 1,
+            "access": "write",
+            "tail": "v1 events=1"
+          }
+        ],
+        "family": {
+          "name": "account-enrollment",
+          "participants": {
+            "identity": "required",
+            "workspace": "required",
+            "device": "conditional",
+            "entitlement": "conditional",
+            "notification": "conditional"
+          }
+        },
+        "moduleTables": {
+          "identity": [
+            "identity_api_token",
+            "identity_auth_identity",
+            "identity_browser_auth_flow",
+            "identity_email_address",
+            "identity_native_authorization",
+            "identity_operator_access",
+            "identity_operator_action",
+            "identity_operator_session",
+            "identity_recovery_code",
+            "identity_recovery_flow",
+            "identity_security_flow",
+            "identity_session",
+            "identity_spent_refresh",
+            "identity_step_up_challenge",
+            "identity_user"
+          ],
+          "device": ["device_device", "device_installation", "device_remote_policy"],
+          "workspace": [
+            "workspace_data_deletion",
+            "workspace_transfer_issue",
+            "workspace_transfer_job",
+            "workspace_transfer_mapping",
+            "workspace_workspace"
+          ]
+        },
+        "tables": {
+          "device_device": {
+            "columns": [
+              "device_id",
+              "display_name",
+              "first_seen_at",
+              "last_seen_at",
+              "platform",
+              "remote_enabled",
+              "rev",
+              "revoked_at",
+              "trust_level",
+              "trust_raised_at",
+              "user_id"
+            ],
+            "references": ["user_id>identity_user"],
+            "unique": []
+          },
+          "device_installation": {
+            "columns": [
+              "app_version",
+              "contract_set_version",
+              "device_id",
+              "installation_id",
+              "installed_at",
+              "key_version",
+              "last_active_at",
+              "platform",
+              "product_id",
+              "public_key",
+              "rev",
+              "revoked_at"
+            ],
+            "references": ["device_id>device_device"],
+            "unique": ["device_id+product_id"]
+          },
+          "device_remote_policy": {
+            "columns": [
+              "allowed_capabilities",
+              "device_id",
+              "local_confirmation_capabilities",
+              "rev"
+            ],
+            "references": ["device_id>device_device"],
+            "unique": []
+          },
+          "identity_api_token": {
+            "columns": [
+              "auth_epoch",
+              "created_at",
+              "expires_at",
+              "last_used_at",
+              "name",
+              "recovery_generation",
+              "rev",
+              "revoked_at",
+              "scopes",
+              "secret_hash",
+              "token_id",
+              "user_id",
+              "workspace_id"
+            ],
+            "references": ["user_id>identity_user", "workspace_id>workspace_workspace"],
+            "unique": ["secret_hash"]
+          },
+          "identity_auth_identity": {
+            "columns": [
+              "auth_identity_id",
+              "backup_eligible",
+              "backup_state",
+              "created_at",
+              "label",
+              "last_used_at",
+              "method",
+              "password_hash",
+              "provider_id",
+              "public_key",
+              "realm_id",
+              "rev",
+              "revoked_at",
+              "sign_count",
+              "subject",
+              "transports",
+              "user_handle",
+              "user_id"
+            ],
+            "references": ["user_id>identity_user"],
+            "unique": ["realm_id+provider_id+subject"]
+          },
+          "identity_browser_auth_flow": {
+            "columns": [
+              "attempts",
+              "binding_hash",
+              "challenge",
+              "consumed_at",
+              "created_at",
+              "csrf_hash",
+              "expires_at",
+              "flow_id",
+              "max_attempts",
+              "method",
+              "origin",
+              "purpose"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "identity_email_address": {
+            "columns": ["address_normalised", "email_id", "purpose", "user_id", "verified_at"],
+            "references": ["user_id>identity_user"],
+            "unique": ["address_normalised+purpose"]
+          },
+          "identity_native_authorization": {
+            "columns": [
+              "attempt_count",
+              "client_id",
+              "code_expires_at",
+              "code_hash",
+              "consumed_at",
+              "created_at",
+              "expires_at",
+              "flow_id",
+              "installation_id",
+              "pkce_challenge",
+              "realm_id",
+              "redirect_uri",
+              "rev",
+              "session_id",
+              "state_hash",
+              "user_id"
+            ],
+            "references": [],
+            "unique": ["code_hash"]
+          },
+          "identity_operator_access": {
+            "columns": [
+              "expires_at",
+              "granted_by",
+              "provider_id",
+              "rev",
+              "revoked_at",
+              "role",
+              "subject"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "identity_operator_action": {
+            "columns": [
+              "action_id",
+              "approver",
+              "consumed_at",
+              "created_at",
+              "evidence_ref",
+              "expires_at",
+              "operation_id",
+              "proposal_hash",
+              "proposer",
+              "rev",
+              "state"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "identity_operator_session": {
+            "columns": [
+              "auth_epoch",
+              "expires_at",
+              "handle_hash",
+              "issued_at",
+              "provider_id",
+              "recovery_generation",
+              "revoked_at",
+              "session_id",
+              "subject",
+              "tenant_id"
+            ],
+            "references": [],
+            "unique": ["handle_hash"]
+          },
+          "identity_recovery_code": {
+            "columns": [
+              "code_hash",
+              "consumed_at",
+              "invalidated_at",
+              "issued_at",
+              "set_id",
+              "user_id"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "identity_recovery_flow": {
+            "columns": [
+              "attempt_count",
+              "auth_epoch",
+              "completed_at",
+              "created_at",
+              "expires_at",
+              "flow_id",
+              "method",
+              "proof_hash",
+              "rate_limit_key",
+              "realm_id",
+              "recovery_generation",
+              "replacement_challenge",
+              "rev",
+              "state",
+              "user_id"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "identity_security_flow": {
+            "columns": [
+              "attempts",
+              "consumed_at",
+              "device_id",
+              "expires_at",
+              "flow_id",
+              "installation_id",
+              "kind",
+              "origin",
+              "payload_proto",
+              "proof_hash",
+              "provider",
+              "purpose",
+              "target_payload_hash",
+              "user_id"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "identity_session": {
+            "columns": [
+              "access_expires_at",
+              "access_token_hash",
+              "auth_epoch",
+              "browser_handle_hash",
+              "browser_origin",
+              "credential_kind",
+              "csrf_hash",
+              "device_id",
+              "expires_at",
+              "family_id",
+              "idle_expires_at",
+              "installation_id",
+              "issued_at",
+              "last_activity_at",
+              "product_id",
+              "purpose",
+              "recovery_generation",
+              "refresh_generation",
+              "refresh_token_hash",
+              "rev",
+              "revoked_at",
+              "session_id",
+              "session_policy_version",
+              "step_up_at",
+              "step_up_classes",
+              "user_id"
+            ],
+            "references": ["device_id>device_device", "user_id>identity_user"],
+            "unique": ["access_token_hash", "browser_handle_hash", "refresh_token_hash"]
+          },
+          "identity_spent_refresh": {
+            "columns": [
+              "consumed_at",
+              "family_expires_at",
+              "family_id",
+              "generation",
+              "session_id",
+              "token_hash"
+            ],
+            "references": ["session_id>identity_session"],
+            "unique": ["family_id+generation"]
+          },
+          "identity_step_up_challenge": {
+            "columns": [
+              "attempt_count",
+              "auth_epoch",
+              "challenge_id",
+              "consumed_at",
+              "created_at",
+              "expires_at",
+              "method",
+              "operation_class",
+              "proof_hash",
+              "recovery_generation",
+              "rev",
+              "session_id",
+              "state",
+              "target_hash",
+              "user_id"
+            ],
+            "references": ["session_id>identity_session", "user_id>identity_user"],
+            "unique": []
+          },
+          "identity_user": {
+            "columns": [
+              "created_at",
+              "deletion_requested_at",
+              "display_name",
+              "realm_id",
+              "rev",
+              "state",
+              "user_id"
+            ],
+            "references": [],
+            "unique": []
+          },
+          "workspace_data_deletion": {
+            "columns": [
+              "captured_revision",
+              "completed_at",
+              "deletion_id",
+              "owner_job_inventory",
+              "preview_hash",
+              "rev",
+              "state",
+              "workspace_id"
+            ],
+            "references": ["workspace_id>workspace_workspace"],
+            "unique": []
+          },
+          "workspace_transfer_issue": {
+            "columns": [
+              "accepted_at",
+              "blocks_commit",
+              "code",
+              "ordinal",
+              "source_id",
+              "source_kind",
+              "transfer_id"
+            ],
+            "references": ["transfer_id>workspace_transfer_job"],
+            "unique": []
+          },
+          "workspace_transfer_job": {
+            "columns": [
+              "committed_roots",
+              "created_at",
+              "direction",
+              "expires_at",
+              "manifest_hash",
+              "manifest_resource_id",
+              "preview_hash",
+              "reason",
+              "rev",
+              "state",
+              "total_roots",
+              "transfer_id",
+              "workspace_id"
+            ],
+            "references": ["workspace_id>workspace_workspace"],
+            "unique": []
+          },
+          "workspace_transfer_mapping": {
+            "columns": [
+              "receipt_id",
+              "source_hash",
+              "source_id",
+              "source_kind",
+              "state",
+              "target_id",
+              "target_kind",
+              "target_rev",
+              "transfer_id"
+            ],
+            "references": ["transfer_id>workspace_transfer_job"],
+            "unique": ["transfer_id+target_kind+target_id"]
+          },
+          "workspace_workspace": {
+            "columns": [
+              "created_at",
+              "data_region",
+              "name",
+              "owner_user_id",
+              "protection_profile",
+              "realm_id",
+              "rev",
+              "state",
+              "workspace_id"
+            ],
+            "references": ["owner_user_id>identity_user"],
+            "unique": ["realm_id+owner_user_id"]
+          }
+        }
+      },
+      "factsDigest": "84bfdccf9af696548ff3a6efaa3bea552918b228141c966999df95fa7dd6277c"
+    },
+    "platform": {
+      "repository": "ArcForges/DesktopPlatform",
+      "task": "PLT.38",
+      "commit": "2ffeba338aa990891f63fd5ed3a32c474a7b9252",
+      "sources": [
+        {
+          "sha256": "561bfd4f5a4bfe9ea5e3ac949b8d4ed29938b3891afec74210af61b43b44c628",
+          "path": "src/BuildingBlocks/ArcForges.Security/Decisions/DecisionModel.cs"
+        }
+      ],
+      "declared": {
+        "steps": {
+          "CapabilityExists": 1,
+          "ProductPolicy": 2,
+          "ActorIdentity": 3,
+          "ScopeValid": 4,
+          "TrustEligible": 5,
+          "CapabilityPermission": 6,
+          "ResourceAuthorization": 7,
+          "DataBoundary": 8,
+          "EffectiveRisk": 9,
+          "ApprovalAndPresence": 10,
+          "OwnerValidation": 11,
+          "Execution": 12,
+          "ResultRecording": 13,
+          "AuditWrite": 14
+        },
+        "enforcementPoints": {
+          "CallerPreCheck": 1,
+          "TransportBoundary": 2,
+          "ServiceDecision": 3,
+          "OwnerFinalValidation": 4
+        },
+        "pointSteps": {
+          "CallerPreCheck": [1, 2, 3, 4, 5, 6, 9],
+          "OwnerFinalValidation": [11],
+          "ServiceDecision": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          "TransportBoundary": [3, 5]
+        }
+      },
+      "factsDigest": "d245028aafcb8ced1c4c0ff7af998fcd1fe7157e348d99d378fcc608cb36725f"
+    }
+  }
+}

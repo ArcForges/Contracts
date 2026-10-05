@@ -1,0 +1,335 @@
+{
+  "schemaVersion": "binding-classification.v1",
+  "operations": [
+    {
+      "operationId": "device.getCapabilities",
+      "bindings": ["device"]
+    },
+    {
+      "operationId": "device.getRemotePolicy",
+      "bindings": ["device", "user"]
+    },
+    {
+      "operationId": "device.list",
+      "bindings": ["device", "user"]
+    },
+    {
+      "operationId": "device.register",
+      "bindings": ["device", "user"]
+    },
+    {
+      "operationId": "device.rename",
+      "bindings": ["device"]
+    },
+    {
+      "operationId": "device.revoke",
+      "bindings": ["device", "session"]
+    },
+    {
+      "operationId": "device.setRemoteEnabled",
+      "bindings": ["device"]
+    },
+    {
+      "operationId": "device.setRemotePolicy",
+      "bindings": ["device", "user"]
+    },
+    {
+      "operationId": "device.setTrust",
+      "bindings": ["device"]
+    },
+    {
+      "operationId": "device.signOut",
+      "bindings": ["device", "session"]
+    },
+    {
+      "operationId": "identity.beginAuthentication",
+      "bindings": ["flow"]
+    },
+    {
+      "operationId": "identity.beginEmailChange",
+      "bindings": ["flow", "user"]
+    },
+    {
+      "operationId": "identity.beginPasskeyRegistration",
+      "bindings": ["authenticationIdentity", "user"]
+    },
+    {
+      "operationId": "identity.beginRecovery",
+      "bindings": ["flow"]
+    },
+    {
+      "operationId": "identity.beginStepUp",
+      "bindings": ["flow", "session", "user"]
+    },
+    {
+      "operationId": "identity.cancelAccountDeletion",
+      "bindings": ["user"]
+    },
+    {
+      "operationId": "identity.changePassword",
+      "bindings": ["authenticationIdentity", "user"]
+    },
+    {
+      "operationId": "identity.completeAuthentication",
+      "bindings": ["flow", "session"]
+    },
+    {
+      "operationId": "identity.completeEmailChange",
+      "bindings": ["flow", "user"]
+    },
+    {
+      "operationId": "identity.completeEnrollment",
+      "bindings": ["authenticationIdentity", "flow", "user", "workspace"],
+      "plan": "families.account-enrollment.create-user"
+    },
+    {
+      "operationId": "identity.completePasskeyRegistration",
+      "bindings": ["authenticationIdentity", "user"],
+      "plan": "identity.credential-add"
+    },
+    {
+      "operationId": "identity.completeRecovery",
+      "bindings": ["flow", "session"]
+    },
+    {
+      "operationId": "identity.completeStepUp",
+      "bindings": ["flow", "session", "user"]
+    },
+    {
+      "operationId": "identity.createApiToken",
+      "bindings": ["apiToken", "user", "workspace"]
+    },
+    {
+      "operationId": "identity.generateRecoveryCodes",
+      "bindings": ["user"]
+    },
+    {
+      "operationId": "identity.getAccountDeletion",
+      "bindings": ["user"]
+    },
+    {
+      "operationId": "identity.getProfile",
+      "bindings": ["user"],
+      "plan": "identity.user-load"
+    },
+    {
+      "operationId": "identity.listApiTokens",
+      "bindings": ["apiToken", "user", "workspace"]
+    },
+    {
+      "operationId": "identity.listAuthIdentities",
+      "bindings": ["authenticationIdentity", "user"],
+      "plan": "identity.credential-list"
+    },
+    {
+      "operationId": "identity.listAuthProviders",
+      "bindings": ["flow"]
+    },
+    {
+      "operationId": "identity.listSecurityActivity",
+      "bindings": ["user"]
+    },
+    {
+      "operationId": "identity.listSessions",
+      "bindings": ["session", "user"]
+    },
+    {
+      "operationId": "identity.redeemEmailCode",
+      "bindings": ["flow", "session"]
+    },
+    {
+      "operationId": "identity.refreshSession",
+      "bindings": ["session"]
+    },
+    {
+      "operationId": "identity.removeAuthIdentity",
+      "bindings": ["authenticationIdentity", "user"],
+      "plan": "identity.credential-revoke"
+    },
+    {
+      "operationId": "identity.renameAuthIdentity",
+      "bindings": ["authenticationIdentity", "user"],
+      "plan": "identity.credential-relabel"
+    },
+    {
+      "operationId": "identity.requestAccountDeletion",
+      "bindings": ["user", "workspace"]
+    },
+    {
+      "operationId": "identity.requestEmailCode",
+      "bindings": ["flow"]
+    },
+    {
+      "operationId": "identity.revokeAllSessions",
+      "bindings": ["session", "user"]
+    },
+    {
+      "operationId": "identity.revokeApiToken",
+      "bindings": ["apiToken", "user", "workspace"]
+    },
+    {
+      "operationId": "identity.revokeSession",
+      "bindings": ["session", "user"]
+    },
+    {
+      "operationId": "identity.updateProfile",
+      "bindings": ["user"],
+      "plan": "identity.user-rename"
+    },
+    {
+      "operationId": "workspace.get",
+      "bindings": ["user", "workspace"]
+    },
+    {
+      "operationId": "workspace.getDataDeletion",
+      "bindings": ["workspace"]
+    },
+    {
+      "operationId": "workspace.getHealth",
+      "bindings": ["workspace"]
+    },
+    {
+      "operationId": "workspace.list",
+      "bindings": ["user", "workspace"]
+    },
+    {
+      "operationId": "workspace.previewDataDeletion",
+      "bindings": ["workspace"]
+    },
+    {
+      "operationId": "workspace.requestDataDeletion",
+      "bindings": ["user", "workspace"]
+    },
+    {
+      "operationId": "workspace.updateSettings",
+      "bindings": ["workspace"]
+    }
+  ],
+  "identityChain": [
+    {
+      "obligation": "userSession",
+      "status": "bound",
+      "requires": [
+        {
+          "producer": "cloud",
+          "check": "references",
+          "table": "identity_session",
+          "reference": "user_id>identity_user"
+        },
+        {
+          "producer": "platform",
+          "check": "pointStep",
+          "point": "TransportBoundary",
+          "step": "ActorIdentity"
+        },
+        {
+          "producer": "platform",
+          "check": "pointStep",
+          "point": "ServiceDecision",
+          "step": "ActorIdentity"
+        }
+      ]
+    },
+    {
+      "obligation": "workspaceOwner",
+      "status": "bound",
+      "requires": [
+        {
+          "producer": "cloud",
+          "check": "references",
+          "table": "workspace_workspace",
+          "reference": "owner_user_id>identity_user"
+        },
+        {
+          "producer": "cloud",
+          "check": "unique",
+          "table": "workspace_workspace",
+          "columns": "realm_id+owner_user_id"
+        },
+        {
+          "producer": "platform",
+          "check": "pointStep",
+          "point": "ServiceDecision",
+          "step": "ScopeValid"
+        }
+      ]
+    },
+    {
+      "obligation": "currentPermission",
+      "status": "bound",
+      "requires": [
+        {
+          "producer": "platform",
+          "check": "pointStep",
+          "point": "ServiceDecision",
+          "step": "CapabilityPermission"
+        },
+        {
+          "producer": "platform",
+          "check": "pointStep",
+          "point": "OwnerFinalValidation",
+          "step": "OwnerValidation"
+        }
+      ]
+    },
+    {
+      "obligation": "currentServiceEligibility",
+      "status": "declared-port",
+      "requires": [
+        {
+          "producer": "platform",
+          "check": "pointStep",
+          "point": "OwnerFinalValidation",
+          "step": "OwnerValidation"
+        }
+      ],
+      "limit": "The owner validates last and again on execution, but eligibility is a fact the host owner validator supplies through a port; no producer declares an eligibility source or a production implementation of that port yet."
+    },
+    {
+      "obligation": "recheckAtTrigger",
+      "status": "pending-producer",
+      "requires": [],
+      "reason": "No producer has declared an automation trigger that re-evaluates its owner; the pinned Platform pipeline runs when a request is made and the automation lifecycle is not delivered."
+    },
+    {
+      "obligation": "explicitProvisioning",
+      "status": "pending-producer",
+      "requires": [],
+      "reason": "No producer has declared a deployment-service provisioning record; the pinned enrollment family provisions a user workspace, not a deployment service."
+    },
+    {
+      "obligation": "separateOperatorIdentity",
+      "status": "bound",
+      "requires": [
+        {
+          "producer": "cloud",
+          "check": "tableExists",
+          "table": "identity_operator_session"
+        },
+        {
+          "producer": "cloud",
+          "check": "tableExists",
+          "table": "identity_operator_access"
+        },
+        {
+          "producer": "cloud",
+          "check": "noReferenceTo",
+          "table": "identity_operator_session",
+          "target": "identity_user"
+        },
+        {
+          "producer": "cloud",
+          "check": "noReferenceTo",
+          "table": "identity_operator_access",
+          "target": "identity_user"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Operation classification and the producer facts are declared metadata: no operation handler, store or enforcement point is bound to any operation here, and every classified operation reports behavior not-bound.",
+    "Producer facts are an exact-commit snapshot re-derived only by an explicit local run against a producer checkout; the Cloud and DesktopPlatform packages published today carry no machine-readable declaration of these facts.",
+    "Cloud declares the schema, ownership relations and eight plans of the identity module; session, device, api-token and flow behavior belongs to later producer tasks, so those classifications rest on their declared tables only.",
+    "Platform declares the decision pipeline and its four enforcement points; owner permission, product policy, trust and eligibility facts are ports with no production source."
+  ]
+}
