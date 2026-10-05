@@ -15,8 +15,8 @@ class AuthorizationBoundaries(unittest.TestCase):
 
     def test_actual_matrix_preserves_pending_and_all_effective_fields(self):
         actual = report()
-        self.assertEqual(actual['identityIntegration']['status'], 'pending')
-        self.assertEqual(set(actual['identityIntegration']['requiredProducers']), {'CLOUD.11', 'PLT.38'})
+        self.assertEqual(actual['identityIntegration']['status'], 'bound-to-declared-producer-metadata')
+        self.assertEqual({p['task'] for p in actual['identityIntegration']['producers'].values()}, {'CLOUD.11', 'PLT.38'})
         matrix = actual['matrix']
         self.assertEqual(len(matrix['operations']), matrix['registered'] + matrix['pending'] + matrix['reserved'])
         self.assertEqual({r['operationId'] for r in matrix['operations']},

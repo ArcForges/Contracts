@@ -7,6 +7,8 @@ import importlib.util
 import json
 from pathlib import Path
 
+from binding_reachability import bound_report
+
 ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location('operation_metadata', ROOT / 'eng/check_operation_scope.py')
 metadata = importlib.util.module_from_spec(SPEC)
@@ -97,12 +99,11 @@ def report(root: Path = ROOT) -> dict:
         actual = fixture_decision(case['input'])
         metadata.require(actual == case['expected'], f"fixture assertion differs: {case['id']}")
         results.append({'id': case['id'], 'actual': actual, 'result': 'passed'})
-    return {'schemaVersion': 'authorization-boundary-evidence.v1', 'result': 'passed',
-            'coverage': 'offline declared metadata and symbolic hostile fixtures only',
+    bound = bound_report(matrix, fixture['identityDeclaration'])
+    return {'schemaVersion': 'authorization-boundary-evidence.v2', 'result': 'passed',
+            'coverage': 'offline declared metadata, pinned producer declarations and symbolic hostile fixtures only',
             'authorizationFields': sorted(AUTHORIZATION_FIELDS), 'actorClassification': 'actorKinds',
-            'matrix': matrix, 'fixtureResults': results,
-            'identityIntegration': {'status': 'pending', 'requiredProducers': ['CLOUD.11', 'PLT.38'],
-                                    'reason': 'Actual producer declarations and original receipts have not been bound; fixture decisions do not substitute for them.'}}
+            'matrix': matrix, 'fixtureResults': results, **bound}
 
 
 if __name__ == '__main__':
@@ -112,4 +113,6 @@ if __name__ == '__main__':
     result = report()
     options.report.parent.mkdir(parents=True, exist_ok=True)
     options.report.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
-    print(f"Authorization assertions passed: {len(result['fixtureResults'])} fixtures; identity integration pending.")
+    print(f"Authorization assertions passed: {len(result['fixtureResults'])} fixtures; "
+          f"{result['bindingMatrix']['classified']} identity-bearing operations classified; "
+          f"obligations {result['identityIntegration']['statusCounts']}.")
