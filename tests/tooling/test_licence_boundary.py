@@ -108,7 +108,7 @@ class LicenceBoundaryTests(unittest.TestCase):
                 '</Project>')
 
     def add_architecture_policy_admission(self, *, path='tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj',
-                                          version='1.0.0-ci.94.1', private_assets='all', generate_path='true',
+                                          version='1.0.0-ci.111.1', private_assets='all', generate_path='true',
                                           lock_type='Direct', lock_path='tests/ArchitectureTests/packages.lock.json'):
         if not any(entry['path'] == path for entry in self.policy['projects']):
             self.policy['projects'].append({'path': path, 'kind': 'msbuild'})
@@ -132,8 +132,8 @@ class LicenceBoundaryTests(unittest.TestCase):
 
     def test_build_policy_requires_exact_version_and_private_test_reference(self):
         for version, private_assets, generate_path in [
-                ('1.0.0-ci.94.2', 'all', 'true'), ('1.0.0-ci.94.1', 'none', 'true'),
-                ('1.0.0-ci.94.1', 'all', 'false')]:
+                ('1.0.0-ci.94.2', 'all', 'true'), ('1.0.0-ci.111.1', 'none', 'true'),
+                ('1.0.0-ci.111.1', 'all', 'false')]:
             with self.subTest(version=version, private_assets=private_assets, generate_path=generate_path):
                 self.add_architecture_policy_admission(version=version, private_assets=private_assets,
                                                        generate_path=generate_path)
