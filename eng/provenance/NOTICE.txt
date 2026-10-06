@@ -728,6 +728,13 @@ Copyright 2015 the original author or authors.
 Copyright 2023 the original author or authors (wrapper generator).
 Gradle wrapper 9.7.1 retains its original script headers and embedded JAR licence. Apache-2.0 terms are provided in LICENSE.
 
+operation-authorization-con-26-r1
+Source: https://github.com/ArcForges/Contracts @ f91b8f73b2c035b7dc445031ff97b95908414718
+Material licence: Apache-2.0
+Notice scope: packages
+Copyright 2026 ArcForges contributors.
+Generated public operation authorization catalogs remain Apache-2.0. CON.26 projects existing authored metadata through an ArcForges-authored deterministic generator; it adds no third-party material or wire meaning.
+
 protobuf-generator-licence-r1
 Source: https://github.com/protocolbuffers/protobuf @ 35cd01f9fe9afbeea38cc7b979a3b6bfcde82c03
 Material licence: BSD-3-Clause

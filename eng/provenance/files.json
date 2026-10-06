@@ -639,7 +639,14 @@
     "tests/tooling/test_release_guards.py",
     "tests/tooling/test_secret_history_scope.py",
     "tests/tooling/test_serialization_policy.py",
-    "tests/tooling/test_signed_formats.py"
+    "tests/tooling/test_signed_formats.py",
+    "docs/operation-authorization-catalog.md",
+    "eng/generate_operation_catalog.py",
+    "eng/policy/dependency-reviews/con-26-r1.json",
+    "eng/provenance/records/operation-authorization-con-26-r1.json",
+    "src/public/dotnet/ArcForges.Contracts.PublicApi/Operations/PublicOperationPolicy.cs",
+    "tests/StructureTests/Con26OperationCatalogCases.cs",
+    "tests/tooling/test_operation_catalog.py"
   ],
   "reused": {
     "LICENSE": "canonical-apache-licence-r1",
@@ -3929,7 +3936,11 @@
     "third-party/dokka/which-boxed-primitive-LICENSE.txt": "dokka-which-boxed-primitive-licence-r1",
     "third-party/dokka/which-collection-LICENSE.txt": "dokka-which-collection-licence-r1",
     "third-party/dokka/which-typed-array-LICENSE.txt": "dokka-which-typed-array-licence-r1",
-    "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1"
+    "third-party/protobuf-generator-LICENSE.txt": "protobuf-generator-licence-r1",
+    "src/public/dotnet/ArcForges.Contracts.Events/Generated/Operations/EventOperationCatalog.g.cs": "operation-authorization-con-26-r1",
+    "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Operations/PublicOperationCatalog.g.cs": "operation-authorization-con-26-r1"
   },
-  "artifacts": ["dokka-documentation-resources-r21"]
+  "artifacts": [
+    "dokka-documentation-resources-r21"
+  ]
 }

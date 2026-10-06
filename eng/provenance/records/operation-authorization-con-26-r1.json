@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 1,
+  "id": "operation-authorization-con-26-r1",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "f91b8f73b2c035b7dc445031ff97b95908414718",
+  "sourcePaths": [
+    "eng/check_compatibility.py",
+    "eng/check_operation_scope.py",
+    "eng/contract-packages.json",
+    "eng/generate_operation_catalog.py",
+    "eng/operation-scope-manifest.json",
+    "eng/operations/con-04.json",
+    "eng/operations/con-05.json",
+    "eng/operations/con-06.json",
+    "eng/operations/con-07.json",
+    "eng/operations/con-08.json",
+    "eng/operations/con-09.json",
+    "eng/operations/con-10.json",
+    "eng/operations/con-11.json",
+    "eng/operations/con-13.json",
+    "eng/operations/con-14.json",
+    "eng/operations/con-15.json",
+    "eng/operations/con-21.json",
+    "eng/operations/con-22.json",
+    "eng/operations/con-24.json",
+    "eng/operations/con-25.json",
+    "eng/operations/extensions-baseline.json",
+    "eng/package_catalog.py",
+    "internal/proto/arcforges/cf/v1/stream.proto",
+    "internal/proto/arcforges/local/chat/v1/chat.proto",
+    "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+    "internal/proto/arcforges/local/platform/v1/platform.proto",
+    "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+    "internal/proto/arcforges/local/scope/v1/scope.proto",
+    "internal/proto/arcforges/operator/v1/operator.proto",
+    "public/proto/arcforges/catalog/v1/catalog.proto",
+    "public/proto/arcforges/events/v1/events.proto",
+    "public/proto/arcforges/extensions/v1/extensions.proto",
+    "public/proto/arcforges/foundation/v1/foundation.proto",
+    "public/proto/arcforges/hello/v1/hello.proto",
+    "public/proto/arcforges/publicapi/v1/application.proto",
+    "public/proto/arcforges/publicapi/v1/chat.proto",
+    "public/proto/arcforges/publicapi/v1/commerce.proto",
+    "public/proto/arcforges/publicapi/v1/connector.proto",
+    "public/proto/arcforges/publicapi/v1/content.proto",
+    "public/proto/arcforges/publicapi/v1/descriptors.proto",
+    "public/proto/arcforges/publicapi/v1/export.proto",
+    "public/proto/arcforges/publicapi/v1/identity.proto",
+    "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+    "public/proto/arcforges/publicapi/v1/scope.proto",
+    "public/proto/arcforges/publicapi/v1/support.proto",
+    "public/proto/arcforges/publicapi/v1/sync.proto",
+    "public/proto/arcforges/publicapi/v1/transfer.proto",
+    "public/proto/arcforges/simulation/v1/simulation.proto"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "finding": "Authored generation, authorization shards and schemas are governed by the repository Apache-2.0 licence."
+      }
+    ],
+    "scope": "Exactly the two new generated public business authorization catalogs. No third-party source, package, version or wire meaning is introduced; existing protobuf/generated baselines and their immutable records remain unchanged.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors."
+  ],
+  "targets": [
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.Events/Generated/Operations/EventOperationCatalog.g.cs",
+      "sha256": "8c3bfad1c61abdb4462fb2dc19bb33e72334344dece7dfb463ea4786e1c3e3cc",
+      "normalization": "lf"
+    },
+    {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Operations/PublicOperationCatalog.g.cs",
+      "sha256": "83736b2d4378c370709e12d58fceaa4345813847fa7d6b68a5ec09c1782268c3",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "regeneration",
+    "command": "python eng/contracts.py generate --check",
+    "expected": "Exactly200 PublicApi and7 Events operations match compiled owned business descriptors and current authored authorization fields; no private/operator/helper/HTTP surface leaks. Existing generated baselines are unchanged.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Generated public operation authorization catalogs remain Apache-2.0. CON.26 projects existing authored metadata through an ArcForges-authored deterministic generator; it adds no third-party material or wire meaning.",
+    "files": [
+      "LICENSE",
+      "eng/provenance/NOTICE.txt"
+    ],
+    "distribution": "packages",
+    "reason": "These two generated source catalogs are shipped in the existing PublicApi and Events packages; existing independent generator/runtime notices are retained."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "f91b8f73b2c035b7dc445031ff97b95908414718",
+        "paths": [
+          "eng/generate_operation_catalog.py",
+          "eng/check_operation_scope.py",
+          "eng/check_compatibility.py",
+          "eng/package_catalog.py"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "eng/generate_operation_catalog.py",
+            "sha256": "98cc24eba44875acc90d489fb0e5132b9f1a931ae9ca3f571cf1b2173c80d71b",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/check_operation_scope.py",
+            "sha256": "92b6882f87755190f43638070e2244c62be939f08e2ddade26cfa81c265efbe9",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/check_compatibility.py",
+            "sha256": "1c139d3932892fd3fafba05c0cf233af51fa6d8eba4df4da5ef0884b4d7feac6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/package_catalog.py",
+            "sha256": "d045214fa515fbe9f5f9e7ed2b9a4ad566524b7e53ed93292c35af6edac4bd6b",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "f91b8f73b2c035b7dc445031ff97b95908414718",
+        "paths": [
+          "eng/operation-scope-manifest.json",
+          "eng/contract-packages.json",
+          "eng/operations/con-04.json",
+          "eng/operations/con-05.json",
+          "eng/operations/con-06.json",
+          "eng/operations/con-07.json",
+          "eng/operations/con-08.json",
+          "eng/operations/con-09.json",
+          "eng/operations/con-10.json",
+          "eng/operations/con-11.json",
+          "eng/operations/con-13.json",
+          "eng/operations/con-14.json",
+          "eng/operations/con-15.json",
+          "eng/operations/con-21.json",
+          "eng/operations/con-22.json",
+          "eng/operations/con-24.json",
+          "eng/operations/con-25.json",
+          "eng/operations/extensions-baseline.json",
+          "public/proto/arcforges/catalog/v1/catalog.proto",
+          "public/proto/arcforges/events/v1/events.proto",
+          "public/proto/arcforges/extensions/v1/extensions.proto",
+          "public/proto/arcforges/foundation/v1/foundation.proto",
+          "public/proto/arcforges/hello/v1/hello.proto",
+          "public/proto/arcforges/publicapi/v1/application.proto",
+          "public/proto/arcforges/publicapi/v1/chat.proto",
+          "public/proto/arcforges/publicapi/v1/commerce.proto",
+          "public/proto/arcforges/publicapi/v1/connector.proto",
+          "public/proto/arcforges/publicapi/v1/content.proto",
+          "public/proto/arcforges/publicapi/v1/descriptors.proto",
+          "public/proto/arcforges/publicapi/v1/export.proto",
+          "public/proto/arcforges/publicapi/v1/identity.proto",
+          "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+          "public/proto/arcforges/publicapi/v1/scope.proto",
+          "public/proto/arcforges/publicapi/v1/support.proto",
+          "public/proto/arcforges/publicapi/v1/sync.proto",
+          "public/proto/arcforges/publicapi/v1/transfer.proto",
+          "public/proto/arcforges/simulation/v1/simulation.proto",
+          "internal/proto/arcforges/cf/v1/stream.proto",
+          "internal/proto/arcforges/local/chat/v1/chat.proto",
+          "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+          "internal/proto/arcforges/local/platform/v1/platform.proto",
+          "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+          "internal/proto/arcforges/local/scope/v1/scope.proto",
+          "internal/proto/arcforges/operator/v1/operator.proto"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "eng/operation-scope-manifest.json",
+            "sha256": "7aa58ed211e2970324972cd55569679fc336f1b29801d1da87ec5096bcc24d5c",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/contract-packages.json",
+            "sha256": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-04.json",
+            "sha256": "96add8d1ed1da3f1591d979712b920ad5cd540d889348ab0698b3388bafef3ef",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-05.json",
+            "sha256": "4365d5b7c7ffdb9c7b35e6e7c1bf3eb848e2394876c6bf0ad4d9631ee44859ee",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-06.json",
+            "sha256": "03fedc7b0bc3da341b72eb95d9ef49b2064e9e030f7aa9079c3d6938617245eb",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-07.json",
+            "sha256": "e16e0ca9bdcedb5fef6135b4778bbabb12316cc61ee33f9490312c802e5c91b7",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-08.json",
+            "sha256": "c11059b523d470980817b23b0b5d920e02319ac1aef97a52a9cce01cc340feea",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-09.json",
+            "sha256": "2cdd58bc29b5cefab71c8905e000ac14d6ca06b3685bc9d0a24d38638a501c7f",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-10.json",
+            "sha256": "3e8107cb52a00c52d86b597cce9d72c1a2816c20d25665d97635da7efc7f6e67",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-11.json",
+            "sha256": "e7260db03121530d642126b4b4ec26f6b31b25feaab264b6bc886ad98b37b8c6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-13.json",
+            "sha256": "8d7497be1b4fdd377926c236a1ccc6587df59ac65be1afc019dec3b562e1b18a",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-14.json",
+            "sha256": "937ed1482b5b103e9426ad457eee59df58ddbabb9642e4e2c22f66b8a64cd1d4",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-15.json",
+            "sha256": "bdbce3ff16f785719829d78b8dae4860fa89eaea71985b38c466cb7130b2f62e",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-21.json",
+            "sha256": "1e294514b78e838b5a60277d3b618094a96cc38802776bd1b78e3f51e4f83778",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-22.json",
+            "sha256": "356244b687a16b40a007c4a8670eecd36be5e7146bcdda2bf391de8f299dbef7",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-24.json",
+            "sha256": "0c40ec2e2e819e4a6bedf3dcb587c9e18692a33d69f6429db3de958738e2e6d6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/con-25.json",
+            "sha256": "c633d55d68f2e64d047a7efe670e161952081d58ea2e19b54466b38dbf367428",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "eng/operations/extensions-baseline.json",
+            "sha256": "3effb2b8f180b307603a55487e103908303f577880aa99b6a7247f005f4d50df",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/catalog/v1/catalog.proto",
+            "sha256": "ff77d24be445e107d4fb4a0b3f7fd6b205664317e856a3696e471be1a18f0828",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/events/v1/events.proto",
+            "sha256": "33953eb0fa0ade48154efee887abae991d8eb697542516091164b7601e95d25e",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/extensions/v1/extensions.proto",
+            "sha256": "73e66d8130a01db43f963386fead900ca910f4ba143f3102968d0c82e90d14a7",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/foundation/v1/foundation.proto",
+            "sha256": "e7e634103664dcca4c63383dd0eda5d90b408edb4786bfdf4a148856fed92736",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/hello/v1/hello.proto",
+            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/application.proto",
+            "sha256": "a75077033ccc4876460606b35bfd06929b83ee57111637367bef92cbc1a28710",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/chat.proto",
+            "sha256": "b878ad06144a626e426e78addb76ca7fceb3c36d6a99f087f918fad1968e109a",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/commerce.proto",
+            "sha256": "e0ed5700197fdb20006c7ea699d9071dd8c4ac9d4248651f8a148363ad8af9dc",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/connector.proto",
+            "sha256": "82a6b9846fd8772ce7a3bc7478ba0dea95c45351ef2ed8a10a2bc109987ce1a0",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/content.proto",
+            "sha256": "7d77c5c222dcfa2a5473675873f4d3e1bc8664fa5983f2b40e8c49db652b17fa",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/descriptors.proto",
+            "sha256": "d8a43c27fd345d55786a67ce9776efa0b4bc089f57361c3e532dd1b5f9326161",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/export.proto",
+            "sha256": "585aa18d6ca428c497ee2eb18ada15868dd78db3fde13077ebd7f0be664c2ae6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/identity.proto",
+            "sha256": "bdc4b2cd3e44b72bbcbdfb6968cf5affb9afd7266645d4f83ae3564750bae3bc",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
+            "sha256": "24921ae4f54f48800ea1201a9eee27a4e23a476b738cc3903665dff137a10eea",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/scope.proto",
+            "sha256": "a8c3f33e67631ae0226c96c74069e3ee5ae154afbccc145d13e41600579d3e27",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/support.proto",
+            "sha256": "9ba36c44a6682bb954e023ba5fe06ad46bfc647b59e84abe202f8c610cbcd541",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/sync.proto",
+            "sha256": "2e7861c2cbb6d55aa36c9703b4409f3149365f2f1f53741f2dce3f0589cb84d6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/publicapi/v1/transfer.proto",
+            "sha256": "f7d53346a43cd977224154b33d8f1f3f3f4b973c67e513caf384b195654abc0e",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "public/proto/arcforges/simulation/v1/simulation.proto",
+            "sha256": "132e52b8f66b9bbdde779ee295a1b2406bb26d12e97e7e8ecf78e0c34fa98c7f",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/cf/v1/stream.proto",
+            "sha256": "c6a851984bcbe51e2b47dd4ed870d2b651f48e61299d95d4adaa6c201c5ed3d6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
+            "sha256": "4d77656ed1a31141706328e69bd7050a9e426b0460cd97890838eecfb021f6f6",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/platform/v1/inprocess.proto",
+            "sha256": "485be994a178fee8fb323dc58f5903a83b4f098ee5c8b658872e29b1cf439e2a",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/platform/v1/platform.proto",
+            "sha256": "31654d8bdf57842710bc844333f70cce927309d37dbb09ca130f6b4dcda39d5e",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/sandbox/v1/sandbox.proto",
+            "sha256": "2276569cf048bc33f84f6e8d4114fdb4ffdf520fd25e0fb67b37c3ab8d25f5ba",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/local/scope/v1/scope.proto",
+            "sha256": "387e6924688cc7f343a3273618549451784e5a9384a44150ca7d7fa23ab22219",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          },
+          {
+            "path": "internal/proto/arcforges/operator/v1/operator.proto",
+            "sha256": "fd5b7e820e7962bec3f5286f72c086974ac900caa518e3b0c2c3301946e0dd67",
+            "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
+          }
+        ]
+      }
+    ],
+    "command": "python eng/contracts.py generate --check",
+    "outputSpdx": "Apache-2.0"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "CON.26 implementation owner; independent exact-head peer review required before merge",
+    "reviewedOn": "2026-10-06",
+    "decision": "approved",
+    "rationale": "New isolated generated-output record binds exact metadata/generator source and compiled ownership validation. Preserve every pre-existing immutable record and generated target; no licence, dependency closure, framework or package identity change. Actual exact-head review and applicable CI remain required.",
+    "baselineCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+    "reconciliation": false
+  },
+  "supersedes": null
+}
