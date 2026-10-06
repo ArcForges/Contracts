@@ -75,6 +75,22 @@ CON11_PRIVATE_RPC_VECTOR = {
 
 
 class OperationScopeTests(unittest.TestCase):
+    def test_closed_pat_allowlist_cannot_silently_drop_support(self):
+        row = next(row for row in gate.load(ROOT / "eng/operations/con-22.json")["operations"]
+                   if row["operationId"] == "support.listCases")
+        self.assertEqual(gate.authorization(row, set()), (["human"], []))
+        row["authorization"]["patEligible"] = False
+        with self.assertRaisesRegex(ValueError, "exact closed PAT allowlist"):
+            gate.validate_pat_catalog({"support.listCases": row})
+
+    def test_all_registered_pat_flags_match_the_closed_design_allowlist(self):
+        report = gate.audit(ROOT)
+        eligible = {row["operationId"] for row in report["operations"]
+                    if row["status"] == "registered" and row["authorization"]["patEligible"]}
+        self.assertEqual(eligible, {"workspace.list", "workspace.get", "catalog.search", "catalog.getPackage",
+            "catalog.listVersions", "catalog.submitVersion", "catalog.getSubmission", "resource.beginUpload",
+            "resource.completeUpload", "resource.getUploadStatus", "resource.renewUploadTicket", "support.listCases"})
+
     def task_create_row(self):
         return {
             'operationId': 'task.create',

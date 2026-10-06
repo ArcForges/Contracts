@@ -184,6 +184,21 @@ Require(counts.GetValueOrDefault("messages") > 0, "no generated messages were ex
 // Reflection-based System.Text.Json is disabled in this published artifact.
 Require(!JsonSerializer.IsReflectionEnabledByDefault, "reflection-based JSON serialization is enabled");
 
+// Execute the generated authorization catalog in the actual Native AOT artifact.
+var publicOperations = ArcForges.Contracts.PublicApi.Operations.PublicOperationCatalog.All;
+var eventOperations = ArcForges.Contracts.Events.Operations.EventOperationCatalog.All;
+Require(publicOperations.Count == 200 && eventOperations.Count == 7, "complete generated operation catalogs");
+Require(publicOperations.Count(operation => operation.PatEligible) == 12 && eventOperations.All(operation => !operation.PatEligible), "closed PAT catalog in AOT");
+foreach (var operation in publicOperations)
+{
+    Require(ArcForges.Contracts.PublicApi.Operations.PublicOperationCatalog.TryGet(operation.OperationId, out var found) &&
+        ReferenceEquals(operation, found), "AOT immutable catalog lookup " + operation.OperationId);
+    Count("operation-catalog");
+}
+Require(ArcForges.Contracts.PublicApi.Operations.PublicOperationCatalog.TryGet("approval.decide", out var approvalPolicy) &&
+    approvalPolicy.StepUp is null && approvalPolicy.StepUpSource == "verifiedApprovalProposal.stepUp", "AOT derived approval policy");
+Require(!ArcForges.Contracts.PublicApi.Operations.PublicOperationCatalog.TryGet("operator.listCases", out _), "AOT public catalog boundary");
+
 var result = failures.Count == 0 ? "passed" : "failed";
 if (report is not null)
 {

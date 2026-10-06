@@ -465,6 +465,12 @@ def authorization(row: dict, tool_allowlist: set[str]) -> tuple[list[str], list[
     return sorted(actors), sorted(derived)
 
 
+def validate_pat_catalog(exported: dict) -> None:
+    """Bind complete authored exports to the closed allowlist, not hypothetical profile projections."""
+    eligible = {operation for operation, row in exported.items() if row["authorization"]["patEligible"]}
+    require(eligible == PAT_OPERATIONS & set(exported), "exact closed PAT allowlist differs from authored exports")
+
+
 def audit(root: Path, manifest: dict | None = None) -> dict:
     root = root.resolve()
     manifest = manifest if manifest is not None else load(root / "eng/operation-scope-manifest.json")
@@ -520,6 +526,7 @@ def audit(root: Path, manifest: dict | None = None) -> dict:
             bindings.add(binding)
             exported[operation] = {**row, "reachableActors": actors, "derivedFields": derived,
                                    "metadataSource": path.relative_to(root).as_posix()}
+    validate_pat_catalog(exported)
     private_projections = private_service_projections(root, methods, bindings)
     private_projection_bindings = {projection["binding"] for projection in private_projections}
     examples = []

@@ -1,5 +1,10 @@
 # Contract and package boundaries
 
+The [public operation authorization catalog](operation-authorization-catalog.md)
+ships immutable descriptor-checked public business authorization facts in the
+existing PublicApi and Events packages. It preserves verified proposal-derived
+requirements and exact closed PAT scopes without runtime discovery.
+
 ## Authored source and generated output
 
 The authored proto trees, JSON schemas and constraint sidecars own the wire and

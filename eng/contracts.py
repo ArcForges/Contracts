@@ -324,6 +324,8 @@ def generate(check: bool = False) -> None:
         generate_values(check)
         from con06_inprocess import generate as generate_inprocess
         generate_inprocess(check)
+        from generate_operation_catalog import generate as generate_operations
+        generate_operations(check)
     print("Generated bindings match the authored proto." if check else "Generated C#, TypeScript, Java/Kotlin and descriptor set.")
 
 

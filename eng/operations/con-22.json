@@ -40,7 +40,7 @@
         "stepUp": false,
         "localPresence": false,
         "egress": "none",
-        "patEligible": false,
+        "patEligible": true,
         "actorKinds": ["human"]
       }
     },
