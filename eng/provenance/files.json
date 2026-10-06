@@ -3942,7 +3942,5 @@
     "src/public/dotnet/ArcForges.Contracts.Events/Generated/Operations/EventOperationCatalog.g.cs": "operation-authorization-con-26-r1",
     "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Operations/PublicOperationCatalog.g.cs": "operation-authorization-con-26-r1"
   },
-  "artifacts": [
-    "dokka-documentation-resources-r21"
-  ]
+  "artifacts": ["dokka-documentation-resources-r21"]
 }
