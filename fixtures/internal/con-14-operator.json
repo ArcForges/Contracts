@@ -1,7 +1,12 @@
 {
   "schemaVersion": "con-14-operator-fixtures.v1",
   "license": "Apache-2.0",
-  "authority": ["Registry04 §9.1", "Registry04 §9.2", "Plan CON.14 validation"],
+  "authority": [
+    "Registry04 Â§9.1",
+    "Registry04 Â§9.2",
+    "Plan CON.14 validation",
+    "Plan CON.28 compatible configuration-document reference"
+  ],
   "evidenceClass": "Independent declarative schema/protocol expectations only; no owner/runtime authorization, persistence, transaction, concurrency, identity-provider, or external-provider behavior is executed.",
   "protocolExpectations": {
     "proposalLifetimeMinutes": 15,
@@ -265,7 +270,8 @@
         "request": [
           "10 configId Id",
           "11 parentVersion Key",
-          "12 document ConfigurationDocument",
+          "12 document ConfigurationDocument?",
+          "13 documentRef BlobRef?",
           "100 context OperatorCallContext"
         ],
         "value": ["10 validation ConfigValidation"]
@@ -299,7 +305,11 @@
       "GetConfiguration": {
         "operationId": "operator.getConfiguration",
         "request": ["10 configId Id?", "100 context OperatorCallContext"],
-        "value": ["10 document ConfigurationDocument", "11 validation ConfigValidation"]
+        "value": [
+          "10 document ConfigurationDocument?",
+          "11 validation ConfigValidation",
+          "12 documentRef BlobRef?"
+        ]
       },
       "SetKillSwitch": {
         "operationId": "operator.setKillSwitch",
@@ -2390,6 +2400,770 @@
         "schemaVersion": "config.v1",
         "revision": {
           "value": "1"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-inline-compatible",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "document": {
+          "schemaVersion": "config.v1",
+          "canonicalJson": "e30=",
+          "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "parentVersion": "config.v0",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-reference-maximum",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-reference-minimum",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": true,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "1"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-no-document",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-both-documents",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "document": {
+          "schemaVersion": "config.v1",
+          "canonicalJson": "e30=",
+          "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "parentVersion": "config.v0",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-zero-size",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "0"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-oversize",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097153"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-empty-id",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "AAAAAAAAAAAAAAAAAAAAAA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-wrong-hash",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-short-hash",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-missing-sizeBytes",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-missing-contentHash",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-missing-blobId",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "documentRef": {
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-stage-invalid-inline",
+      "target": "OperatorServiceStageConfigurationRequest",
+      "valid": false,
+      "value": {
+        "meta": {
+          "correlationId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          }
+        },
+        "configId": {
+          "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+        },
+        "parentVersion": "config.v0",
+        "context": {
+          "caseId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "purpose": "Resolve the reported billing problem"
+        },
+        "document": {
+          "schemaVersion": "config.v1",
+          "canonicalJson": "e30=",
+          "documentHash": "invalid",
+          "parentVersion": "config.v0",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "con-28-get-inline-compatible",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": true,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "document": {
+          "schemaVersion": "config.v1",
+          "canonicalJson": "e30=",
+          "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "parentVersion": "config.v0",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "con-28-get-reference-maximum",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": true,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-reference-minimum",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": true,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "1"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-no-document",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "con-28-get-both-documents",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "document": {
+          "schemaVersion": "config.v1",
+          "canonicalJson": "e30=",
+          "documentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "parentVersion": "config.v0",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-zero-size",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "0"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-oversize",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097153"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-empty-id",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "AAAAAAAAAAAAAAAAAAAAAA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-wrong-hash",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-short-hash",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-missing-sizeBytes",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-missing-contentHash",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "blobId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-missing-blobId",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "documentRef": {
+          "contentHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "sizeBytes": "2097152"
+        }
+      }
+    },
+    {
+      "id": "con-28-get-invalid-inline",
+      "target": "OperatorServiceGetConfigurationValue",
+      "valid": false,
+      "value": {
+        "validation": {
+          "configId": {
+            "value": "ESIzRFVmd4iZqrvM3e7/AA=="
+          },
+          "configHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "schemaVersion": "config.v1",
+          "compatible": true,
+          "revision": {
+            "value": "1"
+          }
+        },
+        "document": {
+          "schemaVersion": "config.v1",
+          "canonicalJson": "e30=",
+          "documentHash": "invalid",
+          "parentVersion": "config.v0",
+          "createdAt": {
+            "unixSeconds": "1",
+            "nanos": 0
+          }
         }
       }
     }

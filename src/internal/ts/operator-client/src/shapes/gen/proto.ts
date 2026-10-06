@@ -2519,7 +2519,6 @@ function checkOperatorServiceGetConfigurationValue(input: unknown, context: Vali
   context.active.add(input); context.depth++;
   try {
   const value = input as Record<string, unknown>;
-  if (value.document === undefined) return false;
   if (value.document !== undefined) {
     const fieldValue = value.document;
     if (!checkConfigurationDocument(fieldValue, context)) return false;
@@ -2529,6 +2528,11 @@ function checkOperatorServiceGetConfigurationValue(input: unknown, context: Vali
     const fieldValue = value.validation;
     if (!checkConfigValidation(fieldValue, context)) return false;
   }
+  if (value.documentRef !== undefined) {
+    const fieldValue = value.documentRef;
+    if (!checkBlobRef(fieldValue, context)) return false;
+  }
+  if ([value.document, value.documentRef].filter(v => v !== undefined).length !== 1 || value.documentRef !== undefined && ((value.documentRef as {sizeBytes: bigint}).sizeBytes < 1n || (value.documentRef as {sizeBytes: bigint}).sizeBytes > 2097152n)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -3748,7 +3752,6 @@ function checkOperatorServiceStageConfigurationRequest(input: unknown, context: 
     if ([...fieldValue].length > 128) return false;
     if ((new RegExp("^[A-Za-z0-9._:/-]{1,128}$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
   }
-  if (value.document === undefined) return false;
   if (value.document !== undefined) {
     const fieldValue = value.document;
     if (!checkConfigurationDocument(fieldValue, context)) return false;
@@ -3758,6 +3761,11 @@ function checkOperatorServiceStageConfigurationRequest(input: unknown, context: 
     const fieldValue = value.context;
     if (!checkOperatorCallContext(fieldValue, context)) return false;
   }
+  if (value.documentRef !== undefined) {
+    const fieldValue = value.documentRef;
+    if (!checkBlobRef(fieldValue, context)) return false;
+  }
+  if ([value.document, value.documentRef].filter(v => v !== undefined).length !== 1 || value.documentRef !== undefined && ((value.documentRef as {sizeBytes: bigint}).sizeBytes < 1n || (value.documentRef as {sizeBytes: bigint}).sizeBytes > 2097152n)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }

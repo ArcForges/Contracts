@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-10-04",
+  "reviewedOn": "2026-10-06",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "05bfe3bf1757d8ef507e8bf205418a763b871f64",
+  "sourceCommit": "035c20818f743a120fe4c5e32ee4590507d8ba05",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -42,7 +42,7 @@
     {
       "path": "internal/proto/arcforges/operator/v1/operator.proto",
       "access": "internal",
-      "sha256": "fd5b7e820e7962bec3f5286f72c086974ac900caa518e3b0c2c3301946e0dd67"
+      "sha256": "967ab96b940fbef22a6a2c268213ea9235d22d76c703d5577fe10f7a38538fea"
     },
     {
       "path": "public/proto/arcforges/catalog/v1/catalog.proto",
@@ -8356,7 +8356,7 @@
         "outcome_",
         "OutcomeOneofCase"
       ],
-      "sha256": "14b26f10311f88a18a0ccb32f57ab05c36c187a839c3808dd0183a31e8357c77",
+      "sha256": "adc7c61884b6052b4dd7b325c3759129e4e0cbc7eb833f1f11b410e1bccaee0c",
       "kind": "generated"
     },
     {
@@ -9629,7 +9629,7 @@
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "c8c1a46f7cc727f1aca384fc76a1429395665f2fc937d5457f185e2ee2af2829",
+      "sha256": "626fde56741132cc45ccb04cb42923b38f7fc131ec555384a6b6f258c1d3f297",
       "kind": "generated"
     },
     {
@@ -11322,7 +11322,7 @@
         "OperatorGrantKind",
         "SupportCaseState"
       ],
-      "sha256": "666d757dab4a57eb7b3cf1f2ba0ab10df349e46ae4092eeeca08927556a43c8f",
+      "sha256": "19e8582809e9d98595d8238f5602a4c514af8b0b76628880423c014073beade1",
       "kind": "generated"
     },
     {
@@ -11346,7 +11346,7 @@
       "package": "@arcforges/operator-client",
       "access": "internal",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "68d65090b5875a7e598fbcb1b8de7e99ea274c516668d4e91eeaa16958048892",
+      "sha256": "466602b216749de70891e9e3525e1a849edd944a20c5d18db60902318ee8ebb5",
       "kind": "generated"
     },
     {
@@ -38354,7 +38354,7 @@
     },
     {
       "path": "internal/proto/constraints.json",
-      "sha256": "911c59c19402a5766e42fee9bd1ae2300af189c00831dd2f5db8f65d7142c3d7"
+      "sha256": "a39d77e158a9ffe2aa1360a4b43aae82a84033c3de6452a5a46f1cc605ceffee"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -38382,7 +38382,7 @@
     },
     {
       "path": "internal/proto/constraints/con-14-operator.json",
-      "sha256": "9fc27f1d197a981113a66db50d8f71f4e77cefa00e1c1b58a12eb681e6bc181f"
+      "sha256": "7e00f06e072ce1b0d6cf4d9f08682d491a86dd2f166ec497e7d329222debd8c0"
     },
     {
       "path": "internal/proto/constraints/con-25-local-call-context.json",

@@ -2171,10 +2171,17 @@ public static class ContractShapeValidation
         if (value is null || !context.Enter(value)) return false;
         try
         {
-        if (value.Document is null) return false;
-        if (!Check(value.Document, context)) return false;
+        if (value.Document is not null)
+        {
+            if (!Check(value.Document, context)) return false;
+        }
         if (value.Validation is null) return false;
         if (!Check(value.Validation, context)) return false;
+        if (value.DocumentRef is not null)
+        {
+            if (!Check(value.DocumentRef, context)) return false;
+        }
+        if ((value.Document is null ? 0 : 1) + (value.DocumentRef is null ? 0 : 1) != 1 || value.DocumentRef is { SizeBytes: 0 or > 2097152 }) return false;
         return true;
         }
         finally { context.Exit(value); }
@@ -3159,10 +3166,17 @@ public static class ContractShapeValidation
             if (ScalarLength(value.ParentVersion) > 128) return false;
             if (!Matches(value.ParentVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
         }
-        if (value.Document is null) return false;
-        if (!Check(value.Document, context)) return false;
+        if (value.Document is not null)
+        {
+            if (!Check(value.Document, context)) return false;
+        }
         if (value.Context is null) return false;
         if (!Check(value.Context, context)) return false;
+        if (value.DocumentRef is not null)
+        {
+            if (!Check(value.DocumentRef, context)) return false;
+        }
+        if ((value.Document is null ? 0 : 1) + (value.DocumentRef is null ? 0 : 1) != 1 || value.DocumentRef is { SizeBytes: 0 or > 2097152 }) return false;
         return true;
         }
         finally { context.Exit(value); }

@@ -450,6 +450,8 @@ message OperatorServiceStageConfigurationRequest {
   arcforges.foundation.v1.Id config_id = 10 [json_name = "configId"];
   optional string parent_version = 11 [json_name = "parentVersion"];
   ConfigurationDocument document = 12 [json_name = "document"];
+  // Exactly one inline document or immutable complete-envelope reference; the owner verifies bytes and authority.
+  arcforges.foundation.v1.BlobRef document_ref = 13 [json_name = "documentRef"];
   OperatorCallContext context = 100 [json_name = "context"];
   reserved 2 to 9;
 }
@@ -528,6 +530,7 @@ message OperatorServiceGetConfigurationRequest {
 message OperatorServiceGetConfigurationValue {
   ConfigurationDocument document = 10 [json_name = "document"];
   ConfigValidation validation = 11 [json_name = "validation"];
+  arcforges.foundation.v1.BlobRef document_ref = 12 [json_name = "documentRef"];
 }
 message OperatorServiceGetConfigurationResponse {
   arcforges.foundation.v1.ResponseMeta meta = 1 [json_name = "meta"];

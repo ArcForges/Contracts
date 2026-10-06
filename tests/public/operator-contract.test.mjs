@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { ScalarType, fromBinary, fromJson, toBinary } from "@bufbuild/protobuf";
@@ -484,6 +485,35 @@ test("CON.14 shape vectors are independently checked against generated validator
   assert.ok(positives >= 20 && negatives >= 30, `positives=${positives} negatives=${negatives}`);
 });
 
+test("CON28 immutable references preserve the full document schema and complete binary envelope", () => {
+  const inline = fixture.shapeCases.find(
+    (entry) => entry.id === "configuration-document-valid",
+  ).value;
+  const document = fromJson(operatorClient.ConfigurationDocumentSchema, inline);
+  document.canonicalJson = new TextEncoder().encode(`{"text":"${"a".repeat(1048565)}"}`);
+  document.documentHash = createHash("sha256").update(document.canonicalJson).digest("hex");
+  assert.equal(operatorClient.isConfigurationDocument(document), true);
+  const envelope = toBinary(operatorClient.ConfigurationDocumentSchema, document);
+  assert.ok(envelope.length > 1048576 && envelope.length <= 2097152);
+  assert.equal(
+    operatorClient.isConfigurationDocument(
+      fromBinary(operatorClient.ConfigurationDocumentSchema, envelope),
+    ),
+    true,
+  );
+  document.canonicalJson = new TextEncoder().encode(`{"text":"${"a".repeat(1048566)}"}`);
+  document.documentHash = createHash("sha256").update(document.canonicalJson).digest("hex");
+  assert.equal(operatorClient.isConfigurationDocument(document), false);
+  assert.equal(
+    operatorClient.OperatorServiceStageConfigurationRequestSchema.field.documentRef.number,
+    13,
+  );
+  assert.equal(
+    operatorClient.OperatorServiceGetConfigurationValueSchema.field.documentRef.number,
+    12,
+  );
+});
+
 const SCALARS = {
   Key: ScalarType.STRING,
   Text: ScalarType.STRING,
@@ -495,6 +525,7 @@ const SCALARS = {
   bytes: ScalarType.BYTES,
 };
 const FOUNDATION = new Set([
+  "BlobRef",
   "Id",
   "Revision",
   "Instant",

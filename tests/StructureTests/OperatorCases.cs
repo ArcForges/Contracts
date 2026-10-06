@@ -137,6 +137,8 @@ internal static class OperatorCases
         AssertFields(file, "OperatorProposal", "1:proposal_id,2:mutation,3:target_operation,4:context,5:reason,6:proposer_subject,7:approver_subject,8:proposal_hash,9:owner_revision,10:revision,11:state,12:expires_at,13:consumed_by_command_id,14:result_ref,15:recovery_generation,16:configuration_hash");
         AssertFields(file, "OperatorResult", "1:grant,2:credit,3:refund,4:submission,5:catalog_version,6:action");
         AssertFields(file, "ConfigValidation", "1:config_id,2:config_hash,3:schema_version,4:problems,5:worker_acknowledgement,6:compatible,7:revision");
+        AssertFieldType(file, "OperatorServiceStageConfigurationRequest", 13, "arcforges.foundation.v1.BlobRef");
+        AssertFieldType(file, "OperatorServiceGetConfigurationValue", 12, "arcforges.foundation.v1.BlobRef");
 
         AssertOneof(file, "OperatorCallContext", "context", "case_id", "incident_id");
         AssertOneof(file, "OperatorMutation", "mutation", "grant", "revoke_grant", "issue_credit", "adjust_credit", "refund", "catalog_review", "catalog_revoke", "appeal", "kill");
@@ -211,8 +213,11 @@ internal static class OperatorCases
     {
         var abbreviations = new Dictionary<string, string>(StringComparer.Ordinal)
         {
-            ["CS"] = "customerSupport", ["RS"] = "recoverySpecialist", ["OP"] = "operations",
-            ["TS"] = "trustSafety", ["SE"] = "security"
+            ["CS"] = "customerSupport",
+            ["RS"] = "recoverySpecialist",
+            ["OP"] = "operations",
+            ["TS"] = "trustSafety",
+            ["SE"] = "security"
         };
         AssertStrings(fixture.GetProperty("roleVocabulary"), "customerSupport", "recoverySpecialist", "operations", "trustSafety", "security");
         var matrix = fixture.GetProperty("operationMatrix").EnumerateArray().ToArray();
@@ -322,15 +327,21 @@ internal static class OperatorCases
             Require(field.IsRepeated == repeated, label + " repeated");
             switch (baseToken)
             {
-                case "Key": case "Text": case "Hash": case "ReasonCode":
+                case "Key":
+                case "Text":
+                case "Hash":
+                case "ReasonCode":
                     Require(field.FieldType == FieldType.String, label + " string");
                     break;
                 case "bool": Require(field.FieldType == FieldType.Bool, label + " bool"); break;
                 case "uint64": Require(field.FieldType == FieldType.UInt64, label + " uint64"); break;
                 case "sint64": Require(field.FieldType == FieldType.SInt64, label + " sint64"); break;
                 case "bytes": Require(field.FieldType == FieldType.Bytes, label + " bytes"); break;
-                case "OperatorProposalState": case "OperatorRefundDecision": case "OperatorGrantSource":
-                case "OperatorGrantKind": case "SupportCaseState":
+                case "OperatorProposalState":
+                case "OperatorRefundDecision":
+                case "OperatorGrantSource":
+                case "OperatorGrantKind":
+                case "SupportCaseState":
                     Require(field.FieldType == FieldType.Enum && field.EnumType.FullName == OperatorPackage + "." + baseToken, label + " enum");
                     break;
                 case "CatalogReviewDecision":
@@ -340,7 +351,7 @@ internal static class OperatorCases
                     var owner = baseToken switch
                     {
                         "Id" or "Revision" or "Instant" or "AggregateRef" or "Decimal" or "PageRequest" or "PageState" or "Receipt"
-                            or "TransferTicket" or "ArcError" or "RequestMeta" => "arcforges.foundation.v1.",
+                            or "TransferTicket" or "ArcError" or "RequestMeta" or "BlobRef" => "arcforges.foundation.v1.",
                         "SupportCase" or "Grant" or "CreditLot" or "RefundView" => "arcforges.publicapi.v1.",
                         "CatalogSubmissionView" or "CatalogVersionView" => "arcforges.catalog.v1.",
                         _ => OperatorPackage + "."
@@ -374,6 +385,8 @@ internal static class OperatorCases
                 "OperatorMutation" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorMutation>(json)),
                 "OperatorProposal" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorProposal>(json)),
                 "ConfigurationDocument" => CloudShapes.IsValid(JsonParser.Default.Parse<ConfigurationDocument>(json)),
+                "OperatorServiceStageConfigurationRequest" => StageConfigurationShape(json),
+                "OperatorServiceGetConfigurationValue" => GetConfigurationShape(json),
                 "ConfigValidation" => CloudShapes.IsValid(JsonParser.Default.Parse<ConfigValidation>(json)),
                 "OperatorServiceApproveActionRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceApproveActionRequest>(json)),
                 "OperatorServiceGrantEntitlementRequest" => CloudShapes.IsValid(JsonParser.Default.Parse<OperatorServiceGrantEntitlementRequest>(json)),
@@ -391,6 +404,35 @@ internal static class OperatorCases
             if (expected) positive++; else negative++;
         }
         Require(positive >= 20 && negative >= 30, $"shape coverage positives={positive} negatives={negative}");
+        var maximumDocument = JsonParser.Default.Parse<ConfigurationDocument>(cases.EnumerateArray()
+            .Single(item => item.GetProperty("id").GetString() == "configuration-document-valid").GetProperty("value").GetRawText());
+        maximumDocument.CanonicalJson = ByteString.CopyFromUtf8("{\"text\":\"" + new string('a', 1048565) + "\"}");
+        maximumDocument.DocumentHash = Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(maximumDocument.CanonicalJson.Span));
+        Require(CloudShapes.IsValid(maximumDocument), "CON28 retains full legal canonicalJson byte bound");
+        var envelope = maximumDocument.ToByteArray();
+        Require(envelope.Length > 1048576 && envelope.Length <= 2097152, "complete envelope includes validated metadata within object cap");
+        Require(CloudShapes.IsValid(ConfigurationDocument.Parser.ParseFrom(envelope)), "complete maximum envelope round trip");
+        maximumDocument.CanonicalJson = ByteString.CopyFromUtf8("{\"text\":\"" + new string('a', 1048566) + "\"}");
+        maximumDocument.DocumentHash = Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(maximumDocument.CanonicalJson.Span));
+        Require(!CloudShapes.IsValid(maximumDocument), "reference does not loosen canonicalJson bound");
+    }
+
+    private static bool StageConfigurationShape(string json)
+    {
+        var value = JsonParser.Default.Parse<OperatorServiceStageConfigurationRequest>(json);
+        var valid = CloudShapes.IsValid(value);
+        Require(CloudShapes.IsValid(OperatorServiceStageConfigurationRequest.Parser.ParseFrom(value.ToByteArray())) == valid,
+            "CON28 Stage exact-one shape survives generated binary round trip");
+        return valid;
+    }
+
+    private static bool GetConfigurationShape(string json)
+    {
+        var value = JsonParser.Default.Parse<OperatorServiceGetConfigurationValue>(json);
+        var valid = CloudShapes.IsValid(value);
+        Require(CloudShapes.IsValid(OperatorServiceGetConfigurationValue.Parser.ParseFrom(value.ToByteArray())) == valid,
+            "CON28 Get exact-one shape survives generated binary round trip");
+        return valid;
     }
 
     private static void AssertProtocolExpectations(JsonElement protocol)
@@ -510,8 +552,8 @@ internal static class OperatorCases
     {
         yield return file;
         foreach (var dependency in file.Dependencies)
-        foreach (var transitive in DependencyClosure(dependency))
-            yield return transitive;
+            foreach (var transitive in DependencyClosure(dependency))
+                yield return transitive;
     }
 
     private static void AssertFields(FileDescriptor file, string messageName, string expected)
