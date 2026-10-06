@@ -41,6 +41,82 @@ internal static class ArchitectureFixtureTests
         CompilationFailureCodesAreSpecificAndFailClosed();
         WireSchemaOwnershipIsExactAndFailsClosed();
         HostAgplClosureMustBeExactlyBuildPolicy();
+        OperationMetadataApprovalIsExactAndFailsClosed();
+    }
+
+    private static void OperationMetadataApprovalIsExactAndFailsClosed()
+    {
+        string root = RepositoryRoot.Find();
+        var bindings = OperationMetadataBindings.All;
+        Checks.Equal(3, bindings.Count, "The non-wire metadata approval must contain exactly the reviewed three symbols.");
+        Checks.Equal(1, bindings.Count(binding => binding.Kind == NonWireMetadataKind.OperationAuthorizationPolicy),
+            "The metadata approval must contain exactly one immutable policy type.");
+        Checks.Equal(2, bindings.Count(binding => binding.Kind == NonWireMetadataKind.OperationAuthorizationCatalog),
+            "The metadata approval must contain exactly two public business catalogues.");
+        Checks.Equal(3, bindings.Select(binding => binding.TypeSymbol).Distinct(StringComparer.Ordinal).Count(),
+            "The metadata approval contains duplicate symbols.");
+        Checks.True(bindings.All(binding => binding.ProjectPath.StartsWith("src/public/dotnet/", StringComparison.Ordinal)
+            && !binding.TypeSymbol.Contains("CloudInternal", StringComparison.Ordinal)
+            && !binding.TypeSymbol.Contains("LocalRpc", StringComparison.Ordinal)),
+            "Private, operator or local metadata entered the public non-wire approval.");
+        var projects = new List<ProjectFacts>();
+        var compilations = new Dictionary<string, Microsoft.CodeAnalysis.CSharp.CSharpCompilation>(StringComparer.Ordinal);
+        foreach (var group in bindings.GroupBy(binding => binding.ProjectPath, StringComparer.Ordinal))
+        {
+            var files = group.ToDictionary(binding => Path.Combine(root, binding.SourcePath),
+                binding => File.ReadAllText(Path.Combine(root, binding.SourcePath)), StringComparer.Ordinal);
+            foreach (var binding in group)
+            {
+                string text = files[Path.Combine(root, binding.SourcePath)].TrimStart('\uFEFF').Replace("\r\n", "\n", StringComparison.Ordinal);
+                string hash = Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(text)));
+                Checks.Equal(binding.SourceSha256, hash, "Reviewed metadata source identity changed.");
+            }
+            // Real project sources use SDK implicit System/collections/LINQ usings; mirror those compiler inputs explicitly.
+            var compilation = FixtureCompiler.Create("MetadataFixture" + projects.Count, files).AddSyntaxTrees(
+                Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(
+                    "global using System; global using System.Collections.Generic; global using System.Linq;",
+                    new Microsoft.CodeAnalysis.CSharp.CSharpParseOptions(Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp14),
+                    "metadata-fixture-global-usings.cs"));
+            if (compilations.Count != 0) compilation = compilation.AddReferences(compilations.Values.First().ToMetadataReference());
+            Checks.True(!compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == Microsoft.CodeAnalysis.DiagnosticSeverity.Error),
+                "The real approved metadata sources did not compile against their exact producer references.");
+            compilations.Add(group.Key, compilation);
+            projects.Add(new ProjectFacts(new ProjectClassification(group.Key, ProjectRole.Contracts, "Contracts"),
+                "net10.0", "Library", "Apache-2.0", "Apache", [], files.Keys.ToArray(), [],
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["ManagePackageVersionsCentrally"] = "true",
+                    ["RestorePackagesWithLockFile"] = "true",
+                }, new Dictionary<string, string>(StringComparer.Ordinal)));
+        }
+        var repository = new RepositoryFacts(root, "Contracts", projects, [], []);
+        PolicyFinding[] Findings(IReadOnlyList<NonWireMetadataBinding>? approved, IReadOnlyList<WireTypeBinding>? wire = null) =>
+            PolicyEngine.Check(repository, new RepositoryPolicyConfiguration(new string('a', 40),
+                new Dictionary<string, string>(StringComparer.Ordinal), new Dictionary<string, string>(StringComparer.Ordinal),
+                new HashSet<string>(StringComparer.Ordinal), [], wire ?? [], [], NonWireMetadataBindings: approved),
+                compilations, new DateOnly(2026, 10, 6)).Where(finding => finding.Rule == "AT-12").ToArray();
+        Checks.Empty(Findings(bindings), "Exact reviewed production metadata was rejected by the published shared policy.");
+        Checks.True(Findings(null).Length != 0, "Missing approval incorrectly waived ordinary generated-wire requirements.");
+        var first = bindings[0];
+        var invalid = new[]
+        {
+            first with { SourceSha256 = new string('0', 64) },
+            first with { TypeSymbol = "ArcForges.Contracts.PublicApi.Operations.UnreviewedPolicy" },
+            first with { ProjectPath = "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj" },
+            first with { SourcePath = bindings[1].SourcePath },
+            first with { SourcePath = "../outside.cs" },
+            first with { Kind = NonWireMetadataKind.Unknown },
+        };
+        foreach (var mutation in invalid)
+        {
+            var changed = bindings.ToArray();
+            changed[0] = mutation;
+            Checks.True(Findings(changed).Length != 0, "An invalid non-wire source approval created an exemption.");
+        }
+        Checks.True(Findings(bindings.Concat([first]).ToArray()).Length != 0,
+            "An ambiguous duplicate source approval created an exemption.");
+        Checks.True(Findings(bindings, [new(first.TypeSymbol, "public/proto/arcforges/publicapi/v1/identity.proto", new string('a', 64))]).Length != 0,
+            "Metadata was incorrectly admitted as both a wire symbol and non-wire source approval.");
     }
 
     private static void HostAgplClosureMustBeExactlyBuildPolicy()

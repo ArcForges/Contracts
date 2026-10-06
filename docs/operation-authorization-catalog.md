@@ -38,3 +38,5 @@ an independent twelve-operation PAT oracle, unknown/private boundaries, proposal
 sources, immutable collections and concurrent lookup. The existing serialization
 probe executes these APIs in its actual Native AOT artifact. These component
 results do not establish live Cloud authorization or full commercial acceptance.
+
+The architecture host consumes the actual published `ArcForges.Build.Policy` `1.0.0-ci.111.1` from DesktopPlatform source `5f2c09010c61094e9285d6e6f71a9ca62c4c8689`. Its three exact non-wire approvals bind the qualified symbol, owning project, source path, normalized source SHA-256 and metadata kind. The shared policy checks real compiled and disk inputs, immutable closed shapes and forbidden serializer/transport reachability; no generated-wire schema is invented. Approval mismatch, missing approval, ambiguity, foreign ownership or simultaneous wire classification fails closed. The AGPL build source remains private to the non-packable architecture test executable and never enters a redistributed Contracts package.

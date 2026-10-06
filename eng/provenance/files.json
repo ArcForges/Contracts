@@ -647,7 +647,8 @@
     "eng/provenance/records/operation-authorization-con-26-r1.json",
     "src/public/dotnet/ArcForges.Contracts.PublicApi/Operations/PublicOperationPolicy.cs",
     "tests/StructureTests/Con26OperationCatalogCases.cs",
-    "tests/tooling/test_operation_catalog.py"
+    "tests/tooling/test_operation_catalog.py",
+    "tests/ArchitectureTests/OperationMetadataBindings.cs"
   ],
   "reused": {
     "LICENSE": "canonical-apache-licence-r1",

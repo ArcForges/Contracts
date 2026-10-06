@@ -83,7 +83,8 @@ internal static class HostedPolicyGate
         var evidence = new[] { naming, licence, new ExternalPolicyEvidence("RP-09", sourceCommit, true, []) };
         var repository = new RepositoryFacts(root, "Contracts", projects, exceptions, contractTests);
         var configuration = new RepositoryPolicyConfiguration(sourceCommit, dependency.Hashes,
-            dependency.Licenses, new HashSet<string>(StringComparer.Ordinal), [], wireTypes, evidence);
+            dependency.Licenses, new HashSet<string>(StringComparer.Ordinal), [], wireTypes, evidence,
+            NonWireMetadataBindings: OperationMetadataBindings.All);
 
         setStage(PolicyGateStage.EvaluateSharedPolicy);
         var findings = PolicyEngine.Check(repository, configuration, compilations, DateOnly.FromDateTime(DateTime.UtcNow));
