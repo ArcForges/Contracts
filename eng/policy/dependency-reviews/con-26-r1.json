@@ -1,9 +1,9 @@
 {
   "review": {
     "owner": "w-codex-20261006-governance",
-    "reviewer": "Independent exact-head peer review required before merge for CON.26 authorization metadata",
+    "reviewer": "Independent exact-head CON.26 review required before merge",
     "reviewedOn": "2026-10-06",
-    "baselineCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+    "baselineCommit": "94ecd02ae37f48806226ae79c8e73ab78b108332",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -19,7 +19,7 @@
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
       "eng/contract-packages.json": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796",
-      "eng/policy/contract-access.json": "4e644bf0352e6c31356bff44d6c4fe5b6bbff8aa3aaef75734944e962d834d20",
+      "eng/policy/contract-access.json": "17549663c7fd55d44de7c75f2903c2c78e72442a38739bf9a8218a7c28cf53e5",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -62,6 +62,7 @@
       "eng/provenance/records/contract-bindings-con-22-r1.json": "6d3ac24ffb2292973cddbf1f49bb1b693e7eaa11375c7f6ee2cfe21718c4eee1",
       "eng/provenance/records/contract-bindings-con-24-r1.json": "cc7ee308dcc44a0131ffa814bc26a724c851da768649d94d1bf53d6480863af7",
       "eng/provenance/records/contract-bindings-con-25-r1.json": "0121ffeff9116f4cb34144fb4c38255fb0e8223ac9d331c94ea14eaff8c39383",
+      "eng/provenance/records/contract-bindings-con-28-r1.json": "2ce256286a1fef5148dd5fea4584e5ca6a55950f6e916d48fd49a865d8500091",
       "eng/provenance/records/contract-bindings-con04-r1.json": "f900403e0f5f1f82ab86e51201815089fd7e29d4b61e3301628845e70aae1747",
       "eng/provenance/records/contract-bindings-con05-r1.json": "08e180d1d7da82af50f9886464285da044c30f0719e8c4c3a00e552aeab0e704",
       "eng/provenance/records/contract-bindings-con06-r1.json": "10c807b936a0af8a5a4651c2c06ea4042e4fcee989793d9e5e59df9e6ffdfde3",
@@ -242,15 +243,15 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
     },
-    "maintenanceAssessment": "CON.26 adds a deterministic descriptor-checked immutable public authorization catalog and exact existing PAT allowlist enforcement. The only new dependency input is its isolated generated-source provenance record. All external dependency coordinates, versions, hashes, licences, framework/toolchain selections and package/project dependency edges are unchanged. Retained dependency checklists remain valid for that unchanged closure; actual new component, AOT and hosted candidate/security gates are required before delivery.",
+    "maintenanceAssessment": "Own unaccepted CON26 producer candidate re-sealed from actual accepted CON28 cohort. Exact two new immutable public catalog targets and authored policy/generator; all146 external coordinates/versions/integrities unchanged. Every accepted receipt byte preserved; archived69 retains original candidate/review history.",
     "checks": {
-      "compilation": "Pinned all-language generation and compilation plus the exact CON.25 contract, local call-context and af-segment tests must pass on the candidate; hosted Verify is required.",
-      "aot-trim": "The existing serialization/AOT descriptor posture must remain closed and the ConnectorService no-op binding must pass the Native AOT probe; no runtime or reflection serializer is added.",
-      "compatibility": "The six ConnectorService operations, four public records with local-twin shape parity, LocalCallContext bounds, the four af-segment records and their canonical JSON golden vectors must pass the generated C#/TypeScript structural and round-trip tests; additions are compatible with every published package.",
-      "licence-provenance": "Exact current contract access, immutable CON.25 binding successor, active Dokka successor profile/resource chain, provenance inventory and generated NOTICE must pass their current checks.",
-      "security-sbom": "Dependency/package composition is unchanged; exact-head hosted secret scan, dependency review and security checks remain required.",
-      "runtime-performance-migration": "This is a declarative contract/schema and fixture task only; no connector runtime, provider integration, migration or performance claim is added.",
-      "framework-runtime-posture": "Pinned framework and toolchain versions remain unchanged; no major-upgrade review is triggered."
+      "compilation": "Exact207 public business catalog/descriptor mappings, immutable production API and actual generated provenance; retained original Structure/AOT component passes and fresh hosted candidate/Verify required.",
+      "aot-trim": "Actual original Windows NativeAOT metadata+serialization probe passed; no runtime reflection, serializer or wire metadata introduced; fresh canonical candidate AOT remains required.",
+      "compatibility": "PublicApi200 andEvents7 exact operations and existing12 PAT allowlist metadata only; CON28 accepted fields/fixtures/generated output unchanged; no wire or RPC meaning changes.",
+      "licence-provenance": "Preserve actual accepted CON28 records, full inventory and legal chain; own immutable Apache metadata record and exact access/provenance/dependency checks required.",
+      "security-sbom": "Exact-head actual SecretScan/dependencyreview/CodeQL and normalpublisher remain required; unchanged original3 precise tuple groups afteraccepted85prefix, no scanner bypass.",
+      "runtime-performance-migration": "Production immutable compiled authorization data only; no live authenticated route, PAT consumer, full-system performance or deployment acceptance inferred.",
+      "framework-runtime-posture": "Existing SDK400/Node/Kotlin/Gradle/protobuf/gRPC/toolchain unchanged; closed private Build.Policy111 upgrade is handled by successor receipt."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
@@ -264,7 +265,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-25-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-28-r1.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
@@ -468,8 +469,12 @@
     },
     "maven:com.google.code.gson:gson:2.14.0": {
       "integrity": {
-        "gson-2.14.0.jar": ["2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"],
-        "gson-2.14.0.pom": ["1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"]
+        "gson-2.14.0.jar": [
+          "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+        ],
+        "gson-2.14.0.pom": [
+          "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -562,8 +567,12 @@
     },
     "maven:com.squareup.moshi:moshi:1.15.2": {
       "integrity": {
-        "moshi-1.15.2.jar": ["767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"],
-        "moshi-1.15.2.module": ["d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"]
+        "moshi-1.15.2.jar": [
+          "767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"
+        ],
+        "moshi-1.15.2.module": [
+          "d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -594,7 +603,9 @@
     },
     "maven:com.squareup.okhttp3:okhttp:5.4.0": {
       "integrity": {
-        "okhttp-5.4.0.module": ["63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"]
+        "okhttp-5.4.0.module": [
+          "63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -607,7 +618,9 @@
     },
     "maven:com.squareup.okio:okio-jvm:3.17.0": {
       "integrity": {
-        "okio-jvm-3.17.0.jar": ["3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"],
+        "okio-jvm-3.17.0.jar": [
+          "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"
+        ],
         "okio-jvm-3.17.0.module": [
           "d4617d0df71f202e7299471848e625f4f36d7fa64d46c3503f70acf4821a45de"
         ]
@@ -623,7 +636,9 @@
     },
     "maven:com.squareup.okio:okio:3.17.0": {
       "integrity": {
-        "okio-3.17.0.module": ["3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"]
+        "okio-3.17.0.module": [
+          "3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -709,7 +724,9 @@
     },
     "maven:io.ktor:ktor-io:3.5.0": {
       "integrity": {
-        "ktor-io-3.5.0.module": ["cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"]
+        "ktor-io-3.5.0.module": [
+          "cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -755,8 +772,12 @@
     },
     "maven:org.codehaus.woodstox:stax2-api:4.2.1": {
       "integrity": {
-        "stax2-api-4.2.1.jar": ["678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"],
-        "stax2-api-4.2.1.pom": ["79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"]
+        "stax2-api-4.2.1.jar": [
+          "678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"
+        ],
+        "stax2-api-4.2.1.pom": [
+          "79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"
+        ]
       },
       "licence": "BSD-2-Clause",
       "evidence": [
@@ -902,7 +923,9 @@
         "abi-tools-2.3.21.jar": [
           "6761656205c3514050f68fde7c32b2beb47246786247dacfb279db432a70562b"
         ],
-        "abi-tools-2.3.21.pom": ["e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"]
+        "abi-tools-2.3.21.pom": [
+          "e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1845,7 +1868,9 @@
         "annotations-13.0.jar": [
           "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478"
         ],
-        "annotations-13.0.pom": ["965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"]
+        "annotations-13.0.pom": [
+          "965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1909,8 +1934,12 @@
     },
     "maven:org.jsoup:jsoup:1.16.1": {
       "integrity": {
-        "jsoup-1.16.1.jar": ["1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"],
-        "jsoup-1.16.1.pom": ["6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"]
+        "jsoup-1.16.1.jar": [
+          "1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"
+        ],
+        "jsoup-1.16.1.pom": [
+          "6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"
+        ]
       },
       "licence": "MIT",
       "evidence": [
@@ -1926,7 +1955,9 @@
         "slf4j-api-2.0.18.jar": [
           "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
         ],
-        "slf4j-api-2.0.18.pom": ["6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"]
+        "slf4j-api-2.0.18.pom": [
+          "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"
+        ]
       },
       "licence": "MIT",
       "evidence": [

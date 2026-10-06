@@ -8,7 +8,7 @@
     ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
     "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
     "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-    "Directory.Packages.props": "a1873374afdc3ca3edbcfb970695f15f9f95501ccbd504ebf985e28fbcb19e94",
+    "Directory.Packages.props": "b26c8071903b5526475de8490da3f22aae6761b38aae56e0750d4bdd81b18fdb",
     "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
     "build.gradle.kts": "0054ea4e73db25459a90b8c94ae36706cf05c3e59e9dc466b90bd0725a8ab70d",
     "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
@@ -16,7 +16,7 @@
     "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
     "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
     "eng/contract-packages.json": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796",
-    "eng/policy/contract-access.json": "afc8f52cc14c6ead3699137c4b9b3dd0141df5c53d94d11ca1fc4bd9b38abf8b",
+    "eng/policy/contract-access.json": "9ca13f767b08d3d28cac9450f2cb7ccb540cb3928978ad9810d70156c04f8307",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
     "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -175,6 +175,7 @@
     "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
     "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
+    "eng/provenance/records/operation-authorization-con-26-r1.json": "d5710fb569ab8b4b245a0df7cbe0d6a5a26e0661e2fc50850aaca71cb2482782",
     "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
     "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
     "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
@@ -222,7 +223,7 @@
     "src/public/ts/contract-fixtures/package.json": "c593abc4f5179b38fc470cf034a993ba0e0d552e7d6bd224b770c87db3047128",
     "src/public/ts/proto/package.json": "2a07095d6b90bbec4914bdd42a036eb0468ebd3de18c6204781927c7c50cd46a",
     "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-    "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
+    "tests/ArchitectureTests/packages.lock.json": "17197c2b6bb1cceb5e54743cfa5a27709dafae841835d3fc61f4dc079295f5b8",
     "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
     "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
     "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
@@ -441,8 +442,12 @@
     },
     "maven:com.google.code.gson:gson:2.14.0": {
       "integrity": {
-        "gson-2.14.0.jar": ["2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"],
-        "gson-2.14.0.pom": ["1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"]
+        "gson-2.14.0.jar": [
+          "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f"
+        ],
+        "gson-2.14.0.pom": [
+          "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -535,8 +540,12 @@
     },
     "maven:com.squareup.moshi:moshi:1.15.2": {
       "integrity": {
-        "moshi-1.15.2.jar": ["767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"],
-        "moshi-1.15.2.module": ["d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"]
+        "moshi-1.15.2.jar": [
+          "767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"
+        ],
+        "moshi-1.15.2.module": [
+          "d952c6dd91a7b426c3f0a51edc3f7ceb3490ac01ff18301527adfec7a7837dd9"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -567,7 +576,9 @@
     },
     "maven:com.squareup.okhttp3:okhttp:5.4.0": {
       "integrity": {
-        "okhttp-5.4.0.module": ["63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"]
+        "okhttp-5.4.0.module": [
+          "63973ba755ba6c77de1e82f5efa4195569800be00c93c0130ce4238a9b56c93c"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -580,7 +591,9 @@
     },
     "maven:com.squareup.okio:okio-jvm:3.17.0": {
       "integrity": {
-        "okio-jvm-3.17.0.jar": ["3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"],
+        "okio-jvm-3.17.0.jar": [
+          "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"
+        ],
         "okio-jvm-3.17.0.module": [
           "d4617d0df71f202e7299471848e625f4f36d7fa64d46c3503f70acf4821a45de"
         ]
@@ -596,7 +609,9 @@
     },
     "maven:com.squareup.okio:okio:3.17.0": {
       "integrity": {
-        "okio-3.17.0.module": ["3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"]
+        "okio-3.17.0.module": [
+          "3d878db9ffd4e959c30f9a8366a88c22d001e9b324378d7dbeed98568e7ec559"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -682,7 +697,9 @@
     },
     "maven:io.ktor:ktor-io:3.5.0": {
       "integrity": {
-        "ktor-io-3.5.0.module": ["cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"]
+        "ktor-io-3.5.0.module": [
+          "cb6151e2f7ac65c27028b16dee332a4dbbccc1530580cfd3fe8f4f2b0c8a7347"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -728,8 +745,12 @@
     },
     "maven:org.codehaus.woodstox:stax2-api:4.2.1": {
       "integrity": {
-        "stax2-api-4.2.1.jar": ["678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"],
-        "stax2-api-4.2.1.pom": ["79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"]
+        "stax2-api-4.2.1.jar": [
+          "678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"
+        ],
+        "stax2-api-4.2.1.pom": [
+          "79da410c8c0f46a3f8e8adb30d6c24ccd6065b6ef6bfde87bd97e9881ea0a2e7"
+        ]
       },
       "licence": "BSD-2-Clause",
       "evidence": [
@@ -875,7 +896,9 @@
         "abi-tools-2.3.21.jar": [
           "6761656205c3514050f68fde7c32b2beb47246786247dacfb279db432a70562b"
         ],
-        "abi-tools-2.3.21.pom": ["e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"]
+        "abi-tools-2.3.21.pom": [
+          "e2c00f01274b6f4645a728a4c6e4a90a7c9d46394096a30326f7c31af09567b3"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1818,7 +1841,9 @@
         "annotations-13.0.jar": [
           "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478"
         ],
-        "annotations-13.0.pom": ["965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"]
+        "annotations-13.0.pom": [
+          "965aeb2bedff369819bdde1bf7a0b3b89b8247dd69c88b86375d76163bb8c397"
+        ]
       },
       "licence": "Apache-2.0",
       "evidence": [
@@ -1882,8 +1907,12 @@
     },
     "maven:org.jsoup:jsoup:1.16.1": {
       "integrity": {
-        "jsoup-1.16.1.jar": ["1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"],
-        "jsoup-1.16.1.pom": ["6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"]
+        "jsoup-1.16.1.jar": [
+          "1f115726540ddf71958c14bc517ebfc49cf481e91cd917b0face84f01272e901"
+        ],
+        "jsoup-1.16.1.pom": [
+          "6cc507f630536f205bde2c1b38c3c5907511de2d7b1a444be9d638d4614f243c"
+        ]
       },
       "licence": "MIT",
       "evidence": [
@@ -1899,7 +1928,9 @@
         "slf4j-api-2.0.18.jar": [
           "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
         ],
-        "slf4j-api-2.0.18.pom": ["6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"]
+        "slf4j-api-2.0.18.pom": [
+          "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb"
+        ]
       },
       "licence": "MIT",
       "evidence": [
@@ -2259,17 +2290,6 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
-    "nuget:arcforges.build.policy@1.0.0-ci.94.1": {
-      "integrity": "PCpeEXikk2m87zhMF6L8tbHe2QrI87mO4Nc5lJBenEDhOePwwV4TkArc6IaM1G11Pm8ojVjurLAIoPW22ozb/A==",
-      "licence": "AGPL-3.0-only",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.94.1/arcforges.build.policy.nuspec",
-          "sha256": "bd85acc0b99828a7e9c52751a9d57059fbaa7130986871a562e37b7f6b971c7c"
-        }
-      ],
-      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
-    },
     "nuget:google.protobuf@3.36.1": {
       "integrity": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
       "licence": "BSD-3-Clause",
@@ -2467,6 +2487,17 @@
         }
       ],
       "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
+    },
+    "nuget:arcforges.build.policy@1.0.0-ci.111.1": {
+      "integrity": "Ob3s8foPGRRt7Lg5RBbrIcD1VBpQVMNMDT9WDExh+qc/Z9v7glQfDm+vvKBuGA1Mf4cZZMHbxME91i9/MkAnhQ==",
+      "licence": "AGPL-3.0-only",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.111.1/arcforges.build.policy.nuspec",
+          "sha256": "09ce63e6eadb5317675fa210f69f03f066b558f94c547ce2f4788dec1231f710"
+        }
+      ],
+      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
     }
   },
   "publisher": {
@@ -2493,10 +2524,10 @@
     "stable": "Deliberate canonical vX.Y.Z on main ancestry; no prerelease dependency closure; Central signatures required. No tag created for validation."
   },
   "review": {
-    "owner": "w-codex-20261006-policy-contract",
-    "reviewer": "Independent exact-head CON.28 review required before merge",
+    "owner": "w-codex-20261006-governance",
+    "reviewer": "Independent exact-head CON.26 review required before merge",
     "reviewedOn": "2026-10-06",
-    "baselineCommit": "035c20818f743a120fe4c5e32ee4590507d8ba05",
+    "baselineCommit": "b5bc7c5406eba3666ace246dba327c08a298d5f8",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -2504,7 +2535,7 @@
       ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
       "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
       "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-      "Directory.Packages.props": "a1873374afdc3ca3edbcfb970695f15f9f95501ccbd504ebf985e28fbcb19e94",
+      "Directory.Packages.props": "b26c8071903b5526475de8490da3f22aae6761b38aae56e0750d4bdd81b18fdb",
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "build.gradle.kts": "0054ea4e73db25459a90b8c94ae36706cf05c3e59e9dc466b90bd0725a8ab70d",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
@@ -2512,7 +2543,7 @@
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
       "eng/contract-packages.json": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796",
-      "eng/policy/contract-access.json": "afc8f52cc14c6ead3699137c4b9b3dd0141df5c53d94d11ca1fc4bd9b38abf8b",
+      "eng/policy/contract-access.json": "9ca13f767b08d3d28cac9450f2cb7ccb540cb3928978ad9810d70156c04f8307",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -2671,6 +2702,7 @@
       "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
       "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
+      "eng/provenance/records/operation-authorization-con-26-r1.json": "d5710fb569ab8b4b245a0df7cbe0d6a5a26e0661e2fc50850aaca71cb2482782",
       "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
       "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
       "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
@@ -2718,7 +2750,7 @@
       "src/public/ts/contract-fixtures/package.json": "c593abc4f5179b38fc470cf034a993ba0e0d552e7d6bd224b770c87db3047128",
       "src/public/ts/proto/package.json": "2a07095d6b90bbec4914bdd42a036eb0468ebd3de18c6204781927c7c50cd46a",
       "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-      "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
+      "tests/ArchitectureTests/packages.lock.json": "17197c2b6bb1cceb5e54743cfa5a27709dafae841835d3fc61f4dc079295f5b8",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
       "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
       "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
@@ -2735,15 +2767,15 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
     },
-    "maintenanceAssessment": "CON.28 adds only compatible internal Stage/Get Foundation BlobRef alternatives and owner-specific generated shape constraints. Current complete access/provenance source hashes are bound by the immutable successor. Locked external closure, versions, feeds, integrity, licences, framework/toolchain selections and package graph are unchanged. Actual pinned generation, full managed StructureTests, TS10 operator tests and scoped format passed; independent review, hosted AOT/security/CI and normal publication remain mandatory.",
+    "maintenanceAssessment": "Actual published Build.Policy111.1 exact restored nuspec source5f2c and actual lockcontentHash; sole private non-packable ArchitectureTests host, PrivateAssets=all, unchanged AGPL source-link boundary. No product/runtime edge or transitive package. Real3 symbol/project/path/LFsourceSHA/kind bindings and actual published policy positive/hostile fixtures PASS. Accepted CON28 closure/provenance preserved;146 total coordinates, same framework/toolchain, all other coordinates byteidentical.",
     "checks": {
-      "compilation": "Actual pinned full generation, locked StructureTests restore/full managed component suite and generated public-proto/operator TypeScript compilation passed; retained hosted Verify remains required.",
-      "aot-trim": "Existing actual hosted serialization/AOT probe remains required; no serializer, reflection, runtime registry, toolchain or dependency change is introduced.",
-      "compatibility": "Actual C#/TypeScript inline compatibility, 28 new exact-one/reference-bound shape vectors, binary round trips and full one-MiB canonicalJson envelope boundary cases passed. Existing field numbers, public Foundation and package identities remain unchanged.",
-      "licence-provenance": "Task-prefixed immutable four-output generated successor, exact access bindings, retained history, complete first-party inventory and generated NOTICE must pass their source gates.",
-      "security-sbom": "External dependency closure is unchanged; retained exact-head hosted secret/dependency/security/SBOM checks remain required.",
-      "runtime-performance-migration": "Schema/serialization components only, no runtime handler, uploaded object, authorization, activation, deployment or performance evidence asserted.",
-      "framework-runtime-posture": "Exact source toolchain/framework/third-party selections remain unchanged; cached JDK17.0.20.1 used truthfully for generation, without modifying source pins."
+      "compilation": "Actual SDK10.0.400 architecturehost compiled+executed real production metadata approval fixtures PASS against published111.1, including missing/mutated/foreign/ambiguous/wire-overlap negatives; fresh hosted candidate/Verify required.",
+      "aot-trim": "Actual original Windows NativeAOT metadata+serialization probe passed; no runtime reflection, serializer or wire metadata introduced; fresh canonical candidate AOT remains required.",
+      "compatibility": "PublicApi200 andEvents7 exact operations and existing12 PAT allowlist metadata only; CON28 accepted fields/fixtures/generated output unchanged; no wire or RPC meaning changes.",
+      "licence-provenance": "Actual restored111.1 nuspec binds published DesktopPlatform5f2c AGPL-3.0-only, developmentDependency=true and no dependencies; exact cache nuspecSHA and privatehostlock contentHash admitted; strict provenance/access/history gates required.",
+      "security-sbom": "Exact-head actual SecretScan/dependencyreview/CodeQL and normalpublisher remain required; unchanged original3 precise tuple groups afteraccepted85prefix, no scanner bypass.",
+      "runtime-performance-migration": "Production immutable compiled authorization data only; no live authenticated route, PAT consumer, full-system performance or deployment acceptance inferred.",
+      "framework-runtime-posture": "Existing SDK400/Node/Kotlin/Gradle/protobuf/gRPC/toolchain unchanged; closed private Build.Policy111 upgrade is handled by successor receipt."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
@@ -2757,7 +2789,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-25-r1.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-26-r1.json"
   },
-  "reviewReceipt": "eng/policy/dependency-reviews/con-28-r1.json"
+  "reviewReceipt": "eng/policy/dependency-reviews/con-26-r2.json"
 }
