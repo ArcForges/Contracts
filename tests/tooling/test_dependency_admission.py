@@ -3161,7 +3161,7 @@ class DependencyAdmission(unittest.TestCase):
             self.assertEqual(group['condition'], 'AND')
             self.assertEqual(group['regexTarget'], 'line')
             self.assertEqual(group['paths'], [path])
-            pattern = rf'(?s)^\s*"{re.escape(key)}":\s*"{digest}",?\s*$'
+            pattern = rf'(?s)^\s*"eng/policy/contract-access\.json":\s*"{digest}",?\s*$'
             self.assertEqual(group['regexes'], [pattern])
             line = f'  "{key}": "{digest}",'
             self.assertIsNotNone(re.fullmatch(pattern, line))
