@@ -934,13 +934,13 @@
     "arcforges.operator.v1.OperatorServiceGetConfigurationValue": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetConfigurationValue",
       "fields": {
-        "document": {
-          "required": true
-        },
+        "document": {},
         "validation": {
           "required": true
-        }
-      }
+        },
+        "documentRef": {}
+      },
+      "rules": ["configurationDocumentOrReference"]
     },
     "arcforges.operator.v1.OperatorServiceGetProposalRequest": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceGetProposalRequest",
@@ -1603,13 +1603,13 @@
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
         },
-        "document": {
-          "required": true
-        },
+        "document": {},
         "context": {
           "required": true
-        }
-      }
+        },
+        "documentRef": {}
+      },
+      "rules": ["configurationDocumentOrReference"]
     },
     "arcforges.operator.v1.OperatorServiceStageConfigurationResponse": {
       "csharpType": "ArcForges.Contracts.CloudInternal.Operator.V1.OperatorServiceStageConfigurationResponse",
