@@ -643,6 +643,7 @@
     "docs/operation-authorization-catalog.md",
     "eng/generate_operation_catalog.py",
     "eng/policy/dependency-reviews/con-26-r1.json",
+    "eng/policy/dependency-reviews/con-26-r2.json",
     "eng/provenance/records/operation-authorization-con-26-r1.json",
     "src/public/dotnet/ArcForges.Contracts.PublicApi/Operations/PublicOperationPolicy.cs",
     "tests/StructureTests/Con26OperationCatalogCases.cs",
