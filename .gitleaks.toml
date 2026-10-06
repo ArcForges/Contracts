@@ -5452,3 +5452,19 @@ regexes = [
   '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
   '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
 ]
+
+[[allowlists]]
+description = "CON.26 actual published policy consumer final public access SHA256"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['^eng/policy/(dependency-policy\.json|dependency-reviews/con-26-r2\.json)$']
+regexTarget = "line"
+regexes = ['(?s)^\s*"eng/policy/contract-access\.json":\s*"9ca13f767b08d3d28cac9450f2cb7ccb540cb3928978ad9810d70156c04f8307",?\s*$']
+
+[[allowlists]]
+description = "CON.26 actual accepted cohort core public access SHA256"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['^eng/policy/dependency-reviews/con-26-r1\.json$']
+regexTarget = "line"
+regexes = ['(?s)^\s*"eng/policy/contract-access\.json":\s*"17549663c7fd55d44de7c75f2903c2c78e72442a38739bf9a8218a7c28cf53e5",?\s*$']
