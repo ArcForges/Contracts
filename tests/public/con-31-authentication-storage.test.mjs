@@ -4,6 +4,7 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import { create, fromBinary, toBinary, clone } from "@bufbuild/protobuf";
 import * as contracts from "../../src/internal/ts/operator-client/dist/index.js";
+import { RevisionSchema } from "@arcforges/proto";
 const fixture = JSON.parse(
   await readFile(
     new URL("../../fixtures/internal/con-31-authentication-storage.json", import.meta.url),
@@ -73,6 +74,48 @@ test("wire unknown fields remain forward compatible but count toward encoded cus
   const oversized = clone(contracts.AuthenticationFlowPayloadSchema, parsed);
   oversized.$unknown[0].data = new Uint8Array(131073);
   assert.equal(contracts.isAuthenticationFlowPayload(oversized), false);
+});
+
+test("credential references compare known facts consistently while preserving nested future unknowns", () => {
+  const vector = fixture.vectors.find((v) => v.id === "actual-step-up-original-passkey");
+  const schema = contracts.StepUpMethodProofSnapshotSchema;
+  const value = fromBinary(schema, Buffer.from(vector.wireHex, "hex"));
+  value.method = 3;
+  const credential = value.credentials[0];
+  credential.method = 3;
+  delete credential.publicKeySha256;
+  delete credential.userHandleSha256;
+  value.methodProof.proof = {
+    case: "password",
+    value: create(contracts.PasswordFlowBindingSchema, {
+      credential: clone(contracts.AuthenticationCredentialReferenceSchema, credential),
+    }),
+  };
+  assert(contracts.isStepUpMethodProofSnapshot(value));
+  const revisionSchema = RevisionSchema;
+  const revisionWire = Buffer.concat([
+    toBinary(revisionSchema, credential.revision),
+    Buffer.from("ca3e03aabbcc", "hex"),
+  ]);
+  value.methodProof.proof.value.credential.revision = fromBinary(revisionSchema, revisionWire);
+  assert(contracts.isStepUpMethodProofSnapshot(value));
+  const copy = fromBinary(schema, toBinary(schema, value));
+  assert(contracts.isStepUpMethodProofSnapshot(copy));
+  assert.deepEqual(
+    Buffer.from(toBinary(revisionSchema, copy.methodProof.proof.value.credential.revision)),
+    revisionWire,
+  );
+  value.credentials[0].revision = fromBinary(revisionSchema, revisionWire);
+  assert(contracts.isStepUpMethodProofSnapshot(value));
+  value.methodProof.proof.value.credential.revision.value += 1n;
+  assert.equal(contracts.isStepUpMethodProofSnapshot(value), false);
+  value.methodProof.proof.value.credential.revision.value -= 1n;
+  value.methodProof.proof.value.credential.revision.$unknown[0].data = new Uint8Array(131073);
+  assert.equal(
+    contracts.isStepUpMethodProofSnapshot(value),
+    false,
+    "nested Foundation unknown data is refused before serialization",
+  );
 });
 
 test("independent trust-profile shape preserves nanoseconds, closed keys and policy ordering", () => {

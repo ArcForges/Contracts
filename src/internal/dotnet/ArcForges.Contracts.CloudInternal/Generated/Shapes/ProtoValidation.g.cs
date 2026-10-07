@@ -4879,6 +4879,10 @@ public static class ContractShapeValidation
 
     private static bool AuthenticationGuid(string text) => global::System.Guid.TryParseExact(text, "D", out var id) && id != global::System.Guid.Empty && id.ToString("D") == text;
     private static int AuthenticationTime(global::ArcForges.Contracts.Foundation.V1.Instant a, global::ArcForges.Contracts.Foundation.V1.Instant b) => a.UnixSeconds != b.UnixSeconds ? a.UnixSeconds.CompareTo(b.UnixSeconds) : a.Nanos.CompareTo(b.Nanos);
+    private static bool AuthenticationReferenceEqual(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCredentialReference a, global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCredentialReference b) =>
+        a.IdentityId.Value.Equals(b.IdentityId.Value) && a.Revision.Value == b.Revision.Value && a.ProviderKey == b.ProviderKey && a.Method == b.Method && a.SubjectSha256.Equals(b.SubjectSha256) &&
+        a.HasPublicKeySha256 == b.HasPublicKeySha256 && (!a.HasPublicKeySha256 || a.PublicKeySha256.Equals(b.PublicKeySha256)) &&
+        a.HasUserHandleSha256 == b.HasUserHandleSha256 && (!a.HasUserHandleSha256 || a.UserHandleSha256.Equals(b.UserHandleSha256));
     private static bool AuthenticationOrigins(global::System.Collections.Generic.IEnumerable<string> values)
     {
         string? previous = null;
@@ -4933,20 +4937,20 @@ public static class ContractShapeValidation
         if (keyFields != 0 && keyFields != 5 || native && (keyFields != 5 || v.InstallationId is null) || browser && keyFields != 0 || (v.InstallationId is not null) != v.HasProductId) return false;
         if (keyFields == 5 && !global::System.Security.Cryptography.SHA256.HashData(v.InstallationPublicKey.Span).AsSpan().SequenceEqual(v.InstallationPublicKeySha256.Span)) return false;
         if (anonymous && v.InitialCredentials.Count != 0 || !AuthenticationInventory(v.InitialCredentials, method, anonymous || kind == 6, enrollment) || !AuthenticationMethod(v.MethodProof, method, enrollment, anonymous)) return false;
-        if (v.MethodProof.Password is not null && (v.InitialCredentials.Count != 1 || !v.InitialCredentials[0].Equals(v.MethodProof.Password.Credential))) return false;
+        if (v.MethodProof.Password is not null && (v.InitialCredentials.Count != 1 || !AuthenticationReferenceEqual(v.InitialCredentials[0], v.MethodProof.Password.Credential))) return false;
         if (v.Completion is not null)
         {
             var c = v.Completion;
-            if ((int)c.Credential.Method != method || c.AuthEpoch != v.AuthEpoch || c.RecoveryGeneration != v.RecoveryGeneration || !c.RecoveryRevision.Equals(v.RecoveryRevision) || AuthenticationTime(c.VerifiedAt, v.CreatedAt) < 0 || AuthenticationTime(c.VerifiedAt, v.ExpiresAt) >= 0) return false;
-            if (!enrollment && v.InitialCredentials.Count != 0 && !v.InitialCredentials.Any(row => row.Equals(c.Credential))) return false;
-            if (v.UserId is not null && (!v.UserId.Equals(c.UserId) || !v.UserRevision!.Equals(c.UserRevision)) || v.DeviceId is not null && (!v.DeviceId.Equals(c.DeviceId) || !v.DeviceRevision!.Equals(c.DeviceRevision)) || c.InstallationId is not null && v.InstallationId is not null && !v.InstallationId.Equals(c.InstallationId) || v.InstallationRevision is not null && !v.InstallationRevision.Equals(c.InstallationRevision)) return false;
+            if ((int)c.Credential.Method != method || c.AuthEpoch != v.AuthEpoch || c.RecoveryGeneration != v.RecoveryGeneration || c.RecoveryRevision.Value != v.RecoveryRevision.Value || AuthenticationTime(c.VerifiedAt, v.CreatedAt) < 0 || AuthenticationTime(c.VerifiedAt, v.ExpiresAt) >= 0) return false;
+            if (!enrollment && v.InitialCredentials.Count != 0 && !v.InitialCredentials.Any(row => AuthenticationReferenceEqual(row, c.Credential))) return false;
+            if (v.UserId is not null && (!v.UserId.Value.Equals(c.UserId.Value) || v.UserRevision!.Value != c.UserRevision.Value) || v.DeviceId is not null && (c.DeviceId is null || !v.DeviceId.Value.Equals(c.DeviceId.Value) || v.DeviceRevision!.Value != c.DeviceRevision!.Value) || c.InstallationId is not null && v.InstallationId is not null && !v.InstallationId.Value.Equals(c.InstallationId.Value) || v.InstallationRevision is not null && v.InstallationRevision.Value != c.InstallationRevision?.Value) return false;
         }
         return true;
     }
     private static bool AuthenticationStepUp(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.StepUpMethodProofSnapshot v) =>
         v.RecoveryRevision.Value > 0 && v.UserRevision.Value > 0 && v.SessionRevision.Value > 0 && AuthenticationTime(v.PreparedAt, v.ExpiresAt) < 0 &&
         AuthenticationInventory(v.Credentials, (int)v.Method, false) && AuthenticationMethod(v.MethodProof, (int)v.Method, false, false) &&
-        (v.MethodProof.Password is null || v.Credentials[0].Equals(v.MethodProof.Password.Credential)) &&
+        (v.MethodProof.Password is null || AuthenticationReferenceEqual(v.Credentials[0], v.MethodProof.Password.Credential)) &&
         (v.MethodProof.Passkey is null || v.MethodProof.Passkey.ChallengeSha256.Equals(v.ProofSha256));
     private static bool AuthenticationPolicies(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyObservation v)
     {

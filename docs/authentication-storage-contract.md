@@ -46,6 +46,11 @@ BLOB bytes and execute atomically with owner records. A generated shape or a
 newly read inventory cannot replace those proofs. No token, authorization code,
 password, recipient, private key or protected custody envelope is stored here.
 
+Cross-field credential, Id and revision relationships compare their known facts
+in both SDKs. Future nested protobuf unknown fields remain preserved; they do
+not alter a known revision or identity. The owner's separate final original
+protobuf BLOB guard still binds all original bytes, including those unknown fields.
+
 Component evidence uses independent numbered binary fixtures and the actual
 generated C#/TypeScript parsers and serializers. It covers presence, phases,
 method arms, recovery, inventory membership/order, unknown-field retention,

@@ -1166,7 +1166,7 @@ function checkAuthenticationFlowPayload(input: unknown, context: ValidationConte
     const fieldValue = value.recoveryAuthorization;
     if (!checkRecoveryAuthorizationReference(fieldValue, context)) return false;
   }
-  if (!authenticationFlow(value as unknown as AuthenticationFlowPayload) || !authenticationWithin(() => toBinary(AuthenticationFlowPayloadSchema, value as never), 131072)) return false;
+  if (!authenticationFlow(value as unknown as AuthenticationFlowPayload) || !authenticationWithin(value, () => toBinary(AuthenticationFlowPayloadSchema, value as never), 131072)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -1394,7 +1394,7 @@ function checkCustomerProviderAuthenticationEvidence(input: unknown, context: Va
     if (!checkRevision(fieldValue, context)) return false;
     if ((fieldValue as {value: bigint}).value <= 0n) return false;
   }
-  if ((value.recoveryRevision as {value: bigint}).value <= 0n || (value.completedFlowRevision as {value: bigint}).value <= 0n || (value.tokenExpiresAtSeconds as bigint) <= (value.authenticatedAtSeconds as bigint | undefined ?? 0n) || (value.observedAt as {unixSeconds: bigint}).unixSeconds >= (value.tokenExpiresAtSeconds as bigint) || value.authenticatedAtSeconds !== undefined && (value.authenticatedAtSeconds as bigint) > (value.observedAt as {unixSeconds: bigint}).unixSeconds || !authenticationWithin(() => toBinary(CustomerProviderAuthenticationEvidenceSchema, value as never), 65536)) return false;
+  if ((value.recoveryRevision as {value: bigint}).value <= 0n || (value.completedFlowRevision as {value: bigint}).value <= 0n || (value.tokenExpiresAtSeconds as bigint) <= (value.authenticatedAtSeconds as bigint | undefined ?? 0n) || (value.observedAt as {unixSeconds: bigint}).unixSeconds >= (value.tokenExpiresAtSeconds as bigint) || value.authenticatedAtSeconds !== undefined && (value.authenticatedAtSeconds as bigint) > (value.observedAt as {unixSeconds: bigint}).unixSeconds || !authenticationWithin(value, () => toBinary(CustomerProviderAuthenticationEvidenceSchema, value as never), 65536)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -1851,7 +1851,7 @@ function checkOperatorAuthenticationEvidence(input: unknown, context: Validation
     if ((new RegExp("^[\\x21-\\x7e]+$", 'u')).exec(fieldValue)?.[0] !== fieldValue) return false;
     if (utf8Length(fieldValue) > 256) return false;
   }
-  if (!authenticationOperator(value as unknown as OperatorAuthenticationEvidence) || !authenticationWithin(() => toBinary(OperatorAuthenticationEvidenceSchema, value as never), 65536)) return false;
+  if (!authenticationOperator(value as unknown as OperatorAuthenticationEvidence) || !authenticationWithin(value, () => toBinary(OperatorAuthenticationEvidenceSchema, value as never), 65536)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -2313,7 +2313,7 @@ function checkStepUpMethodProofSnapshot(input: unknown, context: ValidationConte
     if (!(fieldValue instanceof Uint8Array)) return false;
     if (fieldValue.length !== 32) return false;
   }
-  if (!authenticationStepUp(value as unknown as StepUpMethodProofSnapshot) || !authenticationWithin(() => toBinary(StepUpMethodProofSnapshotSchema, value as never), 131072)) return false;
+  if (!authenticationStepUp(value as unknown as StepUpMethodProofSnapshot) || !authenticationWithin(value, () => toBinary(StepUpMethodProofSnapshotSchema, value as never), 131072)) return false;
   return true;
   } finally { context.depth--; context.active.delete(input); }
 }
@@ -6011,7 +6011,22 @@ function measurementResultSemantics(value: Profile): boolean {
   return true;
 }
 
-function authenticationWithin(encode:()=>Uint8Array,cap:number):boolean { try{return encode().length<=cap;}catch{return false;} }
+function authenticationWithin(value:unknown,encode:()=>Uint8Array,cap:number):boolean {
+  let remaining=cap;const active=new Set<object>();
+  const visit=(node:unknown,depth:number):boolean=>{
+    if(node===null || typeof node!=='object' || node instanceof Uint8Array)return true;
+    if(depth>32 || active.has(node))return false;
+    active.add(node);
+    try {
+      if(Array.isArray(node))return node.every(child=>visit(child,depth+1));
+      const object=node as Record<string,unknown>;
+      if(!authenticationUnknown(object))return false;
+      if(Array.isArray(object.$unknown))for(const field of object.$unknown){remaining-=(field as {data:Uint8Array}).data.length;if(remaining<0)return false;}
+      return Object.entries(object).every(([name,child])=>name==='$unknown' || visit(child,depth+1));
+    } finally {active.delete(node);}
+  };
+  try{return visit(value,0) && encode().length<=cap;}catch{return false;}
+}
 function authenticationUnknown(value: Record<string,unknown>): boolean {
   const fields=value.$unknown;
   if(fields===undefined) return true;

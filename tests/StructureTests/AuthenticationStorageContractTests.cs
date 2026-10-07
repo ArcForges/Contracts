@@ -27,6 +27,33 @@ internal static class AuthenticationStorageContractTests
         var original = Convert.FromHexString(vectors.Single(v => v.GetProperty("id").GetString() == "actual-step-up-original-passkey").GetProperty("wireHex").GetString()!);
         var snapshot = S.StepUpMethodProofSnapshot.Parser.ParseFrom(original);
         var credential = snapshot.Credentials[0];
+        var password = snapshot.Clone();
+        password.Method = ArcForges.Contracts.PublicApi.V1.AuthMethod.Password;
+        var passwordCredential = password.Credentials[0]; passwordCredential.Method = password.Method;
+        passwordCredential.ClearPublicKeySha256(); passwordCredential.ClearUserHandleSha256();
+        password.MethodProof.Password = new S.PasswordFlowBinding
+        {
+            Credential = passwordCredential.Clone()
+        };
+        Require(V.IsValid(password), "known password reference facts");
+        var revision = password.MethodProof.Password.Credential.Revision;
+        var futureRevision = revision.ToByteArray().Concat(Convert.FromHexString("ca3e03aabbcc")).ToArray();
+        password.MethodProof.Password.Credential.Revision = ArcForges.Contracts.Foundation.V1.Revision.Parser.ParseFrom(futureRevision);
+        Require(V.IsValid(password), "one reference may retain future revision unknowns");
+        var persistedPassword = S.StepUpMethodProofSnapshot.Parser.ParseFrom(password.ToByteArray());
+        Require(V.IsValid(persistedPassword) && persistedPassword.MethodProof.Password.Credential.Revision.ToByteArray().AsSpan().SequenceEqual(futureRevision), "nested unknown retained through real custody roundtrip");
+        password.Credentials[0].Revision = ArcForges.Contracts.Foundation.V1.Revision.Parser.ParseFrom(futureRevision);
+        Require(V.IsValid(password), "identical future revision unknowns");
+        password.MethodProof.Password.Credential.Revision.Value++;
+        Require(!V.IsValid(password), "differing known revision refuses despite unknown compatibility");
+        password.MethodProof.Password.Credential.Revision.Value--;
+        using (var stream = new MemoryStream())
+        {
+            stream.Write(revision.ToByteArray());
+            using (var output = new CodedOutputStream(stream, true)) { output.WriteTag(1001, WireFormat.WireType.LengthDelimited); output.WriteBytes(ByteString.CopyFrom(new byte[131073])); }
+            password.MethodProof.Password.Credential.Revision = ArcForges.Contracts.Foundation.V1.Revision.Parser.ParseFrom(stream.ToArray());
+            Require(!V.IsValid(password), "nested Foundation unknown counts toward original custody bound");
+        }
         snapshot.Credentials.Clear();
         for (var i = 0; i < 64; i++)
         {

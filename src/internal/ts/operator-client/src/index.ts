@@ -5,4 +5,3 @@ export * from "./gen/arcforges/operator/v1/operator_pb.js";
 export * from "./gen/http.js";
 export * from "./shapes/gen/proto.js";
 export * from "./services/gen/catalog.js";
-export * from "./gen/http.js";
