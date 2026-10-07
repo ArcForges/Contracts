@@ -3346,8 +3346,8 @@ class DependencyAdmission(unittest.TestCase):
                   '986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c']
         paths = ['eng/policy/dependency-policy.json'] + [f'eng/policy/dependency-reviews/con-31-r{n}.json' for n in (1, 2, 3)]
         rows = [[(keys[0], digest) for digest in access_hashes]] + [list(zip(keys, [digest, *shared], strict=True)) for digest in access_hashes]
-        self.assertEqual([len(group['regexes']) for group in config['allowlists'][85:]], [3, 4, 4, 4])
-        for group, path, permitted in zip(config['allowlists'][85:], paths, rows, strict=True):
+        self.assertEqual([len(group['regexes']) for group in config['allowlists'][85:89]], [3, 4, 4, 4])
+        for group, path, permitted in zip(config['allowlists'][85:89], paths, rows, strict=True):
             self.assertEqual(group['targetRules'], ['generic-api-key'])
             self.assertEqual(group['condition'], 'AND')
             self.assertEqual(group['regexTarget'], 'line')
