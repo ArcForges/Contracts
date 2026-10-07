@@ -118,6 +118,14 @@ message InstallationClaim {
   optional string product = 2 [json_name = "product"];
   optional string platform = 3 [json_name = "platform"];
   optional string app_version = 4 [json_name = "appVersion"];
+  optional bytes public_key = 5 [json_name = "publicKey"];
+  optional uint64 key_version = 6 [json_name = "keyVersion"];
+}
+
+// Installation key proof is independent from human credential proof.
+message InstallationPossessionProof {
+  optional uint64 key_version = 1 [json_name = "keyVersion"];
+  optional bytes signature = 2 [json_name = "signature"];
 }
 
 message AuthChallenge {
@@ -131,6 +139,9 @@ message AuthChallenge {
   optional string redirect_url = 8 [json_name = "redirectUrl"];
   optional AuthPurpose purpose = 9 [json_name = "purpose"];
   optional RecoveryMethod recovery_method = 10 [json_name = "recoveryMethod"];
+  optional bytes installation_proof_challenge = 11 [json_name = "installationProofChallenge"];
+  optional bytes installation_proof_binding = 12 [json_name = "installationProofBinding"];
+  optional uint64 installation_key_version = 13 [json_name = "installationKeyVersion"];
 }
 
 message WebAuthnOptions {
@@ -177,6 +188,8 @@ message NativeSession {
   DeviceView device = 6 [json_name = "device"];
   optional uint64 recovery_generation = 7 [json_name = "recoveryGeneration"];
   optional AuthPurpose purpose = 8 [json_name = "purpose"];
+  optional bytes installation_proof_context = 9 [json_name = "installationProofContext"];
+  optional uint64 installation_key_version = 10 [json_name = "installationKeyVersion"];
 }
 
 message SessionView {
@@ -432,6 +445,7 @@ message IdentityServiceCompleteAuthenticationRequest {
   reserved 2 to 9;
   arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
   AuthProof proof = 11 [json_name = "proof"];
+  InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];
 }
 
 message IdentityServiceCompleteAuthenticationValue {
@@ -473,6 +487,7 @@ message IdentityServiceRedeemEmailCodeRequest {
   reserved 2 to 9;
   arcforges.foundation.v1.Id flow_id = 10 [json_name = "flowId"];
   optional string code = 11 [json_name = "code"];
+  InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];
 }
 
 message IdentityServiceRedeemEmailCodeValue {
@@ -493,6 +508,7 @@ message IdentityServiceRefreshSessionRequest {
   reserved 2 to 9;
   optional string refresh_token = 10 [json_name = "refreshToken"];
   arcforges.foundation.v1.Id installation_id = 11 [json_name = "installationId"];
+  InstallationPossessionProof installation_proof = 12 [json_name = "installationProof"];
 }
 
 message IdentityServiceRefreshSessionValue {
@@ -991,6 +1007,7 @@ message IdentityServiceCompleteEnrollmentRequest {
   EnrollmentProof proof = 11 [json_name = "proof"];
   CredentialReplacement credential = 12 [json_name = "credential"];
   ProfileUpdate profile = 13 [json_name = "profile"];
+  InstallationPossessionProof installation_proof = 14 [json_name = "installationProof"];
 }
 
 message IdentityServiceCompleteEnrollmentValue {
