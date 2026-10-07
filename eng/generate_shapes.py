@@ -444,20 +444,24 @@ class JsonShapes:
 
     def cs_helpers(self) -> str:
         from installation_possession import CS_SHAPE_HELPERS
+        from authentication_storage import CS_POLICY_HELPERS
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": CS_PANEL_RULES, "policyBody": CS_POLICY_RULES, "canonicalDecimal": CS_DECIMAL_RULES,
                     "configurationDocument": CS_CONFIGURATION_RULES, "manifestProfile": CS_MANIFEST_RULES, "workflowGraph": CS_WORKFLOW_RULES,
                     "authChallengePurpose": CS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": CS_NATIVE_CLIENT_RULE,
-                    "installationHttpPublicKey": CS_SHAPE_HELPERS + CS_INSTALLATION_HTTP_RULE}
+                    "installationHttpPublicKey": CS_SHAPE_HELPERS + CS_INSTALLATION_HTTP_RULE,
+                    "operatorProviderPolicy": CS_POLICY_HELPERS}
         return CS_JSON_HELPERS + "".join(selected[rule] for rule in sorted(rules & selected.keys()))
 
     def ts_helpers(self) -> str:
         from installation_possession import TS_SHAPE_HELPERS
+        from authentication_storage import TS_POLICY_HELPERS
         rules = {rule for node in self.nodes for rule in node.get("x-arcforges-rules", [])}
         selected = {"panelTree": TS_PANEL_RULES, "policyBody": TS_POLICY_RULES, "canonicalDecimal": TS_DECIMAL_RULES,
                     "configurationDocument": TS_CONFIGURATION_RULES, "manifestProfile": TS_MANIFEST_RULES, "workflowGraph": TS_WORKFLOW_RULES,
                     "authChallengePurpose": TS_AUTH_CHALLENGE_RULE, "nativeClientRedirect": TS_NATIVE_CLIENT_RULE,
-                    "installationHttpPublicKey": TS_SHAPE_HELPERS + TS_INSTALLATION_HTTP_RULE}
+                    "installationHttpPublicKey": TS_SHAPE_HELPERS + TS_INSTALLATION_HTTP_RULE,
+                    "operatorProviderPolicy": TS_POLICY_HELPERS}
         helpers = TS_FORM_HELPERS if self.form else TS_JSON_HELPERS
         if self.finite_numbers and not self.form:
             helpers = helpers.replace("/** Strict UTF-8 JSON: no BOM, comments, trailing commas or duplicate properties; depth <= 32; integer lexemes only. */",
@@ -700,7 +704,7 @@ class JsonShapes:
             elif rule == "canonicalDecimal":
                 c.append("        if (!CanonicalDecimal(text)) return false;")
                 t.append("  if (!canonicalDecimal(value)) return false;")
-            elif rule in {"configurationDocument", "manifestProfile", "workflowGraph", "authChallengePurpose", "nativeClientRedirect"}:
+            elif rule in {"configurationDocument", "manifestProfile", "workflowGraph", "authChallengePurpose", "nativeClientRedirect", "operatorProviderPolicy"}:
                 c.append(f"        if (!{rule[0].upper() + rule[1:]}(value)) return false;")
                 t.append(f"  if (!{rule}(value)) return false;")
             else:
@@ -1047,13 +1051,14 @@ function inventoryRules(value: unknown): boolean {
 '''
 
 
-def generate(check: bool = False) -> None:
+def generate_http_shapes(check: bool = False) -> None:
     mappings = [
         ('public/http/v1/manifest.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
         ('public/http/v1/workflow.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
         ('public/http/v1/panel.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
         ('public/http/v1/policy-body.schema.json', 'ArcForges.Contracts.PublicApi.Http.V1.Policy', 'src/public/dotnet/ArcForges.Contracts.PublicApi', 'src/public/ts/api-client'),
         ('internal/ai-http/v1/configuration.schema.json', 'ArcForges.Contracts.CloudInternal.Http.V1', 'src/internal/dotnet/ArcForges.Contracts.CloudInternal', 'src/internal/ts/ai-internal'),
+        ('internal/identity/v1/provider-policy.schema.json', 'ArcForges.Contracts.CloudInternal.Identity.Http.V1', 'src/internal/dotnet/ArcForges.Contracts.CloudInternal', 'src/internal/ts/operator-client'),
         ("public/http/v1/schema.json", "ArcForges.Contracts.PublicApi.Http.V1", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
         ("public/http/v1/inventory.schema.json", "ArcForges.Sdk.Contracts.Inventory.V1", "src/public/dotnet/ArcForges.Sdk.Contracts", "src/public/ts/api-client"),
         ("public/http/v1/signed-formats.schema.json", "ArcForges.Contracts.PublicApi.Http.V1.SignedFormats", "src/public/dotnet/ArcForges.Contracts.PublicApi", "src/public/ts/api-client"),
@@ -1138,6 +1143,10 @@ def generate(check: bool = False) -> None:
             emit(ROOT / tsroot / "src/shapes/gen" / (name + ".ts"), content, check)
         route_modules = [title + "Routes" for _, route_root, title, _, _ in route_catalogues if route_root == tsroot]
         emit(ROOT / tsroot / "src/gen/http.ts", HEADER + "".join(f'export * from "../shapes/gen/{name}.js";\n' for name in [*names, *route_modules]), check)
+
+
+def generate(check: bool = False) -> None:
+    generate_http_shapes(check)
     generate_proto_checks(check)
 
 
@@ -1290,6 +1299,9 @@ def generate_proto_checks(check: bool) -> None:
         content = HEADER + "#nullable enable\nusing System.Text;\n" + f"namespace {namespace};\n\n/// <summary>Explicit protobuf shape checks generated from the authored field constraints.</summary>\npublic static class ContractShapeValidation\n{{\n"
         from foundation_semantics import COMMON_CS_HELPERS, CS_HELPERS, DESCRIPTOR_CS_HELPERS, SYNC_ADMISSION_CS
         content += "\n".join(methods) + CS_PROTO_HELPERS + COMMON_CS_HELPERS
+        if any(n.startswith("arcforges.identity.storage.v1.") for n in names):
+            from authentication_storage import CS_HELPERS as AUTHENTICATION_CS_HELPERS
+            content += AUTHENTICATION_CS_HELPERS
         if "arcforges.foundation.v1.ContractVersion" in names:
             content += DESCRIPTOR_CS_HELPERS
         if any(n.startswith("arcforges.publicapi.") for n in names):
@@ -1310,13 +1322,18 @@ def generate_proto_checks(check: bool) -> None:
         if "arcforges.publicapi.v1.InstallationClaim" in names:
             from installation_possession import TS_SHAPE_HELPERS
             descriptor_helpers += TS_SHAPE_HELPERS
-        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS + descriptor_helpers + sync_admission, check)
+        authentication_imports, authentication_helpers = "", ""
+        if any(n.startswith("arcforges.identity.storage.v1.") for n in names):
+            from authentication_storage import TS_HELPERS as AUTHENTICATION_TS_HELPERS, ts_imports as authentication_ts_imports
+            authentication_imports, authentication_helpers = authentication_ts_imports(), AUTHENTICATION_TS_HELPERS
+        emit(ROOT / directory / "src/shapes/gen/proto.ts", HEADER + ts_imports(names) + authentication_imports + "\n".join(proto_ts(name, messages) for name in sorted(names)) + TS_PROTO_HELPERS + TS_HELPERS + descriptor_helpers + sync_admission + authentication_helpers, check)
 
 
 def proto_cs(name: str, messages: dict) -> str:
     from foundation_semantics import cs_rules
     from con06_inprocess import CS_RULES
     from installation_possession import cs_rules as INSTALLATION_CS_RULES
+    from authentication_storage import cs_rules as AUTHENTICATION_CS_RULES
     info = messages[name]
     profile = info["constraints"]
     cstype = "global::" + profile["csharpType"]
@@ -1353,6 +1370,8 @@ def proto_cs(name: str, messages: dict) -> str:
             inner.append("}")
         else:
             inner.extend(cs_field_checks(prop, field, rules))
+        if name.startswith("arcforges.identity.storage.v1.") and field["type"] == "arcforges.foundation.v1.Revision":
+            inner.append(f"if ({prop}.Value <= 0) return false;")
         if guard:
             lines += [f"        if ({guard})", "        {"] + ["            " + line for line in inner] + ["        }"]
         else:
@@ -1370,6 +1389,7 @@ def proto_cs(name: str, messages: dict) -> str:
         **cs_rules,
         **CS_RULES,
         **INSTALLATION_CS_RULES,
+        **AUTHENTICATION_CS_RULES,
     }
     for rule in profile.get("rules", []):
         if rule not in rules:
@@ -1416,6 +1436,7 @@ def proto_ts(name: str, messages: dict) -> str:
     from foundation_semantics import ts_rules
     from con06_inprocess import TS_RULES
     from installation_possession import ts_rules as INSTALLATION_TS_RULES
+    from authentication_storage import ts_rules as AUTHENTICATION_TS_RULES
     info = messages[name]
     profile = info["constraints"]
     simple = name.split(".")[-1]
@@ -1424,6 +1445,8 @@ def proto_ts(name: str, messages: dict) -> str:
              "  if (typeof input !== 'object' || input === null || Array.isArray(input) || context.depth >= 100 || context.active.has(input)) return false;",
              "  context.active.add(input); context.depth++;", "  try {", "  const value = input as Record<string, unknown>;"]
     groups: dict[str, list[str]] = {}
+    if name.startswith("arcforges.identity.storage.v1."):
+        lines.append("  if (!authenticationUnknown(value)) return false;")
     for fieldname, rules in profile["fields"].items():
         field = info["fields"][fieldname]
         if field["oneof"]:
@@ -1447,6 +1470,8 @@ def proto_ts(name: str, messages: dict) -> str:
                 lines.append(f"    if (new Set({prop}).size !== {prop}.length) return false;")
             lines.append(f"    for (const item of {prop}) {{")
         lines.extend("    " + line for line in ts_field_checks("item" if repeated else prop, field, rules.get("items", {}) if repeated else rules))
+        if name.startswith("arcforges.identity.storage.v1.") and field["type"] == "arcforges.foundation.v1.Revision":
+            lines.append(f"    if (({prop} as {{value: bigint}}).value <= 0n) return false;")
         if repeated:
             lines.append("    }")
         lines.append("  }")
@@ -1467,6 +1492,7 @@ def proto_ts(name: str, messages: dict) -> str:
         **ts_rules,
         **TS_RULES,
         **INSTALLATION_TS_RULES,
+        **AUTHENTICATION_TS_RULES,
     }
     lines.extend("  " + special[rule] for rule in profile.get("rules", []))
     lines += ["  return true;", "  } finally { context.depth--; context.active.delete(input); }", "}"]

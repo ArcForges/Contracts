@@ -14,6 +14,11 @@ if (args.Contains("--con-34", StringComparer.Ordinal))
     InstallationPossessionContractTests.Run(root);
     return 0;
 }
+if (args.Contains("--con-31", StringComparer.Ordinal))
+{
+    AuthenticationStorageContractTests.Run(root);
+    return 0;
+}
 if (args.Length == 3 && args[1] == "--compatibility-later-services")
 {
     LaterServiceCases.Run(Path.GetFullPath(args[2]));
@@ -74,6 +79,7 @@ if (args.Contains("--verify-foundation-exchange", StringComparer.Ordinal))
     FoundationCases.VerifyExchange(root);
     return 0;
 }
+AuthenticationStorageContractTests.Run(root);
 InstallationPossessionContractTests.Run(root);
 CatalogCases.Run(root);
 var count = 0;

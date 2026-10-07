@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "operator.provider-policy.v1",
+  "version": "v1",
+  "realmId": "10000000-0000-0000-0000-000000000001",
+  "environment": "live",
+  "tenantId": "10000000-0000-0000-0000-000000000001",
+  "clientId": "10000000-0000-0000-0000-000000000001",
+  "accessApplicationId": "10000000-0000-0000-0000-000000000001",
+  "issuer": "https://login.microsoftonline.com/10000000-0000-0000-0000-000000000001/v2.0",
+  "operatorOrigin": "https://operator.example.test",
+  "requiredAuthenticationContext": "c1",
+  "policyIds": ["10000000-0000-0000-0000-000000000001"],
+  "supportedPolicyProjectionSha256": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "sourceReference": "actual-configured-capture-reference",
+  "credentialVersion": "literal-env-v1",
+  "capturedAt": "2026-10-07T00:00:00.123456789Z",
+  "notAfter": "2026-10-07T00:00:00.123456790Z"
+}

@@ -256,6 +256,11 @@ def merge_constraint_shards(check: bool = False) -> None:
 
 def generate(check: bool = False) -> None:
     merge_constraint_shards(check)
+    # HTTP and protobuf may share a package's gen directory. Produce/check the
+    # HTTP owner's exact barrel first, so protobuf synchronization cannot delete
+    # it or mistake it for an unowned extra during a fresh --check invocation.
+    from generate_shapes import generate_http_shapes, generate_proto_checks
+    generate_http_shapes(check)
     ARTIFACTS.mkdir(exist_ok=True)
     platform_key = {"Windows": "windows_x64", "Linux": "linux_x64", "Darwin": "macosx_x64"}.get(platform.system())
     if platform.machine().lower() not in {"amd64", "x86_64"} or platform_key is None:
@@ -309,6 +314,10 @@ def generate(check: bool = False) -> None:
             for file in output.rglob("*"):
                 if file.is_file():
                     normalize_generated(file)
+            if row["kind"] == "npm" and row["jsonSchemas"]:
+                # This already-checked HTTP output retains its own generator
+                # header and enters the combined export barrel exactly once.
+                shutil.copyfile(target / "http.ts", output / "http.ts")
             sync_generated(output, target, check)
             if row["kind"] == "npm":
                 generate_export_barrel(row, output, check)
@@ -317,8 +326,7 @@ def generate(check: bool = False) -> None:
         maven = next(row for row in packages if row["id"] == "io.github.arcforges:contracts-proto")
         generate_kotlin(protoc, [str(ROOT / source) for source in maven["proto"]], stage, check)
         generate_service_catalogues(packages, check)
-        from generate_shapes import generate as generate_shapes
-        generate_shapes(check)
+        generate_proto_checks(check)
         from generate_fixtures import generate as generate_fixtures
         generate_fixtures(check)
         from generate_values import generate as generate_values

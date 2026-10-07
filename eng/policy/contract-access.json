@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
   "licence": "Apache-2.0",
-  "reviewedOn": "2026-10-06",
+  "reviewedOn": "2026-10-07",
   "design": {
     "commit": "212825003ed712200e585445301473233404f597",
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "035c20818f743a120fe4c5e32ee4590507d8ba05",
+  "sourceCommit": "ec4dd6b5afdac45124f531871545ff1779672fab",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
       "access": "internal",
       "sha256": "c6a851984bcbe51e2b47dd4ed870d2b651f48e61299d95d4adaa6c201c5ed3d6"
+    },
+    {
+      "path": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal",
+      "sha256": "093ff8c6fcfaad79cefacd9fbb051aef8564767c39c3bf7776f01dbc0b945b93"
     },
     {
       "path": "internal/proto/arcforges/local/chat/v1/chat.proto",
@@ -1034,6 +1039,138 @@
       "kind": "message",
       "file": "public/proto/arcforges/hello/v1/hello.proto",
       "access": "public"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.AuthenticationCompletionCapture",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.AuthenticationCredentialReference",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.AuthenticationFlowKind",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.AuthenticationFlowPayload",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.AuthenticationMethodProofBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.CustomerProviderAuthenticationEvidence",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.EmailEnrollmentBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.EmailFlowBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.EnrollmentMethodBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.NativeAuthenticationFlowBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.OidcFlowBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.OperatorAuthenticationEvidence",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.OperatorAuthenticationPurpose",
+      "kind": "enum",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.OperatorPolicyObservation",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.OperatorPolicyProjection",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.PasskeyEnrollmentBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.PasskeyFlowBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.PasswordDiscoveryFlowBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.PasswordEnrollmentBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.PasswordFlowBinding",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.RecoveryAuthorizationReference",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
+    },
+    {
+      "name": "arcforges.identity.storage.v1.StepUpMethodProofSnapshot",
+      "kind": "message",
+      "file": "internal/proto/arcforges/identity/v1/authentication_storage.proto",
+      "access": "internal"
     },
     {
       "name": "arcforges.local.chat.v1.ChatOperationsServiceAppendUserMessageRequest",
@@ -8166,6 +8303,42 @@
   ],
   "distribution": [
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Proto/AuthenticationStorage.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": [
+        "AuthenticationStorageReflection",
+        "AuthenticationFlowKind",
+        "OperatorAuthenticationPurpose",
+        "AuthenticationFlowPayload",
+        "NativeAuthenticationFlowBinding",
+        "AuthenticationCredentialReference",
+        "AuthenticationMethodProofBinding",
+        "proof_",
+        "ProofOneofCase",
+        "PasskeyFlowBinding",
+        "EmailFlowBinding",
+        "PasswordFlowBinding",
+        "OidcFlowBinding",
+        "EnrollmentMethodBinding",
+        "registration_",
+        "RegistrationOneofCase",
+        "PasskeyEnrollmentBinding",
+        "EmailEnrollmentBinding",
+        "PasswordEnrollmentBinding",
+        "PasswordDiscoveryFlowBinding",
+        "AuthenticationCompletionCapture",
+        "RecoveryAuthorizationReference",
+        "StepUpMethodProofSnapshot",
+        "OperatorAuthenticationEvidence",
+        "OperatorPolicyObservation",
+        "OperatorPolicyProjection",
+        "CustomerProviderAuthenticationEvidence"
+      ],
+      "sha256": "cab8d1b601a2ea29399e9e8fb8dd4e451a48754b4d34ed0bbd5d8627287c144b",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Proto/Operator.cs",
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
@@ -9625,11 +9798,27 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/OperatorProviderPolicy.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["OperatorProviderPolicy", "OperatorProviderPolicyJsonContext"],
+      "sha256": "7d382448d39dd09b5a18fa67e5eb72e4b24f80083b91e6e6b3d2e0a8365e3b15",
+      "kind": "generated"
+    },
+    {
+      "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/OperatorProviderPolicyValidator.g.cs",
+      "package": "ArcForges.Contracts.CloudInternal",
+      "access": "internal",
+      "types": ["OperatorProviderPolicyJson"],
+      "sha256": "d52042233e0dacea268baf8077aa7802a9b621e1d2f4b34dcdea6276a9ea3feb",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/dotnet/ArcForges.Contracts.CloudInternal/Generated/Shapes/ProtoValidation.g.cs",
       "package": "ArcForges.Contracts.CloudInternal",
       "access": "internal",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "626fde56741132cc45ccb04cb42923b38f7fc131ec555384a6b6f258c1d3f297",
+      "sha256": "43671aa8f05c85450ebd2452d2a325d8744c5c633f1c5cc151b8549be4896a80",
       "kind": "generated"
     },
     {
@@ -11201,6 +11390,37 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/ts/operator-client/src/gen/arcforges/identity/v1/authentication_storage_pb.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": [
+        "AuthenticationFlowPayload",
+        "NativeAuthenticationFlowBinding",
+        "AuthenticationCredentialReference",
+        "AuthenticationMethodProofBinding",
+        "PasskeyFlowBinding",
+        "EmailFlowBinding",
+        "PasswordFlowBinding",
+        "OidcFlowBinding",
+        "EnrollmentMethodBinding",
+        "PasskeyEnrollmentBinding",
+        "EmailEnrollmentBinding",
+        "PasswordEnrollmentBinding",
+        "PasswordDiscoveryFlowBinding",
+        "AuthenticationCompletionCapture",
+        "RecoveryAuthorizationReference",
+        "StepUpMethodProofSnapshot",
+        "OperatorAuthenticationEvidence",
+        "OperatorPolicyObservation",
+        "OperatorPolicyProjection",
+        "CustomerProviderAuthenticationEvidence",
+        "AuthenticationFlowKind",
+        "OperatorAuthenticationPurpose"
+      ],
+      "sha256": "f6a69d8742f3d01f8b3822ec035c5d999fa67ebe95e71f4ee18f4e8e406c0f14",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/ts/operator-client/src/gen/arcforges/operator/v1/operator_pb.ts",
       "package": "@arcforges/operator-client",
       "access": "internal",
@@ -11326,11 +11546,19 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/ts/operator-client/src/gen/http.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": [],
+      "sha256": "8468339cb4380d4ad193cfbe9901148c5460b9d813301499cd1aea0c66bfdb5d",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/ts/operator-client/src/index.ts",
       "package": "@arcforges/operator-client",
       "access": "internal",
       "types": [],
-      "sha256": "d2493325f0f8954a09f1f8fe8b10bb9390d86be53625cfd2ed75ec2742d4d36f",
+      "sha256": "740d4bbea837b8bfde27456e9c19243fff6d6acbdcd478e65eafe96d4b4ed80e",
       "kind": "generated"
     },
     {
@@ -11342,11 +11570,19 @@
       "kind": "generated"
     },
     {
+      "path": "src/internal/ts/operator-client/src/shapes/gen/OperatorProviderPolicy.ts",
+      "package": "@arcforges/operator-client",
+      "access": "internal",
+      "types": ["OperatorProviderPolicy", "StrictJsonResult", "StrictJsonReader"],
+      "sha256": "33b1fd65c46e971cc0378b92d6ced2fc3a6dd4d685bd4cc398e0a20748befd15",
+      "kind": "generated"
+    },
+    {
       "path": "src/internal/ts/operator-client/src/shapes/gen/proto.ts",
       "package": "@arcforges/operator-client",
       "access": "internal",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "466602b216749de70891e9e3525e1a849edd944a20c5d18db60902318ee8ebb5",
+      "sha256": "33c22d04e942076fc5761b4a956f654cbbaa5b553ce0f2d3013e8f40313c7d31",
       "kind": "generated"
     },
     {
@@ -38330,7 +38566,7 @@
     },
     {
       "path": "eng/contract-packages.json",
-      "sha256": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796"
+      "sha256": "d7cdcea40529ec9a87f08695b76806df36810701329f1ec2fbafd5d9f1f97d2a"
     },
     {
       "path": "gradle.properties",
@@ -38353,8 +38589,12 @@
       "sha256": "8290733306db2f4a485740629f88dd3adb3376feb0d2c4f37270a991e73871bb"
     },
     {
+      "path": "internal/identity/v1/provider-policy.schema.json",
+      "sha256": "b959bccd59ee8091a9296ebe0b4742c9269b09b03fdde57a932458b016db14da"
+    },
+    {
       "path": "internal/proto/constraints.json",
-      "sha256": "a39d77e158a9ffe2aa1360a4b43aae82a84033c3de6452a5a46f1cc605ceffee"
+      "sha256": "18a882d2cfb51431219e78eb8ef34c97ef3f8278b0be1c70d84ffe14e62265f9"
     },
     {
       "path": "internal/proto/constraints/chat-baseline.json",
@@ -38389,6 +38629,10 @@
       "sha256": "3b14d120592de694eeb0fc12a8d0348470ec626f089e9e03f6b9f42ed49c8619"
     },
     {
+      "path": "internal/proto/constraints/con-31-authentication-storage.json",
+      "sha256": "c2b8e9e21ef6bbc99f64fd8424da0c400f77e9c14039af21fd3838759ff2e0da"
+    },
+    {
       "path": "internal/proto/constraints/operator-baseline.json",
       "sha256": "d874f39980cf62d2bf5f146679175c7a87b06bce90ff0c319a44240725957edd"
     },
@@ -38418,7 +38662,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "b0f73a6c907e161a6203bc954f1f96a88515a7ebfcf08c3ae76023a8d40a15be"
+      "sha256": "da92cad6477f75f87a305b17d095bb45c70ce1e8aed4c24d96227a1fe4b4a9ad"
     },
     {
       "path": "public/http/v1/browser.schema.json",

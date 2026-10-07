@@ -1,0 +1,279 @@
+// SPDX-License-Identifier: Apache-2.0
+// Identity-owned storage contracts. Shape validity never confers authentication authority.
+syntax = "proto3";
+package arcforges.identity.storage.v1;
+import "arcforges/foundation/v1/foundation.proto";
+import "arcforges/publicapi/v1/identity.proto";
+option csharp_namespace = "ArcForges.Contracts.CloudInternal.Identity.Storage.V1";
+option java_package = "io.github.arcforges.contracts.identity.storage.v1";
+option java_multiple_files = true;
+option java_outer_classname = "AuthenticationStorageProto";
+
+enum AuthenticationFlowKind {
+  AUTHENTICATION_FLOW_KIND_UNSPECIFIED = 0;
+  AUTHENTICATION_FLOW_KIND_NATIVE_AUTHORIZATION = 1;
+  AUTHENTICATION_FLOW_KIND_BROWSER_AUTHENTICATION = 2;
+  AUTHENTICATION_FLOW_KIND_ENROLLMENT = 3;
+  AUTHENTICATION_FLOW_KIND_STEP_UP_PROOF = 4;
+  AUTHENTICATION_FLOW_KIND_EMAIL_CHANGE = 5;
+  AUTHENTICATION_FLOW_KIND_RECOVERY = 6;
+  AUTHENTICATION_FLOW_KIND_DELETION_REAUTHENTICATION = 7;
+  AUTHENTICATION_FLOW_KIND_PROVIDER_CALLBACK = 8;
+  // Direct native flow has no fabricated code/PKCE row.
+  AUTHENTICATION_FLOW_KIND_NATIVE_AUTHENTICATION = 9;
+}
+enum OperatorAuthenticationPurpose {
+  OPERATOR_AUTHENTICATION_PURPOSE_UNSPECIFIED = 0;
+  OPERATOR_AUTHENTICATION_PURPOSE_LOGIN = 1;
+  OPERATOR_AUTHENTICATION_PURPOSE_STEP_UP = 2;
+}
+
+// Actual immutable owner flow binding; never a caller authorization assertion.
+message AuthenticationFlowPayload {
+  optional uint32 schema_version = 1 [json_name = "schemaVersion"];
+  arcforges.foundation.v1.Id flow_id = 2 [json_name = "flowId"];
+  optional AuthenticationFlowKind flow_kind = 3 [json_name = "flowKind"];
+  arcforges.foundation.v1.Id realm_id = 4 [json_name = "realmId"];
+  optional arcforges.publicapi.v1.AuthMethod method = 5;
+  optional arcforges.publicapi.v1.AuthPurpose purpose = 6;
+  optional string provider_key = 7 [json_name = "providerKey"];
+  optional string environment = 8;
+  optional string policy_version = 9 [json_name = "policyVersion"];
+  optional bytes policy_sha256 = 10 [json_name = "policySha256"];
+  optional int64 auth_epoch = 11 [json_name = "authEpoch"];
+  optional int64 recovery_generation = 12 [json_name = "recoveryGeneration"];
+  arcforges.foundation.v1.Revision recovery_revision = 13 [json_name = "recoveryRevision"];
+  arcforges.foundation.v1.Instant created_at = 14 [json_name = "createdAt"];
+  arcforges.foundation.v1.Instant expires_at = 15 [json_name = "expiresAt"];
+  optional string origin = 16;
+  optional bytes preauth_binding_sha256 = 17 [json_name = "preauthBindingSha256"];
+  optional bytes csrf_sha256 = 18 [json_name = "csrfSha256"];
+  arcforges.foundation.v1.Id user_id = 19 [json_name = "userId"];
+  arcforges.foundation.v1.Id session_id = 20 [json_name = "sessionId"];
+  arcforges.foundation.v1.Revision session_revision = 21 [json_name = "sessionRevision"];
+  arcforges.foundation.v1.Id device_id = 22 [json_name = "deviceId"];
+  arcforges.foundation.v1.Id installation_id = 23 [json_name = "installationId"];
+  optional string product_id = 24 [json_name = "productId"];
+  optional string operation_class = 25 [json_name = "operationClass"];
+  optional bytes target_payload_sha256 = 26 [json_name = "targetPayloadSha256"];
+  repeated AuthenticationCredentialReference initial_credentials = 27 [json_name = "initialCredentials"];
+  NativeAuthenticationFlowBinding native_binding = 28 [json_name = "nativeBinding"];
+  AuthenticationMethodProofBinding method_proof = 29 [json_name = "methodProof"];
+  AuthenticationCompletionCapture completion = 30;
+  arcforges.foundation.v1.Revision user_revision = 31 [json_name = "userRevision"];
+  arcforges.foundation.v1.Revision device_revision = 32 [json_name = "deviceRevision"];
+  arcforges.foundation.v1.Revision installation_revision = 33 [json_name = "installationRevision"];
+  optional bytes installation_public_key_sha256 = 34 [json_name = "installationPublicKeySha256"];
+  optional uint64 installation_key_version = 35 [json_name = "installationKeyVersion"];
+  optional bytes installation_proof_challenge = 36 [json_name = "installationProofChallenge"];
+  optional bytes installation_proof_binding = 37 [json_name = "installationProofBinding"];
+  optional bytes installation_public_key = 38 [json_name = "installationPublicKey"];
+  // Genuine recovery owner reference; never a replacement AuthMethod alias.
+  RecoveryAuthorizationReference recovery_authorization = 39 [json_name = "recoveryAuthorization"];
+}
+
+message NativeAuthenticationFlowBinding {
+  optional string client_id = 1 [json_name = "clientId"];
+  optional string redirect_uri = 2 [json_name = "redirectUri"];
+  optional bytes state_sha256 = 3 [json_name = "stateSha256"];
+  optional string pkce_challenge = 4 [json_name = "pkceChallenge"];
+  arcforges.foundation.v1.Revision native_flow_revision = 5 [json_name = "nativeFlowRevision"];
+}
+message AuthenticationCredentialReference {
+  arcforges.foundation.v1.Id identity_id = 1 [json_name = "identityId"];
+  arcforges.foundation.v1.Revision revision = 2;
+  optional string provider_key = 3 [json_name = "providerKey"];
+  optional arcforges.publicapi.v1.AuthMethod method = 4;
+  optional bytes subject_sha256 = 5 [json_name = "subjectSha256"];
+  optional bytes public_key_sha256 = 6 [json_name = "publicKeySha256"];
+  optional bytes user_handle_sha256 = 7 [json_name = "userHandleSha256"];
+}
+message AuthenticationMethodProofBinding {
+  oneof proof {
+    PasskeyFlowBinding passkey = 1;
+    EmailFlowBinding email = 2;
+    PasswordFlowBinding password = 3;
+    OidcFlowBinding oidc = 4;
+    EnrollmentMethodBinding enrollment = 5;
+    PasswordDiscoveryFlowBinding password_discovery = 6 [json_name = "passwordDiscovery"];
+  }
+}
+message PasskeyFlowBinding {
+  optional bytes challenge_sha256 = 1 [json_name = "challengeSha256"];
+  optional string rp_id = 2 [json_name = "rpId"];
+  repeated string origins = 3;
+  optional string user_verification = 4 [json_name = "userVerification"];
+  optional bytes credential_snapshot_sha256 = 5 [json_name = "credentialSnapshotSha256"];
+  optional bytes challenge = 6;
+}
+message EmailFlowBinding {
+  optional bytes proof_secret_hash = 1 [json_name = "proofSecretHash"];
+  arcforges.foundation.v1.Id custody_reference = 2 [json_name = "custodyReference"];
+  arcforges.foundation.v1.Id delivery_id = 3 [json_name = "deliveryId"];
+  arcforges.foundation.v1.Revision address_identity_revision = 4 [json_name = "addressIdentityRevision"];
+}
+message PasswordFlowBinding { AuthenticationCredentialReference credential = 1; }
+message OidcFlowBinding {
+  arcforges.foundation.v1.Id provider_flow_id = 1 [json_name = "providerFlowId"];
+  optional string configured_issuer = 2 [json_name = "configuredIssuer"];
+  optional string configured_client_id = 3 [json_name = "configuredClientId"];
+  optional bytes nonce_sha256 = 4 [json_name = "nonceSha256"];
+  optional bytes provider_policy_sha256 = 5 [json_name = "providerPolicySha256"];
+}
+message EnrollmentMethodBinding {
+  oneof registration {
+    PasskeyEnrollmentBinding passkey = 1;
+    EmailEnrollmentBinding email = 2;
+    PasswordEnrollmentBinding password = 3;
+    OidcFlowBinding oidc = 4;
+  }
+}
+message PasskeyEnrollmentBinding {
+  optional bytes challenge = 1;
+  optional string rp_id = 2 [json_name = "rpId"];
+  repeated string origins = 3;
+  optional bytes user_handle = 4 [json_name = "userHandle"];
+  optional string user_verification = 5 [json_name = "userVerification"];
+  optional string attestation = 6;
+}
+message EmailEnrollmentBinding {
+  optional bytes proof_secret_hash = 1 [json_name = "proofSecretHash"];
+  arcforges.foundation.v1.Id custody_reference = 2 [json_name = "custodyReference"];
+  arcforges.foundation.v1.Id delivery_id = 3 [json_name = "deliveryId"];
+  optional bytes recipient_hash = 4 [json_name = "recipientHash"];
+  optional string material_key_version = 5 [json_name = "materialKeyVersion"];
+}
+message PasswordEnrollmentBinding {
+  optional string realm_mode = 1 [json_name = "realmMode"];
+  optional string password_policy_version = 2 [json_name = "passwordPolicyVersion"];
+  optional bytes password_policy_sha256 = 3 [json_name = "passwordPolicySha256"];
+}
+message PasswordDiscoveryFlowBinding {
+  optional string realm_mode = 1 [json_name = "realmMode"];
+  optional string password_policy_version = 2 [json_name = "passwordPolicyVersion"];
+  optional bytes password_policy_sha256 = 3 [json_name = "passwordPolicySha256"];
+}
+message AuthenticationCompletionCapture {
+  arcforges.foundation.v1.Id user_id = 1 [json_name = "userId"];
+  arcforges.foundation.v1.Revision user_revision = 2 [json_name = "userRevision"];
+  AuthenticationCredentialReference credential = 3;
+  arcforges.foundation.v1.Id device_id = 4 [json_name = "deviceId"];
+  arcforges.foundation.v1.Revision device_revision = 5 [json_name = "deviceRevision"];
+  arcforges.foundation.v1.Id installation_id = 6 [json_name = "installationId"];
+  arcforges.foundation.v1.Revision installation_revision = 7 [json_name = "installationRevision"];
+  arcforges.foundation.v1.Instant verified_at = 8 [json_name = "verifiedAt"];
+  optional bytes proof_evidence_sha256 = 9 [json_name = "proofEvidenceSha256"];
+  arcforges.foundation.v1.Id owner_command_id = 10 [json_name = "ownerCommandId"];
+  optional int64 auth_epoch = 11 [json_name = "authEpoch"];
+  optional int64 recovery_generation = 12 [json_name = "recoveryGeneration"];
+  arcforges.foundation.v1.Revision recovery_revision = 13 [json_name = "recoveryRevision"];
+}
+message RecoveryAuthorizationReference {
+  arcforges.foundation.v1.Id recovery_flow_id = 1 [json_name = "recoveryFlowId"];
+  optional arcforges.publicapi.v1.RecoveryMethod method = 2;
+  arcforges.foundation.v1.Revision revision = 3;
+  optional bytes original_proof_sha256 = 4 [json_name = "originalProofSha256"];
+}
+message StepUpMethodProofSnapshot {
+  optional uint32 schema_version = 1 [json_name = "schemaVersion"];
+  arcforges.foundation.v1.Id challenge_id = 2 [json_name = "challengeId"];
+  arcforges.foundation.v1.Id realm_id = 3 [json_name = "realmId"];
+  arcforges.foundation.v1.Id user_id = 4 [json_name = "userId"];
+  arcforges.foundation.v1.Id session_id = 5 [json_name = "sessionId"];
+  optional string operation_class = 6 [json_name = "operationClass"];
+  optional bytes target_payload_sha256 = 7 [json_name = "targetPayloadSha256"];
+  optional arcforges.publicapi.v1.AuthMethod method = 8;
+  optional int64 auth_epoch = 9 [json_name = "authEpoch"];
+  optional int64 recovery_generation = 10 [json_name = "recoveryGeneration"];
+  arcforges.foundation.v1.Revision recovery_revision = 11 [json_name = "recoveryRevision"];
+  optional bytes proof_sha256 = 12 [json_name = "proofSha256"];
+  arcforges.foundation.v1.Instant expires_at = 13 [json_name = "expiresAt"];
+  repeated AuthenticationCredentialReference credentials = 14;
+  AuthenticationMethodProofBinding method_proof = 15 [json_name = "methodProof"];
+  arcforges.foundation.v1.Instant prepared_at = 16 [json_name = "preparedAt"];
+  arcforges.foundation.v1.Revision user_revision = 17 [json_name = "userRevision"];
+  arcforges.foundation.v1.Revision session_revision = 18 [json_name = "sessionRevision"];
+  optional string policy_version = 19 [json_name = "policyVersion"];
+  optional bytes policy_sha256 = 20 [json_name = "policySha256"];
+}
+message OperatorAuthenticationEvidence {
+  optional uint32 schema_version = 1 [json_name = "schemaVersion"];
+  arcforges.foundation.v1.Id evidence_id = 2 [json_name = "evidenceId"];
+  arcforges.foundation.v1.Id flow_id = 3 [json_name = "flowId"];
+  arcforges.foundation.v1.Id realm_id = 4 [json_name = "realmId"];
+  optional string provider_key = 5 [json_name = "providerKey"];
+  optional string environment = 6;
+  optional OperatorAuthenticationPurpose purpose = 7;
+  optional string tenant_id = 8 [json_name = "tenantId"];
+  optional string client_id = 9 [json_name = "clientId"];
+  optional string issuer = 10;
+  optional string origin = 11;
+  optional string redirect_uri = 12 [json_name = "redirectUri"];
+  optional string object_id = 13 [json_name = "objectId"];
+  optional string pairwise_subject = 14 [json_name = "pairwiseSubject"];
+  optional bytes assertion_sha256 = 15 [json_name = "assertionSha256"];
+  optional string signing_key_id = 16 [json_name = "signingKeyId"];
+  optional bytes metadata_sha256 = 17 [json_name = "metadataSha256"];
+  optional bytes jwks_sha256 = 18 [json_name = "jwksSha256"];
+  optional int64 authenticated_at_seconds = 19 [json_name = "authenticatedAtSeconds"];
+  optional int64 token_expires_at_seconds = 20 [json_name = "tokenExpiresAtSeconds"];
+  optional string authentication_context = 21 [json_name = "authenticationContext"];
+  optional string provider_policy_version = 22 [json_name = "providerPolicyVersion"];
+  optional bytes provider_policy_sha256 = 23 [json_name = "providerPolicySha256"];
+  OperatorPolicyObservation policy_begin = 24 [json_name = "policyBegin"];
+  OperatorPolicyObservation policy_complete = 25 [json_name = "policyComplete"];
+  optional int64 auth_epoch = 26 [json_name = "authEpoch"];
+  optional int64 recovery_generation = 27 [json_name = "recoveryGeneration"];
+  arcforges.foundation.v1.Revision recovery_revision = 28 [json_name = "recoveryRevision"];
+  arcforges.foundation.v1.Id operator_session_id = 29 [json_name = "operatorSessionId"];
+  arcforges.foundation.v1.Revision operator_session_revision = 30 [json_name = "operatorSessionRevision"];
+  optional bytes previous_evidence_sha256 = 31 [json_name = "previousEvidenceSha256"];
+  arcforges.foundation.v1.Instant observed_at = 32 [json_name = "observedAt"];
+  arcforges.foundation.v1.Revision completed_flow_revision = 33 [json_name = "completedFlowRevision"];
+  optional bytes operator_subject_sha256 = 34 [json_name = "operatorSubjectSha256"];
+  arcforges.foundation.v1.Id previous_evidence_id = 35 [json_name = "previousEvidenceId"];
+  optional string previous_operator_object_id = 36 [json_name = "previousOperatorObjectId"];
+  optional string previous_operator_subject = 37 [json_name = "previousOperatorSubject"];
+}
+message OperatorPolicyObservation {
+  repeated OperatorPolicyProjection policies = 1;
+  optional bytes aggregate_sha256 = 2 [json_name = "aggregateSha256"];
+  arcforges.foundation.v1.Instant observed_at = 3 [json_name = "observedAt"];
+  optional string source_reference = 4 [json_name = "sourceReference"];
+}
+message OperatorPolicyProjection {
+  optional string policy_id = 1 [json_name = "policyId"];
+  optional bytes projection_sha256 = 2 [json_name = "projectionSha256"];
+  arcforges.foundation.v1.Instant observed_at = 3 [json_name = "observedAt"];
+  optional string provider_request_reference = 4 [json_name = "providerRequestReference"];
+  optional string source_uri = 5 [json_name = "sourceUri"];
+}
+
+// Genuine customer provider evidence; shape validation alone confers no authority.
+message CustomerProviderAuthenticationEvidence {
+  optional uint32 schema_version = 1 [json_name = "schemaVersion"];
+  arcforges.foundation.v1.Id evidence_id = 2 [json_name = "evidenceId"];
+  arcforges.foundation.v1.Id flow_id = 3 [json_name = "flowId"];
+  arcforges.foundation.v1.Id realm_id = 4 [json_name = "realmId"];
+  optional string provider_key = 5 [json_name = "providerKey"];
+  optional string environment = 6;
+  optional arcforges.publicapi.v1.AuthPurpose purpose = 7;
+  optional string issuer = 8;
+  optional string client_id = 9 [json_name = "clientId"];
+  optional string redirect_uri = 10 [json_name = "redirectUri"];
+  optional string callback_origin = 11 [json_name = "callbackOrigin"];
+  optional string subject = 12;
+  optional bytes assertion_sha256 = 13 [json_name = "assertionSha256"];
+  optional string signing_key_id = 14 [json_name = "signingKeyId"];
+  optional bytes metadata_sha256 = 15 [json_name = "metadataSha256"];
+  optional bytes jwks_sha256 = 16 [json_name = "jwksSha256"];
+  optional int64 authenticated_at_seconds = 17 [json_name = "authenticatedAtSeconds"];
+  optional int64 token_expires_at_seconds = 18 [json_name = "tokenExpiresAtSeconds"];
+  optional string provider_profile_version = 19 [json_name = "providerProfileVersion"];
+  optional bytes provider_profile_sha256 = 20 [json_name = "providerProfileSha256"];
+  arcforges.foundation.v1.Instant observed_at = 21 [json_name = "observedAt"];
+  optional int64 auth_epoch = 22 [json_name = "authEpoch"];
+  optional int64 recovery_generation = 23 [json_name = "recoveryGeneration"];
+  arcforges.foundation.v1.Revision recovery_revision = 24 [json_name = "recoveryRevision"];
+  arcforges.foundation.v1.Revision completed_flow_revision = 25 [json_name = "completedFlowRevision"];
+}
