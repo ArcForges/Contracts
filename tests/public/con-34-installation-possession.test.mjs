@@ -296,7 +296,11 @@ test("generated installation adjuncts preserve genuine optional presence and str
       false,
     );
   const session = positive("NativeSession");
-  assert.equal(proto.isNativeSession(fromJson(proto.NativeSessionSchema, session)), false);
+  assert.equal(proto.isNativeSession(fromJson(proto.NativeSessionSchema, session)), true);
+  const legacySession = { ...session };
+  delete legacySession.installationProofContext;
+  delete legacySession.installationKeyVersion;
+  assert.equal(proto.isNativeSession(fromJson(proto.NativeSessionSchema, legacySession)), false);
   Object.assign(session, {
     recoveryGeneration: "0",
     installationProofContext: Buffer.alloc(32, 3).toString("base64"),

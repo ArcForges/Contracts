@@ -6,6 +6,8 @@ dependencies { api(libs.protobuf.kotlin.lite) }
 kotlin.sourceSets.named("test") {
     kotlin.srcDir(rootProject.file("tests/kotlin"))
 }
+// Test sources are executable vector mains; both actual vector tasks below remain mandatory check dependencies.
+tasks.test { failOnNoDiscoveredTests.set(false) }
 val installationPossessionVectors = tasks.register<JavaExec>("installationPossessionVectors") {
     dependsOn(tasks.named("testClasses"))
     classpath = sourceSets["test"].runtimeClasspath

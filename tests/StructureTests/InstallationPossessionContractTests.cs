@@ -93,7 +93,9 @@ internal static class InstallationPossessionContractTests
         var badProof = proof.Clone(); badProof.Signature = ByteString.CopyFrom(new byte[70]); Require(!ContractShapeValidation.IsValid(badProof), "der-is-not-p1363");
         badProof = proof.Clone(); badProof.ClearKeyVersion(); Require(!ContractShapeValidation.IsValid(badProof), "proof-version-absent");
         var session = JsonParser.Default.Parse<NativeSession>(Positive("NativeSession"));
-        Require(!ContractShapeValidation.IsValid(session), "old-session-no-possession-context");
+        Require(ContractShapeValidation.IsValid(session), "current-native-session-fixture");
+        var legacySession = session.Clone(); legacySession.ClearInstallationProofContext(); legacySession.ClearInstallationKeyVersion();
+        Require(!ContractShapeValidation.IsValid(legacySession), "old-session-no-possession-context");
         session.RecoveryGeneration = 0; session.InstallationProofContext = ByteString.CopyFrom(new byte[32]); session.InstallationKeyVersion = 1;
         Require(ContractShapeValidation.IsValid(NativeSession.Parser.ParseFrom(session.ToByteArray())), "native-session-generation-zero-wire");
         var badSession = session.Clone(); badSession.InstallationProofContext = ByteString.CopyFrom(new byte[31]); Require(!ContractShapeValidation.IsValid(badSession), "context-short");
