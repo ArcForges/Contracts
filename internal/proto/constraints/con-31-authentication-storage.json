@@ -1,0 +1,882 @@
+{
+  "schemaVersion": "proto-constraints.v1",
+  "license": "Apache-2.0",
+  "messages": {
+    "arcforges.identity.storage.v1.AuthenticationFlowPayload": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationFlowPayload",
+      "fields": {
+        "schemaVersion": {
+          "required": true,
+          "enumValues": [1]
+        },
+        "flowId": {
+          "required": true
+        },
+        "flowKind": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        },
+        "realmId": {
+          "required": true
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        },
+        "providerKey": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "environment": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 64
+        },
+        "policyVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "policySha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "authEpoch": {
+          "required": true,
+          "min": 1,
+          "max": 9223372036854775807
+        },
+        "recoveryGeneration": {
+          "required": true,
+          "min": 0,
+          "max": 9223372036854775807
+        },
+        "recoveryRevision": {
+          "required": true
+        },
+        "createdAt": {
+          "required": true
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "origin": {
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        },
+        "preauthBindingSha256": {
+          "bytesLength": 32
+        },
+        "csrfSha256": {
+          "bytesLength": 32
+        },
+        "userId": {},
+        "sessionId": {},
+        "sessionRevision": {},
+        "deviceId": {},
+        "installationId": {},
+        "productId": {
+          "enumValues": ["arcscope", "companion"]
+        },
+        "operationClass": {
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "targetPayloadSha256": {
+          "bytesLength": 32
+        },
+        "initialCredentials": {
+          "minItems": 0,
+          "maxItems": 64,
+          "items": {}
+        },
+        "nativeBinding": {},
+        "methodProof": {
+          "required": true
+        },
+        "completion": {},
+        "userRevision": {},
+        "deviceRevision": {},
+        "installationRevision": {},
+        "installationPublicKeySha256": {
+          "bytesLength": 32
+        },
+        "installationKeyVersion": {
+          "min": 1,
+          "max": 9223372036854775807
+        },
+        "installationProofChallenge": {
+          "bytesLength": 32
+        },
+        "installationProofBinding": {
+          "bytesLength": 32
+        },
+        "installationPublicKey": {
+          "bytesLength": 91
+        },
+        "recoveryAuthorization": {}
+      },
+      "rules": ["authenticationFlow"]
+    },
+    "arcforges.identity.storage.v1.NativeAuthenticationFlowBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.NativeAuthenticationFlowBinding",
+      "fields": {
+        "clientId": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        },
+        "redirectUri": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 2048
+        },
+        "stateSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "pkceChallenge": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+          "minLength": 43,
+          "maxLength": 43
+        },
+        "nativeFlowRevision": {
+          "required": true
+        }
+      },
+      "rules": ["authenticationNative"]
+    },
+    "arcforges.identity.storage.v1.AuthenticationCredentialReference": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCredentialReference",
+      "fields": {
+        "identityId": {
+          "required": true
+        },
+        "revision": {
+          "required": true
+        },
+        "providerKey": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "subjectSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "publicKeySha256": {
+          "bytesLength": 32
+        },
+        "userHandleSha256": {
+          "bytesLength": 32
+        }
+      },
+      "rules": ["authenticationCredential"]
+    },
+    "arcforges.identity.storage.v1.AuthenticationMethodProofBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationMethodProofBinding",
+      "fields": {
+        "passkey": {},
+        "email": {},
+        "password": {},
+        "oidc": {},
+        "enrollment": {},
+        "passwordDiscovery": {}
+      },
+      "oneofRequired": ["proof"],
+      "rules": ["authenticationMethod"]
+    },
+    "arcforges.identity.storage.v1.PasskeyFlowBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasskeyFlowBinding",
+      "fields": {
+        "challengeSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "rpId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9.-]{1,253}$",
+          "maxLength": 253
+        },
+        "origins": {
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "pattern": "^https://[^\\s]+$",
+            "minLength": 9,
+            "maxUtf8Bytes": 2048
+          },
+          "unique": true
+        },
+        "userVerification": {
+          "required": true,
+          "enumValues": ["required"]
+        },
+        "credentialSnapshotSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "challenge": {
+          "required": true,
+          "bytesLength": 32
+        }
+      },
+      "rules": ["authenticationPasskey"]
+    },
+    "arcforges.identity.storage.v1.EmailFlowBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EmailFlowBinding",
+      "fields": {
+        "proofSecretHash": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "custodyReference": {
+          "required": true
+        },
+        "deliveryId": {
+          "required": true
+        },
+        "addressIdentityRevision": {}
+      }
+    },
+    "arcforges.identity.storage.v1.PasswordFlowBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordFlowBinding",
+      "fields": {
+        "credential": {
+          "required": true
+        }
+      },
+      "rules": ["authenticationPassword"]
+    },
+    "arcforges.identity.storage.v1.OidcFlowBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OidcFlowBinding",
+      "fields": {
+        "providerFlowId": {
+          "required": true
+        },
+        "configuredIssuer": {
+          "required": true,
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        },
+        "configuredClientId": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        },
+        "nonceSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "providerPolicySha256": {
+          "required": true,
+          "bytesLength": 32
+        }
+      }
+    },
+    "arcforges.identity.storage.v1.EnrollmentMethodBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EnrollmentMethodBinding",
+      "fields": {
+        "passkey": {},
+        "email": {},
+        "password": {},
+        "oidc": {}
+      },
+      "oneofRequired": ["registration"]
+    },
+    "arcforges.identity.storage.v1.PasskeyEnrollmentBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasskeyEnrollmentBinding",
+      "fields": {
+        "challenge": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "rpId": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9.-]{1,253}$",
+          "maxLength": 253
+        },
+        "origins": {
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "pattern": "^https://[^\\s]+$",
+            "minLength": 9,
+            "maxUtf8Bytes": 2048
+          },
+          "unique": true
+        },
+        "userHandle": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "userVerification": {
+          "required": true,
+          "enumValues": ["required"]
+        },
+        "attestation": {
+          "required": true,
+          "enumValues": ["none"]
+        }
+      },
+      "rules": ["authenticationOrigins"]
+    },
+    "arcforges.identity.storage.v1.EmailEnrollmentBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EmailEnrollmentBinding",
+      "fields": {
+        "proofSecretHash": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "custodyReference": {
+          "required": true
+        },
+        "deliveryId": {
+          "required": true
+        },
+        "recipientHash": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "materialKeyVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        }
+      }
+    },
+    "arcforges.identity.storage.v1.PasswordEnrollmentBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordEnrollmentBinding",
+      "fields": {
+        "realmMode": {
+          "required": true,
+          "enumValues": ["selfHost"]
+        },
+        "passwordPolicyVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "passwordPolicySha256": {
+          "required": true,
+          "bytesLength": 32
+        }
+      }
+    },
+    "arcforges.identity.storage.v1.PasswordDiscoveryFlowBinding": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordDiscoveryFlowBinding",
+      "fields": {
+        "realmMode": {
+          "required": true,
+          "enumValues": ["selfHost"]
+        },
+        "passwordPolicyVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "passwordPolicySha256": {
+          "required": true,
+          "bytesLength": 32
+        }
+      }
+    },
+    "arcforges.identity.storage.v1.AuthenticationCompletionCapture": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCompletionCapture",
+      "fields": {
+        "userId": {
+          "required": true
+        },
+        "userRevision": {
+          "required": true
+        },
+        "credential": {
+          "required": true
+        },
+        "deviceId": {},
+        "deviceRevision": {},
+        "installationId": {},
+        "installationRevision": {},
+        "verifiedAt": {
+          "required": true
+        },
+        "proofEvidenceSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "ownerCommandId": {
+          "required": true
+        },
+        "authEpoch": {
+          "required": true,
+          "min": 1,
+          "max": 9223372036854775807
+        },
+        "recoveryGeneration": {
+          "required": true,
+          "min": 0,
+          "max": 9223372036854775807
+        },
+        "recoveryRevision": {
+          "required": true
+        }
+      },
+      "rules": ["authenticationCompletion"]
+    },
+    "arcforges.identity.storage.v1.RecoveryAuthorizationReference": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.RecoveryAuthorizationReference",
+      "fields": {
+        "recoveryFlowId": {
+          "required": true
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "revision": {
+          "required": true
+        },
+        "originalProofSha256": {
+          "required": true,
+          "bytesLength": 32
+        }
+      }
+    },
+    "arcforges.identity.storage.v1.StepUpMethodProofSnapshot": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.StepUpMethodProofSnapshot",
+      "fields": {
+        "schemaVersion": {
+          "required": true,
+          "enumValues": [1]
+        },
+        "challengeId": {
+          "required": true
+        },
+        "realmId": {
+          "required": true
+        },
+        "userId": {
+          "required": true
+        },
+        "sessionId": {
+          "required": true
+        },
+        "operationClass": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "targetPayloadSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "method": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4]
+        },
+        "authEpoch": {
+          "required": true,
+          "min": 1,
+          "max": 9223372036854775807
+        },
+        "recoveryGeneration": {
+          "required": true,
+          "min": 0,
+          "max": 9223372036854775807
+        },
+        "recoveryRevision": {
+          "required": true
+        },
+        "proofSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "expiresAt": {
+          "required": true
+        },
+        "credentials": {
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {}
+        },
+        "methodProof": {
+          "required": true
+        },
+        "preparedAt": {
+          "required": true
+        },
+        "userRevision": {
+          "required": true
+        },
+        "sessionRevision": {
+          "required": true
+        },
+        "policyVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "policySha256": {
+          "required": true,
+          "bytesLength": 32
+        }
+      },
+      "rules": ["authenticationStepUp"]
+    },
+    "arcforges.identity.storage.v1.OperatorAuthenticationEvidence": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorAuthenticationEvidence",
+      "fields": {
+        "schemaVersion": {
+          "required": true,
+          "enumValues": [1]
+        },
+        "evidenceId": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "realmId": {
+          "required": true
+        },
+        "providerKey": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "environment": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 64
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2]
+        },
+        "tenantId": {
+          "required": true,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "clientId": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 256,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "issuer": {
+          "required": true,
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        },
+        "origin": {
+          "required": true,
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        },
+        "redirectUri": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 2048
+        },
+        "objectId": {
+          "required": true,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "pairwiseSubject": {
+          "required": true,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        },
+        "assertionSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "signingKeyId": {
+          "required": true,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "metadataSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "jwksSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "authenticatedAtSeconds": {
+          "required": true,
+          "min": 0,
+          "max": 253402300799
+        },
+        "tokenExpiresAtSeconds": {
+          "required": true,
+          "min": 1,
+          "max": 253402300799
+        },
+        "authenticationContext": {
+          "required": true,
+          "pattern": "^c([1-9]|[1-9][0-9])$"
+        },
+        "providerPolicyVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "providerPolicySha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "policyBegin": {
+          "required": true
+        },
+        "policyComplete": {
+          "required": true
+        },
+        "authEpoch": {
+          "required": true,
+          "min": 1,
+          "max": 9223372036854775807
+        },
+        "recoveryGeneration": {
+          "required": true,
+          "min": 0,
+          "max": 9223372036854775807
+        },
+        "recoveryRevision": {
+          "required": true
+        },
+        "operatorSessionId": {},
+        "operatorSessionRevision": {},
+        "previousEvidenceSha256": {
+          "bytesLength": 32
+        },
+        "observedAt": {
+          "required": true
+        },
+        "completedFlowRevision": {
+          "required": true
+        },
+        "operatorSubjectSha256": {
+          "bytesLength": 32
+        },
+        "previousEvidenceId": {},
+        "previousOperatorObjectId": {
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "previousOperatorSubject": {
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        }
+      },
+      "rules": ["authenticationOperator"]
+    },
+    "arcforges.identity.storage.v1.OperatorPolicyObservation": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyObservation",
+      "fields": {
+        "policies": {
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {}
+        },
+        "aggregateSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "observedAt": {
+          "required": true
+        },
+        "sourceReference": {
+          "required": true,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        }
+      },
+      "rules": ["authenticationPolicies"]
+    },
+    "arcforges.identity.storage.v1.OperatorPolicyProjection": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyProjection",
+      "fields": {
+        "policyId": {
+          "required": true,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "maxLength": 36
+        },
+        "projectionSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "observedAt": {
+          "required": true
+        },
+        "providerRequestReference": {
+          "required": true,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "sourceUri": {
+          "required": true,
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        }
+      },
+      "rules": ["authenticationPolicyProjection"]
+    },
+    "arcforges.identity.storage.v1.CustomerProviderAuthenticationEvidence": {
+      "csharpType": "ArcForges.Contracts.CloudInternal.Identity.Storage.V1.CustomerProviderAuthenticationEvidence",
+      "fields": {
+        "schemaVersion": {
+          "required": true,
+          "enumValues": [1]
+        },
+        "evidenceId": {
+          "required": true
+        },
+        "flowId": {
+          "required": true
+        },
+        "realmId": {
+          "required": true
+        },
+        "providerKey": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "environment": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 64
+        },
+        "purpose": {
+          "required": true,
+          "enumValues": [1, 2, 3, 4, 5]
+        },
+        "issuer": {
+          "required": true,
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        },
+        "clientId": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        },
+        "redirectUri": {
+          "required": true,
+          "minLength": 1,
+          "maxUtf8Bytes": 2048
+        },
+        "callbackOrigin": {
+          "required": true,
+          "pattern": "^https://[^\\s]+$",
+          "minLength": 9,
+          "maxUtf8Bytes": 2048
+        },
+        "subject": {
+          "required": true,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 256
+        },
+        "assertionSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "signingKeyId": {
+          "required": true,
+          "pattern": "^[\\x21-\\x7e]+$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "metadataSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "jwksSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "authenticatedAtSeconds": {
+          "min": 0,
+          "max": 253402300799
+        },
+        "tokenExpiresAtSeconds": {
+          "required": true,
+          "min": 1,
+          "max": 253402300799
+        },
+        "providerProfileVersion": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9._:/-]{1,128}$",
+          "minLength": 1,
+          "maxUtf8Bytes": 128
+        },
+        "providerProfileSha256": {
+          "required": true,
+          "bytesLength": 32
+        },
+        "observedAt": {
+          "required": true
+        },
+        "authEpoch": {
+          "required": true,
+          "min": 1,
+          "max": 9223372036854775807
+        },
+        "recoveryGeneration": {
+          "required": true,
+          "min": 0,
+          "max": 9223372036854775807
+        },
+        "recoveryRevision": {
+          "required": true
+        },
+        "completedFlowRevision": {
+          "required": true
+        }
+      },
+      "rules": ["authenticationCustomer"]
+    }
+  }
+}
