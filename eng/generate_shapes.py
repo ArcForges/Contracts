@@ -1044,7 +1044,7 @@ function inventoryRules(value: unknown): boolean {
 '''
 
 
-def generate(check: bool = False) -> None:
+def generate_http_shapes(check: bool = False) -> None:
     mappings = [
         ('public/http/v1/manifest.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
         ('public/http/v1/workflow.schema.json', 'ArcForges.Sdk.Contracts.Extensions.V1', 'src/public/dotnet/ArcForges.Sdk.Contracts', 'src/public/ts/api-client'),
@@ -1136,6 +1136,10 @@ def generate(check: bool = False) -> None:
             emit(ROOT / tsroot / "src/shapes/gen" / (name + ".ts"), content, check)
         route_modules = [title + "Routes" for _, route_root, title, _, _ in route_catalogues if route_root == tsroot]
         emit(ROOT / tsroot / "src/gen/http.ts", HEADER + "".join(f'export * from "../shapes/gen/{name}.js";\n' for name in [*names, *route_modules]), check)
+
+
+def generate(check: bool = False) -> None:
+    generate_http_shapes(check)
     generate_proto_checks(check)
 
 
