@@ -95,8 +95,25 @@ internal static class HostedPolicyGate
         if (findings.Count != 0)
         {
             setStage(PolicyGateStage.ValidatePolicyResults);
+            WriteFindingCounts(Console.Error, findings);
             throw new InvalidOperationException("Shared architecture policy reported findings.");
         }
+    }
+
+    internal static void WriteFindingCounts(TextWriter writer, IReadOnlyList<PolicyFinding> findings)
+    {
+        // Emit only the producer's closed rule IDs and bounded counts, never paths,
+        // source symbols, rule messages, build output or arbitrary caller strings.
+        const int limit = 1000000;
+        if (findings.Count > limit) throw new InvalidOperationException("Finding count exceeds diagnostic bound.");
+        var known = PolicyEngine.Rules.ToHashSet(StringComparer.Ordinal);
+        foreach (string rule in PolicyEngine.Rules.Order(StringComparer.Ordinal))
+        {
+            int count = findings.Count(finding => finding.Rule == rule);
+            if (count != 0) writer.WriteLine(FormattableString.Invariant($"Contracts architecture findings: rule={rule}; count={count}."));
+        }
+        int unknown = findings.Count(finding => !known.Contains(finding.Rule));
+        if (unknown != 0) writer.WriteLine(FormattableString.Invariant($"Contracts architecture findings: rule=Unknown; count={unknown}."));
     }
 
     internal const string HostProject = "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj";

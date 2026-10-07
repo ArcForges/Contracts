@@ -39,6 +39,7 @@ internal static class ArchitectureFixtureTests
         ExternalPolicyEvidenceMustBeExactAndFailClosed();
         FailureDiagnosticsDoNotRevealExceptionDetails();
         ProgressIsBoundedAndContainsOnlyFixedStagesAndNumbers();
+        FindingCountsExposeOnlyClosedRulesAndNumbers();
         CompilationFailureCodesAreSpecificAndFailClosed();
         WireSchemaOwnershipIsExactAndFailsClosed();
         HostAgplClosureMustBeExactlyBuildPolicy();
@@ -180,6 +181,41 @@ internal static class ArchitectureFixtureTests
             "Failure diagnostics must contain only a fixed stage code.");
         Checks.True(!message.Contains(privateDetail, StringComparison.Ordinal),
             "An exception detail escaped the redacted fail-closed diagnostic.");
+    }
+
+    private static void FindingCountsExposeOnlyClosedRulesAndNumbers()
+    {
+        const string canary = "owned-test-canary";
+        using var output = new StringWriter(System.Globalization.CultureInfo.InvariantCulture);
+        HostedPolicyGate.WriteFindingCounts(output,
+        [
+            new PolicyFinding("AT-12", canary, canary),
+            new PolicyFinding("AT-01", canary, canary),
+            new PolicyFinding("AT-12", canary, canary),
+            new PolicyFinding("foreign\n" + canary, canary, canary),
+        ]);
+        Checks.Equal(string.Join(Environment.NewLine,
+            "Contracts architecture findings: rule=AT-01; count=1.",
+            "Contracts architecture findings: rule=AT-12; count=2.",
+            "Contracts architecture findings: rule=Unknown; count=1.", ""), output.ToString(),
+            "Finding telemetry leaked arbitrary values or changed deterministic closed counts.");
+        using var empty = new StringWriter();
+        HostedPolicyGate.WriteFindingCounts(empty, []);
+        Checks.Equal("", empty.ToString(), "Empty policy findings emitted misleading diagnostics.");
+        using var oversized = new StringWriter();
+        bool refused = false;
+        try { HostedPolicyGate.WriteFindingCounts(oversized, new OversizedFindings()); }
+        catch (InvalidOperationException) { refused = true; }
+        Checks.True(refused && oversized.ToString().Length == 0,
+            "Excessive finding counts must refuse before enumeration or output.");
+    }
+
+    private sealed class OversizedFindings : IReadOnlyList<PolicyFinding>
+    {
+        public int Count => 1000001;
+        public PolicyFinding this[int index] => throw new InvalidOperationException("Must not enumerate.");
+        public IEnumerator<PolicyFinding> GetEnumerator() => throw new InvalidOperationException("Must not enumerate.");
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     private static void ProgressIsBoundedAndContainsOnlyFixedStagesAndNumbers()
