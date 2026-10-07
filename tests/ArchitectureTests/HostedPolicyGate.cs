@@ -143,6 +143,8 @@ internal static class HostedPolicyGate
             // At most eight observations per category are inspected for a hash.
             // Unsafe/long subjects are omitted, never truncated or reinterpreted.
             if (index == categories.Length - 1 || sampled[index]++ >= 8) continue;
+            int subjectLength = finding.Message.Length - categories[index].Prefix.Length;
+            if (subjectLength is < 1 or > 1024) continue;
             string subject = finding.Message[categories[index].Prefix.Length..];
             if (!SafeDiagnosticSubject(subject)) continue;
             subjects[index].Add(Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(
