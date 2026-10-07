@@ -7,7 +7,7 @@
     "path": "docs/assurance/wp03-02-serialization-posture-profile.md",
     "sha256": "7add5ef64bd92ef5abb1b9f5d5b324066fbd54dfcd08c901390d0eb25f61992c"
   },
-  "sourceCommit": "ec4dd6b5afdac45124f531871545ff1779672fab",
+  "sourceCommit": "93af48952b2dcae45e82a107772cc9742267e4ff",
   "schemas": [
     {
       "path": "internal/proto/arcforges/cf/v1/stream.proto",
@@ -112,7 +112,7 @@
     {
       "path": "public/proto/arcforges/publicapi/v1/identity.proto",
       "access": "public",
-      "sha256": "bdc4b2cd3e44b72bbcbdfb6968cf5affb9afd7266645d4f83ae3564750bae3bc"
+      "sha256": "9b5a8f92c6f96fdd4f43548e6872501af3e5f83d67c25fed9c2692a318e8e2bc"
     },
     {
       "path": "public/proto/arcforges/publicapi/v1/inprocess-values.proto",
@@ -6087,6 +6087,12 @@
       "access": "public"
     },
     {
+      "name": "arcforges.publicapi.v1.InstallationPossessionProof",
+      "kind": "message",
+      "file": "public/proto/arcforges/publicapi/v1/identity.proto",
+      "access": "public"
+    },
+    {
       "name": "arcforges.publicapi.v1.InstalledProduct",
       "kind": "message",
       "file": "public/proto/arcforges/publicapi/v1/identity.proto",
@@ -11817,6 +11823,14 @@
       "kind": "authored"
     },
     {
+      "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/InstallationPossessionTranscript.cs",
+      "package": "ArcForges.Contracts.PublicApi",
+      "access": "public",
+      "types": ["InstallationInitialOperation", "InstallationPossession"],
+      "sha256": "41b0980cfd065e34b48930e63cf8108c22dc3510fc6f33b95c394eaa4e15f876",
+      "kind": "generated"
+    },
+    {
       "path": "src/public/dotnet/ArcForges.Contracts.PublicApi/Generated/Proto/Application.cs",
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
@@ -12706,6 +12720,7 @@
         "ProtectionProfile",
         "TrustLevel",
         "InstallationClaim",
+        "InstallationPossessionProof",
         "AuthChallenge",
         "WebAuthnOptions",
         "WebAuthnCreation",
@@ -12988,7 +13003,7 @@
         "outcome_",
         "OutcomeOneofCase"
       ],
-      "sha256": "89e5eeda2a57dbad82359858a6656f8eeb8098dc085182f35536d53e0b621e67",
+      "sha256": "8d4196ba181f78874cfa9799dca9a44c63a5d35a4815c04b2a253307a01180a4",
       "kind": "generated"
     },
     {
@@ -13720,7 +13735,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["NativeAuthorizeCallbackSuccess", "NativeAuthorizeCallbackSuccessJsonContext"],
-      "sha256": "b773b02e3b264250cf2177de3fcd4c2fe0fc638d5d46da8b6216648d587dea1d",
+      "sha256": "0bfe2e4bdce3b7be2c6e916b5ef7f67977ba53b72621982656cffb4078b7368f",
       "kind": "generated"
     },
     {
@@ -13728,7 +13743,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["NativeAuthorizeRequest", "NativeAuthorizeRequestJsonContext"],
-      "sha256": "9807d546d471818d7f4a95e1454cfd18b399b330d6621fe63107f2e8a4bf9d69",
+      "sha256": "211fb80bbb79872011fea6ba2c07dd3384fe2789ebfffebe40a574b2cd5217a8",
       "kind": "generated"
     },
     {
@@ -13736,7 +13751,7 @@
       "package": "ArcForges.Contracts.PublicApi",
       "access": "public",
       "types": ["NativeTokenRequest", "NativeTokenRequestJsonContext"],
-      "sha256": "3ca966787225d79a77a911dcceaba750b5dcc3abc545aed761d57a298d730188",
+      "sha256": "6cf0bb7d1ca76ba2b4bc295bf6f1542f6a9536ef02285a549ed1a647604161d4",
       "kind": "generated"
     },
     {
@@ -13749,7 +13764,7 @@
         "NativeTokenInstalledProduct",
         "NativeTokenResponseJsonContext"
       ],
-      "sha256": "1f1feffe9d2dea549a20ee11f9760ed5562b0114d15d0b061ab5992558637b95",
+      "sha256": "989ea1bdb556561a970aa61c347e6824a0cbc0935a68ebfd1b66864f90f1ea66",
       "kind": "generated"
     },
     {
@@ -14081,7 +14096,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["NativeAuthorizeCallbackSuccessForm"],
-      "sha256": "3a8567ba75da92a5f4650e27f1c1612c820209c51d5ed59c7e88abbfee25fa52",
+      "sha256": "01091e87f2bb99ce7ba5781336c4cb883b60981cc55da86546e6b2d9ab7318d9",
       "kind": "generated"
     },
     {
@@ -14089,7 +14104,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["NativeAuthorizeRequestForm"],
-      "sha256": "01d14e5476db1e6bb0d629a6e72c0454059bfb0b16216d318ee35e9c9a546053",
+      "sha256": "9afd9e3c94e1dd135620f0ec75c6810c2d05ae60d2e668c466ff3fea4aab5c1f",
       "kind": "generated"
     },
     {
@@ -14097,7 +14112,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["NativeTokenRequestForm"],
-      "sha256": "c7f5d35e8c2a7655580ac54d9556676404275af4ae1791bc1ac00a274a459982",
+      "sha256": "90be26bbd5860a20391dae2f9d08ca036ce00cf255c82f0132f532a5d59fc3d8",
       "kind": "generated"
     },
     {
@@ -14105,7 +14120,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["NativeTokenResponseJson"],
-      "sha256": "fc9599d3e903efb57a9367746a42f57d2e1804447447a9969d6180e6ae55318a",
+      "sha256": "4ca8f0fde89ce6dfd16389fda75c056cd8b409b9b88d80fa8331aa40a6eb5362",
       "kind": "generated"
     },
     {
@@ -14137,7 +14152,7 @@
       "package": "ArcForges.Contracts.Validation",
       "access": "public",
       "types": ["ContractShapeValidation", "ValidationContext"],
-      "sha256": "5ef7ca1bed3a45570b1ddfbfa21b5221bb1f63cdf6ee1658a2f121da039690fc",
+      "sha256": "549da4d0cbc940724231902532f1268be6e9e4ff030a7139013fe64385e27a30",
       "kind": "generated"
     },
     {
@@ -17598,7 +17613,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["AuthChallenge", "Builder"],
-      "sha256": "fd4d97079d01f150f6716f231728c8ff11a1909a9fae47837873b5b8c1d65bdf",
+      "sha256": "741b6ac0907cc50a2624c2c4d08d73e9430b60d4067063c6eead6b5555a873bc",
       "kind": "generated"
     },
     {
@@ -17606,7 +17621,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["AuthChallengeOrBuilder"],
-      "sha256": "907771ab80eaa6f22bae7c17ae5c6306f80dc0e968be0b5a08860067ab87e18c",
+      "sha256": "da5fc9e50198faf2f3b5c78518ac21399929883ddf2ec0ec223487e97ac6462b",
       "kind": "generated"
     },
     {
@@ -22934,7 +22949,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceCompleteAuthenticationRequest", "Builder"],
-      "sha256": "0b476bf59fcfc29638b0fb1e5938cb128d5e62aee0794ed99caf94d7bb1e85cb",
+      "sha256": "f425dd002fc6472416b356ff6f9f803dc91cd19a502ddb616431ffd1a998c78d",
       "kind": "generated"
     },
     {
@@ -22942,7 +22957,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceCompleteAuthenticationRequestOrBuilder"],
-      "sha256": "6b031ecc43d08f659ca5fcc73037f6e7a36941b6208012a88cd0c820c283b11c",
+      "sha256": "60eadee9147f52c5ccb6a54f5d8271f46371c8d47d537ac91ee361eeaae50b94",
       "kind": "generated"
     },
     {
@@ -23030,7 +23045,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceCompleteEnrollmentRequest", "Builder"],
-      "sha256": "3d6415589422d4ca136345adcd7f597964116e2516e74a31a1f4535bbd336080",
+      "sha256": "71da0066d587266306ea65c665c35af65e6ba55e2fb2b8623fcc4a999b6148d5",
       "kind": "generated"
     },
     {
@@ -23038,7 +23053,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceCompleteEnrollmentRequestOrBuilder"],
-      "sha256": "ba43b57ecbe753001ca70fe7563a3fe5422251b0ddb815e93dfa8919ed4ba0fb",
+      "sha256": "7d23ae4628519b28af9e487ef38a2bdc833eb765bbe3c6e1ead69cbdb81515e5",
       "kind": "generated"
     },
     {
@@ -23654,7 +23669,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceRedeemEmailCodeRequest", "Builder"],
-      "sha256": "2f62eb0f95aef181cfc929793a438c61226abb0f69452659f40ed4014919b704",
+      "sha256": "59272cd0a212d9709a15db287fa15b674a8935e7e7f2895b24a8f53ccb587515",
       "kind": "generated"
     },
     {
@@ -23662,7 +23677,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceRedeemEmailCodeRequestOrBuilder"],
-      "sha256": "51b548f18b5bcb9d03a09414d23420029c9bd1faac62452f2f654673020eb01d",
+      "sha256": "fa4d542eaa7e06a041b60d6915947b7fe498977b7d819b2184fde1424bf2ee8d",
       "kind": "generated"
     },
     {
@@ -23702,7 +23717,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceRefreshSessionRequest", "Builder"],
-      "sha256": "163c1b78a850fdde6d094910c0a611c9096a765d18f5c0de1c8ba96303e1e887",
+      "sha256": "dd15a1f4d5735ddb328423be1993bf75f6794cfabb69086054dcabb493320012",
       "kind": "generated"
     },
     {
@@ -23710,7 +23725,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceRefreshSessionRequestOrBuilder"],
-      "sha256": "66d4da23a38f69314148aa7fa77b2b90e2db882fa552b96126bb162e68423989",
+      "sha256": "efa7108ede23087e0febe4bf54ea3196dbbf76b9e73210e7f4b697bfd5515b0d",
       "kind": "generated"
     },
     {
@@ -24142,7 +24157,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["InstallationClaim", "Builder"],
-      "sha256": "9f122d9ea2f0b689e84e457e8cfacf1152baa08f2c4ce0ded68d186b965ff20d",
+      "sha256": "773fe066d5cad25a5d0dff51317898fbee5ae1f2b2f340779922542ec0f99da6",
       "kind": "generated"
     },
     {
@@ -24150,7 +24165,23 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["InstallationClaimOrBuilder"],
-      "sha256": "de6016d86782984572c8318029cdbd36d198393eccc19f3e8fa4e90835a9f936",
+      "sha256": "4f0a50c3635328df718ccf48a6c6dbff7204d625dab1535053d1c68e78974307",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/InstallationPossessionProof.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InstallationPossessionProof", "Builder"],
+      "sha256": "3404b0b3a1e8b8fe4f8b69aa500ba8d1b878cec2e62e33ebec3cd5d20022ff32",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/java/io/github/arcforges/contracts/publicapi/v1/InstallationPossessionProofOrBuilder.java",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InstallationPossessionProofOrBuilder"],
+      "sha256": "ab55b122e8491846aeffa3003e20fa76b88e5b57a882176448d201298033bbc6",
       "kind": "generated"
     },
     {
@@ -24430,7 +24461,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["NativeSession", "Builder"],
-      "sha256": "6393de6540e526e47d12e55b11b81f72f77dcd4b4ae4fa9571d0e6a8350d4658",
+      "sha256": "4d85fa89e8f0ab369a9b329fa93ffe6a535f9ebfaaab28066f9a6eec385f5087",
       "kind": "generated"
     },
     {
@@ -24438,7 +24469,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["NativeSessionOrBuilder"],
-      "sha256": "5cd58bc0f27ee6ef868292d7cb0421e4926a3ddf4a5fd27292c02e5f524e9993",
+      "sha256": "83f25ed68d79c905d23b702096b7fc90446b68a9a7a2685e78a95ffa06d834d3",
       "kind": "generated"
     },
     {
@@ -30860,7 +30891,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["AuthChallengeKt", "Dsl"],
-      "sha256": "af01263575f057c6cc3cb5298b880f45009c43c05a57c9e973efa85b2a7a65d6",
+      "sha256": "6e76f6f2b950605b936734255ade9d294948d2dea8f5e07034f0c57c9709e31a",
       "kind": "generated"
     },
     {
@@ -33524,7 +33555,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceCompleteAuthenticationRequestKt", "Dsl"],
-      "sha256": "72cd89efdef4077605dfca6c7cf2d57391d980e0fa93767abec8b44877b91c5b",
+      "sha256": "32829f0c8d7c383bce9f6ab66231a35964f10d9dd33859e0b1c8f46524e1b811",
       "kind": "generated"
     },
     {
@@ -33572,7 +33603,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceCompleteEnrollmentRequestKt", "Dsl"],
-      "sha256": "0d7c463045f6dc1f3345cfd499e4beb4a2f6c0a4d61990044f8f57e706e95652",
+      "sha256": "367f87178637b8d4e0df49c40a8f9962723ba2356b3400b835ca50e6d5942316",
       "kind": "generated"
     },
     {
@@ -33884,7 +33915,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceRedeemEmailCodeRequestKt", "Dsl"],
-      "sha256": "14760ff528dd8630e1f8759de7541fca616554457f87aeeb193f772586121575",
+      "sha256": "3e93319370dc313d15622fd4ceafc66ca546d22a45903b2328374c78fb1696ed",
       "kind": "generated"
     },
     {
@@ -33908,7 +33939,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["IdentityServiceRefreshSessionRequestKt", "Dsl"],
-      "sha256": "c13106bfb8ee9189107667ce38f0375c9b5ed89783aed4594381a11428be6e23",
+      "sha256": "fb624a63e5de2dda5f893fa354f0dd21b3f7e6cf3e66e9bf51f402af9a84569f",
       "kind": "generated"
     },
     {
@@ -34132,7 +34163,15 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["InstallationClaimKt", "Dsl"],
-      "sha256": "a3d4de8ae785bcbf2fa8fdbc0a47e48a653a89af30dc5d0763a58c60778d500e",
+      "sha256": "c2b5d4535ae540dcf511b5009ae323557efd7f1a5529f1e7dadffb5bbe576188",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/generated/kotlin/io/github/arcforges/contracts/publicapi/v1/InstallationPossessionProofKt.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InstallationPossessionProofKt", "Dsl"],
+      "sha256": "b5bd387285a6253b9a4b55b4f9a6c7d035e31e1321a50773ec8aa61b70622da1",
       "kind": "generated"
     },
     {
@@ -34290,7 +34329,7 @@
       "package": "io.github.arcforges:contracts-proto",
       "access": "public",
       "types": ["NativeSessionKt", "Dsl"],
-      "sha256": "cae0863bd7f1ec0a760b218368bdf84fe573d1493670535820764fcda46309f5",
+      "sha256": "cb9d0a2968734a88e0577810e611fb9333af7292b1968c64f9048a78c7a1c49e",
       "kind": "generated"
     },
     {
@@ -36850,6 +36889,22 @@
       "kind": "generated"
     },
     {
+      "path": "src/public/kotlin/contracts-proto/src/main/kotlin/io/github/arcforges/contracts/InstallationPossessionTranscript.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["class", "InstallationPossession"],
+      "sha256": "74081b684d832223c381eb3569c4fd22c943330f8cc3d5054cbbf76733bf3ad2",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/kotlin/contracts-proto/src/main/kotlin/io/github/arcforges/contracts/InstallationPossessionValidation.kt",
+      "package": "io.github.arcforges:contracts-proto",
+      "access": "public",
+      "types": ["InstallationPossessionValidation"],
+      "sha256": "66581e2f44f617bcca87ff1294d2d2f878d58046a94022d23ec9ce9b6655b659",
+      "kind": "authored"
+    },
+    {
       "path": "src/public/ts/api-client/src/gen/http.ts",
       "package": "@arcforges/api-client",
       "access": "public",
@@ -37226,7 +37281,7 @@
       "package": "@arcforges/api-client",
       "access": "public",
       "types": ["NativeAuthorizeCallbackSuccess"],
-      "sha256": "1a2d159a247ee55ccf2a33f33a91a5e579510a3245a280ca2f62c4aabda80d1b",
+      "sha256": "3b522be6a288608f2ee43f4992bf4850b5069d7dab2560b6a46edd7c22e5dd05",
       "kind": "generated"
     },
     {
@@ -37234,7 +37289,7 @@
       "package": "@arcforges/api-client",
       "access": "public",
       "types": ["NativeAuthorizeRequest"],
-      "sha256": "f095020657f865a25472d02ff4abd6b6d3c4c4c4f7f7bf4dd22b1501a191880a",
+      "sha256": "61fcf39c7d0728ff41818e86121381aa0b2d7781e3fa9d7872c2e95c65b029f6",
       "kind": "generated"
     },
     {
@@ -37242,7 +37297,7 @@
       "package": "@arcforges/api-client",
       "access": "public",
       "types": ["NativeTokenRequest"],
-      "sha256": "30d1249ff27683cc5baefdc7dfe6e804b144b189fec16353f4897e3ac98aea5a",
+      "sha256": "29c3e21d6a1177abb9bf99fac5c11278137cd539c11187d45e4cea68867f6c62",
       "kind": "generated"
     },
     {
@@ -37256,7 +37311,7 @@
         "StrictJsonResult",
         "StrictJsonReader"
       ],
-      "sha256": "3420929cb0bff50243039db7d2a36b816b8b86eef3b74ca722aa9130705f1834",
+      "sha256": "a581769043ee3fbe231dcaccfa0502087bd44916663ed67d02c3276bb17526bc",
       "kind": "generated"
     },
     {
@@ -37334,7 +37389,7 @@
       "package": "@arcforges/contract-fixtures",
       "access": "public",
       "types": [],
-      "sha256": "5995d8cebb5c86008acd9f29576dc702ef11556f69a401e8851b5a88fe9206e1",
+      "sha256": "62b2c0c73fad9d29ff429bd1d795e2bac0cf90038d0099bb1035768b3a7a71d9",
       "kind": "generated"
     },
     {
@@ -37988,6 +38043,7 @@
       "access": "public",
       "types": [
         "InstallationClaim",
+        "InstallationPossessionProof",
         "AuthChallenge",
         "WebAuthnOptions",
         "WebAuthnCreation",
@@ -38169,7 +38225,7 @@
         "ProtectionProfile",
         "TrustLevel"
       ],
-      "sha256": "907f55131431ee878d3c726c13b1ae0df148c1b235d43f3c42d640d3ae17ec27",
+      "sha256": "54b769255bfa68882af00dc31dcf71c30a99428ce959f843273f640dc23e376e",
       "kind": "generated"
     },
     {
@@ -38433,7 +38489,15 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": [],
-      "sha256": "ffda60bb4858ff015a6de8e5fdea631933599ca10ea07a73ab7a73d7500a2a8b",
+      "sha256": "12c458f5d81022e04f57e2537231cdae5745ca6f47bd8a7d3a5ccf5cf5959e2e",
+      "kind": "generated"
+    },
+    {
+      "path": "src/public/ts/proto/src/installation-possession.ts",
+      "package": "@arcforges/proto",
+      "access": "public",
+      "types": ["InstallationInitialOperation"],
+      "sha256": "12a31db383b5b8db8a2e72587f2d5eadc099fee0a1b0ca01939d7bb45fa60264",
       "kind": "generated"
     },
     {
@@ -38457,7 +38521,7 @@
       "package": "@arcforges/proto",
       "access": "public",
       "types": ["ValidationContext", "Profile"],
-      "sha256": "5e915d40f372948d7e77fa73938a942c0ef6e2843b62e89c92a479f4257076c3",
+      "sha256": "29e1c0636f3bddf9fe246a3bbe0bd3a7c5efba9a2fcd73db81b8c757df621438",
       "kind": "generated"
     },
     {
@@ -38562,7 +38626,7 @@
     },
     {
       "path": "build.gradle.kts",
-      "sha256": "0054ea4e73db25459a90b8c94ae36706cf05c3e59e9dc466b90bd0725a8ab70d"
+      "sha256": "5b88abd83e38fb9faf63776e47a245204035c0769c6ad154474f2b7c89b8a95a"
     },
     {
       "path": "eng/contract-packages.json",
@@ -38662,7 +38726,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "da92cad6477f75f87a305b17d095bb45c70ce1e8aed4c24d96227a1fe4b4a9ad"
+      "sha256": "6ebfcaf05f535bd7cec017ca1e092da38ab0ab68408d17aefd58b6fb5f11e540"
     },
     {
       "path": "public/http/v1/browser.schema.json",
@@ -38678,7 +38742,7 @@
     },
     {
       "path": "public/http/v1/native-auth.schema.json",
-      "sha256": "e7807ae0ab6b4530d817941a922d7df90e4feb525c68d81a245a4c089ad3d296"
+      "sha256": "bd6907c8074201a20be7aeec92e530d4a446d9d9b510b32e92acfa3822308282"
     },
     {
       "path": "public/http/v1/panel.schema.json",
@@ -38702,11 +38766,11 @@
     },
     {
       "path": "public/proto/constraints.json",
-      "sha256": "58c8ad7d5ebd113ab66e138a21b1107cacc430f1334c1a19a2fa187d622ea234"
+      "sha256": "8a28fe1cf6b88b6a1cc60f3a9d1d65d5db1d41526e7d8291eb12eb7edb7320eb"
     },
     {
       "path": "public/proto/constraints/con-07-identity.json",
-      "sha256": "60ede66032755ffce344cef2d0161ed86cfb02655c5e7aad8a160fb604f84e8e"
+      "sha256": "cf52afd66aa9e48b14dfd7d8c5e34d01655c7a10ddb2d023f2685c4a23946dd4"
     },
     {
       "path": "public/proto/constraints/con-08-entitlement-commerce.json",
@@ -38922,7 +38986,7 @@
     },
     {
       "path": "src/public/kotlin/contracts-proto/build.gradle.kts",
-      "sha256": "f5d9d16b233c30d563cfe558cdf13c9ff6d34fc5f07d09d965ecd9739ae82298"
+      "sha256": "5198c89a44f696a9d2fe0f2068de90dc3e34333a6363240cf600284a0f821ae7"
     },
     {
       "path": "src/public/kotlin/contracts-proto/gradle.lockfile",

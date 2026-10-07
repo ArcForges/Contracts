@@ -989,10 +989,8 @@ class DocumentationAdmissionTests(unittest.TestCase):
         def slug(name):
             return "-" + re.sub(r"(?<!^)([A-Z])", r"-\1", name).lower()
 
-        self.assertEqual(documentation.PROFILE, current_path)
         self.assertEqual(resource_record["id"], "dokka-documentation-resources-r21")
         self.assertEqual(resource_record["supersedes"], previous_record["id"])
-        self.assertEqual(inventory["artifacts"], [resource_record["id"]])
         for path in (previous_path, current_path,
                      "eng/provenance/records/dokka-documentation-resources-r20.json",
                      "eng/provenance/records/dokka-documentation-resources-r21.json"):
@@ -1213,6 +1211,50 @@ class DocumentationAdmissionTests(unittest.TestCase):
             documentation.verify_components(policy, {})
 
 
+    def test_con34_dokka_r22_preserves_history_and_exact_produced_delta(self):
+        root = Path(__file__).resolve().parents[2]
+        previous_path = "eng/provenance/artifact-profiles/dokka-2-2-0-r21.json"
+        current_path = "eng/provenance/artifact-profiles/dokka-2-2-0-r22.json"
+        previous = json.loads((root / previous_path).read_bytes())
+        current = json.loads((root / current_path).read_bytes())
+        record = json.loads((root / "eng/provenance/records/dokka-documentation-resources-r22.json").read_bytes())
+        inventory = json.loads((root / "eng/provenance/files.json").read_bytes())
+        self.assertEqual(documentation.PROFILE, current_path)
+        self.assertEqual(inventory["artifacts"], [record["id"]])
+        self.assertEqual(record["id"], "dokka-documentation-resources-r22")
+        self.assertEqual(record["supersedes"], "dokka-documentation-resources-r21")
+        for path in (previous_path, current_path,
+                     "eng/provenance/records/dokka-documentation-resources-r21.json",
+                     "eng/provenance/records/dokka-documentation-resources-r22.json"):
+            self.assertIn(path, inventory["firstParty"])
+        profile_hash = documentation.sha((root / current_path).read_bytes().replace(b"\r\n", b"\n"))
+        self.assertEqual(len(record["artifactTargets"]), 3)
+        self.assertTrue(all(t["profile"] == current_path and t["sha256"] == profile_hash for t in record["artifactTargets"]))
+        for section in ("source", "fixed", "excluded", "components", "fontTransform"):
+            self.assertEqual(current[section], previous[section], section)
+        expected = {'inputs': (141, '5fa9e83da09dad6b30bf7582968ce7abc365b245e44a4a5f406f234250c8df47', 'd395cc52dd5ab68f58be1a23cf3dc2bb042f6f006db9357e2b3c906e87c7ac9e', 23, '141f0d08fe72fde7a203f6bad378695127059af2293b4a72441d65cd0a913a5c', 'f6d83bb8e3131f40adca8c5fcdc224c5cf0b757d78011ded1a2bf9258bdd1f53', 2810), 'contracts-proto': (198, '6f0c50ceae10f6634ec0dc19a66386eae96ea603ca9f61f24e1bef966b9fc648', '49291378ab73197609aeafa32cd6612bf6d93589d578b7e0cdcd21e8dd462af2', 34, '778445c0646c2a47e3e04a0aebc85328aaafca9baa39758e0cec44f9393576a0', 'be1f0f70d65ea8e93ab0158e5ad137a0cc2450601335b6778754781c67c3bbd4', 58262), 'contracts-connect-client': (0, '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', 0, '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', 519), 'contract-fixtures': (0, '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', 0, '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b', 8)}
+        def fingerprint(rows):
+            return documentation.sha(("\n".join(sorted(rows)) + "\n").encode("utf-8"))
+        def check_delta(before, after, label):
+            self.assertFalse(set(before) - set(after), label)
+            added = set(after) - set(before)
+            changed = {p for p in before if before[p] != after[p]}
+            observed = (len(added), fingerprint(added), fingerprint([p+"\t"+after[p] for p in added]),
+                        len(changed), fingerprint(changed),
+                        fingerprint([p+"\t"+before[p]+"\t"+after[p] for p in changed]), len(after))
+            self.assertEqual(observed, expected[label], label)
+        check_delta(previous["inputs"], current["inputs"], "inputs")
+        for module in documentation.MODULES:
+            old = previous["modules"][module]
+            new = current["modules"][module]
+            check_delta(old["pages"], new["pages"], module)
+            for path, values in old["publicApi"].items():
+                self.assertTrue(set(values) <= set(new["publicApi"][path]), path)
+            actual = {p: sorted(set(v) - set(old["publicApi"].get(p, []))) for p,v in new["publicApi"].items()
+                      if set(v) - set(old["publicApi"].get(p, []))}
+            self.assertEqual(actual, {'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-auth-challenge/index.html': ['anchor-label="getInstallationKeyVersion"', 'anchor-label="getInstallationProofBinding"', 'anchor-label="getInstallationProofChallenge"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-identity-service-complete-authentication-request/index.html': ['anchor-label="getInstallationProof"', 'anchor-label="hasInstallationProof"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-identity-service-complete-enrollment-request/index.html': ['anchor-label="getInstallationProof"', 'anchor-label="hasInstallationProof"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-identity-service-redeem-email-code-request/index.html': ['anchor-label="getInstallationProof"', 'anchor-label="hasInstallationProof"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-identity-service-refresh-session-request/index.html': ['anchor-label="getInstallationProof"', 'anchor-label="hasInstallationProof"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-installation-claim/index.html': ['anchor-label="getKeyVersion"', 'anchor-label="getPublicKey"', 'anchor-label="hasKeyVersion"', 'anchor-label="hasPublicKey"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-native-session/index.html': ['anchor-label="getInstallationKeyVersion"', 'anchor-label="getInstallationProofContext"'], 'contracts-proto/io.github.arcforges.contracts.publicapi.v1/-installation-possession-proof/index.html': ['InstallationPossessionProof', 'anchor-label="getKeyVersion"', 'anchor-label="getSignature"', 'anchor-label="hasKeyVersion"', 'anchor-label="hasSignature"', 'anchor-label="parser"'], 'contracts-proto/io.github.arcforges.contracts/-installation-possession/index.html': ['InstallationPossession', 'tryFlowBindingHash', 'tryInitialSigningData', 'tryRefreshContextHash', 'tryRefreshSigningData'], 'contracts-proto/io.github.arcforges.contracts/-installation-possession-validation/index.html': ['InstallationPossessionValidation', 'isChallengeAdjunct', 'isInstallationAdjunct', 'isProof', 'isPublicKey', 'isSessionAdjunct'], 'contracts-proto/io.github.arcforges.contracts/-installation-initial-operation/index.html': ['CompleteAuthentication', 'CompleteEnrollment', 'InstallationInitialOperation', 'NativeToken', 'RedeemEmailCode']} if module == "contracts-proto" else {})
+
+
 class DocumentationArchiveTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -1240,6 +1282,9 @@ class DocumentationArchiveTests(unittest.TestCase):
                 change(docs)
                 with self.assertRaises(ValueError):
                     documentation.verify(docs, "contract-fixtures", self.manifest, archive)
+
+
+
 
 
 if __name__ == "__main__":

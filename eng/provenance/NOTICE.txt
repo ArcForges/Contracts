@@ -31,8 +31,8 @@ Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
 Selected ArcForges contract bindings are generated from Apache-2.0 schemas using Grpc.Tools 2.84.0, protoc-gen-es 2.15.0 and Connect-Kotlin 0.9.0. Shape validators, domain identity adapters and fixture exports use Apache-2.0 repository tooling. Historical protobuf BSD-3-Clause and applicable generator Apache-2.0 attributions are retained. Build tools are not bundled in client packages. Native-grpc-only Android generation remains retired.
 
-contract-bindings-con-31-r3
-Source: https://github.com/ArcForges/Contracts @ ec4dd6b5afdac45124f531871545ff1779672fab
+contract-bindings-con-34-r1
+Source: https://github.com/ArcForges/Contracts @ 93af48952b2dcae45e82a107772cc9742267e4ff
 Material licence: Apache-2.0
 Notice scope: packages
 Copyright 2026 ArcForges contributors.
@@ -40,7 +40,7 @@ Copyright 2008 Google Inc. All rights reserved.
 Copyright 2015, 2019, 2020 gRPC authors.
 Copyright 2021-2026 Buf Technologies, Inc.
 Copyright 2022-2026 The Connect Authors.
-Generated Contracts source remains Apache-2.0. CON.25 adds only the authorized public connector contracts, the local call-context record, the af-segment simulation records and generated C#, TypeScript, Kotlin and JSON-shape bindings; it adds no runtime behavior and no new generator or third-party package.
+Generated Contracts source remains Apache-2.0. CON.34 adds public installation possession adjuncts and canonical C#/TypeScript/Kotlin helpers using unchanged pinned generators. Original protobuf/gRPC/protobuf-es/connect-kotlin notices and applicable runtime legal closure remain retained.
 
 dokka-array-buffer-byte-length-licence-r1
 Source: https://github.com/inspect-js/array-buffer-byte-length @ 59deea89141b4aeeb64122e5e15efda485942c00
@@ -169,7 +169,7 @@ Copyright (C) 2015 Jordan Harband
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 Preserve the complete upstream text in the source tree and every Maven documentation companion archive NOTICE. No third-party implementation licence is changed.
 
-dokka-documentation-resources-r21
+dokka-documentation-resources-r22
 Source: https://github.com/Kotlin/dokka @ 656ca46fbbd676d872b0bd383042fc12ae7adcdd
 Material licence: Apache-2.0 AND MIT
 Notice scope: documentation
