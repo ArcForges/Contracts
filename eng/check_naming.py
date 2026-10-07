@@ -46,6 +46,21 @@ def no_duplicate_keys(pairs):
 def occurrences(data, names):
     """Scan raw bytes, including binary/UTF-16 resources, without discarding errors."""
     admitted = []
+    # Exact POSIX basenames for the already-admitted native ABI identity.
+    # Match encoded ASCII delimiters directly: malformed or non-ASCII neighbours
+    # must never disappear through a permissive Unicode decoder.
+    for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
+        width = 1 if encoding == 'utf-8' else 2
+        delimiters = {value.encode(encoding) for value in
+                      "\x00 \t\r\n\v\f\"'/\\=([{<,:;)]}>"}
+        for extension in ('.so', '.dylib'):
+            filename = ('lib' + 'Arc' + 'ImageNative' + extension).encode(encoding)
+            for found in re.finditer(re.escape(filename), data):
+                start, end = found.span()
+                before = data[max(0, start - width):start]
+                after = data[end:end + width]
+                if (start == 0 or before in delimiters) and (end == len(data) or after in delimiters):
+                    admitted.append((start, end))
     for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
         for token in ('Arc' + 'ImageNative', 'arc' + 'image-abi'):
             encoded = token.encode(encoding)

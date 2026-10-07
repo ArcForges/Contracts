@@ -34,6 +34,44 @@ class NamingPolicyTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         verify_naming(changed, row)
 
+    def test_exact_posix_native_filenames_preserve_alias_and_basename_boundaries(self):
+        native = 'Arc' + 'ImageNative'
+        names = ['Arc' + 'Image']
+        for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
+            for extension in ('.so', '.dylib'):
+                filename = 'lib' + native + extension
+                for wrapped in (filename, 'native/' + filename, '"' + filename + '"',
+                                '(' + filename + ')', '\x00' + filename + '\x00'):
+                    with self.subTest(encoding=encoding, value=wrapped):
+                        self.assertEqual(list(occurrences(wrapped.encode(encoding), names)), [])
+                for wrapped in ('prefix' + filename, '_' + filename, '.' + filename, '-' + filename,
+                                filename + '.evil', filename + 'Extra', filename + '_suffix',
+                                filename + '-suffix', filename.swapcase(), 'λ' + filename,
+                                '\u0301' + filename, '𝕒' + filename, filename + 'λ',
+                                filename + '\u0301', filename + '𝕒'):
+                    with self.subTest(encoding=encoding, value=wrapped):
+                        self.assertTrue(list(occurrences(wrapped.encode(encoding), names)))
+            self.assertTrue(list(occurrences(('lib' + native + '.a').encode(encoding), names)))
+            self.assertTrue(list(occurrences(('lib' + native + '.so.1').encode(encoding), names)))
+            self.assertTrue(list(occurrences((native.removesuffix('Native')).encode(encoding), names)))
+            filename = ('lib' + native + '.so').encode(encoding)
+            # Invalid bytes and partial UTF-16 code units must not become EOF.
+            for malformed in (b'\xff', b'\x80', b'\x00') if encoding != 'utf-8' else (b'\xff', b'\x80'):
+                with self.subTest(encoding=encoding, malformed=malformed):
+                    self.assertTrue(list(occurrences(malformed + filename, names)))
+                    self.assertTrue(list(occurrences(filename + malformed, names)))
+
+    def test_real_git_posix_library_paths_are_scanned_without_product_alias_waivers(self):
+        native = 'Arc' + 'ImageNative'
+        library = self.write('native/lib' + native + '.so', b'Current native ABI fixture.')
+        self.git('add', library.relative_to(self.root).as_posix())
+        self.assertEqual(self.scan()['status'], 'pass')
+        library.unlink()
+        self.git('rm', '--cached', library.relative_to(self.root).as_posix())
+        self.write('native/lib' + native + '.so.evil', b'Current native ABI fixture.')
+        self.assertTrue(any(f['kind'] == 'forbidden path' for f in self.scan()['findings']))
+
+
     def test_exact_technical_identities_do_not_admit_product_alias_variants(self):
         names = ['Arc' + 'Image']
         for encoding in ('utf-8', 'utf-16-le', 'utf-16-be'):
