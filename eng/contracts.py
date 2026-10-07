@@ -206,6 +206,8 @@ def generate_export_barrel(row: dict, output: Path, check: bool = False) -> None
         barrel += 'export * from "./encoded-body.js";\n'
     if proto_services(row):
         barrel += 'export * from "./services/gen/catalog.js";\n'
+    if row['id'] == '@arcforges/operator-client' and row.get('jsonSchemas'):
+        barrel += 'export * from "./gen/http.js";\n'
     index_file = ROOT / row["sourceRoot"] / "src/index.ts"
     if check:
         if not index_file.is_file() or index_file.read_text(encoding="utf-8") != barrel:

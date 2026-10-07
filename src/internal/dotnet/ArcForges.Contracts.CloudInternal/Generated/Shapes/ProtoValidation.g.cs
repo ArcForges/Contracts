@@ -727,6 +727,1234 @@ public static class ContractShapeValidation
         }
         finally { context.Exit(value); }
     }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.AuthenticationCompletionCapture.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCompletionCapture? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCompletionCapture? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.UserId is null) return false;
+        if (!Check(value.UserId, context)) return false;
+        if (value.UserRevision is null) return false;
+        if (!Check(value.UserRevision, context)) return false;
+        if (value.UserRevision.Value <= 0) return false;
+        if (value.Credential is null) return false;
+        if (!Check(value.Credential, context)) return false;
+        if (value.DeviceId is not null)
+        {
+            if (!Check(value.DeviceId, context)) return false;
+        }
+        if (value.DeviceRevision is not null)
+        {
+            if (!Check(value.DeviceRevision, context)) return false;
+            if (value.DeviceRevision.Value <= 0) return false;
+        }
+        if (value.InstallationId is not null)
+        {
+            if (!Check(value.InstallationId, context)) return false;
+        }
+        if (value.InstallationRevision is not null)
+        {
+            if (!Check(value.InstallationRevision, context)) return false;
+            if (value.InstallationRevision.Value <= 0) return false;
+        }
+        if (value.VerifiedAt is null) return false;
+        if (!Check(value.VerifiedAt, context)) return false;
+        if (!value.HasProofEvidenceSha256) return false;
+        if (value.HasProofEvidenceSha256)
+        {
+            if (value.ProofEvidenceSha256.Length != 32) return false;
+        }
+        if (value.OwnerCommandId is null) return false;
+        if (!Check(value.OwnerCommandId, context)) return false;
+        if (!value.HasAuthEpoch) return false;
+        if (value.HasAuthEpoch)
+        {
+            if (value.AuthEpoch < 1L) return false;
+            if (value.AuthEpoch > 9223372036854775807L) return false;
+        }
+        if (!value.HasRecoveryGeneration) return false;
+        if (value.HasRecoveryGeneration)
+        {
+            if (value.RecoveryGeneration < 0L) return false;
+            if (value.RecoveryGeneration > 9223372036854775807L) return false;
+        }
+        if (value.RecoveryRevision is null) return false;
+        if (!Check(value.RecoveryRevision, context)) return false;
+        if (value.RecoveryRevision.Value <= 0) return false;
+        if (!AuthenticationCompletion(value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.AuthenticationCredentialReference.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCredentialReference? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCredentialReference? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.IdentityId is null) return false;
+        if (!Check(value.IdentityId, context)) return false;
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        if (value.Revision.Value <= 0) return false;
+        if (!value.HasProviderKey) return false;
+        if (value.HasProviderKey)
+        {
+            if (!ValidUnicode(value.ProviderKey)) return false;
+            if (ScalarLength(value.ProviderKey) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderKey) > 128) return false;
+            if (!Matches(value.ProviderKey, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
+        if (!value.HasSubjectSha256) return false;
+        if (value.HasSubjectSha256)
+        {
+            if (value.SubjectSha256.Length != 32) return false;
+        }
+        if (value.HasPublicKeySha256)
+        {
+            if (value.PublicKeySha256.Length != 32) return false;
+        }
+        if (value.HasUserHandleSha256)
+        {
+            if (value.UserHandleSha256.Length != 32) return false;
+        }
+        if (((int)value.Method == 1) != (value.HasPublicKeySha256 && value.HasUserHandleSha256) || value.HasPublicKeySha256 != value.HasUserHandleSha256 || value.Revision.Value <= 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.AuthenticationFlowPayload.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationFlowPayload? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationFlowPayload? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (value.SchemaVersion != 1) return false;
+        }
+        if (value.FlowId is null) return false;
+        if (!Check(value.FlowId, context)) return false;
+        if (!value.HasFlowKind) return false;
+        if (value.HasFlowKind)
+        {
+            if ((int)value.FlowKind != 1 && (int)value.FlowKind != 2 && (int)value.FlowKind != 3 && (int)value.FlowKind != 4 && (int)value.FlowKind != 5 && (int)value.FlowKind != 6 && (int)value.FlowKind != 7 && (int)value.FlowKind != 8 && (int)value.FlowKind != 9) return false;
+        }
+        if (value.RealmId is null) return false;
+        if (!Check(value.RealmId, context)) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
+        if (!value.HasProviderKey) return false;
+        if (value.HasProviderKey)
+        {
+            if (!ValidUnicode(value.ProviderKey)) return false;
+            if (ScalarLength(value.ProviderKey) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderKey) > 128) return false;
+            if (!Matches(value.ProviderKey, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasEnvironment) return false;
+        if (value.HasEnvironment)
+        {
+            if (!ValidUnicode(value.Environment)) return false;
+            if (ScalarLength(value.Environment) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Environment) > 64) return false;
+            if (!Matches(value.Environment, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPolicyVersion) return false;
+        if (value.HasPolicyVersion)
+        {
+            if (!ValidUnicode(value.PolicyVersion)) return false;
+            if (ScalarLength(value.PolicyVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.PolicyVersion) > 128) return false;
+            if (!Matches(value.PolicyVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPolicySha256) return false;
+        if (value.HasPolicySha256)
+        {
+            if (value.PolicySha256.Length != 32) return false;
+        }
+        if (!value.HasAuthEpoch) return false;
+        if (value.HasAuthEpoch)
+        {
+            if (value.AuthEpoch < 1L) return false;
+            if (value.AuthEpoch > 9223372036854775807L) return false;
+        }
+        if (!value.HasRecoveryGeneration) return false;
+        if (value.HasRecoveryGeneration)
+        {
+            if (value.RecoveryGeneration < 0L) return false;
+            if (value.RecoveryGeneration > 9223372036854775807L) return false;
+        }
+        if (value.RecoveryRevision is null) return false;
+        if (!Check(value.RecoveryRevision, context)) return false;
+        if (value.RecoveryRevision.Value <= 0) return false;
+        if (value.CreatedAt is null) return false;
+        if (!Check(value.CreatedAt, context)) return false;
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (value.HasOrigin)
+        {
+            if (!ValidUnicode(value.Origin)) return false;
+            if (ScalarLength(value.Origin) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Origin) > 2048) return false;
+            if (!Matches(value.Origin, "^https://[^\\s]+$")) return false;
+        }
+        if (value.HasPreauthBindingSha256)
+        {
+            if (value.PreauthBindingSha256.Length != 32) return false;
+        }
+        if (value.HasCsrfSha256)
+        {
+            if (value.CsrfSha256.Length != 32) return false;
+        }
+        if (value.UserId is not null)
+        {
+            if (!Check(value.UserId, context)) return false;
+        }
+        if (value.SessionId is not null)
+        {
+            if (!Check(value.SessionId, context)) return false;
+        }
+        if (value.SessionRevision is not null)
+        {
+            if (!Check(value.SessionRevision, context)) return false;
+            if (value.SessionRevision.Value <= 0) return false;
+        }
+        if (value.DeviceId is not null)
+        {
+            if (!Check(value.DeviceId, context)) return false;
+        }
+        if (value.InstallationId is not null)
+        {
+            if (!Check(value.InstallationId, context)) return false;
+        }
+        if (value.HasProductId)
+        {
+            if (!ValidUnicode(value.ProductId)) return false;
+            if (value.ProductId != "arcscope" && value.ProductId != "companion") return false;
+        }
+        if (value.HasOperationClass)
+        {
+            if (!ValidUnicode(value.OperationClass)) return false;
+            if (ScalarLength(value.OperationClass) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.OperationClass) > 128) return false;
+            if (!Matches(value.OperationClass, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (value.HasTargetPayloadSha256)
+        {
+            if (value.TargetPayloadSha256.Length != 32) return false;
+        }
+        if (value.InitialCredentials.Count < 0) return false;
+        if (value.InitialCredentials.Count > 64) return false;
+        foreach (var item in value.InitialCredentials)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.NativeBinding is not null)
+        {
+            if (!Check(value.NativeBinding, context)) return false;
+        }
+        if (value.MethodProof is null) return false;
+        if (!Check(value.MethodProof, context)) return false;
+        if (value.Completion is not null)
+        {
+            if (!Check(value.Completion, context)) return false;
+        }
+        if (value.UserRevision is not null)
+        {
+            if (!Check(value.UserRevision, context)) return false;
+            if (value.UserRevision.Value <= 0) return false;
+        }
+        if (value.DeviceRevision is not null)
+        {
+            if (!Check(value.DeviceRevision, context)) return false;
+            if (value.DeviceRevision.Value <= 0) return false;
+        }
+        if (value.InstallationRevision is not null)
+        {
+            if (!Check(value.InstallationRevision, context)) return false;
+            if (value.InstallationRevision.Value <= 0) return false;
+        }
+        if (value.HasInstallationPublicKeySha256)
+        {
+            if (value.InstallationPublicKeySha256.Length != 32) return false;
+        }
+        if (value.HasInstallationKeyVersion)
+        {
+            if (value.InstallationKeyVersion < 1UL) return false;
+            if (value.InstallationKeyVersion > 9223372036854775807UL) return false;
+        }
+        if (value.HasInstallationProofChallenge)
+        {
+            if (value.InstallationProofChallenge.Length != 32) return false;
+        }
+        if (value.HasInstallationProofBinding)
+        {
+            if (value.InstallationProofBinding.Length != 32) return false;
+        }
+        if (value.HasInstallationPublicKey)
+        {
+            if (value.InstallationPublicKey.Length != 91) return false;
+        }
+        if (value.RecoveryAuthorization is not null)
+        {
+            if (!Check(value.RecoveryAuthorization, context)) return false;
+        }
+        if (value.CalculateSize() > 131072 || !AuthenticationFlow(value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.AuthenticationMethodProofBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationMethodProofBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationMethodProofBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.ProofCase == 1)
+        {
+            if (!Check(value.Passkey, context)) return false;
+        }
+        if ((int)value.ProofCase == 2)
+        {
+            if (!Check(value.Email, context)) return false;
+        }
+        if ((int)value.ProofCase == 3)
+        {
+            if (!Check(value.Password, context)) return false;
+        }
+        if ((int)value.ProofCase == 4)
+        {
+            if (!Check(value.Oidc, context)) return false;
+        }
+        if ((int)value.ProofCase == 5)
+        {
+            if (!Check(value.Enrollment, context)) return false;
+        }
+        if ((int)value.ProofCase == 6)
+        {
+            if (!Check(value.PasswordDiscovery, context)) return false;
+        }
+        if ((int)value.ProofCase == 0) return false;
+        if (value.Password is not null && (int)value.Password.Credential.Method != 3) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.CustomerProviderAuthenticationEvidence.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.CustomerProviderAuthenticationEvidence? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.CustomerProviderAuthenticationEvidence? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (value.SchemaVersion != 1) return false;
+        }
+        if (value.EvidenceId is null) return false;
+        if (!Check(value.EvidenceId, context)) return false;
+        if (value.FlowId is null) return false;
+        if (!Check(value.FlowId, context)) return false;
+        if (value.RealmId is null) return false;
+        if (!Check(value.RealmId, context)) return false;
+        if (!value.HasProviderKey) return false;
+        if (value.HasProviderKey)
+        {
+            if (!ValidUnicode(value.ProviderKey)) return false;
+            if (ScalarLength(value.ProviderKey) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderKey) > 128) return false;
+            if (!Matches(value.ProviderKey, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasEnvironment) return false;
+        if (value.HasEnvironment)
+        {
+            if (!ValidUnicode(value.Environment)) return false;
+            if (ScalarLength(value.Environment) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Environment) > 64) return false;
+            if (!Matches(value.Environment, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2 && (int)value.Purpose != 3 && (int)value.Purpose != 4 && (int)value.Purpose != 5) return false;
+        }
+        if (!value.HasIssuer) return false;
+        if (value.HasIssuer)
+        {
+            if (!ValidUnicode(value.Issuer)) return false;
+            if (ScalarLength(value.Issuer) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Issuer) > 2048) return false;
+            if (!Matches(value.Issuer, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasClientId) return false;
+        if (value.HasClientId)
+        {
+            if (!ValidUnicode(value.ClientId)) return false;
+            if (ScalarLength(value.ClientId) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ClientId) > 256) return false;
+        }
+        if (!value.HasRedirectUri) return false;
+        if (value.HasRedirectUri)
+        {
+            if (!ValidUnicode(value.RedirectUri)) return false;
+            if (ScalarLength(value.RedirectUri) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.RedirectUri) > 2048) return false;
+        }
+        if (!value.HasCallbackOrigin) return false;
+        if (value.HasCallbackOrigin)
+        {
+            if (!ValidUnicode(value.CallbackOrigin)) return false;
+            if (ScalarLength(value.CallbackOrigin) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.CallbackOrigin) > 2048) return false;
+            if (!Matches(value.CallbackOrigin, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasSubject) return false;
+        if (value.HasSubject)
+        {
+            if (!ValidUnicode(value.Subject)) return false;
+            if (ScalarLength(value.Subject) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Subject) > 256) return false;
+            if (!Matches(value.Subject, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (!value.HasAssertionSha256) return false;
+        if (value.HasAssertionSha256)
+        {
+            if (value.AssertionSha256.Length != 32) return false;
+        }
+        if (!value.HasSigningKeyId) return false;
+        if (value.HasSigningKeyId)
+        {
+            if (!ValidUnicode(value.SigningKeyId)) return false;
+            if (ScalarLength(value.SigningKeyId) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.SigningKeyId) > 128) return false;
+            if (!Matches(value.SigningKeyId, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (!value.HasMetadataSha256) return false;
+        if (value.HasMetadataSha256)
+        {
+            if (value.MetadataSha256.Length != 32) return false;
+        }
+        if (!value.HasJwksSha256) return false;
+        if (value.HasJwksSha256)
+        {
+            if (value.JwksSha256.Length != 32) return false;
+        }
+        if (value.HasAuthenticatedAtSeconds)
+        {
+            if (value.AuthenticatedAtSeconds < 0L) return false;
+            if (value.AuthenticatedAtSeconds > 253402300799L) return false;
+        }
+        if (!value.HasTokenExpiresAtSeconds) return false;
+        if (value.HasTokenExpiresAtSeconds)
+        {
+            if (value.TokenExpiresAtSeconds < 1L) return false;
+            if (value.TokenExpiresAtSeconds > 253402300799L) return false;
+        }
+        if (!value.HasProviderProfileVersion) return false;
+        if (value.HasProviderProfileVersion)
+        {
+            if (!ValidUnicode(value.ProviderProfileVersion)) return false;
+            if (ScalarLength(value.ProviderProfileVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderProfileVersion) > 128) return false;
+            if (!Matches(value.ProviderProfileVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasProviderProfileSha256) return false;
+        if (value.HasProviderProfileSha256)
+        {
+            if (value.ProviderProfileSha256.Length != 32) return false;
+        }
+        if (value.ObservedAt is null) return false;
+        if (!Check(value.ObservedAt, context)) return false;
+        if (!value.HasAuthEpoch) return false;
+        if (value.HasAuthEpoch)
+        {
+            if (value.AuthEpoch < 1L) return false;
+            if (value.AuthEpoch > 9223372036854775807L) return false;
+        }
+        if (!value.HasRecoveryGeneration) return false;
+        if (value.HasRecoveryGeneration)
+        {
+            if (value.RecoveryGeneration < 0L) return false;
+            if (value.RecoveryGeneration > 9223372036854775807L) return false;
+        }
+        if (value.RecoveryRevision is null) return false;
+        if (!Check(value.RecoveryRevision, context)) return false;
+        if (value.RecoveryRevision.Value <= 0) return false;
+        if (value.CompletedFlowRevision is null) return false;
+        if (!Check(value.CompletedFlowRevision, context)) return false;
+        if (value.CompletedFlowRevision.Value <= 0) return false;
+        if (value.CalculateSize() > 65536 || value.RecoveryRevision.Value <= 0 || value.CompletedFlowRevision.Value <= 0 || value.TokenExpiresAtSeconds <= (value.HasAuthenticatedAtSeconds ? value.AuthenticatedAtSeconds : 0) || value.ObservedAt.UnixSeconds >= value.TokenExpiresAtSeconds || value.HasAuthenticatedAtSeconds && value.AuthenticatedAtSeconds > value.ObservedAt.UnixSeconds) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.EmailEnrollmentBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EmailEnrollmentBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EmailEnrollmentBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasProofSecretHash) return false;
+        if (value.HasProofSecretHash)
+        {
+            if (value.ProofSecretHash.Length != 32) return false;
+        }
+        if (value.CustodyReference is null) return false;
+        if (!Check(value.CustodyReference, context)) return false;
+        if (value.DeliveryId is null) return false;
+        if (!Check(value.DeliveryId, context)) return false;
+        if (!value.HasRecipientHash) return false;
+        if (value.HasRecipientHash)
+        {
+            if (value.RecipientHash.Length != 32) return false;
+        }
+        if (!value.HasMaterialKeyVersion) return false;
+        if (value.HasMaterialKeyVersion)
+        {
+            if (!ValidUnicode(value.MaterialKeyVersion)) return false;
+            if (ScalarLength(value.MaterialKeyVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.MaterialKeyVersion) > 128) return false;
+            if (!Matches(value.MaterialKeyVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.EmailFlowBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EmailFlowBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EmailFlowBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasProofSecretHash) return false;
+        if (value.HasProofSecretHash)
+        {
+            if (value.ProofSecretHash.Length != 32) return false;
+        }
+        if (value.CustodyReference is null) return false;
+        if (!Check(value.CustodyReference, context)) return false;
+        if (value.DeliveryId is null) return false;
+        if (!Check(value.DeliveryId, context)) return false;
+        if (value.AddressIdentityRevision is not null)
+        {
+            if (!Check(value.AddressIdentityRevision, context)) return false;
+            if (value.AddressIdentityRevision.Value <= 0) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.EnrollmentMethodBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EnrollmentMethodBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.EnrollmentMethodBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if ((int)value.RegistrationCase == 1)
+        {
+            if (!Check(value.Passkey, context)) return false;
+        }
+        if ((int)value.RegistrationCase == 2)
+        {
+            if (!Check(value.Email, context)) return false;
+        }
+        if ((int)value.RegistrationCase == 3)
+        {
+            if (!Check(value.Password, context)) return false;
+        }
+        if ((int)value.RegistrationCase == 4)
+        {
+            if (!Check(value.Oidc, context)) return false;
+        }
+        if ((int)value.RegistrationCase == 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.NativeAuthenticationFlowBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.NativeAuthenticationFlowBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.NativeAuthenticationFlowBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasClientId) return false;
+        if (value.HasClientId)
+        {
+            if (!ValidUnicode(value.ClientId)) return false;
+            if (ScalarLength(value.ClientId) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ClientId) > 256) return false;
+        }
+        if (!value.HasRedirectUri) return false;
+        if (value.HasRedirectUri)
+        {
+            if (!ValidUnicode(value.RedirectUri)) return false;
+            if (ScalarLength(value.RedirectUri) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.RedirectUri) > 2048) return false;
+        }
+        if (!value.HasStateSha256) return false;
+        if (value.HasStateSha256)
+        {
+            if (value.StateSha256.Length != 32) return false;
+        }
+        if (!value.HasPkceChallenge) return false;
+        if (value.HasPkceChallenge)
+        {
+            if (!ValidUnicode(value.PkceChallenge)) return false;
+            if (ScalarLength(value.PkceChallenge) < 43) return false;
+            if (ScalarLength(value.PkceChallenge) > 43) return false;
+            if (!Matches(value.PkceChallenge, "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$")) return false;
+        }
+        if (value.NativeFlowRevision is null) return false;
+        if (!Check(value.NativeFlowRevision, context)) return false;
+        if (value.NativeFlowRevision.Value <= 0) return false;
+        if (value.NativeFlowRevision.Value <= 0) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.OidcFlowBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OidcFlowBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OidcFlowBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.ProviderFlowId is null) return false;
+        if (!Check(value.ProviderFlowId, context)) return false;
+        if (!value.HasConfiguredIssuer) return false;
+        if (value.HasConfiguredIssuer)
+        {
+            if (!ValidUnicode(value.ConfiguredIssuer)) return false;
+            if (ScalarLength(value.ConfiguredIssuer) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ConfiguredIssuer) > 2048) return false;
+            if (!Matches(value.ConfiguredIssuer, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasConfiguredClientId) return false;
+        if (value.HasConfiguredClientId)
+        {
+            if (!ValidUnicode(value.ConfiguredClientId)) return false;
+            if (ScalarLength(value.ConfiguredClientId) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ConfiguredClientId) > 256) return false;
+        }
+        if (!value.HasNonceSha256) return false;
+        if (value.HasNonceSha256)
+        {
+            if (value.NonceSha256.Length != 32) return false;
+        }
+        if (!value.HasProviderPolicySha256) return false;
+        if (value.HasProviderPolicySha256)
+        {
+            if (value.ProviderPolicySha256.Length != 32) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.OperatorAuthenticationEvidence.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorAuthenticationEvidence? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorAuthenticationEvidence? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (value.SchemaVersion != 1) return false;
+        }
+        if (value.EvidenceId is null) return false;
+        if (!Check(value.EvidenceId, context)) return false;
+        if (value.FlowId is null) return false;
+        if (!Check(value.FlowId, context)) return false;
+        if (value.RealmId is null) return false;
+        if (!Check(value.RealmId, context)) return false;
+        if (!value.HasProviderKey) return false;
+        if (value.HasProviderKey)
+        {
+            if (!ValidUnicode(value.ProviderKey)) return false;
+            if (ScalarLength(value.ProviderKey) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderKey) > 128) return false;
+            if (!Matches(value.ProviderKey, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasEnvironment) return false;
+        if (value.HasEnvironment)
+        {
+            if (!ValidUnicode(value.Environment)) return false;
+            if (ScalarLength(value.Environment) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Environment) > 64) return false;
+            if (!Matches(value.Environment, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPurpose) return false;
+        if (value.HasPurpose)
+        {
+            if ((int)value.Purpose != 1 && (int)value.Purpose != 2) return false;
+        }
+        if (!value.HasTenantId) return false;
+        if (value.HasTenantId)
+        {
+            if (!ValidUnicode(value.TenantId)) return false;
+            if (ScalarLength(value.TenantId) > 36) return false;
+            if (!Matches(value.TenantId, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
+        }
+        if (!value.HasClientId) return false;
+        if (value.HasClientId)
+        {
+            if (!ValidUnicode(value.ClientId)) return false;
+            if (ScalarLength(value.ClientId) < 1) return false;
+            if (ScalarLength(value.ClientId) > 36) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ClientId) > 256) return false;
+            if (!Matches(value.ClientId, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
+        }
+        if (!value.HasIssuer) return false;
+        if (value.HasIssuer)
+        {
+            if (!ValidUnicode(value.Issuer)) return false;
+            if (ScalarLength(value.Issuer) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Issuer) > 2048) return false;
+            if (!Matches(value.Issuer, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasOrigin) return false;
+        if (value.HasOrigin)
+        {
+            if (!ValidUnicode(value.Origin)) return false;
+            if (ScalarLength(value.Origin) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.Origin) > 2048) return false;
+            if (!Matches(value.Origin, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasRedirectUri) return false;
+        if (value.HasRedirectUri)
+        {
+            if (!ValidUnicode(value.RedirectUri)) return false;
+            if (ScalarLength(value.RedirectUri) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.RedirectUri) > 2048) return false;
+        }
+        if (!value.HasObjectId) return false;
+        if (value.HasObjectId)
+        {
+            if (!ValidUnicode(value.ObjectId)) return false;
+            if (ScalarLength(value.ObjectId) > 36) return false;
+            if (!Matches(value.ObjectId, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
+        }
+        if (!value.HasPairwiseSubject) return false;
+        if (value.HasPairwiseSubject)
+        {
+            if (!ValidUnicode(value.PairwiseSubject)) return false;
+            if (ScalarLength(value.PairwiseSubject) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.PairwiseSubject) > 256) return false;
+            if (!Matches(value.PairwiseSubject, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (!value.HasAssertionSha256) return false;
+        if (value.HasAssertionSha256)
+        {
+            if (value.AssertionSha256.Length != 32) return false;
+        }
+        if (!value.HasSigningKeyId) return false;
+        if (value.HasSigningKeyId)
+        {
+            if (!ValidUnicode(value.SigningKeyId)) return false;
+            if (ScalarLength(value.SigningKeyId) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.SigningKeyId) > 128) return false;
+            if (!Matches(value.SigningKeyId, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (!value.HasMetadataSha256) return false;
+        if (value.HasMetadataSha256)
+        {
+            if (value.MetadataSha256.Length != 32) return false;
+        }
+        if (!value.HasJwksSha256) return false;
+        if (value.HasJwksSha256)
+        {
+            if (value.JwksSha256.Length != 32) return false;
+        }
+        if (!value.HasAuthenticatedAtSeconds) return false;
+        if (value.HasAuthenticatedAtSeconds)
+        {
+            if (value.AuthenticatedAtSeconds < 0L) return false;
+            if (value.AuthenticatedAtSeconds > 253402300799L) return false;
+        }
+        if (!value.HasTokenExpiresAtSeconds) return false;
+        if (value.HasTokenExpiresAtSeconds)
+        {
+            if (value.TokenExpiresAtSeconds < 1L) return false;
+            if (value.TokenExpiresAtSeconds > 253402300799L) return false;
+        }
+        if (!value.HasAuthenticationContext) return false;
+        if (value.HasAuthenticationContext)
+        {
+            if (!ValidUnicode(value.AuthenticationContext)) return false;
+            if (!Matches(value.AuthenticationContext, "^c([1-9]|[1-9][0-9])$")) return false;
+        }
+        if (!value.HasProviderPolicyVersion) return false;
+        if (value.HasProviderPolicyVersion)
+        {
+            if (!ValidUnicode(value.ProviderPolicyVersion)) return false;
+            if (ScalarLength(value.ProviderPolicyVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderPolicyVersion) > 128) return false;
+            if (!Matches(value.ProviderPolicyVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasProviderPolicySha256) return false;
+        if (value.HasProviderPolicySha256)
+        {
+            if (value.ProviderPolicySha256.Length != 32) return false;
+        }
+        if (value.PolicyBegin is null) return false;
+        if (!Check(value.PolicyBegin, context)) return false;
+        if (value.PolicyComplete is null) return false;
+        if (!Check(value.PolicyComplete, context)) return false;
+        if (!value.HasAuthEpoch) return false;
+        if (value.HasAuthEpoch)
+        {
+            if (value.AuthEpoch < 1L) return false;
+            if (value.AuthEpoch > 9223372036854775807L) return false;
+        }
+        if (!value.HasRecoveryGeneration) return false;
+        if (value.HasRecoveryGeneration)
+        {
+            if (value.RecoveryGeneration < 0L) return false;
+            if (value.RecoveryGeneration > 9223372036854775807L) return false;
+        }
+        if (value.RecoveryRevision is null) return false;
+        if (!Check(value.RecoveryRevision, context)) return false;
+        if (value.RecoveryRevision.Value <= 0) return false;
+        if (value.OperatorSessionId is not null)
+        {
+            if (!Check(value.OperatorSessionId, context)) return false;
+        }
+        if (value.OperatorSessionRevision is not null)
+        {
+            if (!Check(value.OperatorSessionRevision, context)) return false;
+            if (value.OperatorSessionRevision.Value <= 0) return false;
+        }
+        if (value.HasPreviousEvidenceSha256)
+        {
+            if (value.PreviousEvidenceSha256.Length != 32) return false;
+        }
+        if (value.ObservedAt is null) return false;
+        if (!Check(value.ObservedAt, context)) return false;
+        if (value.CompletedFlowRevision is null) return false;
+        if (!Check(value.CompletedFlowRevision, context)) return false;
+        if (value.CompletedFlowRevision.Value <= 0) return false;
+        if (value.HasOperatorSubjectSha256)
+        {
+            if (value.OperatorSubjectSha256.Length != 32) return false;
+        }
+        if (value.PreviousEvidenceId is not null)
+        {
+            if (!Check(value.PreviousEvidenceId, context)) return false;
+        }
+        if (value.HasPreviousOperatorObjectId)
+        {
+            if (!ValidUnicode(value.PreviousOperatorObjectId)) return false;
+            if (ScalarLength(value.PreviousOperatorObjectId) > 36) return false;
+            if (!Matches(value.PreviousOperatorObjectId, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
+        }
+        if (value.HasPreviousOperatorSubject)
+        {
+            if (!ValidUnicode(value.PreviousOperatorSubject)) return false;
+            if (ScalarLength(value.PreviousOperatorSubject) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.PreviousOperatorSubject) > 256) return false;
+            if (!Matches(value.PreviousOperatorSubject, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (value.CalculateSize() > 65536 || !AuthenticationOperator(value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.OperatorPolicyObservation.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyObservation? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyObservation? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Policies.Count < 1) return false;
+        if (value.Policies.Count > 16) return false;
+        foreach (var item in value.Policies)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (!value.HasAggregateSha256) return false;
+        if (value.HasAggregateSha256)
+        {
+            if (value.AggregateSha256.Length != 32) return false;
+        }
+        if (value.ObservedAt is null) return false;
+        if (!Check(value.ObservedAt, context)) return false;
+        if (!value.HasSourceReference) return false;
+        if (value.HasSourceReference)
+        {
+            if (!ValidUnicode(value.SourceReference)) return false;
+            if (ScalarLength(value.SourceReference) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.SourceReference) > 256) return false;
+            if (!Matches(value.SourceReference, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (!AuthenticationPolicies(value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.OperatorPolicyProjection.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyProjection? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyProjection? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasPolicyId) return false;
+        if (value.HasPolicyId)
+        {
+            if (!ValidUnicode(value.PolicyId)) return false;
+            if (ScalarLength(value.PolicyId) > 36) return false;
+            if (!Matches(value.PolicyId, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")) return false;
+        }
+        if (!value.HasProjectionSha256) return false;
+        if (value.HasProjectionSha256)
+        {
+            if (value.ProjectionSha256.Length != 32) return false;
+        }
+        if (value.ObservedAt is null) return false;
+        if (!Check(value.ObservedAt, context)) return false;
+        if (!value.HasProviderRequestReference) return false;
+        if (value.HasProviderRequestReference)
+        {
+            if (!ValidUnicode(value.ProviderRequestReference)) return false;
+            if (ScalarLength(value.ProviderRequestReference) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.ProviderRequestReference) > 128) return false;
+            if (!Matches(value.ProviderRequestReference, "^[\\x21-\\x7e]+$")) return false;
+        }
+        if (!value.HasSourceUri) return false;
+        if (value.HasSourceUri)
+        {
+            if (!ValidUnicode(value.SourceUri)) return false;
+            if (ScalarLength(value.SourceUri) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.SourceUri) > 2048) return false;
+            if (!Matches(value.SourceUri, "^https://[^\\s]+$")) return false;
+        }
+        if (!AuthenticationGuid(value.PolicyId)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.PasskeyEnrollmentBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasskeyEnrollmentBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasskeyEnrollmentBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasChallenge) return false;
+        if (value.HasChallenge)
+        {
+            if (value.Challenge.Length != 32) return false;
+        }
+        if (!value.HasRpId) return false;
+        if (value.HasRpId)
+        {
+            if (!ValidUnicode(value.RpId)) return false;
+            if (ScalarLength(value.RpId) > 253) return false;
+            if (!Matches(value.RpId, "^[A-Za-z0-9.-]{1,253}$")) return false;
+        }
+        if (value.Origins.Count < 1) return false;
+        if (value.Origins.Count > 32) return false;
+        if (value.Origins.Distinct().Count() != value.Origins.Count) return false;
+        foreach (var item in value.Origins)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (ScalarLength(item) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(item) > 2048) return false;
+            if (!Matches(item, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasUserHandle) return false;
+        if (value.HasUserHandle)
+        {
+            if (value.UserHandle.Length != 32) return false;
+        }
+        if (!value.HasUserVerification) return false;
+        if (value.HasUserVerification)
+        {
+            if (!ValidUnicode(value.UserVerification)) return false;
+            if (value.UserVerification != "required") return false;
+        }
+        if (!value.HasAttestation) return false;
+        if (value.HasAttestation)
+        {
+            if (!ValidUnicode(value.Attestation)) return false;
+            if (value.Attestation != "none") return false;
+        }
+        if (!AuthenticationOrigins(value.Origins)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.PasskeyFlowBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasskeyFlowBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasskeyFlowBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasChallengeSha256) return false;
+        if (value.HasChallengeSha256)
+        {
+            if (value.ChallengeSha256.Length != 32) return false;
+        }
+        if (!value.HasRpId) return false;
+        if (value.HasRpId)
+        {
+            if (!ValidUnicode(value.RpId)) return false;
+            if (ScalarLength(value.RpId) > 253) return false;
+            if (!Matches(value.RpId, "^[A-Za-z0-9.-]{1,253}$")) return false;
+        }
+        if (value.Origins.Count < 1) return false;
+        if (value.Origins.Count > 32) return false;
+        if (value.Origins.Distinct().Count() != value.Origins.Count) return false;
+        foreach (var item in value.Origins)
+        {
+            if (!ValidUnicode(item)) return false;
+            if (ScalarLength(item) < 9) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(item) > 2048) return false;
+            if (!Matches(item, "^https://[^\\s]+$")) return false;
+        }
+        if (!value.HasUserVerification) return false;
+        if (value.HasUserVerification)
+        {
+            if (!ValidUnicode(value.UserVerification)) return false;
+            if (value.UserVerification != "required") return false;
+        }
+        if (!value.HasCredentialSnapshotSha256) return false;
+        if (value.HasCredentialSnapshotSha256)
+        {
+            if (value.CredentialSnapshotSha256.Length != 32) return false;
+        }
+        if (!value.HasChallenge) return false;
+        if (value.HasChallenge)
+        {
+            if (value.Challenge.Length != 32) return false;
+        }
+        if (!AuthenticationOrigins(value.Origins) || !global::System.Security.Cryptography.SHA256.HashData(value.Challenge.Span).AsSpan().SequenceEqual(value.ChallengeSha256.Span)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.PasswordDiscoveryFlowBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordDiscoveryFlowBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordDiscoveryFlowBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasRealmMode) return false;
+        if (value.HasRealmMode)
+        {
+            if (!ValidUnicode(value.RealmMode)) return false;
+            if (value.RealmMode != "selfHost") return false;
+        }
+        if (!value.HasPasswordPolicyVersion) return false;
+        if (value.HasPasswordPolicyVersion)
+        {
+            if (!ValidUnicode(value.PasswordPolicyVersion)) return false;
+            if (ScalarLength(value.PasswordPolicyVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.PasswordPolicyVersion) > 128) return false;
+            if (!Matches(value.PasswordPolicyVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPasswordPolicySha256) return false;
+        if (value.HasPasswordPolicySha256)
+        {
+            if (value.PasswordPolicySha256.Length != 32) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.PasswordEnrollmentBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordEnrollmentBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordEnrollmentBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasRealmMode) return false;
+        if (value.HasRealmMode)
+        {
+            if (!ValidUnicode(value.RealmMode)) return false;
+            if (value.RealmMode != "selfHost") return false;
+        }
+        if (!value.HasPasswordPolicyVersion) return false;
+        if (value.HasPasswordPolicyVersion)
+        {
+            if (!ValidUnicode(value.PasswordPolicyVersion)) return false;
+            if (ScalarLength(value.PasswordPolicyVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.PasswordPolicyVersion) > 128) return false;
+            if (!Matches(value.PasswordPolicyVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPasswordPolicySha256) return false;
+        if (value.HasPasswordPolicySha256)
+        {
+            if (value.PasswordPolicySha256.Length != 32) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.PasswordFlowBinding.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordFlowBinding? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.PasswordFlowBinding? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.Credential is null) return false;
+        if (!Check(value.Credential, context)) return false;
+        if ((int)value.Credential.Method != 3) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.RecoveryAuthorizationReference.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.RecoveryAuthorizationReference? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.RecoveryAuthorizationReference? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (value.RecoveryFlowId is null) return false;
+        if (!Check(value.RecoveryFlowId, context)) return false;
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
+        if (value.Revision is null) return false;
+        if (!Check(value.Revision, context)) return false;
+        if (value.Revision.Value <= 0) return false;
+        if (!value.HasOriginalProofSha256) return false;
+        if (value.HasOriginalProofSha256)
+        {
+            if (value.OriginalProofSha256.Length != 32) return false;
+        }
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
+    /// <summary>Checks the declared wire/profile constraints of arcforges.identity.storage.v1.StepUpMethodProofSnapshot.</summary>
+    public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.StepUpMethodProofSnapshot? value) => Check(value, new ValidationContext());
+    private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.StepUpMethodProofSnapshot? value, ValidationContext context)
+    {
+        if (value is null || !context.Enter(value)) return false;
+        try
+        {
+        if (!value.HasSchemaVersion) return false;
+        if (value.HasSchemaVersion)
+        {
+            if (value.SchemaVersion != 1) return false;
+        }
+        if (value.ChallengeId is null) return false;
+        if (!Check(value.ChallengeId, context)) return false;
+        if (value.RealmId is null) return false;
+        if (!Check(value.RealmId, context)) return false;
+        if (value.UserId is null) return false;
+        if (!Check(value.UserId, context)) return false;
+        if (value.SessionId is null) return false;
+        if (!Check(value.SessionId, context)) return false;
+        if (!value.HasOperationClass) return false;
+        if (value.HasOperationClass)
+        {
+            if (!ValidUnicode(value.OperationClass)) return false;
+            if (ScalarLength(value.OperationClass) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.OperationClass) > 128) return false;
+            if (!Matches(value.OperationClass, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasTargetPayloadSha256) return false;
+        if (value.HasTargetPayloadSha256)
+        {
+            if (value.TargetPayloadSha256.Length != 32) return false;
+        }
+        if (!value.HasMethod) return false;
+        if (value.HasMethod)
+        {
+            if ((int)value.Method != 1 && (int)value.Method != 2 && (int)value.Method != 3 && (int)value.Method != 4) return false;
+        }
+        if (!value.HasAuthEpoch) return false;
+        if (value.HasAuthEpoch)
+        {
+            if (value.AuthEpoch < 1L) return false;
+            if (value.AuthEpoch > 9223372036854775807L) return false;
+        }
+        if (!value.HasRecoveryGeneration) return false;
+        if (value.HasRecoveryGeneration)
+        {
+            if (value.RecoveryGeneration < 0L) return false;
+            if (value.RecoveryGeneration > 9223372036854775807L) return false;
+        }
+        if (value.RecoveryRevision is null) return false;
+        if (!Check(value.RecoveryRevision, context)) return false;
+        if (value.RecoveryRevision.Value <= 0) return false;
+        if (!value.HasProofSha256) return false;
+        if (value.HasProofSha256)
+        {
+            if (value.ProofSha256.Length != 32) return false;
+        }
+        if (value.ExpiresAt is null) return false;
+        if (!Check(value.ExpiresAt, context)) return false;
+        if (value.Credentials.Count < 1) return false;
+        if (value.Credentials.Count > 64) return false;
+        foreach (var item in value.Credentials)
+        {
+            if (!Check(item, context)) return false;
+        }
+        if (value.MethodProof is null) return false;
+        if (!Check(value.MethodProof, context)) return false;
+        if (value.PreparedAt is null) return false;
+        if (!Check(value.PreparedAt, context)) return false;
+        if (value.UserRevision is null) return false;
+        if (!Check(value.UserRevision, context)) return false;
+        if (value.UserRevision.Value <= 0) return false;
+        if (value.SessionRevision is null) return false;
+        if (!Check(value.SessionRevision, context)) return false;
+        if (value.SessionRevision.Value <= 0) return false;
+        if (!value.HasPolicyVersion) return false;
+        if (value.HasPolicyVersion)
+        {
+            if (!ValidUnicode(value.PolicyVersion)) return false;
+            if (ScalarLength(value.PolicyVersion) < 1) return false;
+            if (global::System.Text.Encoding.UTF8.GetByteCount(value.PolicyVersion) > 128) return false;
+            if (!Matches(value.PolicyVersion, "^[A-Za-z0-9._:/-]{1,128}$")) return false;
+        }
+        if (!value.HasPolicySha256) return false;
+        if (value.HasPolicySha256)
+        {
+            if (value.PolicySha256.Length != 32) return false;
+        }
+        if (value.CalculateSize() > 131072 || !AuthenticationStepUp(value)) return false;
+        return true;
+        }
+        finally { context.Exit(value); }
+    }
     /// <summary>Checks the declared wire/profile constraints of arcforges.operator.v1.ConfigValidation.</summary>
     public static bool IsValid([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ConfigValidation? value) => Check(value, new ValidationContext());
     private static bool Check([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] global::ArcForges.Contracts.CloudInternal.Operator.V1.ConfigValidation? value, ValidationContext context)
@@ -3648,6 +4876,98 @@ public static class ContractShapeValidation
         "entitlement.no_service_term" or "entitlement.not_entitled" or "entitlement.extra_credits_required" or "entitlement.credits_exhausted" or
         "validation.invalid_request" or "validation.ast_bounds_exceeded" or "validation.unsupported_version" or "identity.last_credential" or
         "conflict.duplicate_identifier" or "command.reused_identifier" or "state.not_found" or "state.invalid_transition" or "state.gone" or "resource.integrity_failed";
+
+    private static bool AuthenticationGuid(string text) => global::System.Guid.TryParseExact(text, "D", out var id) && id != global::System.Guid.Empty && id.ToString("D") == text;
+    private static int AuthenticationTime(global::ArcForges.Contracts.Foundation.V1.Instant a, global::ArcForges.Contracts.Foundation.V1.Instant b) => a.UnixSeconds != b.UnixSeconds ? a.UnixSeconds.CompareTo(b.UnixSeconds) : a.Nanos.CompareTo(b.Nanos);
+    private static bool AuthenticationOrigins(global::System.Collections.Generic.IEnumerable<string> values)
+    {
+        string? previous = null;
+        foreach (var value in values)
+        {
+            if (previous is not null && global::System.StringComparer.Ordinal.Compare(previous, value) >= 0) return false;
+            if (!global::System.Uri.TryCreate(value, global::System.UriKind.Absolute, out var uri) || uri.Scheme != "https" || uri.UserInfo.Length != 0 || uri.Query.Length != 0 || uri.Fragment.Length != 0 || uri.AbsolutePath != "/" || value.EndsWith('/')) return false;
+            previous = value;
+        }
+        return previous is not null;
+    }
+    private static bool AuthenticationInventory(global::System.Collections.Generic.IList<global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCredentialReference> rows, int method, bool empty, bool actor = false)
+    {
+        if (rows.Count == 0) return empty;
+        var selected = actor ? (int)rows[0].Method : method;
+        if (rows.Count > 64 || selected != 1 && rows.Count != 1) return false;
+        global::Google.Protobuf.ByteString? previous = null;
+        var subjects = new global::System.Collections.Generic.HashSet<string>(global::System.StringComparer.Ordinal);
+        foreach (var row in rows)
+        {
+            if ((int)row.Method != selected || row.Revision.Value <= 0 || previous is not null && previous.Span.SequenceCompareTo(row.IdentityId.Value.Span) >= 0) return false;
+            if (!subjects.Add(row.ProviderKey + ":" + global::System.Convert.ToHexString(row.SubjectSha256.Span))) return false;
+            previous = row.IdentityId.Value;
+        }
+        return true;
+    }
+    private static bool AuthenticationMethod(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationMethodProofBinding proof, int method, bool enrollment, bool anonymous)
+    {
+        if (enrollment) return proof.Enrollment is not null && (int)proof.Enrollment.RegistrationCase == method;
+        if (proof.Enrollment is not null) return false;
+        if (proof.PasswordDiscovery is not null) return anonymous && method == 3;
+        return (int)proof.ProofCase == method && (proof.Email is null || anonymous || proof.Email.AddressIdentityRevision is { Value: > 0 });
+    }
+    private static bool AuthenticationCompletion(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationCompletionCapture value) =>
+        value.UserRevision.Value > 0 && value.RecoveryRevision.Value > 0 &&
+        (value.DeviceId is null) == (value.DeviceRevision is null) && (value.InstallationId is null) == (value.InstallationRevision is null) &&
+        (value.DeviceRevision is null || value.DeviceRevision.Value > 0) && (value.InstallationRevision is null || value.InstallationRevision.Value > 0) &&
+        (value.InstallationId is null || value.DeviceId is not null);
+    private static bool AuthenticationFlow(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.AuthenticationFlowPayload v)
+    {
+        var kind = (int)v.FlowKind; var method = (int)v.Method; var enrollment = (int)v.Purpose == 2 || kind == 6; var anonymous = v.UserId is null;
+        if (AuthenticationTime(v.CreatedAt, v.ExpiresAt) >= 0 || v.RecoveryRevision.Value <= 0 || (v.UserId is null) != (v.UserRevision is null) || v.UserRevision is { Value: <= 0 }) return false;
+        if ((v.SessionId is null) != (v.SessionRevision is null) || v.SessionRevision is { Value: <= 0 } || (v.DeviceId is null) != (v.DeviceRevision is null) || v.DeviceRevision is { Value: <= 0 } || v.InstallationRevision is { Value: <= 0 } || v.InstallationRevision is not null && v.InstallationId is null) return false;
+        if (kind is 4 or 5 or 7 && anonymous || kind == 6 && (anonymous || v.InitialCredentials.Count != 0 || v.RecoveryAuthorization is null || (int)v.Purpose != 4) || kind != 6 && v.RecoveryAuthorization is not null) return false;
+        if (v.RecoveryAuthorization is not null && v.RecoveryAuthorization.Revision.Value <= 0) return false;
+        if (kind == 4 ? v.SessionId is null || !v.HasOperationClass || !v.HasTargetPayloadSha256 || (int)v.Purpose != 3 : v.HasOperationClass) return false;
+        var browser = v.HasOrigin || v.HasPreauthBindingSha256 || v.HasCsrfSha256;
+        if (browser && !(v.HasOrigin && v.HasPreauthBindingSha256 && v.HasCsrfSha256) || kind == 2 && !browser || kind is 1 or 9 && browser) return false;
+        if ((kind == 1) != (v.NativeBinding is not null)) return false;
+        var native = kind is 1 or 9;
+        var keyFields = (v.HasInstallationPublicKeySha256 ? 1 : 0) + (v.HasInstallationKeyVersion ? 1 : 0) + (v.HasInstallationProofChallenge ? 1 : 0) + (v.HasInstallationProofBinding ? 1 : 0) + (v.HasInstallationPublicKey ? 1 : 0);
+        if (keyFields != 0 && keyFields != 5 || native && (keyFields != 5 || v.InstallationId is null) || browser && keyFields != 0 || (v.InstallationId is not null) != v.HasProductId) return false;
+        if (keyFields == 5 && !global::System.Security.Cryptography.SHA256.HashData(v.InstallationPublicKey.Span).AsSpan().SequenceEqual(v.InstallationPublicKeySha256.Span)) return false;
+        if (anonymous && v.InitialCredentials.Count != 0 || !AuthenticationInventory(v.InitialCredentials, method, anonymous || kind == 6, enrollment) || !AuthenticationMethod(v.MethodProof, method, enrollment, anonymous)) return false;
+        if (v.MethodProof.Password is not null && (v.InitialCredentials.Count != 1 || !v.InitialCredentials[0].Equals(v.MethodProof.Password.Credential))) return false;
+        if (v.Completion is not null)
+        {
+            var c = v.Completion;
+            if ((int)c.Credential.Method != method || c.AuthEpoch != v.AuthEpoch || c.RecoveryGeneration != v.RecoveryGeneration || !c.RecoveryRevision.Equals(v.RecoveryRevision) || AuthenticationTime(c.VerifiedAt, v.CreatedAt) < 0 || AuthenticationTime(c.VerifiedAt, v.ExpiresAt) >= 0) return false;
+            if (!enrollment && v.InitialCredentials.Count != 0 && !v.InitialCredentials.Any(row => row.Equals(c.Credential))) return false;
+            if (v.UserId is not null && (!v.UserId.Equals(c.UserId) || !v.UserRevision!.Equals(c.UserRevision)) || v.DeviceId is not null && (!v.DeviceId.Equals(c.DeviceId) || !v.DeviceRevision!.Equals(c.DeviceRevision)) || c.InstallationId is not null && v.InstallationId is not null && !v.InstallationId.Equals(c.InstallationId) || v.InstallationRevision is not null && !v.InstallationRevision.Equals(c.InstallationRevision)) return false;
+        }
+        return true;
+    }
+    private static bool AuthenticationStepUp(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.StepUpMethodProofSnapshot v) =>
+        v.RecoveryRevision.Value > 0 && v.UserRevision.Value > 0 && v.SessionRevision.Value > 0 && AuthenticationTime(v.PreparedAt, v.ExpiresAt) < 0 &&
+        AuthenticationInventory(v.Credentials, (int)v.Method, false) && AuthenticationMethod(v.MethodProof, (int)v.Method, false, false) &&
+        (v.MethodProof.Password is null || v.Credentials[0].Equals(v.MethodProof.Password.Credential)) &&
+        (v.MethodProof.Passkey is null || v.MethodProof.Passkey.ChallengeSha256.Equals(v.ProofSha256));
+    private static bool AuthenticationPolicies(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorPolicyObservation v)
+    {
+        string? previous = null;
+        foreach (var row in v.Policies)
+        {
+            if (previous is not null && global::System.StringComparer.Ordinal.Compare(previous, row.PolicyId) >= 0 || AuthenticationTime(row.ObservedAt, v.ObservedAt) > 0) return false;
+            previous = row.PolicyId;
+        }
+        return true;
+    }
+    private static bool AuthenticationOperator(global::ArcForges.Contracts.CloudInternal.Identity.Storage.V1.OperatorAuthenticationEvidence v)
+    {
+        if (!AuthenticationGuid(v.TenantId) || !AuthenticationGuid(v.ClientId) || !AuthenticationGuid(v.ObjectId) || v.RecoveryRevision.Value <= 0 || v.CompletedFlowRevision.Value <= 0 || v.TokenExpiresAtSeconds <= v.AuthenticatedAtSeconds || v.ObservedAt.UnixSeconds >= v.TokenExpiresAtSeconds || v.AuthenticatedAtSeconds > v.ObservedAt.UnixSeconds) return false;
+        var step = (int)v.Purpose == 2;
+        if (step != (v.OperatorSessionId is not null) || step != (v.OperatorSessionRevision is not null) || step != v.HasPreviousEvidenceSha256 || step != v.HasOperatorSubjectSha256 || step != (v.PreviousEvidenceId is not null) || step != v.HasPreviousOperatorObjectId || step != v.HasPreviousOperatorSubject || v.OperatorSessionRevision is { Value: <= 0 }) return false;
+        if (step && (!AuthenticationGuid(v.PreviousOperatorObjectId) || v.PreviousOperatorObjectId != v.ObjectId || v.PreviousOperatorSubject != v.PairwiseSubject)) return false;
+        if (AuthenticationTime(v.PolicyBegin.ObservedAt, v.PolicyComplete.ObservedAt) > 0 || AuthenticationTime(v.PolicyComplete.ObservedAt, v.ObservedAt) > 0 || !v.PolicyBegin.AggregateSha256.Equals(v.PolicyComplete.AggregateSha256) || v.PolicyBegin.Policies.Count != v.PolicyComplete.Policies.Count) return false;
+        for (var i = 0; i < v.PolicyBegin.Policies.Count; i++) if (v.PolicyBegin.Policies[i].PolicyId != v.PolicyComplete.Policies[i].PolicyId || !v.PolicyBegin.Policies[i].ProjectionSha256.Equals(v.PolicyComplete.Policies[i].ProjectionSha256)) return false;
+        return true;
+    }
 
 
 
