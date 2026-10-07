@@ -40,6 +40,7 @@ internal static class ArchitectureFixtureTests
         FailureDiagnosticsDoNotRevealExceptionDetails();
         ProgressIsBoundedAndContainsOnlyFixedStagesAndNumbers();
         FindingCountsExposeOnlyClosedRulesAndNumbers();
+        At12CategoriesAndSubjectHashesAreClosedAndBounded();
         CompilationFailureCodesAreSpecificAndFailClosed();
         WireSchemaOwnershipIsExactAndFailsClosed();
         HostAgplClosureMustBeExactlyBuildPolicy();
@@ -197,7 +198,8 @@ internal static class ArchitectureFixtureTests
         Checks.Equal(string.Join(Environment.NewLine,
             "Contracts architecture findings: rule=AT-01; count=1.",
             "Contracts architecture findings: rule=AT-12; count=2.",
-            "Contracts architecture findings: rule=Unknown; count=1.", ""), output.ToString(),
+            "Contracts architecture findings: rule=Unknown; count=1.",
+            "Contracts architecture AT-12: category=Unknown; count=2.", ""), output.ToString(),
             "Finding telemetry leaked arbitrary values or changed deterministic closed counts.");
         using var empty = new StringWriter();
         HostedPolicyGate.WriteFindingCounts(empty, []);
@@ -208,6 +210,46 @@ internal static class ArchitectureFixtureTests
         catch (InvalidOperationException) { refused = true; }
         Checks.True(refused && oversized.ToString().Length == 0,
             "Excessive finding counts must refuse before enumeration or output.");
+    }
+
+    private static void At12CategoriesAndSubjectHashesAreClosedAndBounded()
+    {
+        const string prefix = "Reviewed non-wire metadata reaches a wire/RPC/serializer payload: ";
+        const string subject = "ArcForges.Contracts.PublicApi.Values.RequestMeta";
+        const string hash = "5926c25c257ad44587adc082ec9971924737caaf6709b33ea58925d58fa94c20";
+        const string canary = "private-diagnostic-canary";
+        using var output = new StringWriter(System.Globalization.CultureInfo.GetCultureInfo("ar-SA"));
+        HostedPolicyGate.WriteFindingCounts(output,
+        [
+            new PolicyFinding("AT-12", canary, prefix + subject),
+            new PolicyFinding("AT-12", canary, prefix + subject),
+            new PolicyFinding("AT-12", canary, prefix + subject + "\n" + canary),
+            new PolicyFinding("AT-12", canary, prefix + "C:/" + canary),
+            new PolicyFinding("AT-12", canary, prefix + new string('a', 1025) + ".Type"),
+            new PolicyFinding("AT-12", canary, canary),
+        ]);
+        Checks.Equal(string.Join(Environment.NewLine,
+            "Contracts architecture findings: rule=AT-12; count=6.",
+            "Contracts architecture AT-12: category=Payload; count=5.",
+            "Contracts architecture AT-12 subject: category=Payload; sha256=" + hash + ".",
+            "Contracts architecture AT-12: category=Unknown; count=1.", ""), output.ToString(),
+            "AT-12 categories/hash samples must retain counts and refuse unsafe subjects without disclosure.");
+        Checks.True(!output.ToString().Contains(canary, StringComparison.Ordinal)
+            && !output.ToString().Contains(subject, StringComparison.Ordinal),
+            "AT-12 subject diagnostics disclosed a source symbol or private value.");
+
+        using var bounded = new StringWriter();
+        HostedPolicyGate.WriteFindingCounts(bounded, Enumerable.Range(0, 20)
+            .Select(index => new PolicyFinding("AT-12", canary, prefix + "ArcForges.Owned.Type" + index)).ToArray());
+        string[] samples = bounded.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+            .Where(line => line.StartsWith("Contracts architecture AT-12 subject:", StringComparison.Ordinal)).ToArray();
+        Checks.Equal(8, samples.Length, "AT-12 hashing exceeded the fixed observation bound.");
+        string ninth = Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(
+            System.Text.Encoding.UTF8.GetBytes("ArcForges.Owned.Type8")));
+        Checks.True(!bounded.ToString().Contains(ninth, StringComparison.Ordinal),
+            "AT-12 diagnostics hashed observations beyond the fixed first-eight sample.");
+        Checks.True(bounded.ToString().Contains("category=Payload; count=20.", StringComparison.Ordinal),
+            "Bounded subject samples lost the complete actual finding count.");
     }
 
     private sealed class OversizedFindings : IReadOnlyList<PolicyFinding>

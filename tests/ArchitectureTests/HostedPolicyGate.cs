@@ -102,10 +102,10 @@ internal static class HostedPolicyGate
 
     internal static void WriteFindingCounts(TextWriter writer, IReadOnlyList<PolicyFinding> findings)
     {
-        // Emit only the producer's closed rule IDs and bounded counts, never paths,
-        // source symbols, rule messages, build output or arbitrary caller strings.
+        // Emit closed IDs/counts and bounded hashes of safe compiler subjects,
+        // never paths, source symbols, rule messages or arbitrary caller strings.
         const int limit = 1000000;
-        if (findings.Count > limit) throw new InvalidOperationException("Finding count exceeds diagnostic bound.");
+        if (findings.Count is < 0 or > limit) throw new InvalidOperationException("Finding count exceeds diagnostic bound.");
         var known = PolicyEngine.Rules.ToHashSet(StringComparer.Ordinal);
         foreach (string rule in PolicyEngine.Rules.Order(StringComparer.Ordinal))
         {
@@ -114,7 +114,55 @@ internal static class HostedPolicyGate
         }
         int unknown = findings.Count(finding => !known.Contains(finding.Rule));
         if (unknown != 0) writer.WriteLine(FormattableString.Invariant($"Contracts architecture findings: rule=Unknown; count={unknown}."));
+        WriteAt12Categories(writer, findings);
     }
+
+    private static void WriteAt12Categories(TextWriter writer, IReadOnlyList<PolicyFinding> findings)
+    {
+        // These are the actual published producer's fixed message categories.
+        // A future/unrecognized producer message is counted as Unknown, never printed.
+        (string Category, string Prefix)[] categories =
+        [
+            ("SourceBinding", "Missing, duplicate, ambiguous or invalid reviewed metadata source binding: "),
+            ("PolicyShape", "Metadata is not the closed immutable authorization policy: "),
+            ("CatalogShape", "Metadata is not a canonical immutable authorization catalog: "),
+            ("Payload", "Reviewed non-wire metadata reaches a wire/RPC/serializer payload: "),
+            ("Sink", "Reviewed non-wire metadata escapes through a serialization/transport invocation: "),
+            ("WireBinding", "Wire type is not bound to generated owned schema: "),
+            ("Unknown", ""),
+        ];
+        int[] counts = new int[categories.Length];
+        int[] sampled = new int[categories.Length];
+        var subjects = categories.Select(_ => new HashSet<string>(StringComparer.Ordinal)).ToArray();
+        foreach (var finding in findings.Where(finding => finding.Rule == "AT-12"))
+        {
+            int index = Array.FindIndex(categories, category => category.Prefix.Length != 0
+                && finding.Message is not null && finding.Message.StartsWith(category.Prefix, StringComparison.Ordinal));
+            if (index < 0) index = categories.Length - 1;
+            counts[index]++;
+            // At most eight observations per category are inspected for a hash.
+            // Unsafe/long subjects are omitted, never truncated or reinterpreted.
+            if (index == categories.Length - 1 || sampled[index]++ >= 8) continue;
+            string subject = finding.Message[categories[index].Prefix.Length..];
+            if (!SafeDiagnosticSubject(subject)) continue;
+            subjects[index].Add(Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(
+                System.Text.Encoding.UTF8.GetBytes(subject))));
+        }
+        for (int index = 0; index < categories.Length; index++)
+        {
+            if (counts[index] == 0) continue;
+            string category = categories[index].Category;
+            writer.WriteLine(FormattableString.Invariant($"Contracts architecture AT-12: category={category}; count={counts[index]}."));
+            foreach (string hash in subjects[index].Order(StringComparer.Ordinal))
+                writer.WriteLine($"Contracts architecture AT-12 subject: category={category}; sha256={hash}.");
+        }
+    }
+
+    private static bool SafeDiagnosticSubject(string value) =>
+        value.Length is > 0 and <= 1024 && char.IsAsciiLetter(value[0])
+        && value.Contains('.', StringComparison.Ordinal) && value == value.Trim()
+        && value.All(character => char.IsAsciiLetterOrDigit(character)
+            || "_ .+[]<>(),?`".Contains(character, StringComparison.Ordinal));
 
     internal const string HostProject = "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj";
     internal const string BuildPolicyPackage = "ArcForges.Build.Policy";
