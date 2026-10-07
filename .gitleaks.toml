@@ -5418,6 +5418,57 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "CON31 exact observed dependency policy public SHA256 rows"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency-policy\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"7f7006a49be969a4c8855f1f05f916117279cfe04076f7b6a10bc64e4dd83ae5",?\s*$''',
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"bd3cd1d7e7fb8f7e06e48930607af469db4134e41a649d4b8251933936a6e686",?\s*$''',
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"80e6402d69fee1913bfffbb0ebc8006c741d37f47f44a0b0536339881ce219dc",?\s*$''',
+]
+
+[[allowlists]]
+description = "CON31 exact observed r1 receipt public SHA256 rows"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency-reviews/con-31-r1\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"7f7006a49be969a4c8855f1f05f916117279cfe04076f7b6a10bc64e4dd83ae5",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]
+
+[[allowlists]]
+description = "CON31 exact observed r2 receipt public SHA256 rows"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency-reviews/con-31-r2\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"bd3cd1d7e7fb8f7e06e48930607af469db4134e41a649d4b8251933936a6e686",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]
+
+[[allowlists]]
+description = "CON31 exact observed r3 receipt public SHA256 rows"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^eng/policy/dependency-reviews/con-31-r3\.json$''']
+regexTarget = "line"
+regexes = [
+  '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"80e6402d69fee1913bfffbb0ebc8006c741d37f47f44a0b0536339881ce219dc",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-combokeys\-licence\-r1\.json":\s*"75219d61672002f0bb242fed0fd93a0886f07d944e0b9e1b1f72132f59df1b41",?\s*$''',
+  '''(?s)^\s*"eng/provenance/records/dokka\-object\-keys\-licence\-r1\.json":\s*"55621ecc7032745ca46e56d13133dc22a3bd808d80966d737427b5d6fc5bd096",?\s*$''',
+  '''(?s)^\s*"src/public/dotnet/ArcForges\.Contracts\.PublicApi/ArcForges\.Contracts\.PublicApi\.csproj":\s*"986b7a97734cd5d0630e548da897869de322a112c087c2d0df6a0bfc98b8784c",?\s*$''',
+]
+
+[[allowlists]]
 description = "CON.26 reviewed dependency policy public input digest"
 targetRules = ["generic-api-key"]
 condition = "AND"

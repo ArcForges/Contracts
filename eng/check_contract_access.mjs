@@ -25,7 +25,7 @@ const ACCESS = new Set(["public", "internal"]);
 const SOURCE = /\.(cs|java|kt|ts)$/;
 // Closed inventory of authored HTTP JSON schema source roots; an unlisted root is never a package owner.
 export const HTTP_SCHEMA_SOURCE =
-  /^(public\/http|internal\/ai-http|internal\/cf-http|internal\/storage-http)\/.+\.json$/;
+  /^(?:(public\/http|internal\/ai-http|internal\/cf-http|internal\/storage-http)\/.+\.json|internal\/identity\/v1\/provider-policy\.schema\.json)$/;
 
 function requireThat(value, message) {
   if (!value) throw new Error(message);

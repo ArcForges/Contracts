@@ -1,9 +1,9 @@
 {
   "review": {
-    "owner": "w-codex-20261006-governance",
-    "reviewer": "Independent exact-head CON.26 review required before merge",
+    "owner": "w-codex-20261006-provider",
+    "reviewer": "Independent exact final CON.31 seal review required; Catalog substantive source review satisfied at81c68843",
     "reviewedOn": "2026-10-07",
-    "baselineCommit": "648147c417826192d13b1fc099b513f5da680df2",
+    "baselineCommit": "ec4dd6b5afdac45124f531871545ff1779672fab",
     "inputHashes": {
       ".java-version": "b8481af4c809b46f02fc334825116cbe9e6d6a7bc8e2363511fa77044fca8016",
       ".node-version": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f",
@@ -11,15 +11,15 @@
       ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
       "Directory.Build.props": "c2a05ff316f24d7293378ef7f4257b1788f9442224a48d803d0016798babbb5b",
       "Directory.Build.targets": "1404c5997b2679c1e4dc7897d5ab9c80c788daf0d4fe456fd15bcb8afeb73965",
-      "Directory.Packages.props": "4ea845ef43ff3618588467507a14ae4114d2565eb981dfe9c9247aed43986381",
+      "Directory.Packages.props": "a1873374afdc3ca3edbcfb970695f15f9f95501ccbd504ebf985e28fbcb19e94",
       "NuGet.config": "0bc8b5cfba429bcbd0cb692405e3b6e504793c122350d6a8c95a69c2d718b472",
       "build.gradle.kts": "0054ea4e73db25459a90b8c94ae36706cf05c3e59e9dc466b90bd0725a8ab70d",
       "eng/Codegen/Codegen.csproj": "c702e5c3150d55ad8ecaf1db3d1d0fe34a0a5cc64ffd6229d6437a34bc5ff8a1",
       "eng/Codegen/packages.lock.json": "1823b949cabbc4f28cfb0326e36aab09e688869fd612d3a9d2630d7c1b82b875",
       "eng/central-signing/build.gradle.kts": "a24f120f0e503347fdca3e2520dab58583ebb1449550f3f0d99b05437af174a8",
       "eng/central-signing/settings.gradle.kts": "1f1f5285f2938dc48b7a5da29f1c86f43a06ead1cffabd469b47597580f671b5",
-      "eng/contract-packages.json": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796",
-      "eng/policy/contract-access.json": "165e911588b1f9e07fa12b94ea43e70544415b4cd85ab6656e241e727d01972d",
+      "eng/contract-packages.json": "d7cdcea40529ec9a87f08695b76806df36810701329f1ec2fbafd5d9f1f97d2a",
+      "eng/policy/contract-access.json": "80e6402d69fee1913bfffbb0ebc8006c741d37f47f44a0b0536339881ce219dc",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r1.json": "f0f1bc138f4406cc5176d7181165591426f58a67333a8aad64f16999173ade74",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r10.json": "6bcc25f6d9544e67a526abdb5995119caa1269b5f05cf4e4997f15d8d0e6704a",
       "eng/provenance/artifact-profiles/dokka-2-2-0-r11.json": "397093da87b768dd481fe8dbc57a753e3819dcabe05d3faf15a0bad5632c785f",
@@ -63,6 +63,9 @@
       "eng/provenance/records/contract-bindings-con-24-r1.json": "cc7ee308dcc44a0131ffa814bc26a724c851da768649d94d1bf53d6480863af7",
       "eng/provenance/records/contract-bindings-con-25-r1.json": "0121ffeff9116f4cb34144fb4c38255fb0e8223ac9d331c94ea14eaff8c39383",
       "eng/provenance/records/contract-bindings-con-28-r1.json": "2ce256286a1fef5148dd5fea4584e5ca6a55950f6e916d48fd49a865d8500091",
+      "eng/provenance/records/contract-bindings-con-31-r1.json": "639d53191c1077190a42ec18f0698e40c65364a8814640daa3bf2356acd24b66",
+      "eng/provenance/records/contract-bindings-con-31-r2.json": "34a1943b8e5ac77aed627830e86556d4447cc02961eb9ffdac5ede4d3f8c9931",
+      "eng/provenance/records/contract-bindings-con-31-r3.json": "2e35b30020250eb013dc7a63569c9d7d9e524f54271d2a0208b142aa24b25900",
       "eng/provenance/records/contract-bindings-con04-r1.json": "f900403e0f5f1f82ab86e51201815089fd7e29d4b61e3301628845e70aae1747",
       "eng/provenance/records/contract-bindings-con05-r1.json": "08e180d1d7da82af50f9886464285da044c30f0719e8c4c3a00e552aeab0e704",
       "eng/provenance/records/contract-bindings-con06-r1.json": "10c807b936a0af8a5a4651c2c06ea4042e4fcee989793d9e5e59df9e6ffdfde3",
@@ -178,7 +181,6 @@
       "eng/provenance/records/dokka-which-typed-array-licence-r1.json": "8351998c7f87386e6e0fcf5145db40852364e1c8152c6ebe2c396d11e7756b6f",
       "eng/provenance/records/gradle-wrapper-9-7-1-r1.json": "f5991022b6be144f5b8fc9808c69be2dbb0f4a9d9749e01ac6313e11b1a42b7c",
       "eng/provenance/records/hello-bindings-r1.json": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
-      "eng/provenance/records/operation-authorization-con-26-r1.json": "d5710fb569ab8b4b245a0df7cbe0d6a5a26e0661e2fc50850aaca71cb2482782",
       "eng/provenance/records/protobuf-generator-licence-r1.json": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
       "eng/provenance/retirements/contracts-client-wp03-00.json": "3dbc212a56e678bea10950909a2ae1ad7fc8f2f3640421d02c8f80d2c22c1126",
       "global.json": "c39786ab1a147662bbe4db015f900165178875ec4a872ddae53bc0c90771ac34",
@@ -187,7 +189,7 @@
       "gradle/verification-metadata.xml": "ee91387d7538ba25bfcdb385f42d3ffaeaec1a1aefdc54a96e94fa19f95334e2",
       "gradle/wrapper/gradle-wrapper.properties": "45b09518a2f0ea326bc776066e735b94527d2a94002e3b27621c32cdaee7e3ce",
       "package-lock.json": "3e536db25743ceb5a021559dbc1f31d57112211c62d94f84df34daca5382709c",
-      "package.json": "b0f73a6c907e161a6203bc954f1f96a88515a7ebfcf08c3ae76023a8d40a15be",
+      "package.json": "da92cad6477f75f87a305b17d095bb45c70ce1e8aed4c24d96227a1fe4b4a9ad",
       "settings-gradle.lockfile": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4",
       "settings.gradle.kts": "08e4e324a1fd3b548fced7c36945454823410fd7a7fbb95061375352668a7e64",
       "src/internal/dotnet/ArcForges.Contracts.CloudInternal/ArcForges.Contracts.CloudInternal.csproj": "d60341c571cce8fdf90f7a06938ae71af87fbbccafff26f8819ef6a458738e4d",
@@ -226,7 +228,7 @@
       "src/public/ts/contract-fixtures/package.json": "c593abc4f5179b38fc470cf034a993ba0e0d552e7d6bd224b770c87db3047128",
       "src/public/ts/proto/package.json": "2a07095d6b90bbec4914bdd42a036eb0468ebd3de18c6204781927c7c50cd46a",
       "tests/ArchitectureTests/ArcForges.Contracts.ArchitectureTests.csproj": "7065e2d1b5404380438aa305c5dbfcf000214d15ad0fe232846b7ba7639856c7",
-      "tests/ArchitectureTests/packages.lock.json": "2103db1f7c0980399b92c5beeb816261c76c2abc7c14ef0fd4d9d72c58c237a7",
+      "tests/ArchitectureTests/packages.lock.json": "7019b7a06d181c6252a1db00bf8d3ffd9de7ea066a5c0151917de92e2470fe33",
       "tests/StructureTests/PreviousClient/PreviousClient.csproj": "be5035e295c028041172d6d2a4559070cc8beedbca724758f7099a67b4c76c72",
       "tests/StructureTests/PreviousClient/packages.lock.json": "5e4f160e83bd12b6f3d630a9ee93aa5e2becd200fef836a1068fc0cbee92e695",
       "tests/StructureTests/StructureTests.csproj": "5bca08adfe954e140c6f78371f33c7315307afefeffa9d95c415271775510587",
@@ -243,15 +245,15 @@
       "tests/public/SerializationProbe/SerializationProbe.csproj": "53094aaa51dcf5ad145f69e265b989de4b59fdb60c1444e41563346cc25e85f0",
       "tests/public/SerializationProbe/packages.lock.json": "e75614decb118410170fdf147349d86607faa7a23b295fb0329ec914f55ee286"
     },
-    "maintenanceAssessment": "Actual published GOV26 Build.Policy 1.0.0-ci.124.1 from DesktopPlatform 6e7b92097228c2b73c6156625b156fa240a2c81b; exact restored nuspec/source/license/development-only identity and lock contentHash. Only private nonpackable ArchitectureTests consumer changed, same PrivateAssets=all and strict closed host boundary. Metadata/wire/catalog source unchanged; bounded cycle-aware traversal preserves exact Same/first-owner/all-role/source/sink semantics and uniformly fails closed at65536 distinct states/256symbols/256expressions. Actual SDK400 freshno-http-cacherestore2.02s/Release0warnings3.68s and published124.1 realordinaryarchitecturefixturesPASS4.8s; genuinefull18hostedsource gate/currentsecurityCI remainsmandatory. No ignoredprototype/localtiming/deployment orOS acceptance substitutes for producer orconsumer gates.",
+    "maintenanceAssessment": "Private typed authentication storage and allowlisted evidence add no dependency, package, framework, runtime protocol service or public surface. Exact complete actual access/provenance/input hashes are captured; all accepted immutable history and unchanged resolved external integrity/licence/feed selections are retained. Component checks are actual producer checks, never deployment or provider/identity acceptance. The first hosted candidate exposed mixed-owner fresh-check ordering; exact generator repair passed full generate--check, private TS compilation and five affected Node cases, preserving every3190 generated output hash. No gate ignores HTTP drift: its real shape owner verifies before combined synchronization. The second hosted candidate diagnosed missing authored JSON schema version at actual private package support metadata. Exact provider policy annotation now declares version1; actual complete package-closure axes and HTTP-owner output check pass with all3190 SDK outputs unchanged, no dependency/pin or validation-rule change.",
     "checks": {
-      "compilation": "Actual SDK400 freshno-http-cacherestore2.02s/Release0warnings3.68s and published124.1 realordinaryarchitecturefixturesPASS4.8s; genuinefull18hostedsource gate/currentsecurityCI remainsmandatory. No ignoredprototype/localtiming/deployment orOS acceptance substitutes for producer orconsumer gates.",
-      "aot-trim": "Actual original Windows NativeAOT metadata+serialization probe passed; no runtime reflection, serializer or wire metadata introduced; fresh canonical candidate AOT remains required.",
-      "compatibility": "PublicApi200 andEvents7 exact operations and existing12 PAT allowlist metadata only; CON28 accepted fields/fixtures/generated output unchanged; no wire or RPC meaning changes.",
-      "licence-provenance": "Actual restored 1.0.0-ci.124.1 nuspec source 6e7b92097228c2b73c6156625b156fa240a2c81b, AGPL-3.0-only/developmentDependency=true/no dependencies; only one private tool coordinate changes. Previous immutable receipt and every accepted generated/legal/provenance record retained; normal gates required.",
-      "security-sbom": "Actual exact-head fresh SecretScan/CodeQL/dependency review remain mandatory; every accepted exact tuple/default rule preserved. No credential or scanner exception is fabricated.",
-      "runtime-performance-migration": "Real bounded cycle-aware production producer and safe numeric architecture progress only; full current hosted architecture required. No fixture, timeout extension or local timing asserts production deployment/business/OS acceptance.",
-      "framework-runtime-posture": "Existing SDK400/Node/Kotlin/Gradle/protobuf/gRPC/framework selections unchanged; actual published GOV26 private Build.Policy successor only."
+      "compilation": "Actual full normal fresh generate--check, SDK components and most NuGet packs passed in hosted339.1; the diagnosed own private package schema-version omission is fixed. Actual package-closure axes/HTTP check pass; all3190 generated outputs remain byte-identical. Fresh final-head full candidate is required.",
+      "aot-trim": "Retained real hosted serialization/AOT probe required; no reflection serializer or toolchain change.",
+      "compatibility": "44 actual binary vectors, full64 credential inventory, both SDK nested future-unknown preservation/known-reference equality and five Node cases passed. Shapes confer no authority; original encoded BLOB final owner guard remains required.",
+      "licence-provenance": "Immutable generated successor preserves accepted targets and pinned generators; complete private access and source provenance checks required. Apache-2.0 authored source unchanged in licence.",
+      "security-sbom": "Exact external locked closure and publisher/feed selection unchanged; applicable final-head security/dependency/SBOM gates required.",
+      "runtime-performance-migration": "Storage contracts/validators only; durable one-use custody, real credential/current-policy/DB-time authority and provider deployment remain respective runtime owners.",
+      "framework-runtime-posture": "Committed exact framework/toolchain pins unchanged; actual cached JDK17 generation and SDK400 component execution recorded without installation or consumer acceptance."
     },
     "frameworkVersions": {
       "dotnetSdk": "10.0.400",
@@ -265,7 +267,7 @@
       "gson": "2.14.0",
       "connect": "0.9.0"
     },
-    "previousReceipt": "eng/policy/dependency-reviews/con-26-r3.json"
+    "previousReceipt": "eng/policy/dependency-reviews/con-31-r2.json"
   },
   "closure": {
     "maven:com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0": {
@@ -2287,6 +2289,17 @@
       ],
       "scope": "reviewed runtime/build/generator/test closure; package-specific runtime SBOM gate determines redistributed dependencies"
     },
+    "nuget:arcforges.build.policy@1.0.0-ci.94.1": {
+      "integrity": "PCpeEXikk2m87zhMF6L8tbHe2QrI87mO4Nc5lJBenEDhOePwwV4TkArc6IaM1G11Pm8ojVjurLAIoPW22ozb/A==",
+      "licence": "AGPL-3.0-only",
+      "evidence": [
+        {
+          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.94.1/arcforges.build.policy.nuspec",
+          "sha256": "bd85acc0b99828a7e9c52751a9d57059fbaa7130986871a562e37b7f6b971c7c"
+        }
+      ],
+      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
+    },
     "nuget:google.protobuf@3.36.1": {
       "integrity": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
       "licence": "BSD-3-Clause",
@@ -2484,17 +2497,6 @@
         }
       ],
       "scope": "Exact previously published first-party fixture consumed only by the isolated offline PreviousClient test executable; never a production package dependency."
-    },
-    "nuget:arcforges.build.policy@1.0.0-ci.124.1": {
-      "integrity": "caSGXzcOPIcu/K3dV2uGDX8l1WX4DIC356ecSGCRKRT1e2H2B4avKyFfp1mxOtwMs+iwrH+H4CozSlhOpfyORg==",
-      "licence": "AGPL-3.0-only",
-      "evidence": [
-        {
-          "source": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.124.1/arcforges.build.policy.nuspec",
-          "sha256": "8213416a4581b467d933a4b506f7e8f0f4c7544eb83a5de03d75be5fe00c6baa"
-        }
-      ],
-      "scope": "Exact build-only source-link policy engine for the non-packable Contracts ArchitectureTests host; direct reference only, PrivateAssets=all, never a product/runtime or public package dependency."
     }
   }
 }

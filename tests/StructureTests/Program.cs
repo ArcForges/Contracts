@@ -9,6 +9,12 @@ using ArcForges.Sdk.Contracts.V1;
 using Validation = ArcForges.Contracts.Validation.ContractShapeValidation;
 
 var root = args.Length >= 1 ? Path.GetFullPath(args[0]) : Directory.GetCurrentDirectory();
+if (args.Contains("--con-31", StringComparer.Ordinal))
+{
+    AuthenticationStorageContractTests.Run(root);
+    return 0;
+}
+
 if (args.Contains("--con-26", StringComparer.Ordinal))
 {
     Con26OperationCatalogCases.Run(root);

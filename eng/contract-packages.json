@@ -166,7 +166,8 @@
       "sourceRoot": "src/internal/dotnet/ArcForges.Contracts.CloudInternal",
       "proto": [
         "internal/proto/arcforges/operator/v1/operator.proto",
-        "internal/proto/arcforges/cf/v1/stream.proto"
+        "internal/proto/arcforges/cf/v1/stream.proto",
+        "internal/proto/arcforges/identity/v1/authentication_storage.proto"
       ],
       "dependencies": [
         "ArcForges.Contracts.Foundation",
@@ -178,7 +179,8 @@
         "internal/ai-http/v1/schema.json",
         "internal/ai-http/v1/configuration.schema.json",
         "internal/cf-http/v1/schema.json",
-        "internal/storage-http/v1/schema.json"
+        "internal/storage-http/v1/schema.json",
+        "internal/identity/v1/provider-policy.schema.json"
       ]
     },
     {
@@ -260,10 +262,13 @@
       "kind": "npm",
       "access": "internal",
       "sourceRoot": "src/internal/ts/operator-client",
-      "proto": ["internal/proto/arcforges/operator/v1/operator.proto"],
+      "proto": [
+        "internal/proto/arcforges/operator/v1/operator.proto",
+        "internal/proto/arcforges/identity/v1/authentication_storage.proto"
+      ],
       "dependencies": ["@arcforges/proto"],
       "descriptor": "operator-client.binpb",
-      "jsonSchemas": []
+      "jsonSchemas": ["internal/identity/v1/provider-policy.schema.json"]
     },
     {
       "id": "io.github.arcforges:contracts-proto",
