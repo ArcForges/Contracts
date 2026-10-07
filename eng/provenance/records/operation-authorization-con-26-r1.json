@@ -3,7 +3,7 @@
   "id": "operation-authorization-con-26-r1",
   "kind": "generated",
   "sourceRepository": "https://github.com/ArcForges/Contracts",
-  "sourceCommit": "f91b8f73b2c035b7dc445031ff97b95908414718",
+  "sourceCommit": "3f66334a110557bfe1bf9297d810fb847d11101a",
   "sourcePaths": [
     "eng/check_compatibility.py",
     "eng/check_operation_scope.py",
@@ -109,7 +109,7 @@
     "generators": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "f91b8f73b2c035b7dc445031ff97b95908414718",
+        "commit": "3f66334a110557bfe1bf9297d810fb847d11101a",
         "paths": [
           "eng/generate_operation_catalog.py",
           "eng/check_operation_scope.py",
@@ -144,7 +144,7 @@
     "inputs": [
       {
         "repository": "https://github.com/ArcForges/Contracts",
-        "commit": "f91b8f73b2c035b7dc445031ff97b95908414718",
+        "commit": "3f66334a110557bfe1bf9297d810fb847d11101a",
         "paths": [
           "eng/operation-scope-manifest.json",
           "eng/contract-packages.json",
@@ -200,7 +200,7 @@
           },
           {
             "path": "eng/contract-packages.json",
-            "sha256": "e07c3bf1afd9dbab9ad5c313f00450ce0e0af743b7bd4949cf8ad2da9cd6e796",
+            "sha256": "d7cdcea40529ec9a87f08695b76806df36810701329f1ec2fbafd5d9f1f97d2a",
             "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
           },
           {
@@ -410,7 +410,7 @@
           },
           {
             "path": "internal/proto/arcforges/operator/v1/operator.proto",
-            "sha256": "fd5b7e820e7962bec3f5286f72c086974ac900caa518e3b0c2c3301946e0dd67",
+            "sha256": "967ab96b940fbef22a6a2c268213ea9235d22d76c703d5577fe10f7a38538fea",
             "finding": "Exact Apache-2.0 authored generator or schema/authorization input at the CON.26 source snapshot."
           }
         ]
@@ -422,10 +422,10 @@
   "review": {
     "owner": "Licensing and Provenance Owner",
     "reviewer": "CON.26 implementation owner; independent exact-head peer review required before merge",
-    "reviewedOn": "2026-10-06",
+    "reviewedOn": "2026-10-07",
     "decision": "approved",
-    "rationale": "New isolated generated-output record binds exact metadata/generator source and compiled ownership validation. Preserve every pre-existing immutable record and generated target; no licence, dependency closure, framework or package identity change. Actual exact-head review and applicable CI remain required.",
-    "baselineCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+    "rationale": "New isolated generated-output record binds exact metadata/generator source and compiled ownership validation. Preserve every pre-existing immutable record and generated target; no licence, dependency closure, framework or package identity change. Actual exact-head review and applicable CI remain required. This sole unaccepted canonical candidate is resealed from the genuinely accepted CON31 source union; all203 accepted immutable blobs remain exact, prior candidate r1-r4 remains Git-archived. No accepted record is amended.",
+    "baselineCommit": "c990df25dbe721b0df2d8e7aedc28e02468ae3e1",
     "reconciliation": false
   },
   "supersedes": null
