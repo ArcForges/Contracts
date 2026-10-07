@@ -5583,4 +5583,3 @@ paths = ['''^eng/policy/(dependency-policy\.json|dependency-reviews/con-26-r1\.j
 regexes = [
     '''(?s)^\s*"eng/policy/contract\-access\.json":\s*"91adb0ce2e3f99722b02f8faca31a4f257940d2e2fd0e4ac36555804b71570fc",?\s*$''',
 ]
-
