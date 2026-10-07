@@ -95,13 +95,13 @@ class DependencyAdmission(unittest.TestCase):
   <Import Project="$(PkgArcForges_Build_Policy)/tools/architecture/ArchitecturePolicy.props" />
 </Project>''', encoding='utf-8')
         (root / 'Directory.Packages.props').write_text(
-            '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.111.1" /></ItemGroup></Project>',
+            '<Project><ItemGroup><PackageVersion Include="ArcForges.Build.Policy" Version="1.0.0-ci.119.1" /></ItemGroup></Project>',
             encoding='utf-8')
         digest = 'c2lnbmF0dXJlZA=='
         lock = root / ARCHITECTURE_TEST_LOCK
         lock.parent.mkdir(parents=True, exist_ok=True)
         lock.write_text(json.dumps({'version': 1, 'dependencies': {'net10.0': {
-            'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.111.1', 'contentHash': digest}}}}),
+            'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.119.1', 'contentHash': digest}}}}),
             encoding='utf-8')
         catalog = root / 'eng/contract-packages.json'
         catalog.parent.mkdir(parents=True)
@@ -111,7 +111,7 @@ class DependencyAdmission(unittest.TestCase):
     def test_build_policy_agpl_exception_is_exact_and_test_only(self):
         policy = copy.deepcopy(json.loads((ROOT / POLICY).read_text()))
         row = {'integrity': 'c2lnbmF0dXJlZA==', 'licence': 'AGPL-3.0-only',
-               'evidence': [{'source': 'https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.111.1/arcforges.build.policy.nuspec',
+               'evidence': [{'source': 'https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.119.1/arcforges.build.policy.nuspec',
                             'sha256': 'a' * 64}], 'scope': BUILD_POLICY_SCOPE}
         policy['closure'] = {BUILD_POLICY_KEY: row}
         validate(policy, {BUILD_POLICY_KEY: row['integrity']})
@@ -119,7 +119,7 @@ class DependencyAdmission(unittest.TestCase):
                 (BUILD_POLICY_KEY, {**row, 'licence': 'AGPL-3.0-only', 'scope': 'build dependency'}),
                 (BUILD_POLICY_KEY, {**row, 'licence': 'Apache-2.0'}),
                 ('nuget:arcforges.build.policy@1.0.0-ci.94.2', row),
-                ('nuget:arcforges.unknown@1.0.0-ci.111.1', row),
+                ('nuget:arcforges.unknown@1.0.0-ci.119.1', row),
         ]:
             with self.subTest(key=bad_key, scope=bad_row.get('scope'), licence=bad_row.get('licence')):
                 policy['closure'] = {bad_key: bad_row}
@@ -141,9 +141,9 @@ class DependencyAdmission(unittest.TestCase):
                 (original_project.replace('PrivateAssets="all"', 'PrivateAssets="none"'), original_lock),
                 (original_project.replace('<IsPackable>false</IsPackable>', '<IsPackable>true</IsPackable>'), original_lock),
                 (original_project, {'version': 1, 'dependencies': {'net10.0': {
-                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.111.1', 'contentHash': 'mutated'}}}}),
+                    'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.119.1', 'contentHash': 'mutated'}}}}),
                 (original_project, {'version': 1, 'dependencies': {'net10.0': {
-                    'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.111.1', 'contentHash': digest}}}}),
+                    'ArcForges.Build.Policy': {'type': 'Transitive', 'resolved': '1.0.0-ci.119.1', 'contentHash': digest}}}}),
                 (original_project, {'version': 1, 'dependencies': {'net10.0': {
                     'ArcForges.Build.Policy': {'type': 'Direct', 'resolved': '1.0.0-ci.94.2', 'contentHash': digest}}}}),
         ]:
