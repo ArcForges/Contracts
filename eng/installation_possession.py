@@ -152,6 +152,10 @@ public static class InstallationPossession
 
 TS_SOURCE = r'''
 import type { Id } from "./gen/arcforges/foundation/v1/foundation_pb.js";
+// WHATWG APIs exist in supported Node and browsers; no ambient DOM dependency.
+declare const TextEncoder: { new (): { encode(input: string): Uint8Array } };
+declare const crypto: { subtle: { digest(algorithm: string, data: Uint8Array): Promise<ArrayBuffer> } };
+declare function atob(value: string): string;
 /** Closed source-owned completion operation; no arbitrary signing label. */
 export enum InstallationInitialOperation { CompleteAuthentication=1, RedeemEmailCode=2, CompleteEnrollment=3, NativeToken=4 }
 const labels = __LABELS__;
@@ -205,7 +209,7 @@ export async function tryFlowBindingHash(realmId:Id|undefined,flowId:Id|undefine
     ||!integer(authEpoch,1n)||!integer(recoveryGeneration,0n)||!integer(recoveryRevision,1n)||!integer(expiresAtMicros,1n,maximumInstant)
     ||!fixed(publicKeySha256,32)||!fixed(pkceChallenge,32)||!fixed(stateSha256,32))return undefined;
   const platformBytes=text(platform,128),clientBytes=text(clientId,256,true),redirectBytes=text(redirectUri,2048,true);
-  if(platformBytes===undefined || typeof platform!=='string' || !/^[A-Za-z0-9._:/-]+$/.test(platform)
+  if(platformBytes===undefined || typeof platform!=='string' || /^[A-Za-z0-9._:/-]+$/.exec(platform)?.[0]!==platform
     ||clientBytes===undefined||redirectBytes===undefined||(clientId.length===0)!==(redirectUri.length===0)
     ||clientId.length===0 && (!zero(pkceChallenge)||!zero(stateSha256)))return undefined;
   // All bytes are copied into an owned bounded transcript before the first asynchronous digest.
