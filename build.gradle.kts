@@ -14,6 +14,10 @@ plugins {
 
 val release = providers.gradleProperty("releaseVersion").getOrElse("1.0.0-ci.0.0")
 require(Regex("(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-ci\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)|-SNAPSHOT)?").matches(release))
+val boundedDokkaProduction = providers.gradleProperty("arcforgesBoundedDokkaProduction").orNull
+require(boundedDokkaProduction == null || boundedDokkaProduction == "true") {
+    "arcforgesBoundedDokkaProduction accepts only true"
+}
 val codegen = configurations.create("codegen") { isCanBeConsumed = false }
 dependencies {
     // Upstream publishes an executable fat JAR; compiler dependencies are not runtime APIs.
@@ -42,6 +46,11 @@ subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.dokka")
+    if (name == "contracts-proto" && boundedDokkaProduction == "true") {
+        tasks.matching { it.name == "dokkaGeneratePublicationHtml" }.configureEach {
+            doNotTrackState("Diagnosed Gradle output-snapshot overhead; immutable documentation admission remains required")
+        }
+    }
     if (name != "contract-fixtures") {
         apply(plugin = "org.jetbrains.kotlin.jvm")
         extensions.configure<KotlinJvmProjectExtension> {
