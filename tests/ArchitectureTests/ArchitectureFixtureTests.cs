@@ -38,6 +38,7 @@ internal static class ArchitectureFixtureTests
 
         ExternalPolicyEvidenceMustBeExactAndFailClosed();
         FailureDiagnosticsDoNotRevealExceptionDetails();
+        ProgressIsBoundedAndContainsOnlyFixedStagesAndNumbers();
         CompilationFailureCodesAreSpecificAndFailClosed();
         WireSchemaOwnershipIsExactAndFailsClosed();
         HostAgplClosureMustBeExactlyBuildPolicy();
@@ -179,6 +180,34 @@ internal static class ArchitectureFixtureTests
             "Failure diagnostics must contain only a fixed stage code.");
         Checks.True(!message.Contains(privateDetail, StringComparison.Ordinal),
             "An exception detail escaped the redacted fail-closed diagnostic.");
+    }
+
+    private static void ProgressIsBoundedAndContainsOnlyFixedStagesAndNumbers()
+    {
+        using var output = new StringWriter(System.Globalization.CultureInfo.GetCultureInfo("ar-SA"));
+        Program.WriteProgress(output, PolicyGateStage.ReadProjectGraph, 125, 1, 31);
+        Program.WriteProgress(output, PolicyGateStage.ReadProjectCompilations, 200, 2, 30);
+        Program.WriteProgress(output, PolicyGateStage.EvaluateSharedPolicy, 325);
+        Checks.SequenceEqual(new[]
+        {
+            "Contracts architecture progress: stage=ReadProjectGraph; elapsedMs=125; project=1/31.",
+            "Contracts architecture progress: stage=ReadProjectCompilations; elapsedMs=200; project=2/30.",
+            "Contracts architecture progress: stage=EvaluateSharedPolicy; elapsedMs=325; project=0/0.",
+        }, output.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries),
+            "Architecture progress changed its static order or revealed non-numeric details.");
+        foreach (var invalid in new (PolicyGateStage Stage, long Elapsed, int Index, int Count)[]
+        {
+            ((PolicyGateStage)999, 0, 0, 0), (PolicyGateStage.ReadProjectGraph, -1, 0, 0),
+            (PolicyGateStage.ReadProjectGraph, 0, -1, 1), (PolicyGateStage.ReadProjectGraph, 0, 2, 1),
+            (PolicyGateStage.ReadProjectGraph, 0, 0, 10001), (PolicyGateStage.ReadProjectGraph, 0, 0, -1),
+        })
+        {
+            using var refused = new StringWriter();
+            bool failed = false;
+            try { Program.WriteProgress(refused, invalid.Stage, invalid.Elapsed, invalid.Index, invalid.Count); }
+            catch (InvalidOperationException) { failed = true; }
+            Checks.True(failed && refused.ToString().Length == 0, "Invalid progress escaped before refusal.");
+        }
     }
 
     private static void CompilationFailureCodesAreSpecificAndFailClosed()

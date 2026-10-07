@@ -41,6 +41,12 @@ namespace ArcForges.Contracts.ArchitectureTests
         public static int Main(string[] args)
         {
             PolicyGateStage stage = PolicyGateStage.ValidateArguments;
+            var elapsed = System.Diagnostics.Stopwatch.StartNew();
+            void SetStage(PolicyGateStage next)
+            {
+                stage = next;
+                WriteProgress(Console.Out, next, elapsed.ElapsedMilliseconds);
+            }
             try
             {
                 if (args.Length > 1 || (args.Length == 1 && args[0] != "--hosted"))
@@ -48,13 +54,13 @@ namespace ArcForges.Contracts.ArchitectureTests
                     throw new InvalidOperationException("Expected no arguments or --hosted.");
                 }
 
-                stage = PolicyGateStage.RunArchitectureFixtures;
+                SetStage(PolicyGateStage.RunArchitectureFixtures);
                 ArchitectureFixtureTests.Run();
-                stage = PolicyGateStage.RunLocalArchitecture;
+                SetStage(PolicyGateStage.RunLocalArchitecture);
                 ContractsArchitectureTests.RunLocal();
                 if (args.Length == 1)
                 {
-                    HostedPolicyGate.Run(next => stage = next);
+                    HostedPolicyGate.Run(SetStage);
                     Console.WriteLine("Contracts architecture policy passed for the exact hosted source revision.");
                 }
                 else
@@ -70,6 +76,16 @@ namespace ArcForges.Contracts.ArchitectureTests
                 WriteFailure(Console.Error, stage, exception);
                 return 1;
             }
+        }
+
+        internal static void WriteProgress(TextWriter writer, PolicyGateStage stage, long elapsedMilliseconds,
+            int projectIndex = 0, int projectCount = 0)
+        {
+            if (!Enum.IsDefined(stage) || elapsedMilliseconds < 0 || projectCount is < 0 or > 10000
+                || projectIndex < 0 || projectIndex > projectCount)
+                throw new InvalidOperationException("Invalid bounded architecture progress.");
+            // Only fixed stages and bounded numeric facts. Never a project path, source text or exception message.
+            writer.WriteLine(FormattableString.Invariant($"Contracts architecture progress: stage={stage}; elapsedMs={elapsedMilliseconds}; project={projectIndex}/{projectCount}."));
         }
 
         internal static void WriteFailure(TextWriter writer, PolicyGateStage stage, Exception exception)

@@ -46,11 +46,15 @@ internal static class HostedPolicyGate
 
         setStage(PolicyGateStage.ReadProjectCompilations);
         var compilations = new Dictionary<string, CSharpCompilation>(StringComparer.Ordinal);
-        foreach (var project in projects.Where(project => project.Classification.Role is not (ProjectRole.BuildTool or ProjectRole.NativeLibrary or ProjectRole.NativeWorker)))
+        var owningCompilations = projects.Where(project => project.Classification.Role is not (ProjectRole.BuildTool or ProjectRole.NativeLibrary or ProjectRole.NativeWorker)).ToArray();
+        foreach (var project in owningCompilations)
         {
+            var elapsed = Stopwatch.StartNew();
             try
             {
                 compilations.Add(project.Classification.Path, ProjectGraph.ReadCompilation(project));
+                Program.WriteProgress(Console.Out, PolicyGateStage.ReadProjectCompilations, elapsed.ElapsedMilliseconds,
+                    compilations.Count, owningCompilations.Length);
             }
             catch (Exception exception)
             {
@@ -243,6 +247,7 @@ internal static class HostedPolicyGate
         var result = new List<ProjectFacts>(paths.Length);
         foreach (string path in paths)
         {
+            var elapsed = Stopwatch.StartNew();
             ProjectRole role;
             bool production;
             if (path.StartsWith("tests/", StringComparison.Ordinal))
@@ -275,6 +280,7 @@ internal static class HostedPolicyGate
 
             var classification = new ProjectClassification(path, role, "Contracts", Production: production, Aot: false);
             result.Add(ProjectGraph.Evaluate(root, classification, configuration: "Release"));
+            Program.WriteProgress(Console.Out, PolicyGateStage.ReadProjectGraph, elapsed.ElapsedMilliseconds, result.Count, paths.Length);
         }
 
         return result;

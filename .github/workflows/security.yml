@@ -64,6 +64,8 @@ jobs:
       - name: Produce canonical naming evidence
         run: python eng/check_naming.py --report artifacts/evidence/naming.json
       - name: Enforce the shared architecture policy over the full project graph
+        # The host emits only fixed stage codes, project ordinal counts and elapsed milliseconds.
+        # Keep the existing bounded budget until the actual published index successor is measured here.
         run: dotnet tests/ArchitectureTests/bin/Release/net10.0/ArcForges.Contracts.ArchitectureTests.dll --hosted
 
   codeql:
