@@ -649,7 +649,8 @@
     "tests/StructureTests/Con26OperationCatalogCases.cs",
     "tests/tooling/test_operation_catalog.py",
     "tests/ArchitectureTests/OperationMetadataBindings.cs",
-    "eng/policy/dependency-reviews/con-26-r3.json"
+    "eng/policy/dependency-reviews/con-26-r3.json",
+    "eng/policy/dependency-reviews/con-26-r4.json"
   ],
   "reused": {
     "LICENSE": "canonical-apache-licence-r1",
