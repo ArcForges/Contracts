@@ -8,6 +8,7 @@ from generate_shapes import emit, HEADER
 
 ROOT = Path(__file__).resolve().parents[1]
 LABELS = ('identity.completeAuthentication', 'identity.redeemEmailCode', 'identity.completeEnrollment', 'native.token')
+OPERATION_NAMES = ('CompleteAuthentication', 'RedeemEmailCode', 'CompleteEnrollment', 'NativeToken')
 INITIAL_DOMAIN = 'arcforges.installation-possession.v1'
 REFRESH_DOMAIN = 'arcforges.installation-refresh-possession.v1'
 
@@ -171,14 +172,73 @@ export async function tryRefreshSigningData(commandId:Id|undefined,context:Uint8
   try { const raw=atob(canonicalRefreshToken.replaceAll('-','+').replaceAll('_','/')+'=');if(raw.length!==32)return undefined;for(let i=0;i<32;i++)token[i]=raw.charCodeAt(i);const digest=new Uint8Array(await crypto.subtle.digest('SHA-256',token));return join('__REFRESH__','identity.refreshSession',capturedCommand,capturedContext,digest); }
   finally {token.fill(0);capturedCommand.fill(0);capturedContext.fill(0);}
 }
+
+const maximumInt64=9223372036854775807n, maximumInstant=253402300799999999n;
+function integer(value:bigint,minimum:bigint,maximum:bigint=maximumInt64):boolean {
+  return typeof value==='bigint' && value>=minimum && value<=maximum;
+}
+function fixed(value:Uint8Array,length:number):boolean { return value instanceof Uint8Array && value.length===length; }
+function zero(value:Uint8Array):boolean { return value.every(byte=>byte===0); }
+function text(value:string,maximum:number,empty=false):Uint8Array|undefined {
+  if(typeof value!=='string' || !empty && value.length===0 || value.length>maximum)return undefined;
+  for(let n=0;n<value.length;n++) {
+    const code=value.charCodeAt(n);
+    if(code>=0xd800 && code<=0xdbff) { const low=value.charCodeAt(++n); if(!(low>=0xdc00 && low<=0xdfff))return undefined; }
+    else if(code>=0xdc00 && code<=0xdfff)return undefined;
+  }
+  const bytes=encoder.encode(value);return bytes.length<=maximum?bytes:undefined;
+}
+function field(bytes:Uint8Array):Uint8Array { const output=new Uint8Array(bytes.length+4);new DataView(output.buffer).setUint32(0,bytes.length,false);output.set(bytes,4);return output; }
+function signed(value:bigint):Uint8Array { const output=new Uint8Array(8);new DataView(output.buffer).setBigInt64(0,value,false);return output; }
+function concatenate(domain:string,parts:readonly Uint8Array[]):Uint8Array {
+  const prefix=encoder.encode(domain+'\0'),output=new Uint8Array(prefix.length+parts.reduce((sum,part)=>sum+part.length,0));
+  output.set(prefix);let offset=prefix.length;for(const part of parts){output.set(part,offset);offset+=part.length;}return output;
+}
+function product(value:string):boolean { return value==='arcscope' || value==='companion'; }
+function purpose(value:number):boolean { return Number.isInteger(value) && value>=1 && value<=5; }
+/** Hashes exact server-owned flow facts. It confers no authentication or installation authority. */
+export async function tryFlowBindingHash(realmId:Id|undefined,flowId:Id|undefined,installationId:Id|undefined,
+  productId:string,platform:string,publicKeySha256:Uint8Array,keyVersion:bigint,authPurpose:number,authEpoch:bigint,
+  recoveryGeneration:bigint,recoveryRevision:bigint,clientId:string,redirectUri:string,pkceChallenge:Uint8Array,
+  stateSha256:Uint8Array,expiresAtMicros:bigint):Promise<Uint8Array|undefined> {
+  if(!id(realmId)||!id(flowId)||!id(installationId)||!product(productId)||!integer(keyVersion,1n)||!purpose(authPurpose)
+    ||!integer(authEpoch,1n)||!integer(recoveryGeneration,0n)||!integer(recoveryRevision,1n)||!integer(expiresAtMicros,1n,maximumInstant)
+    ||!fixed(publicKeySha256,32)||!fixed(pkceChallenge,32)||!fixed(stateSha256,32))return undefined;
+  const platformBytes=text(platform,128),clientBytes=text(clientId,256,true),redirectBytes=text(redirectUri,2048,true);
+  if(platformBytes===undefined || typeof platform!=='string' || !/^[A-Za-z0-9._:/-]+$/.test(platform)
+    ||clientBytes===undefined||redirectBytes===undefined||(clientId.length===0)!==(redirectUri.length===0)
+    ||clientId.length===0 && (!zero(pkceChallenge)||!zero(stateSha256)))return undefined;
+  // All bytes are copied into an owned bounded transcript before the first asynchronous digest.
+  const transcript=concatenate('arcforges.installation-flow-binding.v1',[realmId.value,flowId.value,installationId.value,
+    field(encoder.encode(productId)),field(platformBytes),publicKeySha256,signed(keyVersion),signed(BigInt(authPurpose)),signed(authEpoch),
+    signed(recoveryGeneration),signed(recoveryRevision),field(clientBytes),field(redirectBytes),pkceChallenge,stateSha256,signed(expiresAtMicros)]);
+  return new Uint8Array(await crypto.subtle.digest('SHA-256',transcript));
+}
+/** Hashes only actual current session/install facts. Caller-provided context is never permission. */
+export async function tryRefreshContextHash(realmId:Id|undefined,userId:Id|undefined,deviceId:Id|undefined,
+  installationId:Id|undefined,sessionId:Id|undefined,familyId:Id|undefined,productId:string,publicKeySha256:Uint8Array,
+  keyVersion:bigint,authPurpose:number,authEpoch:bigint,recoveryGeneration:bigint,sessionRevision:bigint,
+  familyExpiresAtMicros:bigint):Promise<Uint8Array|undefined> {
+  if(!id(realmId)||!id(userId)||!id(deviceId)||!id(installationId)||!id(sessionId)||!id(familyId)||!product(productId)
+    ||!fixed(publicKeySha256,32)||!integer(keyVersion,1n)||!purpose(authPurpose)||!integer(authEpoch,1n)
+    ||!integer(recoveryGeneration,0n)||!integer(sessionRevision,1n)||!integer(familyExpiresAtMicros,1n,maximumInstant))return undefined;
+  const transcript=concatenate('arcforges.installation-refresh-context.v1',[realmId.value,userId.value,deviceId.value,
+    installationId.value,sessionId.value,familyId.value,field(encoder.encode(productId)),publicKeySha256,signed(keyVersion),
+    signed(BigInt(authPurpose)),signed(authEpoch),signed(recoveryGeneration),signed(sessionRevision),signed(familyExpiresAtMicros)]);
+  return new Uint8Array(await crypto.subtle.digest('SHA-256',transcript));
+}
 '''
 
 KOTLIN_SOURCE = r'''
 package io.github.arcforges.contracts
 
 import io.github.arcforges.contracts.foundation.v1.Id
+import io.github.arcforges.contracts.publicapi.v1.AuthPurpose
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.CharBuffer
+import java.nio.charset.CharacterCodingException
+import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.Base64
@@ -206,12 +266,67 @@ object InstallationPossession {
             return join("__REFRESH__", "identity.refreshSession", commandId!!.value.toByteArray(), context, MessageDigest.getInstance("SHA-256").digest(token))
         } finally {token.fill(0)}
     }
+
+    private const val maximumInstant = 253402300799999999L
+    private fun text(value: String?, maximum: Int, empty: Boolean = false): ByteArray? {
+        if(value == null || !empty && value.isEmpty() || value.length > maximum) return null
+        return try {
+            val encoded = StandardCharsets.UTF_8.newEncoder().onMalformedInput(CodingErrorAction.REPORT)
+                .onUnmappableCharacter(CodingErrorAction.REPORT).encode(CharBuffer.wrap(value))
+            if(encoded.remaining() > maximum) null else ByteArray(encoded.remaining()).also { encoded.get(it) }
+        } catch(_: CharacterCodingException) { null }
+    }
+    private fun field(bytes: ByteArray): ByteArray = ByteBuffer.allocate(bytes.size+4).order(ByteOrder.BIG_ENDIAN).putInt(bytes.size).put(bytes).array()
+    private fun signed(value: Long): ByteArray = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(value).array()
+    private fun transcript(domain: String, vararg parts: ByteArray): ByteArray {
+        val prefix=(domain+"\u0000").toByteArray(StandardCharsets.UTF_8)
+        val output=ByteBuffer.allocate(prefix.size+parts.sumOf { it.size }).order(ByteOrder.BIG_ENDIAN).put(prefix)
+        parts.forEach { output.put(it) };return output.array()
+    }
+    private fun purpose(value: AuthPurpose?): Int? = when(value) {
+        null, AuthPurpose.UNRECOGNIZED -> null
+        else -> value.number.takeIf { it in 1..5 }
+    }
+    /** Hashes original factual owner binding only; no key or authorization is returned. */
+    fun tryFlowBindingHash(realmId: Id?, flowId: Id?, installationId: Id?, productId: String?, platform: String?,
+        publicKeySha256: ByteArray, keyVersion: Long, authPurpose: AuthPurpose?, authEpoch: Long, recoveryGeneration: Long,
+        recoveryRevision: Long, clientId: String?, redirectUri: String?, pkceChallenge: ByteArray, stateSha256: ByteArray,
+        expiresAtMicros: Long): ByteArray? {
+        val purpose=purpose(authPurpose) ?: return null
+        if(!validId(realmId)||!validId(flowId)||!validId(installationId)||productId !in listOf("arcscope","companion")
+            ||publicKeySha256.size!=32||keyVersion<=0||authEpoch<=0||recoveryGeneration<0||recoveryRevision<=0
+            ||pkceChallenge.size!=32||stateSha256.size!=32||expiresAtMicros<=0||expiresAtMicros>maximumInstant)return null
+        val platformBytes=text(platform,128) ?: return null
+        val clientBytes=text(clientId,256,true) ?: return null
+        val redirectBytes=text(redirectUri,2048,true) ?: return null
+        if(!Regex("[A-Za-z0-9._:/-]+").matches(platform!!) || clientId!!.isEmpty()!=redirectUri!!.isEmpty()
+            ||clientId.isEmpty() && (pkceChallenge.any { it.toInt()!=0 } || stateSha256.any { it.toInt()!=0 }))return null
+        val data=transcript("arcforges.installation-flow-binding.v1",realmId!!.value.toByteArray(),flowId!!.value.toByteArray(),
+            installationId!!.value.toByteArray(),field(text(productId,128)!!),field(platformBytes),publicKeySha256,
+            signed(keyVersion),signed(purpose.toLong()),signed(authEpoch),signed(recoveryGeneration),signed(recoveryRevision),
+            field(clientBytes),field(redirectBytes),pkceChallenge,stateSha256,signed(expiresAtMicros))
+        return MessageDigest.getInstance("SHA-256").digest(data)
+    }
+    /** Uses real current session/install facts; the result itself never authorizes refresh. */
+    fun tryRefreshContextHash(realmId: Id?, userId: Id?, deviceId: Id?, installationId: Id?, sessionId: Id?, familyId: Id?,
+        productId: String?, publicKeySha256: ByteArray, keyVersion: Long, authPurpose: AuthPurpose?, authEpoch: Long,
+        recoveryGeneration: Long, sessionRevision: Long, familyExpiresAtMicros: Long): ByteArray? {
+        val purpose=purpose(authPurpose) ?: return null
+        if(!validId(realmId)||!validId(userId)||!validId(deviceId)||!validId(installationId)||!validId(sessionId)||!validId(familyId)
+            ||productId !in listOf("arcscope","companion")||publicKeySha256.size!=32||keyVersion<=0||authEpoch<=0
+            ||recoveryGeneration<0||sessionRevision<=0||familyExpiresAtMicros<=0||familyExpiresAtMicros>maximumInstant)return null
+        val data=transcript("arcforges.installation-refresh-context.v1",realmId!!.value.toByteArray(),userId!!.value.toByteArray(),
+            deviceId!!.value.toByteArray(),installationId!!.value.toByteArray(),sessionId!!.value.toByteArray(),familyId!!.value.toByteArray(),
+            field(text(productId,128)!!),publicKeySha256,signed(keyVersion),signed(purpose.toLong()),signed(authEpoch),
+            signed(recoveryGeneration),signed(sessionRevision),signed(familyExpiresAtMicros))
+        return MessageDigest.getInstance("SHA-256").digest(data)
+    }
 }
 '''
 
 def generate(check: bool = False) -> None:
     import json
-    csharp = CS_SOURCE.replace('__LABEL_SWITCH__', ''.join(f'{i+1} => "{name}", ' for i,name in enumerate(LABELS)))
+    csharp = CS_SOURCE.replace('__LABEL_SWITCH__', ''.join(f'InstallationInitialOperation.{operation} => "{label}", ' for operation,label in zip(OPERATION_NAMES,LABELS,strict=True)))
     replacements = {'__INITIAL__':INITIAL_DOMAIN,'__REFRESH__':REFRESH_DOMAIN}
     ts = TS_SOURCE.replace('__LABELS__',json.dumps(LABELS))
     kotlin = KOTLIN_SOURCE.replace('__KOTLIN_LABELS__',', '.join(json.dumps(v) for v in LABELS))
